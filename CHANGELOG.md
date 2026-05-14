@@ -53,7 +53,18 @@ em hardware real.
   arrastar `<d3d9.h>`. `qcommon/threads.h` agora usa esse header em
   caminho não-Windows.
 
+### Fixed
+- Strict-aliasing UB nas macros `BYTEn`/`WORDn`/`DWORDn` (e variantes
+  signed) em `q_shared.h`. Adicionados typedefs com
+  `__attribute__((__may_alias__))` em GCC/clang, eliminando o warning
+  `-Wstrict-aliasing` que aparecia no build Switch (GCC) e a UB latente
+  que poderia se manifestar em otimização agressiva.
+
 ### Changed
+- Build POSIX e Switch agora usam `-Wno-sign-compare`. Código upstream é
+  reverse-engineered (hex-rays nunca propaga signedness) e tem dezenas
+  de sites com `int` vs `unsigned int` cosmeticamente warneados. Será
+  reativado por subsistema quando o porte fizer auditoria de signedness.
 - `src/posix/kisak_compat.h`: agora também inclui `<climits>` (para
   `INT_MIN`/`INT_MAX` usados em `DvarLimits`) e `<cstdlib>` + macros
   `random` → `kisak_random` e `crandom` → `kisak_crandom` (evita colisão

@@ -383,10 +383,33 @@ typedef ull             uint64;
 #  define HIGH_IND(x,part_type)  LAST_IND(x,part_type)
 #  define LOW_IND(x,part_type)   0
 #endif
+
+// __may_alias__ marca os tipos abaixo como "podem aliasar qualquer outro
+// tipo", desligando otimizacoes de strict-aliasing pra esses casts. Sem isso
+// gcc/clang em -O2 podem reordenar/eliminar loads e stores feitos pelas
+// macros BYTEn/WORDn/DWORDn (e signed S*n), produzindo bugs sutis. MSVC nao
+// implementa strict-aliasing agressivamente, entao o codigo original
+// funciona la mesmo sem o atributo.
+#if defined(__GNUC__) || defined(__clang__)
+typedef _BYTE  __attribute__((__may_alias__)) _BYTE_alias;
+typedef _WORD  __attribute__((__may_alias__)) _WORD_alias;
+typedef _DWORD __attribute__((__may_alias__)) _DWORD_alias;
+typedef int8   __attribute__((__may_alias__)) int8_alias;
+typedef int16  __attribute__((__may_alias__)) int16_alias;
+typedef int32  __attribute__((__may_alias__)) int32_alias;
+#else
+typedef _BYTE  _BYTE_alias;
+typedef _WORD  _WORD_alias;
+typedef _DWORD _DWORD_alias;
+typedef int8   int8_alias;
+typedef int16  int16_alias;
+typedef int32  int32_alias;
+#endif
+
 // first unsigned macros:
-#define BYTEn(x, n)   (*((_BYTE*)&(x)+n))
-#define WORDn(x, n)   (*((_WORD*)&(x)+n))
-#define DWORDn(x, n)  (*((_DWORD*)&(x)+n))
+#define BYTEn(x, n)   (*((_BYTE_alias*)&(x)+n))
+#define WORDn(x, n)   (*((_WORD_alias*)&(x)+n))
+#define DWORDn(x, n)  (*((_DWORD_alias*)&(x)+n))
 
 #define LOBYTE(x)  BYTEn(x,LOW_IND(x,_BYTE))
 #define LOWORD(x)  WORDn(x,LOW_IND(x,_WORD))
@@ -418,9 +441,9 @@ typedef ull             uint64;
 #define WORD7(x)   WORDn(x,  7)
 
 // now signed macros (the same but with sign extension)
-#define SBYTEn(x, n)   (*((int8*)&(x)+n))
-#define SWORDn(x, n)   (*((int16*)&(x)+n))
-#define SDWORDn(x, n)  (*((int32*)&(x)+n))
+#define SBYTEn(x, n)   (*((int8_alias*)&(x)+n))
+#define SWORDn(x, n)   (*((int16_alias*)&(x)+n))
+#define SDWORDn(x, n)  (*((int32_alias*)&(x)+n))
 
 #define SLOBYTE(x)  SBYTEn(x,LOW_IND(x,int8))
 #define SLOWORD(x)  SWORDn(x,LOW_IND(x,int16))

@@ -37,6 +37,10 @@ target_include_directories(kisak_posix PRIVATE
 # __cdecl, __declspec, __int16 e companhia que o codigo upstream usa direto.
 target_compile_options(kisak_posix PRIVATE
     $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang,GNU>:-Wall>
+    # Codigo upstream e reverse-engineered do binario IDA — abusa de
+    # compares int/unsigned int por hex-rays nunca propagar sinal. Silencia
+    # o warning ate o porte fazer auditoria de signedness por subsistema.
+    $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang,GNU>:-Wno-sign-compare>
     $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang,GNU>:-include${SRC_DIR}/posix/kisak_compat.h>
 )
 
