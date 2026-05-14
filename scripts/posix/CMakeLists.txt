@@ -7,10 +7,14 @@
 
 message(STATUS "[KisakCOD/posix] Building POSIX skeleton target")
 
+find_package(SDL2 REQUIRED CONFIG)
+find_package(OpenGL REQUIRED)
+
 set(POSIX_SOURCES
-    "${SRC_DIR}/posix/posix_main.cpp"
+    "${SRC_DIR}/posix/posix_gl_main.cpp"
     "${SRC_DIR}/posix/posix_assert.cpp"
     "${SRC_DIR}/posix/posix_stubs.cpp"
+    "${SRC_DIR}/gfx_gl/gl_renderer.cpp"
 )
 
 # Primeiros subsistemas upstream trazidos para o build POSIX. Cada arquivo
@@ -32,6 +36,13 @@ target_include_directories(kisak_posix PRIVATE
     "${SRC_DIR}"
     "${SRC_DIR}/universal"
 )
+
+target_link_libraries(kisak_posix PRIVATE
+    SDL2::SDL2
+    OpenGL::GL
+)
+
+target_compile_definitions(kisak_posix PRIVATE KISAK_MP)
 
 # Force-include o shim de compatibilidade MSVC antes de qualquer fonte. Cobre
 # __cdecl, __declspec, __int16 e companhia que o codigo upstream usa direto.

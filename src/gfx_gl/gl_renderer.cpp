@@ -4,12 +4,26 @@
 
 #include <cstdio>
 
-#include <GLES2/gl2.h>
+// GL header conditional: GLES2 no Switch/Android, Apple OpenGL framework
+// no macOS (legacy 2.1 Compat suficiente pras funcoes que usamos), Linux
+// usa o header generic. Todas as funcoes que tocamos
+// (glCreateShader/.../glDrawArrays) sao GL 2.0+ core OU GLES 2.0.
+#if defined(__SWITCH__)
+    #include <GLES2/gl2.h>
+#elif defined(__APPLE__)
+    #define GL_SILENCE_DEPRECATION
+    #include <OpenGL/gl.h>
+#else
+    #include <GL/gl.h>
+#endif
 
 namespace gfx_gl {
 
 namespace {
 
+// Compativel com GLSL ES 1.00 (Switch via mesa-nouveau) e GLSL 1.20
+// (macOS OpenGL 2.1 Compat). O qualificador `precision` so existe em
+// GLSL ES — o `#ifdef GL_ES` e parseado pelo compilador GLSL.
 constexpr const char *VERTEX_SRC =
     "attribute vec2 a_pos;\n"
     "attribute vec3 a_col;\n"
@@ -25,7 +39,9 @@ constexpr const char *VERTEX_SRC =
     "}\n";
 
 constexpr const char *FRAGMENT_SRC =
+    "#ifdef GL_ES\n"
     "precision mediump float;\n"
+    "#endif\n"
     "varying vec3 v_col;\n"
     "void main() {\n"
     "    gl_FragColor = vec4(v_col, 1.0);\n"
