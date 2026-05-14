@@ -36,7 +36,10 @@ set(UNIVERSAL_PORTABLE_SOURCES
 )
 
 set(QCOMMON_PORTABLE_SOURCES
+    "${SRC_DIR}/qcommon/cm_tracebox.cpp"
+    "${SRC_DIR}/qcommon/com_fileaccess.cpp"
     "${SRC_DIR}/qcommon/com_pack.cpp"
+    "${SRC_DIR}/qcommon/dl_main.cpp"
 )
 
 add_executable(kisak_posix

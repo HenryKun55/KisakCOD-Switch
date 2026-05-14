@@ -371,7 +371,9 @@ struct FxElemVisualState // sizeof=0x18
     float size[2];                      // ...
     float scale;
 };
-const struct FxElemVisStateSample // sizeof=0x30
+// `const` on a struct definition is non-standard C++ (MSVC extension);
+// const-ness applies to instances at declaration sites, not type defs.
+struct FxElemVisStateSample // sizeof=0x30
 {
     FxElemVisualState base;
     FxElemVisualState amplitude;
@@ -391,7 +393,7 @@ struct FxElemVelStateInFrame // sizeof=0x30
     FxElemVec3Range velocity;
     FxElemVec3Range totalDelta;
 };
-const struct FxElemVelStateSample // sizeof=0x60
+struct FxElemVelStateSample // sizeof=0x60 (was `const struct`; non-standard)
 {
     FxElemVelStateInFrame local;
     FxElemVelStateInFrame world;
@@ -439,7 +441,7 @@ struct FxTrailDef // sizeof=0x1C
     int indCount;
     unsigned __int16 *inds;
 };
-const struct FxElemDef // sizeof=0xFC
+struct FxElemDef // sizeof=0xFC (was `const struct`; non-standard)
 {
     int flags;
     FxSpawnDef spawn;

@@ -1,6 +1,9 @@
 #include "dl_main.h"
 #include "qcommon.h"
 
+#include <cstdarg>
+#include <cstring>
+
 //#include <WWWLib.h>
 //#include <WWWInit.h>
 //#include <HTReqMan.h>
@@ -11,9 +14,21 @@ int __cdecl DL_VPrintf(const char *fmt, char *argptr)
 {
     char msg[1028]; // [esp+10h] [ebp-408h] BYREF
 
-    _vsnprintf(msg, 0x400u, fmt, argptr);
+#if defined(_WIN32) || defined(__APPLE__)
+    // MSVC and Apple clang ARM64 treat va_list as a char* — we can pass
+    // argptr straight to vsnprintf.
+    _vsnprintf(msg, 0x400u, fmt, (va_list)argptr);
+#else
+    // Other ARM64 ABIs (devkitA64 GCC) use a struct for va_list, so we
+    // can't reinterpret a char* as one. The libwww caller this function
+    // signature originally came from isn't available on Switch homebrew
+    // anyway — log the raw format string for now.
+    (void)argptr;
+    std::strncpy(msg, fmt ? fmt : "", sizeof(msg) - 1);
+    msg[sizeof(msg) - 1] = '\0';
+#endif
     Com_Printf(0, "%s", msg);
-    return &msg[strlen(msg) + 1] - &msg[1];
+    return (int)(strlen(msg));
 }
 
 void DL_CancelDownload()

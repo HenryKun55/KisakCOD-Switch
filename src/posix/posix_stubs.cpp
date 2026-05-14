@@ -275,6 +275,33 @@ float Vec3Normalize(float *v)
     return Vec3NormalizeTo(v, v);
 }
 
+float Vec3LengthSq(const float *v)
+{
+    return v[0]*v[0] + v[1]*v[1] + v[2]*v[2];
+}
+
+void Vec3Sub(const float *a, const float *b, float *out)
+{
+    out[0] = a[0] - b[0];
+    out[1] = a[1] - b[1];
+    out[2] = a[2] - b[2];
+}
+
+// Vec3Mad: out = a + scale * b (multiply-add). Standard q3 helper.
+void Vec3Mad(const float *a, float scale, const float *b, float *out)
+{
+    out[0] = a[0] + scale * b[0];
+    out[1] = a[1] + scale * b[1];
+    out[2] = a[2] + scale * b[2];
+}
+
+// ProfLoad tracking: map-profile timing instrumentation. Stub no-ops
+// until the profile-load subsystem is properly wired up. Forward-decl
+// the enum so the mangled signature matches the upstream callers.
+enum MapProfileTrackedValue : int;
+void ProfLoad_BeginTrackedValue(MapProfileTrackedValue) {}
+void ProfLoad_EndTrackedValue(MapProfileTrackedValue)   {}
+
 // ClearBounds / ExpandBounds: declared in com_math.h, defined in
 // com_math.cpp. Trivial math we can implement portably; will collide with
 // com_math.cpp's versions when that file ports, at which point these stubs
