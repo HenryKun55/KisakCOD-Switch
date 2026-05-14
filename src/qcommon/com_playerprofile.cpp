@@ -72,7 +72,15 @@ int __cdecl Com_BuildPlayerProfilePath_Internal(
 bool __cdecl Com_HasPlayerProfile()
 {
     iassert( com_playerProfile );
-    return *(char *)com_playerProfile->current.integer != 0;
+    // Hex-rays decompiled the union-accessor incorrectly: `current.integer`
+    // and `current.string` overlap at offset 0 of the DvarValue union, but
+    // on 64-bit the int is 4 bytes and the string pointer 8 bytes — so
+    // casting `integer` directly to `char *` truncates to the low 4 bytes
+    // of the pointer. The upstream's intent is to check whether the profile
+    // string is non-empty. uintptr_t cast silences the warning here; the
+    // semantic 64-bit fix lands with the broader DvarValue layout work
+    // (see docs/RISKS.md).
+    return *(char *)(uintptr_t)(unsigned int)com_playerProfile->current.integer != 0;
 }
 
 
@@ -166,7 +174,12 @@ char __cdecl Com_DeletePlayerProfile(const char *profileName)
     if (!Com_IsValidPlayerProfileDir(profileName))
         return 0;
     Com_BuildPlayerProfilePathForPlayer(profilePath, 64, profileName, "");
-    FS_BuildOSPath((char *)fs_basepath->current.integer, (char*)"players", profilePath, osPath);
+    // Same hex-rays union-accessor truncation as Com_HasPlayerProfile —
+    // fs_basepath->current is a DvarValue union; the path is the string
+    // member, but the decompiler accessed it via .integer. uintptr_t cast
+    // silences the warning; semantic 64-bit fix is the DvarValue layout
+    // work (see docs/RISKS.md).
+    FS_BuildOSPath((char *)(uintptr_t)(unsigned int)fs_basepath->current.integer, (char*)"players", profilePath, osPath);
     if (!Sys_RemoveDirTree(osPath))
         return 0;
     if (!I_stricmp(profileName, com_playerProfile->current.string))
@@ -179,6 +192,9 @@ void __cdecl Com_InitPlayerProfiles(int localClientNum)
     DvarValue v1; // [esp-10h] [ebp-24h]
     unsigned int value_4; // [esp+4h] [ebp-10h]
     __int64 value_8; // [esp+8h] [ebp-Ch]
+    (void)v1;       // hex-rays stack-slot locals — unread in this function
+    (void)value_4;
+    (void)value_8;
 
     ui_playerProfileAlreadyChosen = Dvar_RegisterInt(
         "ui_playerProfileAlreadyChosen",
@@ -205,7 +221,12 @@ char __cdecl Com_NewPlayerProfile(const char *profileName)
     else
     {
         Com_BuildPlayerProfilePathForPlayer(profilePath, 64, profileName, "");
-        FS_BuildOSPath((char *)fs_basepath->current.integer, (char*)"players", profilePath, osPath);
+        // Same hex-rays union-accessor truncation as Com_HasPlayerProfile —
+    // fs_basepath->current is a DvarValue union; the path is the string
+    // member, but the decompiler accessed it via .integer. uintptr_t cast
+    // silences the warning; semantic 64-bit fix is the DvarValue layout
+    // work (see docs/RISKS.md).
+    FS_BuildOSPath((char *)(uintptr_t)(unsigned int)fs_basepath->current.integer, (char*)"players", profilePath, osPath);
         if (FS_CreatePath(osPath))
         {
             Com_Printf(16, "Unable to create new profile path: %s\n", osPath);
@@ -286,8 +307,8 @@ void __cdecl Com_SetConfigureDvars(int dvarCount, const char (*dvarNames)[32], c
 
 char __cdecl Com_SetRecommendedCpu(int localClientNum, const SysInfo *info, char **text)
 {
-    char dvarValues[64][32]{ 0 }; // [esp+14h] [ebp-14D8h] BYREF
-    char dvarNames[64][32]{ 0 }; // [esp+814h] [ebp-CD8h] BYREF
+    char dvarValues[64][32]{}; // [esp+14h] [ebp-14D8h] BYREF
+    char dvarNames[64][32]{};  // [esp+814h] [ebp-CD8h] BYREF
     int dvarCount; // [esp+1018h] [ebp-4D4h]
     double v7[76]; // [esp+101Ch] [ebp-4D0h] BYREF
     char v8; // [esp+1282h] [ebp-26Ah]
@@ -323,7 +344,7 @@ char __cdecl Com_SetRecommendedCpu(int localClientNum, const SysInfo *info, char
                 v9 = 0;
                 if (v10[0] <= info->configureGHz
                     && info->sysMB >= SLODWORD(v10[3])
-                    && (v10[0] > v7[0] || v10[0] == v7[0] && SLODWORD(v7[3]) < SLODWORD(v10[3])))
+                    && (v10[0] > v7[0] || (v10[0] == v7[0] && SLODWORD(v7[3]) < SLODWORD(v10[3]))))
                 {
                     v9 = 1;
                     qmemcpy(v7, v10, sizeof(v7));

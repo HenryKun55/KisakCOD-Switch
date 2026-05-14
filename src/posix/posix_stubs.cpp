@@ -235,6 +235,46 @@ BOOL QueryPerformanceFrequency(LARGE_INTEGER *freq)
     return 1;
 }
 
+// Win32 UI stubs — see kisak_compat.h comment.
+HWND GetActiveWindow() { return nullptr; }
+int  MessageBoxA(HWND /*hWnd*/, const char *text, const char *caption,
+                 unsigned int /*type*/)
+{
+    std::fprintf(stderr, "[messagebox] %s: %s\n",
+                 caption ? caption : "(no caption)",
+                 text ? text : "(no text)");
+    return 6; // IDYES — assume user accepts. Upstream call sites use this
+              // for config-change confirmation dialogs that block on Windows.
+}
+
+// Vec3 helpers: declared in com_math.h, defined in com_math.cpp. Standard
+// vector math we can implement portably; collide with com_math.cpp's
+// versions when that file ports, at which point these get removed.
+float Vec3Dot(const float *a, const float *b)
+{
+    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+}
+
+float Vec3NormalizeTo(const float *in, float *out)
+{
+    const float lensq = in[0]*in[0] + in[1]*in[1] + in[2]*in[2];
+    if (lensq <= 0.0f) {
+        out[0] = out[1] = out[2] = 0.0f;
+        return 0.0f;
+    }
+    const float len = std::sqrt(lensq);
+    const float inv = 1.0f / len;
+    out[0] = in[0] * inv;
+    out[1] = in[1] * inv;
+    out[2] = in[2] * inv;
+    return len;
+}
+
+float Vec3Normalize(float *v)
+{
+    return Vec3NormalizeTo(v, v);
+}
+
 // ClearBounds / ExpandBounds: declared in com_math.h, defined in
 // com_math.cpp. Trivial math we can implement portably; will collide with
 // com_math.cpp's versions when that file ports, at which point these stubs

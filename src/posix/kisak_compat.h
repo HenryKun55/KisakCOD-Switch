@@ -141,6 +141,13 @@ typedef union {
 BOOL QueryPerformanceCounter(LARGE_INTEGER *count);
 BOOL QueryPerformanceFrequency(LARGE_INTEGER *freq);
 
+// Win32 UI helpers that show up in dialog-style error paths. On POSIX/
+// Switch we have no native message-box; stubs return MB_YES (6) so the
+// upstream code's "user accepted the change" branches keep working.
+// MB_OK = 0, MB_OKCANCEL = 1, MB_YESNO = 4, MB_YESNOCANCEL = 3, MB_YES = 6.
+HWND GetActiveWindow();
+int  MessageBoxA(HWND hWnd, const char *text, const char *caption, unsigned int type);
+
 // More Win32 types used in win_local.h declarations. Most exist only to
 // allow the header to parse on POSIX — call sites should never execute on
 // non-Windows.

@@ -38,9 +38,14 @@ set(UNIVERSAL_PORTABLE_SOURCES
     "${SRC_DIR}/universal/q_parse.cpp"
 )
 
+set(QCOMMON_PORTABLE_SOURCES
+    "${SRC_DIR}/qcommon/com_pack.cpp"
+)
+
 add_executable(kisak_switch
     ${SWITCH_SOURCES}
     ${UNIVERSAL_PORTABLE_SOURCES}
+    ${QCOMMON_PORTABLE_SOURCES}
 )
 
 target_include_directories(kisak_switch PRIVATE
