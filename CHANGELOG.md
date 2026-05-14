@@ -36,6 +36,33 @@ em hardware real.
 - `src/posix/posix_assert.cpp`: implementação stub de `MyAssertHandler`
   (imprime no stderr e aborta). Permite linkar arquivos upstream que chamam
   `MyAssertHandler` diretamente (não via macro `iassert`).
+- `src/posix/posix_stubs.cpp`: stubs provisórios para `I_stricmp` (mapeia
+  pra `strcasecmp` POSIX), `AxisToQuat` (retorna quaternion identidade) e
+  `Vec2Normalize` (implementação portátil). Removíveis quando seus arquivos
+  donos forem portados.
+- 3 arquivos novos do upstream integrados ao build POSIX:
+  `src/universal/com_math_anglevectors.cpp`, `com_convexhull.cpp`,
+  `com_constantconfigstrings.cpp`. Compilam e linkam em macOS arm64.
+
+### Changed
+- `src/posix/kisak_compat.h`: agora também inclui `<climits>` (para
+  `INT_MIN`/`INT_MAX` usados em `DvarLimits`) e `<cstdlib>` + macros
+  `random` → `kisak_random` e `crandom` → `kisak_crandom` (evita colisão
+  com `<stdlib.h>` POSIX). `__int8/16/32/64` agora são `#define` em vez
+  de `typedef` — preserva o uso de `unsigned __int8` no source upstream.
+- `src/universal/q_shared.h`: adicionado bloco `#else` no `#ifdef WIN32`
+  com equivalentes POSIX para `MAC_STATIC`, `CPUSTRING` (detecta
+  Switch/macOS/Linux), `ID_INLINE`, `BigShort`/`BigLong` (via
+  `__builtin_bswap*`), `LittleShort`/`LittleLong`/`LittleFloat` (no-ops em
+  little-endian), `PATH_SEP = '/'`.
+- `src/qcommon/qcommon.h`: includes `<xmmintrin.h>` e `<intrin.h>` agora
+  guardados por arquitetura (x86 only); `SnapFloatToInt(float/double)`
+  ganha fallback `std::lrintf`/`std::lrint` para ARM64 — mesmo
+  arredondamento round-to-nearest-even que `_mm_cvtss_si32`.
+- `static_assert(sizeof(X) == N)` em q_shared.h, qcommon.h e msg_mp.h
+  agora condicionais a `UINTPTR_MAX == 0xFFFFFFFFu` (i.e., só ativos em
+  builds 32-bit). Em 64-bit os layouts mudam por causa de ponteiros
+  maiores — porte 64-bit virá em fase própria.
 
 ### Changed
 - `CMakeLists.txt` raiz refatorado para suportar configuração em hosts não-MSVC.

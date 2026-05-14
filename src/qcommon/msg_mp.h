@@ -52,7 +52,9 @@ struct usercmd_s // sizeof=0x20
     uint8_t meleeChargeDist;    // XREF: CL_CreateCmd+6A/w
     char selectedLocation[2];
 };
-static_assert(sizeof(usercmd_s) == 0x20);
+#if UINTPTR_MAX == 0xFFFFFFFFu
+static_assert(sizeof(usercmd_s) == 0x20); // Layout 32-bit upstream; revisar em 64-bit
+#endif
 
 struct hudelem_s;
 

@@ -80,7 +80,7 @@
 #define	YAW					1		// left / right
 #define	ROLL				2		// fall over
 
-#define ID_INLINE __inline 
+#define ID_INLINE __inline
 
 int __cdecl ShortSwap(__int16 l);
 int __cdecl LongSwap(int l);
@@ -93,6 +93,50 @@ static ID_INLINE int BigLong(int l) { return LongSwap(l); }
 #define LittleFloat
 
 #define	PATH_SEP '\\'
+
+#else // !WIN32 — POSIX / macOS / Linux / Switch
+// ============================================================================
+// POSIX equivalentes do bloco WIN32 acima. Mantemos os mesmos nomes de
+// macros/funcoes que o codigo upstream consome (QDECL, CPUSTRING, ID_INLINE,
+// PATH_SEP, BigShort/BigLong, etc.) para evitar #ifdef nos sites de uso.
+// QDECL ja foi definido como empty na linha 53 — nao redefinimos aqui.
+// __cdecl em assinaturas e tratado pelo shim em src/posix/kisak_compat.h.
+
+#define MAC_STATIC
+
+// Build string. Composto so na origem para evitar concatenacao de macros.
+#if defined(__SWITCH__)
+    #define CPUSTRING "switch-arm64"
+#elif defined(__APPLE__) && defined(__aarch64__)
+    #define CPUSTRING "macos-arm64"
+#elif defined(__APPLE__)
+    #define CPUSTRING "macos-x86_64"
+#elif defined(__linux__) && defined(__aarch64__)
+    #define CPUSTRING "linux-arm64"
+#elif defined(__linux__) && defined(__x86_64__)
+    #define CPUSTRING "linux-x86_64"
+#elif defined(__linux__)
+    #define CPUSTRING "linux-x86"
+#else
+    #define CPUSTRING "posix-unknown"
+#endif
+
+#define ID_INLINE inline
+
+// CoD4 le/escreve assets em little-endian (formato disk x86 original).
+// Todos os nossos targets POSIX (macOS arm64, Linux x86_64/arm64, Switch
+// arm64) sao little-endian, entao Little* sao no-op e Big* swap de fato.
+static inline short BigShort(short v) {
+    return (short)__builtin_bswap16((unsigned short)v);
+}
+#define LittleShort
+static inline int BigLong(int v) {
+    return (int)__builtin_bswap32((unsigned int)v);
+}
+#define LittleLong
+#define LittleFloat
+
+#define PATH_SEP '/'
 
 #endif // WIN32
 
@@ -843,7 +887,9 @@ struct StringTable // sizeof=0x10
 	int rowCount;
 	const char **values;
 };
-static_assert(sizeof(StringTable) == 16);
+#if UINTPTR_MAX == 0xFFFFFFFFu
+static_assert(sizeof(StringTable) == 16); // Layout 32-bit upstream; revisar em 64-bit
+#endif
 
 const char *__cdecl StringTable_GetColumnValueForRow(const StringTable *table, int row, int column);
 const char *__cdecl StringTable_Lookup(

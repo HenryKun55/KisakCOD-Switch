@@ -1150,7 +1150,9 @@ struct SpawnVar // sizeof=0xA0C
     int32_t numSpawnVarChars;
     char spawnVarChars[2048];
 };
-static_assert(sizeof(SpawnVar) == 0xA0C);
+#if UINTPTR_MAX == 0xFFFFFFFFu
+static_assert(sizeof(SpawnVar) == 0xA0C); // Layout 32-bit upstream; revisar em 64-bit
+#endif
 
 void __cdecl CM_LoadMapData_LoadObj(const char *name);
 struct cplane_s *__cdecl CM_GetPlanes();
@@ -1563,8 +1565,17 @@ inline T Buf_Read(unsigned char **pos)
     return value;
 }
 
-#include <xmmintrin.h>  // SSE
-#include <intrin.h>
+// SSE/intrin sao especificos do MSVC + x86. Em ARM64 (macOS, Linux, Switch)
+// usamos lrintf/lrint do <cmath> em SnapFloatToInt — ambos respeitam o modo
+// de arredondamento IEEE-754 (default round-to-nearest-even, igual ao
+// _mm_cvtss_si32).
+#if defined(__x86_64__) || defined(__i386__) || defined(_M_IX86) || defined(_M_X64)
+    #include <xmmintrin.h>  // SSE
+#endif
+#if defined(_MSC_VER)
+    #include <intrin.h>
+#endif
+#include <cmath>
 
 // (https://github.com/SwagSoftware/KisakCOD/issues/52)
 // 
@@ -1586,7 +1597,13 @@ inline int SnapFloatToInt(float x)
     return i;
 #endif
 
+#if defined(__x86_64__) || defined(__i386__) || defined(_M_IX86) || defined(_M_X64)
     int retval = _mm_cvtss_si32(_mm_set_ss(x));
+#else
+    // ARM64 / outros: lrintf usa o modo de arredondamento atual (default
+    // IEEE-754 round-to-nearest-even = banker's, mesmo de _mm_cvtss_si32).
+    int retval = static_cast<int>(std::lrintf(x));
+#endif
 
 #if defined(_DEBUG) && defined(_WIN32)
     const float input = x;
@@ -1611,7 +1628,11 @@ inline int SnapFloatToInt(double x)
     return i;
 #endif
 
+#if defined(__x86_64__) || defined(__i386__) || defined(_M_IX86) || defined(_M_X64)
     int retval = _mm_cvtsd_si32(_mm_set_sd(x));
+#else
+    int retval = static_cast<int>(std::lrint(x));
+#endif
 
 #if defined(_DEBUG) && defined(_WIN32)
     const float input = x;

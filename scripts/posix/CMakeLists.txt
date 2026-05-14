@@ -10,6 +10,7 @@ message(STATUS "[KisakCOD/posix] Building POSIX skeleton target")
 set(POSIX_SOURCES
     "${SRC_DIR}/posix/posix_main.cpp"
     "${SRC_DIR}/posix/posix_assert.cpp"
+    "${SRC_DIR}/posix/posix_stubs.cpp"
 )
 
 # Primeiros subsistemas upstream trazidos para o build POSIX. Cada arquivo
@@ -17,6 +18,9 @@ set(POSIX_SOURCES
 # com clang/gcc apos os shims em src/posix/kisak_compat.h.
 set(UNIVERSAL_PORTABLE_SOURCES
     "${SRC_DIR}/universal/base64.cpp"
+    "${SRC_DIR}/universal/com_constantconfigstrings.cpp"
+    "${SRC_DIR}/universal/com_convexhull.cpp"
+    "${SRC_DIR}/universal/com_math_anglevectors.cpp"
 )
 
 add_executable(kisak_posix

@@ -40,13 +40,35 @@
 #define __declspec(x)
 #endif
 
+// === Headers padrao que upstream assume sem includes explicitos =============
+// q_shared.h usa INT_MIN/INT_MAX em DvarLimits sem incluir <limits.h>. O
+// build MSVC pega isso transitivamente de algum outro header da MS CRT.
+// Aqui forcamos disponibilidade.
+#include <climits>
+
+// === Colisao com libc POSIX: random()/srandom() =============================
+// <stdlib.h> em POSIX declara `long random(void)` (BSD-derivada). CoD4 tem
+// sua propria `float random()` em com_math.h, o que vira "differ only in
+// return type" e quebra a compilacao. Solucao: rename CoD4's `random`/`crandom`
+// via macros aplicadas APOS <cstdlib> ter sido visto. A funcao da libc
+// continua acessivel pelo simbolo `random`; codigo CoD4 vira `kisak_random`.
+#include <cstdlib>
+#define random  kisak_random
+#define crandom kisak_crandom
+
 // === Tipos inteiros de tamanho fixo ==========================================
-// MSVC tem __int8/16/32/64 como builtins. Em POSIX vem de <cstdint>.
-#include <cstdint>
-typedef int8_t   __int8;
-typedef int16_t  __int16;
-typedef int32_t  __int32;
-typedef int64_t  __int64;
+// MSVC tem __int8/16/32/64 como builtins, o que permite `unsigned __int8`,
+// `signed __int8`, etc. Em POSIX usamos #define (nao typedef!) para preservar
+// essa propriedade — o preprocessador troca o token cedo, deixando `unsigned`
+// se combinar com o tipo basico. typedef quebraria com `unsigned __int8 x`.
+//
+// Nota: __int8 mapeado pra `char` (plain) tem sinal implementation-defined
+// no padrao, enquanto MSVC garante signed. Os usos no upstream sao quase
+// todos via `unsigned __int8` (bytes), entao a diferenca raramente aparece.
+#define __int8  char
+#define __int16 short
+#define __int32 int
+#define __int64 long long
 
 // === __pragma ================================================================
 // Versao function-like do #pragma usada em MSVC pra meter pragma dentro de
