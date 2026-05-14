@@ -150,7 +150,6 @@ void __cdecl Com_SetScriptWarningPrefix(const char *prefix)
 void Com_ScriptErrorDrop(const char *msg, ...)
 {
     char string[4096]; // [esp+0h] [ebp-1010h] BYREF
-    char *ap; // [esp+1004h] [ebp-Ch]
     parseInfo_t *v3; // [esp+1008h] [ebp-8h]
     ParseThreadInfo *ParseThreadInfo; // [esp+100Ch] [ebp-4h]
     va_list va; // [esp+101Ch] [ebp+Ch] BYREF
@@ -158,9 +157,9 @@ void Com_ScriptErrorDrop(const char *msg, ...)
     va_start(va, msg);
     ParseThreadInfo = Com_GetParseThreadInfo();
     v3 = &ParseThreadInfo->parseInfo[ParseThreadInfo->parseInfoNum];
-    va_copy(ap, va);
+    // Removed dead `va_copy(ap, va); ap = 0;` — hex-rays artifact. `ap` was
+    // never read and assigning 0 to a struct va_list breaks GCC.
     _vsnprintf(string, 0x1000u, msg, va);
-    ap = 0;
     if (ParseThreadInfo->parseInfoNum)
         Com_Error(ERR_DROP, "%sFile %s, line %i: %s", v3->errorPrefix, v3->parseFile, v3->lines, string);
     else
@@ -170,7 +169,6 @@ void Com_ScriptErrorDrop(const char *msg, ...)
 void Com_ScriptError(const char *msg, ...)
 {
     char string[4096]; // [esp+0h] [ebp-1010h] BYREF
-    char *ap; // [esp+1004h] [ebp-Ch]
     parseInfo_t *v3; // [esp+1008h] [ebp-8h]
     ParseThreadInfo *ParseThreadInfo; // [esp+100Ch] [ebp-4h]
     va_list va; // [esp+101Ch] [ebp+Ch] BYREF
@@ -178,9 +176,8 @@ void Com_ScriptError(const char *msg, ...)
     va_start(va, msg);
     ParseThreadInfo = Com_GetParseThreadInfo();
     v3 = &ParseThreadInfo->parseInfo[ParseThreadInfo->parseInfoNum];
-    va_copy(ap, va);
+    // Same dead-code removal as Com_ScriptErrorDrop above.
     _vsnprintf(string, 0x1000u, msg, va);
-    ap = 0;
     if (ParseThreadInfo->parseInfoNum)
         Com_PrintError(23, "%sFile %s, line %i: %s", v3->warningPrefix, v3->parseFile, v3->lines, string);
     else

@@ -51,6 +51,23 @@
 // _stricmp, etc.) to avoid clashing with user namespaces. POSIX/glibc/newlib
 // use the unprefixed names. Map the ones upstream uses.
 #define _vsnprintf vsnprintf
+// _time64/_localtime64: MSVC's explicit 64-bit time_t variants. POSIX
+// time_t is already 64-bit on every platform we target (macOS arm64, Linux
+// x86_64/arm64, Switch arm64), but isn't the same type as `long long`
+// (typically `long`). Inline bridges convert.
+#include <ctime>
+inline long long _time64(long long *out)
+{
+    ::time_t now = ::time(nullptr);
+    if (out) *out = (long long)now;
+    return (long long)now;
+}
+inline ::tm *_localtime64(const long long *in)
+{
+    if (!in) return nullptr;
+    ::time_t t = (::time_t)(*in);
+    return ::localtime(&t);
+}
 
 // === POSIX libc collision: random()/srandom() ===============================
 // POSIX <stdlib.h> declares `long random(void)` (BSD-derived). CoD4 has its

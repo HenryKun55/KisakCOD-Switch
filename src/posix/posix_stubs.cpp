@@ -6,6 +6,7 @@
 // called at runtime, returns a neutral value, and *must be removed* as soon
 // as its owning file is properly ported. See docs/SWITCH_PORT.md.
 
+#include <cctype>
 #include <cmath>
 #include <cstdarg>
 #include <cstdio>
@@ -105,3 +106,39 @@ void Com_Error(errorParm_t /*code*/, const char *fmt, ...)
 bool Sys_IsMainThread()     { return true;  }
 bool Sys_IsRenderThread()   { return false; }
 bool Sys_IsDatabaseThread() { return false; }
+
+// === Stubs required by com_shared.cpp ======================================
+
+// _copyDWord: upstream uses x86 inline asm (rep stosd) to fill `count`
+// dwords with `value`. Portable equivalent is the obvious loop — gets
+// auto-vectorized to NEON on ARM64 by clang at -O2.
+void _copyDWord(unsigned int *dst, unsigned int value, unsigned int count)
+{
+    for (unsigned int i = 0; i < count; ++i) {
+        dst[i] = value;
+    }
+}
+
+// I_stristr: case-insensitive substring search. Manual implementation
+// because strcasestr is a non-standard extension (BSD/GNU) and may not be
+// in Switch newlib.
+const char *I_stristr(const char *haystack, const char *needle)
+{
+    if (!haystack || !needle || !*needle) {
+        return haystack;
+    }
+    for (; *haystack; ++haystack) {
+        const char *h = haystack;
+        const char *n = needle;
+        while (*h && *n &&
+               std::tolower(static_cast<unsigned char>(*h)) ==
+                   std::tolower(static_cast<unsigned char>(*n))) {
+            ++h;
+            ++n;
+        }
+        if (!*n) {
+            return haystack;
+        }
+    }
+    return nullptr;
+}

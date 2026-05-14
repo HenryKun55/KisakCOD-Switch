@@ -83,6 +83,20 @@ real hardware.
   `qcommon/threads.cpp` are ported.
 - `_vsnprintf` → `vsnprintf` macro shim in `kisak_compat.h` (MSVC CRT
   underscore prefix not present on POSIX/newlib).
+- `src/universal/com_shared.cpp` brought into POSIX + Switch builds — the
+  upstream's central shared utilities (Com_Memset/Memcpy, Com_Milliseconds,
+  Com_RealTime, Com_Filter, etc.). Required new stubs `_copyDWord` (loop
+  replacing the x86 `rep stosd` inline asm upstream uses) and `I_stristr`
+  (case-insensitive substring search). Also added `_time64`/`_localtime64`
+  inline bridges in `kisak_compat.h` to handle the `__int64` vs `time_t`
+  type difference between MSVC and POSIX.
+
+### Fixed
+- Dead `va_copy(ap, va); ap = 0;` lines in `Com_ScriptError` and
+  `Com_ScriptErrorDrop` of `q_parse.cpp` — hex-rays decompilation artifacts
+  where `ap` was declared as `char *` (matching MSVC `va_list = char*`) but
+  never read. The `va_copy` broke GCC builds on Switch (devkitA64) where
+  `va_list` is a struct, not a `char *`. Removed; no functional change.
 
 ### Fixed
 - Strict-aliasing UB in the `BYTEn`/`WORDn`/`DWORDn` (and signed variants)
