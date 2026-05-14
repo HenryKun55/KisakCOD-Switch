@@ -4,6 +4,9 @@
 // driver minimal que exercita os primeiros subsistemas upstream trazidos
 // para o build POSIX, servindo como smoke test do pipeline cross-platform.
 //
+// No Switch (__SWITCH__), inicializa o console do libnx pra que stdout fique
+// visivel na tela e fica em appletMainLoop ate o usuario apertar Plus (+).
+//
 // Ver docs/SWITCH_PORT.md para o estado atual do porte.
 
 #include <cstdio>
@@ -11,7 +14,13 @@
 
 #include "base64.h"
 
-int main(int /*argc*/, char ** /*argv*/)
+#ifdef __SWITCH__
+#include <switch.h>
+#endif
+
+namespace {
+
+void run_smoke_tests()
 {
     std::printf("KisakCOD-Switch posix bootstrap (Phase 1 skeleton)\n");
 
@@ -24,6 +33,38 @@ int main(int /*argc*/, char ** /*argv*/)
 
     std::printf("[smoke] base64('%s') = '%s' (%u bytes)\n",
                 plain, encoded, out_len);
+}
 
+} // namespace
+
+int main(int /*argc*/, char ** /*argv*/)
+{
+#ifdef __SWITCH__
+    // Console framebuffer do libnx — redireciona stdout pra tela do Switch.
+    consoleInit(nullptr);
+
+    // hid (input) precisa ser inicializado pra ler os botoes do controle.
+    PadState pad;
+    padConfigureInput(1, HidNpadStyleSet_NpadStandard);
+    padInitializeDefault(&pad);
+
+    run_smoke_tests();
+    std::printf("\nPress + to exit.\n");
+    consoleUpdate(nullptr);
+
+    // appletMainLoop retorna false quando o homebrew menu quer encerrar.
+    while (appletMainLoop()) {
+        padUpdate(&pad);
+        if (padGetButtonsDown(&pad) & HidNpadButton_Plus) {
+            break;
+        }
+        consoleUpdate(nullptr);
+    }
+
+    consoleExit(nullptr);
     return 0;
+#else
+    run_smoke_tests();
+    return 0;
+#endif
 }
