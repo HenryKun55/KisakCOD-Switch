@@ -141,6 +141,32 @@ typedef union {
 BOOL QueryPerformanceCounter(LARGE_INTEGER *count);
 BOOL QueryPerformanceFrequency(LARGE_INTEGER *freq);
 
+// More Win32 types used in win_local.h declarations. Most exist only to
+// allow the header to parse on POSIX — call sites should never execute on
+// non-Windows.
+typedef long          LRESULT;
+typedef unsigned long long WPARAM;  // UINT_PTR equivalent
+typedef long long          LPARAM;  // LONG_PTR equivalent
+#define WINAPI
+
+typedef struct tagOSVERSIONINFO {
+    DWORD dwOSVersionInfoSize;
+    DWORD dwMajorVersion;
+    DWORD dwMinorVersion;
+    DWORD dwBuildNumber;
+    DWORD dwPlatformId;
+    char  szCSDVersion[128];
+} OSVERSIONINFO;
+
+typedef struct _RTL_CRITICAL_SECTION {
+    void        *DebugInfo;
+    long         LockCount;
+    long         RecursionCount;
+    HANDLE       OwningThread;
+    HANDLE       LockSemaphore;
+    unsigned long SpinCount;
+} _RTL_CRITICAL_SECTION, RTL_CRITICAL_SECTION, CRITICAL_SECTION;
+
 #ifndef TRUE
 #define TRUE 1
 #endif

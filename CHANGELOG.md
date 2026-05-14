@@ -107,6 +107,15 @@ real hardware.
   `Sys_GetValue`, `I_strncpyz`, `I_strnicmp`. Also removed `volatile` from
   the `ProfileReadable` struct definition (GCC rejects `volatile struct
   X { ... };` syntax; objects can still be declared volatile at use site).
+- `src/win32/win_local.h` made portable: the `<dinput.h>`, `<winsock.h>`,
+  `<wsipx.h>` includes are now also guarded by `_WIN32` (not only
+  `!_XBOX`). Files that include `win_local.h` on POSIX get a header that
+  parses but offers no Win32-specific function bodies.
+- More Win32 types added to `kisak_compat.h` to allow `win_local.h` to
+  parse cleanly on POSIX/Switch: `LRESULT`, `WPARAM`, `LPARAM`, `WINAPI`
+  (no-op), `OSVERSIONINFO` (struct), `_RTL_CRITICAL_SECTION` /
+  `CRITICAL_SECTION` (struct). These are declarations only — call sites
+  using them never execute on non-Windows.
 
 ### Fixed
 - Dead `va_copy(ap, va); ap = 0;` lines in `Com_ScriptError` and

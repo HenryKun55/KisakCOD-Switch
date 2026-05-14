@@ -11,13 +11,16 @@
 #pragma warning( pop )
 #endif
 
-#ifndef _XBOX
+#if !defined(_XBOX) && defined(_WIN32)
 #define DIRECTINPUT_VERSION 0x0800  //[ 0x0300 | 0x0500 | 0x0700 | 0x0800 ]
 #include <dinput.h>
 //#include <dsound.h>
 #include <winsock.h>
 #include <wsipx.h>
 #endif
+// On POSIX/Switch the Win32-only headers above are skipped. Files that need
+// DirectInput/winsock symbols cannot link until the corresponding subsystems
+// (input via SDL2/HID, networking via BSD sockets) are ported.
 #include <universal/q_shared.h>
 #include <qcommon/qcommon.h>
 #ifdef KISAK_MP
