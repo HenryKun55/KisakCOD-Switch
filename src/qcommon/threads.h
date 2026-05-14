@@ -2,10 +2,13 @@
 
 #ifdef _WIN32
 #include <Windows.h> // literally just for some of the extern types at the bottom
+#include <gfx_d3d/rb_backend.h> // THREAD_CONTEXT_COUNT (enum ThreadContext_t)
+#else
+// On POSIX/Switch we avoid rb_backend.h so we don't drag in <d3d9.h>. The
+// DWORD/HANDLE types come from the compat shim (src/posix/kisak_compat.h),
+// and the ThreadContext_t enum from the standalone header included below.
+#include <qcommon/thread_context.h>
 #endif
-// Em POSIX/Switch os tipos DWORD/HANDLE vem do compat shim em
-// src/posix/kisak_compat.h, force-incluido pelo build.
-#include <gfx_d3d/rb_backend.h> // THREAD_CONTEXT_COUNT
 
 enum ThreadOwner : __int32
 {                                       // ...

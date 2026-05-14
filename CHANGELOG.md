@@ -74,6 +74,15 @@ real hardware.
   `gfx_d3d/rb_backend.h` so it can be included on POSIX/Switch targets
   without pulling `<d3d9.h>`. `qcommon/threads.h` now uses this header on
   non-Windows code paths.
+- `src/universal/q_parse.cpp` brought into the POSIX build — the upstream
+  Quake3-derived text parser. Compiles after fixing `qcommon/threads.h` to
+  guard `<gfx_d3d/rb_backend.h>` behind `#ifdef _WIN32`. Links against new
+  stubs (`Com_Printf`, `Com_PrintError`, `Com_Error`, `Sys_IsMainThread` /
+  `IsRenderThread` / `IsDatabaseThread`) in `src/posix/posix_stubs.cpp`.
+  Real implementations come when `qcommon/common.cpp` and
+  `qcommon/threads.cpp` are ported.
+- `_vsnprintf` → `vsnprintf` macro shim in `kisak_compat.h` (MSVC CRT
+  underscore prefix not present on POSIX/newlib).
 
 ### Fixed
 - Strict-aliasing UB in the `BYTEn`/`WORDn`/`DWORDn` (and signed variants)

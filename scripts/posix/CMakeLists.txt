@@ -1,9 +1,10 @@
-# === POSIX target =================================================================
-# Build minimo da Fase 1: produz um executavel `kisak_posix` que so contem o
-# entry point placeholder em src/posix/posix_main.cpp. Conforme subsistemas
-# portateis forem migrados para esse target, eles serao adicionados aqui.
+# === POSIX target ================================================================
+# Phase 1 build: produces a `kisak_posix` executable that opens an SDL2
+# window with a GL context and runs the gfx_gl renderer. Portable upstream
+# subsystems are migrated into UNIVERSAL_PORTABLE_SOURCES as they get
+# brought into compilable shape.
 #
-# Ver docs/SWITCH_PORT.md para o roadmap completo da Fase 1.
+# See docs/SWITCH_PORT.md for the full Phase 1 roadmap.
 
 message(STATUS "[KisakCOD/posix] Building POSIX skeleton target")
 
@@ -18,14 +19,15 @@ set(POSIX_SOURCES
     "${SRC_DIR}/gfx_gl/gl_renderer.cpp"
 )
 
-# Primeiros subsistemas upstream trazidos para o build POSIX. Cada arquivo
-# aqui foi validado como portavel (sem deps Win32/DX/MSS) e compila limpo
-# com clang/gcc apos os shims em src/posix/kisak_compat.h.
+# Upstream subsystems brought into the POSIX build. Each file here was
+# validated as portable (no Win32/DX/MSS dependencies) and compiles cleanly
+# with clang/gcc after the shims in src/posix/kisak_compat.h.
 set(UNIVERSAL_PORTABLE_SOURCES
     "${SRC_DIR}/universal/base64.cpp"
     "${SRC_DIR}/universal/com_constantconfigstrings.cpp"
     "${SRC_DIR}/universal/com_convexhull.cpp"
     "${SRC_DIR}/universal/com_math_anglevectors.cpp"
+    "${SRC_DIR}/universal/q_parse.cpp"
 )
 
 add_executable(kisak_posix
@@ -46,13 +48,14 @@ target_link_libraries(kisak_posix PRIVATE
 
 target_compile_definitions(kisak_posix PRIVATE KISAK_MP)
 
-# Force-include o shim de compatibilidade MSVC antes de qualquer fonte. Cobre
-# __cdecl, __declspec, __int16 e companhia que o codigo upstream usa direto.
+# Force-include the MSVC compat shim before every source file. Covers the
+# __cdecl/__declspec/__int16/... tokens the upstream uses directly.
 target_compile_options(kisak_posix PRIVATE
     $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang,GNU>:-Wall>
-    # Codigo upstream e reverse-engineered do binario IDA — abusa de
-    # compares int/unsigned int por hex-rays nunca propagar sinal. Silencia
-    # o warning ate o porte fazer auditoria de signedness por subsistema.
+    # Upstream source is reverse-engineered from the IDA binary — hex-rays
+    # rarely propagates signedness, so dozens of int vs unsigned int
+    # comparisons get warned cosmetically. Silenced until the port runs a
+    # signedness audit per subsystem.
     $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang,GNU>:-Wno-sign-compare>
     $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang,GNU>:-include${SRC_DIR}/posix/kisak_compat.h>
 )
