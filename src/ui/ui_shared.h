@@ -273,43 +273,43 @@ enum EvalOperatorType : __int32
     EVAL_OP_GREATER_EQUAL = 0x19,
     EVAL_OP_COUNT = 0x1A,
 };
-static EvalOperatorType operator-=(EvalOperatorType lhs, EvalOperatorType rhs)
+[[maybe_unused]] static EvalOperatorType operator-=(EvalOperatorType lhs, EvalOperatorType rhs)
 {
     return (EvalOperatorType)(static_cast<int>(lhs) - static_cast<int>(rhs));
 }
-static EvalOperatorType operator+=(EvalOperatorType lhs, EvalOperatorType rhs)
+[[maybe_unused]] static EvalOperatorType operator+=(EvalOperatorType lhs, EvalOperatorType rhs)
 {
     return (EvalOperatorType)(static_cast<int>(lhs) + static_cast<int>(rhs));
 }
-static EvalOperatorType operator/=(EvalOperatorType lhs, EvalOperatorType rhs)
+[[maybe_unused]] static EvalOperatorType operator/=(EvalOperatorType lhs, EvalOperatorType rhs)
 {
     return (EvalOperatorType)(static_cast<int>(lhs) / static_cast<int>(rhs));
 }
-static EvalOperatorType operator*=(EvalOperatorType lhs, EvalOperatorType rhs)
+[[maybe_unused]] static EvalOperatorType operator*=(EvalOperatorType lhs, EvalOperatorType rhs)
 {
     return (EvalOperatorType)(static_cast<int>(lhs) * static_cast<int>(rhs));
 }
-static EvalOperatorType operator<<=(EvalOperatorType lhs, EvalOperatorType rhs)
+[[maybe_unused]] static EvalOperatorType operator<<=(EvalOperatorType lhs, EvalOperatorType rhs)
 {
     return (EvalOperatorType)(static_cast<int>(lhs) << static_cast<int>(rhs));
 }
-static EvalOperatorType operator>>=(EvalOperatorType lhs, EvalOperatorType rhs)
+[[maybe_unused]] static EvalOperatorType operator>>=(EvalOperatorType lhs, EvalOperatorType rhs)
 {
     return (EvalOperatorType)(static_cast<int>(lhs) >> static_cast<int>(rhs));
 }
-static EvalOperatorType operator%=(EvalOperatorType lhs, EvalOperatorType rhs)
+[[maybe_unused]] static EvalOperatorType operator%=(EvalOperatorType lhs, EvalOperatorType rhs)
 {
     return (EvalOperatorType)(static_cast<int>(lhs) % static_cast<int>(rhs));
 }
-static EvalOperatorType operator&=(EvalOperatorType lhs, EvalOperatorType rhs)
+[[maybe_unused]] static EvalOperatorType operator&=(EvalOperatorType lhs, EvalOperatorType rhs)
 {
     return (EvalOperatorType)(static_cast<int>(lhs) & static_cast<int>(rhs));
 }
-static EvalOperatorType operator|=(EvalOperatorType lhs, EvalOperatorType rhs)
+[[maybe_unused]] static EvalOperatorType operator|=(EvalOperatorType lhs, EvalOperatorType rhs)
 {
     return (EvalOperatorType)(static_cast<int>(lhs) | static_cast<int>(rhs));
 }
-static EvalOperatorType operator^=(EvalOperatorType lhs, EvalOperatorType rhs)
+[[maybe_unused]] static EvalOperatorType operator^=(EvalOperatorType lhs, EvalOperatorType rhs)
 {
     return (EvalOperatorType)(static_cast<int>(lhs) ^ static_cast<int>(rhs));
 }

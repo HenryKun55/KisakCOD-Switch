@@ -1,6 +1,11 @@
 #pragma once
 
+#ifdef _WIN32
 #include <d3d9.h>
+#endif
+// POSIX/Switch: DX9 types come from opaque forward decls in
+// src/posix/kisak_compat.h.
+
 #include "r_material.h" // GfxVertex
 #include "r_init.h"
 #include "r_rendercmds.h"

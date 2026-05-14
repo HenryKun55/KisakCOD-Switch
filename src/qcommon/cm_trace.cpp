@@ -135,6 +135,7 @@ void __cdecl CM_Trace(
 {
     const char *v7; // eax
     const char *v8; // eax
+    (void)v7; (void)v8; // hex-rays scratch locals; only used by removed asserts
     cmodel_t *cmod; // [esp+78h] [ebp-ECh]
     traceWork_t tw; // [esp+7Ch] [ebp-E8h] BYREF
     float offset[3]; // [esp+12Ch] [ebp-38h]
@@ -467,6 +468,7 @@ void __cdecl CM_TestCapsuleInCapsule(const traceWork_t *tw, trace_t *trace)
     float p1[3]; // [esp+24h] [ebp-64h] BYREF
     float symetricSize[2][3]; // [esp+30h] [ebp-58h]
     float radius; // [esp+48h] [ebp-40h]
+    (void)radius; // hex-rays scratch; only used by removed asserts
     float fTotalHalfHeight; // [esp+4Ch] [ebp-3Ch]
     float offset[3]; // [esp+50h] [ebp-38h]
     float p2[3]; // [esp+5Ch] [ebp-2Ch] BYREF
@@ -603,6 +605,7 @@ void __cdecl CM_TraceThroughLeaf(const traceWork_t *tw, cLeaf_t *leaf, trace_t *
 bool __cdecl CM_TraceThroughLeafBrushNode(const traceWork_t *tw, cLeaf_t *leaf, trace_t *trace)
 {
     __int64 _FFFFFFFC; // [esp-4h] [ebp-48h]
+    (void)_FFFFFFFC; // hex-rays scratch; only used by removed asserts
     float absmin[3]; // [esp+Ch] [ebp-38h] BYREF
     float start[4]; // [esp+18h] [ebp-2Ch] BYREF
     float end[4]; // [esp+28h] [ebp-1Ch] BYREF
@@ -656,6 +659,7 @@ void __cdecl CM_TraceThroughLeafBrushNode_r(
     float absDiff; // [esp+7Ch] [ebp-20h]
     float invDist; // [esp+80h] [ebp-1Ch]
     float tmin; // [esp+84h] [ebp-18h]
+    (void)tmin; // hex-rays scratch; only used by removed asserts
     int brushnum; // [esp+88h] [ebp-14h]
     float mid[4]; // [esp+8Ch] [ebp-10h] BYREF
 
@@ -799,6 +803,7 @@ void __cdecl CM_TraceThroughBrush(const traceWork_t *tw, cbrush_t *brush, trace_
     int index; // [esp+F8h] [ebp-10h]
     float leaveFrac; // [esp+FCh] [ebp-Ch]
     float offsetDotNormal; // [esp+100h] [ebp-8h]
+    (void)offsetDotNormal; // hex-rays scratch; only used by removed asserts
     int i; // [esp+104h] [ebp-4h]
 
     iassert(!IS_NAN((tw->extents.start)[0]) && !IS_NAN((tw->extents.start)[1]) && !IS_NAN((tw->extents.start)[2]));
@@ -1489,6 +1494,7 @@ void __cdecl CM_TransformedBoxTraceRotated(
 {
     float transpose[3][3]; // [esp+4h] [ebp-6Ch] BYREF
     float halfheight; // [esp+28h] [ebp-48h]
+    (void)halfheight; // hex-rays scratch; only used by removed asserts
     float symetricSize[3][3]; // [esp+2Ch] [ebp-44h] BYREF
     float end_l[3]; // [esp+50h] [ebp-20h] BYREF
     float start_l[3]; // [esp+5Ch] [ebp-14h] BYREF
@@ -1538,6 +1544,7 @@ void __cdecl CM_TransformedBoxTrace(
     float start_l[3]; // [esp+6Ch] [ebp-14h] BYREF
     int i; // [esp+78h] [ebp-8h]
     float oldFraction; // [esp+7Ch] [ebp-4h]
+    (void)oldFraction; // hex-rays scratch; only used by removed asserts
 
     iassert( mins );
     iassert( maxs );
@@ -1601,12 +1608,16 @@ int __cdecl CM_BoxSightTrace(
     int brushmask)
 {
     const char *v7; // eax
+    (void)v7; // hex-rays scratch; only used by removed asserts
     const char *v8; // eax
+    (void)v8; // hex-rays scratch; only used by removed asserts
     double v9; // st7
     double v10; // st7
     float v12; // [esp+14h] [ebp-13Ch]
     float v13; // [esp+18h] [ebp-138h]
+    (void)v13; // hex-rays scratch; only used by removed asserts
     float v14; // [esp+1Ch] [ebp-134h]
+    (void)v14; // hex-rays scratch; only used by removed asserts
     cmodel_t *cmod; // [esp+5Ch] [ebp-F4h]
     traceWork_t tw; // [esp+60h] [ebp-F0h] BYREF
     float offset[3]; // [esp+110h] [ebp-40h]
@@ -1967,6 +1978,7 @@ int __cdecl CM_SightTraceThroughLeafBrushNode_r(
     float invDist; // [esp+74h] [ebp-1Ch]
     int hitNum; // [esp+78h] [ebp-18h]
     float tmin; // [esp+7Ch] [ebp-14h]
+    (void)tmin; // hex-rays scratch; only used by removed asserts
     int brushnum; // [esp+80h] [ebp-10h]
     float mid[3]; // [esp+84h] [ebp-Ch] BYREF
 
@@ -2421,7 +2433,9 @@ int __cdecl CM_TransformedBoxSightTrace(
     bool v10; // [esp+0h] [ebp-74h]
     float matrix[3][3]; // [esp+4h] [ebp-70h] BYREF
     float halfwidth; // [esp+28h] [ebp-4Ch]
+    (void)halfwidth; // hex-rays scratch; only used by removed asserts
     float halfheight; // [esp+2Ch] [ebp-48h]
+    (void)halfheight; // hex-rays scratch; only used by removed asserts
     float symetricSize[3][3]; // [esp+30h] [ebp-44h] BYREF
     float end_l[3]; // [esp+54h] [ebp-20h] BYREF
     float start_l[4]; // [esp+60h] [ebp-14h] BYREF

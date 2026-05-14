@@ -2,7 +2,9 @@
 #include "mem_track.h"
 #include <xanim/xanim.h>
 
+#ifdef _WIN32
 #include <Windows.h>
+#endif
 
 
 unsigned __int8 windingPool[12292];
@@ -577,6 +579,7 @@ char __cdecl CM_BrushInView(const cbrush_t *brush, cplane_s *frustumPlanes, int 
 {
     int frustumPlaneIndex; // [esp+0h] [ebp-4h]
     int frustumPlaneIndexa; // [esp+0h] [ebp-4h]
+    (void)frustumPlaneIndexa; // hex-rays scratch; unread
 
     iassert( frustumPlanes );
     for (frustumPlaneIndex = 0; frustumPlaneIndex < frustumPlaneCount; frustumPlaneIndex++)// = frustumPlaneIndexa + 1)

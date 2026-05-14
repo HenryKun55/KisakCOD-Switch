@@ -11,8 +11,11 @@
 #include "r_rendercmds.h"
 #include "r_image.h"
 
+#ifdef _WIN32
 #include <Windows.h>
 #include <d3d9.h>
+#endif
+// POSIX/Switch: Win32 + DX9 types come from src/posix/kisak_compat.h.
 
 enum GfxRenderer : __int32
 {                                       // ...

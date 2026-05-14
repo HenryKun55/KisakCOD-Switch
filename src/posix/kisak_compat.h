@@ -51,6 +51,10 @@
 // _stricmp, etc.) to avoid clashing with user namespaces. POSIX/glibc/newlib
 // use the unprefixed names. Map the ones upstream uses.
 #define _vsnprintf vsnprintf
+// __debugbreak: MSVC intrinsic that triggers a debugger breakpoint.
+// On clang/gcc the equivalent is __builtin_trap (or __builtin_debugtrap
+// on clang specifically, but trap works everywhere as a fallback).
+#define __debugbreak() __builtin_trap()
 // _time64/_localtime64: MSVC's explicit 64-bit time_t variants. POSIX
 // time_t is already 64-bit on every platform we target (macOS arm64, Linux
 // x86_64/arm64, Switch arm64), but isn't the same type as `long long`
@@ -197,7 +201,47 @@ struct IDirect3DSwapChain9;
 struct IDirect3DQuery9;
 typedef int  _D3DFORMAT;  // enum in DX9 SDK; opaque int here
 typedef int  D3DFORMAT;
+typedef int  _D3DCUBEMAP_FACES;
+typedef int  _D3DDISPLAYMODE;        // struct in DX9 SDK; opaque int here
+typedef int  _D3DMULTISAMPLE_TYPE;   // enum
+typedef int  _D3DTEXTUREFILTERTYPE;  // enum
+struct _D3DCAPS9;             // big struct in DX9 SDK; opaque here
+struct _D3DPRESENT_PARAMETERS_;
+struct _D3DSURFACE_DESC;
+struct _D3DVIEWPORT9;
+struct HWND__;        // Win32 HWND is `struct HWND__ *`
+struct HINSTANCE__;   // Win32 HINSTANCE is `struct HINSTANCE__ *`
 typedef long HRESULT;
+
+// D3DFORMAT constants used in renderer headers. Real values don't matter
+// outside Windows — the code paths that consume them never run.
+#ifndef D3DFMT_D24S8
+#define D3DFMT_D24S8 0
+#endif
+#ifndef D3DFMT_D24X8
+#define D3DFMT_D24X8 0
+#endif
+#ifndef D3DFMT_UNKNOWN
+#define D3DFMT_UNKNOWN 0
+#endif
+#ifndef D3DFMT_D16
+#define D3DFMT_D16 0
+#endif
+#ifndef D3DFMT_A8R8G8B8
+#define D3DFMT_A8R8G8B8 0
+#endif
+#ifndef D3DFMT_X8R8G8B8
+#define D3DFMT_X8R8G8B8 0
+#endif
+#ifndef D3DFMT_DXT1
+#define D3DFMT_DXT1 0
+#endif
+#ifndef D3DFMT_DXT3
+#define D3DFMT_DXT3 0
+#endif
+#ifndef D3DFMT_DXT5
+#define D3DFMT_DXT5 0
+#endif
 
 #ifndef TRUE
 #define TRUE 1

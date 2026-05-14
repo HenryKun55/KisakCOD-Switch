@@ -42,6 +42,10 @@ set(QCOMMON_PORTABLE_SOURCES
     "${SRC_DIR}/qcommon/dl_main.cpp"
     "${SRC_DIR}/qcommon/huffman.cpp"
     "${SRC_DIR}/qcommon/md4.cpp"
+    # The remaining cm_*.cpp files (cm_load, cm_mesh, cm_showcollision,
+    # cm_staticmodel, cm_test, cm_trace) compile cleanly but pull 24+
+    # link-time dependencies (Hunk_Alloc, DB_FindXAssetHeader, the Vec3
+    # family, Sys_Error, ...). Adding them needs a stub pass first.
 )
 
 add_executable(kisak_posix
