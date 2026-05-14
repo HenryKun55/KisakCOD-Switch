@@ -10,7 +10,9 @@ struct EntHandleInfo // sizeof=0x8 // (SP/MP same)
     uint16_t next;              // ...
     uint16_t prev;              // ...
 };
-static_assert(sizeof(EntHandleInfo) == 0x8);
+#if UINTPTR_MAX == 0xFFFFFFFFu
+static_assert(sizeof(EntHandleInfo) == 0x8); // Layout 32-bit upstream; revisar em 64-bit
+#endif
 
 struct EntHandleList // sizeof=0x2 // (SP/MP same)
 {                                       // ...

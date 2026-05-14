@@ -1,0 +1,47 @@
+#pragma once
+
+// Definicao da enum ThreadContext_t extraida de gfx_d3d/rb_backend.h para
+// poder ser incluida em targets POSIX/Switch sem arrastar <d3d9.h> junto.
+// Em builds Windows upstream esse header NAO e incluido (rb_backend.h
+// continua sendo a fonte canonica); em POSIX e o substituto do include
+// de rb_backend.h que tem em qcommon/threads.h.
+//
+// Manter sincronizado com src/gfx_d3d/rb_backend.h enquanto a refatoracao
+// final (extrair de la para ca tambem) nao for feita upstream.
+
+#ifdef KISAK_MP
+enum ThreadContext_t : __int32
+{
+    THREAD_CONTEXT_MAIN         = 0x0,
+    THREAD_CONTEXT_BACKEND      = 0x1,
+    THREAD_CONTEXT_WORKER0      = 0x2,
+    THREAD_CONTEXT_WORKER1      = 0x3,
+    THREAD_CONTEXT_WORKER2      = 0x4,
+    THREAD_CONTEXT_SERVER       = 0x5,
+    THREAD_CONTEXT_TRACE_COUNT  = 0x4,
+    THREAD_CONTEXT_TRACE_LAST   = 0x3,
+    THREAD_CONTEXT_CINEMATIC    = 0x4,
+    THREAD_CONTEXT_TITLE_SERVER = 0x5,
+    THREAD_CONTEXT_DATABASE     = 0x6,
+    THREAD_CONTEXT_COUNT        = 0x7,
+};
+#elif defined(KISAK_SP)
+enum ThreadContext_t : __int32
+{
+    THREAD_CONTEXT_MAIN                   = 0x0,
+    THREAD_CONTEXT_BACKEND                = 0x1,
+    THREAD_CONTEXT_WORKER0                = 0x2,
+    THREAD_CONTEXT_WORKER1                = 0x3,
+    THREAD_CONTEXT_WORKER2                = 0x4,
+    THREAD_CONTEXT_SERVER                 = 0x5,
+    THREAD_CONTEXT_TRACE_COUNT            = 0x6,
+    THREAD_CONTEXT_TRACE_LAST             = 0x5,
+    THREAD_CONTEXT_CINEMATIC              = 0x6,
+    THREAD_CONTEXT_TITLE_SERVER           = 0x7,
+    THREAD_CONTEXT_DATABASE               = 0x8,
+    THREAD_CONTEXT_STREAM                 = 0x9,
+    THREAD_CONTEXT_SNDSTREAMPACKETCALLBACK = 10,
+    THREAD_CONTEXT_SERVER_DEMO            = 11,
+    THREAD_CONTEXT_COUNT                  = 12,
+};
+#endif

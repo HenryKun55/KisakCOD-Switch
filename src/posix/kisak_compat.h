@@ -79,4 +79,30 @@
 #define __pragma(x)
 #endif
 
+// === Tipos basicos do Win32 ==================================================
+// Alguns headers upstream (qcommon/threads.h e companhia) usam DWORD/HANDLE/
+// BOOL/HWND/LPCSTR em declaracoes extern, em vez de seguir o estilo standard.
+// Em vez de forcar #include <Windows.h> (que so existe na MS SDK), provemos
+// equivalentes opacos. HANDLE = void* funciona como ponteiro/handle generico
+// e o linker resolve no momento certo quando o subsistema for portado.
+typedef unsigned long DWORD;
+typedef void         *HANDLE;
+typedef void         *HWND;
+typedef void         *HINSTANCE;
+typedef int           BOOL;
+typedef const char   *LPCSTR;
+typedef char         *LPSTR;
+typedef unsigned int  UINT;
+typedef unsigned long ULONG;
+typedef wchar_t       WCHAR;
+typedef WCHAR        *LPWSTR;
+typedef const WCHAR  *LPCWSTR;
+
+#ifndef TRUE
+#define TRUE 1
+#endif
+#ifndef FALSE
+#define FALSE 0
+#endif
+
 #endif // !_MSC_VER
