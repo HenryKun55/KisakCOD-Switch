@@ -43,6 +43,15 @@ em hardware real.
 - 3 arquivos novos do upstream integrados ao build POSIX:
   `src/universal/com_math_anglevectors.cpp`, `com_convexhull.cpp`,
   `com_constantconfigstrings.cpp`. Compilam e linkam em macOS arm64.
+- **Primeiro `.nro` homebrew gerado**: `scripts/switch/CMakeLists.txt`
+  cross-compila o mesmo esqueleto (`posix_main` + stubs + 4 arquivos
+  upstream) com devkitA64+libnx, gerando `bin/switch/kisak_switch.elf`
+  (2.6 MB, ARM64 static-pie) e `bin/switch/kisak_switch.nro` (166 KB,
+  magic `HOMEBREWNRO0`). Carregável em Atmosphere CFW ou Ryujinx.
+- `src/qcommon/thread_context.h`: enum `ThreadContext_t` extraída de
+  `gfx_d3d/rb_backend.h` pra ser incluída em targets POSIX/Switch sem
+  arrastar `<d3d9.h>`. `qcommon/threads.h` agora usa esse header em
+  caminho não-Windows.
 
 ### Changed
 - `src/posix/kisak_compat.h`: agora também inclui `<climits>` (para

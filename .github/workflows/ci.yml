@@ -10,8 +10,8 @@ permissions:
   contents: read
 
 jobs:
-  switch-configure:
-    name: CMake configure (Switch / devkitA64)
+  switch-build:
+    name: Cross-compile + NRO (Switch / devkitA64)
     runs-on: ubuntu-latest
     container:
       image: devkitpro/devkita64:latest
@@ -24,18 +24,26 @@ jobs:
           aarch64-none-elf-gcc --version | head -1
           cmake --version | head -1
 
-      - name: CMake configure (Switch)
-        # Configure ainda não funciona pq o CMakeLists usa flags MSVC-only.
-        # Mantido como warning-only durante Fase 1; vira required quando CMake
-        # for refatorado pra multi-toolchain.
-        continue-on-error: true
+      - name: Configure
         run: |
-          mkdir -p build-switch
-          cd build-switch
-          cmake .. \
+          cmake -B build-switch -S . \
             -DCMAKE_TOOLCHAIN_FILE=$DEVKITPRO/cmake/Switch.cmake \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DKISAK_TARGET=switch
+            -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build-switch
+
+      - name: Verify NRO output
+        run: |
+          ls -la bin/switch/
+          file bin/switch/kisak_switch.nro
+          head -c 16 bin/switch/kisak_switch.nro | xxd
+
+      - name: Upload NRO artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kisak_switch-nro
+          path: bin/switch/kisak_switch.nro
 
   posix-build:
     name: Configure + build + smoke (host POSIX)
