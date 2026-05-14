@@ -19,7 +19,7 @@ if(NOT NINTENDO_SWITCH)
 endif()
 
 set(SWITCH_SOURCES
-    "${SRC_DIR}/posix/posix_main.cpp"
+    "${SRC_DIR}/switch/switch_main.cpp"
     "${SRC_DIR}/posix/posix_assert.cpp"
     "${SRC_DIR}/posix/posix_stubs.cpp"
 )
@@ -40,6 +40,9 @@ add_executable(kisak_switch
 target_include_directories(kisak_switch PRIVATE
     "${SRC_DIR}"
     "${SRC_DIR}/universal"
+    # portlibs/switch tem EGL/GLES2/etc — o toolchain so adiciona libnx
+    # automaticamente, portlibs precisa ser explicito.
+    "$ENV{DEVKITPRO}/portlibs/switch/include"
 )
 
 target_compile_definitions(kisak_switch PRIVATE KISAK_MP)
@@ -60,6 +63,15 @@ set_target_properties(kisak_switch PROPERTIES
 # Gera o .nro (homebrew NRO) a partir do .elf do target. NACP default e
 # icone default sao usados (libnx fornece). Customizar quando o jogo
 # estiver jogavel.
+# Renderer GLES2 via mesa-nouveau no Switch. Ordem dos -l importa: EGL/GLESv2
+# antes de glapi e drm_nouveau pra resolver simbolos no link estatico.
+target_link_libraries(kisak_switch PRIVATE
+    EGL
+    GLESv2
+    glapi
+    drm_nouveau
+)
+
 nx_create_nro(kisak_switch
     OUTPUT  "${BIN_DIR}/switch/kisak_switch.nro"
 )

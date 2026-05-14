@@ -48,6 +48,12 @@ em hardware real.
   upstream) com devkitA64+libnx, gerando `bin/switch/kisak_switch.elf`
   (2.6 MB, ARM64 static-pie) e `bin/switch/kisak_switch.nro` (166 KB,
   magic `HOMEBREWNRO0`). Carregável em Atmosphere CFW ou Ryujinx.
+- **Primeiro pixel renderizado**: `src/switch/switch_main.cpp` substitui
+  o entry point baseado em `consoleInit` por uma pipeline GLES2 completa
+  (EGL + mesa-nouveau via libnx). Renderiza um triângulo RGB no
+  framebuffer da tela usando shader vertex/fragment próprios. NRO agora
+  é ~5.8 MB (mesa-nouveau é static-linked). Aperta `+` pra sair.
+  Primeira pedra do futuro renderer que substituirá `src/gfx_d3d/`.
 - `src/qcommon/thread_context.h`: enum `ThreadContext_t` extraída de
   `gfx_d3d/rb_backend.h` pra ser incluída em targets POSIX/Switch sem
   arrastar `<d3d9.h>`. `qcommon/threads.h` agora usa esse header em
