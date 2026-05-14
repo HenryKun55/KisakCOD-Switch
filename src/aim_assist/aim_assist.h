@@ -15,7 +15,9 @@ struct AimTarget // sizeof=0x2C
     float maxs[3];
     float velocity[3];
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(AimTarget) == 0x2C);
+#endif
 
 struct AimTargetGlob // sizeof=0x1608
 {                                       // ...
@@ -24,7 +26,9 @@ struct AimTargetGlob // sizeof=0x1608
     AimTarget clientTargets[64];
     int32_t clientTargetCount;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(AimTargetGlob) == 0x1608);
+#endif
 
 struct AimTweakables // sizeof=0x20
 {                                       // ...
@@ -37,7 +41,9 @@ struct AimTweakables // sizeof=0x20
     float lockOnRegionWidth;
     float lockOnRegionHeight;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(AimTweakables) == 0x20);
+#endif
 
 struct AimScreenTarget // sizeof=0x34
 {                                       // ...
@@ -49,7 +55,9 @@ struct AimScreenTarget // sizeof=0x34
     float distSqr;                      // ...
     float crosshairDistSqr;             // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(AimScreenTarget) == 0x34);
+#endif
 
 struct AimAssistGlobals // sizeof=0xE34
 {                                       // ...
@@ -92,7 +100,9 @@ struct AimAssistGlobals // sizeof=0xE34
     float autoMeleeYawTarget;
     int32_t lockOnTargetEnt;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(AimAssistGlobals) == 0xE34);
+#endif
 
 struct AimInput // sizeof=0x30
 {                                       // ...
@@ -109,7 +119,9 @@ struct AimInput // sizeof=0x30
     int32_t localClientNum;                 // ...
     const struct playerState_s *ps;            // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(AimInput) == 0x30);
+#endif
 
 struct AimOutput // sizeof=0x10
 {                                       // ...
@@ -121,7 +133,9 @@ struct AimOutput // sizeof=0x10
     // padding byte
     // padding byte
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(AimOutput) == 0x10);
+#endif
 
 void __cdecl TRACK_aim_assist();
 void __cdecl AimAssist_Init(int32_t localClientNum);

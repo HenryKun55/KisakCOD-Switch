@@ -57,6 +57,7 @@ target_include_directories(kisak_switch PRIVATE
     "${SRC_DIR}"
     "${SRC_DIR}/universal"
     "${SRC_DIR}/posix/include_shims" # makes <zlib/zlib.h> resolve to switch-zlib
+    "${DEPS_DIR}"                    # makes <ode/ode.h> resolve to deps/ode/ode.h
     # portlibs/switch has EGL/GLES2/zlib/etc — the toolchain only adds libnx
     # by default, portlibs has to be explicit.
     "$ENV{DEVKITPRO}/portlibs/switch/include"

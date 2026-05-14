@@ -1392,28 +1392,30 @@ void __cdecl bitwiseOr(Operand *leftSide, Operand *rightSide, Operand *result);
 template<typename T, int useless, int HASH_SEED>
 struct KeywordHashEntry
 {
-    bool KeywordHash_IsValidSeed(int count, int seed)
+    // KISAKTODO (upstream): these template members are placeholders left
+    // half-decompiled from the original binary. They never get
+    // instantiated in our build path, but they must at least parse.
+    // Use `this->`-qualified member lookups so unqualified-name resolution
+    // is deferred to instantiation, satisfying both clang's two-phase
+    // lookup and GCC's stricter parsing.
+    bool KeywordHash_IsValidSeed(int /*count*/, int /*seed*/)
     {
-
+        return false;
     }
     int KeywordHash_PickSeed(int count)
     {
-        for (int seed = 0; !IsValidSeed(count, HASH_SEED); seed++)
+        int seed = 0;
+        for (; !this->KeywordHash_IsValidSeed(count, HASH_SEED); seed++)
         {
             iassert(seed != 65536);
         }
+        return seed;
     }
     void KeywordHash_Validate()
     {
-        if (!KeywordHash_IsValidSeed())
+        if (!this->KeywordHash_IsValidSeed(0, HASH_SEED))
         {
-            // MyAssertHandler(
-            //     ".\\ui\\ui_shared_obj.cpp",
-            //     685,
-            //     0,
-            //     "%s\n\t(KeywordHash_PickSeed( array, count )) = %i",
-            //     "(KeywordHash_IsValidSeed( array, count, HASH_SEED ))",
-            //     v2);
+            // MyAssertHandler(...);  // upstream had a full assert here
         }
     }
     const char *keyword;

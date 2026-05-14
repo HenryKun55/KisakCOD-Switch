@@ -54,6 +54,7 @@ target_include_directories(kisak_posix PRIVATE
     "${SRC_DIR}"
     "${SRC_DIR}/universal"
     "${SRC_DIR}/posix/include_shims" # makes <zlib/zlib.h> resolve to system zlib
+    "${DEPS_DIR}"                    # makes <ode/ode.h> resolve to deps/ode/ode.h
 )
 
 target_link_libraries(kisak_posix PRIVATE

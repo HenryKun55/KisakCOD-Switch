@@ -12,14 +12,18 @@ struct debugger_sval_s // sizeof=0x4
 {
     debugger_sval_s *next;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(debugger_sval_s) == 0x4);
+#endif
 
 struct scr_localVar_t // sizeof=0x8
 {                                       // ...
     unsigned int name;                  // ...
     unsigned int sourcePos;             // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(scr_localVar_t) == 0x8);
+#endif
 
 #define LOCAL_VAR_STACK_SIZE 64
 #define MAX_SWITCH_CASES 1024
@@ -33,7 +37,9 @@ struct scr_block_s // sizeof=0x218
     unsigned __int8 localVarsInitBits[8];
     scr_localVar_t localVars[LOCAL_VAR_STACK_SIZE];
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(scr_block_s) == 0x218);
+#endif
 
 union sval_u // sizeof=0x4
 {                                       // ...
@@ -68,7 +74,9 @@ union sval_u // sizeof=0x4
     const char *debugString;
     scr_block_s *block;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(sval_u) == 0x4);
+#endif
 
 struct ScriptExpression_t // sizeof=0xC
 {                                       // ...
@@ -76,7 +84,9 @@ struct ScriptExpression_t // sizeof=0xC
     int breakonExpr;                    // ...
     debugger_sval_s *exprHead;          // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(ScriptExpression_t) == 0xC);
+#endif
 
 struct Scr_SelectedLineInfo // sizeof=0xC
 {                                       // ...
@@ -87,7 +97,9 @@ struct Scr_SelectedLineInfo // sizeof=0xC
     // padding byte
     // padding byte
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(Scr_SelectedLineInfo) == 0xC);
+#endif
 
 struct Scr_Breakpoint // sizeof=0x1C
 {                                       // ...
@@ -99,7 +111,9 @@ struct Scr_Breakpoint // sizeof=0x1C
     Scr_Breakpoint *next;               // ...
     Scr_Breakpoint **prev;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(Scr_Breakpoint) == 0x1C);
+#endif
 
 struct Scr_WatchElement_s // sizeof=0x64
 {
@@ -138,28 +152,36 @@ struct Scr_WatchElement_s // sizeof=0x64
     Scr_WatchElement_s *childHead;
     Scr_WatchElement_s *next;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(Scr_WatchElement_s) == 0x64);
+#endif
 
 struct Scr_OpcodeList_s // sizeof=0x8
 {
     char *codePos;
     Scr_OpcodeList_s *next;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(Scr_OpcodeList_s) == 0x8);
+#endif
 
 struct Scr_WatchElementNode_s // sizeof=0x8
 {
     Scr_WatchElement_s *element;
     Scr_WatchElementNode_s *next;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(Scr_WatchElementNode_s) == 0x8);
+#endif
 
 struct Scr_WatchElementDoubleNode_t // sizeof=0x8
 {
     Scr_WatchElementNode_s *list;
     Scr_WatchElementNode_s *removedList;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(Scr_WatchElementDoubleNode_t) == 0x8);
+#endif
 
 struct scrDebuggerGlob_t // sizeof=0x2B8
 {                                       // ...
@@ -221,7 +243,9 @@ struct scrDebuggerGlob_t // sizeof=0x2B8
     int breakpointCount;                // ...
     int gainFocusTime;                  // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(scrDebuggerGlob_t) == 0x2B8);
+#endif
 
 void __cdecl TRACK_scr_debugger();
 void __cdecl Scr_KeyEvent(int key);

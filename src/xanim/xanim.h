@@ -33,7 +33,9 @@ union XAnimIndices // sizeof=0x4
     unsigned __int16 *_2;
     void *data;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(XAnimIndices) == 4);
+#endif
 struct XAnimNotifyInfo // sizeof=0x8
 {
     unsigned __int16 name;
@@ -177,7 +179,9 @@ struct XAnimParts // sizeof=0x58
     XAnimNotifyInfo *notify;
     XAnimDeltaPart *deltaPart;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(XAnimParts) == 88);
+#endif
 
 struct XModelNameMap // sizeof=0x4
 {                                       // ...
@@ -824,7 +828,9 @@ struct WeaponDef // sizeof=0x878
     float adsDofStart;
     float adsDofEnd;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(WeaponDef) == 2168);
+#endif
 
 struct SndDriverGlobals // sizeof=0x4
 {                                       // ...
@@ -837,7 +843,9 @@ struct RawFile // sizeof=0xC
     int len;
     const char* buffer;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(RawFile) == 12);
+#endif
 
 struct PhysPreset // sizeof=0x2C
 {                                       // ...
@@ -997,7 +1005,9 @@ struct XAsset // sizeof=0x8
     XAssetType type;                    // ...
     XAssetHeader header;                // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(XAsset) == 8);
+#endif
 
 union XAssetSize // sizeof=0x878
 {                                       // ...
@@ -1108,7 +1118,9 @@ struct ScriptStringList // sizeof=0x8
     int count;
     const char **strings;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(ScriptStringList) == 8);
+#endif
 
 struct XAssetList // sizeof=0x10
 {                                       // ...
@@ -1116,7 +1128,9 @@ struct XAssetList // sizeof=0x10
     int assetCount;
     XAsset *assets;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(XAssetList) == 16);
+#endif
 
 struct XFile // sizeof=0x2C
 {                                       // ...
@@ -1124,7 +1138,9 @@ struct XFile // sizeof=0x2C
     unsigned int externalSize;          // ...
     unsigned int blockSize[9];          // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(XFile) == 44);
+#endif
 
 struct XSurfaceCollisionAabb // sizeof=0xC
 {                                       // ...
@@ -1161,14 +1177,18 @@ struct XRigidVertList // sizeof=0xC
     unsigned __int16 triCount;          // ...
     XSurfaceCollisionTree *collisionTree;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(XRigidVertList) == 12);
+#endif
 
 struct XSurfaceVertexInfo // sizeof=0xC
 {                                       // ...
     __int16 vertCount[4];
     unsigned __int16 *vertsBlend;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(XSurfaceVertexInfo) == 12);
+#endif
 
 struct XSurface // sizeof=0x38
 {
@@ -1187,7 +1207,9 @@ struct XSurface // sizeof=0x38
     XRigidVertList *vertList;
     int partBits[4];
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(XSurface) == 56);
+#endif
 
 struct DObj_s;
 

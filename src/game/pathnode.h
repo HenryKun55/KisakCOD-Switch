@@ -99,7 +99,9 @@ struct pathlink_s // sizeof=0xC
     unsigned __int8 negotiationLink;
     unsigned __int8 ubBadPlaceCount[4];
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(pathlink_s) == 12);
+#endif
 
 struct pathnode_constant_t // sizeof=0x44
 {                                       // ...
@@ -175,14 +177,18 @@ struct pathbasenode_t // sizeof=0x10
     float vOrigin[3];
     unsigned int type;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(pathbasenode_t) == 16);
+#endif
 
 struct pathnode_tree_nodes_t // sizeof=0x8
 {                                       // ...
     int nodeCount;
     unsigned __int16 *nodes;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(pathnode_tree_nodes_t) == 8);
+#endif
 
 struct pathnode_tree_t;
 union pathnode_tree_info_t // sizeof=0x8

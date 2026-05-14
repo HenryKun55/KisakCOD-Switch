@@ -37,7 +37,9 @@ struct CaseStatementInfo // sizeof=0x10
     unsigned int sourcePos;
     CaseStatementInfo *next;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(CaseStatementInfo) == 0x10);
+#endif
 
 struct BreakStatementInfo // sizeof=0xC
 {
@@ -45,7 +47,9 @@ struct BreakStatementInfo // sizeof=0xC
     const char *nextCodePos;
     BreakStatementInfo *next;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(BreakStatementInfo) == 0xC);
+#endif
 
 struct ContinueStatementInfo // sizeof=0xC
 {
@@ -53,14 +57,18 @@ struct ContinueStatementInfo // sizeof=0xC
     const char *nextCodePos;
     ContinueStatementInfo *next;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(ContinueStatementInfo) == 0xC);
+#endif
 
 struct VariableCompileValue // sizeof=0xC
 {                                       // ...
     VariableValue value;                // ...
     sval_u sourcePos;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(VariableCompileValue) == 0xC);
+#endif
 
 #define VALUE_STACK_SIZE 32
 
@@ -104,7 +112,9 @@ struct scrCompileGlob_t // sizeof=0x1D8
     struct PrecacheEntry *precachescriptList;  // ...
     VariableCompileValue value_start[VALUE_STACK_SIZE]; // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(scrCompileGlob_t) == 0x1D8);
+#endif
 
 #define SCR_FUNC_TABLE_SIZE 1024
 

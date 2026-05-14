@@ -35,7 +35,9 @@ struct DObjAnimMat // sizeof=0x20
     float trans[3];                     // ...
     float transWeight;                  // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(DObjAnimMat) == 32);
+#endif
 
 struct DSkelPartBits // sizeof=0x30
 {                                       // ...

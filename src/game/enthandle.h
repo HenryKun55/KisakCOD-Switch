@@ -18,7 +18,9 @@ struct EntHandleList // sizeof=0x2 // (SP/MP same)
 {                                       // ...
     uint16_t infoIndex;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(EntHandleList) == 0x2);
+#endif
 
 struct EntHandle // sizeof=0x4 // (SP/MP same)
 {                                       // ...
@@ -33,7 +35,9 @@ struct EntHandle // sizeof=0x4 // (SP/MP same)
     static void Init();
     static void Shutdown();
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(EntHandle) == 0x4);
+#endif
 
 void __cdecl EntHandleDissociate(gentity_s *ent);
 void __cdecl EntHandleDissociateInternal(EntHandleList *entHandleList);

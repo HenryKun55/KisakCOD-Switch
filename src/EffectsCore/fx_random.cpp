@@ -174,4 +174,5 @@ const float fx_randomTable[507] = { // idb
 , 0.23515075f, 0.5371843f, 0.61560357f, 0.03023384f, 0.057191439f
 , 0.65731519f, 0.29047075f
 };
-static_assert(sizeof(fx_randomTable) == 0x7EC, "");
+#if UINTPTR_MAX == 0xFFFFFFFFu
+static_assert(sizeof(fx_randomTable) == 0x7EC, "");#endif

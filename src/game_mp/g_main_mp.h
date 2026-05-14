@@ -25,7 +25,9 @@ struct entityHandler_t // sizeof=0x28
     int32_t methodOfDeath;
     int32_t splashMethodOfDeath;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(entityHandler_t) == 0x28);
+#endif
 
 struct trigger_info_t // sizeof=0xC
 {                                       // ...
@@ -34,7 +36,9 @@ struct trigger_info_t // sizeof=0xC
     int32_t useCount;
     int32_t otherUseCount;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(trigger_info_t) == 0xC);
+#endif
 
 struct cached_tag_mat_t // sizeof=0x3C
 {                                       // ...
@@ -45,7 +49,9 @@ struct cached_tag_mat_t // sizeof=0x3C
     // padding byte
     float tagMat[4][3];                 // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(cached_tag_mat_t) == 0x3C);
+#endif
 
 struct level_locals_t // sizeof=0x2E6C
 {                                       // ...
@@ -106,7 +112,9 @@ struct level_locals_t // sizeof=0x2E6C
     float compassNorth[2];              // ...
     scr_vehicle_s *vehicles;            // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(level_locals_t) == 0x2E6C);
+#endif
 
 void __cdecl TRACK_g_main();
 int32_t __cdecl G_GetSavePersist();

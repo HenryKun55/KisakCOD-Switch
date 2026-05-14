@@ -47,7 +47,9 @@ struct dsound_sample_t // sizeof=0x48
     // padding byte
     // padding byte
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(dsound_sample_t) == 0x48);
+#endif
 
 struct audioSample_t // sizeof=0x20
 {                                       // ...
@@ -63,7 +65,9 @@ struct audioSample_t // sizeof=0x20
     int32_t channels;                       // ...
     int32_t sampleOffset;                   // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(audioSample_t) == 0x20);
+#endif
 
 
 // play_dsound

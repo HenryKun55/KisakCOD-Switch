@@ -86,7 +86,9 @@ struct VariableStackBuffer // sizeof=0xC
     unsigned __int8 time;
     char buf[1];
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(VariableStackBuffer) == 0xC);
+#endif
 
 union VariableUnion // sizeof=0x4
 {                                       // ...
@@ -120,7 +122,9 @@ union VariableUnion // sizeof=0x4
     VariableStackBuffer *stackValue;
     unsigned int entityOffset;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(VariableUnion) == 0x4);
+#endif
 
 struct VariableValue // sizeof=0x8
 {   
@@ -128,7 +132,9 @@ struct VariableValue // sizeof=0x8
     VariableUnion u;                    // ...
     Vartype_t type;                           // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(VariableValue) == 0x8);
+#endif
 
 union ObjectInfo_u // sizeof=0x2
 {                                       // ...
@@ -137,28 +143,36 @@ union ObjectInfo_u // sizeof=0x2
     unsigned __int16 nextEntId;
     unsigned __int16 self;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(ObjectInfo_u) == 0x2);
+#endif
 
 struct ObjectInfo // sizeof=0x4
 {                                       // ...
     unsigned __int16 refCount;
     ObjectInfo_u u;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(ObjectInfo) == 0x4);
+#endif
 
 union Variable_u // sizeof=0x2
 {                                       // ...
     unsigned __int16 prev;
     unsigned __int16 prevSibling;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(Variable_u) == 0x2);
+#endif
 
 struct Variable // sizeof=0x4
 {                                       // ...
     unsigned __int16 id;                // ...
     Variable_u u;                       // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(Variable) == 0x4);
+#endif
 
 union VariableValueInternal_u // sizeof=0x4
 {                                       // ...
@@ -179,7 +193,9 @@ union VariableValueInternal_u // sizeof=0x4
     VariableUnion u;
     ObjectInfo o;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(VariableValueInternal_u) == 0x4);
+#endif
 
 union VariableValueInternal_w // sizeof=0x4
 {                                       // ...
@@ -191,14 +207,18 @@ union VariableValueInternal_w // sizeof=0x4
     unsigned int waitTime;
     unsigned int parentLocalId;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(VariableValueInternal_w) == 0x4);
+#endif
 
 union VariableValueInternal_v // sizeof=0x2
 {                                       // ...
     unsigned __int16 next;
     unsigned __int16 index;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(VariableValueInternal_v) == 0x2);
+#endif
 
 struct VariableValueInternal // sizeof=0x10
 {                                       // ...
@@ -208,7 +228,9 @@ struct VariableValueInternal // sizeof=0x10
     VariableValueInternal_v v;          // ...
     unsigned __int16 nextSibling;       // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(VariableValueInternal) == 0x10);
+#endif
 
 struct scrVarDebugPub_t // sizeof=0xE0004
 {                                       // ...
@@ -221,13 +243,17 @@ struct scrVarDebugPub_t // sizeof=0xE0004
     // padding byte
     // padding byte
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(scrVarDebugPub_t) == 0xE0004);
+#endif
 
 struct scrVarGlob_t // sizeof=0x180000
 {                                       // ...
     VariableValueInternal variableList[0x18000]; // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(scrVarGlob_t) == 0x180000);
+#endif
 
 struct scr_entref_t // sizeof=0x4
 {                                       // ...
@@ -244,7 +270,9 @@ struct scr_entref_t // sizeof=0x4
     unsigned __int16 entnum;            // ...
     unsigned __int16 classnum;          // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(scr_entref_t) == 0x4);
+#endif
 
 struct scr_classStruct_t // sizeof=0xC
 {
@@ -263,7 +291,9 @@ struct scr_classStruct_t // sizeof=0xC
     // padding byte
     const char *name;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(scr_classStruct_t) == 0xC);
+#endif
 
 struct VariableDebugInfo // sizeof=0x10
 {
@@ -272,7 +302,9 @@ struct VariableDebugInfo // sizeof=0x10
     const char *functionName;
     int varUsage;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(VariableDebugInfo) == 0x10);
+#endif
 
 //void  TRACK_scr_variable(void);
 void __cdecl Scr_Cleanup();
@@ -428,7 +460,9 @@ struct ThreadDebugInfo // sizeof=0x8C
     float varUsage;                     // ...
     float endonUsage;                   // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(ThreadDebugInfo) == 0x8C);
+#endif
 
 void  Scr_DumpScriptThreads(void);
 void  Scr_ShutdownVariables(void);

@@ -10,7 +10,9 @@ struct ArchivedCanonicalStringInfo // sizeof=0x8
     // padding byte
     const char *value;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(ArchivedCanonicalStringInfo) == 0x8);
+#endif
 
 struct scrEvaluateGlob_t // sizeof=0x10
 {                                       // ...
@@ -22,7 +24,9 @@ struct scrEvaluateGlob_t // sizeof=0x10
     bool objectChanged;                 // ...
     // padding byte
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(scrEvaluateGlob_t) == 0x10);
+#endif
 
 void __cdecl TRACK_scr_evaluate();
 unsigned int __cdecl Scr_GetBuiltin(sval_u func_name);

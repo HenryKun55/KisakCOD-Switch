@@ -30,7 +30,9 @@ struct XModelCollTri_s // sizeof=0x30
     float svec[4];
     float tvec[4];
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(XModelCollTri_s) == 48);
+#endif
 
 struct XBoneInfo // sizeof=0x28
 {                                       // ...
@@ -38,7 +40,9 @@ struct XBoneInfo // sizeof=0x28
     float offset[3];
     float radiusSquared;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(XBoneInfo) == 40);
+#endif
 
 struct XModelCollSurf_s // sizeof=0x2C
 {
@@ -92,14 +96,18 @@ struct XModel // sizeof=0xDC
     struct PhysPreset* physPreset;
     struct PhysGeomList* physGeoms;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(XModel) == 220);
+#endif
 
 struct XModelPiece // sizeof=0x10
 {
     XModel *model;
     float offset[3];
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(XModelPiece) == 16);
+#endif
 
 struct XModelPieces // sizeof=0xC
 {                                       // ...
@@ -107,7 +115,9 @@ struct XModelPieces // sizeof=0xC
     int numpieces;
     XModelPiece *pieces;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(XModelPieces) == 12);
+#endif
 
 struct QueueElement // sizeof=0x8
 {                                       // ...
@@ -143,7 +153,9 @@ struct XModelSurfs // sizeof=0x14
     struct XSurface *surfs;                    // ...
     int partBits[4];                    // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(XModelSurfs) == 20);
+#endif
 
 struct XModelConfigEntry // sizeof=0x404
 {                                       // ...
@@ -175,7 +187,9 @@ struct XModelPartsLoad // sizeof=0x1C
     unsigned __int8 *partClassification;
     DObjAnimMat *baseMat;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(XModelPartsLoad) == 28);
+#endif
 
 struct XModelDefault // sizeof=0x4C
 {                                       // ...
@@ -202,7 +216,9 @@ struct XVertexInfo_s // sizeof=0x40
     unsigned __int8 pad;
     __int16 boneOffset;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(XVertexInfo_s) == 64);
+#endif
 
 struct XBlendLoadInfo // sizeof=0x4
 {                                       // ...

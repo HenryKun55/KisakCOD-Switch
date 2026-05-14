@@ -6,14 +6,18 @@ struct adjacencyWinding_t // sizeof=0x34
     int32_t numsides;                       // ...
     int32_t sides[12];
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(adjacencyWinding_t) == 0x34);
+#endif
 
 struct SimplePlaneIntersection // sizeof=0x18
 {                                       // ...
     float xyz[3];                       // ...
     int32_t planeIndex[3];
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(SimplePlaneIntersection) == 0x18);
+#endif
 
 adjacencyWinding_t *__cdecl BuildBrushdAdjacencyWindingForSide(
     float *sideNormal,

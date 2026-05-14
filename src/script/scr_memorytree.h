@@ -8,7 +8,9 @@ struct MemoryNode // sizeof=0xC
     unsigned __int16 next;              // XREF: MT_Init(void)+4E/w
     unsigned int padding[2];            // XREF: MT_RemoveHeadMemoryNode+61/w
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(MemoryNode) == 12);
+#endif
 
 #define MEMORY_NODE_BITS 16
 #define MEMORY_NODE_COUNT 0x10000
@@ -32,7 +34,9 @@ struct __declspec(align(128)) scrMemTreeGlob_t // sizeof=0xC0380
                                         // MT_DumpTree(void)+1FB/r ...
     int totalAllocBuckets;              // XREF: MT_DumpTree(void):loc_59E7AE/r
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(scrMemTreeGlob_t) == 0xC0380);
+#endif
 
 static const char* mt_type_names[22] =
 {

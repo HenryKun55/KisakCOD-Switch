@@ -37,7 +37,9 @@ struct DevGuiInput // sizeof=0x70
     float sliderScrollTime;             // ...
     float sliderScrollMaxTimeStep;      // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(DevGuiInput) == 0x70);
+#endif
 
 union DevMenuChild // sizeof=0x4
 {                                       // ...
