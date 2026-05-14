@@ -26,6 +26,9 @@ em hardware real.
 - `scripts/posix/CMakeLists.txt` construindo o executável `bin/posix/kisak_posix`
   quando `KISAK_TARGET=posix`. Primeiro binário do porte que builda end-to-end
   fora do Windows.
+- Primeiro arquivo upstream integrado ao build POSIX: `src/universal/base64.cpp`
+  (encoder/decoder MIT-derived, sem dependências Win32). `posix_main.cpp` chama
+  `b64_encode` como smoke test de linkage.
 
 ### Changed
 - `CMakeLists.txt` raiz refatorado para suportar configuração em hosts não-MSVC.

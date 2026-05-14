@@ -11,10 +11,21 @@ set(POSIX_SOURCES
     "${SRC_DIR}/posix/posix_main.cpp"
 )
 
-add_executable(kisak_posix ${POSIX_SOURCES})
+# Primeiros subsistemas upstream trazidos para o build POSIX. Cada arquivo
+# aqui foi validado como portavel (sem deps Win32/DX/MSS) e compila limpo
+# com clang/gcc.
+set(UNIVERSAL_PORTABLE_SOURCES
+    "${SRC_DIR}/universal/base64.cpp"
+)
+
+add_executable(kisak_posix
+    ${POSIX_SOURCES}
+    ${UNIVERSAL_PORTABLE_SOURCES}
+)
 
 target_include_directories(kisak_posix PRIVATE
     "${SRC_DIR}"
+    "${SRC_DIR}/universal"
 )
 
 # Warnings tipicos para builds POSIX (clang/gcc). Mantemos fora do nivel de
