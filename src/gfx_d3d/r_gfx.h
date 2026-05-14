@@ -1,6 +1,12 @@
 #pragma once
 
+#ifdef _WIN32
 #include <d3d9.h>
+#endif
+// On POSIX/Switch the DX9 interface types (IDirect3DDevice9, vertex/index
+// buffers, textures, _D3DFORMAT) come from opaque forward declarations in
+// src/posix/kisak_compat.h. Code paths that actually use DX9 are not
+// compiled on those targets (replaced by gfx_gl/).
 
 #include <universal/com_math.h>
 #include <qcommon/com_pack.h>
@@ -50,7 +56,9 @@ struct GfxPackedVertex // sizeof=0x20
     PackedUnitVec normal;
     PackedUnitVec tangent;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(GfxPackedVertex) == 32);
+#endif
 
 struct GfxPackedVertexNormal // sizeof=0x8
 {                                       // ...
@@ -227,7 +235,9 @@ struct GfxImage // sizeof=0x24
     bool delayLoadPixels;
     const char* name;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(GfxImage) == 36);
+#endif
 
 struct GfxCodeMatrices // sizeof=0x800
 {                                       // ...
@@ -379,7 +389,9 @@ struct GfxWorldDpvsStatic // sizeof=0x68
     unsigned int* surfaceCastsSunShadow; // ...
     volatile int usageCount;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(GfxWorldDpvsStatic) == 0x68);
+#endif
 
 using EntVisData = byte *[3];
 
@@ -656,7 +668,9 @@ struct GfxPixelShaderLoadDef // sizeof=0x8
     unsigned __int16 programSize;
     unsigned __int16 loadForRenderer;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(GfxPixelShaderLoadDef) == 8);
+#endif
 
 struct GfxDepthOfField // sizeof=0x20
 {                                       // ...

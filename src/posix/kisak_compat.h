@@ -174,6 +174,31 @@ typedef struct _RTL_CRITICAL_SECTION {
     unsigned long SpinCount;
 } _RTL_CRITICAL_SECTION, RTL_CRITICAL_SECTION, CRITICAL_SECTION;
 
+// === DX9 opaque forward declarations ========================================
+// Renderer headers (gfx_d3d/r_*.h) declare structs/globals of DX9 types
+// (IDirect3DDevice9, vertex/index buffers, textures, _D3DFORMAT enum).
+// On POSIX/Switch those interfaces have no implementation — the renderer
+// is replaced by gfx_gl/. We forward-declare the types as opaque structs
+// so headers parse; functions that take them are never called off Windows.
+struct IDirect3D9;
+struct IDirect3DDevice9;
+struct IDirect3DVertexBuffer9;
+struct IDirect3DIndexBuffer9;
+struct IDirect3DBaseTexture9;
+struct IDirect3DTexture9;
+struct IDirect3DVolumeTexture9;
+struct IDirect3DCubeTexture9;
+struct IDirect3DSurface9;
+struct IDirect3DStateBlock9;
+struct IDirect3DVertexDeclaration9;
+struct IDirect3DVertexShader9;
+struct IDirect3DPixelShader9;
+struct IDirect3DSwapChain9;
+struct IDirect3DQuery9;
+typedef int  _D3DFORMAT;  // enum in DX9 SDK; opaque int here
+typedef int  D3DFORMAT;
+typedef long HRESULT;
+
 #ifndef TRUE
 #define TRUE 1
 #endif

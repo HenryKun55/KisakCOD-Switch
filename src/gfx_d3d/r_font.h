@@ -25,7 +25,9 @@ struct Font_s // sizeof=0x18 // (SP/MP same)
     struct Material *glowMaterial;
     Glyph *glyphs;
 };
-static_assert(sizeof(Font_s) == 24);
+#if UINTPTR_MAX == 0xFFFFFFFFu
+static_assert(sizeof(Font_s) == 24); // contains 4 pointers; grows on 64-bit
+#endif
 
 const Glyph *__cdecl R_GetCharacterGlyph(Font_s *font, unsigned int letter);
 unsigned int __cdecl R_FontGetRandomLetter(Font_s *font, int seed);

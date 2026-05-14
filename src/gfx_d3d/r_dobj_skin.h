@@ -24,14 +24,18 @@ struct GfxModelSkinnedSurface // sizeof=0x18
         int oldSkinnedCachedOffset;
     };
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(GfxModelSkinnedSurface) == 24);
+#endif
 
 struct GfxModelRigidSurface // sizeof=0x38
 {
     GfxModelSkinnedSurface surf;
     GfxScaledPlacement placement;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(GfxModelRigidSurface) == 56);
+#endif
 
 struct SkinXModelCmd // sizeof=0x1C
 {                                       // ...

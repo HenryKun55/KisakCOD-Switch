@@ -445,7 +445,7 @@ struct __declspec(align(8)) GfxCmdBufInput // sizeof=0x430
     // padding byte
 };
 
-const struct GfxViewInfo // sizeof=0x67B0
+struct GfxViewInfo // sizeof=0x67B0 (was `const struct`; non-standard MSVC ext)
 {                                       // ...
     GfxViewParms viewParms;
     GfxSceneDef sceneDef;
@@ -513,7 +513,7 @@ const struct GfxViewInfo // sizeof=0x67B0
     // padding byte
     GfxCmdBufInput input;
 };
-const struct __declspec(align(16)) GfxBackEndData // sizeof=0x11E780
+struct __declspec(align(16)) GfxBackEndData // sizeof=0x11E780 (was `const struct`)
 {                                       // ...
     unsigned __int8 surfsBuffer[0x20000];
     FxCodeMeshData codeMeshes[2048];

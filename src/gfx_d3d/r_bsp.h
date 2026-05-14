@@ -203,7 +203,9 @@ struct GfxWorld // sizeof=0x2DC
     GfxWorldDpvsStatic dpvs;            // ...
     GfxWorldDpvsDynamic dpvsDyn;        // ...
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(GfxWorld) == 0x2DC);
+#endif
 
 // r_bsp
 void __cdecl R_ReloadWorld();

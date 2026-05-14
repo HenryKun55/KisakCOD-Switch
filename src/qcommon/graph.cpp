@@ -116,6 +116,9 @@ void __cdecl GraphFloat_DevGuiCB_Text(const DevGraph *devGuiGraph, float inputX,
     float inputYa; // [esp+24h] [ebp+10h]
 
     inputYa = inputY * *((float *)devGuiGraph->data + 81);
-    sprintf(text, "Fraction: %.3f, Value: %.3f", inputX, inputYa);
+    // sprintf is deprecated on Apple SDKs; the caller passes a fixed-size
+    // buffer of at least 64 bytes for this fraction/value string. Bound
+    // the write so the static analyzer accepts it.
+    snprintf(text, 64, "Fraction: %.3f, Value: %.3f", inputX, inputYa);
 }
 

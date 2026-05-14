@@ -1,6 +1,10 @@
 #pragma once
 
+#ifdef _WIN32
 #include <d3d9.h>
+#endif
+// On POSIX/Switch, DX9 types come from opaque forward decls in
+// src/posix/kisak_compat.h.
 
 #include "r_gfx.h"
 
@@ -264,7 +268,9 @@ struct MaterialPixelShaderProgram // sizeof=0xC
     IDirect3DPixelShader9 *ps;
     GfxPixelShaderLoadDef loadDef;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(MaterialPixelShaderProgram) == 12);
+#endif
 
 struct MaterialPixelShader // sizeof=0x10
 {                                       // ...
@@ -455,7 +461,9 @@ struct MaterialTechniqueSet // sizeof=0x94
     MaterialTechniqueSet *remappedTechniqueSet;
     MaterialTechnique *techniques[34];
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(MaterialTechniqueSet) == 148);
+#endif
 
 struct Material // sizeof=0x50
 {                                       // ...
@@ -472,7 +480,9 @@ struct Material // sizeof=0x50
     MaterialConstantDef *constantTable;
     GfxStateBits *stateBitsTable;
 };
+#if UINTPTR_MAX == 0xFFFFFFFFu
 static_assert(sizeof(Material) == 80);
+#endif
 
 struct MaterialMemory // sizeof=0x8
 {                                       // ...
