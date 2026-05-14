@@ -20,6 +20,7 @@ endif()
 
 set(SWITCH_SOURCES
     "${SRC_DIR}/switch/switch_main.cpp"
+    "${SRC_DIR}/gfx_gl/gl_renderer.cpp"
     "${SRC_DIR}/posix/posix_assert.cpp"
     "${SRC_DIR}/posix/posix_stubs.cpp"
 )

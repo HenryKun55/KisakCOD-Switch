@@ -53,7 +53,16 @@ em hardware real.
   (EGL + mesa-nouveau via libnx). Renderiza um triângulo RGB no
   framebuffer da tela usando shader vertex/fragment próprios. NRO agora
   é ~5.8 MB (mesa-nouveau é static-linked). Aperta `+` pra sair.
-  Primeira pedra do futuro renderer que substituirá `src/gfx_d3d/`.
+- **Triângulo animado**: vertex shader ganha `uniform float u_time` que
+  aplica rotação 2D no eixo Z; tempo monotonic via `armGetSystemTick` +
+  `armTicksToNs` do libnx. Prova de uniforms + transforms + tempo na
+  pipeline gráfica.
+- **`src/gfx_gl/`** (novo): renderer GLES2 extraído de `switch_main.cpp`
+  com API `init()` / `set_viewport()` / `render_frame(time)` / `shutdown()`,
+  agnóstica de windowing. `switch_main.cpp` agora cuida só do bootstrap
+  libnx + EGL e do loop principal. Primeira pedra do renderer reutilizável
+  que substituirá `src/gfx_d3d/` no futuro e vai ser compartilhado com
+  o build POSIX desktop.
 - `src/qcommon/thread_context.h`: enum `ThreadContext_t` extraída de
   `gfx_d3d/rb_backend.h` pra ser incluída em targets POSIX/Switch sem
   arrastar `<d3d9.h>`. `qcommon/threads.h` agora usa esse header em
