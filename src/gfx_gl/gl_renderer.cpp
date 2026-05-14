@@ -4,6 +4,9 @@
 
 #include <cstdio>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 // GL header conditional: GLES2 no Switch/Android, Apple OpenGL framework
 // no macOS (legacy 2.1 Compat suficiente pras funcoes que usamos), Linux
 // usa o header generic. Todas as funcoes que tocamos
@@ -25,17 +28,13 @@ namespace {
 // (macOS OpenGL 2.1 Compat). O qualificador `precision` so existe em
 // GLSL ES — o `#ifdef GL_ES` e parseado pelo compilador GLSL.
 constexpr const char *VERTEX_SRC =
-    "attribute vec2 a_pos;\n"
+    "attribute vec3 a_pos;\n"
     "attribute vec3 a_col;\n"
-    "uniform float u_time;\n"
+    "uniform mat4 u_mvp;\n"
     "varying vec3 v_col;\n"
     "void main() {\n"
-    "    float c = cos(u_time);\n"
-    "    float s = sin(u_time);\n"
-    "    vec2 rot = vec2(c * a_pos.x - s * a_pos.y,\n"
-    "                    s * a_pos.x + c * a_pos.y);\n"
     "    v_col = a_col;\n"
-    "    gl_Position = vec4(rot, 0.0, 1.0);\n"
+    "    gl_Position = u_mvp * vec4(a_pos, 1.0);\n"
     "}\n";
 
 constexpr const char *FRAGMENT_SRC =
@@ -47,17 +46,34 @@ constexpr const char *FRAGMENT_SRC =
     "    gl_FragColor = vec4(v_col, 1.0);\n"
     "}\n";
 
-// Geometria estatica por enquanto. Quando o renderer crescer essa lista
-// vai sair daqui pra um sistema de meshes carregados.
-constexpr GLfloat TRIANGLE[] = {
-//   x      y      r     g     b
-     0.0f,  0.7f,  1.0f, 0.2f, 0.2f,
-    -0.7f, -0.5f,  0.2f, 1.0f, 0.2f,
-     0.7f, -0.5f,  0.2f, 0.4f, 1.0f,
+// Cubo unitario centrado na origem. Cada vertice tem cor distinta — vai
+// dar gradiente nas faces.
+constexpr GLfloat CUBE_VERTS[] = {
+//   x      y      z      r     g     b
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 0.0f, // 0: traseira-inferior-esq, preto
+     0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f, // 1: traseira-inferior-dir, vermelho
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f, // 2: traseira-superior-dir, amarelo
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f, // 3: traseira-superior-esq, verde
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f, // 4: frontal-inferior-esq, azul
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 1.0f, // 5: frontal-inferior-dir, magenta
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f, // 6: frontal-superior-dir, branco
+    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 1.0f, // 7: frontal-superior-esq, ciano
 };
 
-GLuint g_program  = 0;
-GLint  g_u_time   = -1;
+constexpr GLushort CUBE_INDICES[] = {
+    // 12 triangulos (2 por face, 6 faces). Ordem CCW olhando de fora.
+    4, 5, 6,  4, 6, 7, // frontal
+    1, 0, 3,  1, 3, 2, // traseira
+    0, 4, 7,  0, 7, 3, // esquerda
+    5, 1, 2,  5, 2, 6, // direita
+    3, 7, 6,  3, 6, 2, // topo
+    0, 1, 5,  0, 5, 4, // base
+};
+
+GLuint g_program       = 0;
+GLint  g_u_mvp         = -1;
+int    g_viewport_w    = 1280;
+int    g_viewport_h    = 720;
 
 GLuint compile_shader(GLenum type, const char *src)
 {
@@ -111,29 +127,50 @@ bool init()
     if (!g_program) {
         return false;
     }
-    g_u_time = glGetUniformLocation(g_program, "u_time");
+    g_u_mvp = glGetUniformLocation(g_program, "u_mvp");
 
     glClearColor(0.10f, 0.12f, 0.15f, 1.0f);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
     return true;
 }
 
 void set_viewport(int width, int height)
 {
+    g_viewport_w = width;
+    g_viewport_h = height;
     glViewport(0, 0, width, height);
 }
 
 void render_frame(float time_seconds)
 {
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    const float aspect = float(g_viewport_w) / float(g_viewport_h);
+    const glm::mat4 proj = glm::perspective(glm::radians(60.0f), aspect, 0.1f, 100.0f);
+    const glm::mat4 view = glm::lookAt(
+        glm::vec3(0.0f, 0.0f, 3.0f),  // camera 3 unidades atras
+        glm::vec3(0.0f, 0.0f, 0.0f),  // olhando pra origem
+        glm::vec3(0.0f, 1.0f, 0.0f)); // up = +Y
+    glm::mat4 model(1.0f);
+    model = glm::rotate(model, time_seconds * 0.7f, glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::rotate(model, time_seconds * 0.5f, glm::vec3(1.0f, 0.0f, 0.0f));
+    const glm::mat4 mvp = proj * view * model;
 
     glUseProgram(g_program);
-    glUniform1f(g_u_time, time_seconds);
+    glUniformMatrix4fv(g_u_mvp, 1, GL_FALSE, &mvp[0][0]);
 
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), TRIANGLE);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), TRIANGLE + 2);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), CUBE_VERTS);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), CUBE_VERTS + 3);
+    glDrawElements(GL_TRIANGLES,
+                   sizeof(CUBE_INDICES) / sizeof(CUBE_INDICES[0]),
+                   GL_UNSIGNED_SHORT,
+                   CUBE_INDICES);
     glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(0);
 }

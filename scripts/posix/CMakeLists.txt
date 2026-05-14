@@ -9,6 +9,7 @@ message(STATUS "[KisakCOD/posix] Building POSIX skeleton target")
 
 find_package(SDL2 REQUIRED CONFIG)
 find_package(OpenGL REQUIRED)
+find_package(glm CONFIG REQUIRED)
 
 set(POSIX_SOURCES
     "${SRC_DIR}/posix/posix_gl_main.cpp"
@@ -40,6 +41,7 @@ target_include_directories(kisak_posix PRIVATE
 target_link_libraries(kisak_posix PRIVATE
     SDL2::SDL2
     OpenGL::GL
+    glm::glm
 )
 
 target_compile_definitions(kisak_posix PRIVATE KISAK_MP)
