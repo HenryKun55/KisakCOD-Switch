@@ -224,7 +224,9 @@ struct scr_anim_s // sizeof=0x4
         const char* linkPointer;
     };
 };
-static_assert(sizeof(struct scr_anim_s) == 0x4);
+#if UINTPTR_MAX == 0xFFFFFFFFu
+static_assert(sizeof(struct scr_anim_s) == 0x4); // 32-bit upstream; pointer-bearing union grows on 64-bit
+#endif
 
 struct loadAnim_t // sizeof=0x48
 {
