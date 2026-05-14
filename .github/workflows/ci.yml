@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [master, "port/**", "feat/**", "fix/**"]
+  pull_request:
+    branches: [master, "port/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  switch-configure:
+    name: CMake configure (Switch / devkitA64)
+    runs-on: ubuntu-latest
+    container:
+      image: devkitpro/devkita64:latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show toolchain
+        run: |
+          echo "DEVKITPRO=$DEVKITPRO"
+          aarch64-none-elf-gcc --version | head -1
+          cmake --version | head -1
+
+      - name: CMake configure (Switch)
+        # Configure ainda não funciona pq o CMakeLists usa flags MSVC-only.
+        # Mantido como warning-only durante Fase 1; vira required quando CMake
+        # for refatorado pra multi-toolchain.
+        continue-on-error: true
+        run: |
+          mkdir -p build-switch
+          cd build-switch
+          cmake .. \
+            -DCMAKE_TOOLCHAIN_FILE=$DEVKITPRO/cmake/Switch.cmake \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DKISAK_TARGET=switch
+
+  posix-configure:
+    name: CMake configure (host POSIX)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install deps
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq cmake ninja-build libgl1-mesa-dev \
+            libsdl2-dev libopenal-dev libglm-dev zlib1g-dev
+
+      - name: CMake configure (Linux POSIX)
+        continue-on-error: true
+        run: |
+          mkdir -p build-posix
+          cd build-posix
+          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug -DKISAK_TARGET=posix
+
+  format-check:
+    name: EditorConfig / whitespace check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install editorconfig-checker
+        run: |
+          curl -sL https://github.com/editorconfig-checker/editorconfig-checker/releases/download/v3.0.3/ec-linux-amd64.tar.gz \
+            | sudo tar -xz -C /usr/local/bin --strip-components=1 bin/ec-linux-amd64
+          sudo mv /usr/local/bin/ec-linux-amd64 /usr/local/bin/ec
+      - name: Run editorconfig-checker
+        # Sub-trees herdadas do upstream têm whitespace inconsistente; só checa
+        # arquivos novos em docs/ e .github/ por enquanto.
+        run: ec docs .github CHANGELOG.md CONTRIBUTING.md

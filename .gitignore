@@ -427,3 +427,34 @@ res/
 .idea/*
 IDA/*
 KisakCOD/.idea/*
+
+# Switch / devkitPro build artifacts
+build-switch/
+build-posix/
+build-macos/
+build-linux/
+*.nro
+*.nso
+*.nacp
+*.nsp
+*.elf
+*.nro.icon
+*.bnr
+romfs/
+
+# CoD4 assets — NEVER commit these
+*.iwd
+*.ff
+*.d3dbsp
+main/
+zone/
+miles/
+
+# macOS junk
+.DS_Store
+._*
+
+# Local compile_commands / IDE state
+compile_commands.json
+.cache/
+.clangd/
