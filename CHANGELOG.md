@@ -90,6 +90,14 @@ real hardware.
   (case-insensitive substring search). Also added `_time64`/`_localtime64`
   inline bridges in `kisak_compat.h` to handle the `__int64` vs `time_t`
   type difference between MSVC and POSIX.
+- `src/universal/aabbtree.cpp` brought into POSIX + Switch builds — AABB
+  tree spatial partitioning used by collision and ray-cast subsystems.
+  Required adding underlying type to `enum team_t` forward declaration in
+  `bg_public.h` (ISO C++ rejects forward enum decls without explicit
+  underlying type), guarding the `sizeof(FxEffectDef) == 32` and
+  `sizeof(FxImpactTable) == 8` static_asserts in `gfx_d3d/fxprimitives.h`
+  with `UINTPTR_MAX == 0xFFFFFFFFu`, and adding portable `ClearBounds` /
+  `ExpandBounds` stubs in `posix_stubs.cpp`.
 
 ### Fixed
 - Dead `va_copy(ap, va); ap = 0;` lines in `Com_ScriptError` and

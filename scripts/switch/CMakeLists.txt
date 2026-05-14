@@ -27,6 +27,7 @@ set(SWITCH_SOURCES
 
 # Mesmos arquivos validados como portateis no target POSIX.
 set(UNIVERSAL_PORTABLE_SOURCES
+    "${SRC_DIR}/universal/aabbtree.cpp"
     "${SRC_DIR}/universal/base64.cpp"
     "${SRC_DIR}/universal/com_constantconfigstrings.cpp"
     "${SRC_DIR}/universal/com_convexhull.cpp"

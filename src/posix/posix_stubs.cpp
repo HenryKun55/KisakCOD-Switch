@@ -119,6 +119,26 @@ void _copyDWord(unsigned int *dst, unsigned int value, unsigned int count)
     }
 }
 
+// ClearBounds / ExpandBounds: declared in com_math.h, defined in
+// com_math.cpp. Trivial math we can implement portably; will collide with
+// com_math.cpp's versions when that file ports, at which point these stubs
+// get removed.
+#include <cfloat>
+void ClearBounds(float *mins, float *maxs)
+{
+    mins[0] = mins[1] = mins[2] = FLT_MAX;
+    maxs[0] = maxs[1] = maxs[2] = -FLT_MAX;
+}
+
+void ExpandBounds(const float *amins, const float *amaxs,
+                  float *omins, float *omaxs)
+{
+    for (int i = 0; i < 3; ++i) {
+        if (amins[i] < omins[i]) omins[i] = amins[i];
+        if (amaxs[i] > omaxs[i]) omaxs[i] = amaxs[i];
+    }
+}
+
 // I_stristr: case-insensitive substring search. Manual implementation
 // because strcasestr is a non-standard extension (BSD/GNU) and may not be
 // in Switch newlib.

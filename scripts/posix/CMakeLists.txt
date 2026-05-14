@@ -23,6 +23,7 @@ set(POSIX_SOURCES
 # validated as portable (no Win32/DX/MSS dependencies) and compiles cleanly
 # with clang/gcc after the shims in src/posix/kisak_compat.h.
 set(UNIVERSAL_PORTABLE_SOURCES
+    "${SRC_DIR}/universal/aabbtree.cpp"
     "${SRC_DIR}/universal/base64.cpp"
     "${SRC_DIR}/universal/com_constantconfigstrings.cpp"
     "${SRC_DIR}/universal/com_convexhull.cpp"

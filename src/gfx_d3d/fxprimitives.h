@@ -70,7 +70,9 @@ struct FxEffectDef // sizeof=0x20
     int elemDefCountEmission;
     const FxElemDef *elemDefs;
 };
-static_assert(sizeof(FxEffectDef) == 32);
+#if UINTPTR_MAX == 0xFFFFFFFFu
+static_assert(sizeof(FxEffectDef) == 32); // 32-bit upstream layout; revisit on 64-bit port
+#endif
 
 struct FxEffect // sizeof=0x80
 {                                       // ...
@@ -488,7 +490,9 @@ struct FxImpactTable // sizeof=0x8
     const char *name;
     FxImpactEntry *table;
 };
-static_assert(sizeof(FxImpactTable) == 8);
+#if UINTPTR_MAX == 0xFFFFFFFFu
+static_assert(sizeof(FxImpactTable) == 8); // 32-bit upstream layout; revisit on 64-bit port
+#endif
 
 struct FxSystemBuffers // sizeof=0x47480
 {                                       // ...
