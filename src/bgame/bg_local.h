@@ -36,7 +36,7 @@ typedef enum {
 } sndEnumStuff;
 
 // Kisak: Custom Enum
-typedef enum {
+enum {
     EVENT_PARM_MAX = 0xFF
 };
 
@@ -210,7 +210,11 @@ struct scr_anim_s // sizeof=0x4
     }
     scr_anim_s(int i)
     {
-        linkPointer = (const char *)i; // KISAKHACK
+        // KISAKHACK: stash the int handle in the union's pointer slot.
+        // Going through uintptr_t silences the smaller-integer-to-pointer
+        // warning on 64-bit (the union is 8 bytes there; only the low
+        // 4 are meaningful for an int handle).
+        linkPointer = (const char *)(uintptr_t)(unsigned int)i;
     }
     // ...
     //$76411D3CC105A18E6E4A61D5A929E310 ___u0; // ...
@@ -234,7 +238,9 @@ struct loadAnim_t // sizeof=0x48
     int32_t iNameHash;
     char szAnimName[64];
 };
-static_assert((sizeof(struct loadAnim_t) * 512) == 36864);
+#if UINTPTR_MAX == 0xFFFFFFFFu
+static_assert((sizeof(struct loadAnim_t) * 512) == 36864); // contains scr_anim_s union (grows on 64-bit)
+#endif
 
 struct pml_t // sizeof=0x80
 {                                       // ...
@@ -251,14 +257,18 @@ struct pml_t // sizeof=0x80
     float previous_origin[3];           // ...
     float previous_velocity[3];         // ...
 };
-static_assert(sizeof(pml_t) == 0x80);
+#if UINTPTR_MAX == 0xFFFFFFFFu
+static_assert(sizeof(pml_t) == 0x80); // contains trace_t which may have pointer-bearing members
+#endif
 
 struct animStringItem_t // sizeof=0x8
 {                                       // ...
     const char *string;                 // ...
     int32_t hash;                           // ...
 };
-static_assert(sizeof(animStringItem_t) == 0x8);
+#if UINTPTR_MAX == 0xFFFFFFFFu
+static_assert(sizeof(animStringItem_t) == 0x8); // contains const char* (8 bytes on 64-bit)
+#endif
 
 struct controller_info_t // sizeof=0x60
 {                                       // ...
@@ -273,7 +283,9 @@ struct animConditionTable_t // sizeof=0x8
     animScriptConditionTypes_t type;    // ...
     animStringItem_t *values;           // ...
 };
-static_assert(sizeof(animConditionTable_t) == 0x8);
+#if UINTPTR_MAX == 0xFFFFFFFFu
+static_assert(sizeof(animConditionTable_t) == 0x8); // contains animStringItem_t* (8 bytes on 64-bit)
+#endif
 
 struct viewDamage_t // sizeof=0xC
 {                                       // ...
@@ -342,7 +354,9 @@ struct shellshock_parms_t_movement // sizeof=0x1
 };
 static_assert(sizeof(shellshock_parms_t_movement) == 0x1);
 
-const struct shellshock_parms_t // sizeof=0x268
+// `const` on a struct definition is not standard C++ (MSVC accepts it as
+// an extension). Drop the qualifier; const-ness applies to instances.
+struct shellshock_parms_t // sizeof=0x268
 {                                       // ...
     shellshock_parms_t_screenblend screenBlend;
     shellshock_parms_t_view view;
@@ -365,7 +379,9 @@ struct shellshock_t // sizeof=0x20
     float viewDelta[2];
     int32_t hasSavedScreen;
 };
-static_assert(sizeof(shellshock_t) == 0x20);
+#if UINTPTR_MAX == 0xFFFFFFFFu
+static_assert(sizeof(shellshock_t) == 0x20); // contains shellshock_parms_t* (8 bytes on 64-bit)
+#endif
 
 struct __declspec(align(8)) animation_s // sizeof=0x68
 {                                       // ...
@@ -403,7 +419,9 @@ struct animScriptCommand_t // sizeof=0x10
     int16_t animDuration[2];
     snd_alias_list_t* soundAlias;
 };
-static_assert(sizeof(animScriptCommand_t) == 0x10);
+#if UINTPTR_MAX == 0xFFFFFFFFu
+static_assert(sizeof(animScriptCommand_t) == 0x10); // contains snd_alias_list_t* (8 on 64-bit)
+#endif
 
 enum animScriptParseMode_t : __int32
 {                                       // ...

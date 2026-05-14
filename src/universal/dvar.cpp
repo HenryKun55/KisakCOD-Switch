@@ -1,6 +1,10 @@
 #include <qcommon/qcommon.h>
 
+#ifdef _WIN32
 #include <Windows.h>
+#endif
+// On POSIX/Switch the Win32 basic types come from kisak_compat.h
+// (force-included by the build).
 #include <win32/win_local.h>
 #include <qcommon/cmd.h>
 #include "com_files.h"

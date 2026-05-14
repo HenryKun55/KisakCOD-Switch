@@ -46,7 +46,9 @@ union DevMenuChild // sizeof=0x4
     DevGraph *graph;
     uint16_t menu;
 };
-static_assert(sizeof(DevMenuChild) == 0x4);
+#if UINTPTR_MAX == 0xFFFFFFFFu
+static_assert(sizeof(DevMenuChild) == 0x4); // pointer-bearing union; grows on 64-bit
+#endif
 
 struct DevMenuItem // sizeof=0x28
 {                                       // ...
@@ -59,7 +61,9 @@ struct DevMenuItem // sizeof=0x28
     uint16_t parent;            // ...
     DevMenuChild child;                 // ...
 };
-static_assert(sizeof(DevMenuItem) == 0x28);
+#if UINTPTR_MAX == 0xFFFFFFFFu
+static_assert(sizeof(DevMenuItem) == 0x28); // contains DevMenuChild (pointer-bearing union)
+#endif
 
 struct devguiGlob_t // sizeof=0x5E10
 {                                       // ...
@@ -84,7 +88,9 @@ struct devguiGlob_t // sizeof=0x5E10
     int32_t right;                          // ...
     int32_t sliderWidth;                    // ...
 };
-static_assert(sizeof(devguiGlob_t) == 0x5E10);
+#if UINTPTR_MAX == 0xFFFFFFFFu
+static_assert(sizeof(devguiGlob_t) == 0x5E10); // contains arrays of pointer-bearing structs
+#endif
 
 // devgui
 void __cdecl TRACK_devgui();
