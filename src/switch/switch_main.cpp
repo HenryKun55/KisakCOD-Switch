@@ -101,10 +101,15 @@ void egl_shutdown()
 constexpr const char *VERTEX_SRC =
     "attribute vec2 a_pos;\n"
     "attribute vec3 a_col;\n"
+    "uniform float u_time;\n"
     "varying vec3 v_col;\n"
     "void main() {\n"
+    "    float c = cos(u_time);\n"
+    "    float s = sin(u_time);\n"
+    "    vec2 rot = vec2(c * a_pos.x - s * a_pos.y,\n"
+    "                    s * a_pos.x + c * a_pos.y);\n"
     "    v_col = a_col;\n"
-    "    gl_Position = vec4(a_pos, 0.0, 1.0);\n"
+    "    gl_Position = vec4(rot, 0.0, 1.0);\n"
     "}\n";
 
 constexpr const char *FRAGMENT_SRC =
@@ -181,15 +186,25 @@ int main(int /*argc*/, char ** /*argv*/)
     glViewport(0, 0, 1280, 720);
     glClearColor(0.10f, 0.12f, 0.15f, 1.0f);
 
+    // Uniform location pra animacao (rotacao baseada em tempo).
+    const GLint u_time_loc = glGetUniformLocation(prog, "u_time");
+
+    // armRtcGetSystemTick / armTicksToNs nos da tempo monotonico em ns.
+    const u64 start_tick = armGetSystemTick();
+
     while (appletMainLoop()) {
         padUpdate(&pad);
         if (padGetButtonsDown(&pad) & HidNpadButton_Plus) {
             break;
         }
 
+        const float elapsed_s =
+            float(armTicksToNs(armGetSystemTick() - start_tick)) * 1.0e-9f;
+
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(prog);
+        glUniform1f(u_time_loc, elapsed_s);
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), verts);
