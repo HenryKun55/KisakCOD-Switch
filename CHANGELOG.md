@@ -20,13 +20,20 @@ em hardware real.
 - `docs/SWITCH_PORT.md` com mapa de subsistemas e fases do porte.
 - Variável de cache `KISAK_TARGET` (`windows|posix|switch`) no CMake, com
   auto-detecção por sistema/toolchain.
+- Esqueleto POSIX em `src/posix/` com `posix_main.cpp` (entry point placeholder)
+  e `README.md` mapeando os arquivos `src/win32/*.cpp` upstream que serão
+  portados para essa pasta.
+- `scripts/posix/CMakeLists.txt` construindo o executável `bin/posix/kisak_posix`
+  quando `KISAK_TARGET=posix`. Primeiro binário do porte que builda end-to-end
+  fora do Windows.
 
 ### Changed
 - `CMakeLists.txt` raiz refatorado para suportar configuração em hosts não-MSVC.
   Flags MSVC (`/MT /O2 /Ot /MP /W3 /Zi /permissive-`) agora dentro de `if(MSVC)`.
-  Em `KISAK_TARGET ∈ {posix,switch}`, os subdirs de build (`mp/sp/dedi`) são
-  ignorados com mensagem de status apontando para `docs/SWITCH_PORT.md`. Não
-  altera o comportamento do build Windows upstream.
+  Em `KISAK_TARGET ∈ {posix,switch}`, os subdirs Windows (`mp/sp/dedi`) são
+  ignorados. Não altera o comportamento do build Windows upstream.
+- CI workflow `posix-build`: roda em Ubuntu **e** macOS, exige configure +
+  build + smoke run de `kisak_posix` (não é mais `continue-on-error`).
 
 ### Notes
 - Toolchain alvo: devkitPro/devkitA64 + libnx + mesa-nouveau/deko3d.

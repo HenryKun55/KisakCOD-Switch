@@ -54,15 +54,17 @@ endif()
 # Include global scripts/tricks
 include(${SCRIPTS_DIR}/extern/increment_build.cmake)
 
-# Build subprojects only for the upstream Windows target. POSIX/Switch are WIP.
+# Build subprojects by target. POSIX/Switch are WIP (Phase 1 skeleton).
 if(KISAK_TARGET STREQUAL "windows")
     add_subdirectory(${SCRIPTS_DIR}/mp)
     add_subdirectory(${SCRIPTS_DIR}/sp)
     add_subdirectory(${SCRIPTS_DIR}/dedi)
+elseif(KISAK_TARGET STREQUAL "posix")
+    add_subdirectory(${SCRIPTS_DIR}/posix)
 else()
+    # switch — Phase 2, ainda não implementado
     message(STATUS "")
-    message(STATUS "[KisakCOD] Port to '${KISAK_TARGET}' is in progress.")
-    message(STATUS "[KisakCOD] Build targets (mp/sp/dedi) are skipped at this phase.")
-    message(STATUS "[KisakCOD] See docs/SWITCH_PORT.md for status.")
+    message(STATUS "[KisakCOD] Target '${KISAK_TARGET}' não tem build configurado ainda.")
+    message(STATUS "[KisakCOD] Ver docs/SWITCH_PORT.md para o roadmap.")
     message(STATUS "")
 endif()
