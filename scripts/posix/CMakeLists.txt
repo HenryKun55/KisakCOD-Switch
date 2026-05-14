@@ -40,6 +40,8 @@ set(QCOMMON_PORTABLE_SOURCES
     "${SRC_DIR}/qcommon/com_fileaccess.cpp"
     "${SRC_DIR}/qcommon/com_pack.cpp"
     "${SRC_DIR}/qcommon/dl_main.cpp"
+    "${SRC_DIR}/qcommon/huffman.cpp"
+    "${SRC_DIR}/qcommon/md4.cpp"
 )
 
 add_executable(kisak_posix

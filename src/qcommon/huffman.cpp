@@ -100,6 +100,12 @@ nodetype *__cdecl Huff_initNode(huff_t *huff, int ch, int weight)
 {
     nodetype *tnode; // [esp+0h] [ebp-4h]
 
+    // huff->loc has 257 entries (256 byte values + the EOF sentinel at
+    // index 256). All callers in upstream pass `ch` in [0, 256]. Tell
+    // GCC's array-bounds analyzer so it does not flag the loc[ch] store
+    // as an out-of-bounds write.
+    if (ch < 0 || ch > 256) __builtin_unreachable();
+
     tnode = &huff->nodeList[huff->blocNode++];
     tnode->symbol = ch;
     tnode->weight = weight;
@@ -112,7 +118,12 @@ nodetype *__cdecl Huff_initNode(huff_t *huff, int ch, int weight)
 
 int __cdecl nodeCmp(const void *left, const void *right)
 {
-    return *(unsigned int *)(*(unsigned int *)left + 12) - *(unsigned int *)(*(unsigned int *)right + 12);
+    // Hex-rays decompiled this with `unsigned int` for both the pointer
+    // load and the value load — losing the upper 32 bits of the pointer
+    // on 64-bit. Use uintptr_t for the pointer-sized read.
+    const uintptr_t lp = *(const uintptr_t *)left;
+    const uintptr_t rp = *(const uintptr_t *)right;
+    return *(const unsigned int *)(lp + 12) - *(const unsigned int *)(rp + 12);
 }
 
 void __cdecl Huff_BuildFromData(huff_t *huff, const int *msg_hData)
