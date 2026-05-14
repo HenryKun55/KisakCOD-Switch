@@ -29,6 +29,13 @@ em hardware real.
 - Primeiro arquivo upstream integrado ao build POSIX: `src/universal/base64.cpp`
   (encoder/decoder MIT-derived, sem dependências Win32). `posix_main.cpp` chama
   `b64_encode` como smoke test de linkage.
+- `src/posix/kisak_compat.h`: shim de compatibilidade MSVC com `__cdecl`,
+  `__stdcall`, `__fastcall`, `__forceinline`, `__declspec`, `__int8/16/32/64`,
+  `__pragma`. Force-incluído pelo CMake antes de qualquer source. Cobre os
+  ~3.7k usos de keywords MSVC no upstream sem patches invasivos.
+- `src/posix/posix_assert.cpp`: implementação stub de `MyAssertHandler`
+  (imprime no stderr e aborta). Permite linkar arquivos upstream que chamam
+  `MyAssertHandler` diretamente (não via macro `iassert`).
 
 ### Changed
 - `CMakeLists.txt` raiz refatorado para suportar configuração em hosts não-MSVC.

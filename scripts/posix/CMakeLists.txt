@@ -9,11 +9,12 @@ message(STATUS "[KisakCOD/posix] Building POSIX skeleton target")
 
 set(POSIX_SOURCES
     "${SRC_DIR}/posix/posix_main.cpp"
+    "${SRC_DIR}/posix/posix_assert.cpp"
 )
 
 # Primeiros subsistemas upstream trazidos para o build POSIX. Cada arquivo
 # aqui foi validado como portavel (sem deps Win32/DX/MSS) e compila limpo
-# com clang/gcc.
+# com clang/gcc apos os shims em src/posix/kisak_compat.h.
 set(UNIVERSAL_PORTABLE_SOURCES
     "${SRC_DIR}/universal/base64.cpp"
 )
@@ -28,11 +29,11 @@ target_include_directories(kisak_posix PRIVATE
     "${SRC_DIR}/universal"
 )
 
-# Warnings tipicos para builds POSIX (clang/gcc). Mantemos fora do nivel de
-# fataliade ate o codigo upstream estar migrado; muito do source upstream usa
-# padroes que disparam -Wall/-Wextra. Por enquanto so -Wall.
+# Force-include o shim de compatibilidade MSVC antes de qualquer fonte. Cobre
+# __cdecl, __declspec, __int16 e companhia que o codigo upstream usa direto.
 target_compile_options(kisak_posix PRIVATE
     $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang,GNU>:-Wall>
+    $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang,GNU>:-include${SRC_DIR}/posix/kisak_compat.h>
 )
 
 set_target_properties(kisak_posix PROPERTIES
