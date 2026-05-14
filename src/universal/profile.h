@@ -886,7 +886,10 @@ struct ProfileWritable // sizeof=0x1C
     ProfileAtom total;
     ProfileAtom child;
 };
-volatile struct ProfileReadable // sizeof=0xC
+// GCC rejects `volatile` on a struct definition (clang/MSVC accept with
+// warning). Volatile semantics apply to objects, so callers should declare
+// individual instances as `volatile ProfileReadable` when needed.
+struct ProfileReadable // sizeof=0xC
 {                                       // ...
     unsigned int hits;
     ProfileAtom total;                  // ...

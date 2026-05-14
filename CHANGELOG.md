@@ -98,6 +98,15 @@ real hardware.
   `sizeof(FxImpactTable) == 8` static_asserts in `gfx_d3d/fxprimitives.h`
   with `UINTPTR_MAX == 0xFFFFFFFFu`, and adding portable `ClearBounds` /
   `ExpandBounds` stubs in `posix_stubs.cpp`.
+- `src/universal/profile.cpp` brought into POSIX + Switch builds — the
+  upstream profiler (used by both engine + game code). Required guarding
+  `<Windows.h>` in the .cpp behind `_WIN32`, adding `LARGE_INTEGER` type
+  and `QueryPerformanceCounter` / `QueryPerformanceFrequency` declarations
+  to `kisak_compat.h`, providing portable `std::chrono::steady_clock`-
+  backed implementations in `posix_stubs.cpp`, plus stubs for `va`,
+  `Sys_GetValue`, `I_strncpyz`, `I_strnicmp`. Also removed `volatile` from
+  the `ProfileReadable` struct definition (GCC rejects `volatile struct
+  X { ... };` syntax; objects can still be declared volatile at use site).
 
 ### Fixed
 - Dead `va_copy(ap, va); ap = 0;` lines in `Com_ScriptError` and

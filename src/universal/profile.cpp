@@ -3,7 +3,11 @@
 #include <qcommon/threads.h>
 #include "timing.h"
 
+#ifdef _WIN32
 #include <Windows.h>
+#endif
+// On POSIX/Switch the DWORD/HANDLE types come from the compat shim in
+// src/posix/kisak_compat.h (force-included by the build).
 
 ProfileScript profileScript;
 int g_profileStack[256];

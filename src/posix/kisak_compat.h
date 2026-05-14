@@ -125,6 +125,22 @@ typedef wchar_t       WCHAR;
 typedef WCHAR        *LPWSTR;
 typedef const WCHAR  *LPCWSTR;
 
+// LARGE_INTEGER: Win32 union for 64-bit values. Upstream uses only
+// .QuadPart (for QueryPerformanceCounter), so the anonymous-struct
+// alternative form is enough.
+typedef union {
+    struct {
+        DWORD LowPart;
+        long  HighPart;
+    };
+    long long QuadPart;
+} LARGE_INTEGER;
+
+// QueryPerformanceCounter / QueryPerformanceFrequency: Win32 high-resolution
+// timer API. Stubs are in src/posix/posix_stubs.cpp.
+BOOL QueryPerformanceCounter(LARGE_INTEGER *count);
+BOOL QueryPerformanceFrequency(LARGE_INTEGER *freq);
+
 #ifndef TRUE
 #define TRUE 1
 #endif

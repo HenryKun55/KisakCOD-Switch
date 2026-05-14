@@ -25,6 +25,25 @@ int I_stricmp(const char *s0, const char *s1)
     return ::strcasecmp(s0 ? s0 : "", s1 ? s1 : "");
 }
 
+int I_strnicmp(const char *s0, const char *s1, int n)
+{
+    if (n <= 0) return 0;
+    return ::strncasecmp(s0 ? s0 : "", s1 ? s1 : "", (size_t)n);
+}
+
+// I_strncpyz: Quake3 "safe strncpy" — copies up to destsize-1 bytes and
+// always null-terminates. Defined in q_shared.cpp upstream.
+void I_strncpyz(char *dest, const char *src, int destsize)
+{
+    if (!dest || destsize <= 0) return;
+    if (!src) { dest[0] = '\0'; return; }
+    int i = 0;
+    for (; i < destsize - 1 && src[i]; ++i) {
+        dest[i] = src[i];
+    }
+    dest[i] = '\0';
+}
+
 // AxisToQuat: declared in universal/com_math.h (line 292), defined in
 // com_math.cpp (which does not yet compile on POSIX due to xanim/ode).
 // Stub returns the identity quaternion.
@@ -107,6 +126,29 @@ bool Sys_IsMainThread()     { return true;  }
 bool Sys_IsRenderThread()   { return false; }
 bool Sys_IsDatabaseThread() { return false; }
 
+// Sys_GetValue: thread-local slot getter (upstream uses TLS to stash per-
+// thread context like the current parse session). Stub returns nullptr —
+// callers handle null gracefully in Q3-derived code; full impl lands with
+// threads.cpp port.
+void *Sys_GetValue(int /*valueIndex*/) { return nullptr; }
+
+// va: Quake3's classic "vsprintf into rotating static buffer" utility.
+// Defined in q_shared.cpp upstream, which we can't compile yet (drags in
+// gfx_d3d/r_model.h). Local 8-slot rotation is enough for the call sites
+// that show up before q_shared.cpp ports.
+char *va(const char *format, ...)
+{
+    static char buffers[8][1024];
+    static int  slot = 0;
+    char *out = buffers[slot];
+    slot = (slot + 1) & 7;
+    va_list ap;
+    va_start(ap, format);
+    std::vsnprintf(out, sizeof(buffers[0]), format ? format : "", ap);
+    va_end(ap);
+    return out;
+}
+
 // === Stubs required by com_shared.cpp ======================================
 
 // _copyDWord: upstream uses x86 inline asm (rep stosd) to fill `count`
@@ -117,6 +159,27 @@ void _copyDWord(unsigned int *dst, unsigned int value, unsigned int count)
     for (unsigned int i = 0; i < count; ++i) {
         dst[i] = value;
     }
+}
+
+// QueryPerformanceCounter / Frequency: portable POSIX implementations
+// using std::chrono's steady_clock. Granularity is nanoseconds → matches
+// or exceeds Win32 QPC on most hardware. Declarations live in
+// src/posix/kisak_compat.h.
+#include <chrono>
+BOOL QueryPerformanceCounter(LARGE_INTEGER *count)
+{
+    if (!count) return 0;
+    using namespace std::chrono;
+    const auto ns = duration_cast<nanoseconds>(
+        steady_clock::now().time_since_epoch()).count();
+    count->QuadPart = static_cast<long long>(ns);
+    return 1;
+}
+BOOL QueryPerformanceFrequency(LARGE_INTEGER *freq)
+{
+    if (!freq) return 0;
+    freq->QuadPart = 1000000000LL; // ticks per second (we report in ns)
+    return 1;
 }
 
 // ClearBounds / ExpandBounds: declared in com_math.h, defined in
