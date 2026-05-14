@@ -198,7 +198,7 @@ enum entity_event_t : __int32
 #endif
 
 #ifdef KISAK_MP
-static const char *entityTypeNames[17] =
+[[maybe_unused]] static const char *entityTypeNames[17] =
 {
     "ET_GENERAL",
     "ET_PLAYER",
@@ -241,7 +241,7 @@ static const char *entityTypeNames[17] =
 };
 #endif
 
-static const char *eventnames[135] =
+[[maybe_unused]] static const char *eventnames[135] =
 {
   "EV_NONE",
   "EV_FOLIAGE_SOUND",

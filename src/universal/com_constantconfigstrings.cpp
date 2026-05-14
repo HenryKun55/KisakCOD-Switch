@@ -925,7 +925,7 @@ int __cdecl CCS_GetConstConfigStringIndex(const char *configString)
                 return index;
             }
         }
-        else if (constantConfigStrings[index].configStringHash == lcaseHash
+        else if ((unsigned int)constantConfigStrings[index].configStringHash == lcaseHash
             && !I_stricmp(configString, constantConfigStrings[index].configString))
         {
             return index;
@@ -937,7 +937,7 @@ int __cdecl CCS_GetConstConfigStringIndex(const char *configString)
 
 int __cdecl CCS_GetConfigStringNumForConstIndex(unsigned int index)
 {
-    if (index >= constantConfigStringCount)
+    if (index >= (unsigned int)constantConfigStringCount)
         MyAssertHandler(
             ".\\universal\\com_constantconfigstrings.cpp",
             954,

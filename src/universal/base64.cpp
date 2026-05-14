@@ -42,7 +42,7 @@ unsigned int b64_int(unsigned int ch) {
 unsigned int b64e_size(unsigned int in_size) {
 
 	// size equals 4*floor((1/3)*(in_size+2));
-	int i, j = 0;
+	unsigned int i, j = 0;
 	for (i=0;i<in_size;i++) {
 		if (i % 3 == 0)
 		j += 1;
@@ -117,10 +117,10 @@ unsigned int b64_encodef(char *InFile, char *OutFile) {
 
 	FILE *pInFile = fopen(InFile,"rb");
 	FILE *pOutFile = fopen(OutFile,"wb");
-	
+
 	unsigned int i=0;
 	unsigned int j=0;
-	unsigned int c=0;
+	int          c=0;          // fgetc returns int (EOF == -1), assignment to s[] below stores byte value
 	unsigned int s[4];
 	
 	if ((pInFile==NULL) || (pOutFile==NULL) ) {
@@ -166,8 +166,8 @@ unsigned int b64_decodef(char *InFile, char *OutFile) {
 
 	FILE *pInFile = fopen(InFile,"rb");
 	FILE *pOutFile = fopen(OutFile,"wb");
-	
-	unsigned int c=0;
+
+	int          c=0;          // fgetc returns int (EOF == -1)
 	unsigned int j=0;
 	unsigned int k=0;
 	unsigned int s[4];

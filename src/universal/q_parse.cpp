@@ -431,16 +431,16 @@ parseInfo_t *__cdecl Com_ParseExt(const char **data_p, int allowLineBreaks)
         *data_p = data;
         return pi;
     }
-    else if (c >= 48 && c <= 57
-        || pi->negativeNumbers && c == 45 && data[1] >= 48 && data[1] <= 57
-        || c == 46 && data[1] >= 48 && data[1] <= 57)
+    else if ((c >= 48 && c <= 57)
+        || (pi->negativeNumbers && c == 45 && data[1] >= 48 && data[1] <= 57)
+        || (c == 46 && data[1] >= 48 && data[1] <= 57))
     {
         do
         {
             if (len < 1023)
                 pi->token[len++] = c;
             c = *++data;
-        } while (*data >= 48 && c <= 57 || c == 46);
+        } while ((*data >= 48 && c <= 57) || c == 46);
         if (c == 101 || c == 69)
         {
             if (len < 1023)
@@ -465,14 +465,14 @@ parseInfo_t *__cdecl Com_ParseExt(const char **data_p, int allowLineBreaks)
         *data_p = data;
         return pi;
     }
-    else if (c >= 97 && c <= 122 || c >= 65 && c <= 90 || c == 95 || c == 47 || c == 92)
+    else if ((c >= 97 && c <= 122) || (c >= 65 && c <= 90) || c == 95 || c == 47 || c == 92)
     {
         do
         {
             if (len < 1023)
                 pi->token[len++] = c;
             c = *++data;
-        } while (*data >= 97 && c <= 122 || c >= 65 && c <= 90 || c == 95 || c >= 48 && c <= 57);
+        } while ((*data >= 97 && c <= 122) || (c >= 65 && c <= 90) || c == 95 || (c >= 48 && c <= 57));
         if (len == 1024)
             len = 0;
         pi->token[len] = 0;
@@ -638,7 +638,7 @@ int __cdecl Com_SkipBracedSection(const char **program, unsigned int startDepth,
         {
             if (token->token[0] == 123)
             {
-                if (startDepth == iMaxNesting)
+                if (startDepth == (unsigned int)iMaxNesting)
                     bNestingExceeded = 1;
                 else
                     ++startDepth;

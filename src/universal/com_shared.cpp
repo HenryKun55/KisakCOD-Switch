@@ -178,6 +178,7 @@ int __cdecl Com_RealTime(qtime_s *qtime)
     return t;
 }
 
+#if 0 // Only used by the disabled hex-rays optimized Com_Memcpy body below.
 static void __cdecl Com_Prefetch(const char *s, signed int bytes)
 {
     signed int v3; // ecx
@@ -189,11 +190,14 @@ static void __cdecl Com_Prefetch(const char *s, signed int bytes)
     for (i = (unsigned int)(v3 + 31) >> 5; i; --i)
         s += 32;
 }
+#endif
 
 void __cdecl Com_Memcpy(void *dest_p, const void *src_p, const size_t count)
 {
     char *dest = (char *)dest_p;
     const char *src = (const char *)src_p;
+    (void)dest;  // used by the iassert in Debug, and the disabled body below.
+    (void)src;
 
     iassert(src || !count);
     iassert(dest || !count);

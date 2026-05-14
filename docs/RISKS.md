@@ -58,52 +58,31 @@ of "ERROR: file X not found".
 
 **Recommended fix:** lands with `qcommon/common.cpp` port.
 
-### 3. `Sys_GetValue` returns null
+### ~~3. `Sys_GetValue` returns null~~ ✅ RESOLVED
 
-**What:** `posix_stubs.cpp::Sys_GetValue(int valueIndex)` always returns
-`nullptr`. Upstream uses this as a TLS slot getter.
+Replaced with a real `pthread_key_create`-backed implementation in
+`src/posix/posix_stubs.cpp`. 16 TLS slots, lazily initialized via
+`std::call_once`. `Sys_SetValue` companion also added. Will be superseded
+when `qcommon/threads.cpp` is properly ported, but functionally correct
+for the multi-threaded subsystems that come online before that.
 
-**Why deferred:** Real implementation needs `pthread_key_create` /
-`pthread_setspecific` / `pthread_getspecific` (POSIX) or libnx equivalents
-(Switch), and tracking of slot indices. Belongs in `qcommon/threads.cpp`.
+### ~~4. `AxisToQuat` returns identity quaternion~~ ✅ RESOLVED
 
-**When this bites:** Subsystems that use TLS (parse session context per
-thread, render thread context). Currently we're single-threaded so we
-don't hit it; render thread or worker threads will null-deref.
-
-**Recommended fix:** lands with `qcommon/threads.cpp` port.
-
-### 4. `AxisToQuat` returns identity quaternion
-
-**What:** `posix_stubs.cpp::AxisToQuat` ignores the input matrix and
-returns `{0,0,0,1}` (identity). Prints a `[stub]` warning on first call.
-
-**Why deferred:** Real impl is in `com_math.cpp`, which doesn't compile yet
-(pulls `<ode/ode.h>` via `xanim/dobj.h`). ODE port is a separate effort.
-
-**When this bites:** Bone/ragdoll/animation rotations from axis-vector
-form will all be wrong. Models will appear in default pose.
-
-**Recommended fix:** lands with `com_math.cpp` port.
+Replaced with the standard Shepperd's method axis-matrix → quaternion
+conversion in `src/posix/posix_stubs.cpp`. Numerically stable variant
+that picks the largest diagonal magnitude. Will be superseded when
+`com_math.cpp` ports; until then, math is correct.
 
 ---
 
 ## 🟡 Likely to bite, manageable
 
-### 5. `-Wno-sign-compare`
+### ~~5. `-Wno-sign-compare`~~ ✅ RESOLVED
 
-**What:** POSIX and Switch builds suppress `-Wsign-compare`.
-
-**Why deferred:** Code is reverse-engineered from IDA; hex-rays rarely
-propagates signedness. Dozens of cosmetic `int` vs `unsigned int`
-comparisons get warned without indicating real bugs.
-
-**When this bites:** Real signedness bugs in code paths we run could hide.
-Mostly low risk because the upstream binary works on Windows with
-signed/unsigned implicit conversions.
-
-**Recommended fix:** re-enable per subsystem during a signedness audit
-after the engine boots.
+Both POSIX and Switch builds now use `-Werror` with all warnings enabled.
+All sign-compare warnings in our compiled files have been fixed at the
+site with explicit casts. New files brought into the build must be
+sign-compare clean; the compiler enforces it.
 
 ### 6. `volatile struct ProfileReadable` → `struct ProfileReadable`
 
@@ -198,13 +177,13 @@ removed when the owning upstream file ports cleanly.
 | `Sys_IsMainThread()` | `qcommon/threads.cpp` | Returns true unconditionally. Safe single-threaded. |
 | `Sys_IsRenderThread()` | `qcommon/threads.cpp` | Returns false. Misleading once render thread spins up. |
 | `Sys_IsDatabaseThread()` | `qcommon/threads.cpp` | Returns false. Same. |
-| `Sys_GetValue(slot)` | `qcommon/threads.cpp` | Returns null. **High impact** — see entry 3. |
+| `Sys_GetValue(slot) / Sys_SetValue(slot, val)` | `qcommon/threads.cpp` | Real pthread_key TLS impl, 16 slots. Functional. |
 | `MyAssertHandler` | `universal/assertive.cpp` | Prints + aborts. Loses upstream's clipboard / dialog UX, but that's Win32-only anyway. |
 | `_copyDWord` | `qcommon/common.cpp` (inline asm) | Plain loop, auto-vectorizes to NEON. Functionally identical. |
 | `I_stricmp / I_strnicmp / I_strncpyz / I_stristr` | `universal/q_shared.cpp` | Correct portable impls. No semantic gap. |
-| `va` | `universal/q_shared.cpp` | 8-slot rotating buffer (upstream is 32-slot). Functional, but call sites that chain >8 `va()` calls without consuming may get earlier slot overwritten. |
+| `va` | `universal/q_shared.cpp` | 32-slot rotating buffer (matches upstream). Functional. |
 | `Vec2Normalize` | `universal/com_math.cpp` | Correct portable impl. No semantic gap. |
 | `ClearBounds / ExpandBounds` | `universal/com_math.cpp` | Correct portable impls. No semantic gap. |
-| `AxisToQuat` | `universal/com_math.cpp` | **Identity quaternion** — wrong result. See entry 4. |
+| `AxisToQuat` | `universal/com_math.cpp` | Real Shepperd's-method impl. Mathematically correct. |
 | `QueryPerformanceCounter / QueryPerformanceFrequency` | Native Win32 | `std::chrono::steady_clock`-backed; resolution is ns. Functionally equivalent. |
 | `_time64 / _localtime64` (in `kisak_compat.h`) | Win32 CRT | POSIX `time` / `localtime` bridges. Functionally equivalent for years 1970-2038+ on 64-bit time_t. |

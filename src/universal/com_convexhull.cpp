@@ -305,7 +305,7 @@ done_splitting:
             MyAssertHandler((char *)".\\universal\\com_convexhull.cpp", 259, 1, "%s", "backIndex >= botIndex");
         Com_SwapHullPoints(pointOrder, backIndex, botIndex);
         hullPointCount = Com_AddPointToHull(pointOrder[botIndex], 1u, hullOrder, hullPointCount);
-        if (pointCount != botIndex + 1)
+        if (pointCount != (unsigned int)(botIndex + 1))
         {
             hullPointCount = Com_RecursivelyGrowHull(
                 points,

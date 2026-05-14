@@ -123,6 +123,31 @@ real hardware.
   where `ap` was declared as `char *` (matching MSVC `va_list = char*`) but
   never read. The `va_copy` broke GCC builds on Switch (devkitA64) where
   `va_list` is a struct, not a `char *`. Removed; no functional change.
+- `AxisToQuat` stub replaced with a real Shepperd's-method implementation
+  in `posix_stubs.cpp`. The placeholder identity-quaternion version was
+  producing wrong rotations for any bone/animation/ragdoll math that called
+  it; this version is numerically stable and correct.
+- `Sys_GetValue` stub replaced with a real `pthread_key_create`-backed TLS
+  implementation. 16 slots, lazily initialized via `std::call_once`. Added
+  `Sys_SetValue` companion. Multi-threaded subsystems coming online before
+  `qcommon/threads.cpp` is properly ported now have working per-thread
+  context storage.
+- `va` rotating buffer enlarged from 8 to 32 slots to match upstream. Call
+  chains like `Com_Printf("%s %s %s", va(...), va(...), va(...))` with up
+  to 32 outstanding strings now work without earlier slots being
+  overwritten.
+
+### Changed
+- **Zero-warnings policy** enforced. Both POSIX and Switch builds now
+  pass `-Werror` and have **all sign-compare warnings fixed at the site**
+  with explicit casts (no more `-Wno-sign-compare` suppression). Sites
+  audited and fixed: `base64.cpp`, `aabbtree.cpp`, `com_constantconfigstrings.cpp`,
+  `com_convexhull.cpp`, `q_parse.cpp` (also added missing parentheses on 9
+  `&&`-within-`||` precedence warnings), `com_shared.cpp` (Com_Prefetch
+  wrapped in same `#if 0` as its only call site; unused vars cast to void).
+  Headers with unused `static const char *` name tables (`bg_public.h`
+  `entityTypeNames`/`eventnames`, `qcommon.h` `WeaponStateNames`) marked
+  with `[[maybe_unused]]`.
 
 ### Fixed
 - Strict-aliasing UB in the `BYTEn`/`WORDn`/`DWORDn` (and signed variants)

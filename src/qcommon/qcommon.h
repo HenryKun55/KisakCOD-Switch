@@ -60,7 +60,7 @@ enum DemoType : __int32
     DEMO_TYPE_SERVER = 0x2,
 };
 
-static const char *WeaponStateNames[27] =
+[[maybe_unused]] static const char *WeaponStateNames[27] =
 {
   "WEAPON_READY",
   "WEAPON_RAISING",

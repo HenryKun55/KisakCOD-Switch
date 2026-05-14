@@ -176,7 +176,7 @@ static bool PickAabbSplitPlane(
             }
         }
     }
-    return bestHeuristic != 0x80000000;
+    return bestHeuristic != (int)0x80000000;
 }
 
 double __cdecl AddedVolume(const float *addedmins, const float *addedmaxs, const float *mins, const float *maxs)
@@ -400,7 +400,7 @@ int __cdecl BuildAabbTree(const GenericAabbTreeOptions *options)
     float sortedBounds[3][64]; // [esp+150h] [ebp-308h] BYREF
     unsigned __int8 *itemCopies; // [esp+454h] [ebp-4h]
 
-    if (options->itemCount > 0x40u)
+    if ((unsigned int)options->itemCount > 0x40u)
     {
         remap = (int*)operator new(4 * options->itemCount);
         sortedMins = (float*)operator new(4 * options->itemCount);

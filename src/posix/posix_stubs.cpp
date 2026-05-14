@@ -44,20 +44,42 @@ void I_strncpyz(char *dest, const char *src, int destsize)
     dest[i] = '\0';
 }
 
-// AxisToQuat: declared in universal/com_math.h (line 292), defined in
-// com_math.cpp (which does not yet compile on POSIX due to xanim/ode).
-// Stub returns the identity quaternion.
+// AxisToQuat: build a quaternion (x, y, z, w) from a 3x3 rotation matrix
+// `mat` stored as row-major. Declared in universal/com_math.h; full
+// upstream impl lives in com_math.cpp (not yet portable). Standard
+// Shepperd's method — numerically stable variant that picks the largest
+// diagonal magnitude to avoid division by small numbers.
+//
+// When com_math.cpp is brought into the build this definition collides
+// with upstream's; remove it then.
+#include <cmath>
 void AxisToQuat(const float (*mat)[3], float *out)
 {
-    (void)mat;
-    out[0] = 0.0f;
-    out[1] = 0.0f;
-    out[2] = 0.0f;
-    out[3] = 1.0f;
-    static bool warned = false;
-    if (!warned) {
-        std::fprintf(stderr, "[stub] AxisToQuat: identity — com_math.cpp port pending\n");
-        warned = true;
+    const float trace = mat[0][0] + mat[1][1] + mat[2][2];
+    if (trace > 0.0f) {
+        const float s = std::sqrt(trace + 1.0f) * 2.0f; // s = 4*qw
+        out[3] = 0.25f * s;
+        out[0] = (mat[2][1] - mat[1][2]) / s;
+        out[1] = (mat[0][2] - mat[2][0]) / s;
+        out[2] = (mat[1][0] - mat[0][1]) / s;
+    } else if (mat[0][0] > mat[1][1] && mat[0][0] > mat[2][2]) {
+        const float s = std::sqrt(1.0f + mat[0][0] - mat[1][1] - mat[2][2]) * 2.0f;
+        out[3] = (mat[2][1] - mat[1][2]) / s;
+        out[0] = 0.25f * s;
+        out[1] = (mat[0][1] + mat[1][0]) / s;
+        out[2] = (mat[0][2] + mat[2][0]) / s;
+    } else if (mat[1][1] > mat[2][2]) {
+        const float s = std::sqrt(1.0f + mat[1][1] - mat[0][0] - mat[2][2]) * 2.0f;
+        out[3] = (mat[0][2] - mat[2][0]) / s;
+        out[0] = (mat[0][1] + mat[1][0]) / s;
+        out[1] = 0.25f * s;
+        out[2] = (mat[1][2] + mat[2][1]) / s;
+    } else {
+        const float s = std::sqrt(1.0f + mat[2][2] - mat[0][0] - mat[1][1]) * 2.0f;
+        out[3] = (mat[1][0] - mat[0][1]) / s;
+        out[0] = (mat[0][2] + mat[2][0]) / s;
+        out[1] = (mat[1][2] + mat[2][1]) / s;
+        out[2] = 0.25f * s;
     }
 }
 
@@ -126,25 +148,56 @@ bool Sys_IsMainThread()     { return true;  }
 bool Sys_IsRenderThread()   { return false; }
 bool Sys_IsDatabaseThread() { return false; }
 
-// Sys_GetValue: thread-local slot getter (upstream uses TLS to stash per-
-// thread context like the current parse session). Stub returns nullptr —
-// callers handle null gracefully in Q3-derived code; full impl lands with
-// threads.cpp port.
-void *Sys_GetValue(int /*valueIndex*/) { return nullptr; }
+// Sys_GetValue / Sys_SetValue: thread-local slot accessor. Upstream uses
+// TLS to stash per-thread context (current parse session, render queue,
+// etc.). Real impl uses pthread_key_create-allocated keys, lazily on
+// first access. 16 slots ought to cover upstream's needs (the original
+// uses no more than ~8).
+#include <pthread.h>
+#include <mutex>
+namespace {
+constexpr int KISAK_TLS_SLOTS = 16;
+pthread_key_t  g_tls_keys[KISAK_TLS_SLOTS];
+std::once_flag g_tls_init_flag;
+void g_tls_init()
+{
+    for (int i = 0; i < KISAK_TLS_SLOTS; ++i) {
+        pthread_key_create(&g_tls_keys[i], nullptr);
+    }
+}
+} // namespace
+
+void *Sys_GetValue(int valueIndex)
+{
+    std::call_once(g_tls_init_flag, g_tls_init);
+    if (valueIndex < 0 || valueIndex >= KISAK_TLS_SLOTS) return nullptr;
+    return pthread_getspecific(g_tls_keys[valueIndex]);
+}
+
+void Sys_SetValue(int valueIndex, void *value)
+{
+    std::call_once(g_tls_init_flag, g_tls_init);
+    if (valueIndex < 0 || valueIndex >= KISAK_TLS_SLOTS) return;
+    pthread_setspecific(g_tls_keys[valueIndex], value);
+}
 
 // va: Quake3's classic "vsprintf into rotating static buffer" utility.
 // Defined in q_shared.cpp upstream, which we can't compile yet (drags in
-// gfx_d3d/r_model.h). Local 8-slot rotation is enough for the call sites
-// that show up before q_shared.cpp ports.
+// gfx_d3d/r_model.h). 32-slot rotation matches upstream's MAX_VA_STRING /
+// "rotating buffer" count so call chains like
+//   Com_Printf("%s %s %s", va("..."), va("..."), va("..."))
+// never overwrite an earlier slot before it's consumed.
 char *va(const char *format, ...)
 {
-    static char buffers[8][1024];
+    constexpr int VA_SLOTS = 32;
+    constexpr int VA_SLOT_SIZE = 1024;
+    static char buffers[VA_SLOTS][VA_SLOT_SIZE];
     static int  slot = 0;
     char *out = buffers[slot];
-    slot = (slot + 1) & 7;
+    slot = (slot + 1) & (VA_SLOTS - 1);
     va_list ap;
     va_start(ap, format);
-    std::vsnprintf(out, sizeof(buffers[0]), format ? format : "", ap);
+    std::vsnprintf(out, VA_SLOT_SIZE, format ? format : "", ap);
     va_end(ap);
     return out;
 }

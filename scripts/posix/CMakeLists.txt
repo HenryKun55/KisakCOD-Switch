@@ -55,11 +55,11 @@ target_compile_definitions(kisak_posix PRIVATE KISAK_MP)
 # __cdecl/__declspec/__int16/... tokens the upstream uses directly.
 target_compile_options(kisak_posix PRIVATE
     $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang,GNU>:-Wall>
-    # Upstream source is reverse-engineered from the IDA binary — hex-rays
-    # rarely propagates signedness, so dozens of int vs unsigned int
-    # comparisons get warned cosmetically. Silenced until the port runs a
-    # signedness audit per subsystem.
-    $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang,GNU>:-Wno-sign-compare>
+    # Project-wide policy: zero warnings. Any warning that appears must be
+    # fixed at the site (explicit casts for signedness, parentheses for
+    # precedence, [[maybe_unused]] for intentionally-unused symbols) rather
+    # than suppressed with -Wno-*. -Werror enforces the policy.
+    $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang,GNU>:-Werror>
     $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang,GNU>:-include${SRC_DIR}/posix/kisak_compat.h>
 )
 

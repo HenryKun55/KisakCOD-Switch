@@ -54,10 +54,10 @@ target_compile_definitions(kisak_switch PRIVATE KISAK_MP)
 
 target_compile_options(kisak_switch PRIVATE
     -Wall
-    # Codigo upstream e reverse-engineered do binario IDA — abusa de
-    # compares int/unsigned int por hex-rays nunca propagar sinal. Silencia
-    # o warning ate o porte fazer auditoria de signedness por subsistema.
-    -Wno-sign-compare
+    # Project-wide policy: zero warnings. Any warning must be fixed at the
+    # site (explicit casts, parentheses, [[maybe_unused]]) rather than
+    # suppressed with -Wno-*. -Werror enforces the policy.
+    -Werror
     -include${SRC_DIR}/posix/kisak_compat.h
 )
 
