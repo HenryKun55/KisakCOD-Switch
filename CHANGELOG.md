@@ -116,6 +116,18 @@ real hardware.
   (no-op), `OSVERSIONINFO` (struct), `_RTL_CRITICAL_SECTION` /
   `CRITICAL_SECTION` (struct). These are declarations only — call sites
   using them never execute on non-Windows.
+- `src/posix/include_shims/zlib/zlib.h`: tiny forwarder so upstream code
+  using `#include <zlib/zlib.h>` resolves to **system zlib** (macOS SDK
+  on POSIX, `switch-zlib` on Switch). The bundled `deps/zlib/` headers
+  are pre-1.2 era and fail to define `Byte` on Apple platforms.
+- `src/universal/memfile.cpp` brought into POSIX + Switch builds — the
+  upstream's in-memory file abstraction (`MemoryFile` with segments,
+  used by save/load and asset streaming). Required fixing a hex-rays
+  decompilation bug in `MemFile_CopySegments` where a pointer was cast to
+  `_DWORD` and subtracted from `bufferSize`, losing the upper 32 bits on
+  64-bit. Reconstructed using proper pointer arithmetic
+  (`segmentStart - buffer`). Function had only a commented-out caller,
+  so behaviour validated by inspection.
 
 ### Fixed
 - Dead `va_copy(ap, va); ap = 0;` lines in `Com_ScriptError` and

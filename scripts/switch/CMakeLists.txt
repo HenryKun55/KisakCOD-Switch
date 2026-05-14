@@ -33,6 +33,7 @@ set(UNIVERSAL_PORTABLE_SOURCES
     "${SRC_DIR}/universal/com_convexhull.cpp"
     "${SRC_DIR}/universal/com_math_anglevectors.cpp"
     "${SRC_DIR}/universal/com_shared.cpp"
+    "${SRC_DIR}/universal/memfile.cpp"
     "${SRC_DIR}/universal/profile.cpp"
     "${SRC_DIR}/universal/q_parse.cpp"
 )
@@ -45,8 +46,9 @@ add_executable(kisak_switch
 target_include_directories(kisak_switch PRIVATE
     "${SRC_DIR}"
     "${SRC_DIR}/universal"
-    # portlibs/switch tem EGL/GLES2/etc — o toolchain so adiciona libnx
-    # automaticamente, portlibs precisa ser explicito.
+    "${SRC_DIR}/posix/include_shims" # makes <zlib/zlib.h> resolve to switch-zlib
+    # portlibs/switch has EGL/GLES2/zlib/etc — the toolchain only adds libnx
+    # by default, portlibs has to be explicit.
     "$ENV{DEVKITPRO}/portlibs/switch/include"
 )
 
@@ -75,6 +77,7 @@ target_link_libraries(kisak_switch PRIVATE
     GLESv2
     glapi
     drm_nouveau
+    z
 )
 
 nx_create_nro(kisak_switch

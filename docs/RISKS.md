@@ -159,7 +159,7 @@ session.
 | `src/universal/com_sndalias.cpp` | `<msslib/mss.h>` (Miles Sound System) | Miles is proprietary; needs OpenAL-soft replacement layer. | sound alias system. |
 | `src/universal/dvar.cpp` | `<Windows.h>` + win32/win_local + gfx_d3d/r_dvars + win32/win_net + devgui | Cvar system touches everything. Centralized; tackle after common.cpp / cmd.cpp port. | **the cvar registration / lookup system — central to engine init.** |
 | `src/universal/physicalmemory.cpp` | `VirtualAlloc` (Win32 page allocator) | Needs POSIX `mmap` / Switch `svcMapMemory` replacement. Limited usage so not urgent. | physical memory pool. |
-| `src/universal/memfile.cpp` | `<zlib/zlib.h>` and qcommon/threads.h | zlib + threads. Defer with the zlib cluster. | in-memory file abstraction. |
+| ~~`src/universal/memfile.cpp`~~ ✅ in build (zlib shim wired, MemFile_CopySegments 64-bit pointer cast fixed). | | | |
 | `src/universal/dvar_cmds.cpp` | `static_assert(sizeof(scr_anim_s) == 4)` (guarded but file not yet in build) | Static_assert now guarded; remaining blockers TBD on next attempt. | dvar registration commands. |
 
 ---

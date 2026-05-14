@@ -11,6 +11,7 @@ message(STATUS "[KisakCOD/posix] Building POSIX skeleton target")
 find_package(SDL2 REQUIRED CONFIG)
 find_package(OpenGL REQUIRED)
 find_package(glm CONFIG REQUIRED)
+find_package(ZLIB REQUIRED)
 
 set(POSIX_SOURCES
     "${SRC_DIR}/posix/posix_gl_main.cpp"
@@ -29,6 +30,7 @@ set(UNIVERSAL_PORTABLE_SOURCES
     "${SRC_DIR}/universal/com_convexhull.cpp"
     "${SRC_DIR}/universal/com_math_anglevectors.cpp"
     "${SRC_DIR}/universal/com_shared.cpp"
+    "${SRC_DIR}/universal/memfile.cpp"
     "${SRC_DIR}/universal/profile.cpp"
     "${SRC_DIR}/universal/q_parse.cpp"
 )
@@ -41,12 +43,14 @@ add_executable(kisak_posix
 target_include_directories(kisak_posix PRIVATE
     "${SRC_DIR}"
     "${SRC_DIR}/universal"
+    "${SRC_DIR}/posix/include_shims" # makes <zlib/zlib.h> resolve to system zlib
 )
 
 target_link_libraries(kisak_posix PRIVATE
     SDL2::SDL2
     OpenGL::GL
     glm::glm
+    ZLIB::ZLIB
 )
 
 target_compile_definitions(kisak_posix PRIVATE KISAK_MP)

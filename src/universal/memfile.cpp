@@ -177,6 +177,7 @@ void MemFile_StartSegment(MemoryFile* memFile, int index)
 
     // start new segment, for real this time.
     int lastSegmentIndex = memFile->segmentIndex;
+    (void)lastSegmentIndex; // used by iassert() below in Debug builds
 
     memFile->segmentIndex = index;
     if (index >= 0)
@@ -953,14 +954,18 @@ void MemFile_Shutdown(MemoryFile *memFile)
 
 unsigned __int8 *MemFile_CopySegments(MemoryFile *memFile, int index, void *buf)
 {
-    const unsigned __int8 *SegmentAddess; // r4
-    unsigned __int8 *v7; // r31
-
     iassert(!memFile->memoryOverflow);
 
-    SegmentAddess = MemFile_GetSegmentAddess(memFile, index);
-    v7 = &memFile->buffer[memFile->bufferSize - (_DWORD)SegmentAddess];
+    // Hex-rays decompilation of the original 32-bit binary lost type info
+    // here: it cast the segment pointer to _DWORD, subtracted from
+    // bufferSize, and used the result as both a size and a return value.
+    // Reconstructed via proper pointer arithmetic so it works on 64-bit
+    // too — only commented-out caller exists, so the size-as-pointer
+    // return is preserved for ABI compatibility but never consumed.
+    const unsigned __int8 *segmentStart = MemFile_GetSegmentAddess(memFile, index);
+    const size_t segmentOffset = (size_t)(segmentStart - memFile->buffer);
+    const size_t copySize = (size_t)memFile->bufferSize - segmentOffset;
     if (buf)
-        memcpy(buf, SegmentAddess, (size_t)v7);
-    return v7;
+        memcpy(buf, segmentStart, copySize);
+    return (unsigned __int8 *)(uintptr_t)copySize;
 }
