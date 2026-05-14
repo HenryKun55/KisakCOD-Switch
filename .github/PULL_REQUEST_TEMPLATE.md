@@ -1,32 +1,33 @@
 <!--
-Obrigado por contribuir com o porte! Antes de submeter:
-1. Leia CONTRIBUTING.md
-2. PR deveria mexer em um subsistema por vez (gfx, sound, net, etc.)
-3. Não distribuir assets do CoD4
+Thanks for contributing to the port! Before submitting:
+1. Read CONTRIBUTING.md
+2. PRs should touch one subsystem at a time (gfx, sound, net, etc.)
+3. Do not distribute CoD4 assets
 -->
 
-## Subsistema afetado
+## Affected subsystem
 
 <!-- gfx / sound / net / posix / switch / cmake / deps / docs / ci -->
 
-## O que mudou
+## What changed
 
-<!-- Descrição clara. Se substitui API Windows-only, diga qual e por quê. -->
+<!-- Clear description. If you replace a Windows-only API, say which and
+why. -->
 
-## Como testar
+## How to test
 
-<!-- Comandos exatos. Em qual plataforma. -->
+<!-- Exact commands. Which platform. -->
 
-## Fase do porte
+## Port phase
 
-- [ ] Fase 1 (macOS/Linux baseline)
-- [ ] Fase 2 (cross-compile Switch)
-- [ ] Fase 3 (otimização Switch)
-- [ ] Independente de fase
+- [ ] Phase 1 (macOS/Linux baseline)
+- [ ] Phase 2 (Switch cross-compile)
+- [ ] Phase 3 (Switch optimization)
+- [ ] Phase-independent
 
 ## Checklist
 
-- [ ] `CHANGELOG.md` atualizado sob `[Unreleased]` na seção apropriada
-- [ ] Não introduz dependência proprietária nova
-- [ ] Não quebra build Windows upstream (ou justifica por que)
-- [ ] Não inclui assets do CoD4
+- [ ] `CHANGELOG.md` updated under `[Unreleased]` in the appropriate section
+- [ ] Does not introduce a new proprietary dependency
+- [ ] Does not break the upstream Windows build (or justifies why)
+- [ ] Does not include CoD4 assets

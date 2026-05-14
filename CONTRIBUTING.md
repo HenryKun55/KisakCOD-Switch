@@ -1,75 +1,80 @@
-# Contribuindo para KisakCOD-Switch
+# Contributing to KisakCOD-Switch
 
-Esse fork porta o [KisakCOD](https://github.com/SwagSoftware/KisakCOD) — uma
-decompilação de Call of Duty 4: Modern Warfare — para o Nintendo Switch via
+This fork ports [KisakCOD](https://github.com/SwagSoftware/KisakCOD) — a
+decompilation of Call of Duty 4: Modern Warfare — to the Nintendo Switch via
 homebrew (devkitPro + libnx + Atmosphere CFW).
 
-## Antes de abrir um PR
+## Before opening a PR
 
-1. **Leia [`docs/SWITCH_PORT.md`](docs/SWITCH_PORT.md)** — descreve as 3 fases do
-   porte e em qual estamos. Mudanças que pulam fase tendem a quebrar coisas.
-2. **Mantenha PRs focados em um subsistema.** O upstream divide em `gfx_d3d`,
-   `sound`, `win32`, etc. Cada PR deveria mexer em **um** desses.
-3. **Não distribua assets do CoD4.** O fork é só código. `.iwd`/`.ff` ficam no SD
-   card do usuário, nunca no repo.
-4. **Mantenha compatibilidade com upstream.** Quando possível, fazer mudanças no
-   `master` upstream e só fazer port-specific em `port/switch`. Evita drift.
+1. **Read [`docs/SWITCH_PORT.md`](docs/SWITCH_PORT.md)** — it describes the
+   three port phases and which one we are in. Changes that skip phases tend
+   to break things.
+2. **Keep PRs focused on one subsystem.** Upstream is divided into
+   `gfx_d3d`, `sound`, `win32`, etc. Each PR should touch **one** of these.
+3. **Do not distribute CoD4 assets.** This fork is source only. `.iwd`/`.ff`
+   files live on the user's SD card, never in the repo.
+4. **Preserve upstream compatibility.** When possible, land changes on the
+   upstream `master` and keep port-specific work on `port/switch`. Avoids
+   drift.
 
-## Convenções de commit
+## Commit conventions
 
-[Conventional Commits](https://www.conventionalcommits.org/) é encorajado, não
-obrigatório:
-
-```
-<tipo>(<escopo>): <descrição curta>
-
-[corpo opcional]
-
-[footer opcional]
-```
-
-Tipos comuns: `feat`, `fix`, `refactor`, `perf`, `build`, `ci`, `docs`, `chore`,
-`port`. Escopos: subsistemas (`gfx`, `sound`, `net`, `posix`, `switch`, `cmake`,
-`deps`, etc.).
-
-Exemplo:
+[Conventional Commits](https://www.conventionalcommits.org/) is encouraged,
+not mandatory:
 
 ```
-port(gfx): substituir D3DXMatrixIdentity por glm::mat4(1.0f)
+<type>(<scope>): <short description>
 
-A camada D3DX não existe fora do Windows. glm é header-only e já está
-disponível via switch-glm no devkitPro.
+[optional body]
+
+[optional footer]
 ```
 
-## Sync com upstream
+Common types: `feat`, `fix`, `refactor`, `perf`, `build`, `ci`, `docs`,
+`chore`, `port`. Scopes: subsystems (`gfx`, `sound`, `net`, `posix`,
+`switch`, `cmake`, `deps`, etc.).
 
-O remote `upstream` aponta para `SwagSoftware/KisakCOD`. Para puxar mudanças:
+Example:
+
+```
+port(gfx): replace D3DXMatrixIdentity with glm::mat4(1.0f)
+
+The D3DX layer does not exist outside Windows. glm is header-only and
+already available via switch-glm on devkitPro.
+```
+
+All repo-tracked content (code, comments, docs, commit messages) is written
+in **English**.
+
+## Syncing with upstream
+
+The `upstream` remote points to `SwagSoftware/KisakCOD`. To pull changes:
 
 ```bash
 git fetch upstream
 git checkout master
 git merge upstream/master
 git push origin master
-# em seguida, rebase port/switch sobre o master atualizado:
+# then rebase port/switch onto the updated master:
 git checkout port/switch
 git rebase master
 ```
 
-## Estilo de código
+## Code style
 
-- Seguir o estilo do upstream (Allman braces, snake_case para variáveis, etc.).
-  Não reformatar arquivos existentes em PRs de feature — abra um PR de
-  formatação separado se necessário.
-- `.editorconfig` define EOL/indent básicos.
+- Follow upstream style (Allman braces, snake_case variables, etc.). Do not
+  reformat existing files in feature PRs — open a separate formatting PR if
+  needed.
+- `.editorconfig` defines baseline EOL/indent rules.
 
 ## Changelog
 
-Toda mudança user-visible (não-chore) adiciona uma entrada em `CHANGELOG.md`
-sob `[Unreleased]`, seção apropriada (Added/Changed/Fixed/Removed/Security).
-Releases promovem `[Unreleased]` para uma seção versionada.
+Every user-visible change (non-chore) adds an entry to `CHANGELOG.md` under
+`[Unreleased]`, in the appropriate section (Added/Changed/Fixed/Removed/
+Security). Releases promote `[Unreleased]` into a versioned section.
 
-## Licença
+## License
 
-Esse projeto é GPL-3.0, herdado do upstream. Qualquer contribuição é
-automaticamente licenciada sob os mesmos termos. Você precisa ter direito
-sobre o código que contribui.
+This project is GPL-3.0, inherited from upstream. Any contribution is
+automatically licensed under the same terms. You must have the right to
+contribute the code you submit.

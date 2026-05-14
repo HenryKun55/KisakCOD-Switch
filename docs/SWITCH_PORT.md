@@ -1,59 +1,68 @@
-# Porte para Nintendo Switch — overview
+# Nintendo Switch port — overview
 
-Este documento descreve o esforço de porte do KisakCOD para o Nintendo Switch
+This document describes the KisakCOD porting effort to the Nintendo Switch
 via homebrew (devkitPro + libnx + Atmosphere CFW).
 
-## Estado atual
+## Current state
 
-**Fase 0 — Setup** ✅
-- Fork criado, branch `port/switch` ativa
-- Toolchain devkitA64/libnx instalada
-- Mapa de subsistemas concluído
+**Phase 0 — Setup** ✅
+- Fork created, `port/switch` branch active
+- devkitA64/libnx toolchain installed
+- Subsystem map completed
 
-**Fase 1 — Port intermediário macOS/Linux ARM64** ⏳ (em andamento)
-**Fase 2 — Cross-compile para Switch** (futuro)
-**Fase 3 — Otimização Switch** (futuro)
+**Phase 1 — Intermediate macOS/Linux ARM64 port** ⏳ (in progress)
+**Phase 2 — Switch cross-compile** (future)
+**Phase 3 — Switch optimization** (future)
 
-## Subsistemas e estratégia
+## Subsystems and strategy
 
-| Subsistema | Pasta upstream | Estratégia Switch |
+| Subsystem | Upstream folder | Switch strategy |
 |---|---|---|
-| Renderer DX9 | `src/gfx_d3d/` | Substituir por backend GL/Vulkan (deko3d). Primeiro implementar GL desktop em `src/gfx_gl/`, depois variant Switch. |
-| Win32 | `src/win32/` | Stubs POSIX em `src/posix/`; layer libnx em `src/switch/` para HID/socket/storage específicos. |
-| Som (Miles) | `src/sound/` | Substituir wrapper Miles por OpenAL-soft (já no devkitPro como `switch-openal-soft`). |
-| Vídeo (Bink) | `deps/binklib/` (headers) | Pular cinemáticas inicialmente. FFmpeg disponível como fallback futuro. |
-| Steam SDK | `deps/steamsdk/` | Stub completo (no-op). Switch homebrew não tem Steamworks. |
-| Física ODE | `src/physics/ode/` + `deps/ode/` | Portável; recompilar p/ ARM64. Sem mudanças no source esperadas. |
-| Áudio voz (Speex) | `src/groupvoice/speex` | Portável; recompilar. |
-| Engine common | `src/qcommon`, `src/common`, `src/universal` | Auditar assembly inline x86 e SSE intrinsics. Maioria portável. |
-| Scripting GSC | `src/script` | Portável; referência: [CoD2rev_Server](https://github.com/voron00/CoD2rev_Server). |
-| Game logic | `src/game*`, `src/bgame`, `src/cgame*` | Portável; auditar endianness/alinhamento ARM64. CoD4 é 32-bit, audit casts `ptr↔int`. |
-| Animação | `src/xanim` | Auditar SIMD. |
-| UI | `src/ui*` | Depende do renderer; portar após GL/Vulkan funcionar. |
-| DevGUI | `src/devgui` | Windows-only (ferramenta dev). Pular. |
+| DX9 renderer | `src/gfx_d3d/` | Replace with GL/Vulkan backend (deko3d). Implement desktop GL first in `src/gfx_gl/`, then a Switch variant. |
+| Win32 | `src/win32/` | POSIX stubs under `src/posix/`; a libnx layer in `src/switch/` for HID/socket/storage specifics. |
+| Sound (Miles) | `src/sound/` | Replace the Miles wrapper with OpenAL-soft (already in devkitPro as `switch-openal-soft`). |
+| Video (Bink) | `deps/binklib/` (headers) | Skip cinematics initially. FFmpeg available as a future fallback. |
+| Steam SDK | `deps/steamsdk/` | Full no-op stub. Switch homebrew has no Steamworks. |
+| ODE physics | `src/physics/ode/` + `deps/ode/` | Portable; recompile for ARM64. No source changes expected. |
+| Voice audio (Speex) | `src/groupvoice/speex` | Portable; recompile. |
+| Engine common | `src/qcommon`, `src/common`, `src/universal` | Audit inline x86 assembly and SSE intrinsics. Mostly portable. |
+| GSC scripting | `src/script` | Portable; reference: [CoD2rev_Server](https://github.com/voron00/CoD2rev_Server). |
+| Game logic | `src/game*`, `src/bgame`, `src/cgame*` | Portable; audit endianness and ARM64 alignment. CoD4 is 32-bit, audit `ptr↔int` casts. |
+| Animation | `src/xanim` | Audit SIMD. |
+| UI | `src/ui*` | Depends on the renderer; port after GL/Vulkan works. |
+| DevGUI | `src/devgui` | Windows-only (dev tooling). Skip. |
 
-## Restrições da plataforma
+## Platform constraints
 
-- **CPU**: ARM Cortex-A57 quad-core (Tegra X1), AArch64. Sem SSE/AVX — substituir por NEON ou portable C.
-- **GPU**: Nvidia Maxwell GM20B (~1 TFLOPS docked). APIs: deko3d (low-level), Vulkan via deko3d-vk, ou GLES 3.x via mesa-nouveau.
-- **RAM**: 4GB total, ~3.2GB usable. CoD4 PC usa ~1.5GB → cabe, margem apertada.
-- **Storage**: microSD com latência alta em I/O aleatório — streaming de assets precisa cuidado.
-- **Endianness**: little-endian (compatível com x86).
-- **Tamanho de ponteiro**: 64-bit (upstream é 32-bit) — auditar todos os casts pointer↔int e structs com sizeof dependente.
+- **CPU**: ARM Cortex-A57 quad-core (Tegra X1), AArch64. No SSE/AVX —
+  replace with NEON or portable C.
+- **GPU**: Nvidia Maxwell GM20B (~1 TFLOPS docked). APIs available: deko3d
+  (low-level), Vulkan via deko3d-vk, or GLES 3.x via mesa-nouveau.
+- **RAM**: 4 GB total, ~3.2 GB usable. CoD4 PC uses ~1.5 GB → fits, but with
+  tight margins.
+- **Storage**: microSD with high random-I/O latency — asset streaming needs
+  care.
+- **Endianness**: little-endian (compatible with x86).
+- **Pointer width**: 64-bit (upstream is 32-bit) — audit all pointer↔int
+  casts and structs with sizeof-dependent layouts.
 
-## Restrições legais
+## Legal constraints
 
-- **Decompilação** (upstream): trabalho público de reverse engineering sob GPL-3.0. Activision/IW não processou.
-- **Assets do CoD4**: cada usuário precisa ser dono de uma cópia. **Nunca commitar** `.iwd`/`.ff`.
-- **Homebrew Switch**: legal, mas requer mod de hardware (Atmosphere CFW). Distribuir o `.nro` (sem assets) é OK.
-- **GPL-3.0**: forks/distribuições precisam publicar source modificado.
+- **Decompilation** (upstream): public reverse engineering work under
+  GPL-3.0. Activision/IW have not pursued action.
+- **CoD4 assets**: each user must own a copy. **Never commit** `.iwd`/`.ff`
+  files.
+- **Switch homebrew**: legal, but requires hardware modification (Atmosphere
+  CFW). Distributing the `.nro` (assets excluded) is OK.
+- **GPL-3.0**: forks/distributions must publish modified source.
 
-## Como contribuir
+## How to contribute
 
-Ver [`CONTRIBUTING.md`](../CONTRIBUTING.md).
+See [`CONTRIBUTING.md`](../CONTRIBUTING.md).
 
-## Referência: build no Windows (upstream)
+## Reference: Windows upstream build
 
-Para validar paridade com upstream antes/depois de cada mudança, o build
-Windows original ainda funciona seguindo o [README do upstream](../README.md).
-Quem só tem macOS/Linux pode usar uma VM Windows + DirectX SDK 2010 + VS 2022.
+To validate parity with upstream before/after each change, the original
+Windows build still works following the [upstream README](../README.md).
+macOS/Linux-only contributors can use a Windows VM + DirectX SDK 2010 +
+VS 2022.

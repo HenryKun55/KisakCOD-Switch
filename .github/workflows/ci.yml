@@ -1,8 +1,8 @@
 name: CI
 
-# Trigger manual-only por enquanto pra evitar spam de email nas
-# iteracoes rapidas do porte. Reativar push/PR triggers quando o
-# pipeline estiver estavel e os warnings de email forem desejados.
+# Manual-only trigger for now to avoid email spam during rapid port
+# iteration. Re-enable push/PR triggers once the pipeline stabilizes and
+# build-failure notifications become desirable again.
 on:
   workflow_dispatch:
 
@@ -86,6 +86,6 @@ jobs:
             | sudo tar -xz -C /usr/local/bin --strip-components=1 bin/ec-linux-amd64
           sudo mv /usr/local/bin/ec-linux-amd64 /usr/local/bin/ec
       - name: Run editorconfig-checker
-        # Sub-trees herdadas do upstream têm whitespace inconsistente; só checa
-        # arquivos novos em docs/ e .github/ por enquanto.
+        # Upstream sub-trees have inconsistent whitespace; only check files
+        # we have added under docs/ and .github/ for now.
         run: ec docs .github CHANGELOG.md CONTRIBUTING.md

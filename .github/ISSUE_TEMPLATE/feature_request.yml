@@ -1,42 +1,42 @@
 name: Feature / port task
-description: Propor uma tarefa ou melhoria no porte
+description: Propose a task or improvement for the port
 labels: ["enhancement"]
 body:
   - type: dropdown
     id: subsystem
     attributes:
-      label: Subsistema
+      label: Subsystem
       options:
         - gfx (renderer)
         - sound
         - net
-        - posix (stubs Win32→POSIX)
-        - switch (libnx specific)
+        - posix (Win32→POSIX stubs)
+        - switch (libnx-specific)
         - cmake / build
-        - deps (terceiros)
+        - deps (third-party)
         - docs
         - ci
-        - outro
+        - other
     validations:
       required: true
   - type: dropdown
     id: phase
     attributes:
-      label: Fase do porte
+      label: Port phase
       options:
-        - "Fase 1 — macOS/Linux baseline"
-        - "Fase 2 — cross-compile Switch"
-        - "Fase 3 — otimização Switch"
-        - "Independente de fase"
+        - "Phase 1 — macOS/Linux baseline"
+        - "Phase 2 — Switch cross-compile"
+        - "Phase 3 — Switch optimization"
+        - "Phase-independent"
     validations:
       required: true
   - type: textarea
     id: description
     attributes:
-      label: Descrição
+      label: Description
     validations:
       required: true
   - type: textarea
     id: approach
     attributes:
-      label: Abordagem proposta (opcional)
+      label: Proposed approach (optional)

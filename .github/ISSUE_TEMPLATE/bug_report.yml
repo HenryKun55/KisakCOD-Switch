@@ -1,17 +1,17 @@
 name: Bug report
-description: Reportar um problema no porte
+description: Report a problem in the port
 labels: ["bug"]
 body:
   - type: markdown
     attributes:
       value: |
-        Issues sobre o build Windows upstream devem ir para
+        Issues about the upstream Windows build belong in
         [SwagSoftware/KisakCOD](https://github.com/SwagSoftware/KisakCOD/issues).
-        Aqui é específico do porte Switch / macOS / Linux.
+        This tracker is specific to the Switch / macOS / Linux port.
   - type: dropdown
     id: platform
     attributes:
-      label: Plataforma
+      label: Platform
       options:
         - macOS (ARM64)
         - macOS (x86_64)
@@ -25,19 +25,19 @@ body:
     id: commit
     attributes:
       label: Commit / branch
-      placeholder: "ex: port/switch @ abc1234"
+      placeholder: "e.g. port/switch @ abc1234"
     validations:
       required: true
   - type: textarea
     id: repro
     attributes:
-      label: Passos para reproduzir
+      label: Steps to reproduce
     validations:
       required: true
   - type: textarea
     id: expected
     attributes:
-      label: Comportamento esperado vs observado
+      label: Expected vs observed behavior
     validations:
       required: true
   - type: textarea

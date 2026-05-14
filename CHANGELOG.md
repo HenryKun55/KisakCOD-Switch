@@ -1,116 +1,125 @@
 # Changelog
 
-Todas as mudanças notáveis nesse fork são registradas aqui.
+All notable changes to this fork are documented here.
 
-O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/),
-e o projeto adere a [Semantic Versioning](https://semver.org/lang/pt-BR/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and the project adheres to [Semantic Versioning](https://semver.org/).
 
-Esse fork é um esforço de porte do [KisakCOD](https://github.com/SwagSoftware/KisakCOD)
-para o Nintendo Switch (homebrew via devkitPro/libnx). Versões `0.x.y` indicam
-trabalho pré-jogável; `1.0.0` será marcada quando uma sessão single-player rodar
-em hardware real.
+This fork is a porting effort of [KisakCOD](https://github.com/SwagSoftware/KisakCOD)
+to the Nintendo Switch (homebrew via devkitPro/libnx). Versions `0.x.y` indicate
+pre-playable work; `1.0.0` will be tagged when a single-player session runs on
+real hardware.
 
 ## [Unreleased]
 
 ### Added
-- Fork inicializado a partir de `SwagSoftware/KisakCOD@master`.
-- Branch `port/switch` criada para trabalho de porte.
+- Fork initialized from `SwagSoftware/KisakCOD@master`.
+- `port/switch` branch created for porting work.
 - Scaffolding: `CHANGELOG.md`, `CONTRIBUTING.md`, `.editorconfig`,
-  `.github/workflows/ci.yml`, templates de issue/PR.
-- `docs/SWITCH_PORT.md` com mapa de subsistemas e fases do porte.
-- Variável de cache `KISAK_TARGET` (`windows|posix|switch`) no CMake, com
-  auto-detecção por sistema/toolchain.
-- Esqueleto POSIX em `src/posix/` com `posix_main.cpp` (entry point placeholder)
-  e `README.md` mapeando os arquivos `src/win32/*.cpp` upstream que serão
-  portados para essa pasta.
-- `scripts/posix/CMakeLists.txt` construindo o executável `bin/posix/kisak_posix`
-  quando `KISAK_TARGET=posix`. Primeiro binário do porte que builda end-to-end
-  fora do Windows.
-- Primeiro arquivo upstream integrado ao build POSIX: `src/universal/base64.cpp`
-  (encoder/decoder MIT-derived, sem dependências Win32). `posix_main.cpp` chama
-  `b64_encode` como smoke test de linkage.
-- `src/posix/kisak_compat.h`: shim de compatibilidade MSVC com `__cdecl`,
-  `__stdcall`, `__fastcall`, `__forceinline`, `__declspec`, `__int8/16/32/64`,
-  `__pragma`. Force-incluído pelo CMake antes de qualquer source. Cobre os
-  ~3.7k usos de keywords MSVC no upstream sem patches invasivos.
-- `src/posix/posix_assert.cpp`: implementação stub de `MyAssertHandler`
-  (imprime no stderr e aborta). Permite linkar arquivos upstream que chamam
-  `MyAssertHandler` diretamente (não via macro `iassert`).
-- `src/posix/posix_stubs.cpp`: stubs provisórios para `I_stricmp` (mapeia
-  pra `strcasecmp` POSIX), `AxisToQuat` (retorna quaternion identidade) e
-  `Vec2Normalize` (implementação portátil). Removíveis quando seus arquivos
-  donos forem portados.
-- 3 arquivos novos do upstream integrados ao build POSIX:
+  `.github/workflows/ci.yml`, issue/PR templates.
+- `docs/SWITCH_PORT.md` with subsystem map and port phases.
+- `KISAK_TARGET` CMake cache variable (`windows|posix|switch`) with
+  auto-detection based on the host system / toolchain.
+- POSIX skeleton under `src/posix/` with `posix_main.cpp` (placeholder entry
+  point) and `README.md` mapping the upstream `src/win32/*.cpp` files that
+  will be ported into that folder.
+- `scripts/posix/CMakeLists.txt` producing the `bin/posix/kisak_posix`
+  executable when `KISAK_TARGET=posix`. First binary of the port that builds
+  end-to-end off Windows.
+- First upstream source integrated into the POSIX build:
+  `src/universal/base64.cpp` (MIT-derived encoder/decoder, no Win32
+  dependencies). `posix_main.cpp` calls `b64_encode` as a linkage smoke test.
+- `src/posix/kisak_compat.h`: MSVC compatibility shim providing `__cdecl`,
+  `__stdcall`, `__fastcall`, `__forceinline`, `__declspec`,
+  `__int8/16/32/64`, and `__pragma`. Force-included by the build before every
+  source file. Covers the ~3.7k MSVC keyword usages in upstream without
+  invasive patches.
+- `src/posix/posix_assert.cpp`: stub implementation of `MyAssertHandler`
+  (prints to stderr and aborts). Allows linking upstream files that call
+  `MyAssertHandler` directly (not via the `iassert` macro).
+- `src/posix/posix_stubs.cpp`: provisional stubs for `I_stricmp` (maps to
+  POSIX `strcasecmp`), `AxisToQuat` (returns identity quaternion), and
+  `Vec2Normalize` (portable implementation). Removable once their owning
+  files are properly ported.
+- Three new upstream files integrated into the POSIX build:
   `src/universal/com_math_anglevectors.cpp`, `com_convexhull.cpp`,
-  `com_constantconfigstrings.cpp`. Compilam e linkam em macOS arm64.
-- **Primeiro `.nro` homebrew gerado**: `scripts/switch/CMakeLists.txt`
-  cross-compila o mesmo esqueleto (`posix_main` + stubs + 4 arquivos
-  upstream) com devkitA64+libnx, gerando `bin/switch/kisak_switch.elf`
-  (2.6 MB, ARM64 static-pie) e `bin/switch/kisak_switch.nro` (166 KB,
-  magic `HOMEBREWNRO0`). Carregável em Atmosphere CFW ou Ryujinx.
-- **Primeiro pixel renderizado**: `src/switch/switch_main.cpp` substitui
-  o entry point baseado em `consoleInit` por uma pipeline GLES2 completa
-  (EGL + mesa-nouveau via libnx). Renderiza um triângulo RGB no
-  framebuffer da tela usando shader vertex/fragment próprios. NRO agora
-  é ~5.8 MB (mesa-nouveau é static-linked). Aperta `+` pra sair.
-- **Triângulo animado**: vertex shader ganha `uniform float u_time` que
-  aplica rotação 2D no eixo Z; tempo monotonic via `armGetSystemTick` +
-  `armTicksToNs` do libnx. Prova de uniforms + transforms + tempo na
-  pipeline gráfica.
-- **`src/gfx_gl/`** (novo): renderer GLES2 extraído de `switch_main.cpp`
-  com API `init()` / `set_viewport()` / `render_frame(time)` / `shutdown()`,
-  agnóstica de windowing. `switch_main.cpp` agora cuida só do bootstrap
-  libnx + EGL e do loop principal. Primeira pedra do renderer reutilizável
-  que substituirá `src/gfx_d3d/` no futuro e vai ser compartilhado com
-  o build POSIX desktop.
-- `src/qcommon/thread_context.h`: enum `ThreadContext_t` extraída de
-  `gfx_d3d/rb_backend.h` pra ser incluída em targets POSIX/Switch sem
-  arrastar `<d3d9.h>`. `qcommon/threads.h` agora usa esse header em
-  caminho não-Windows.
+  `com_constantconfigstrings.cpp`. They compile and link on macOS arm64.
+- **First homebrew `.nro` generated**: `scripts/switch/CMakeLists.txt`
+  cross-compiles the same skeleton (`posix_main` + stubs + 4 upstream files)
+  with devkitA64+libnx, producing `bin/switch/kisak_switch.elf` (2.6 MB,
+  ARM64 static-pie) and `bin/switch/kisak_switch.nro` (166 KB,
+  `HOMEBREWNRO0` magic). Loadable in Atmosphere CFW or Ryujinx.
+- **First rendered pixel**: `src/switch/switch_main.cpp` replaces the
+  `consoleInit`-based entry point with a full GLES2 pipeline (EGL +
+  mesa-nouveau via libnx). Renders an RGB triangle into the screen
+  framebuffer using our own vertex/fragment shaders. NRO grows to ~5.8 MB
+  (mesa-nouveau is statically linked). Press `+` to exit.
+- **Animated triangle**: vertex shader gains `uniform float u_time` and
+  applies a Z-axis 2D rotation; monotonic time via libnx's
+  `armGetSystemTick` + `armTicksToNs`. Proves uniforms + transforms + time
+  on the graphics pipeline.
+- **`src/gfx_gl/`** (new): GLES2 renderer extracted from `switch_main.cpp`
+  with `init()` / `set_viewport()` / `render_frame(time)` / `shutdown()`
+  API, agnostic to windowing. `switch_main.cpp` now handles only the libnx
+  + EGL bootstrap and the main loop.
+- **POSIX desktop parity**: `src/posix/posix_gl_main.cpp` (new) uses SDL2
+  to create a window + GL 2.1 Compat context and calls the same `gfx_gl`
+  module the Switch build uses. `kisak_posix` on macOS arm64 now opens a
+  window with the same rotating triangle. Lets us iterate on shaders /
+  geometry without round-tripping through Ryujinx. Esc closes the window.
+- 3D upgrade: cube with perspective projection, depth test, MVP via GLM.
+  Replaces the 2D triangle. Shader uses `uniform mat4 u_mvp`; vertices are
+  now `vec3`. Camera at (0,0,3) looking at origin; cube rotates on Y and X.
+- `src/qcommon/thread_context.h`: `ThreadContext_t` enum extracted from
+  `gfx_d3d/rb_backend.h` so it can be included on POSIX/Switch targets
+  without pulling `<d3d9.h>`. `qcommon/threads.h` now uses this header on
+  non-Windows code paths.
 
 ### Fixed
-- Strict-aliasing UB nas macros `BYTEn`/`WORDn`/`DWORDn` (e variantes
-  signed) em `q_shared.h`. Adicionados typedefs com
-  `__attribute__((__may_alias__))` em GCC/clang, eliminando o warning
-  `-Wstrict-aliasing` que aparecia no build Switch (GCC) e a UB latente
-  que poderia se manifestar em otimização agressiva.
+- Strict-aliasing UB in the `BYTEn`/`WORDn`/`DWORDn` (and signed variants)
+  macros in `q_shared.h`. Added typedefs with
+  `__attribute__((__may_alias__))` on GCC/clang, eliminating the
+  `-Wstrict-aliasing` warning that showed up on the Switch (GCC) build and
+  the latent UB that could manifest under aggressive optimization.
 
 ### Changed
-- Build POSIX e Switch agora usam `-Wno-sign-compare`. Código upstream é
-  reverse-engineered (hex-rays nunca propaga signedness) e tem dezenas
-  de sites com `int` vs `unsigned int` cosmeticamente warneados. Será
-  reativado por subsistema quando o porte fizer auditoria de signedness.
-- `src/posix/kisak_compat.h`: agora também inclui `<climits>` (para
-  `INT_MIN`/`INT_MAX` usados em `DvarLimits`) e `<cstdlib>` + macros
-  `random` → `kisak_random` e `crandom` → `kisak_crandom` (evita colisão
-  com `<stdlib.h>` POSIX). `__int8/16/32/64` agora são `#define` em vez
-  de `typedef` — preserva o uso de `unsigned __int8` no source upstream.
-- `src/universal/q_shared.h`: adicionado bloco `#else` no `#ifdef WIN32`
-  com equivalentes POSIX para `MAC_STATIC`, `CPUSTRING` (detecta
+- CI workflow is now **manual-only** (`workflow_dispatch`). Push/PR triggers
+  removed while the port is in rapid iteration to avoid email spam.
+  Reinstate once the pipeline stabilizes.
+- POSIX and Switch builds now use `-Wno-sign-compare`. Upstream source is
+  reverse-engineered (hex-rays never propagates signedness), with dozens of
+  `int` vs `unsigned int` comparison sites that are cosmetic noise. Will be
+  re-enabled per subsystem during signedness audit.
+- `src/posix/kisak_compat.h`: also includes `<climits>` (for
+  `INT_MIN`/`INT_MAX` used in `DvarLimits`) and `<cstdlib>` plus macros
+  `random` → `kisak_random` and `crandom` → `kisak_crandom` (avoids
+  collision with POSIX `<stdlib.h>`). `__int8/16/32/64` are now `#define`
+  instead of `typedef` — preserves the use of `unsigned __int8` in upstream.
+- `src/universal/q_shared.h`: added an `#else` block to the `#ifdef WIN32`
+  with POSIX equivalents for `MAC_STATIC`, `CPUSTRING` (detects
   Switch/macOS/Linux), `ID_INLINE`, `BigShort`/`BigLong` (via
-  `__builtin_bswap*`), `LittleShort`/`LittleLong`/`LittleFloat` (no-ops em
+  `__builtin_bswap*`), `LittleShort`/`LittleLong`/`LittleFloat` (no-ops on
   little-endian), `PATH_SEP = '/'`.
-- `src/qcommon/qcommon.h`: includes `<xmmintrin.h>` e `<intrin.h>` agora
-  guardados por arquitetura (x86 only); `SnapFloatToInt(float/double)`
-  ganha fallback `std::lrintf`/`std::lrint` para ARM64 — mesmo
-  arredondamento round-to-nearest-even que `_mm_cvtss_si32`.
-- `static_assert(sizeof(X) == N)` em q_shared.h, qcommon.h e msg_mp.h
-  agora condicionais a `UINTPTR_MAX == 0xFFFFFFFFu` (i.e., só ativos em
-  builds 32-bit). Em 64-bit os layouts mudam por causa de ponteiros
-  maiores — porte 64-bit virá em fase própria.
-
-### Changed
-- `CMakeLists.txt` raiz refatorado para suportar configuração em hosts não-MSVC.
-  Flags MSVC (`/MT /O2 /Ot /MP /W3 /Zi /permissive-`) agora dentro de `if(MSVC)`.
-  Em `KISAK_TARGET ∈ {posix,switch}`, os subdirs Windows (`mp/sp/dedi`) são
-  ignorados. Não altera o comportamento do build Windows upstream.
-- CI workflow `posix-build`: roda em Ubuntu **e** macOS, exige configure +
-  build + smoke run de `kisak_posix` (não é mais `continue-on-error`).
+- `src/qcommon/qcommon.h`: `<xmmintrin.h>` and `<intrin.h>` includes are
+  now guarded by architecture (x86 only); `SnapFloatToInt(float/double)`
+  gains an ARM64 fallback using `std::lrintf` / `std::lrint` — same
+  round-to-nearest-even rounding as `_mm_cvtss_si32`.
+- `static_assert(sizeof(X) == N)` in `q_shared.h`, `qcommon.h`, and
+  `msg_mp.h` now gated by `UINTPTR_MAX == 0xFFFFFFFFu` (i.e., active only
+  on 32-bit builds). On 64-bit the layouts change due to wider pointers —
+  the 64-bit port will get its own dedicated phase.
+- Root `CMakeLists.txt` refactored to support configuration on non-MSVC
+  hosts. MSVC flags (`/MT /O2 /Ot /MP /W3 /Zi /permissive-`) are now
+  wrapped in `if(MSVC)`. On `KISAK_TARGET ∈ {posix,switch}` the Windows
+  subdirs (`mp/sp/dedi`) are skipped. Upstream Windows build behavior is
+  unchanged.
 
 ### Notes
-- Toolchain alvo: devkitPro/devkitA64 + libnx + mesa-nouveau/deko3d.
-- Trabalho intermediário em macOS/Linux ARM64 antes de cross-compilar pro Switch.
-- `cmake -B build-posix -S .` agora configura limpo no macOS arm64
-  (`target=posix`), pronto para os próximos passos da Fase 1.
+- Target toolchain: devkitPro/devkitA64 + libnx + mesa-nouveau (with
+  potential migration to deko3d once the game runs and we need more
+  performance).
+- Intermediate work on macOS/Linux ARM64 before cross-compiling for Switch.
+- `cmake -B build-posix -S .` now configures cleanly on macOS arm64
+  (`target=posix`), ready for the next Phase 1 steps.
 
 [Unreleased]: https://github.com/HenryKun55/KisakCOD-Switch/compare/v0.0.0...HEAD
