@@ -21,9 +21,9 @@ adjacencyWinding_t *__cdecl BuildBrushdAdjacencyWindingForSide(
     float perimiter1; // [esp+24h] [ebp-6040h]
     float plane[4]; // [esp+28h] [ebp-603Ch] BYREF
     int ptsCount; // [esp+38h] [ebp-602Ch]
-    float v0[3073]{ 0 }; // [esp+3Ch] [ebp-6028h] BYREF
-    SimplePlaneIntersection *xyz[1024]{ 0 }; // [esp+3044h] [ebp-3020h] BYREF
-    SimplePlaneIntersection *cycle[2][1024]{ 0 }; // [esp+4044h] [ebp-2020h] BYREF
+    float v0[3073]{};  // [esp+3Ch] [ebp-6028h] BYREF
+    SimplePlaneIntersection *xyz[1024]{};  // [esp+3044h] [ebp-3020h] BYREF
+    SimplePlaneIntersection *cycle[2][1024]{};  // [esp+4044h] [ebp-2020h] BYREF
     int i0; // [esp+6044h] [ebp-20h] BYREF
     char v20; // [esp+6048h] [ebp-1Ch]
     char v21; // [esp+6049h] [ebp-1Bh]
@@ -432,7 +432,7 @@ bool __cdecl CycleLess(
     {
         return 1;
     }
-    return perimiter1 < perimiter2 - 1.0 || perimiter2 >= perimiter1 - 1.0 && nodeCount1 > nodeCount2;
+    return perimiter1 < perimiter2 - 1.0 || (perimiter2 >= perimiter1 - 1.0 && nodeCount1 > nodeCount2);
 }
 
 int32_t __cdecl ReduceToACycle(int32_t basePlane, const SimplePlaneIntersection **pts, int32_t ptsCount)
@@ -581,6 +581,7 @@ char __cdecl FindCycleBFS(
     const SimplePlaneIntersection *v11; // [esp+8h] [ebp-4020h] BYREF
     int32_t planeIndex; // [esp+Ch] [ebp-401Ch]
     int32_t v13; // [esp+10h] [ebp-4018h]
+    (void)v13;   // hex-rays scratch; unread
     uint32_t v14[4094]; // [esp+14h] [ebp-4014h]
     int32_t v15; // [esp+400Ch] [ebp-1Ch]
     const SimplePlaneIntersection *v16; // [esp+4010h] [ebp-18h]
@@ -637,20 +638,20 @@ LABEL_6:
                     *(&v11 + 4 * v21) = *i;
                     *(&planeIndex + 4 * v21) = v15;
                     v14[4 * v21 - 1] = v14[4 * v20 - 1] + 1;
-                    v14[4 * v21++] = (uint32_t)&v11 + 4 * v20; // KISAKTODO: sus cast
+                    v14[4 * v21++] = (uint32_t)((uintptr_t)&v11 + 4 * v20); // KISAKTODO: sus cast (truncates pointer on 64-bit)
                     if (v15 == v19)
                         break;
                 }
             }
         }
         v9 = &v11 + 4 * v21 - 4;
-        if ((int)v9[1] != v19) // KISAKTODO: sus cast
+        if ((int)(uintptr_t)v9[1] != v19) // KISAKTODO: sus cast (truncates pointer on 64-bit)
             MyAssertHandler("..\\common\\brush_edges.cpp", 318, 1, "%s", "node->plane == goalPlane");
-        *resultCycleCount = (int)(v9[2]->xyz + 1);
+        *resultCycleCount = (int)(uintptr_t)(v9[2]->xyz + 1); // KISAKTODO: sus cast
         v16 = v9[2];
         while (v9)
         {
-            resultCycle[(uint32_t)v16] = *v9;
+            resultCycle[(uint32_t)(uintptr_t)v16] = *v9; // KISAKTODO: sus cast
             v16 = (v16 - 1);
             v9 = &v9[3];
         }
@@ -858,10 +859,10 @@ int32_t __cdecl NumberOfUniquePoints(const SimplePlaneIntersection **pts, int32_
     v4 = 0;
     for (i = 0; i < ptsCount; ++i)
     {
-        for (j = 0; j < v4 && !VecNCompareCustomEpsilon(pts[i]->xyz, (const float*)v3[j], 0.0099999998f, 3); ++j) // KISAKTODO: more sus casts
+        for (j = 0; j < v4 && !VecNCompareCustomEpsilon(pts[i]->xyz, (const float*)(uintptr_t)v3[j], 0.0099999998f, 3); ++j) // KISAKTODO: more sus casts
             ;
         if (j == v4)
-            v3[v4++] = (uint32_t)pts[i];
+            v3[v4++] = (uint32_t)(uintptr_t)pts[i];
     }
     return v4;
 }

@@ -35,6 +35,14 @@ set(UNIVERSAL_PORTABLE_SOURCES
     "${SRC_DIR}/universal/q_parse.cpp"
 )
 
+set(COMMON_PORTABLE_SOURCES
+    # brush_edges.cpp: compiles clean on clang, but GCC's -Warray-bounds
+    # flags hex-rays-style `(*xyz)[3*k]` indexing (xyz declared as
+    # `float (*)[3]` but actual data is a flat float buffer). Needs a
+    # signature refactor or a localized pragma before it can land on
+    # Switch (devkitA64 GCC).
+)
+
 set(QCOMMON_PORTABLE_SOURCES
     "${SRC_DIR}/qcommon/cm_load.cpp"
     "${SRC_DIR}/qcommon/cm_mesh.cpp"
@@ -55,6 +63,7 @@ add_executable(kisak_posix
     ${POSIX_SOURCES}
     ${UNIVERSAL_PORTABLE_SOURCES}
     ${QCOMMON_PORTABLE_SOURCES}
+    ${COMMON_PORTABLE_SOURCES}
 )
 
 target_include_directories(kisak_posix PRIVATE

@@ -313,6 +313,17 @@ float Vec3Length(const float *v)
     return std::sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);
 }
 
+float Vec3DistanceSq(const float *a, const float *b)
+{
+    const float dx = a[0]-b[0], dy = a[1]-b[1], dz = a[2]-b[2];
+    return dx*dx + dy*dy + dz*dz;
+}
+
+float Vec3Distance(const float *a, const float *b)
+{
+    return std::sqrt(Vec3DistanceSq(a, b));
+}
+
 bool Vec3IsNormalized(const float *v)
 {
     const float lensq = v[0]*v[0] + v[1]*v[1] + v[2]*v[2];
