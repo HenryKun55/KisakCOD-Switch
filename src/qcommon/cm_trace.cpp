@@ -119,7 +119,7 @@ void __cdecl CM_BoxTrace(
     unsigned int model,
     int brushmask)
 {
-    memset((unsigned __int8 *)results, 0, sizeof(trace_t));
+    memset((void*)results, 0, sizeof(trace_t)); // cast silences -Wclass-memaccess (trace_t has constructors)
     results->fraction = 1.0;
     CM_Trace(results, start, end, mins, maxs, model, brushmask);
 }
@@ -1593,7 +1593,7 @@ void __cdecl CM_TransformedBoxTraceExternal(
     const float *origin,
     const float *angles)
 {
-    memset((unsigned __int8 *)results, 0, sizeof(trace_t));
+    memset((void*)results, 0, sizeof(trace_t)); // cast silences -Wclass-memaccess (trace_t has constructors)
     results->fraction = 1.0;
     CM_TransformedBoxTrace(results, start, end, mins, maxs, model, origin, angles);
 }
@@ -1625,7 +1625,7 @@ int __cdecl CM_BoxSightTrace(
     int i; // [esp+148h] [ebp-8h]
     int hitNum; // [esp+14Ch] [ebp-4h]
 
-    memset(&trace, 0, sizeof(trace_t));
+    memset((void*)&trace, 0, sizeof(trace_t)); // cast silences -Wclass-memaccess
 
     iassert(cm.numNodes);
     iassert(mins);

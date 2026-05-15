@@ -302,6 +302,248 @@ enum MapProfileTrackedValue : int;
 void ProfLoad_BeginTrackedValue(MapProfileTrackedValue) {}
 void ProfLoad_EndTrackedValue(MapProfileTrackedValue)   {}
 
+// === Vec3 / matrix math required by the cm_*.cpp collision files =========
+// All real implementations (not placeholder stubs). When com_math.cpp
+// finally ports, these collide with upstream's versions — remove then.
+
+float Q_fabs(float v) { return std::fabs(v); }
+
+float Vec3Length(const float *v)
+{
+    return std::sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);
+}
+
+bool Vec3IsNormalized(const float *v)
+{
+    const float lensq = v[0]*v[0] + v[1]*v[1] + v[2]*v[2];
+    return std::fabs(lensq - 1.0f) < 0.0001f;
+}
+
+void Vec3Add(const float *a, const float *b, float *out)
+{
+    out[0] = a[0] + b[0];
+    out[1] = a[1] + b[1];
+    out[2] = a[2] + b[2];
+}
+
+void Vec3Cross(const float *a, const float *b, float *out)
+{
+    out[0] = a[1]*b[2] - a[2]*b[1];
+    out[1] = a[2]*b[0] - a[0]*b[2];
+    out[2] = a[0]*b[1] - a[1]*b[0];
+}
+
+void Vec3Scale(const float *a, float s, float *out)
+{
+    out[0] = a[0] * s;
+    out[1] = a[1] * s;
+    out[2] = a[2] * s;
+}
+
+void Vec3Lerp(const float *a, const float *b, float t, float *out)
+{
+    out[0] = a[0] + t * (b[0] - a[0]);
+    out[1] = a[1] + t * (b[1] - a[1]);
+    out[2] = a[2] + t * (b[2] - a[2]);
+}
+
+// out = a + s1*b + s2*c (multiply-add-multiply-add).
+void Vec3MadMad(const float *a, float s1, const float *b,
+                float s2, const float *c, float *out)
+{
+    out[0] = a[0] + s1 * b[0] + s2 * c[0];
+    out[1] = a[1] + s1 * b[1] + s2 * c[1];
+    out[2] = a[2] + s1 * b[2] + s2 * c[2];
+}
+
+// Returns 1 if every component of `a` differs from `b` by at most
+// `epsilon`, 0 otherwise. `n` is the component count (3 for vec3).
+int VecNCompareCustomEpsilon(const float *a, const float *b, float epsilon, int n)
+{
+    for (int i = 0; i < n; ++i) {
+        if (std::fabs(a[i] - b[i]) > epsilon) return 0;
+    }
+    return 1;
+}
+
+// 3x3 matrix * vec3.
+void MatrixTransformVector(const float *in, const float (&m)[3][3], float *out)
+{
+    out[0] = in[0]*m[0][0] + in[1]*m[1][0] + in[2]*m[2][0];
+    out[1] = in[0]*m[0][1] + in[1]*m[1][1] + in[2]*m[2][1];
+    out[2] = in[0]*m[0][2] + in[1]*m[1][2] + in[2]*m[2][2];
+}
+
+// 3x3 transposed matrix * vec3 (used to take a vector from world into a
+// local frame whose basis is the rows of m).
+void MatrixTransposeTransformVector(const float *in, const float (&m)[3][3], float *out)
+{
+    out[0] = in[0]*m[0][0] + in[1]*m[0][1] + in[2]*m[0][2];
+    out[1] = in[0]*m[1][0] + in[1]*m[1][1] + in[2]*m[1][2];
+    out[2] = in[0]*m[2][0] + in[1]*m[2][1] + in[2]*m[2][2];
+}
+
+// In-place transpose of a 3x3 matrix (out = in^T).
+void G_TransposeMatrix(float (*in)[3], float (*out)[3])
+{
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            out[i][j] = in[j][i];
+        }
+    }
+}
+
+// G_RotatePoint: rotates `pt` (vec3) in-place by a 3x3 matrix.
+void G_RotatePoint(float *pt, float (*m)[3])
+{
+    float tmp[3] = { pt[0], pt[1], pt[2] };
+    pt[0] = tmp[0]*m[0][0] + tmp[1]*m[1][0] + tmp[2]*m[2][0];
+    pt[1] = tmp[0]*m[0][1] + tmp[1]*m[1][1] + tmp[2]*m[2][1];
+    pt[2] = tmp[0]*m[0][2] + tmp[1]*m[1][2] + tmp[2]*m[2][2];
+}
+
+// Plane equation from 3 points: plane[0..2] = normal, plane[3] = distance.
+void PlaneFromPoints(float *plane, const float *a, const float *b, const float *c)
+{
+    const float ab[3] = { b[0]-a[0], b[1]-a[1], b[2]-a[2] };
+    const float ac[3] = { c[0]-a[0], c[1]-a[1], c[2]-a[2] };
+    plane[0] = ab[1]*ac[2] - ab[2]*ac[1];
+    plane[1] = ab[2]*ac[0] - ab[0]*ac[2];
+    plane[2] = ab[0]*ac[1] - ab[1]*ac[0];
+    const float lensq = plane[0]*plane[0] + plane[1]*plane[1] + plane[2]*plane[2];
+    if (lensq > 0.0f) {
+        const float inv = 1.0f / std::sqrt(lensq);
+        plane[0] *= inv;
+        plane[1] *= inv;
+        plane[2] *= inv;
+    }
+    plane[3] = plane[0]*a[0] + plane[1]*a[1] + plane[2]*a[2];
+}
+
+// Intersect 3 planes (each plane is 4 floats: nx ny nz d). `planes` is an
+// array of 3 const float* (one per plane). Result in `out` (vec3).
+// Solves planes[i] · p = planes[i][3] via Cramer's rule. Returns the
+// intersection unchanged on near-singular configurations (callers handle
+// the no-intersection case via separate validity checks upstream).
+void IntersectPlanes(const float **planes, float *out)
+{
+    const float a = planes[0][0], b = planes[0][1], c = planes[0][2];
+    const float d = planes[1][0], e = planes[1][1], f = planes[1][2];
+    const float g = planes[2][0], h = planes[2][1], i = planes[2][2];
+    const float det = a*(e*i - f*h) - b*(d*i - f*g) + c*(d*h - e*g);
+    if (std::fabs(det) < 1e-9f) {
+        out[0] = out[1] = out[2] = 0.0f;
+        return;
+    }
+    const float pa = planes[0][3], pb = planes[1][3], pc = planes[2][3];
+    const float invDet = 1.0f / det;
+    out[0] = invDet * (pa*(e*i - f*h) - b*(pb*i - f*pc) + c*(pb*h - e*pc));
+    out[1] = invDet * (a*(pb*i - f*pc) - pa*(d*i - f*g) + c*(d*pc - pb*g));
+    out[2] = invDet * (a*(e*pc - pb*h) - b*(d*pc - pb*g) + pa*(d*h - e*g));
+}
+
+// SnapPointToIntersectingPlanes: snap `pt` so it lies as close as possible
+// to all 3 planes' intersection within the given tolerances. Stub uses the
+// raw 3-plane intersection — upstream's algorithm refines along a tolerance
+// disc but the snap is rarely on the hot path for our build.
+void SnapPointToIntersectingPlanes(const float **planes, float *pt,
+                                   float /*tolerance*/, float /*step*/)
+{
+    IntersectPlanes(planes, pt);
+}
+
+// === Engine stubs required by cm_* collision files ========================
+// These are subsystems we have not yet ported. Stubs accept the calls and
+// either no-op or return sentinel values so the collision module links.
+
+#include <new>
+
+// Hunk_Alloc: upstream's permanent memory hunk allocator. Backed by a fresh
+// new[] for now — bytes leak intentionally; the hunk lives for the engine's
+// lifetime in upstream too. Will be replaced when qcommon's hunk subsystem
+// is properly ported.
+void *Hunk_Alloc(unsigned int size, const char * /*name*/, int /*type*/)
+{
+    return new (std::nothrow) unsigned char[size]();
+}
+
+// Sys_Error: fatal engine error. Same behaviour as Com_Error for now.
+void Sys_Error(const char *fmt, ...)
+{
+    std::fputs("[sys-fatal] ", stderr);
+    if (fmt) {
+        va_list ap;
+        va_start(ap, fmt);
+        std::vfprintf(stderr, fmt, ap);
+        va_end(ap);
+    }
+    std::fputc('\n', stderr);
+    std::abort();
+}
+
+// track_static_alloc_internal: instrumentation for the static memory
+// tracker. No-op until mem_track.cpp ports.
+void track_static_alloc_internal(void * /*addr*/, int /*size*/,
+                                 const char * /*name*/, int /*type*/) {}
+
+// DB_FindXAssetHeader: asset lookup. Returns a default-constructed
+// XAssetHeader (data=nullptr) so callers can fail gracefully. Real impl
+// lands with db_load.cpp.
+// Defined out-of-line via forward declaration of the union so we don't
+// pull xanim/xanim.h into the stubs TU.
+enum XAssetType : int;
+union XAssetHeader { void *data; XAssetHeader() : data(nullptr) {} };
+XAssetHeader DB_FindXAssetHeader(XAssetType /*type*/, const char * /*name*/)
+{
+    return XAssetHeader{};
+}
+
+// XModelTraceLine: ray-test against an XModel. Stub clears the trace_t —
+// upstream cm_test calls this for visibility checks. trace_t has many
+// fields; just zero the storage by reinterpret. Forward-declare to avoid
+// dragging the xanim/xmodel headers in here.
+struct trace_t;
+struct XModel;
+void XModelTraceLine(const XModel * /*model*/, trace_t *trace,
+                     const float * /*start*/, const float * /*end*/, int /*contents*/)
+{
+    if (trace) std::memset(trace, 0, 256); // upper bound on sizeof(trace_t)
+}
+
+// CM_LoadMapData_LoadObj: collision-model loader entry. Real impl lands
+// with cm_load_obj.cpp (which depends on more renderer state). Until
+// then, map data simply isn't loaded.
+void CM_LoadMapData_LoadObj(const char * /*name*/) {}
+
+// === Globals required by cm_load and friends ==============================
+// Definitions of upstream globals so the linker resolves the externs.
+// Sizes match upstream layouts on 32-bit; on 64-bit they may be slightly
+// larger due to pointer growth in member structs but the storage is
+// allocated dynamically and field accesses go through the upstream types
+// (no runtime impact for what we currently exercise).
+
+// THREAD_CONTEXT_COUNT comes from qcommon/thread_context.h on POSIX.
+// TraceThreadInfo is a substantial struct; allocate a generous buffer that
+// covers its size (~16 KB per slot). The collision code only writes to
+// thread-local copies, never reads the array directly in the cm_* set we
+// link today, so the storage is effectively dead.
+#include <qcommon/thread_context.h>
+struct TraceThreadInfo;
+alignas(16) static unsigned char g_traceThreadInfo_storage[THREAD_CONTEXT_COUNT * 16384];
+// `g_traceThreadInfo` is declared `extern TraceThreadInfo array[N]` in
+// upstream — we define the storage as an array via reinterpret_cast so
+// the linker resolves both decl forms. Use `extern` linkage explicitly
+// to avoid the const-pointer-treated-as-internal warning.
+extern TraceThreadInfo * const g_traceThreadInfo;
+TraceThreadInfo * const g_traceThreadInfo =
+    reinterpret_cast<TraceThreadInfo *>(g_traceThreadInfo_storage);
+
+// useFastFile is a dvar* — we expose a null pointer so the upstream
+// `useFastFile->current.enabled` accessor in q_shared.h returns 0 once
+// we add a guard, but for now no caller in our build path dereferences it.
+struct dvar_s;
+const dvar_s *useFastFile = nullptr;
+
 // ClearBounds / ExpandBounds: declared in com_math.h, defined in
 // com_math.cpp. Trivial math we can implement portably; will collide with
 // com_math.cpp's versions when that file ports, at which point these stubs

@@ -39,15 +39,18 @@ set(UNIVERSAL_PORTABLE_SOURCES
 )
 
 set(QCOMMON_PORTABLE_SOURCES
+    "${SRC_DIR}/qcommon/cm_load.cpp"
+    "${SRC_DIR}/qcommon/cm_mesh.cpp"
+    "${SRC_DIR}/qcommon/cm_showcollision.cpp"
+    "${SRC_DIR}/qcommon/cm_staticmodel.cpp"
+    "${SRC_DIR}/qcommon/cm_test.cpp"
+    "${SRC_DIR}/qcommon/cm_trace.cpp"
     "${SRC_DIR}/qcommon/cm_tracebox.cpp"
     "${SRC_DIR}/qcommon/com_fileaccess.cpp"
     "${SRC_DIR}/qcommon/com_pack.cpp"
     "${SRC_DIR}/qcommon/dl_main.cpp"
     "${SRC_DIR}/qcommon/huffman.cpp"
     "${SRC_DIR}/qcommon/md4.cpp"
-    # The remaining cm_*.cpp files compile cleanly but need link-time stubs
-    # for ~24 engine symbols (Hunk_Alloc, DB_FindXAssetHeader, the Vec3
-    # family, Sys_Error, ...). Adding them is the next stub pass.
 )
 
 add_executable(kisak_switch

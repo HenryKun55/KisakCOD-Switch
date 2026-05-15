@@ -16,7 +16,7 @@
 #include <bgame/bg_public.h>
 //#include <game_mp/g_public_mp.h>
 
-static const char *hintStrings[] = { "", "HINT_NOICON", "HINT_ACTIVATE", "HINT_HEALTH" }; // idb
+[[maybe_unused]] static const char *hintStrings[] = { "", "HINT_NOICON", "HINT_ACTIVATE", "HINT_HEALTH" }; // idb
 
 enum VehicleTypes : __int32 // (SP/MP same)
 {
@@ -30,7 +30,7 @@ enum VehicleTypes : __int32 // (SP/MP same)
 };
 
 // Corresponds to above enum
-static const char *s_vehicleTypeNames[6] = { "4 wheel", "tank", "plane", "boat", "artillery", "helicopter" };
+[[maybe_unused]] static const char *s_vehicleTypeNames[6] = { "4 wheel", "tank", "plane", "boat", "artillery", "helicopter" };
 
 
 // g_client_fields

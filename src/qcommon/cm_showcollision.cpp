@@ -71,7 +71,7 @@ void __cdecl CM_ShowSingleBrushCollision(
                 drawCollisionPoly(*(unsigned int *)windingPool, (float (*)[3]) & windingPool[4], color);
             }
         }
-        for (sideIndex = 6; sideIndex < brush->numsides + 6; ++sideIndex)
+        for (sideIndex = 6; sideIndex < (int)brush->numsides + 6; ++sideIndex)
         {
             if (CM_BuildBrushWindingForSide(
                 (winding_t *)windingPool,
