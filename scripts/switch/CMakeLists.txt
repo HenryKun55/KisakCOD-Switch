@@ -60,11 +60,16 @@ set(QCOMMON_PORTABLE_SOURCES
     "${SRC_DIR}/qcommon/statmonitor.cpp"
 )
 
+set(SCRIPT_PORTABLE_SOURCES
+    "${SRC_DIR}/script/scr_const.cpp"
+)
+
 add_executable(kisak_switch
     ${SWITCH_SOURCES}
     ${UNIVERSAL_PORTABLE_SOURCES}
     ${QCOMMON_PORTABLE_SOURCES}
     ${COMMON_PORTABLE_SOURCES}
+    ${SCRIPT_PORTABLE_SOURCES}
 )
 
 target_include_directories(kisak_switch PRIVATE

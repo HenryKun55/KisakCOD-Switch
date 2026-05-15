@@ -13,7 +13,7 @@ struct weaponParms;
 
 #define PERK_COUNT 20
 
-static const char *g_dedicatedEnumNames[4] = { "listen server", "dedicated LAN server", "dedicated internet server", NULL }; // idb
+[[maybe_unused]] static const char *g_dedicatedEnumNames[4] = { "listen server", "dedicated LAN server", "dedicated internet server", NULL }; // idb
 
 struct BuiltinFunctionDef // sizeof=0xC
 {
@@ -35,7 +35,7 @@ struct BuiltinMethodDef // sizeof=0xC
 static_assert(sizeof(BuiltinMethodDef) == 0xC);
 #endif
 
-static uint16_t *modNames[16] =
+[[maybe_unused]] static uint16_t *modNames[16] =
 {
     &scr_const.mod_unknown,
     &scr_const.mod_pistol_bullet,

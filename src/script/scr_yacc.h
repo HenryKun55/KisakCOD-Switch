@@ -1,7 +1,10 @@
 #pragma once
 #include "scr_stringlist.h"
 #include <cstdio> // FILE
+#ifdef _WIN32
 #include <Windows.h>
+#endif
+// POSIX/Switch: Win32 types come from src/posix/kisak_compat.h.
 
 // LWSS: this enum name is kinda retarded
 enum Enum_t : __int32

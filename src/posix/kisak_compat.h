@@ -55,6 +55,26 @@
 // On clang/gcc the equivalent is __builtin_trap (or __builtin_debugtrap
 // on clang specifically, but trap works everywhere as a fallback).
 #define __debugbreak() __builtin_trap()
+
+// Upstream's basic byte typedef lives in q_shared.h; expose it
+// project-wide so headers that use 'byte' before q_shared.h is included
+// (e.g. r_gfx.h reached through scr_const.h's chain) still parse. Mirror
+// the upstream typedef exactly to avoid ODR issues.
+typedef unsigned char byte;
+
+// Win32 InterlockedIncrement / InterlockedDecrement: atomic add/sub by 1.
+// Maps directly to GCC/clang __atomic_*_fetch with sequential consistency.
+// Templated so int*/long*/etc. call sites match without overload juggling.
+template <typename T>
+static inline T InterlockedIncrement(T volatile *p)
+{
+    return __atomic_add_fetch(p, T{1}, __ATOMIC_SEQ_CST);
+}
+template <typename T>
+static inline T InterlockedDecrement(T volatile *p)
+{
+    return __atomic_sub_fetch(p, T{1}, __ATOMIC_SEQ_CST);
+}
 // _time64/_localtime64: MSVC's explicit 64-bit time_t variants. POSIX
 // time_t is already 64-bit on every platform we target (macOS arm64, Linux
 // x86_64/arm64, Switch arm64), but isn't the same type as `long long`
@@ -128,6 +148,8 @@ typedef unsigned long ULONG;
 typedef wchar_t       WCHAR;
 typedef WCHAR        *LPWSTR;
 typedef const WCHAR  *LPCWSTR;
+typedef void         *LPVOID;
+typedef const void   *LPCVOID;
 
 // LARGE_INTEGER: Win32 union for 64-bit values. Upstream uses only
 // .QuadPart (for QueryPerformanceCounter), so the anonymous-struct

@@ -16,7 +16,7 @@ struct scrMemTreeDebugGlob_t // sizeof=0x20000
     unsigned __int8 mt_usage[MEMORY_NODE_COUNT];    // ...
     unsigned __int8 mt_usage_size[MEMORY_NODE_COUNT]; // ...
 };
-scrMemTreeDebugGlob_t scrMemTreeDebugGlob = { 0 };
+scrMemTreeDebugGlob_t scrMemTreeDebugGlob = {};
 
 static void MT_InitBits(void)
 {
@@ -78,6 +78,7 @@ unsigned short MT_AllocIndex(int numBytes, int type)
 {
     const char* v2; // eax
     const char* v3; // eax
+    (void)v2; (void)v3; // hex-rays scratch; unread
     unsigned int nodeNum; // [esp+4Ch] [ebp-Ch]
     unsigned int size; // [esp+50h] [ebp-8h]
     int newSize; // [esp+54h] [ebp-4h]
