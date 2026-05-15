@@ -191,6 +191,7 @@ void MT_RemoveHeadMemoryNode(int size)
 void MT_FreeIndex(unsigned int nodeNum, int numBytes)
 {
     const char* v2; // eax
+    (void)v2; // hex-rays scratch; unread
     int size; // [esp+30h] [ebp-8h]
     int lowBit; // [esp+34h] [ebp-4h]
 
@@ -491,6 +492,7 @@ void MT_DumpTree()
     int totalAlloc = 0;
     int totalAllocBuckets = 0;
     int totalBuckets = 0;
+    (void)totalAlloc; (void)totalAllocBuckets; (void)totalBuckets; // accumulated but never printed in this code path
 
     for (int nodeNum = 0; nodeNum < MEMORY_NODE_COUNT; nodeNum++)
     {

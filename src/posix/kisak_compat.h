@@ -62,6 +62,11 @@
 // the upstream typedef exactly to avoid ODR issues.
 typedef unsigned char byte;
 
+// ARRAYSIZE: Win32 macro for compile-time array element count.
+#ifndef ARRAYSIZE
+#define ARRAYSIZE(a) (sizeof(a) / sizeof((a)[0]))
+#endif
+
 // Win32 InterlockedIncrement / InterlockedDecrement: atomic add/sub by 1.
 // Maps directly to GCC/clang __atomic_*_fetch with sequential consistency.
 // Templated so int*/long*/etc. call sites match without overload juggling.

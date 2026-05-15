@@ -179,11 +179,13 @@ void __cdecl Scr_LoadAnimTreeAtIndex(unsigned int index, void *(__cdecl *Alloc)(
     char *v4; // eax
     const char *v5; // eax
     char *v6; // eax
+    (void)v4; (void)v5; (void)v6; // hex-rays scratch; unread
     unsigned int Variable; // eax
     unsigned int animtree_node; // [esp-8h] [ebp-30h]
     XAnim_s *animtree; // [esp+0h] [ebp-28h]
     unsigned int size; // [esp+8h] [ebp-20h]
     unsigned int size2;
+    (void)size2; // hex-rays scratch; unread
     unsigned int name; // [esp+Ch] [ebp-1Ch]
     unsigned int filenameId; // [esp+10h] [ebp-18h]
     unsigned int names; // [esp+14h] [ebp-14h]
@@ -239,7 +241,10 @@ void __cdecl Scr_LoadAnimTreeAtIndex(unsigned int index, void *(__cdecl *Alloc)(
             RemoveRefToObject(scrAnimPub.animtree_node);
             scrAnimPub.animtree_node = 0;
             tempValue.type = VAR_CODEPOS;
-            tempValue.u.intValue = (int)animtree;
+            // 64-bit-port note: stashing pointer in 32-bit int slot of
+            // DvarValue. Truncates on 64-bit; see docs/RISKS.md for the
+            // broader layout work that fixes this properly.
+            tempValue.u.intValue = (int)(uintptr_t)animtree;
             Variable = GetVariable(fileId, 1);
             SetVariableValue(Variable, &tempValue);
             XAnimSetupSyncNodes(animtree);
@@ -435,7 +440,7 @@ void __cdecl Scr_CheckAnimsDefined(unsigned int names, unsigned int filename)
         {
             msg = va("animation '%s' not defined in anim tree '%s'", SL_ConvertToString(name), SL_ConvertToString(filename));
             if (Scr_IsInOpcodeMemory(value->u.codePosValue))
-                CompileError2((char *)value->u.intValue, "%s", msg);
+                CompileError2((char *)(uintptr_t)value->u.intValue, "%s", msg); // 64-bit-port: see RISKS.md
             else
                 Com_Error(ERR_DROP, "%s", msg);
         }
@@ -496,6 +501,7 @@ bool __cdecl AnimTreeParseInternal(
     bool eof; // al
     unsigned int ArrayVariable; // eax
     unsigned int prev; // eax
+    (void)prev; // hex-rays scratch; unread
     unsigned int currentAnim; // [esp+Ch] [ebp-24h]
     bool bResult; // [esp+13h] [ebp-1Dh]
     unsigned int animName; // [esp+14h] [ebp-1Ch]
@@ -568,7 +574,7 @@ bool __cdecl AnimTreeParseInternal(
                 AnimTreeCompileError("no animation specified for this block");
 
             currentAnimArray = GetArray(currentAnim);
-            if (bComplete || (flags & ANIMFLAG_COMPLETE) != 0 && !bIgnore)
+            if (bComplete || ((flags & ANIMFLAG_COMPLETE) != 0 && !bIgnore))
                 eof = AnimTreeParseInternal(currentAnimArray, names, !bIgnore, flags & ANIMFLAG_LOOPSYNC, true);
             else
                 eof = AnimTreeParseInternal(currentAnimArray, names, !bIgnore, flags & ANIMFLAG_LOOPSYNC, false);

@@ -62,6 +62,9 @@ set(QCOMMON_PORTABLE_SOURCES
 
 set(SCRIPT_PORTABLE_SOURCES
     "${SRC_DIR}/script/scr_const.cpp"
+    # scr_animtree, scr_main, scr_memorytree compile cleanly but need the
+    # rest of the script ecosystem linked first (TempMalloc, FindObject,
+    # GetVariable, XAnimBlend, ScriptParse, Com_sprintf, ...).
 )
 
 add_executable(kisak_switch
