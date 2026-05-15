@@ -51,6 +51,7 @@ set(QCOMMON_PORTABLE_SOURCES
     "${SRC_DIR}/qcommon/dl_main.cpp"
     "${SRC_DIR}/qcommon/huffman.cpp"
     "${SRC_DIR}/qcommon/md4.cpp"
+    "${SRC_DIR}/qcommon/statmonitor.cpp"
 )
 
 add_executable(kisak_switch

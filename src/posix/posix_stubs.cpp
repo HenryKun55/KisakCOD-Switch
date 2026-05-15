@@ -544,6 +544,68 @@ TraceThreadInfo * const g_traceThreadInfo =
 struct dvar_s;
 const dvar_s *useFastFile = nullptr;
 
+// === statmonitor.cpp deps ================================================
+
+// Sys_Milliseconds: monotonic ms since process start. Real impl via
+// std::chrono::steady_clock — collides with q_shared.cpp when it ports.
+unsigned int Sys_Milliseconds()
+{
+    using namespace std::chrono;
+    static const auto start = steady_clock::now();
+    return static_cast<unsigned int>(
+        duration_cast<milliseconds>(steady_clock::now() - start).count());
+}
+
+// Sys_EnterCriticalSection / LeaveCriticalSection: upstream uses Win32
+// CRITICAL_SECTION indexed by thread-domain enum. Real pthread_mutex
+// impl; 16 named slots ought to cover all upstream call sites.
+namespace {
+constexpr int KISAK_CRIT_SLOTS = 16;
+pthread_mutex_t g_crit_mutexes[KISAK_CRIT_SLOTS] = {
+    PTHREAD_MUTEX_INITIALIZER, PTHREAD_MUTEX_INITIALIZER,
+    PTHREAD_MUTEX_INITIALIZER, PTHREAD_MUTEX_INITIALIZER,
+    PTHREAD_MUTEX_INITIALIZER, PTHREAD_MUTEX_INITIALIZER,
+    PTHREAD_MUTEX_INITIALIZER, PTHREAD_MUTEX_INITIALIZER,
+    PTHREAD_MUTEX_INITIALIZER, PTHREAD_MUTEX_INITIALIZER,
+    PTHREAD_MUTEX_INITIALIZER, PTHREAD_MUTEX_INITIALIZER,
+    PTHREAD_MUTEX_INITIALIZER, PTHREAD_MUTEX_INITIALIZER,
+    PTHREAD_MUTEX_INITIALIZER, PTHREAD_MUTEX_INITIALIZER,
+};
+} // namespace
+
+void Sys_EnterCriticalSection(int slot)
+{
+    if (slot < 0 || slot >= KISAK_CRIT_SLOTS) return;
+    pthread_mutex_lock(&g_crit_mutexes[slot]);
+}
+
+void Sys_LeaveCriticalSection(int slot)
+{
+    if (slot < 0 || slot >= KISAK_CRIT_SLOTS) return;
+    pthread_mutex_unlock(&g_crit_mutexes[slot]);
+}
+
+// Material_RegisterHandle: looks up a Material by name. Stub returns
+// nullptr — material system isn't ported. Forward-decl the Material
+// struct so the mangled signature matches.
+struct Material;
+Material *Material_RegisterHandle(const char * /*name*/, int /*imageTrack*/)
+{
+    return nullptr;
+}
+
+// `cls` global: client state, used by statmonitor to read connection
+// state. Upstream type is huge; allocate a 16 KB byte buffer aliased as
+// the upstream `clientStatic_t` type (forward-decl). Code in our build
+// path only reads a few fields which are zero-initialized.
+struct clientStatic_t;
+alignas(16) static unsigned char cls_storage[16384];
+clientStatic_t &cls = *reinterpret_cast<clientStatic_t *>(cls_storage);
+
+// `com_statmon`: dvar* used by statmonitor. Same nullptr pattern as
+// useFastFile.
+const dvar_s *com_statmon = nullptr;
+
 // ClearBounds / ExpandBounds: declared in com_math.h, defined in
 // com_math.cpp. Trivial math we can implement portably; will collide with
 // com_math.cpp's versions when that file ports, at which point these stubs
