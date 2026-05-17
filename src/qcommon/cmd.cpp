@@ -166,6 +166,7 @@ Inserts the current value of a variable as command text
 */
 void Cmd_Vstr_f(void) {
 	char* v;
+	(void)v; // hex-rays scratch; unread in this function
 
 	if (Cmd_Argc() != 2) {
 		Com_Printf(0, "vstr <variablename> : execute a variable command\n");
@@ -200,7 +201,7 @@ void Cmd_Vstr_f(void) {
 #include <sound/snd_local.h>
 #include <universal/com_sndalias.h>
 
-static void LoadXAssets()
+[[maybe_unused]] static void LoadXAssets()
 {
 
 
@@ -271,10 +272,13 @@ void Cmd_Dumpraw_f(void)
 {
     auto DumpFileType = [](XAssetType type) -> void
     {
-		auto rawDir = std::format("{}\\raw\\", (char*)fs_basepath->current.integer);
+		// 64-bit-port note: DvarValue union truncates pointer to .integer.
+		// See docs/RISKS.md for the planned proper fix.
+		auto rawDir = std::format("{}\\raw\\", (char*)(uintptr_t)(unsigned int)fs_basepath->current.integer);
 
-        XAssetHeader files[10000]{ 0 };
+        XAssetHeader files[10000]{};
 		int read = DB_GetAllXAssetOfType_FastFile(type, files, 10000);
+		(void)read; // not consumed in this loop
 		for (auto file : files)
 		{
 			if (!file.data)
@@ -390,7 +394,7 @@ void Cmd_Dumpraw_f(void)
 		}
     }; 
 
-    auto zoneDir = std::format("{}\\zone\\english\\", (char *)fs_basepath->current.integer);
+    auto zoneDir = std::format("{}\\zone\\english\\", (char *)(uintptr_t)(unsigned int)fs_basepath->current.integer);
 
 
     // just dump from common ff's
@@ -653,7 +657,7 @@ void __cdecl Cbuf_SV_Execute()
         {
             if (src[count] == 34)
                 ++v0;
-            if ((v0 & 1) == 0 && src[count] == 59 || src[count] == 10 || src[count] == 13)
+            if (((v0 & 1) == 0 && src[count] == 59) || src[count] == 10 || src[count] == 13)
                 break;
         }
         if (count >= 4095)
@@ -719,7 +723,7 @@ void __cdecl Cbuf_ExecuteBuffer(int32_t  localClientNum, int32_t  controllerInde
         {
             if (src[count] == 34)
                 ++v3;
-            if ((v3 & 1) == 0 && src[count] == 59 || src[count] == 10 || src[count] == 13)
+            if (((v3 & 1) == 0 && src[count] == 59) || src[count] == 10 || src[count] == 13)
                 break;
         }
         if ((int32_t )count >= 4095)
@@ -775,7 +779,7 @@ void __cdecl Cbuf_ExecuteInternal(int32_t  localClientNum, int32_t  controllerIn
         {
             if (src[count] == 34)
                 ++v2;
-            if ((v2 & 1) == 0 && src[count] == 59 || src[count] == 10 || src[count] == 13)
+            if (((v2 & 1) == 0 && src[count] == 59) || src[count] == 10 || src[count] == 13)
                 break;
         }
         if (count >= 4095)
@@ -1010,7 +1014,7 @@ int32_t  __cdecl Cmd_TokenizeStringInternal(char *text_in, int32_t  max_tokens, 
                     argsPriv->totalUsedTextPool = v6;
                     return argc;
                 }
-            } while (!Cmd_IsWhiteSpaceChar(*text) && (*text != 47 || text[1] != 47 && text[1] != 42));
+            } while (!Cmd_IsWhiteSpaceChar(*text) && (*text != 47 || (text[1] != 47 && text[1] != 42)));
             argsPriv->textPool[argsPriv->totalUsedTextPool] = 0;
             if (argsPriv->totalUsedTextPool + 1 < 8190)
                 v5 = argsPriv->totalUsedTextPool + 1;

@@ -80,6 +80,18 @@ static inline T InterlockedDecrement(T volatile *p)
 {
     return __atomic_sub_fetch(p, T{1}, __ATOMIC_SEQ_CST);
 }
+// fopen_s: MSVC's "secure" fopen variant. Returns 0 on success and stores
+// the FILE* in *out; POSIX has plain fopen that returns FILE* or NULL.
+// Bridge: do the plain fopen and map to fopen_s's contract.
+#include <cstdio>
+#include <cerrno>
+static inline int fopen_s(::FILE **out, const char *path, const char *mode)
+{
+    if (!out) return EINVAL;
+    *out = std::fopen(path, mode);
+    return *out ? 0 : errno;
+}
+
 // _time64/_localtime64: MSVC's explicit 64-bit time_t variants. POSIX
 // time_t is already 64-bit on every platform we target (macOS arm64, Linux
 // x86_64/arm64, Switch arm64), but isn't the same type as `long long`
@@ -236,6 +248,31 @@ struct _D3DCAPS9;             // big struct in DX9 SDK; opaque here
 struct _D3DPRESENT_PARAMETERS_;
 struct _D3DSURFACE_DESC;
 struct _D3DVIEWPORT9;
+
+// === Miles Sound System opaque types =======================================
+// snd_local.h declares members/functions of these MSS types. On POSIX/
+// Switch Miles is unavailable (proprietary) and the audio path is
+// replaced; forward-declare so headers parse.
+struct _SAMPLE;
+struct _3DSAMPLE;
+struct _DIG_DRIVER;
+struct _REDBOOK;
+struct _STREAM;
+struct _DLSDEVICE;
+struct _DLSFILEID;
+struct _ASISTREAM;
+typedef char MSS_FILE;           // upstream uses `const MSS_FILE *` as a path
+#ifndef FAR
+#define FAR                       // Win16 segment-attribute relic; no-op here
+#endif
+typedef int           S32;        // signed 32-bit
+typedef unsigned int  U32;
+typedef unsigned int  UINTa;      // Miles' uintptr_t-equivalent on 32-bit
+typedef short         S16;
+typedef unsigned short U16;
+typedef signed char   S8;
+typedef unsigned char U8;
+typedef float         F32;
 struct HWND__;        // Win32 HWND is `struct HWND__ *`
 struct HINSTANCE__;   // Win32 HINSTANCE is `struct HINSTANCE__ *`
 typedef long HRESULT;
