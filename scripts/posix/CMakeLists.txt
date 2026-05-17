@@ -83,6 +83,10 @@ set(EFFECTSCORE_PORTABLE_SOURCES
     # fx_randomTable global. They come back when dvar is in build.
 )
 
+# DynEntity_coll and ragdoll.cpp compile clean but link needs CG_GetPose,
+# Dvar_SetInt/RegisterInt, SL_FindString, XModelGetBounds and friends
+# from the wider engine. Defer until dvar + xanim land.
+
 add_executable(kisak_posix
     ${POSIX_SOURCES}
     ${UNIVERSAL_PORTABLE_SOURCES}
