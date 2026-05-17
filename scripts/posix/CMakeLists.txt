@@ -67,13 +67,27 @@ set(SCRIPT_PORTABLE_SOURCES
     # when scr_stringlist, scr_variable, scr_vm, scr_parser are ready.
 )
 
+# physics/ode/: 15 of 34 ODE source files compile clean (collision_kernel,
+# collision_quadtreespace, ode, mass, matrix, util, rotation, odemath, ...).
+# They reference dSpaceCollide2 / dSpaceRemove / etc. from the OTHER 19
+# files which have hex-rays-style issues (uninitialized warnings,
+# array-bounds, sign-compare). All 34 land together once the harder
+# subset gets cleaned. Skipping ODE for this pass.
+set(PHYSICS_ODE_SOURCES)
+
 add_executable(kisak_posix
     ${POSIX_SOURCES}
     ${UNIVERSAL_PORTABLE_SOURCES}
     ${QCOMMON_PORTABLE_SOURCES}
     ${COMMON_PORTABLE_SOURCES}
     ${SCRIPT_PORTABLE_SOURCES}
+    ${PHYSICS_ODE_SOURCES}
 )
+
+# ODE source uses `#include "X.h"` for its own headers. Add the directory
+# so they resolve.
+set_property(SOURCE ${PHYSICS_ODE_SOURCES} APPEND PROPERTY
+    INCLUDE_DIRECTORIES "${SRC_DIR}/physics/ode")
 
 target_include_directories(kisak_posix PRIVATE
     "${SRC_DIR}"
