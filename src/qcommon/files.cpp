@@ -113,7 +113,7 @@ int __cdecl FS_CompareIwds(char *needediwds, int len, int dlstring)
     char *v4; // eax
     const char *v5; // [esp+8h] [ebp-20h]
     const char *string; // [esp+Ch] [ebp-1Ch]
-    unsigned int v7; // [esp+Ch] [ebp-1Ch]
+    uintptr_t v7; // [esp+Ch] [ebp-1Ch] - widened from unsigned int to hold 64-bit pointer
     int haveiwd; // [esp+1Ch] [ebp-Ch]
     searchpath_s *j; // [esp+20h] [ebp-8h]
     int i; // [esp+24h] [ebp-4h]
@@ -123,7 +123,7 @@ int __cdecl FS_CompareIwds(char *needediwds, int len, int dlstring)
     *needediwds = 0;
     string = fs_gameDirVar->current.string;
     v5 = string + 1;
-    v7 = (unsigned int)&string[strlen(string) + 1];
+    v7 = (uintptr_t)&string[strlen(string) + 1]; // KISAKHACK: 64-bit pointer in uintptr_t
     for (i = 0; i < fs_numServerReferencedIwds; ++i)
     {
         haveiwd = 0;
@@ -140,7 +140,7 @@ int __cdecl FS_CompareIwds(char *needediwds, int len, int dlstring)
             if (!haveiwd && fs_serverReferencedIwdNames[i] && *fs_serverReferencedIwdNames[i])
             {
                 if ((const char *)v7 == v5
-                    || I_strnicmp(fs_serverReferencedIwdNames[i], fs_gameDirVar->current.string, v7 - (_DWORD)v5)
+                    || I_strnicmp(fs_serverReferencedIwdNames[i], fs_gameDirVar->current.string, (int)(v7 - (uintptr_t)v5))
                     || FS_iwIwd((char *)fs_serverReferencedIwdNames[i], (char*)"main"))
                 {
                     I_strncpyz(needediwds, (char *)fs_serverReferencedIwdNames[i], len);
@@ -182,7 +182,7 @@ int __cdecl FS_CompareFFs(char *neededFFs, int len, int dlstring)
     int v4; // eax
     const char *v5; // [esp+18h] [ebp-28h]
     const char *string; // [esp+1Ch] [ebp-24h]
-    unsigned int v7; // [esp+1Ch] [ebp-24h]
+    uintptr_t v7; // [esp+1Ch] [ebp-24h] - widened to hold 64-bit pointer
     char *ffName; // [esp+2Ch] [ebp-14h]
     const char *ffNamea; // [esp+2Ch] [ebp-14h]
     int fileSize; // [esp+30h] [ebp-10h]
@@ -193,7 +193,7 @@ int __cdecl FS_CompareFFs(char *neededFFs, int len, int dlstring)
     *neededFFs = 0;
     string = fs_gameDirVar->current.string;
     v5 = string + 1;
-    v7 = (unsigned int)&string[strlen(string) + 1];
+    v7 = (uintptr_t)&string[strlen(string) + 1]; // KISAKHACK: 64-bit pointer in uintptr_t
     for (i = 0; i < fs_numServerReferencedFFs; ++i)
     {
         if (I_strncmp(fs_serverReferencedFFNames[i], "mods", 4)
@@ -212,7 +212,7 @@ int __cdecl FS_CompareFFs(char *neededFFs, int len, int dlstring)
         if (v4 != fs_serverReferencedFFCheckSums[i] && fs_serverReferencedFFNames[i] && *fs_serverReferencedFFNames[i])
         {
             if ((const char *)v7 == v5
-                || I_strnicmp(fs_serverReferencedFFNames[i], fs_gameDirVar->current.string, v7 - (_DWORD)v5))
+                || I_strnicmp(fs_serverReferencedFFNames[i], fs_gameDirVar->current.string, (int)(v7 - (uintptr_t)v5)))
             {
                 I_strncpyz(neededFFs, (char *)fs_serverReferencedFFNames[i], len);
                 I_strncat(neededFFs, len, ".ff");

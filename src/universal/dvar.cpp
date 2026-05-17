@@ -233,7 +233,7 @@ bool __cdecl CompareDvars(const dvar_t *cached0, const dvar_t *cached1)
 
 void Dvar_Sort()
 {
-    if (InterlockedCompareExchange(&isSortingDvars, 1, 0))
+    if (InterlockedCompareExchange<LONG>(&isSortingDvars, 1, 0))
     {
         while (isSortingDvars)
             NET_Sleep(1);
@@ -340,7 +340,8 @@ const char *__cdecl Dvar_EnumToString(const dvar_s *dvar)
             dvar->current.integer);
     }
     if (dvar->domain.enumeration.stringCount)
-        return *(const char **)(dvar->domain.integer.max + 4 * dvar->current.integer);
+        // KISAKHACK 64-bit: DvarValue union stores pointer in int slot.
+        return *(const char **)(uintptr_t)(unsigned int)(dvar->domain.integer.max + 4 * dvar->current.integer);
     else
         return "";
 }
@@ -383,7 +384,8 @@ const char *__cdecl Dvar_IndexStringToEnumString(const dvar_s *dvar, const char 
     }
     enumIndex = atoi(indexString);
     if (enumIndex >= 0 && enumIndex < dvar->domain.enumeration.stringCount)
-        return *(const char **)(dvar->domain.integer.max + 4 * enumIndex);
+        // KISAKHACK 64-bit: same DvarValue pointer-in-int truncation.
+        return *(const char **)(uintptr_t)(unsigned int)(dvar->domain.integer.max + 4 * enumIndex);
     else
         return "";
 }
@@ -435,7 +437,8 @@ const char *__cdecl Dvar_ValueToString(const dvar_s *dvar, DvarValue value)
                 "(value.integer >= 0 && value.integer < dvar->domain.enumeration.stringCount || value.integer == 0)",
                 value.integer);
         if (dvar->domain.enumeration.stringCount)
-            result = *(const char **)(dvar->domain.integer.max + 4 * value.integer);
+            // KISAKHACK 64-bit: same DvarValue pointer-in-int truncation.
+            result = *(const char **)(uintptr_t)(unsigned int)(dvar->domain.integer.max + 4 * value.integer);
         else
             result = "";
         break;
@@ -509,7 +512,7 @@ char __cdecl Dvar_ValueInDomain(unsigned __int8 type, DvarValue value, DvarLimit
         result = value.integer >= domain.enumeration.stringCount && value.integer <= domain.integer.max;
         break;
     case 6u:
-        v5 = value.integer >= 0 && value.integer < domain.enumeration.stringCount || !value.integer;
+        v5 = (value.integer >= 0 && value.integer < domain.enumeration.stringCount) || !value.integer;
         result = v5;
         break;
     case 7u:
@@ -639,7 +642,7 @@ const char *__cdecl Dvar_DomainToString_Internal(
                     outBufferEnd - outBufferWalk,
                     "\n  %2i: %s",
                     stringIndex,
-                    *(const char **)(domain.integer.max + 4 * stringIndex));
+                    *(const char **)(uintptr_t)(unsigned int)(domain.integer.max + 4 * stringIndex)); // KISAKHACK 64-bit
                 if (charsWrittena < 0)
                     break;
                 if (outLineCount)
@@ -872,7 +875,7 @@ void __cdecl Dvar_UpdateEnumDomain(dvar_s *dvar, const char **stringTable)
     }
     for (stringCount = 0; stringTable[stringCount]; ++stringCount)
         ;
-    if (dvar->reset.integer < 0 || dvar->reset.integer >= stringCount && dvar->reset.integer)
+    if (dvar->reset.integer < 0 || (dvar->reset.integer >= stringCount && dvar->reset.integer))
     {
         v3 = va("name %i reset %i count %i", dvar->name, dvar->reset.integer, stringCount);
         MyAssertHandler(
@@ -885,7 +888,7 @@ void __cdecl Dvar_UpdateEnumDomain(dvar_s *dvar, const char **stringTable)
     }
     malleableDvar = dvar;
     dvar->domain.enumeration.stringCount = stringCount;
-    malleableDvar->domain.integer.max = (int)stringTable;
+    malleableDvar->domain.integer.max = (int)(uintptr_t)stringTable; // KISAKHACK 64-bit
     v5 = *Dvar_ClampValueToDomain(&result, dvar->type, dvar->current, dvar->reset, dvar->domain);
     malleableDvar->current = v5;
     malleableDvar->latched = dvar->current;
@@ -1272,7 +1275,7 @@ void __cdecl Dvar_UpdateResetValue(dvar_s *dvar, DvarValue value)
             shouldFree = Dvar_ShouldFreeResetString(dvar);
             if (shouldFree)
                 oldString.integer = dvar->reset.integer;
-            Dvar_AssignResetStringValue(dvar, &resetString, (char *)value.integer);
+            Dvar_AssignResetStringValue(dvar, &resetString, (char *)(uintptr_t)(unsigned int)value.integer); // KISAKHACK 64-bit
             dvar->reset.integer = resetString.integer;
             if (shouldFree)
                 Dvar_FreeString(&oldString);
@@ -1288,11 +1291,11 @@ void __cdecl Dvar_AssignResetStringValue(dvar_s *dvar, DvarValue *dest, const ch
 {
     if (!string)
         MyAssertHandler(".\\universal\\dvar.cpp", 266, 0, "%s", "string");
-    if (dvar->current.integer && (string == (char *)dvar->current.integer || !strcmp(string, dvar->current.string)))
+    if (dvar->current.integer && (string == (char *)(uintptr_t)(unsigned int)dvar->current.integer || !strcmp(string, dvar->current.string)))
     {
         Dvar_WeakCopyString(dvar->current.string, dest);
     }
-    else if (dvar->latched.integer && (string == (char *)dvar->latched.integer || !strcmp(string, dvar->latched.string)))
+    else if (dvar->latched.integer && (string == (char *)(uintptr_t)(unsigned int)dvar->latched.integer || !strcmp(string, dvar->latched.string)))
     {
         Dvar_WeakCopyString(dvar->latched.string, dest);
     }
@@ -1306,14 +1309,16 @@ void __cdecl Dvar_CopyString(const char *string, DvarValue *value)
 {
     if (!string)
         MyAssertHandler(".\\universal\\dvar.cpp", 203, 0, "%s", "string");
-    value->integer = (int)CopyString(string);
+    // KISAKHACK 64-bit: storing string pointer in DvarValue.integer (4 bytes).
+    value->integer = (int)(uintptr_t)CopyString(string);
 }
 
 void __cdecl Dvar_WeakCopyString(const char *string, DvarValue *value)
 {
     if (!string)
         MyAssertHandler(".\\universal\\dvar.cpp", 210, 0, "%s", "string");
-    value->integer = (int)string;
+    // KISAKHACK 64-bit: same pointer-in-int truncation.
+    value->integer = (int)(uintptr_t)string;
 }
 
 void __cdecl Dvar_MakeLatchedValueCurrent(dvar_s *dvar)
@@ -1325,6 +1330,7 @@ void __cdecl Dvar_SetVariant(dvar_s *dvar, DvarValue value, DvarSetSource source
 {
     const char *v3; // eax
     char *v4; // eax
+    (void)v3; (void)v4; // hex-rays scratches; unread
     const char *v5; // eax
     const char *v6; // eax
     const char *name; // [esp-4h] [ebp-48h]
@@ -1473,11 +1479,11 @@ void __cdecl Dvar_AssignCurrentStringValue(dvar_s *dvar, DvarValue *dest, char *
 {
     if (!string)
         MyAssertHandler(".\\universal\\dvar.cpp", 242, 0, "%s", "string");
-    if (dvar->latched.integer && (string == (char *)dvar->latched.integer || !strcmp(string, dvar->latched.string)))
+    if (dvar->latched.integer && (string == (char *)(uintptr_t)(unsigned int)dvar->latched.integer || !strcmp(string, dvar->latched.string)))
     {
         Dvar_WeakCopyString(dvar->latched.string, dest);
     }
-    else if (dvar->reset.integer && (string == (char *)dvar->reset.integer || !strcmp(string, dvar->reset.string)))
+    else if (dvar->reset.integer && (string == (char *)(uintptr_t)(unsigned int)dvar->reset.integer || !strcmp(string, dvar->reset.string)))
     {
         Dvar_WeakCopyString(dvar->reset.string, dest);
     }
@@ -1529,11 +1535,11 @@ void __cdecl Dvar_AssignLatchedStringValue(dvar_s *dvar, DvarValue *dest, char *
 {
     if (!string)
         MyAssertHandler(".\\universal\\dvar.cpp", 254, 0, "%s", "string");
-    if (dvar->current.integer && (string == (char *)dvar->current.integer || !strcmp(string, dvar->current.string)))
+    if (dvar->current.integer && (string == (char *)(uintptr_t)(unsigned int)dvar->current.integer || !strcmp(string, dvar->current.string)))
     {
         Dvar_WeakCopyString(dvar->current.string, dest);
     }
-    else if (dvar->reset.integer && (string == (char *)dvar->reset.integer || !strcmp(string, dvar->reset.string)))
+    else if (dvar->reset.integer && (string == (char *)(uintptr_t)(unsigned int)dvar->reset.integer || !strcmp(string, dvar->reset.string)))
     {
         Dvar_WeakCopyString(dvar->reset.string, dest);
     }
@@ -1819,7 +1825,7 @@ void __cdecl Dvar_MakeExplicitType(
             dvar->type);
     dvar->type = type;
     dvar->domain = domain;
-    if ((flags & 0x40) != 0 || (flags & 0x80) != 0 && dvar_cheats && !dvar_cheats->current.enabled)
+    if ((flags & 0x40) != 0 || ((flags & 0x80) != 0 && dvar_cheats && !dvar_cheats->current.enabled))
     {
         castValue = resetValue;
     }
@@ -1833,7 +1839,7 @@ void __cdecl Dvar_MakeExplicitType(
     v6 = dvar->type == 7 && castValue.integer;
     wasString = v6;
     if (v6)
-        castValue.integer = (int)CopyString((char *)castValue.integer);
+        castValue.integer = (int)(uintptr_t)CopyString((char *)(uintptr_t)(unsigned int)castValue.integer); // KISAKHACK 64-bit
     if (dvar->type != 7 && Dvar_ShouldFreeCurrentString(dvar))
         Dvar_FreeString(&dvar->current);
     dvar->current.integer = 0;
@@ -1881,7 +1887,7 @@ DvarValue *__cdecl Dvar_StringToValue(DvarValue *result, unsigned __int8 type, D
         value.integer = Dvar_StringToEnum(&domain, string);
         break;
     case 7u:
-        value.integer = (int)string;
+        value.integer = (int)(uintptr_t)string; // KISAKHACK 64-bit
         break;
     case 8u:
         Dvar_StringToColor(string, (unsigned __int8 *)&value);
@@ -1946,7 +1952,7 @@ int __cdecl Dvar_StringToEnum(const DvarLimits *domain, const char *string)
         MyAssertHandler(".\\universal\\dvar.cpp", 421, 0, "%s", "string");
     for (stringIndex = 0; stringIndex < domain->enumeration.stringCount; ++stringIndex)
     {
-        if (!I_stricmp(string, *(const char **)(domain->integer.max + 4 * stringIndex)))
+        if (!I_stricmp(string, *(const char **)(uintptr_t)(unsigned int)(domain->integer.max + 4 * stringIndex))) // KISAKHACK 64-bit
             return stringIndex;
     }
     stringIndexa = 0;

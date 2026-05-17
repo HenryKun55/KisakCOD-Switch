@@ -51,6 +51,7 @@
 // _stricmp, etc.) to avoid clashing with user namespaces. POSIX/glibc/newlib
 // use the unprefixed names. Map the ones upstream uses.
 #define _vsnprintf vsnprintf
+#define _snprintf  snprintf
 // __debugbreak: MSVC intrinsic that triggers a debugger breakpoint.
 // On clang/gcc the equivalent is __builtin_trap (or __builtin_debugtrap
 // on clang specifically, but trap works everywhere as a fallback).
@@ -67,8 +68,8 @@ typedef unsigned char byte;
 #define ARRAYSIZE(a) (sizeof(a) / sizeof((a)[0]))
 #endif
 
-// Win32 InterlockedIncrement / InterlockedDecrement: atomic add/sub by 1.
-// Maps directly to GCC/clang __atomic_*_fetch with sequential consistency.
+// Win32 InterlockedIncrement / InterlockedDecrement / InterlockedCompareExchange:
+// atomic primitives. Map to GCC/clang __atomic_* builtins with seq-cst.
 // Templated so int*/long*/etc. call sites match without overload juggling.
 template <typename T>
 static inline T InterlockedIncrement(T volatile *p)
@@ -79,6 +80,14 @@ template <typename T>
 static inline T InterlockedDecrement(T volatile *p)
 {
     return __atomic_sub_fetch(p, T{1}, __ATOMIC_SEQ_CST);
+}
+template <typename T>
+static inline T InterlockedCompareExchange(T volatile *p, T newval, T expected)
+{
+    T e = expected;
+    __atomic_compare_exchange_n(p, &e, newval, false,
+                                __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST);
+    return e; // returns the value that was in *p before the call
 }
 // fopen_s: MSVC's "secure" fopen variant. Returns 0 on success and stores
 // the FILE* in *out; POSIX has plain fopen that returns FILE* or NULL.
@@ -154,6 +163,9 @@ inline ::tm *_localtime64(const long long *in)
 // shaped handle; the linker resolves at the right moment when the owning
 // subsystem is ported.
 typedef unsigned long DWORD;
+typedef long          LONG;
+typedef long long     LONGLONG;
+typedef unsigned long long ULONGLONG;
 typedef void         *HANDLE;
 typedef void         *HWND;
 typedef void         *HINSTANCE;
