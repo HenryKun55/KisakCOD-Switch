@@ -179,7 +179,7 @@ const FxCurve *__cdecl FxCurve_AllocAndCreateWithKeys(float *keyArray, int32_t d
 void __cdecl FxCurveIterator_SampleTimeVec3(FxCurveIterator *source, float *replyVector, float time)
 {
     FxCurveIterator_MoveToTime(source, time);
-    if (source->currentKeyIndex >= (uint32_t)(source->master->keyCount - 1))
+    if ((uint32_t)source->currentKeyIndex >= (uint32_t)(source->master->keyCount - 1))
         MyAssertHandler(
             "c:\\trees\\cod3\\src\\effectscore\\FxCurve.h",
             148,
@@ -193,7 +193,7 @@ void __cdecl FxCurveIterator_SampleTimeVec3(FxCurveIterator *source, float *repl
 double __cdecl FxCurveIterator_SampleTime(FxCurveIterator *source, float time)
 {
     FxCurveIterator_MoveToTime(source, time);
-    if (source->currentKeyIndex >= (uint32_t)(source->master->keyCount - 1))
+    if ((uint32_t)source->currentKeyIndex >= (uint32_t)(source->master->keyCount - 1))
         MyAssertHandler(
             "c:\\trees\\cod3\\src\\effectscore\\FxCurve.h",
             126,
@@ -240,7 +240,7 @@ void __cdecl FxCurveIterator_MoveToTime(FxCurveIterator *source, float time)
             "%s\n\t(source->master->dimensionCount) = %i",
             "(source->master->dimensionCount > 0)",
             source->master->dimensionCount);
-    if (source->currentKeyIndex >= (uint32_t)source->master->keyCount)
+    if ((uint32_t)source->currentKeyIndex >= (uint32_t)source->master->keyCount)
         MyAssertHandler(
             "c:\\trees\\cod3\\src\\effectscore\\FxCurve.h",
             91,
@@ -271,7 +271,7 @@ void __cdecl FxCurveIterator_MoveToTime(FxCurveIterator *source, float time)
             "key == &source->master->keys[source->currentKeyIndex * keySize]",
             v2);
     }
-    if (source->currentKeyIndex >= (uint32_t)source->master->keyCount)
+    if ((uint32_t)source->currentKeyIndex >= (uint32_t)source->master->keyCount)
         MyAssertHandler(
             "c:\\trees\\cod3\\src\\effectscore\\FxCurve.h",
             109,

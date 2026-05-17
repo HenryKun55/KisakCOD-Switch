@@ -75,6 +75,14 @@ set(SCRIPT_PORTABLE_SOURCES
 # subset gets cleaned. Skipping ODE for this pass.
 set(PHYSICS_ODE_SOURCES)
 
+set(EFFECTSCORE_PORTABLE_SOURCES
+    "${SRC_DIR}/EffectsCore/fxcurve.cpp"
+    # fx_dvars, fx_graph, fx_update_util compile clean but their link
+    # graph needs dvar.cpp + a few math helpers (FX_RandomDir,
+    # UnitQuatToAxis, Vec4IsNormalized, Vec3Basis_RightHanded) and the
+    # fx_randomTable global. They come back when dvar is in build.
+)
+
 add_executable(kisak_posix
     ${POSIX_SOURCES}
     ${UNIVERSAL_PORTABLE_SOURCES}
@@ -82,6 +90,7 @@ add_executable(kisak_posix
     ${COMMON_PORTABLE_SOURCES}
     ${SCRIPT_PORTABLE_SOURCES}
     ${PHYSICS_ODE_SOURCES}
+    ${EFFECTSCORE_PORTABLE_SOURCES}
 )
 
 # ODE source uses `#include "X.h"` for its own headers. Add the directory

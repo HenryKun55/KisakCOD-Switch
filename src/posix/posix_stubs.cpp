@@ -478,6 +478,14 @@ void *Hunk_Alloc(unsigned int size, const char * /*name*/, int /*type*/)
     return new (std::nothrow) unsigned char[size]();
 }
 
+// Hunk_AllocAlign: aligned hunk allocation. new[] on uchar gives at least
+// alignof(std::max_align_t), enough for EffectsCore's float-array uses.
+void *Hunk_AllocAlign(unsigned int size, int /*align*/,
+                      const char * /*name*/, int /*type*/)
+{
+    return new (std::nothrow) unsigned char[size]();
+}
+
 // Sys_Error: fatal engine error. Same behaviour as Com_Error for now.
 void Sys_Error(const char *fmt, ...)
 {

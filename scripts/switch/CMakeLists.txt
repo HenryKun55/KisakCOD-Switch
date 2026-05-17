@@ -62,9 +62,10 @@ set(QCOMMON_PORTABLE_SOURCES
 
 set(SCRIPT_PORTABLE_SOURCES
     "${SRC_DIR}/script/scr_const.cpp"
-    # scr_animtree, scr_main, scr_memorytree compile cleanly but need the
-    # rest of the script ecosystem linked first (TempMalloc, FindObject,
-    # GetVariable, XAnimBlend, ScriptParse, Com_sprintf, ...).
+)
+
+set(EFFECTSCORE_PORTABLE_SOURCES
+    "${SRC_DIR}/EffectsCore/fxcurve.cpp"
 )
 
 add_executable(kisak_switch
@@ -73,6 +74,7 @@ add_executable(kisak_switch
     ${QCOMMON_PORTABLE_SOURCES}
     ${COMMON_PORTABLE_SOURCES}
     ${SCRIPT_PORTABLE_SOURCES}
+    ${EFFECTSCORE_PORTABLE_SOURCES}
 )
 
 target_include_directories(kisak_switch PRIVATE
