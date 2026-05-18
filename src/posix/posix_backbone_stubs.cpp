@@ -47,6 +47,7 @@
 #include <script/scr_vm.h>
 #include <qcommon/msg_mp.h>
 #include <qcommon/sv_msg_write_mp.h>
+#include <game/game_public.h>
 
 // Forward decls for opaque types we just need to pass through.
 struct sysEvent_t;
@@ -337,10 +338,11 @@ void CL_ConsolePrint(int /*localClientNum*/, int /*channel*/, const char *msg, i
 }
 int  CL_ControllerIndexFromClientNum(int /*localClientNum*/) { return 0; }
 void CL_Disconnect(int /*localClientNum*/) {}
-void CL_FlushDebugServerData() {}
+// CL_FlushDebugServerData now in client/cl_debugdata.cpp.
 void CL_ForwardCommandToServer(int /*localClientNum*/, const char * /*cmd*/) {}
 void CL_Frame(netsrc_t /*sock*/) {}
-int  CL_GetLocalClientConnection(int /*localClientNum*/) { return 0; }
+struct clientConnection_t;
+clientConnection_t *CL_GetLocalClientConnection(int /*localClientNum*/) { return nullptr; }
 const char *CL_GetUsernameForLocalClient() { return ""; }
 void CL_Init(int /*localClientNum*/) {}
 void CL_InitDedicated() {}
@@ -355,7 +357,7 @@ void CL_ShutdownAll(bool /*shutdownRef*/) {}
 void CL_ShutdownHunkUsers() {}
 void CL_ShutdownRef() {}
 void CL_StartHunkUsers() {}
-void CL_UpdateDebugServerData() {}
+// CL_UpdateDebugServerData now in client/cl_debugdata.cpp.
 void CL_UpdateSound() {}
 
 // =========================================================================
@@ -814,9 +816,10 @@ void CG_TraceCapsule(trace_t *trace, const float * /*start*/, const float * /*mi
 {
     if (trace) { std::memset(trace, 0, sizeof(*trace)); trace->fraction = 1.0f; }
 }
-void CG_DObjGetWorldTagPos(const cpose_t * /*pose*/, DObj_s * /*obj*/, unsigned int /*tag*/, float *pos)
+int  CG_DObjGetWorldTagPos(const cpose_t * /*pose*/, DObj_s * /*obj*/, unsigned int /*tag*/, float *pos)
 {
     if (pos) { pos[0] = pos[1] = pos[2] = 0; }
+    return 0;
 }
 
 // FX visibility
@@ -881,9 +884,104 @@ alignas(16) static unsigned char g_assetNames_storage[8192];
 void *g_assetNames = g_assetNames_storage;
 alignas(16) static unsigned char varXAssetList_storage[16384];
 void *varXAssetList = varXAssetList_storage;
-void Con_InitChannels() {}
-bool Con_IsChannelVisible(print_msg_dest_t /*dest*/, unsigned int /*channel*/, int /*msgFilters*/) { return false; }
-void Con_WriteFilterConfigString(int /*localClientNum*/) {}
+
+// =========================================================================
+// Misc batch — sound/server/cgame_mp/client/game subdirs landing.
+// =========================================================================
+
+struct centity_t;
+struct level_locals_t;
+struct gentity_s;
+struct serverStatic_t;
+struct client_t;
+struct netchan_t;
+struct netProfileStream_t;
+struct netProfileInfo_t;
+struct trDebugLine_t;
+struct trDebugString_t;
+
+void CalculateRanks() {}
+char CL_IsClientLocal(int /*localClientNum*/) { return 1; }
+bool CL_IsPlayerMuted(int /*localClientNum*/, unsigned int /*muteClient*/) { return false; }
+void ClientUserinfoChanged(unsigned int /*clientNum*/) {}
+void Com_SafeClientDObjFree(unsigned int /*handle*/, int /*localClientNum*/) {}
+char *FS_LoadedIwdPureChecksums() { static char empty[1] = {0}; return empty; }
+unsigned int GScr_GetHeadIconIndex(const char * /*name*/) { return 0; }
+unsigned int GScr_GetStatusIconIndex(const char * /*name*/) { return 0; }
+int  I_stricmpwild(const char *s0, const char *s1) { return strcasecmp(s0 ? s0 : "", s1 ? s1 : ""); }
+bool IN_IsTalkKeyHeld() { return false; }
+bool Material_IsDefault(const Material * /*material*/) { return true; }
+bool NET_OutOfBandVoiceData(netsrc_t /*sock*/, netadr_t /*adr*/, unsigned char * /*data*/, unsigned int /*len*/) { return false; }
+bool Netchan_Transmit(netchan_t * /*chan*/, int /*length*/, char * /*data*/) { return false; }
+bool Netchan_TransmitNextFragment(netchan_t * /*chan*/) { return false; }
+
+void NetProf_AddPacket(netProfileStream_t * /*stream*/, int /*size*/, int /*type*/) {}
+void NetProf_PrepProfiling(netProfileInfo_t * /*info*/) {}
+void NetProf_UpdateStatistics(netProfileStream_t * /*stream*/) {}
+
+void PerpendicularVector(const float *src, float *dst)
+{
+    int pos = 0;
+    float minelem = std::fabs(src[0]);
+    if (std::fabs(src[1]) < minelem) { pos = 1; minelem = std::fabs(src[1]); }
+    if (std::fabs(src[2]) < minelem) { pos = 2; }
+    float tempvec[3] = {0,0,0};
+    tempvec[pos] = 1.0f;
+    float d = src[0] * tempvec[0] + src[1] * tempvec[1] + src[2] * tempvec[2];
+    dst[0] = tempvec[0] - d * src[0];
+    dst[1] = tempvec[1] - d * src[1];
+    dst[2] = tempvec[2] - d * src[2];
+    float l = std::sqrt(dst[0] * dst[0] + dst[1] * dst[1] + dst[2] * dst[2]);
+    if (l > 0) { dst[0] /= l; dst[1] /= l; dst[2] /= l; }
+}
+
+void R_CopyDebugLines(trDebugLine_t * /*dst*/, int /*dstCap*/, trDebugLine_t * /*src*/, int /*count*/, int /*offset*/) {}
+void R_CopyDebugStrings(trDebugString_t * /*dst*/, int /*dstCap*/, trDebugString_t * /*src*/, int /*count*/, int /*offset*/) {}
+void R_DebugAlloc(void **out, int size, const char * /*name*/) { if (out) *out = std::calloc(1, size); }
+void R_DebugFree(void **p) { if (p && *p) { std::free(*p); *p = nullptr; } }
+void R_ShutdownDebug() {}
+
+// Scr_*
+void Scr_AddClassField(unsigned int /*classnum*/, char * /*name*/, unsigned int /*offset*/) {}
+void Scr_AddInt(int /*value*/) {}
+void Scr_AddString(const char * /*value*/) {}
+void Scr_Error(const char * /*msg*/) {}
+unsigned int Scr_GetConstString(unsigned int /*paramIndex*/) { return 0; }
+float Scr_GetFloat(unsigned int /*paramIndex*/) { return 0; }
+int   Scr_GetInt(unsigned int /*paramIndex*/) { return 0; }
+const char *Scr_GetString(unsigned int /*paramIndex*/) { return ""; }
+void Scr_GetGenericField(unsigned char * /*structOut*/, fieldtype_t /*type*/, int /*offset*/) {}
+void Scr_SetGenericField(unsigned char * /*structIn*/, fieldtype_t /*type*/, int /*offset*/) {}
+
+// StringTable
+void StringTable_GetAsset(const char * /*filename*/, StringTable ** /*outTable*/) {}
+const char *StringTable_Lookup(const StringTable * /*table*/, int /*column*/, const char * /*key*/, int /*colCount*/) { return nullptr; }
+
+// SV
+void SV_CloseDownload(client_t * /*cl*/) {}
+void SV_Download_Clear(client_t * /*cl*/) {}
+void SV_DropClient(client_t * /*cl*/, const char * /*reason*/, bool /*tellThem*/) {}
+void SV_GetConfigstring(unsigned int /*index*/, char *buffer, int bufferSize) { if (buffer && bufferSize > 0) buffer[0] = 0; }
+void SV_SendClientGameState(client_t * /*cl*/) {}
+
+// Voice
+void Voice_IncomingVoiceData(unsigned char /*from*/, unsigned char * /*data*/, int /*len*/) {}
+bool Voice_IsClientTalking(unsigned int /*clientNum*/) { return false; }
+
+// Globals — typed where we have the type (since game_public.h pulls
+// most of the cgame/game/server headers in).
+centity_s cg_entitiesArray[1][1024]{};
+const dvar_t *cl_showSend = nullptr;
+const dvar_t *cl_voice = nullptr;
+gentity_s g_entities[1024]{};
+level_locals_t level{};
+const dvar_t *net_profile = nullptr;
+const dvar_t *sv_maxclients = nullptr;
+const dvar_t *sv_voice = nullptr;
+serverStatic_t svs{};
+// Con_InitChannels now in client/con_channels.cpp.
+// Con_IsChannelVisible now in client/con_channels.cpp.
+// Con_WriteFilterConfigString now in client/con_channels.cpp.
 void Key_WriteBindings(int /*localClientNum*/, int /*f*/) {}
 char *SEH_LocalizeTextMessage(const char *src, const char * /*context*/, msgLocErrType_t /*err*/) { return const_cast<char *>(src); }
 void SEH_UpdateLanguageInfo() {}
@@ -1139,13 +1237,11 @@ void Phys_SetAngularMotorParams(PhysWorld /*w*/, dxJointAMotor * /*j*/, const fl
 void Phys_SetHingeParams(PhysWorld /*w*/, dxJointHinge * /*j*/, float /*lo*/, float /*hi*/, float /*friction*/, float /*motor*/) {}
 
 // Globals from the cg / script-place layer.
-// `cgArray` is `cg_s cgArray[1]` in upstream; ScreenPlacement is fully
-// defined in ui/ui_shared.h (included above) so we can zero-construct.
-struct cg_s;
-alignas(16) static unsigned char cgArray_storage[65536];
-cg_s &cgArray = *reinterpret_cast<cg_s *>(cgArray_storage);
+// game_public.h transitively pulls cgame_mp.h which exposes the real
+// cg_s type, so we can zero-construct directly.
+cg_s cgArray[1]{};
 const dvar_t *cg_paused = nullptr;
-ScreenPlacement scrPlaceFull{};
+// scrPlaceFull now in client/screen_placement.cpp.
 
 // =========================================================================
 // Script VM cascade — landed with scr_animtree / scr_main / scr_memorytree.

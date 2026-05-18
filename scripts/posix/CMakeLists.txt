@@ -126,6 +126,40 @@ set(AIMASSIST_PORTABLE_SOURCES
     "${SRC_DIR}/aim_assist/aim_target_mp.cpp"
 )
 
+set(UI_PORTABLE_SOURCES
+)
+
+set(SERVER_PORTABLE_SOURCES
+    "${SRC_DIR}/server_mp/sv_net_chan_mp.cpp"
+    "${SRC_DIR}/server_mp/ucmds.cpp"
+)
+
+set(SOUND_PORTABLE_SOURCES
+    "${SRC_DIR}/sound/snd_utils.cpp"
+)
+
+set(CGAME_PORTABLE_SOURCES
+    "${SRC_DIR}/cgame/cg_colltree.cpp"
+    "${SRC_DIR}/cgame_mp/cg_animtree_mp.cpp"
+    "${SRC_DIR}/cgame_mp/cg_gamepad.cpp"
+    "${SRC_DIR}/cgame_mp/dedicated_cgame.cpp"
+)
+
+set(CLIENT_PORTABLE_SOURCES
+    "${SRC_DIR}/client/cl_debugdata.cpp"
+    "${SRC_DIR}/client/con_channels.cpp"
+    "${SRC_DIR}/client/screen_placement.cpp"
+    "${SRC_DIR}/client_mp/cl_rank.cpp"
+    "${SRC_DIR}/client_mp/cl_voice.cpp"
+)
+
+set(GAME_PORTABLE_SOURCES
+    "${SRC_DIR}/game/enthandle.cpp"
+    "${SRC_DIR}/game/g_client_fields.cpp"
+    "${SRC_DIR}/game/g_debug.cpp"
+    "${SRC_DIR}/game/g_weapon_load_obj.cpp"
+)
+
 set(XANIM_PORTABLE_SOURCES
     "${SRC_DIR}/xanim/dobj_skel.cpp"
     "${SRC_DIR}/xanim/xanim.cpp"
@@ -160,6 +194,12 @@ add_executable(kisak_posix
     ${DATABASE_PORTABLE_SOURCES}
     ${DEVGUI_PORTABLE_SOURCES}
     ${AIMASSIST_PORTABLE_SOURCES}
+    ${UI_PORTABLE_SOURCES}
+    ${SERVER_PORTABLE_SOURCES}
+    ${SOUND_PORTABLE_SOURCES}
+    ${CGAME_PORTABLE_SOURCES}
+    ${CLIENT_PORTABLE_SOURCES}
+    ${GAME_PORTABLE_SOURCES}
 )
 
 # ODE source uses `#include "X.h"` for its own headers. Add the directory
