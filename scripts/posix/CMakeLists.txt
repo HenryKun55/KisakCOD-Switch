@@ -130,6 +130,7 @@ set(UI_PORTABLE_SOURCES
 )
 
 set(SERVER_PORTABLE_SOURCES
+    "${SRC_DIR}/server/sv_game.cpp"
     "${SRC_DIR}/server_mp/sv_net_chan_mp.cpp"
     "${SRC_DIR}/server_mp/ucmds.cpp"
 )
@@ -141,8 +142,12 @@ set(SOUND_PORTABLE_SOURCES
 set(CGAME_PORTABLE_SOURCES
     "${SRC_DIR}/cgame/cg_colltree.cpp"
     "${SRC_DIR}/cgame_mp/cg_animtree_mp.cpp"
+    "${SRC_DIR}/cgame_mp/cg_consolecmds_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_gamepad.cpp"
     "${SRC_DIR}/cgame_mp/dedicated_cgame.cpp"
+    # cg_ammocounter, cg_effects_load_obj, cg_laser, cg_shellshock —
+    # compile clean but each drags a wide swath of dvar globals and
+    # BG_* helpers (Ammo/Clip/Shellshock/Hud). Land with bgame batch.
 )
 
 set(CLIENT_PORTABLE_SOURCES
@@ -157,7 +162,11 @@ set(GAME_PORTABLE_SOURCES
     "${SRC_DIR}/game/enthandle.cpp"
     "${SRC_DIR}/game/g_client_fields.cpp"
     "${SRC_DIR}/game/g_debug.cpp"
+    "${SRC_DIR}/game/g_svcmds.cpp"
     "${SRC_DIR}/game/g_weapon_load_obj.cpp"
+    # g_helicopter, g_hudelem, g_items — compile clean but each drags 20+
+    # vehHelicopter / g_drop / pickup dvar globals and BG_* helpers.
+    # Land when bgame_mp (bg_pmove + bg_weapons + bg_animation_mp) is ready.
 )
 
 set(XANIM_PORTABLE_SOURCES

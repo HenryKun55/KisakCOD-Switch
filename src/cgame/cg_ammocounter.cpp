@@ -36,9 +36,9 @@ const float TEST_bullet_wh_3[2] = { 8.0f, 4.0f };
 const float TEST_bullet_step_3[2] = { 8.0f, -2.0f };
 
 const float colorLowAmmo[4] = { 1.0f, 0.3f, 0.3f, 1.0f };
-const float colorDpadArrow[4] = { 1.0f, 0.97f, 0.55f, 1.0f };
+[[maybe_unused]] const float colorDpadArrow[4] = { 1.0f, 0.97f, 0.55f, 1.0f };
 const float MY_ACTIVECOLOR[3] = { 1.2f, 1.2f, 1.2f };
-const float MY_OFFSETS[4][2] =
+[[maybe_unused]] const float MY_OFFSETS[4][2] =
 {
     { 0.25f, 0.12f },
     { 0.25, 0.63f },
@@ -245,7 +245,7 @@ uint32_t __cdecl GetWeaponAltIndex(const cg_s *cgameGlob, const WeaponDef *weapD
 
 double __cdecl AmmoCounterFadeAlpha(int32_t localClientNum, cg_s *cgameGlob)
 {
-    float v3; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] float v3; // [esp+4h] [ebp-10h]
 
     if (!cgameGlob)
         MyAssertHandler(".\\cgame\\cg_ammocounter.cpp", 152, 0, "%s", "cgameGlob");

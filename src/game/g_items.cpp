@@ -1019,7 +1019,7 @@ void __cdecl FinishSpawningItem(gentity_s *ent)
     float v7; // [esp+24h] [ebp-A8h]
     float vAngles[3]; // [esp+2Ch] [ebp-A0h] BYREF
     float vAxis[3][3]; // [esp+38h] [ebp-94h] BYREF
-    gitem_s *item; // [esp+5Ch] [ebp-70h]
+    [[maybe_unused]] gitem_s *item; // [esp+5Ch] [ebp-70h]
     float mins[3]; // [esp+60h] [ebp-6Ch] BYREF
     float start[3]; // [esp+6Ch] [ebp-60h] BYREF
     float maxs[3]; // [esp+78h] [ebp-54h] BYREF

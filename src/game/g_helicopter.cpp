@@ -52,7 +52,7 @@ void __cdecl VEH_UpdateClientChopper(gentity_s *ent)
     vehicle_physic_t *phys; // [esp+4Ch] [ebp-98h]
     scr_vehicle_s *veh; // [esp+54h] [ebp-90h]
     char move[7]; // [esp+58h] [ebp-8Ch] BYREF
-    bool bumped; // [esp+5Fh] [ebp-85h]
+    [[maybe_unused]] bool bumped; // [esp+5Fh] [ebp-85h]
     float rotAccel[3]; // [esp+60h] [ebp-84h] BYREF
     float startPos[3]; // [esp+6Ch] [ebp-78h] BYREF
     float collision[3]; // [esp+78h] [ebp-6Ch] BYREF
@@ -218,7 +218,7 @@ void __cdecl HELI_CalcAccel(gentity_s *ent, char *move, float *bodyAccel, float 
     float noYawAngles[3]; // [esp+178h] [ebp-128h] BYREF
     float speedParallel; // [esp+184h] [ebp-11Ch]
     vehicle_physic_t *phys; // [esp+188h] [ebp-118h]
-    vehicle_info_t *info; // [esp+18Ch] [ebp-114h]
+    [[maybe_unused]] vehicle_info_t *info; // [esp+18Ch] [ebp-114h]
     float tgtSpeed; // [esp+190h] [ebp-110h]
     float velParallel[3]; // [esp+194h] [ebp-10Ch] BYREF
     float deltaTilt[2]; // [esp+1A0h] [ebp-100h]

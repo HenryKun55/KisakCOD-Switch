@@ -196,7 +196,9 @@ void __cdecl CG_RegisterImpactEffectsForDir(char *dir, EffectFile *effectFile, c
             if (len >= 0)
             {
                 Hunk_CheckTempMemoryHighClear();
-                buffer = (void *)Hunk_AllocateTempMemoryHigh(len + 1, "CG_RegisterImpactEffects");
+                // KISAKHACK: Hunk_AllocateTempMemoryHigh returns int (offset)
+                // in upstream; bridge through uintptr_t.
+                buffer = (void *)(uintptr_t)Hunk_AllocateTempMemoryHigh(len + 1, "CG_RegisterImpactEffects");
                 FS_Read((unsigned __int8 *)buffer, len, f);
                 FS_FCloseFile(f);
                 *((_BYTE *)buffer + len) = 0;

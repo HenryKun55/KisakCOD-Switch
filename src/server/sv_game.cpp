@@ -818,7 +818,9 @@ void __cdecl SV_SetGametype()
     if (com_sv_running->current.enabled && G_GetSavePersist())
         I_strncpyz(gametype, sv.gametype, 64);
     else
-        I_strncpyz(gametype, (char *)sv_gametype->current.integer, 64);
+        // KISAKHACK: DvarValue.integer holds a 32-bit pointer in upstream;
+        // bridge through uintptr_t on a 64-bit build.
+        I_strncpyz(gametype, (char *)(uintptr_t)sv_gametype->current.integer, 64);
     for (s = gametype; *s; ++s)
         *s = tolower(*s);
     if (!Scr_IsValidGameType(gametype))

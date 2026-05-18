@@ -120,6 +120,7 @@ set(AIMASSIST_PORTABLE_SOURCES
 )
 
 set(SERVER_PORTABLE_SOURCES
+    "${SRC_DIR}/server/sv_game.cpp"
     "${SRC_DIR}/server_mp/sv_net_chan_mp.cpp"
     "${SRC_DIR}/server_mp/ucmds.cpp"
 )
@@ -131,6 +132,7 @@ set(SOUND_PORTABLE_SOURCES
 set(CGAME_PORTABLE_SOURCES
     "${SRC_DIR}/cgame/cg_colltree.cpp"
     "${SRC_DIR}/cgame_mp/cg_animtree_mp.cpp"
+    "${SRC_DIR}/cgame_mp/cg_consolecmds_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_gamepad.cpp"
     "${SRC_DIR}/cgame_mp/dedicated_cgame.cpp"
 )
@@ -147,6 +149,7 @@ set(GAME_PORTABLE_SOURCES
     "${SRC_DIR}/game/enthandle.cpp"
     "${SRC_DIR}/game/g_client_fields.cpp"
     "${SRC_DIR}/game/g_debug.cpp"
+    "${SRC_DIR}/game/g_svcmds.cpp"
     "${SRC_DIR}/game/g_weapon_load_obj.cpp"
 )
 

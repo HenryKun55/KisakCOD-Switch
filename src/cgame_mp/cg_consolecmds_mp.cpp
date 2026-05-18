@@ -189,7 +189,7 @@ void __cdecl CG_ShellShock_f()
     shellshock_parms_t *ShellshockParms; // eax
     float v3; // [esp+0h] [ebp-28h]
     int32_t v4; // [esp+4h] [ebp-24h]
-    float v5; // [esp+8h] [ebp-20h]
+    [[maybe_unused]] float v5; // [esp+8h] [ebp-20h]
 
     cg_s *cgameGlob;
 

@@ -48,6 +48,7 @@
 #include <qcommon/msg_mp.h>
 #include <qcommon/sv_msg_write_mp.h>
 #include <game/game_public.h>
+#include <universal/com_sndalias.h>
 
 // Forward decls for opaque types we just need to pass through.
 struct sysEvent_t;
@@ -366,12 +367,12 @@ void CL_UpdateSound() {}
 
 void SV_AddDedicatedCommands() {}
 int  SV_Frame(int /*frameTime*/) { return 0; }
-void SV_GameCommand() {}
+// SV_GameCommand now in server/sv_game.cpp.
 void SV_Init() {}
 void SV_PacketEvent(netadr_t /*from*/, msg_t * /*msg*/) {}
 void SV_SetConfigValueForKey(int /*index*/, int /*key*/, char * /*name*/, char * /*value*/) {}
 void SV_Shutdown(const char * /*reason*/) {}
-void SV_ShutdownGameProgs() {}
+// SV_ShutdownGameProgs now in server/sv_game.cpp.
 void SV_WaitServer() {}
 
 // =========================================================================
@@ -598,7 +599,7 @@ void BuildBrushdAdjacencyWindingForSide(float * /*points*/, int /*numPoints*/,
                                         const void * /*spi*/, int /*numIntersections*/,
                                         void * /*winding*/, int /*sideIndex*/) {}
 bool DB_IsXAssetDefault(XAssetType /*type*/, const char * /*name*/) { return true; }
-const char *Com_FindSoundAlias(const char * /*name*/) { return nullptr; }
+snd_alias_list_t *Com_FindSoundAlias(const char * /*name*/) { return nullptr; }
 char *Com_LoadRawTextFile(const char * /*filename*/) { return nullptr; }
 void Com_UnloadRawTextFile(char * /*buffer*/) {}
 const char *Com_SurfaceTypeToName(int /*surfaceType*/) { return ""; }
@@ -779,7 +780,7 @@ void TRACK_scr_vm() {}
 void TRACK_snd_driver() {}
 void TRACK_snd() {}
 void TRACK_stringed_hooks() {}
-void TRACK_sv_game() {}
+// TRACK_sv_game now in server/sv_game.cpp.
 void TRACK_sv_main() {}
 void TRACK_ui_main() {}
 void TRACK_ui_shared() {}
@@ -979,6 +980,96 @@ const dvar_t *net_profile = nullptr;
 const dvar_t *sv_maxclients = nullptr;
 const dvar_t *sv_voice = nullptr;
 serverStatic_t svs{};
+
+// =========================================================================
+// Misc-2 batch — sv_game / g_svcmds / cg_consolecmds_mp cascade.
+// =========================================================================
+
+struct XBoneInfo;
+
+shellshock_parms_t *BG_GetShellshockParms(unsigned int /*index*/) { return nullptr; }
+int  BG_LoadShellShockDvars(const char * /*name*/) { return 0; }
+int  BG_SaveShellShockDvars(const char * /*name*/) { return 0; }
+void BG_SetShellShockParmsFromDvars(shellshock_parms_t * /*parms*/) {}
+
+bool BoxDistSqrdExceeds(const float * /*center*/, const float * /*mins*/, const float * /*maxs*/, float /*distSqrd*/) { return true; }
+
+void CG_ActionSlotDown_f() {}
+void CG_ActionSlotUp_f() {}
+void CG_FxSetTestPosition() {}
+void CG_FxTest() {}
+int  CG_IsScoreboardDisplayed(int /*localClientNum*/) { return 0; }
+void CG_NextWeapon_f() {}
+void CG_PrevWeapon_f() {}
+void CG_RestartSmokeGrenades(int /*localClientNum*/) {}
+void CG_VisionSetUpdateTweaksFromFile_Film() {}
+void CG_VisionSetUpdateTweaksFromFile_Glow() {}
+
+void CL_AddReliableCommand(int /*localClientNum*/, const char * /*cmd*/) {}
+
+void Com_GetBspFilename(char *filename, unsigned int /*max*/, const char * /*mapname*/)
+{ if (filename) filename[0] = 0; }
+DObj_s *Com_GetServerDObj(unsigned int /*handle*/) { return nullptr; }
+void Com_UnloadSoundAliases(snd_alias_system_t /*sys*/) {}
+
+char *ConcatArgs(int /*start*/) { static char buf[1] = {0}; return buf; }
+
+void DObjCreateSkel(DObj_s * /*obj*/, char * /*partBits*/, int /*controlPartBits*/) {}
+unsigned int DObjGetAllocSkelSize(const DObj_s * /*obj*/) { return 0; }
+void DObjGetBoneInfo(const DObj_s * /*obj*/, XBoneInfo ** /*info*/) {}
+void DObjGetBounds(const DObj_s * /*obj*/, float *mins, float *maxs)
+{
+    if (mins) mins[0] = mins[1] = mins[2] = 0;
+    if (maxs) maxs[0] = maxs[1] = maxs[2] = 0;
+}
+const XModel *DObjGetModel(const DObj_s * /*obj*/, int /*modelIndex*/) { return nullptr; }
+unsigned int DObjGetNumModels(const DObj_s * /*obj*/) { return 0; }
+XAnimTree_s *DObjGetTree(const DObj_s * /*obj*/) { return nullptr; }
+bool DObjIgnoreCollision(const DObj_s * /*obj*/, char /*modelIndex*/) { return false; }
+unsigned int DObjNumBones(const DObj_s * /*obj*/) { return 0; }
+void DObjSkelAreBonesUpToDate(const DObj_s * /*obj*/, int * /*partBits*/) {}
+bool DObjSkelExists(const DObj_s * /*obj*/, int /*boneIndex*/) { return false; }
+bool DObjSkelIsBoneUpToDate(DObj_s * /*obj*/, int /*boneIndex*/) { return false; }
+
+const char *G_GetEntityTypeName(const gentity_s * /*ent*/) { return ""; }
+double G_GetFogOpaqueDistSqrd() { return 0; }
+int   G_GetSavePersist() { return 0; }
+void G_InitGame(int /*serverTime*/, int /*randomSeed*/, int /*restart*/, int /*savegame*/) {}
+void G_ResetEntityParsePoint() {}
+void G_ShutdownGame(int /*restart*/) {}
+
+void MatrixTransformVector43(const float *in, const float (&m)[4][3], float *out)
+{
+    out[0] = in[0] * m[0][0] + in[1] * m[1][0] + in[2] * m[2][0] + m[3][0];
+    out[1] = in[0] * m[0][1] + in[1] * m[1][1] + in[2] * m[2][1] + m[3][1];
+    out[2] = in[0] * m[0][2] + in[1] * m[1][2] + in[2] * m[2][2] + m[3][2];
+}
+
+bool NET_IsLocalAddress(netadr_t /*adr*/) { return false; }
+int Scr_IsValidGameType(const char * /*name*/) { return 0; }
+
+unsigned int SV_ClipHandleForEntity(const gentity_s * /*ent*/) { return 0; }
+char *SV_GetMapBaseName(char *name) { if (name) name[0] = 0; return name; }
+void SV_LinkEntity(gentity_s * /*ent*/) {}
+void SV_SendServerCommand(client_t * /*cl*/, svscmd_type /*type*/, const char * /*fmt*/, ...) {}
+void SV_SetConfigstring(int /*index*/, const char * /*val*/) {}
+
+unsigned int Sys_MillisecondsRaw() { return Sys_Milliseconds(); }
+
+uiMenuCommand_t UI_GetActiveMenu(int /*localClientNum*/) { return uiMenuCommand_t{}; }
+int  UI_Popup(int /*localClientNum*/, const char * /*ref*/) { return 0; }
+char *UI_SafeTranslateString(const char *str) { return const_cast<char *>(str ? str : ""); }
+
+float Vec2DistanceSq(const float *a, const float *b)
+{
+    float dx = a[0] - b[0], dy = a[1] - b[1];
+    return dx * dx + dy * dy;
+}
+
+const dvar_t *g_banIPs = nullptr;
+const dvar_t *g_dedicated = nullptr;
+const dvar_t *sv_gametype = nullptr;
+
 // Con_InitChannels now in client/con_channels.cpp.
 // Con_IsChannelVisible now in client/con_channels.cpp.
 // Con_WriteFilterConfigString now in client/con_channels.cpp.

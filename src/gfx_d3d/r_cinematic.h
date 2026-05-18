@@ -1,8 +1,18 @@
 #pragma once
 
+#ifdef _WIN32
 #include <d3d9.h>
 #include <binklib/bink.h>
 #include <binklib/binktextures.h>
+#else
+// POSIX/Switch: d3d9 interfaces forward-declared in kisak_compat.h.
+// Bink video (proprietary RAD) isn't available on these targets either;
+// declarations the .cpp files reference get reachable via opaque
+// forward declarations below.
+struct BINK;
+struct BINKTEXTURES;
+typedef BINK *HBINK;
+#endif
 #include "r_material.h"
 
 #define CINEMATIC_INVALID_IMAGE_FRAME -1

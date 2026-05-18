@@ -59,7 +59,7 @@ void __cdecl CG_Laser_Add_Core(
     float laserBeginLightPos[3]; // [esp+D0h] [ebp-54h] BYREF
     float laserEndWidenScale; // [esp+DCh] [ebp-48h]
     float laserEndLightPos[3]; // [esp+E0h] [ebp-44h] BYREF
-    unsigned __int8 endColorByte; // [esp+EFh] [ebp-35h]
+    [[maybe_unused]] unsigned __int8 endColorByte; // [esp+EFh] [ebp-35h]
     FxPostLight postLight; // [esp+F0h] [ebp-34h] BYREF
     float laserEnd[3]; // [esp+118h] [ebp-Ch] BYREF
 
