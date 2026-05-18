@@ -81,7 +81,9 @@ uint8_t *__cdecl DB_GetStreamPos()
 uint8_t *__cdecl DB_AllocStreamPos(int32_t alignment)
 {
     iassert(g_streamPos);
-    g_streamPos = (uint8_t *)(~alignment & (uint32_t)&g_streamPos[alignment]);
+    // KISAKHACK: pointer alignment via integer mask. Upstream used uint32_t
+    // (32-bit pointer); use uintptr_t to keep all bits on a 64-bit host.
+    g_streamPos = (uint8_t *)(~(uintptr_t)alignment & (uintptr_t)&g_streamPos[alignment]);
     return g_streamPos;
 }
 

@@ -53,7 +53,10 @@ void __cdecl DB_ConvertOffsetToAlias(uint32_t *data)
 
 void __cdecl DB_ConvertOffsetToPointer(uint32_t *data)
 {
-    *data = (uint32_t)&g_streamZoneMem->blocks[(uint32_t)(*data - 1) >> 28].data[(*data - 1) & 0xFFFFFFF];
+    // KISAKHACK: storing a 64-bit pointer in a uint32_t cell. Truncates
+    // the upper bits — works only when blocks live in the low 4GB.
+    // Long-term: asset loader needs a pointer-table indirection.
+    *data = (uint32_t)(uintptr_t)&g_streamZoneMem->blocks[(uint32_t)(*data - 1) >> 28].data[(*data - 1) & 0xFFFFFFF];
 }
 
 void __cdecl Load_XStringCustom(char **str)
@@ -77,7 +80,10 @@ void __cdecl Load_TempStringCustom(char **str)
 
     Load_XStringCustom(str);
     if (*str)
-        string = (const char*)SL_GetString(*str, 4u); // KISAKTODO: this seems way wrong but it's what the decomp is showing
+        // KISAKTODO: this seems way wrong but it's what the decomp shows.
+        // SL_GetString returns a uint32_t string-id; cast through uintptr_t
+        // to silence the 64-bit pointer-from-smaller-int warning.
+        string = (const char *)(uintptr_t)SL_GetString(*str, 4u);
     else
         string= 0;
     *str = (char *)string;

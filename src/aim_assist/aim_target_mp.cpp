@@ -107,13 +107,12 @@ char __cdecl AimTarget_IsTargetValid(const cg_s *cgameGlob, const centity_s *tar
         const clientInfo_t* playerInfo = &cgameGlob->bgs.clientinfo[cgameGlob->predictedPlayerState.clientNum]; // [esp+5Ch] [ebp-1Ch]
         if (targetInfo->infoValid && targetInfo->model[0])
         {
-            DObj_s* ret = Com_GetClientDObj(targetEnt->nextState.number, targetEnt->pose.localClientNum);
+            [[maybe_unused]] DObj_s* ret = Com_GetClientDObj(targetEnt->nextState.number, targetEnt->pose.localClientNum);
             iassert(ret);
 
             if (targetInfo->team != playerInfo->team || playerInfo->team == TEAM_FREE)
                 goto LABEL_26;
         }
-    LABEL_25:
         return 0;
     }
     if ((targetEnt->nextState.lerp.eFlags & 0x800) == 0 || targetEnt->nextState.solid != 0xFFFFFF)

@@ -795,6 +795,92 @@ unsigned int msecPerRawTimerTick = 1;
 netFieldOrderInfo_t orderInfo{};
 alignas(16) static unsigned char sys_info_storage[8192];
 void *sys_info = sys_info_storage;
+
+// =========================================================================
+// database/devgui/aim_assist cascade.
+// =========================================================================
+
+struct Material;
+struct centity_s;
+struct AimTarget;
+struct trajectory_t;
+struct XZoneMemory;
+
+// CL/CG/Key
+void CL_ClearKeys(int /*localClientNum*/) {}
+int  Key_IsDown(int /*localClientNum*/, int /*key*/) { return 0; }
+void CG_TraceCapsule(trace_t *trace, const float * /*start*/, const float * /*mins*/,
+                     const float * /*maxs*/, const float * /*end*/, int /*passEnt*/, int /*contentMask*/)
+{
+    if (trace) { std::memset(trace, 0, sizeof(*trace)); trace->fraction = 1.0f; }
+}
+void CG_DObjGetWorldTagPos(const cpose_t * /*pose*/, DObj_s * /*obj*/, unsigned int /*tag*/, float *pos)
+{
+    if (pos) { pos[0] = pos[1] = pos[2] = 0; }
+}
+
+// FX visibility
+char FX_GetClientVisibility(int /*localClientNum*/, const float * /*origin*/, const float * /*viewOrigin*/) { return 1; }
+
+// BG
+void BG_EvaluateTrajectory(const trajectory_t * /*tr*/, int /*atTime*/, float *result)
+{
+    if (result) { result[0] = result[1] = result[2] = 0; }
+}
+
+// DevGui
+void DevGui_Toggle() {}
+
+// R_ (renderer cmds — these just queue commands; no-op in stub mode)
+void R_AddCmdDrawText(const char * /*text*/, int /*max*/, Font_s * /*font*/,
+                      float /*x*/, float /*y*/, float /*xScale*/, float /*yScale*/,
+                      float /*rotation*/, const float * /*color*/, int /*style*/) {}
+void R_AddCmdDrawStretchPic(float /*x*/, float /*y*/, float /*w*/, float /*h*/,
+                            float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/,
+                            const float * /*color*/, Material * /*material*/) {}
+void R_AddCmdDrawStretchPicRotateXY(float /*x*/, float /*y*/, float /*w*/, float /*h*/,
+                                    float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/,
+                                    float /*rotation*/, const float * /*color*/, Material * /*material*/) {}
+void R_AddCmdDrawQuadPic(const float (* /*quad*/)[2], const float * /*color*/, Material * /*material*/) {}
+int   R_TextHeight(Font_s * /*font*/) { return 0; }
+int   R_TextWidth(const char * /*text*/, int /*max*/, Font_s * /*font*/) { return 0; }
+void *R_AllocStaticIndexBuffer(IDirect3DIndexBuffer9 ** /*ib*/, int /*size*/) { return nullptr; }
+void *R_AllocStaticVertexBuffer(IDirect3DVertexBuffer9 ** /*vb*/, int /*size*/) { return nullptr; }
+void  R_FinishStaticIndexBuffer(IDirect3DIndexBuffer9 * /*ib*/) {}
+void  R_FinishStaticVertexBuffer(IDirect3DVertexBuffer9 * /*vb*/) {}
+void  R_FreeStaticIndexBuffer(IDirect3DIndexBuffer9 * /*ib*/) {}
+void  R_FreeStaticVertexBuffer(IDirect3DVertexBuffer9 * /*vb*/) {}
+void  R_UnlockIndexBuffer(IDirect3DIndexBuffer9 * /*ib*/) {}
+void  R_UnlockVertexBuffer(IDirect3DVertexBuffer9 * /*vb*/) {}
+
+// DB
+void DB_LoadXFileData(unsigned char * /*buffer*/, unsigned int /*size*/) {}
+
+// PMem
+unsigned char *PMem_Alloc(unsigned int size, unsigned int /*alignment*/, unsigned int /*allocType*/, unsigned int /*name*/)
+{
+    return static_cast<unsigned char *>(std::calloc(1, size));
+}
+unsigned int PMem_GetOverAllocatedSize() { return 0; }
+
+// SL
+unsigned int SL_GetString(const char * /*str*/, unsigned int /*user*/) { return 0; }
+void SL_AddUser(unsigned int /*stringValue*/, unsigned int /*user*/) {}
+
+// Math
+float RadiusFromBounds(const float *mins, const float *maxs)
+{
+    float dx = std::fmax(std::fabs(mins[0]), std::fabs(maxs[0]));
+    float dy = std::fmax(std::fabs(mins[1]), std::fabs(maxs[1]));
+    float dz = std::fmax(std::fabs(mins[2]), std::fabs(maxs[2]));
+    return std::sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+// Globals
+alignas(16) static unsigned char g_assetNames_storage[8192];
+void *g_assetNames = g_assetNames_storage;
+alignas(16) static unsigned char varXAssetList_storage[16384];
+void *varXAssetList = varXAssetList_storage;
 void Con_InitChannels() {}
 bool Con_IsChannelVisible(print_msg_dest_t /*dest*/, unsigned int /*channel*/, int /*msgFilters*/) { return false; }
 void Con_WriteFilterConfigString(int /*localClientNum*/) {}

@@ -1,6 +1,10 @@
 #pragma once
 
+#ifdef _WIN32
 #include <d3d9.h>
+#else
+// POSIX/Switch: d3d9 interfaces are forward-declared in kisak_compat.h.
+#endif
 #include "r_rendercmds.h"
 #include "rb_backend.h"
 

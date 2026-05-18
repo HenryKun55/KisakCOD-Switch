@@ -247,6 +247,19 @@ typedef union {
     long long QuadPart;
 } LARGE_INTEGER;
 
+// OVERLAPPED: Win32 async I/O state. Only stored in upstream structs
+// (database file-loader, etc.); never actually used on POSIX. Placeholder
+// definition matches Win32's nominal size.
+typedef struct _OVERLAPPED {
+    unsigned long long Internal;
+    unsigned long long InternalHigh;
+    union {
+        struct { DWORD Offset; DWORD OffsetHigh; };
+        void *Pointer;
+    };
+    void *hEvent;
+} OVERLAPPED;
+
 // QueryPerformanceCounter / QueryPerformanceFrequency: Win32 high-resolution
 // timer API. Stubs are in src/posix/posix_stubs.cpp.
 BOOL QueryPerformanceCounter(LARGE_INTEGER *count);

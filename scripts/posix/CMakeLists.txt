@@ -39,11 +39,10 @@ set(UNIVERSAL_PORTABLE_SOURCES
 )
 
 set(COMMON_PORTABLE_SOURCES
-    # brush_edges.cpp: compiles clean on clang, but GCC's -Warray-bounds
-    # flags hex-rays-style `(*xyz)[3*k]` indexing (xyz declared as
-    # `float (*)[3]` but actual data is a flat float buffer). Needs a
-    # signature refactor or a localized pragma before it can land on
-    # Switch (devkitA64 GCC).
+    "${SRC_DIR}/common/brush_edges.cpp"
+    # ^ compiles clean on clang. On the Switch GCC target, the
+    # -Warray-bounds flagging on hex-rays-style `(*xyz)[3*k]` indexing
+    # may need a signature refactor or a localized pragma.
 )
 
 set(QCOMMON_PORTABLE_SOURCES
@@ -109,6 +108,24 @@ set(DYNENTITY_PORTABLE_SOURCES
     "${SRC_DIR}/DynEntity/DynEntity_coll.cpp"
 )
 
+set(DATABASE_PORTABLE_SOURCES
+    "${SRC_DIR}/database/db_assetnames.cpp"
+    "${SRC_DIR}/database/db_auth.cpp"
+    "${SRC_DIR}/database/db_memory.cpp"
+    "${SRC_DIR}/database/db_stream.cpp"
+    "${SRC_DIR}/database/db_stream_load.cpp"
+    "${SRC_DIR}/database/db_stringtable_load.cpp"
+)
+
+set(DEVGUI_PORTABLE_SOURCES
+    "${SRC_DIR}/devgui/devgui_input.cpp"
+    "${SRC_DIR}/devgui/devgui_util.cpp"
+)
+
+set(AIMASSIST_PORTABLE_SOURCES
+    "${SRC_DIR}/aim_assist/aim_target_mp.cpp"
+)
+
 set(XANIM_PORTABLE_SOURCES
     "${SRC_DIR}/xanim/dobj_skel.cpp"
     "${SRC_DIR}/xanim/xanim.cpp"
@@ -140,6 +157,9 @@ add_executable(kisak_posix
     ${DYNENTITY_PORTABLE_SOURCES}
     ${XANIM_PORTABLE_SOURCES}
     ${BGAME_PORTABLE_SOURCES}
+    ${DATABASE_PORTABLE_SOURCES}
+    ${DEVGUI_PORTABLE_SOURCES}
+    ${AIMASSIST_PORTABLE_SOURCES}
 )
 
 # ODE source uses `#include "X.h"` for its own headers. Add the directory
