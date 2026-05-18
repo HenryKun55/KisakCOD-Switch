@@ -469,17 +469,7 @@ XAssetHeader DB_FindXAssetHeader(XAssetType /*type*/, const char * /*name*/)
     return XAssetHeader{};
 }
 
-// XModelTraceLine: ray-test against an XModel. Stub clears the trace_t —
-// upstream cm_test calls this for visibility checks. trace_t has many
-// fields; just zero the storage by reinterpret. Forward-declare to avoid
-// dragging the xanim/xmodel headers in here.
-struct trace_t;
-struct XModel;
-void XModelTraceLine(const XModel * /*model*/, trace_t *trace,
-                     const float * /*start*/, const float * /*end*/, int /*contents*/)
-{
-    if (trace) std::memset(trace, 0, 256); // upper bound on sizeof(trace_t)
-}
+// XModelTraceLine now provided by xanim/xmodel.cpp.
 
 // CM_LoadMapData_LoadObj: collision-model loader entry. Real impl lands
 // with cm_load_obj.cpp (which depends on more renderer state). Until

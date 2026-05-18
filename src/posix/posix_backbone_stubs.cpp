@@ -442,11 +442,229 @@ void DevGui_Update(int /*localClientNum*/, float /*frameTime*/) {}
 // SetAnimCheck now provided by script/scr_animtree.cpp.
 void LargeLocalReset() {}
 void LiveStorage_Init() {}
-void XAnimInit() {}
-void XAnimShutdown() {}
+// XAnimInit/Shutdown now provided by xanim/xanim.cpp.
 void Swap_Init() {}
 void SL_Init() {}
 void BG_ShutdownWeaponDefFiles() {}
+int  BG_AnimScriptEvent(playerState_s * /*ps*/, scriptAnimEventTypes_t /*event*/, int /*isContinue*/, int /*force*/) { return 0; }
+void BG_AddPredictableEventToPlayerstate(unsigned int /*event*/, unsigned int /*eventParm*/, playerState_s * /*ps*/) {}
+int  PM_GetEffectiveStance(const playerState_s * /*ps*/) { return 0; }
+unsigned int PM_GroundSurfaceType(pml_t * /*pml*/) { return 0; }
+
+// =========================================================================
+// xanim/bgame cascade — landed with the xanim + bgame files. Math
+// helpers get real implementations; subsystem hooks stay stubbed.
+// =========================================================================
+
+void Vec3Clear(float *v) { v[0] = v[1] = v[2] = 0; }
+void Vec3Copy(const float *in, float *out) { out[0] = in[0]; out[1] = in[1]; out[2] = in[2]; }
+void Vec3Mul(const float *a, const float *b, float *out) { out[0] = a[0] * b[0]; out[1] = a[1] * b[1]; out[2] = a[2] * b[2]; }
+float Vec2Length(const float *v) { return std::sqrt(v[0] * v[0] + v[1] * v[1]); }
+
+float AngleNormalize360(float angle)
+{
+    float r = std::fmod(angle, 360.0f);
+    if (r < 0) r += 360.0f;
+    return r;
+}
+
+float AngleDelta(float a, float b)
+{
+    float d = AngleNormalize360(a - b);
+    if (d > 180.0f) d -= 360.0f;
+    return d;
+}
+
+float Q_rint(float v) { return std::rintf(v); }
+
+void vectoangles(const float *value1, float *angles)
+{
+    float forward, yaw, pitch;
+    if (value1[1] == 0 && value1[0] == 0) {
+        yaw = 0;
+        pitch = (value1[2] > 0) ? 90 : 270;
+    } else {
+        yaw = std::atan2(value1[1], value1[0]) * (180.0f / 3.14159265358979323846f);
+        if (yaw < 0) yaw += 360;
+        forward = std::sqrt(value1[0] * value1[0] + value1[1] * value1[1]);
+        pitch = std::atan2(value1[2], forward) * (180.0f / 3.14159265358979323846f);
+        if (pitch < 0) pitch += 360;
+    }
+    angles[0] = -pitch;
+    angles[1] = yaw;
+    angles[2] = 0;
+}
+
+float vectoyaw(const float *vec)
+{
+    if (vec[1] == 0 && vec[0] == 0) return 0;
+    float yaw = std::atan2(vec[1], vec[0]) * (180.0f / 3.14159265358979323846f);
+    if (yaw < 0) yaw += 360;
+    return yaw;
+}
+
+void VectorAngleMultiply(float *vec, float scale)
+{
+    vec[0] = AngleNormalize360(vec[0] * scale);
+    vec[1] = AngleNormalize360(vec[1] * scale);
+    vec[2] = AngleNormalize360(vec[2] * scale);
+}
+
+// Quaternion algebra helpers. Quaternions stored as (x, y, z, w).
+static inline void quat_mul(const float *a, const float *b, float *r)
+{
+    r[0] = a[3] * b[0] + a[0] * b[3] + a[1] * b[2] - a[2] * b[1];
+    r[1] = a[3] * b[1] - a[0] * b[2] + a[1] * b[3] + a[2] * b[0];
+    r[2] = a[3] * b[2] + a[0] * b[1] - a[1] * b[0] + a[2] * b[3];
+    r[3] = a[3] * b[3] - a[0] * b[0] - a[1] * b[1] - a[2] * b[2];
+}
+
+void QuatMultiplyEquals(const float *q, float *acc)
+{
+    float r[4];
+    quat_mul(acc, q, r);
+    acc[0] = r[0]; acc[1] = r[1]; acc[2] = r[2]; acc[3] = r[3];
+}
+
+void QuatMultiplyReverseEquals(const float *q, float *acc)
+{
+    float r[4];
+    quat_mul(q, acc, r);
+    acc[0] = r[0]; acc[1] = r[1]; acc[2] = r[2]; acc[3] = r[3];
+}
+
+void QuatMultiplyReverseInverse(const float *a, const float *b, float *out)
+{
+    float binv[4] = { -b[0], -b[1], -b[2], b[3] };
+    quat_mul(a, binv, out);
+}
+
+// DObjAnimMat → rotation matrix (3x3). DObjAnimMat is a quaternion + scale.
+// Forward-decl DObjAnimMat as opaque is enough since we only take a
+// pointer; layout doesn't matter — these are stubs anyway.
+void ConvertQuatToMat(const DObjAnimMat * /*mat*/, float (*out)[3])
+{
+    for (int i = 0; i < 3; ++i) for (int j = 0; j < 3; ++j) out[i][j] = (i == j) ? 1.0f : 0;
+}
+void ConvertQuatToInverseMat(const DObjAnimMat * /*mat*/, float (*out)[3])
+{
+    for (int i = 0; i < 3; ++i) for (int j = 0; j < 3; ++j) out[i][j] = (i == j) ? 1.0f : 0;
+}
+void MatrixTransformVectorQuatTransEquals(const DObjAnimMat * /*mat*/, float * /*v*/) {}
+
+// DObj
+void DObjCalcAnim(const DObj_s * /*obj*/, int * /*partBits*/) {}
+void DObjDumpInfo(const DObj_s * /*obj*/) {}
+void DObjGetHidePartBits(const DObj_s * /*obj*/, unsigned int * /*partBits*/) {}
+
+// PM_
+void PM_AddTouchEnt(pmove_t * /*pm*/, int /*entityNum*/) {}
+void PM_ClipVelocity(const float *in, const float *normal, float *out)
+{
+    float dot = in[0] * normal[0] + in[1] * normal[1] + in[2] * normal[2];
+    out[0] = in[0] - dot * normal[0];
+    out[1] = in[1] - dot * normal[1];
+    out[2] = in[2] - dot * normal[2];
+}
+void PM_ProjectVelocity(const float *in, const float *normal, float *out)
+{
+    PM_ClipVelocity(in, normal, out);
+}
+void PM_FootstepEvent(pmove_t * /*pm*/, pml_t * /*pml*/, char /*surfType*/, char /*step*/, int /*eventParm*/) {}
+bool PM_ShouldMakeFootsteps(pmove_t * /*pm*/) { return false; }
+void PM_playerTrace(pmove_t * /*pm*/, trace_t *trace, const float * /*start*/, const float * /*mins*/,
+                    const float * /*maxs*/, const float * /*end*/, int /*passEnt*/, int /*contentMask*/)
+{
+    if (trace) {
+        std::memset(trace, 0, sizeof(*trace));
+        trace->fraction = 1.0f;
+    }
+}
+void PM_trace(pmove_t *pm, trace_t *trace, const float *start, const float *mins,
+              const float *maxs, const float *end, int passEnt, int contentMask)
+{
+    PM_playerTrace(pm, trace, start, mins, maxs, end, passEnt, contentMask);
+}
+
+// BG
+int  BG_AnimScriptAnimation(playerState_s * /*ps*/, aistateEnum_t /*state*/, scriptAnimMoveTypes_t /*move*/, int /*direction*/) { return 0; }
+char BG_CheckProne(int /*clientNum*/, const float * /*origin*/, float /*proneAngle*/, float /*forwardLen*/,
+                   float /*backwardLen*/, float * /*mins*/, float * /*maxs*/, bool /*upright*/, bool /*standing*/,
+                   bool /*proneStarting*/, unsigned char /*lerpFraction*/, proneCheckType_t /*checkType*/, float /*proneTolerance*/)
+{ return 1; }
+void BG_CreateXAnim(XAnim_s * /*anims*/, unsigned int /*animIndex*/, const char * /*name*/) {}
+void BG_InitWeaponString(int /*weaponIndex*/, const char * /*str*/) {}
+
+// Misc collision / config helpers
+struct SimplePlaneIntersection_fwd;
+struct adjacencyWinding_t_fwd;
+void BuildBrushdAdjacencyWindingForSide(float * /*points*/, int /*numPoints*/,
+                                        const void * /*spi*/, int /*numIntersections*/,
+                                        void * /*winding*/, int /*sideIndex*/) {}
+bool DB_IsXAssetDefault(XAssetType /*type*/, const char * /*name*/) { return true; }
+const char *Com_FindSoundAlias(const char * /*name*/) { return nullptr; }
+char *Com_LoadRawTextFile(const char * /*filename*/) { return nullptr; }
+void Com_UnloadRawTextFile(char * /*buffer*/) {}
+const char *Com_SurfaceTypeToName(int /*surfaceType*/) { return ""; }
+int Com_sprintfPos(char *dest, int destSize, int *destPos, const char *fmt, ...)
+{
+    if (!dest || !destPos) return 0;
+    va_list ap;
+    va_start(ap, fmt);
+    int n = std::vsnprintf(dest + *destPos, destSize - *destPos, fmt, ap);
+    va_end(ap);
+    if (n < 0) return 0;
+    *destPos += n;
+    return n;
+}
+bool Info_Validate(const char * /*s*/) { return true; }
+int  I_strcmp(const char *a, const char *b) { return std::strcmp(a, b); }
+bool ParseConfigStringToStructCustomSize(unsigned char * /*pStruct*/, const cspField_t * /*pFieldList*/,
+                                         int /*iNumFields*/, char * /*pszBuffer*/, int /*iMaxFieldTypes*/,
+                                         int  (*)(unsigned char *, const char *, const int) /*parseSpecial*/,
+                                         void (*)(unsigned char *, const char *) /*parseStrcpy*/)
+{ return false; }
+
+// FS - the read API path
+unsigned int FS_FOpenFileByMode(char * /*qpath*/, int *file, fsMode_t /*mode*/) { if (file) *file = 0; return 0; }
+unsigned int FS_Read(unsigned char * /*buffer*/, unsigned int /*len*/, int /*file*/) { return 0; }
+
+// Hunk family
+void *Hunk_AllocDebugMem(unsigned int size) { return std::malloc(size); }
+void  Hunk_FreeDebugMem(void *ptr) { std::free(ptr); }
+unsigned char *Hunk_AllocLow(unsigned int size, const char * /*name*/, int /*type*/)
+{
+    return static_cast<unsigned char *>(std::calloc(1, size));
+}
+unsigned char *Hunk_AllocLowAlign(unsigned int size, int /*align*/, const char * /*name*/, int /*type*/)
+{
+    return static_cast<unsigned char *>(std::calloc(1, size));
+}
+void  Hunk_AddData(int /*type*/, void * /*data*/, void *(*)(int) /*alloc*/) {}
+bool  Hunk_DataOnHunk(unsigned char * /*data*/) { return false; }
+void *Hunk_FindDataForFile(int /*fileId*/, const char * /*filename*/) { return nullptr; }
+char *Hunk_SetDataForFile(int /*type*/, const char * /*name*/, void * /*data*/, void *(*)(int) /*alloc*/) { return nullptr; }
+
+// Stringlist (extra entries pulled by bgame/xanim)
+void SL_AddRefToString(unsigned int /*stringValue*/) {}
+unsigned int SL_ConvertToLowercase(unsigned int stringValue, unsigned int /*user*/, int /*type*/) { return stringValue; }
+unsigned int SL_GetLowercaseString(const char * /*str*/, unsigned int /*user*/) { return 0; }
+unsigned int SL_GetStringOfSize(const char * /*str*/, unsigned int /*size*/, unsigned int /*user*/, int /*type*/) { return 0; }
+void SL_RemoveRefToStringOfSize(unsigned int /*stringValue*/, unsigned int /*size*/) {}
+
+// Scr_*
+void Scr_AddArray() {}
+void Scr_AddConstString(unsigned int /*stringValue*/) {}
+void Scr_AddFloat(float /*value*/) {}
+void Scr_NotifyNum(unsigned int /*entnum*/, unsigned int /*classnum*/, unsigned int /*stringValue*/, unsigned int /*numArgs*/) {}
+
+// XAnim/XModel load
+XAnimParts *XAnimLoadFile(char * /*name*/, void *(*)(int) /*Alloc*/) { return nullptr; }
+XModel *XModelPrecache_LoadObj(char * /*name*/, void *(*)(int) /*Alloc*/, void *(*)(int) /*AllocColl*/) { return nullptr; }
+void XAnim_CalcDeltaForTime(const XAnimParts * /*part*/, float /*time*/, float * /*deltaTrans*/, float4 * /*deltaQuat*/) {}
+
+// Globals
+int surfaceTypeSoundListCount = 0;
 void Con_InitChannels() {}
 bool Con_IsChannelVisible(print_msg_dest_t /*dest*/, unsigned int /*channel*/, int /*msgFilters*/) { return false; }
 void Con_WriteFilterConfigString(int /*localClientNum*/) {}
@@ -645,7 +863,7 @@ void CG_DrawStringExt(const ScreenPlacement * /*place*/, float /*x*/, float /*y*
 
 // Com / DObj
 DObj_s *Com_GetClientDObj(unsigned int /*handle*/, int /*localClientNum*/) { return nullptr; }
-void DObjDisplayAnim(const DObj_s * /*obj*/, const char * /*header*/) {}
+// DObjDisplayAnim now provided by xanim/xanim.cpp.
 void DObjGetBasePoseMatrix(const DObj_s * /*obj*/, unsigned char /*boneIndex*/, DObjAnimMat * /*outMat*/) {}
 int  DObjGetBoneIndex(const DObj_s * /*obj*/, unsigned int /*name*/, unsigned char *index)
 {
@@ -663,12 +881,7 @@ const DynEntityDef *DynEnt_GetEntityDef(unsigned short /*id*/, DynEntityDrawType
 const DynEntityProps *DynEnt_GetEntityProps(DynEntityType /*t*/) { return nullptr; }
 unsigned short DynEnt_GetId(const DynEntityDef * /*def*/, DynEntityDrawType /*draw*/) { return 0; }
 
-// XModel
-void XModelGetBounds(const XModel * /*model*/, float *mins, float *maxs)
-{
-    if (mins) mins[0] = mins[1] = mins[2] = 0;
-    if (maxs) maxs[0] = maxs[1] = maxs[2] = 0;
-}
+// XModelGetBounds now provided by xanim/xmodel.cpp.
 
 // R
 unsigned int R_GetLocalClientNum() { return 0; }
@@ -800,14 +1013,9 @@ HunkUser *Hunk_UserCreate(int /*maxSize*/, const char * /*name*/, bool /*fixed*/
                           bool /*tempMem*/, int /*type*/) { return nullptr; }
 void Hunk_UserDestroy(HunkUser * /*user*/) {}
 
-// --- XAnim ---------------------------------------------------------------
-void XAnimBlend(XAnim_s * /*anims*/, unsigned int /*animIndex*/, const char * /*name*/,
-                unsigned int /*children*/, unsigned int /*num*/, unsigned int /*flags*/) {}
-void XAnimCreate(XAnim_s * /*anims*/, unsigned int /*animIndex*/, const char * /*name*/) {}
-XAnim_s *XAnimCreateAnims(const char * /*debugName*/, unsigned int /*size*/,
-                          void *(*)(int) /*Alloc*/) { return nullptr; }
-XAnimParts *XAnimPrecache(const char * /*name*/, void *(*)(int) /*Alloc*/) { return nullptr; }
-void XAnimSetupSyncNodes(XAnim_s * /*anims*/) {}
+// --- XAnim now provided by xanim/xanim.cpp -------------------------------
+// (XAnimBlend, XAnimCreate, XAnimCreateAnims, XAnimPrecache,
+//  XAnimSetupSyncNodes, XAnimInit, XAnimShutdown)
 
 // --- Misc -----------------------------------------------------------------
 bool I_iscsym(int c) { return std::isalnum(c) || c == '_'; }

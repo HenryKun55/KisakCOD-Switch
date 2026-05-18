@@ -3471,7 +3471,7 @@ int XAnimSetCompleteGoalWeightKnob(
 {
     XAnimTree_s *tree; // r28
     unsigned int infoIndex; // r3
-    XAnimState *p_state; // r10
+    [[maybe_unused]] XAnimState *p_state; // r10
 
     iassert(obj);
 
@@ -3795,7 +3795,7 @@ void __cdecl XAnimSetTime(XAnimTree_s *tree, unsigned int animIndex, float time)
 {
     XAnimState *state; // [esp+18h] [ebp-10h]
     unsigned int infoIndex; // [esp+20h] [ebp-8h]
-    const XAnimEntry *anim; // [esp+24h] [ebp-4h]
+    [[maybe_unused]] const XAnimEntry *anim; // [esp+24h] [ebp-4h]
 
     iassert(tree);
     iassert(tree->anims);
@@ -4177,7 +4177,7 @@ static unsigned int XAnimTransfer_r(
     XAnimInfo *fromInfo; // r30
     unsigned int animToModel; // r31
     XAnimInfo *toInfo2; // r10
-    XAnimState *p_state; // r9
+    [[maybe_unused]] XAnimState *p_state; // r9
     unsigned int toChildInfoIndex; // r31
     unsigned int i; // r11
     unsigned int children; // r28

@@ -132,11 +132,11 @@ void __cdecl Phys_ComputeMassProperties(
 char __cdecl SkipEpair(char *token, const char **file)
 {
     char *v3; // eax
-    char *v4; // eax
+    [[maybe_unused]] char *v4; // eax
     char *v5; // eax
-    int v6; // eax
-    int v7; // eax
-    int v8; // eax
+    [[maybe_unused]] int v6; // eax
+    [[maybe_unused]] int v7; // eax
+    [[maybe_unused]] int v8; // eax
     parseInfo_t *tokena; // [esp+28h] [ebp+8h]
 
     if (token[strlen(token) - 2] == 92)
@@ -860,7 +860,7 @@ char __cdecl Xmodel_ParsePhysicsBrush(
     int sideIndex; // [esp+6270h] [ebp-6A0h]
     float maxs[3]; // [esp+6274h] [ebp-69Ch] BYREF
     adjacencyWinding_t windings[32]; // [esp+6280h] [ebp-690h] BYREF
-    int v29; // [esp+6900h] [ebp-10h]
+    [[maybe_unused]] int v29; // [esp+6900h] [ebp-10h]
     parseInfo_t *v30; // [esp+6904h] [ebp-Ch]
     int totalEdges; // [esp+6908h] [ebp-8h]
     unsigned int axis; // [esp+690Ch] [ebp-4h]

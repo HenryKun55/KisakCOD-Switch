@@ -192,7 +192,7 @@ int __cdecl XModelTraceLineAnimated(
     float startDist; // [esp+144h] [ebp-A8h]
     const XModelCollSurf_s *csurf; // [esp+148h] [ebp-A4h]
     float localEnd2[3]; // [esp+14Ch] [ebp-A0h] BYREF
-    int globalBoneIndex; // [esp+158h] [ebp-94h]
+    [[maybe_unused]] int globalBoneIndex; // [esp+158h] [ebp-94h]
     float hit[3]; // [esp+15Ch] [ebp-90h] BYREF
     float mat[4][3];
     unsigned int hidePartBits[4]; // [esp+198h] [ebp-54h] BYREF

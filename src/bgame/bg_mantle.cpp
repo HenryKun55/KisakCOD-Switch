@@ -639,7 +639,7 @@ void __cdecl Mantle_Move(pmove_t *pm, playerState_s *ps, pml_t *pml)
 int __cdecl Mantle_GetAnim(MantleState *mstate)
 {
     int upTime; // [esp+0h] [ebp-Ch]
-    int overTime; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int overTime; // [esp+8h] [ebp-4h]
 
     upTime = Mantle_GetUpLength(mstate);
     overTime = Mantle_GetOverLength(mstate);

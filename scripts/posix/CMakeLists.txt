@@ -102,6 +102,25 @@ set(DYNENTITY_PORTABLE_SOURCES
     "${SRC_DIR}/DynEntity/DynEntity_coll.cpp"
 )
 
+set(XANIM_PORTABLE_SOURCES
+    "${SRC_DIR}/xanim/dobj_skel.cpp"
+    "${SRC_DIR}/xanim/xanim.cpp"
+    "${SRC_DIR}/xanim/xmodel.cpp"
+    "${SRC_DIR}/xanim/xmodel_utils.cpp"
+    # xmodel_load_phys_collmap.cpp compiles clean but pulls ODE
+    # (dMass*). Brings back once ODE physics is in the build.
+)
+
+set(BGAME_PORTABLE_SOURCES
+    "${SRC_DIR}/bgame/bg_jump.cpp"
+    "${SRC_DIR}/bgame/bg_mantle.cpp"
+    "${SRC_DIR}/bgame/bg_misctables.cpp"
+    "${SRC_DIR}/bgame/bg_perks_mp.cpp"
+    "${SRC_DIR}/bgame/bg_slidemove.cpp"
+    "${SRC_DIR}/bgame/bg_vehicles_mp.cpp"
+    "${SRC_DIR}/bgame/bg_weapons_load_obj.cpp"
+)
+
 add_executable(kisak_posix
     ${POSIX_SOURCES}
     ${UNIVERSAL_PORTABLE_SOURCES}
@@ -112,6 +131,8 @@ add_executable(kisak_posix
     ${EFFECTSCORE_PORTABLE_SOURCES}
     ${RAGDOLL_PORTABLE_SOURCES}
     ${DYNENTITY_PORTABLE_SOURCES}
+    ${XANIM_PORTABLE_SOURCES}
+    ${BGAME_PORTABLE_SOURCES}
 )
 
 # ODE source uses `#include "X.h"` for its own headers. Add the directory

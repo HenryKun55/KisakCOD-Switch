@@ -57,6 +57,24 @@
 // on clang specifically, but trap works everywhere as a fallback).
 #define __debugbreak() __builtin_trap()
 
+// _BitScanReverse: MSVC intrinsic that finds the index of the most
+// significant set bit. Returns 0 if mask is 0, else sets *index and
+// returns nonzero. Implemented via __builtin_clz on clang/gcc.
+#ifndef _WIN32
+static inline unsigned char _BitScanReverse(unsigned long *index, unsigned long mask)
+{
+    if (!mask) return 0;
+    *index = 31u - (unsigned long)__builtin_clz((unsigned int)mask);
+    return 1;
+}
+static inline unsigned char _BitScanForward(unsigned long *index, unsigned long mask)
+{
+    if (!mask) return 0;
+    *index = (unsigned long)__builtin_ctz((unsigned int)mask);
+    return 1;
+}
+#endif
+
 // __rdtsc: x86/x64 cycle counter intrinsic. On ARM64 we don't have a
 // user-space cycle counter readily exposed; approximate with steady_clock
 // nanoseconds. Off by a constant factor vs real cycles but adequate for

@@ -11,7 +11,7 @@ void __cdecl PM_StepSlideMove(pmove_t *pm, pml_t *pml, int32_t gravity)
     float v4; // [esp+Ch] [ebp-13Ch]
     float v5; // [esp+14h] [ebp-134h]
     float v6; // [esp+1Ch] [ebp-12Ch]
-    float v7; // [esp+20h] [ebp-128h]
+    [[maybe_unused]] float v7; // [esp+20h] [ebp-128h]
     float v8; // [esp+30h] [ebp-118h]
     float v12; // [esp+44h] [ebp-104h]
     float *velocity; // [esp+60h] [ebp-E8h]
@@ -83,14 +83,14 @@ void __cdecl PM_StepSlideMove(pmove_t *pm, pml_t *pml, int32_t gravity)
             return;
         jumping = 1;
     }
-    if (jumping || (ps->pm_flags & PMF_LADDER) != 0 && ps->velocity[2] > 0.0)
+    if (jumping || ((ps->pm_flags & PMF_LADDER) != 0 && ps->velocity[2] > 0.0))
     {
     LABEL_26:
         Vec3Copy(ps->origin, down_o);
         Vec3Copy(ps->velocity, down_v);
         flatDelta = down_o[0] - start_o[0];
         flatDelta_4 = down_o[1] - start_o[1];
-        if (iBumps || pml->groundPlane && pml->groundTrace.normal[2] < 0.8999999761581421)
+        if (iBumps || (pml->groundPlane && pml->groundTrace.normal[2] < 0.8999999761581421))
         {
             up[0] = start_o[0];
             up[1] = start_o[1];
@@ -153,7 +153,7 @@ void __cdecl PM_StepSlideMove(pmove_t *pm, pml_t *pml, int32_t gravity)
         stepDelta_4 = ps->origin[1] - start_o[1];
         v12 = stepDelta * start_v[0] + stepDelta_4 * start_v[1];
         v5 = start_v[1] * flatDelta_4 + start_v[0] * flatDelta;
-        if (v12 <= v5 + EQUAL_EPSILON || jumping && Jump_IsPlayerAboveMax(ps))
+        if (v12 <= v5 + EQUAL_EPSILON || (jumping && Jump_IsPlayerAboveMax(ps)))
         {
             Vec3Copy(down_o, ps->origin);
             Vec3Copy(down_v, ps->velocity);

@@ -22,7 +22,7 @@ void __cdecl DObjCalcSkel(const DObj_s *obj, int *partBits)
     XModel **models; // [esp+ACh] [ebp-Ch]
     bool bFinished; // [esp+B3h] [ebp-5h]
     const int *savedDuplicatePartBits; // [esp+B4h] [ebp-4h]
-    int savedregs; // [esp+B8h] [ebp+0h] BYREF
+    [[maybe_unused]] int savedregs; // [esp+B8h] [ebp+0h] BYREF
 
     PROF_SCOPED("DObjCalcSkel");
 
@@ -226,8 +226,8 @@ void __cdecl CalcSkelRootBonesWithParent(
     const int *controlPartBits)
 {
     DWORD v7; // eax
-    float *trans; // [esp+18h] [ebp-F4h]
-    float result[3]; // [esp+40h] [ebp-CCh] BYREF
+    [[maybe_unused]] float *trans; // [esp+18h] [ebp-F4h]
+    [[maybe_unused]] float result[3]; // [esp+40h] [ebp-CCh] BYREF
     const DObjAnimMat *parentMat; // [esp+D0h] [ebp-3Ch]
     DObjAnimMat *childMat; // [esp+D4h] [ebp-38h]
     unsigned int boneIndex; // [esp+D8h] [ebp-34h]
@@ -313,7 +313,7 @@ void __cdecl CalcSkelNonRootBones(
     const int *controlPartBits)
 {
     DWORD v6; // eax
-    float result[3]; // [esp+40h] [ebp-ECh] BYREF
+    [[maybe_unused]] float result[3]; // [esp+40h] [ebp-ECh] BYREF
     DObjAnimMat *childMat; // [esp+E0h] [ebp-4Ch]
     const DObjAnimMat *parentMat; // [esp+E4h] [ebp-48h]
     int boneIndex; // [esp+E8h] [ebp-44h]
