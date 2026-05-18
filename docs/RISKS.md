@@ -42,21 +42,71 @@ incremental progress if attempted now.
 dereferences to 64-bit pointers, rewrites in place. Preserves on-disk asset
 format compatibility — needed anyway to read CoD4 assets shipped on Steam.
 
-### 2. `Com_Error` aborts instead of `longjmp`
+### ~~2. `Com_Error` aborts instead of `longjmp`~~ ✅ PARTIAL
 
-**What:** `posix_stubs.cpp::Com_Error` calls `std::abort()`. Upstream uses
-`ERR_DROP` to drop to console with a message and keep the engine alive.
+`qcommon/common.cpp` now lands in the build with its real upstream
+`Com_Error` / `Com_Errorln` implementation, which does call into the
+`setjmp` recovery path (`com_errorEntered` + `abortframe`). The
+single-threaded port's `setjmp` jump target gets installed by the main
+loop. Confirm under stress once the engine reaches a state where a
+non-fatal error actually fires; until then this is "present and
+plausibly correct" rather than "verified".
 
-**Why deferred:** Real error recovery requires `setjmp` in the main loop
-and `longjmp` from `Com_Error`. That belongs in `qcommon/common.cpp`,
-which we haven't ported yet — porting `common.cpp` is a multi-file effort
-(it pulls cmd, cvar, filesystem, all heavily entangled).
+### 2.5 `qcommon/threads.cpp` skipped wholesale
 
-**When this bites:** Any non-fatal error during engine init kills the
-binary instead of printing a useful diagnostic. We'll see "abort" instead
-of "ERROR: file X not found".
+**What:** The upstream is 934 lines of pure Win32 threading
+(`CreateThread`, `CreateEvent`, `WaitForSingleObject`, `SuspendThread`,
+`SetEvent`, `InterlockedIncrement`, ...) — none of it portable. Replaced
+in our build by a thin pthread-backed `Sys_*` layer in
+`src/posix/posix_stubs.cpp` + `src/posix/posix_backbone_stubs.cpp`.
 
-**Recommended fix:** lands with `qcommon/common.cpp` port.
+**What we have:**
+- Real pthread-key TLS for `Sys_GetValue`/`Sys_SetValue`.
+- pthread mutex-backed `Sys_EnterCriticalSection`/`LeaveCriticalSection`.
+- No-op `Sys_LockWrite`/`UnlockWrite` (FastCriticalSection RW lock).
+- `Sys_IsMainThread`=true, `Sys_IsRenderThread`/`IsDatabaseThread`=false.
+- `Sys_CreateThread` / `Sys_CreateEvent` / `Sys_WaitForSingleObject`:
+  **not present** — engine calls into them will fail to link.
+
+**Why deferred:** The renderer split, database thread, and worker
+threads all need real implementations of these. Porting threads.cpp
+literally means rewriting half the Win32 threading API in pthread.
+Not blocking single-threaded bootstrap.
+
+**When this bites:** First time the engine spawns the render thread
+(`Sys_SpawnRenderThread` from common.cpp's init path). Right now
+common.cpp **does** call `Sys_SpawnRenderThread`, so the engine **will**
+hit unresolved Sys_Create* calls if it reaches that line. Either:
+  (a) gate the call with `#ifdef KISAK_HEADLESS`, or
+  (b) provide single-threaded pthread-backed Sys_Create* that just
+      runs the render loop on the main thread (synchronous mode).
+
+**Recommended fix:** option (b). Add to `posix_backbone_stubs.cpp`
+once the engine actually reaches the threading init line.
+
+### 2.6 ~180 hard stubs in `posix_backbone_stubs.cpp`
+
+**What:** Roughly 180 CL_/SV_/DB_/SND_/UI_/R_/Scr_/NET_/FS_/Hunk_/PMem_
+entry points return zero/null/empty. Backbone landing brought these in
+without their real implementations.
+
+**Why deferred:** Each subsystem (`client_mp/`, `server_mp/`,
+`sound/`, `gfx_d3d/`, `ui/`, `script/`, `database/`, `network/`) is a
+separate landing operation of comparable scope to the qcommon backbone.
+
+**When this bites:**
+- The moment the engine tries to do any real work post-init. With these
+  stubs, `Com_Init` may complete but `Com_Frame` will silently no-op
+  on rendering, input, sound, networking.
+- `Z_Malloc`/`Z_Free` allocate via libc malloc but **lose** the
+  per-pool/type tracking upstream relies on — leaks aren't tracked,
+  cross-pool errors aren't caught.
+- `FS_Initialized()=false` causes a few code paths to skip logging or
+  file writes. Confirmed safe.
+
+**Recommended fix:** Each stub block in `posix_backbone_stubs.cpp` is
+meant to be deleted when its real source files land. The compile
+errors that result are the desired signal that the wiring is now real.
 
 ### ~~3. `Sys_GetValue` returns null~~ ✅ RESOLVED
 

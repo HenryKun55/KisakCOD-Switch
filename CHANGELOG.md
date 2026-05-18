@@ -13,6 +13,48 @@ real hardware.
 ## [Unreleased]
 
 ### Added
+- **qcommon backbone batch lands**: `cmd.cpp`, `common.cpp`, `files.cpp`,
+  `universal/dvar.cpp`, `universal/dvar_cmds.cpp` now all compile clean
+  with `-Werror` and link into the `kisak_posix` / `kisak_switch`
+  executables. This is the load-bearing layer the rest of the engine
+  hangs off — cvar registration, command parsing, file system, the
+  main Com_Init / Com_Frame loop. Six of the deepest 32-bit-pointer
+  truncation sites were bridged with the KISAKHACK pattern
+  (`(int)(uintptr_t)`) and tracked in `docs/RISKS.md`.
+- `src/posix/posix_backbone_stubs.cpp` — ~180 entry points across
+  CL_/SV_/DB_/SND_/UI_/R_/Scr_/NET_/FS_/Hunk_/PMem_/Sys_/Info_/MSG_/...
+  plus 14 globals (`sv`, `bgs`, `clientUIActives`, fs_*, loc_language,
+  com_fileAccessed, updateScreenCalled). Real impls for libc-flavored
+  helpers (Z_Malloc/Free, CopyString/FreeString, Com_sprintf,
+  Com_DefaultExtension, I_strncmp/strncat/strlwr, FS_FilenameCompare);
+  safe-default stubs for FS/Sys/Con (force callers down early-out
+  paths); hard stubs for CL_/SV_/DB_/SND_/UI_/R_/Scr_ silently drop
+  calls. Each block deletes itself when its real source file lands.
+- `src/buildnumber.h` — static `BUILD_NUMBER 0` + `getBuildNumber()`
+  decl. Upstream auto-generates this on Windows; we ship a static 0.
+- `__rdtsc()` (steady_clock-backed), `PF_NON_TEMPORAL_LEVEL_ALL`,
+  `PreFetchCacheLine`, `_snprintf` added to `kisak_compat.h`.
+- `src/qcommon/thread_context.h` — `ThreadContext_t` enum extracted
+  from `gfx_d3d/rb_backend.h` so POSIX/Switch can include it without
+  pulling `<d3d9.h>`. `KISAK_THREAD_CONTEXT_T_DEFINED` guard prevents
+  redefinition when `common.cpp` includes both headers transitively.
+
+### Changed
+- `qcommon/threads.cpp` is **deliberately not in the build**. It's
+  934 lines of Win32-only threading (CreateThread / CreateEvent /
+  WaitForSingleObject everywhere). Replaced wholesale by pthread-
+  backed `Sys_*` stubs in `posix_stubs.cpp` + `posix_backbone_stubs.cpp`.
+  The single-threaded port doesn't need the real renderer/database/
+  worker thread split yet. Documented in `docs/RISKS.md`.
+- `posix_stubs.cpp` cleanup: removed the temporary Com_Printf/
+  Com_PrintError/Com_Error stubs and the placeholders for
+  `useFastFile`/`com_statmon`/`_copyDWord` — the real upstream
+  `qcommon/common.cpp` now provides them.
+- `scripts/switch/CMakeLists.txt` comments translated to English to
+  match the project-wide English policy.
+
+### Added
+
 - Fork initialized from `SwagSoftware/KisakCOD@master`.
 - `port/switch` branch created for porting work.
 - Scaffolding: `CHANGELOG.md`, `CONTRIBUTING.md`, `.editorconfig`,
