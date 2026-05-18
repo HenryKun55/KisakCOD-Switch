@@ -70,7 +70,10 @@ set(QCOMMON_PORTABLE_SOURCES
 )
 
 set(SCRIPT_PORTABLE_SOURCES
+    "${SRC_DIR}/script/scr_animtree.cpp"
     "${SRC_DIR}/script/scr_const.cpp"
+    "${SRC_DIR}/script/scr_main.cpp"
+    "${SRC_DIR}/script/scr_memorytree.cpp"
 )
 
 set(EFFECTSCORE_PORTABLE_SOURCES

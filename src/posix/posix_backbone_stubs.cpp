@@ -40,6 +40,11 @@
 #include <ui/ui_shared.h>
 #include <client/client.h>
 #include <DynEntity/DynEntity_client.h>
+#include <script/scr_variable.h>
+#include <script/scr_parser.h>
+#include <script/scr_main.h>
+#include <script/scr_compiler.h>
+#include <script/scr_vm.h>
 
 // Forward decls for opaque types we just need to pass through.
 struct sysEvent_t;
@@ -422,7 +427,7 @@ void Scr_InitVariables() {}
 void Scr_MonitorCommand(const char * /*cmd*/) {}
 void Scr_Settings(int /*developer*/, int /*developer_script*/, int /*abort_on_error*/) {}
 void Scr_Shutdown() {}
-void Scr_UpdateDebugSocket() {}
+int  Scr_UpdateDebugSocket() { return 0; }
 void SCR_UpdateScreen() {}
 void GScr_Shutdown() {}
 
@@ -434,7 +439,7 @@ void FX_UnregisterAll() {}
 void IN_Frame() {}
 void DevGui_Update(int /*localClientNum*/, float /*frameTime*/) {}
 // Ragdoll_Update now provided by ragdoll/ragdoll_update.cpp.
-void SetAnimCheck(int /*setting*/) {}
+// SetAnimCheck now provided by script/scr_animtree.cpp.
 void LargeLocalReset() {}
 void LiveStorage_Init() {}
 void XAnimInit() {}
@@ -712,6 +717,113 @@ alignas(16) static unsigned char cgArray_storage[65536];
 cg_s &cgArray = *reinterpret_cast<cg_s *>(cgArray_storage);
 const dvar_t *cg_paused = nullptr;
 ScreenPlacement scrPlaceFull{};
+
+// =========================================================================
+// Script VM cascade — landed with scr_animtree / scr_main / scr_memorytree.
+// The real upstream impls live in scr_variable / scr_vm / scr_parser /
+// scr_stringlist / scr_compiler / scr_evaluate, which we haven't ported
+// yet. Stubs return zero/empty; engine boots into a state where scripts
+// silently no-op.
+// =========================================================================
+
+// --- Variable system stubs (scr_variable.cpp) -----------------------------
+// scr_variable.h / scr_compiler.h pull in VariableValueInternal_u, Vartype_t,
+// VariableValue, sval_u, PrecacheEntry — see includes above. XAnim_s /
+// XAnimParts / HunkUser are forward-only.
+struct XAnim_s;
+struct XAnimParts;
+struct HunkUser;
+
+unsigned int FindObject(unsigned int /*id*/) { return 0; }
+unsigned int GetObject(unsigned int /*id*/) { return 0; }
+unsigned int FindVariable(unsigned int /*parentId*/, unsigned int /*name*/) { return 0; }
+unsigned int GetVariable(unsigned int /*parentId*/, unsigned int /*name*/) { return 0; }
+unsigned int FindArrayVariable(unsigned int /*parentId*/, int /*intValue*/) { return 0; }
+unsigned int GetArrayVariable(unsigned int /*parentId*/, unsigned int /*value*/) { return 0; }
+unsigned int GetNewVariable(unsigned int /*parentId*/, unsigned int /*value*/) { return 0; }
+unsigned int GetArray(unsigned int /*id*/) { return 0; }
+unsigned int GetArraySize(unsigned int /*id*/) { return 0; }
+unsigned int FindFirstSibling(unsigned int /*id*/) { return 0; }
+unsigned int FindNextSibling(unsigned int /*id*/) { return 0; }
+unsigned int GetVariableName(unsigned int /*id*/) { return 0; }
+Vartype_t    GetValueType(unsigned int /*id*/) { return VAR_UNDEFINED; }
+VariableValueInternal_u *GetVariableValueAddress(unsigned int /*id*/) { return nullptr; }
+void         RemoveRefToObject(unsigned int /*id*/) {}
+void         RemoveVariable(unsigned int /*parentId*/, unsigned int /*name*/) {}
+void         ClearObject(unsigned int /*parentId*/) {}
+void         SetVariableValue(unsigned int /*id*/, VariableValue * /*value*/) {}
+
+// --- Stringlist (scr_stringlist.cpp) --------------------------------------
+const char *SL_ConvertToString(unsigned int /*stringValue*/) { return ""; }
+const char *SL_DebugConvertToString(unsigned int /*stringValue*/) { return ""; }
+unsigned int SL_GetLowercaseString_(const char * /*str*/, unsigned int /*user*/, int /*type*/) { return 0; }
+unsigned int SL_GetString_(const char * /*str*/, unsigned int /*user*/, int /*type*/) { return 0; }
+void SL_RemoveRefToString(unsigned int /*stringValue*/) {}
+void SL_ShutdownSystem(unsigned int /*user*/) {}
+void SL_TransferRefToUser(unsigned int /*stringValue*/, unsigned int /*user*/) {}
+
+// --- Scr_* lifecycle + helpers --------------------------------------------
+char *Scr_AddSourceBuffer(const char * /*filename*/, char * /*extFilename*/,
+                          const char * /*codePos*/, bool /*archive*/) { return nullptr; }
+unsigned int Scr_AllocArray() { return 0; }
+void Scr_ClearErrorMessage() {}
+unsigned int Scr_CreateCanonicalFilename(const char * /*filename*/) { return 0; }
+void Scr_EndLoadEvaluate() {}
+VariableValue Scr_EvalVariable(unsigned int /*id*/) { VariableValue v{}; return v; }
+void Scr_InitAllocNode() {}
+void Scr_InitDebugger() {}
+void Scr_InitDebuggerMain() {}
+void Scr_InitEvaluate() {}
+void Scr_InitOpcodeLookup() {}
+void Scr_ShutdownDebugger() {}
+void Scr_ShutdownDebuggerMain() {}
+void Scr_ShutdownEvaluate() {}
+void Scr_ShutdownOpcodeLookup() {}
+
+// --- Compiler/parser ------------------------------------------------------
+void CompileError(unsigned int /*sourcePos*/, const char * /*msg*/, ...) {}
+void CompileError2(char * /*codePos*/, const char * /*msg*/, ...) {}
+void ScriptCompile(sval_u /*val*/, unsigned int /*fileId*/, unsigned int /*scriptId*/,
+                   PrecacheEntry * /*entries*/, int /*entriesCount*/) {}
+void ScriptParse(sval_u * /*parseData*/, unsigned char /*user*/) {}
+
+// --- TempMalloc / Hunk debug ----------------------------------------------
+char *TempMalloc(unsigned int len) { return static_cast<char *>(std::malloc(len)); }
+void TempMemoryReset(HunkUser * /*user*/) {}
+unsigned char *Hunk_AllocXAnimPrecache(unsigned int size)
+{
+    return static_cast<unsigned char *>(std::calloc(1, size));
+}
+void Hunk_CheckTempMemoryClear() {}
+void Hunk_CheckTempMemoryHighClear() {}
+HunkUser *Hunk_UserCreate(int /*maxSize*/, const char * /*name*/, bool /*fixed*/,
+                          bool /*tempMem*/, int /*type*/) { return nullptr; }
+void Hunk_UserDestroy(HunkUser * /*user*/) {}
+
+// --- XAnim ---------------------------------------------------------------
+void XAnimBlend(XAnim_s * /*anims*/, unsigned int /*animIndex*/, const char * /*name*/,
+                unsigned int /*children*/, unsigned int /*num*/, unsigned int /*flags*/) {}
+void XAnimCreate(XAnim_s * /*anims*/, unsigned int /*animIndex*/, const char * /*name*/) {}
+XAnim_s *XAnimCreateAnims(const char * /*debugName*/, unsigned int /*size*/,
+                          void *(*)(int) /*Alloc*/) { return nullptr; }
+XAnimParts *XAnimPrecache(const char * /*name*/, void *(*)(int) /*Alloc*/) { return nullptr; }
+void XAnimSetupSyncNodes(XAnim_s * /*anims*/) {}
+
+// --- Misc -----------------------------------------------------------------
+bool I_iscsym(int c) { return std::isalnum(c) || c == '_'; }
+void ProfLoad_Begin(const char * /*name*/) {}
+void ProfLoad_End() {}
+
+// --- Global storage for scr*Pub structures -------------------------------
+// All these pub structs have their definitions reached via the script
+// headers included at the top, so we can zero-construct them properly.
+scrCompilePub_t  scrCompilePub{};
+scrParserPub_t   scrParserPub{};
+scrVarPub_t      scrVarPub{};
+static scrVarDebugPub_t scrVarDebugPub_storage{};
+scrVarDebugPub_t *scrVarDebugPub = &scrVarDebugPub_storage;
+scrVmPub_t       scrVmPub{};
+bool g_loadedImpureScript = false;
 
 namespace {
 struct FxRandomTableInit {

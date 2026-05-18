@@ -70,11 +70,10 @@ set(QCOMMON_PORTABLE_SOURCES
 )
 
 set(SCRIPT_PORTABLE_SOURCES
+    "${SRC_DIR}/script/scr_animtree.cpp"
     "${SRC_DIR}/script/scr_const.cpp"
-    # scr_animtree, scr_main, scr_memorytree compile cleanly but linking
-    # them pulls the rest of the script ecosystem (TempMalloc, FindObject,
-    # GetVariable, XAnimBlend, ScriptParse, Com_sprintf, ...). They land
-    # when scr_stringlist, scr_variable, scr_vm, scr_parser are ready.
+    "${SRC_DIR}/script/scr_main.cpp"
+    "${SRC_DIR}/script/scr_memorytree.cpp"
 )
 
 # physics/ode/: 15 of 34 ODE source files compile clean (collision_kernel,
