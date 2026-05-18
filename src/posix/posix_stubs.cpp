@@ -251,8 +251,8 @@ void Vec3Mad(const float *a, float scale, const float *b, float *out)
 // until the profile-load subsystem is properly wired up. Forward-decl
 // the enum so the mangled signature matches the upstream callers.
 enum MapProfileTrackedValue : int;
-void ProfLoad_BeginTrackedValue(MapProfileTrackedValue) {}
-void ProfLoad_EndTrackedValue(MapProfileTrackedValue)   {}
+// ProfLoad_BeginTrackedValue now in qcommon/com_profilemapload.cpp.
+// ProfLoad_EndTrackedValue now in qcommon/com_profilemapload.cpp.
 
 // === Vec3 / matrix math required by the cm_*.cpp collision files =========
 // All real implementations (not placeholder stubs). When com_math.cpp
@@ -452,10 +452,7 @@ void Sys_Error(const char *fmt, ...)
     std::abort();
 }
 
-// track_static_alloc_internal: instrumentation for the static memory
-// tracker. No-op until mem_track.cpp ports.
-void track_static_alloc_internal(void * /*addr*/, int /*size*/,
-                                 const char * /*name*/, int /*type*/) {}
+// track_static_alloc_internal now provided by qcommon/mem_track.cpp.
 
 // DB_FindXAssetHeader: asset lookup. Returns a default-constructed
 // XAssetHeader (data=nullptr) so callers can fail gracefully. Real impl

@@ -1,7 +1,9 @@
 #include "msg_mp.h"
 #include "huffman.h"
 
+#ifdef _WIN32
 #include <Windows.h>
+#endif
 #include <bgame/bg_local.h>
 #include "sv_msg_write_mp.h"
 #include <server_mp/server_mp.h>
@@ -241,7 +243,7 @@ int __cdecl MSG_ReadBitsCompress(const unsigned __int8 *from, unsigned __int8 *t
     int bit; // [esp+0h] [ebp-14h] BYREF
     unsigned __int8 *data; // [esp+4h] [ebp-10h]
     int bits; // [esp+8h] [ebp-Ch]
-    int i; // [esp+Ch] [ebp-8h]
+    [[maybe_unused]] int i; // [esp+Ch] [ebp-8h]
     int get; // [esp+10h] [ebp-4h] BYREF
 
     bits = 8 * size;
@@ -571,7 +573,7 @@ void __cdecl MSG_WriteDeltaKey(msg_t *msg, int key, int oldV, int newV, unsigned
 unsigned int __cdecl MSG_ReadDeltaKey(msg_t *msg, int key, int oldV, unsigned int bits)
 {
     if (MSG_ReadBit(msg))
-        return kbitmask[bits] & key ^ MSG_ReadBits(msg, bits);
+        return (kbitmask[bits] & key) ^ MSG_ReadBits(msg, bits);
     else
         return oldV;
 }
@@ -584,7 +586,7 @@ void __cdecl MSG_WriteKey(msg_t *msg, int key, int newV, unsigned int bits)
 
 unsigned int __cdecl MSG_ReadKey(msg_t *msg, int key, unsigned int bits)
 {
-    return kbitmask[bits] & key ^ MSG_ReadBits(msg, bits);
+    return (kbitmask[bits] & key) ^ MSG_ReadBits(msg, bits);
 }
 
 void __cdecl MSG_WriteDeltaKeyByte(msg_t *msg, char key, char oldV, char newV)
@@ -1008,7 +1010,7 @@ void __cdecl MSG_ReadDeltaField(
             iassert( *reinterpret_cast< float * >( toF ) == 0.0f );
         }
         return;
-    case 0xFFFFFFA7:
+    case (int)0xFFFFFFA7:
         if (MSG_ReadBit(msg))
         {
             v11 = MSG_ReadLong(msg);
@@ -1029,14 +1031,14 @@ void __cdecl MSG_ReadDeltaField(
                 Com_Printf(16, "%s:%i ", field->name, trunc);
         }
         return;
-    case 0xFFFFFFA8:
+    case (int)0xFFFFFFA8:
         v12 = MSG_ReadLong(msg);
         *toF = v12;
         *toF ^= *fromF;
         if (print)
             Com_Printf(16, "%s:%f ", field->name, *(float *)toF);
         return;
-    case 0xFFFFFF9D:
+    case (int)0xFFFFFF9D:
         if (MSG_ReadBit(msg))
         {
             if (MSG_ReadBit(msg))
@@ -1073,57 +1075,57 @@ void __cdecl MSG_ReadDeltaField(
                 (int)(*(float *)toF + 2048.0),
                 4096);
         return;
-    case 0xFFFFFF9E:
+    case (int)0xFFFFFF9E:
         v14 = MSG_Read24BitFlag(msg, *fromF);
         *toF = v14;
         return;
-    case 0xFFFFFF9F:
+    case (int)0xFFFFFF9F:
         DeltaTime = MSG_ReadDeltaTime(msg, time);
         *toF = DeltaTime;
         return;
-    case 0xFFFFFFA0:
+    case (int)0xFFFFFFA0:
         DeltaGroundEntity = MSG_ReadDeltaGroundEntity(msg);
         *toF = DeltaGroundEntity;
         return;
-    case 0xFFFFFFA2:
-    case 0xFFFFFFA3:
+    case (int)0xFFFFFFA2:
+    case (int)0xFFFFFFA3:
         DeltaEventParamField = MSG_ReadDeltaEventParamField(msg);
         *toF = DeltaEventParamField;
         return;
-    case 0xFFFFFFA1:
+    case (int)0xFFFFFFA1:
         v18 = MSG_ReadBits(msg, 7u);
         *toF = 100 * v18;
         return;
-    case 0xFFFFFFA4:
-    case 0xFFFFFFA5:
+    case (int)0xFFFFFFA4:
+    case (int)0xFFFFFFA5:
         OriginFloat = MSG_ReadOriginFloat(field->bits, msg, *(float *)fromF);
         *(float *)toF = OriginFloat;
         if (print)
             Com_Printf(16, "%s:%f ", field->name, *(float *)toF);
         return;
-    case 0xFFFFFFA6:
+    case (int)0xFFFFFFA6:
         OriginZFloat = MSG_ReadOriginZFloat(msg, *(float *)fromF);
         *(float *)toF = OriginZFloat;
         if (print)
             Com_Printf(16, "%s:%f ", field->name, *(float *)toF);
         return;
-    case 0xFFFFFF9C:
+    case (int)0xFFFFFF9C:
         if (!MSG_ReadBit(msg))
         {
             *(float *)toF = 0.0;
             return;
         }
         goto LABEL_74;
-    case 0xFFFFFFA9:
+    case (int)0xFFFFFFA9:
     LABEL_74:
         Angle16 = MSG_ReadAngle16(msg);
         *(float *)toF = Angle16;
         return;
-    case 0xFFFFFFAA:
+    case (int)0xFFFFFFAA:
         v22 = (double)MSG_ReadBits(msg, 5u) * 1.0 / 10.0 + 1.399999976158142;
         *(float *)toF = v22;
         break;
-    case 0xFFFFFFAB:
+    case (int)0xFFFFFFAB:
         if (MSG_ReadBit(msg))
         {
             fromColor = (const hudelem_color_t *)fromF;
@@ -1168,7 +1170,7 @@ void __cdecl MSG_ReadDeltaField(
                 mask = -1;
             else
                 mask = (1 << bits) - 1;
-            value = rawValue ^ mask & *fromF;
+            value = rawValue ^ (mask & *fromF);
             if (sgn && (value & (1 << (bits - 1))) != 0)
                 value |= ~mask;
             if (print)
@@ -1379,20 +1381,20 @@ int __cdecl MSG_ReadLastChangedField(msg_t *msg, int totalFields)
 }
 
 
-const int numEntityStateFields = 59;
-const int numEventEntityStateFields = 59;
-const int numPlayerEntityStateFields = 59;
-const int numCorpseEntityStateFields = 59;
-const int numVehicleEntityStateFields = 59;
-const int numItemEntityStateFields = 59;
-const int numSoundBlendEntityStateFields = 59;
-const int numLoopFxEntityStateFields = 59;
-const int numMissileEntityStateFields = 59;
+[[maybe_unused]] const int numEntityStateFields = 59;
+[[maybe_unused]] const int numEventEntityStateFields = 59;
+[[maybe_unused]] const int numPlayerEntityStateFields = 59;
+[[maybe_unused]] const int numCorpseEntityStateFields = 59;
+[[maybe_unused]] const int numVehicleEntityStateFields = 59;
+[[maybe_unused]] const int numItemEntityStateFields = 59;
+[[maybe_unused]] const int numSoundBlendEntityStateFields = 59;
+[[maybe_unused]] const int numLoopFxEntityStateFields = 59;
+[[maybe_unused]] const int numMissileEntityStateFields = 59;
 const int numArchivedEntityFields = 69;
 const int numClientStateFields = 24;
 const int numPlayerStateFields = 141;
 const int numObjectiveFields = 6;
-const int numHudElemFields = 40;
+[[maybe_unused]] const int numHudElemFields = 40;
 
 
 int __cdecl MSG_ReadDeltaArchivedEntity(
@@ -1560,14 +1562,14 @@ static void __cdecl MSG_ReadDeltaHudElems(msg_t *msg, int time, const hudelem_s 
         iassert(!(to[i].alignOrg & ~15));
 
         {
-            int alignX = ((from[i].alignOrg >> 2) & 3);
-            int alignY = (from[i].alignOrg & 3);
+            [[maybe_unused]] int alignX = ((from[i].alignOrg >> 2) & 3);
+            [[maybe_unused]] int alignY = (from[i].alignOrg & 3);
             iassert(alignX == 0 || alignX == 1 || alignX == 2);
             iassert(alignY == 0 || alignY == 1 || alignY == 2);
         }
         {
-            int alignX = ((to[i].alignOrg >> 2) & 3);
-            int alignY = (to[i].alignOrg & 3);
+            [[maybe_unused]] int alignX = ((to[i].alignOrg >> 2) & 3);
+            [[maybe_unused]] int alignY = (to[i].alignOrg & 3);
             iassert(alignX == 0 || alignX == 1 || alignX == 2);
             iassert(alignY == 0 || alignY == 1 || alignY == 2);
         }
@@ -1591,7 +1593,7 @@ void __cdecl MSG_ReadDeltaPlayerstate(
 {
     int Short; // eax
     int v7; // eax
-    objectiveState_t v8; // eax
+    [[maybe_unused]] objectiveState_t v8; // eax
     unsigned __int8 Byte; // al
     clientActive_t *LocalClientGlobals; // [esp+1Ch] [ebp-2F9Ch]
     int i; // [esp+20h] [ebp-2F98h]
@@ -1599,7 +1601,7 @@ void __cdecl MSG_ReadDeltaPlayerstate(
     int print; // [esp+24h] [ebp-2F94h]
     int LastChangedField; // [esp+30h] [ebp-2F88h]
     int Bits; // [esp+2FA8h] [ebp-10h]
-    int *v19; // [esp+2FACh] [ebp-Ch]
+    [[maybe_unused]] int *v19; // [esp+2FACh] [ebp-Ch]
     bool lc; // [esp+2FB3h] [ebp-5h]
 
     unsigned __int8 dst[sizeof(playerState_s) + 8]; // [esp+38h] [ebp-2F80h] BYREF

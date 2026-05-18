@@ -45,6 +45,8 @@
 #include <script/scr_main.h>
 #include <script/scr_compiler.h>
 #include <script/scr_vm.h>
+#include <qcommon/msg_mp.h>
+#include <qcommon/sv_msg_write_mp.h>
 
 // Forward decls for opaque types we just need to pass through.
 struct sysEvent_t;
@@ -186,23 +188,15 @@ const char *Com_GetFilenameSubString(const char *pathname)
     return slash ? slash + 1 : pathname;
 }
 
-void Com_BuildPlayerProfilePath(char *path, int size, const char * /*name*/, ...)
-{
-    if (size > 0) path[0] = 0;
-}
-
-bool Com_HasPlayerProfile()
-{
-    return false;
-}
-
-void Com_InitPlayerProfiles(int /*controllerIndex*/) {}
+// Com_BuildPlayerProfilePath now provided by qcommon/com_playerprofile.cpp.
+// Com_HasPlayerProfile now provided by qcommon/com_playerprofile.cpp.
+// Com_InitPlayerProfiles now in qcommon/com_playerprofile.cpp.
 void Com_InitHunkMemory() {}
 void Com_InitDObj() {}
 void Com_ShutdownDObj() {}
-void Com_ShutdownWorld() {}
-void Com_CleanupBsp() {}
-void Com_CheckSetRecommended(int /*newConfig*/) {}
+// Com_ShutdownWorld now in qcommon/com_bsp.cpp.
+// Com_CleanupBsp now in qcommon/com_bsp.cpp.
+// Com_CheckSetRecommended now in qcommon/com_playerprofile.cpp.
 void Com_GetSoundFileName(const snd_alias_t * /*alias*/, char *out, int outSize)
 {
     if (outSize > 0) out[0] = 0;
@@ -665,6 +659,142 @@ void XAnim_CalcDeltaForTime(const XAnimParts * /*part*/, float /*time*/, float *
 
 // Globals
 int surfaceTypeSoundListCount = 0;
+
+// =========================================================================
+// qcommon batch — com_bsp_load_obj / com_playerprofile / mem_track /
+// msg_mp / com_profilemapload / graph cascade.
+// =========================================================================
+
+// CL_ helpers
+struct ScreenPlacement;
+struct Font_s;
+struct DevGraph;
+struct rectDef_s;
+struct MapProfileEntry;
+struct clientActive_t;
+struct NetField;
+
+float (*CL_GetMapCenter())[3] { static float center[3] = {0,0,0}; return (float (*)[3])&center; }
+bool  CL_GetPredictedOriginForServerTime(clientActive_t * /*cl*/, int /*serverTime*/,
+                                         float * /*origin*/, float * /*velocity*/, float * /*angles*/,
+                                         int * /*bobCycle*/, int * /*movementDir*/) { return false; }
+
+char *BG_GetEntityTypeName(int /*eType*/) { static char empty[1] = {0}; return empty; }
+
+// MSG_
+const NetFieldList *MSG_GetStateFieldListForEntityType(int /*eType*/) { return nullptr; }
+
+// Com_
+char *Com_LoadInfoString(char * /*filename*/, const char * /*fileDesc*/, const char * /*ident*/, char * /*loadBuffer*/) { return nullptr; }
+
+// DevGui
+void DevGui_AddGraph(const char * /*name*/, DevGraph * /*graph*/) {}
+
+// FS_
+void FS_BuildOSPath(const char * /*base*/, const char * /*game*/, const char * /*qpath*/, char *ospath)
+{ if (ospath) ospath[0] = 0; }
+int  FS_CreatePath(char * /*OSPath*/) { return 0; }
+void FS_FreeFileList(const char ** /*list*/) {}
+int  FS_OpenFileOverwrite(char * /*filename*/) { return 0; }
+unsigned int FS_Write(const char * /*buffer*/, unsigned int /*len*/, int /*h*/) { return 0; }
+int  FS_WriteFileToDir(const char * /*qpath*/, const char * /*dir*/, char * /*buffer*/, unsigned int /*size*/) { return 0; }
+
+// I_str
+unsigned char I_CleanChar(unsigned char c) { return c; }
+
+// LiveStorage
+void LiveStorage_NewUser() {}
+void LiveStorage_ReadStats() {}
+
+// Sys_
+const char *Sys_DefaultInstallPath() { return "."; }
+void Sys_RemoveDirTree(const char * /*path*/) {}
+
+// UI text-draw helpers (used by ProfLoad overlay)
+void UI_DrawText(const ScreenPlacement * /*place*/, const char * /*text*/, int /*maxChars*/,
+                 Font_s * /*font*/, float /*x*/, float /*y*/, int /*hAlign*/, int /*vAlign*/,
+                 float /*scale*/, const float * /*color*/, int /*style*/) {}
+void UI_FillRect(const ScreenPlacement * /*place*/, float /*x*/, float /*y*/, float /*w*/,
+                 float /*h*/, int /*hAlign*/, int /*vAlign*/, const float * /*color*/) {}
+Font_s *UI_GetFontHandle(const ScreenPlacement * /*place*/, int /*fontIndex*/, float /*scale*/) { return nullptr; }
+
+// Win_LocalizeRef
+const char *Win_LocalizeRef(const char *str) { return str; }
+
+// Z_MallocGarbage: GP allocator variant — same as malloc for us.
+char *Z_MallocGarbage(int size, const char * /*name*/, int /*type*/)
+{
+    return static_cast<char *>(std::malloc(static_cast<size_t>(size)));
+}
+
+// TRACK_* mem-tracking thunks. Each TRACK_<subsystem>() declares its
+// statically-allocated buffers to the mem_track system; with mem-tracking
+// off (or stubbed) these are all no-ops.
+void TRACK_cl_cgame() {}
+void TRACK_cl_console() {}
+void TRACK_cl_input() {}
+void TRACK_cl_keys() {}
+void TRACK_cl_main() {}
+void TRACK_cl_parse() {}
+void TRACK_cm_world() {}
+void TRACK_com_math() {}
+void TRACK_db_registry() {}
+void TRACK_devgui() {}
+void TRACK_dobj_management() {}
+void TRACK_fx_marks() {}
+void TRACK_fx_random() {}
+void TRACK_fx_system() {}
+void TRACK_missile_attractors() {}
+void TRACK_msg() {}
+void TRACK_phys() {}
+void TRACK_q_shared() {}
+void TRACK_r_buffers() {}
+void TRACK_r_debug() {}
+void TRACK_r_dpvs() {}
+void TRACK_r_font() {}
+void TRACK_r_image_wavelet() {}
+void TRACK_r_image() {}
+void TRACK_r_init() {}
+void TRACK_r_material() {}
+void TRACK_r_model() {}
+void TRACK_r_rendercmds() {}
+void TRACK_r_scene() {}
+void TRACK_r_screenshot() {}
+void TRACK_r_staticmodelcache() {}
+void TRACK_r_water() {}
+void TRACK_r_workercmds() {}
+void TRACK_rb_backend() {}
+void TRACK_rb_drawprofile() {}
+void TRACK_rb_showcollision() {}
+void TRACK_rb_sky() {}
+void TRACK_rb_state() {}
+void TRACK_rb_stats() {}
+void TRACK_rb_sunshadow() {}
+void TRACK_scr_debugger() {}
+void TRACK_scr_evaluate() {}
+void TRACK_scr_parser() {}
+void TRACK_scr_vm() {}
+void TRACK_snd_driver() {}
+void TRACK_snd() {}
+void TRACK_stringed_hooks() {}
+void TRACK_sv_game() {}
+void TRACK_sv_main() {}
+void TRACK_ui_main() {}
+void TRACK_ui_shared() {}
+void TRACK_ui_utils() {}
+void TRACK_win_net() {}
+void TRACK_xmodel() {}
+
+// Globals for the new batch.
+const dvar_t *cl_shownet = nullptr;
+const dvar_t *msg_dumpEnts = nullptr;
+const dvar_t *msg_printEntityNums = nullptr;
+clientActive_t clients[STATIC_MAX_LOCAL_CLIENTS]{};
+huffman_t msgHuff{};
+unsigned int msecPerRawTimerTick = 1;
+netFieldOrderInfo_t orderInfo{};
+alignas(16) static unsigned char sys_info_storage[8192];
+void *sys_info = sys_info_storage;
 void Con_InitChannels() {}
 bool Con_IsChannelVisible(print_msg_dest_t /*dest*/, unsigned int /*channel*/, int /*msgFilters*/) { return false; }
 void Con_WriteFilterConfigString(int /*localClientNum*/) {}
@@ -672,9 +802,9 @@ void Key_WriteBindings(int /*localClientNum*/, int /*f*/) {}
 char *SEH_LocalizeTextMessage(const char *src, const char * /*context*/, msgLocErrType_t /*err*/) { return const_cast<char *>(src); }
 void SEH_UpdateLanguageInfo() {}
 const char *StringTable_GetColumnValueForRow(const StringTable * /*table*/, int /*row*/, int /*col*/) { return ""; }
-void ProfLoad_Init() {}
-bool ProfLoad_IsActive() { return false; }
-void ProfLoad_Deactivate() {}
+// ProfLoad_Init now in qcommon/com_profilemapload.cpp.
+// ProfLoad_IsActive now in qcommon/com_profilemapload.cpp.
+// ProfLoad_Deactivate now in qcommon/com_profilemapload.cpp.
 
 // =========================================================================
 // Net + msg. Stubs.
@@ -688,7 +818,7 @@ void NET_RestartDebug() {}
 void NET_ShutdownDebug() {}
 void NET_Sleep(int /*msec*/) {}
 void Netchan_Init(short /*port*/) {}
-void MSG_Init(msg_t * /*buf*/, unsigned char * /*data*/, int /*length*/) {}
+// MSG_Init now in qcommon/msg_mp.cpp.
 
 // =========================================================================
 // Hunk + PMem.
@@ -1019,8 +1149,8 @@ void Hunk_UserDestroy(HunkUser * /*user*/) {}
 
 // --- Misc -----------------------------------------------------------------
 bool I_iscsym(int c) { return std::isalnum(c) || c == '_'; }
-void ProfLoad_Begin(const char * /*name*/) {}
-void ProfLoad_End() {}
+// ProfLoad_Begin now in qcommon/com_profilemapload.cpp.
+// ProfLoad_End now in qcommon/com_profilemapload.cpp.
 
 // --- Global storage for scr*Pub structures -------------------------------
 // All these pub structs have their definitions reached via the script

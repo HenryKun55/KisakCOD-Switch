@@ -3,7 +3,9 @@
 #include <universal/assertive.h>
 #include <qcommon/qcommon.h>
 
+#ifdef _WIN32
 #include <Windows.h>
+#endif
 #include "threads.h"
 #include <xanim/xanim.h>
 
@@ -15,7 +17,7 @@ static mem_track_t g_mem_track[0x400];
 static int g_mem_track_count;
 static meminfo_t g_info;
 static TempMemInfo g_mallocMemInfoArray[0x400];
-static int g_mallocMemInfoCount;
+[[maybe_unused]] static int g_mallocMemInfoCount;
 static mem_track_t g_hunk_track[0x80000];
 static int g_hunk_track_count;
 static mem_track_t g_hunklow_track[0x10000];
@@ -28,12 +30,12 @@ static TempMemInfo g_combinedMemInfoArray[0x400];
 static TempMemInfo g_physicalMemInfoArray[0x400];
 static int g_physicalMemInfoCount;
 static meminfo_t g_virtualMemInfo;
-static int g_malloc_mem_size;
-static int g_malloc_mem_high;
+[[maybe_unused]] static int g_malloc_mem_size;
+[[maybe_unused]] static int g_malloc_mem_high;
 
-static mem_track_node_s* g_head;
+[[maybe_unused]] static mem_track_node_s* g_head;
 
-static const char* projName[4] =
+[[maybe_unused]] static const char* projName[4] =
 {
     "exe",
     "cgame",

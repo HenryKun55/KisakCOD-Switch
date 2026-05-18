@@ -12,7 +12,7 @@ mapLoadProfile_t mapLoadProfile;
 
 const dvar_t *com_profileLoading;
 
-static const float PROFLOAD_FONT_SCALE = 0.36f;
+[[maybe_unused]] static const float PROFLOAD_FONT_SCALE = 0.36f;
 static const float PROFLOAD_TEXT_COLOR[4] = { 0.0f, 1.0f, 0.0f, 1.0f };
 static const float PROFLOAD_BACKGROUND_COLOR[4] = { 0.0f, 0.0f, 0.0f, 0.8f };
 
@@ -387,7 +387,7 @@ void __cdecl ProfLoad_End()
 
 void __cdecl ProfLoad_DrawOverlay(rectDef_s *rect)
 {
-    MapProfileEntry *v1; // eax
+    [[maybe_unused]] MapProfileEntry *v1; // eax
     int fileReadCount; // [esp+7Ch] [ebp-128h]
     Font_s *profileFont; // [esp+88h] [ebp-11Ch]
     int fileOpenCount; // [esp+8Ch] [ebp-118h]

@@ -57,6 +57,20 @@
 // on clang specifically, but trap works everywhere as a fallback).
 #define __debugbreak() __builtin_trap()
 
+// Win32 critical-section API as no-op shims. The CRITICAL_SECTION type
+// itself is already defined as a small struct above; callers just need
+// these four entry points to exist. The single-threaded port has no real
+// contention; once the engine actually spawns worker threads, these get
+// replaced by pthread_mutex-backed Sys_EnterCriticalSection variants
+// already in posix_stubs.cpp.
+#ifndef _WIN32
+struct _RTL_CRITICAL_SECTION;
+static inline void EnterCriticalSection(_RTL_CRITICAL_SECTION * /*cs*/) {}
+static inline void LeaveCriticalSection(_RTL_CRITICAL_SECTION * /*cs*/) {}
+static inline void InitializeCriticalSection(_RTL_CRITICAL_SECTION * /*cs*/) {}
+static inline void DeleteCriticalSection(_RTL_CRITICAL_SECTION * /*cs*/) {}
+#endif
+
 // _BitScanReverse: MSVC intrinsic that finds the index of the most
 // significant set bit. Returns 0 if mask is 0, else sets *index and
 // returns nonzero. Implemented via __builtin_clz on clang/gcc.
