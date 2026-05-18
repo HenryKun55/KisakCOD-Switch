@@ -74,7 +74,21 @@ set(SCRIPT_PORTABLE_SOURCES
 )
 
 set(EFFECTSCORE_PORTABLE_SOURCES
+    "${SRC_DIR}/EffectsCore/fx_dvars.cpp"
+    "${SRC_DIR}/EffectsCore/fx_graph.cpp"
+    "${SRC_DIR}/EffectsCore/fx_update_util.cpp"
     "${SRC_DIR}/EffectsCore/fxcurve.cpp"
+)
+
+set(RAGDOLL_PORTABLE_SOURCES
+    "${SRC_DIR}/ragdoll/ragdoll.cpp"
+    "${SRC_DIR}/ragdoll/ragdoll_controller.cpp"
+    "${SRC_DIR}/ragdoll/ragdoll_quat.cpp"
+    "${SRC_DIR}/ragdoll/ragdoll_update.cpp"
+)
+
+set(DYNENTITY_PORTABLE_SOURCES
+    "${SRC_DIR}/DynEntity/DynEntity_coll.cpp"
 )
 
 add_executable(kisak_switch
@@ -84,6 +98,8 @@ add_executable(kisak_switch
     ${COMMON_PORTABLE_SOURCES}
     ${SCRIPT_PORTABLE_SOURCES}
     ${EFFECTSCORE_PORTABLE_SOURCES}
+    ${RAGDOLL_PORTABLE_SOURCES}
+    ${DYNENTITY_PORTABLE_SOURCES}
 )
 
 target_include_directories(kisak_switch PRIVATE

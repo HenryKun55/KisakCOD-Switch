@@ -86,16 +86,22 @@ set(SCRIPT_PORTABLE_SOURCES
 set(PHYSICS_ODE_SOURCES)
 
 set(EFFECTSCORE_PORTABLE_SOURCES
+    "${SRC_DIR}/EffectsCore/fx_dvars.cpp"
+    "${SRC_DIR}/EffectsCore/fx_graph.cpp"
+    "${SRC_DIR}/EffectsCore/fx_update_util.cpp"
     "${SRC_DIR}/EffectsCore/fxcurve.cpp"
-    # fx_dvars, fx_graph, fx_update_util compile clean but their link
-    # graph needs dvar.cpp + a few math helpers (FX_RandomDir,
-    # UnitQuatToAxis, Vec4IsNormalized, Vec3Basis_RightHanded) and the
-    # fx_randomTable global. They come back when dvar is in build.
 )
 
-# DynEntity_coll and ragdoll.cpp compile clean but link needs CG_GetPose,
-# Dvar_SetInt/RegisterInt, SL_FindString, XModelGetBounds and friends
-# from the wider engine. Defer until dvar + xanim land.
+set(RAGDOLL_PORTABLE_SOURCES
+    "${SRC_DIR}/ragdoll/ragdoll.cpp"
+    "${SRC_DIR}/ragdoll/ragdoll_controller.cpp"
+    "${SRC_DIR}/ragdoll/ragdoll_quat.cpp"
+    "${SRC_DIR}/ragdoll/ragdoll_update.cpp"
+)
+
+set(DYNENTITY_PORTABLE_SOURCES
+    "${SRC_DIR}/DynEntity/DynEntity_coll.cpp"
+)
 
 add_executable(kisak_posix
     ${POSIX_SOURCES}
@@ -105,6 +111,8 @@ add_executable(kisak_posix
     ${SCRIPT_PORTABLE_SOURCES}
     ${PHYSICS_ODE_SOURCES}
     ${EFFECTSCORE_PORTABLE_SOURCES}
+    ${RAGDOLL_PORTABLE_SOURCES}
+    ${DYNENTITY_PORTABLE_SOURCES}
 )
 
 # ODE source uses `#include "X.h"` for its own headers. Add the directory

@@ -38,7 +38,7 @@ char __cdecl Ragdoll_ValidateBodyObj(RagdollBody *body)
 {
     RagdollDef *def; // [esp+0h] [ebp-18h]
     DObj_s *obj; // [esp+4h] [ebp-14h]
-    BoneDef *boneDef; // [esp+8h] [ebp-10h]
+    [[maybe_unused]] BoneDef *boneDef; // [esp+8h] [ebp-10h]
     unsigned __int8 boneIdx; // [esp+Fh] [ebp-9h] BYREF
     int i; // [esp+10h] [ebp-8h]
     BaseLerpBoneDef *lerpBoneDef; // [esp+14h] [ebp-4h]
@@ -57,7 +57,7 @@ char __cdecl Ragdoll_ValidateBodyObj(RagdollBody *body)
         if (!DObjGetBoneIndex(obj, boneDef->animBoneNames[0], &boneIdx) || boneIdx == 255)
             return 0;
         boneIdx = 0;
-        if (boneDef->animBoneNames[1] && !DObjGetBoneIndex(obj, boneDef->animBoneNames[1], &boneIdx) || boneIdx == 255)
+        if ((boneDef->animBoneNames[1] && !DObjGetBoneIndex(obj, boneDef->animBoneNames[1], &boneIdx)) || boneIdx == 255)
             return 0;
         ++i;
         ++boneDef;
@@ -221,18 +221,20 @@ void __cdecl Ragdoll_AnimMatToMat43(const DObjAnimMat *mat, float (*out)[3])
     v7 = result[1] * mat->quat[3];
     v4 = result[2] * mat->quat[2];
     v5 = result[2] * mat->quat[3];
-    (*out)[0] = 1.0 - (v2 + v4);
-    (*out)[1] = v3 + v5;
-    (*out)[2] = v8 - v7;
-    (*out)[3] = v3 - v5;
-    (*out)[4] = 1.0 - (v10 + v4);
-    (*out)[5] = v9 + v11;
-    (*out)[6] = v8 + v7;
-    (*out)[7] = v9 - v11;
-    (*out)[8] = 1.0 - (v10 + v2);
-    (*out)[9] = mat->trans[0];
-    (*out)[10] = mat->trans[1];
-    (*out)[11] = mat->trans[2];
+    // out is `float (*)[3]` decayed from `float[4][3]` at the call site;
+    // hex-rays decompiled as flat float[12] indexing. Reshape back.
+    out[0][0] = 1.0 - (v2 + v4);
+    out[0][1] = v3 + v5;
+    out[0][2] = v8 - v7;
+    out[1][0] = v3 - v5;
+    out[1][1] = 1.0 - (v10 + v4);
+    out[1][2] = v9 + v11;
+    out[2][0] = v8 + v7;
+    out[2][1] = v9 - v11;
+    out[2][2] = 1.0 - (v10 + v2);
+    out[3][0] = mat->trans[0];
+    out[3][1] = mat->trans[1];
+    out[3][2] = mat->trans[2];
 }
 
 char __cdecl Ragdoll_CreateBodyPhysics(RagdollBody *body)
@@ -383,7 +385,7 @@ char __cdecl Ragdoll_CreatePhysObj(RagdollBody *body, BoneDef *boneDef, Bone *bo
     float v8; // [esp+24h] [ebp-C8h]
     float diff[3]; // [esp+2Ch] [ebp-C0h] BYREF
     float qRot[4]; // [esp+3Ch] [ebp-B0h] BYREF
-    RagdollDef *def; // [esp+4Ch] [ebp-A0h]
+    [[maybe_unused]] RagdollDef *def; // [esp+4Ch] [ebp-A0h]
     DObj_s *obj; // [esp+50h] [ebp-9Ch]
     float b1Origin[3]; // [esp+54h] [ebp-98h] BYREF
     float b0Origin[3]; // [esp+60h] [ebp-8Ch] BYREF
@@ -393,7 +395,7 @@ char __cdecl Ragdoll_CreatePhysObj(RagdollBody *body, BoneDef *boneDef, Bone *bo
     float maxs[3]; // [esp+ACh] [ebp-40h] BYREF
     const cpose_t *pose; // [esp+B8h] [ebp-34h]
     PhysPreset preset; // [esp+BCh] [ebp-30h] BYREF
-    int boneIdx; // [esp+E8h] [ebp-4h]
+    [[maybe_unused]] int boneIdx; // [esp+E8h] [ebp-4h]
 
     iassert( body );
     iassert( boneDef );
@@ -1362,7 +1364,7 @@ char __cdecl Ragdoll_TunnelTest(RagdollBody *body)
     trace_t trace; // [esp+5Ch] [ebp-B0h] BYREF
     BoneDef *boneDef; // [esp+88h] [ebp-84h]
     int childIndices[6]; // [esp+8Ch] [ebp-80h] BYREF
-    Bone *childBone; // [esp+A4h] [ebp-68h]
+    [[maybe_unused]] Bone *childBone; // [esp+A4h] [ebp-68h]
     BoneOrientation *boneOrientations; // [esp+A8h] [ebp-64h]
     int child; // [esp+ACh] [ebp-60h]
     BoneOrientation *curOrientation; // [esp+B0h] [ebp-5Ch]
@@ -1519,7 +1521,7 @@ void __cdecl Ragdoll_SnapshotAnimOrientations(RagdollBody *body, BoneOrientation
 {
     RagdollDef *def; // [esp+0h] [ebp-18h]
     DObj_s *obj; // [esp+4h] [ebp-14h]
-    BoneDef *boneDef; // [esp+8h] [ebp-10h]
+    [[maybe_unused]] BoneDef *boneDef; // [esp+8h] [ebp-10h]
     const cpose_t *pose; // [esp+Ch] [ebp-Ch]
     int i; // [esp+10h] [ebp-8h]
     Bone *bone; // [esp+14h] [ebp-4h]
@@ -1608,7 +1610,7 @@ bool __cdecl Ragdoll_ExitDObjWait(RagdollBody *body, BodyState_t prevState, Body
 {
     RagdollDef *def; // [esp+0h] [ebp-18h]
     DObj_s *obj; // [esp+4h] [ebp-14h]
-    BoneDef *boneDef; // [esp+8h] [ebp-10h]
+    [[maybe_unused]] BoneDef *boneDef; // [esp+8h] [ebp-10h]
     LerpBone *lerpBone; // [esp+Ch] [ebp-Ch]
     int i; // [esp+10h] [ebp-8h]
     int ia; // [esp+10h] [ebp-8h]
