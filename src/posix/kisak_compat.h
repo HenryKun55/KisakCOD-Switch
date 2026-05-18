@@ -57,6 +57,30 @@
 // on clang specifically, but trap works everywhere as a fallback).
 #define __debugbreak() __builtin_trap()
 
+// __rdtsc: x86/x64 cycle counter intrinsic. On ARM64 we don't have a
+// user-space cycle counter readily exposed; approximate with steady_clock
+// nanoseconds. Off by a constant factor vs real cycles but adequate for
+// frame-time stats.
+#ifndef __rdtsc
+#include <chrono>
+static inline unsigned long long __rdtsc()
+{
+    using namespace std::chrono;
+    return (unsigned long long)duration_cast<nanoseconds>(
+        steady_clock::now().time_since_epoch()).count();
+}
+#endif
+
+// PF_NON_TEMPORAL_LEVEL_ALL + PreFetchCacheLine: Xbox 360-style prefetch
+// hint. No-op outside Win32; the constant just needs to exist for parse.
+#ifndef PF_NON_TEMPORAL_LEVEL_ALL
+#define PF_NON_TEMPORAL_LEVEL_ALL 4
+#endif
+#ifndef PreFetchCacheLine
+#define PreFetchCacheLine(level, addr) ((void)(level), (void)(addr))
+#endif
+
+
 // Upstream's basic byte typedef lives in q_shared.h; expose it
 // project-wide so headers that use 'byte' before q_shared.h is included
 // (e.g. r_gfx.h reached through scr_const.h's chain) still parse. Mirror

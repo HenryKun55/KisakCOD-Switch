@@ -409,7 +409,7 @@ void __cdecl Com_DvarDump(int channel, const char *match)
     DvarDumpInfo dumpInfo; // [esp+0h] [ebp-94h] BYREF
     char summary[132]; // [esp+Ch] [ebp-88h] BYREF
 
-    if (channel != 6 || com_logfile && com_logfile->current.integer)
+    if (channel != 6 || (com_logfile && com_logfile->current.integer))
     {
         Com_PrintMessage(channel, "=============================== DVAR DUMP ========================================\n", 0);
         dumpInfo.count = 0;
@@ -537,7 +537,7 @@ void __cdecl Dvar_RegisterBool_f()
         v1 = Cmd_Argv(2);
         value = atoi(v1) != 0;
         dvar = Dvar_FindVar(dvarName);
-        if (!dvar || dvar->type == 7 && (dvar->flags & 0x4000) != 0)
+        if (!dvar || (dvar->type == 7 && (dvar->flags & 0x4000) != 0))
         {
             Dvar_RegisterBool(dvarName, value, DVAR_EXTERNAL, "External Dvar");
         }
@@ -577,7 +577,7 @@ void __cdecl Dvar_RegisterInt_f()
         if (min <= max)
         {
             dvar = Dvar_FindVar(dvarName);
-            if (!dvar || dvar->type == 7 && (dvar->flags & 0x4000) != 0)
+            if (!dvar || (dvar->type == 7 && (dvar->flags & 0x4000) != 0))
             {
                 DvarLimits dLimits;
                 dLimits.integer.max = max;
@@ -626,7 +626,7 @@ void __cdecl Dvar_RegisterFloat_f()
         if (max >= (double)min)
         {
             dvar = Dvar_FindVar(dvarName);
-            if (!dvar || dvar->type == 7 && (dvar->flags & 0x4000) != 0)
+            if (!dvar || (dvar->type == 7 && (dvar->flags & 0x4000) != 0))
             {
                 v4.value.max = max;
                 v4.value.min = min;

@@ -33,8 +33,10 @@ enum MaterialVertexDeclType : __int32
     VERTDECL_COUNT = 0x10,
 };
 
+#ifndef KISAK_THREAD_CONTEXT_T_DEFINED
+#define KISAK_THREAD_CONTEXT_T_DEFINED
 #ifdef KISAK_MP
- enum ThreadContext_t : __int32 // Not a real struct, used for forced usage of this enum 
+ enum ThreadContext_t : __int32 // Not a real struct, used for forced usage of this enum
  {                                       // ...
      THREAD_CONTEXT_MAIN         = 0x0,
      THREAD_CONTEXT_BACKEND      = 0x1,
@@ -66,7 +68,8 @@ enum ThreadContext_t : __int32
     THREAD_CONTEXT_SERVER_DEMO = 11,
     THREAD_CONTEXT_COUNT = 12,
 };
-#endif
+#endif // KISAK_*P
+#endif // KISAK_THREAD_CONTEXT_T_DEFINED
 
 struct GfxCmdSetMaterialColor // sizeof=0x14
 {

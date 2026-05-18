@@ -34,7 +34,7 @@ static dvar_s* dvarHashTable[0x100];
 static dvar_s dvarPool[0x1000];
 static dvar_s* sortedDvars[0x1000];
 static bool areDvarsSorted;
-static LONG isSortedDvars;
+[[maybe_unused]] static LONG isSortedDvars;
 static int dvarCount;
 
 bool isDvarSystemActive;
@@ -1967,7 +1967,7 @@ int __cdecl Dvar_StringToEnum(const DvarLimits *domain, const char *string)
     v3 = strlen(string);
     for (stringIndexb = 0; stringIndexb < domain->enumeration.stringCount; ++stringIndexb)
     {
-        if (!I_strnicmp(string, *(const char **)(domain->integer.max + 4 * stringIndexb), v3))
+        if (!I_strnicmp(string, *(const char **)(uintptr_t)(unsigned int)(domain->integer.max + 4 * stringIndexb), v3)) // KISAKHACK 64-bit
             return stringIndexb;
     }
     return -1337;
@@ -2007,7 +2007,7 @@ void __cdecl Dvar_UpdateValue(dvar_s *dvar, DvarValue value)
             shouldFree = Dvar_ShouldFreeCurrentString(dvar);
             if (shouldFree)
                 oldString.integer = dvar->current.integer;
-            Dvar_AssignCurrentStringValue(dvar, &currentString, (char *)value.integer);
+            Dvar_AssignCurrentStringValue(dvar, &currentString, (char *)(uintptr_t)(unsigned int)value.integer); // KISAKHACK 64-bit
             dvar->current.integer = currentString.integer;
             if (Dvar_ShouldFreeLatchedString(dvar))
                 Dvar_FreeString(&dvar->latched);
@@ -2038,7 +2038,9 @@ const dvar_s *__cdecl Dvar_RegisterInt(
 {
     DvarValue v6; // [esp-1Ch] [ebp-38h]
     __int64 dvarValue_4; // [esp+Ch] [ebp-10h]
+    (void)dvarValue_4; // hex-rays scratch; unread
     float dvarValue_12; // [esp+14h] [ebp-8h]
+    (void)dvarValue_12; // hex-rays scratch; unread
 
     v6.integer = value;
     //*(_QWORD *)(&v6.value + 1) = dvarValue_4;
@@ -2073,7 +2075,9 @@ const dvar_s *__cdecl Dvar_RegisterFloat(
 {
     DvarValue v6; // [esp-1Ch] [ebp-38h]
     __int64 dvarValue_4; // [esp+Ch] [ebp-10h]
+    (void)dvarValue_4; // hex-rays scratch; unread
     float dvarValue_12; // [esp+14h] [ebp-8h]
+    (void)dvarValue_12; // hex-rays scratch; unread
 
     v6.value = value;
     //*(_QWORD *)(&v6.value + 1) = dvarValue_4;
@@ -2109,7 +2113,9 @@ const dvar_s *__cdecl Dvar_RegisterVec2(
 {
     DvarValue v7; // [esp-1Ch] [ebp-38h]
     __int64 dvarValue_4; // [esp+Ch] [ebp-10h]
+    (void)dvarValue_4; // hex-rays scratch; unread
     float dvarValue_12; // [esp+14h] [ebp-8h]
+    (void)dvarValue_12; // hex-rays scratch; unread
     
     //*(float *)&dvarValue_4 = y;
     //v7.value = x;
@@ -2131,7 +2137,9 @@ const dvar_s *__cdecl Dvar_RegisterVec3(
 {
     DvarValue v8; // [esp-1Ch] [ebp-38h]
     __int64 dvarValue_4; // [esp+Ch] [ebp-10h]
+    (void)dvarValue_4; // hex-rays scratch; unread
     float dvarValue_12; // [esp+14h] [ebp-8h]
+    (void)dvarValue_12; // hex-rays scratch; unread
 
     //*(float *)&dvarValue_4 = y;
     //*((float *)&dvarValue_4 + 1) = z;
@@ -2207,7 +2215,9 @@ const dvar_s *__cdecl Dvar_RegisterString(
 {
     DvarValue v5; // [esp-1Ch] [ebp-38h]
     __int64 dvarValue_4; // [esp+Ch] [ebp-10h]
+    (void)dvarValue_4; // hex-rays scratch
     float dvarValue_12; // [esp+14h] [ebp-8h]
+    (void)dvarValue_12; // hex-rays scratch
 
     if (!dvarName)
         MyAssertHandler(".\\universal\\dvar.cpp", 1751, 0, "%s", "dvarName");
@@ -2221,7 +2231,7 @@ const dvar_s *__cdecl Dvar_RegisterString(
             "%s\n\t(dvarName) = %s",
             "((flags & (1 << 14)) || CanKeepStringPointer( value ))",
             dvarName);
-    v5.integer = (int)value;
+    v5.integer = (int)(uintptr_t)value; // KISAKHACK 64-bit
     //*(_QWORD *)(&v5.value + 1) = dvarValue_4;
     //v5.vector[3] = dvarValue_12;
     return Dvar_RegisterVariant(dvarName, DVAR_TYPE_STRING, flags, v5, 0, description);
@@ -2242,7 +2252,7 @@ const dvar_s *__cdecl Dvar_RegisterEnum(
     if (!valueList)
         MyAssertHandler(".\\universal\\dvar.cpp", 1767, 0, "%s", "valueList");
     dvarValue.integer = defaultIndex;
-    dvarDomain.integer.max = (int)valueList;
+    dvarDomain.integer.max = (int)(uintptr_t)valueList; // KISAKHACK 64-bit
     for (dvarDomain.enumeration.stringCount = 0;
         valueList[dvarDomain.enumeration.stringCount];
         ++dvarDomain.enumeration.stringCount)
@@ -2285,12 +2295,16 @@ const dvar_s *__cdecl Dvar_RegisterColor(
     float v18; // [esp+28h] [ebp-84h]
     float v19; // [esp+2Ch] [ebp-80h]
     float v20; // [esp+34h] [ebp-78h]
+    (void)v20; // hex-rays scratch; unread
     float v21; // [esp+44h] [ebp-68h]
     float v22; // [esp+4Ch] [ebp-60h]
+    (void)v22; // hex-rays scratch; unread
     float v23; // [esp+5Ch] [ebp-50h]
     float v24; // [esp+64h] [ebp-48h]
+    (void)v24; // hex-rays scratch; unread
     float v25; // [esp+74h] [ebp-38h]
     float v26; // [esp+7Ch] [ebp-30h]
+    (void)v26; // hex-rays scratch; unread
     float v27; // [esp+8Ch] [ebp-20h]
     DvarValue dvarValue; // [esp+98h] [ebp-14h]
 
@@ -2364,7 +2378,7 @@ void __cdecl Dvar_SetBoolFromSource(dvar_s *dvar, bool value, DvarSetSource sour
             v3 = "1";
         else
             v3 = "0";
-        newValue.integer = (int)v3;
+        newValue.integer = (int)(uintptr_t)v3; // KISAKHACK 64-bit
     }
     else
     {
@@ -2397,7 +2411,7 @@ void __cdecl Dvar_SetIntFromSource(dvar_s *dvar, int value, DvarSetSource source
     else
     {
         Com_sprintf(string, 0x20u, "%i", value);
-        newValue.integer = (int)string;
+        newValue.integer = (int)(uintptr_t)string; // KISAKHACK 64-bit
     }
     Dvar_SetVariant(dvar, newValue, source);
 }
@@ -2426,7 +2440,7 @@ void __cdecl Dvar_SetFloatFromSource(dvar_s *dvar, float value, DvarSetSource so
     else
     {
         Com_sprintf(string, 0x20u, "%g", value);
-        newValue.integer = (int)string;
+        newValue.integer = (int)(uintptr_t)string; // KISAKHACK 64-bit
     }
     Dvar_SetVariant(dvar, newValue, source);
 }
@@ -2456,7 +2470,7 @@ void __cdecl Dvar_SetVec2FromSource(dvar_s *dvar, float x, float y, DvarSetSourc
     else
     {
         Com_sprintf(string, 0x40u, "%g %g", x, y);
-        newValue.integer = (int)string;
+        newValue.integer = (int)(uintptr_t)string; // KISAKHACK 64-bit
     }
     Dvar_SetVariant(dvar, newValue, source);
 }
@@ -2487,7 +2501,7 @@ void __cdecl Dvar_SetVec3FromSource(dvar_s *dvar, float x, float y, float z, Dva
     else
     {
         Com_sprintf(string, 0x60u, "%g %g %g", x, y, z);
-        newValue.integer = (int)string;
+        newValue.integer = (int)(uintptr_t)string; // KISAKHACK 64-bit
     }
     Dvar_SetVariant(dvar, newValue, source);
 }
@@ -2519,7 +2533,7 @@ void __cdecl Dvar_SetVec4FromSource(dvar_s *dvar, float x, float y, float z, flo
     else
     {
         Com_sprintf(string, 0x80u, "%g %g %g %g", x, y, z, w);
-        newValue.integer = (int)string;
+        newValue.integer = (int)(uintptr_t)string; // KISAKHACK 64-bit
     }
     Dvar_SetVariant(dvar, newValue, source);
 }
@@ -2527,25 +2541,45 @@ void __cdecl Dvar_SetVec4FromSource(dvar_s *dvar, float x, float y, float z, flo
 void __cdecl Dvar_SetColorFromSource(dvar_s *dvar, float r, float g, float b, float a, DvarSetSource source)
 {
     float v6; // [esp+20h] [ebp-128h]
+    (void)v6; // hex-rays scratch
     float v7; // [esp+24h] [ebp-124h]
+    (void)v7; // hex-rays scratch
     float v8; // [esp+28h] [ebp-120h]
+    (void)v8; // hex-rays scratch
     float v9; // [esp+2Ch] [ebp-11Ch]
+    (void)v9; // hex-rays scratch
     float v10; // [esp+30h] [ebp-118h]
+    (void)v10; // hex-rays scratch
     float v11; // [esp+34h] [ebp-114h]
+    (void)v11; // hex-rays scratch
     float v12; // [esp+38h] [ebp-110h]
+    (void)v12; // hex-rays scratch
     float v13; // [esp+3Ch] [ebp-10Ch]
+    (void)v13; // hex-rays scratch
     float v14; // [esp+40h] [ebp-108h]
+    (void)v14; // hex-rays scratch
     float v15; // [esp+44h] [ebp-104h]
+    (void)v15; // hex-rays scratch
     float v16; // [esp+48h] [ebp-100h]
+    (void)v16; // hex-rays scratch
     float v17; // [esp+4Ch] [ebp-FCh]
+    (void)v17; // hex-rays scratch
     float v18; // [esp+54h] [ebp-F4h]
+    (void)v18; // hex-rays scratch
     float v19; // [esp+64h] [ebp-E4h]
+    (void)v19; // hex-rays scratch
     float v20; // [esp+6Ch] [ebp-DCh]
+    (void)v20; // hex-rays scratch
     float v21; // [esp+7Ch] [ebp-CCh]
+    (void)v21; // hex-rays scratch
     float v22; // [esp+84h] [ebp-C4h]
+    (void)v22; // hex-rays scratch
     float v23; // [esp+94h] [ebp-B4h]
+    (void)v23; // hex-rays scratch
     float v24; // [esp+9Ch] [ebp-ACh]
+    (void)v24; // hex-rays scratch
     float v25; // [esp+ACh] [ebp-9Ch]
+    (void)v25; // hex-rays scratch
     char string[132]; // [esp+B0h] [ebp-98h] BYREF
     DvarValue newValue; // [esp+134h] [ebp-14h]
 
@@ -2570,7 +2604,7 @@ void __cdecl Dvar_SetColorFromSource(dvar_s *dvar, float r, float g, float b, fl
     else
     {
         Com_sprintf(string, 0x80u, "%g %g %g %g", r, g, b, a);
-        newValue.integer = (int)string;
+        newValue.integer = (int)(uintptr_t)string; // KISAKHACK 64-bit
     }
     Dvar_SetVariant(dvar, newValue, source);
 }
@@ -2623,7 +2657,7 @@ void __cdecl Dvar_SetStringFromSource(dvar_s *dvar, char *string, DvarSetSource 
     if (dvar->type == 7)
     {
         I_strncpyz(stringCopy, string, 1024);
-        newValue.integer = (int)stringCopy;
+        newValue.integer = (int)(uintptr_t)stringCopy; // KISAKHACK 64-bit
     }
     else
     {
