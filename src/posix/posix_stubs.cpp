@@ -100,46 +100,8 @@ float Vec2Normalize(float *v)
     return len;
 }
 
-// === common / log / thread subsystem stubs =================================
-// Demanded by src/universal/q_parse.cpp. Real implementations land when we
-// port qcommon/common.cpp and qcommon/threads.cpp.
-
-// Com_Printf: generic console log. Upstream has channels (CON_CHANNEL_*)
-// — ignored for now, everything goes to stdout.
-void Com_Printf(int /*channel*/, const char *fmt, ...)
-{
-    if (!fmt) return;
-    va_list ap;
-    va_start(ap, fmt);
-    std::vfprintf(stdout, fmt, ap);
-    va_end(ap);
-}
-
-// Com_PrintError: same but prefixed and routed to stderr.
-void Com_PrintError(int /*channel*/, const char *fmt, ...)
-{
-    if (!fmt) return;
-    std::fputs("[error] ", stderr);
-    va_list ap;
-    va_start(ap, fmt);
-    std::vfprintf(stderr, fmt, ap);
-    va_end(ap);
-}
-
-// Com_Error: fatal error. Upstream may be ERR_DROP (recoverable, longjmp)
-// or ERR_FATAL (abort). We have no error recovery in the port yet; abort.
-void Com_Error(errorParm_t /*code*/, const char *fmt, ...)
-{
-    std::fputs("[fatal] ", stderr);
-    if (fmt) {
-        va_list ap;
-        va_start(ap, fmt);
-        std::vfprintf(stderr, fmt, ap);
-        va_end(ap);
-    }
-    std::fputc('\n', stderr);
-    std::abort();
-}
+// Com_Printf / Com_PrintError / Com_Error now live in qcommon/common.cpp
+// (the real implementations from upstream) once it joined the build.
 
 // Sys_Is*Thread: in the initial single-threaded port, we are always main
 // and never render/database. When threads.cpp is properly ported, this
@@ -202,17 +164,7 @@ char *va(const char *format, ...)
     return out;
 }
 
-// === Stubs required by com_shared.cpp ======================================
-
-// _copyDWord: upstream uses x86 inline asm (rep stosd) to fill `count`
-// dwords with `value`. Portable equivalent is the obvious loop — gets
-// auto-vectorized to NEON on ARM64 by clang at -O2.
-void _copyDWord(unsigned int *dst, unsigned int value, unsigned int count)
-{
-    for (unsigned int i = 0; i < count; ++i) {
-        dst[i] = value;
-    }
-}
+// _copyDWord now lives in qcommon/common.cpp.
 
 // QueryPerformanceCounter / Frequency: portable POSIX implementations
 // using std::chrono's steady_clock. Granularity is nanoseconds → matches
@@ -557,11 +509,7 @@ extern TraceThreadInfo * const g_traceThreadInfo;
 TraceThreadInfo * const g_traceThreadInfo =
     reinterpret_cast<TraceThreadInfo *>(g_traceThreadInfo_storage);
 
-// useFastFile is a dvar* — we expose a null pointer so the upstream
-// `useFastFile->current.enabled` accessor in q_shared.h returns 0 once
-// we add a guard, but for now no caller in our build path dereferences it.
-struct dvar_s;
-const dvar_s *useFastFile = nullptr;
+// useFastFile is now defined in qcommon/common.cpp (real upstream).
 
 // === statmonitor.cpp deps ================================================
 
@@ -621,9 +569,7 @@ struct clientStatic_t;
 alignas(16) static unsigned char cls_storage[16384];
 clientStatic_t &cls = *reinterpret_cast<clientStatic_t *>(cls_storage);
 
-// `com_statmon`: dvar* used by statmonitor. Same nullptr pattern as
-// useFastFile.
-const dvar_s *com_statmon = nullptr;
+// com_statmon now defined in qcommon/common.cpp (real upstream).
 
 // === scr_const.cpp dep ====================================================
 // GScr_AllocString: register a string in the script string-table and

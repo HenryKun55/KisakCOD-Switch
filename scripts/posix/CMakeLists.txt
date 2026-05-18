@@ -17,6 +17,7 @@ set(POSIX_SOURCES
     "${SRC_DIR}/posix/posix_gl_main.cpp"
     "${SRC_DIR}/posix/posix_assert.cpp"
     "${SRC_DIR}/posix/posix_stubs.cpp"
+    "${SRC_DIR}/posix/posix_backbone_stubs.cpp"
     "${SRC_DIR}/gfx_gl/gl_renderer.cpp"
 )
 
@@ -30,6 +31,8 @@ set(UNIVERSAL_PORTABLE_SOURCES
     "${SRC_DIR}/universal/com_convexhull.cpp"
     "${SRC_DIR}/universal/com_math_anglevectors.cpp"
     "${SRC_DIR}/universal/com_shared.cpp"
+    "${SRC_DIR}/universal/dvar.cpp"
+    "${SRC_DIR}/universal/dvar_cmds.cpp"
     "${SRC_DIR}/universal/memfile.cpp"
     "${SRC_DIR}/universal/profile.cpp"
     "${SRC_DIR}/universal/q_parse.cpp"
@@ -51,12 +54,19 @@ set(QCOMMON_PORTABLE_SOURCES
     "${SRC_DIR}/qcommon/cm_test.cpp"
     "${SRC_DIR}/qcommon/cm_trace.cpp"
     "${SRC_DIR}/qcommon/cm_tracebox.cpp"
+    "${SRC_DIR}/qcommon/cmd.cpp"
     "${SRC_DIR}/qcommon/com_fileaccess.cpp"
     "${SRC_DIR}/qcommon/com_pack.cpp"
+    "${SRC_DIR}/qcommon/common.cpp"
     "${SRC_DIR}/qcommon/dl_main.cpp"
+    "${SRC_DIR}/qcommon/files.cpp"
     "${SRC_DIR}/qcommon/huffman.cpp"
     "${SRC_DIR}/qcommon/md4.cpp"
     "${SRC_DIR}/qcommon/statmonitor.cpp"
+    # qcommon/threads.cpp deliberately skipped: it's a 934-line Win32-only
+    # threading implementation (CreateThread / CreateEvent / WaitForSingleObject
+    # everywhere). The single-threaded port uses pthread-backed Sys_* stubs
+    # in posix/posix_stubs.cpp instead. See docs/RISKS.md.
 )
 
 set(SCRIPT_PORTABLE_SOURCES
