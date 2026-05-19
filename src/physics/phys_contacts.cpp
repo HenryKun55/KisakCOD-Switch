@@ -371,22 +371,22 @@ void __cdecl Phys_GenerateGroupContacts(
             memcpy(
                 &outContacts->contacts[outContacts->contactCount++],
                 &inContacts->contacts[minContact[0]],
-                sizeof(outContacts->contacts[outContacts->contactCount++]));
+                sizeof(outContacts->contacts[0]));
             if (minContact[1] != minContact[0])
                 memcpy(
                     &outContacts->contacts[outContacts->contactCount++],
                     &inContacts->contacts[minContact[1]],
-                    sizeof(outContacts->contacts[outContacts->contactCount++]));
+                    sizeof(outContacts->contacts[0]));
             if (maxContact[0] != minContact[1] && maxContact[0] != minContact[0])
                 memcpy(
                     &outContacts->contacts[outContacts->contactCount++],
                     &inContacts->contacts[maxContact[0]],
-                    sizeof(outContacts->contacts[outContacts->contactCount++]));
+                    sizeof(outContacts->contacts[0]));
             if (maxContact[1] != maxContact[0] && maxContact[1] != minContact[1] && maxContact[1] != minContact[0])
                 memcpy(
                     &outContacts->contacts[outContacts->contactCount++],
                     &inContacts->contacts[maxContact[1]],
-                    sizeof(outContacts->contacts[outContacts->contactCount++]));
+                    sizeof(outContacts->contacts[0]));
             if (maxDContact != maxContact[1]
                 && maxDContact != maxContact[0]
                 && maxDContact != minContact[1]
@@ -395,7 +395,7 @@ void __cdecl Phys_GenerateGroupContacts(
                 memcpy(
                     &outContacts->contacts[outContacts->contactCount++],
                     &inContacts->contacts[maxDContact],
-                    sizeof(outContacts->contacts[outContacts->contactCount++]));
+                    sizeof(outContacts->contacts[0]));
             }
         }
     }
@@ -648,7 +648,7 @@ void __cdecl Phys_ApplyContactJitter(PhysWorld worldIndex, dContactGeom *contact
     float distance; // [esp+58h] [ebp-1Ch]
     int jitterIdx; // [esp+5Ch] [ebp-18h]
     float time; // [esp+60h] [ebp-14h]
-    float mass; // [esp+64h] [ebp-10h]
+    [[maybe_unused]] float mass; // [esp+64h] [ebp-10h]
     float upVec[3]; // [esp+68h] [ebp-Ch] BYREF
 
     if ((!body1 || !body2) && contact->normal[2] >= 0.699999988079071)

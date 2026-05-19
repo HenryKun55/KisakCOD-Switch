@@ -49,6 +49,7 @@
 #include <qcommon/sv_msg_write_mp.h>
 #include <game/game_public.h>
 #include <universal/com_sndalias.h>
+#include <physics/phys_local.h>
 
 // Forward decls for opaque types we just need to pass through.
 struct sysEvent_t;
@@ -1108,6 +1109,70 @@ void SVC_GameCompleteStatus(netadr_t /*from*/) {}
 const dvar_t *cl_profileTextHeight = nullptr;
 const dvar_t *rcon_password = nullptr;
 
+// =========================================================================
+// physics + stringed batch.
+// =========================================================================
+
+struct Results;
+struct Poly;
+struct cbrush_t;
+
+// ODE bridge — we don't link ODE, so all of these are no-ops with the
+// real ODE signatures (deps/ode/objects.h).
+#include <ode/objects.h>
+extern "C" {
+void *dBodyGetData(dBodyID /*body*/) { return nullptr; }
+static const dReal kODEZero[4] = {0, 0, 0, 0};
+const dReal *dBodyGetPosition(dBodyID /*body*/) { return kODEZero; }
+void dBodyGetPointVel(dBodyID /*body*/, dReal /*px*/, dReal /*py*/, dReal /*pz*/, dVector3 result)
+{ if (result) result[0] = result[1] = result[2] = 0; }
+void dJointAttach(dJointID /*j*/, dBodyID /*b1*/, dBodyID /*b2*/) {}
+dxJoint *dJointCreateContact(dWorldID /*w*/, dJointGroupID /*group*/, const dSurfaceParameters * /*s*/, const dContactGeom * /*c*/) { return nullptr; }
+void dNormalize3(dVector3 /*v*/) {}
+} // extern "C"
+
+void CG_DebugBox(const float * /*center*/, const float * /*halfSize*/, const float * /*axis*/, float /*duration*/, const float * /*color*/, int /*depthTest*/, int /*flag*/) {}
+void CG_DebugLine(const float * /*start*/, const float * /*end*/, const float * /*color*/, int /*depthTest*/, int /*duration*/) {}
+
+void ClosestApproachOfTwoLines(const float * /*p1*/, const float * /*d1*/, const float * /*p2*/, const float * /*d2*/, float *t1, float *t2)
+{ if (t1) *t1 = 0; if (t2) *t2 = 0; }
+
+char *I_strupr(char *s)
+{
+    for (char *p = s; *p; ++p) *p = static_cast<char>(std::toupper(static_cast<unsigned char>(*p)));
+    return s;
+}
+
+float kisak_random() { return std::rand() / float(RAND_MAX); }
+
+bool ParseConfigStringToStruct(unsigned char * /*pStruct*/, const cspField_t * /*pFieldList*/,
+                               int /*iNumFields*/, char * /*pszBuffer*/, int /*iMaxFieldTypes*/,
+                               int  (*)(unsigned char *, const char *, const int) /*parseSpecial*/,
+                               void (*)(unsigned char *, const char *) /*parseStrcpy*/) { return false; }
+
+// Phys collision helpers — stubs.
+bool Phys_AddContactData(Results * /*results*/, float /*depth*/, float * /*normal*/, float * /*pos*/, int /*type*/) { return false; }
+unsigned int Phys_ClipLineSegmentAgainstPlane(float * /*p1*/, float * /*p2*/, const float * /*plane*/) { return 0; }
+unsigned int Phys_ClipLineSegmentAgainstPoly(const float * /*plane*/, const float (* /*verts*/)[3], unsigned int /*numVerts*/,
+                                             float * /*p1*/, float * /*p2*/) { return 0; }
+void Phys_DrawPoly(const Poly * /*poly*/, const float * /*color*/) {}
+int  Phys_GetPlaneForTriangle2(const float (* /*tri*/)[3], const float * /*normal*/, float /*dist*/, float * /*planeOut*/) { return 0; }
+int  Phys_GetSurfaceFlagsFromBrush(const cbrush_t * /*brush*/, unsigned int /*faceIndex*/) { return 0; }
+void Phys_GetWindingForBrushFace2(const cbrush_t * /*brush*/, unsigned int /*faceIndex*/, Poly * /*polyOut*/, int /*flag*/, const float (* /*axialPlanes*/)[4]) {}
+void Phys_ProjectFaceOntoFaceAndClip(const float * /*planeA*/, const Poly * /*polyA*/, const Poly * /*polyB*/, int /*type*/, Results * /*results*/, float * /*extra*/) {}
+
+void Vec3Negate(const float *in, float *out) { out[0] = -in[0]; out[1] = -in[1]; out[2] = -in[2]; }
+void Vec4Copy(const float *in, float *out) { out[0] = in[0]; out[1] = in[1]; out[2] = in[2]; out[3] = in[3]; }
+
+// Globals
+const dvar_t *phys_contact_cfm = nullptr;
+const dvar_t *phys_contact_erp = nullptr;
+const dvar_t *phys_drawCollisionWorld = nullptr;
+const dvar_t *phys_drawcontacts = nullptr;
+const dvar_t *phys_jitterMaxMass = nullptr;
+const dvar_t *phys_noIslands = nullptr;
+PhysGlob physGlob{};
+
 // Con_InitChannels now in client/con_channels.cpp.
 // Con_IsChannelVisible now in client/con_channels.cpp.
 // Con_WriteFilterConfigString now in client/con_channels.cpp.
@@ -1353,7 +1418,7 @@ void Phys_ObjSetOrientation(PhysWorld /*w*/, dxBody * /*b*/, const float * /*pos
 void Phys_ObjSetVelocity(dxBody * /*b*/, float * /*vel*/) {}
 void Phys_RunToTime(int /*physClock*/, PhysWorld /*w*/, int /*time*/) {}
 void Phys_SetCollisionCallback(PhysWorld /*w*/, void (* /*cb*/)()) {}
-void Phys_AddCollisionContact(PhysWorld /*w*/, const PhysContact * /*c*/, dxBody * /*a*/, dxBody * /*b*/) {}
+// Phys_AddCollisionContact now in physics/phys_contacts.cpp.
 dxJointAMotor *Phys_CreateAngularMotor(PhysWorld /*w*/, dxBody * /*a*/, dxBody * /*b*/, unsigned int /*flags*/,
                                        const float (* /*axes*/)[3], const float * /*p1*/, const float * /*p2*/,
                                        const float * /*p3*/, const float * /*p4*/) { return nullptr; }

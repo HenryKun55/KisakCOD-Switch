@@ -126,6 +126,17 @@ set(AIMASSIST_PORTABLE_SOURCES
     "${SRC_DIR}/aim_assist/aim_target_mp.cpp"
 )
 
+set(PHYSICS_PORTABLE_SOURCES
+    "${SRC_DIR}/physics/phys_coll_capsulebrush.cpp"
+    "${SRC_DIR}/physics/phys_coll_cylinderbrush.cpp"
+    "${SRC_DIR}/physics/phys_contacts.cpp"
+    "${SRC_DIR}/physics/physpreset_load_obj.cpp"
+)
+
+set(STRINGED_PORTABLE_SOURCES
+    "${SRC_DIR}/stringed/stringed_ingame.cpp"
+)
+
 set(UI_PORTABLE_SOURCES
 )
 
@@ -217,6 +228,8 @@ add_executable(kisak_posix
     ${CGAME_PORTABLE_SOURCES}
     ${CLIENT_PORTABLE_SOURCES}
     ${GAME_PORTABLE_SOURCES}
+    ${PHYSICS_PORTABLE_SOURCES}
+    ${STRINGED_PORTABLE_SOURCES}
 )
 
 # ODE source uses `#include "X.h"` for its own headers. Add the directory

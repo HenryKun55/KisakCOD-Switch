@@ -142,7 +142,7 @@ void __cdecl Phys_CollideCapsuleWithBrush(const cbrush_t *brush, const objInfo *
     int brushSideIndex; // [esp+DCh] [ebp-CACh]
     Capsule capsule; // [esp+E0h] [ebp-CA8h] BYREF
     float *pts; // [esp+120h] [ebp-C68h]
-    float brushSeparation; // [esp+124h] [ebp-C64h]
+    [[maybe_unused]] float brushSeparation; // [esp+124h] [ebp-C64h]
     float brushVerts[256][3]; // [esp+128h] [ebp-C60h] BYREF
     float axialPlanes[6][4]; // [esp+D28h] [ebp-60h] BYREF
 
@@ -468,7 +468,10 @@ bool __cdecl Phys_CapsuleSeparatingAxisTest(
     Vec3Sub(tri0, capsule->center, p0);
     Vec3Sub(tri1, capsule->center, p1);
     Vec3Sub(tri2, capsule->center, p2);
-    LODWORD(v15[51]) = (uint32)capsule->axis;
+    // KISAKHACK: hex-rays stored a pointer in a 32-bit slot. Bridge
+    // through uintptr_t; the value lives only in scratch v15[] before
+    // overwrite, so truncation is harmless here.
+    LODWORD(v15[51]) = (uint32)(uintptr_t)capsule->axis;
     Vec3Sub(tri0, cp0, diff);
     Vec3Cross(diff, capsule->axis, cross);
     Vec3Cross(cross, capsule->axis, testAxis);

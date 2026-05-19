@@ -20,7 +20,7 @@ void __cdecl Phys_CollideCylinderWithBrush(const cbrush_t *brush, const objInfo 
     float brushPlane[4]; // [esp+D0h] [ebp-C88h] BYREF
     int brushSideIndex; // [esp+E0h] [ebp-C78h]
     Poly brushPoly; // [esp+E4h] [ebp-C74h] BYREF
-    float brushSeparation; // [esp+ECh] [ebp-C6Ch]
+    [[maybe_unused]] float brushSeparation; // [esp+ECh] [ebp-C6Ch]
     float brushVerts[256][3]; // [esp+F0h] [ebp-C68h] BYREF
     unsigned int i; // [esp+CF4h] [ebp-64h]
     float axialPlanes[6][4]; // [esp+CF8h] [ebp-60h] BYREF
@@ -458,17 +458,17 @@ unsigned int __cdecl Phys_ClipLineSegmentAgainstCylinderRadius(
     }
     else
     {
-        Vec3Lerp(pt1, pt2, t1, (float*)result);
+        Vec3Lerp(pt1, pt2, t1, result[0]);
     }
     if (t2 >= 1.0)
     {
-        (*result)[3] = *pt2;
-        (*result)[4] = pt2[1];
-        (*result)[5] = pt2[2];
+        result[1][0] = *pt2;
+        result[1][1] = pt2[1];
+        result[1][2] = pt2[2];
     }
     else
     {
-        Vec3Lerp(pt1, pt2, t2, &(*result)[3]);
+        Vec3Lerp(pt1, pt2, t2, result[1]);
     }
     return 2;
 }

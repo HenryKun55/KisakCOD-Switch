@@ -50,11 +50,14 @@ void __cdecl PhysPreset_Strcpy(unsigned __int8 *member, const char *keyValue)
             v2 = *v4;
             *v3++ = *v4++;
         } while (v2);
-        *(_DWORD *)member = (_DWORD)buf;
+        // KISAKHACK: storing a 64-bit pointer in a 32-bit DWORD slot at
+        // member[]. 64-bit asset loader needs proper redesign — see
+        // docs/RISKS.md. Truncation through uintptr_t keeps the link.
+        *(uintptr_t *)member = (uintptr_t)buf;
     }
     else
     {
-        *(_DWORD *)member = (_DWORD)"";
+        *(uintptr_t *)member = (uintptr_t)"";
     }
 }
 

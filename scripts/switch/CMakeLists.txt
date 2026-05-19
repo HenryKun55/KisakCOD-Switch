@@ -119,6 +119,17 @@ set(AIMASSIST_PORTABLE_SOURCES
     "${SRC_DIR}/aim_assist/aim_target_mp.cpp"
 )
 
+set(PHYSICS_PORTABLE_SOURCES
+    "${SRC_DIR}/physics/phys_coll_capsulebrush.cpp"
+    "${SRC_DIR}/physics/phys_coll_cylinderbrush.cpp"
+    "${SRC_DIR}/physics/phys_contacts.cpp"
+    "${SRC_DIR}/physics/physpreset_load_obj.cpp"
+)
+
+set(STRINGED_PORTABLE_SOURCES
+    "${SRC_DIR}/stringed/stringed_ingame.cpp"
+)
+
 set(SERVER_PORTABLE_SOURCES
     "${SRC_DIR}/server/sv_game.cpp"
     "${SRC_DIR}/server_mp/sv_main_pc_mp.cpp"
@@ -193,6 +204,8 @@ add_executable(kisak_switch
     ${CGAME_PORTABLE_SOURCES}
     ${CLIENT_PORTABLE_SOURCES}
     ${GAME_PORTABLE_SOURCES}
+    ${PHYSICS_PORTABLE_SOURCES}
+    ${STRINGED_PORTABLE_SOURCES}
 )
 
 target_include_directories(kisak_switch PRIVATE
