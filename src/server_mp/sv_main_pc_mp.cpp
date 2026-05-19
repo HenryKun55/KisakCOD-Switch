@@ -17,9 +17,11 @@ const netadr_t *__cdecl SV_MasterAddress()
     if (adr.type == NA_BOT)
     {
         Com_Printf(15, "Resolving %s\n", com_masterServerName->current.string);
-        if (NET_StringToAdr((char *)com_masterServerName->current.integer, &adr))
+        // KISAKHACK: DvarValue.integer holds 32-bit pointer in upstream;
+        // bridge through uintptr_t.
+        if (NET_StringToAdr((char *)(uintptr_t)com_masterServerName->current.integer, &adr))
         {
-            const char* result = strstr(":", (char*)com_masterServerName->current.integer);
+            const char* result = strstr(":", (char*)(uintptr_t)com_masterServerName->current.integer);
             if (!result)
                 adr.port = BigShort(com_masterPort->current.integer);
             v1 = BigShort(adr.port);

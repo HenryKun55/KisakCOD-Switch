@@ -145,6 +145,12 @@ static inline T InterlockedCompareExchange(T volatile *p, T newval, T expected)
                                 __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST);
     return e; // returns the value that was in *p before the call
 }
+// InterlockedExchangeAdd: returns the *previous* value at *p, then adds.
+template <typename T>
+static inline T InterlockedExchangeAdd(T volatile *p, T addend)
+{
+    return __atomic_fetch_add(p, addend, __ATOMIC_SEQ_CST);
+}
 // fopen_s: MSVC's "secure" fopen variant. Returns 0 on success and stores
 // the FILE* in *out; POSIX has plain fopen that returns FILE* or NULL.
 // Bridge: do the plain fopen and map to fopen_s's contract.

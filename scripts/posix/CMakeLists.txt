@@ -131,8 +131,11 @@ set(UI_PORTABLE_SOURCES
 
 set(SERVER_PORTABLE_SOURCES
     "${SRC_DIR}/server/sv_game.cpp"
+    "${SRC_DIR}/server_mp/sv_main_pc_mp.cpp"
     "${SRC_DIR}/server_mp/sv_net_chan_mp.cpp"
     "${SRC_DIR}/server_mp/ucmds.cpp"
+    # sv_snapshot_mp compiles clean but drags MSG_WriteEntity/Delta*/
+    # SV_*Track* stub family. Land with bigger server batch.
 )
 
 set(SOUND_PORTABLE_SOURCES
@@ -154,14 +157,19 @@ set(CLIENT_PORTABLE_SOURCES
     "${SRC_DIR}/client/cl_debugdata.cpp"
     "${SRC_DIR}/client/con_channels.cpp"
     "${SRC_DIR}/client/screen_placement.cpp"
+    "${SRC_DIR}/client_mp/cl_net_chan_mp.cpp"
+    "${SRC_DIR}/client_mp/cl_pose_mp.cpp"
     "${SRC_DIR}/client_mp/cl_rank.cpp"
     "${SRC_DIR}/client_mp/cl_voice.cpp"
+    # cl_input + cl_parse_mp compile clean but drag 20+ cl_* dvars and
+    # the MSG_Write*/FS_SV_* stub family. Land with a bigger client batch.
 )
 
 set(GAME_PORTABLE_SOURCES
     "${SRC_DIR}/game/enthandle.cpp"
     "${SRC_DIR}/game/g_client_fields.cpp"
     "${SRC_DIR}/game/g_debug.cpp"
+    "${SRC_DIR}/game/g_scr_mover.cpp"
     "${SRC_DIR}/game/g_svcmds.cpp"
     "${SRC_DIR}/game/g_weapon_load_obj.cpp"
     # g_helicopter, g_hudelem, g_items — compile clean but each drags 20+

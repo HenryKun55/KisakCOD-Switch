@@ -113,7 +113,7 @@ int __cdecl ScriptMover_UpdateMove(
         pTr->trType = TR_LINEAR_STOP;
         return 0;
     }
-    if ((pTr->trType == TR_ACCELERATE && trDuration <= 0 || pTr->trType == TR_LINEAR_STOP) && fDecelTime > 0.0)
+    if (((pTr->trType == TR_ACCELERATE && trDuration <= 0) || pTr->trType == TR_LINEAR_STOP) && fDecelTime > 0.0)
     {
         pTr->trTime = level.time;
         pTr->trDuration = (int)(fDecelTime * 1000.0);

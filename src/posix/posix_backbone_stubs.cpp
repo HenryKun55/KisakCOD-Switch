@@ -1070,6 +1070,44 @@ const dvar_t *g_banIPs = nullptr;
 const dvar_t *g_dedicated = nullptr;
 const dvar_t *sv_gametype = nullptr;
 
+// =========================================================================
+// Small batch — cl_net_chan_mp / cl_pose_mp / sv_main_pc_mp / g_scr_mover.
+// =========================================================================
+
+void AxisToAngles(const float (& /*axis*/)[3][3], float *angles)
+{
+    angles[0] = angles[1] = angles[2] = 0;
+}
+
+void CL_DrawString(int /*localClientNum*/, int /*x*/, char * /*text*/, int /*maxChars*/, int /*y*/) {}
+
+void G_DObjUpdate(gentity_s * /*ent*/) {}
+void G_FreeEntity(gentity_s * /*ent*/) {}
+
+void *I_dmaGetDObjSkel(const DObj_s * /*obj*/) { return nullptr; }
+
+const char *NET_AdrToString(netadr_t /*adr*/) { return ""; }
+bool NET_CompareBaseAdr(netadr_t /*a*/, netadr_t /*b*/) { return false; }
+bool NET_OutOfBandPrint(netsrc_t /*sock*/, netadr_t /*adr*/, const char * /*data*/) { return false; }
+int  NET_StringToAdr(char * /*str*/, netadr_t * /*adr*/) { return 0; }
+
+unsigned int Scr_GetNumParam() { return 0; }
+void Scr_GetVector(unsigned int /*paramIndex*/, float *v)
+{
+    if (v) v[0] = v[1] = v[2] = 0;
+}
+void Scr_Notify(gentity_s * /*ent*/, unsigned short /*name*/, unsigned int /*paramCount*/) {}
+void Scr_ObjectError(const char * /*msg*/) {}
+void Scr_ParamError(unsigned int /*paramIndex*/, const char * /*msg*/) {}
+
+client_t *SV_FindClientByAddress(netadr_t /*adr*/, int /*qport*/) { return nullptr; }
+void SV_PreGameUserVoice(client_t * /*cl*/, msg_t * /*msg*/) {}
+void SV_UserVoice(client_t * /*cl*/, msg_t * /*msg*/) {}
+void SVC_GameCompleteStatus(netadr_t /*from*/) {}
+
+const dvar_t *cl_profileTextHeight = nullptr;
+const dvar_t *rcon_password = nullptr;
+
 // Con_InitChannels now in client/con_channels.cpp.
 // Con_IsChannelVisible now in client/con_channels.cpp.
 // Con_WriteFilterConfigString now in client/con_channels.cpp.

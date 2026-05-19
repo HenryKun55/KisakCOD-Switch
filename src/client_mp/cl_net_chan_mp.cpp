@@ -79,7 +79,10 @@ void __cdecl CL_Netchan_AddOOBProfilePacket(int localClientNum, int iLength)
 
     if (net_profile->current.integer)
     {
-        if (clientConnections)
+        // clientConnections is a fixed-size array — its address is always
+        // truthy; the original check guarded against null storage in a
+        // dynamic-alloc world. Keep the body unconditionally.
+        if (true)
         {
             clc = CL_GetLocalClientConnection(localClientNum);
             NetProf_PrepProfiling(&clc->OOBProf);
@@ -95,8 +98,8 @@ void __cdecl CL_Netchan_PrintProfileStats(int localClientNum, int bPrintToConsol
     int iTotalBPSRecieved; // [esp+408h] [ebp-18h]
     int iTotalBPSSent; // [esp+40Ch] [ebp-14h]
     clientConnection_t *clc; // [esp+410h] [ebp-10h]
-    int iTotalBPS; // [esp+414h] [ebp-Ch]
-    int iYStep; // [esp+418h] [ebp-8h]
+    [[maybe_unused]] int iTotalBPS; // [esp+414h] [ebp-Ch]
+    [[maybe_unused]] int iYStep; // [esp+418h] [ebp-8h]
     netProfileInfo_t *pStream; // [esp+41Ch] [ebp-4h]
 
     iTotalBPSSent = 0;

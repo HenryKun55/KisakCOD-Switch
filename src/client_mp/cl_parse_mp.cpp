@@ -821,10 +821,12 @@ void __cdecl CL_DeltaEntity(
 
 void __cdecl CL_CopyOldEntity(clientActive_t *cl, clSnapshot_t *frame, entityState_s *old)
 {
+    // Same pattern as sv_snapshot_mp.cpp: hex-rays duplicated the ++
+    // expression inside sizeof. Use sizeof on the element type instead.
     memcpy(
         &cl->parseEntities[cl->parseEntitiesNum++ & 0x7FF],
         old,
-        sizeof(cl->parseEntities[cl->parseEntitiesNum++ & 0x7FF]));
+        sizeof(cl->parseEntities[0]));
     ++frame->numEntities;
 }
 
@@ -960,7 +962,8 @@ void __cdecl CL_InitDownloads(int localClientNum)
     {
         if (strlen(cl_updatefiles->current.string) > 4)
         {
-            I_strncpyz(autoupdateFilename, (char *)cl_updatefiles->current.integer, 64);
+            // KISAKHACK: DvarValue.integer holds 32-bit pointer upstream.
+            I_strncpyz(autoupdateFilename, (char *)(uintptr_t)cl_updatefiles->current.integer, 64);
             v1 = va("@%s/%s@%s/%s", dir, cl_updatefiles->current.string, dir, cl_updatefiles->current.string);
             I_strncpyz(cls.downloadList, v1, 1024);
             clientUIActives[localClientNum].connectionState = CA_CONNECTED;
@@ -1006,7 +1009,7 @@ void __cdecl CL_InitDownloads(int localClientNum)
 
 void __cdecl CL_ParseGamestate(netsrc_t localClientNum, msg_t *msg)
 {
-    int v4; // eax
+    [[maybe_unused]] int v4; // eax
     unsigned int v5; // [esp+0h] [ebp-164h]
     unsigned int v6; // [esp+10h] [ebp-154h]
     unsigned int v7; // [esp+20h] [ebp-144h]

@@ -590,12 +590,12 @@ void __cdecl CL_MouseMove(int localClientNum, usercmd_s *cmd)
     float v6; // [esp+28h] [ebp-BCh]
     float v7; // [esp+2Ch] [ebp-B8h]
     float v8; // [esp+40h] [ebp-A4h]
-    float v9; // [esp+48h] [ebp-9Ch]
+    [[maybe_unused]] float v9; // [esp+48h] [ebp-9Ch]
     float v10; // [esp+58h] [ebp-8Ch]
     float v11; // [esp+5Ch] [ebp-88h]
     float v12; // [esp+60h] [ebp-84h]
     float v13; // [esp+64h] [ebp-80h]
-    float v14; // [esp+6Ch] [ebp-78h]
+    [[maybe_unused]] float v14; // [esp+6Ch] [ebp-78h]
     float v15; // [esp+80h] [ebp-64h]
     clientActive_t *LocalClientGlobals; // [esp+84h] [ebp-60h]
     float rate; // [esp+88h] [ebp-5Ch]
@@ -788,8 +788,8 @@ void __cdecl CL_FinishMove(int localClientNum, usercmd_s *cmd)
 
 char __cdecl CG_HandleLocationSelectionInput(int localClientNum, usercmd_s *cmd)
 {
-    float v3; // [esp+4h] [ebp-54h]
-    float v4; // [esp+18h] [ebp-40h]
+    [[maybe_unused]] float v3; // [esp+4h] [ebp-54h]
+    [[maybe_unused]] float v4; // [esp+18h] [ebp-40h]
     float v5; // [esp+28h] [ebp-30h]
     float v6; // [esp+2Ch] [ebp-2Ch]
     float v7; // [esp+30h] [ebp-28h]

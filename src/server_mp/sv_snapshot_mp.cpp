@@ -1069,7 +1069,7 @@ void __cdecl SV_BuildClientSnapshot(client_t *client)
                         case ET_MISSILE:
                             v4->lerp.u.missile.launchTime += v19;
                             break;
-                        case ET_EVENTS + EV_CUSTOM_EXPLODE:
+                        case (int)ET_EVENTS + (int)EV_CUSTOM_EXPLODE:
                             v4->lerp.u.customExplode.startTime += v19;
                             break;
                         }
@@ -1107,10 +1107,16 @@ void __cdecl SV_BuildClientSnapshot(client_t *client)
                     for (i = 0; i < eNums.numSnapshotEntities; ++i)
                     {
                         v15 = SV_GentityNum(eNums.snapshotEntities[i]);
+                        // Hex-rays decompiled the sizeof() with the same
+                        // ++ expression as the lvalue, which would double-
+                        // increment. sizeof never evaluates its operand in
+                        // C++, but -Wunevaluated-expression flags the
+                        // side effect intent. Use sizeof on the element
+                        // type directly.
                         memcpy(
                             &svs.snapshotEntities[svs.nextSnapshotEntities++ % svs.numSnapshotEntities],
                             v15,
-                            sizeof(svs.snapshotEntities[svs.nextSnapshotEntities++ % svs.numSnapshotEntities]));
+                            sizeof(svs.snapshotEntities[0]));
                         if (svs.nextSnapshotEntities >= 2147483646)
                             Com_Error(ERR_FATAL, "svs.nextSnapshotEntities wrapped");
                         ++v5->num_entities;
@@ -2008,7 +2014,9 @@ void __cdecl SV_SendClientMessages()
         }
         else
         {
-            if (!svs.archivedSnapshotFrames)
+            // archivedSnapshotFrames is a fixed-size array — &arr is always
+            // non-null. Upstream's null-check is a dynamic-alloc relic.
+            if (false)
                 MyAssertHandler(".\\server_mp\\sv_snapshot_mp.cpp", 2415, 0, "%s", "svs.archivedSnapshotFrames");
             frame = &svs.archivedSnapshotFrames[svs.nextArchivedSnapshotFrames % 1200];
             frame->start = svs.nextArchivedSnapshotBuffer;
