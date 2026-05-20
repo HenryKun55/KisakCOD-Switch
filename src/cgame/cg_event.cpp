@@ -67,7 +67,7 @@ void __cdecl CG_PlayBoltedEffect(
 void __cdecl CG_EntityEvent(int32_t localClientNum, centity_s *cent, int32_t event)
 {
     const char *ConfigString; // eax
-    char *v4; // eax
+    [[maybe_unused]] char *v4; // eax
     float innerRadius_4; // [esp+4h] [ebp-150h]
     float innerRadius_4a; // [esp+4h] [ebp-150h]
     float innerRadius_4b; // [esp+4h] [ebp-150h]
@@ -112,11 +112,11 @@ void __cdecl CG_EntityEvent(int32_t localClientNum, centity_s *cent, int32_t eve
     float *position; // [esp+148h] [ebp-Ch]
     const playerState_s *ps; // [esp+14Ch] [ebp-8h]
     uint32_t weaponIdx; // [esp+150h] [ebp-4h]
-    int SoundAliasSeed;
-    const char *v85;
-    int v86;
-    int v88;
-    const char *v90;
+    [[maybe_unused]] int SoundAliasSeed;
+    [[maybe_unused]] const char *v85;
+    [[maybe_unused]] int v86;
+    [[maybe_unused]] int v88;
+    [[maybe_unused]] const char *v90;
 
     if (event)
     {
@@ -1307,14 +1307,14 @@ void __cdecl CG_PlayFx(int32_t localClientNum, centity_s *cent, const float *ang
 
 void __cdecl CG_PlayFxOnTag(int32_t localClientNum, centity_s *cent, int32_t eventParm)
 {
-    uint32_t ConfigstringConst; // eax
+    [[maybe_unused]] uint32_t ConfigstringConst; // eax
     uint16_t tagName; // [esp+0h] [ebp-1Ch] BYREF
     int32_t dobjHandle; // [esp+4h] [ebp-18h]
     const char *tagAndEffect; // [esp+8h] [ebp-14h]
     const FxEffectDef *fxDef; // [esp+Ch] [ebp-10h]
     const cgs_t *cgs; // [esp+10h] [ebp-Ch]
     int32_t fxId; // [esp+14h] [ebp-8h]
-    int32_t csIndex; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] int32_t csIndex; // [esp+18h] [ebp-4h]
 
     csIndex = eventParm + 1698;
     tagAndEffect = CL_GetConfigString(localClientNum, eventParm + 1698);

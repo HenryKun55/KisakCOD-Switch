@@ -1214,7 +1214,7 @@ struct rectDef_s_fwd;
 // StanceState already defined elsewhere — no forward decl needed.
 
 void CG_CloseScriptMenu(int /*localClientNum*/, bool /*all*/) {}
-void CG_EntityEvent(int /*localClientNum*/, centity_s * /*cent*/, int /*event*/) {}
+// CG_EntityEvent now in cgame/cg_event.cpp.
 double CG_FadeHudMenu(int /*localClientNum*/, const dvar_s * /*dvar*/, int /*startTime*/, int /*duration*/) { return 1.0; }
 void CG_HoldBreathInit(cg_s * /*cg*/) {}
 void CG_MenuShowNotify(int /*localClientNum*/, int /*menu*/) {}
@@ -1399,6 +1399,62 @@ const dvar_t *g_debugLocDamage = nullptr;
 const dvar_t *sv_clientSideBullets = nullptr;
 
 sharedUiInfo_t sharedUiInfo{};
+
+// cg_event cascade.
+struct FxEffectDef;
+struct snd_alias_list_t;
+
+int  BG_WeaponIsClipOnly(unsigned int /*weaponIndex*/) { return 0; }
+void ByteToDir(unsigned int /*b*/, float *dir)
+{ if (dir) { dir[0] = 1; dir[1] = 0; dir[2] = 0; } }
+void CG_BulletHitClientEvent(int /*localClientNum*/, int /*ent*/, float * /*start*/, float * /*end*/,
+                             unsigned int /*type*/, int /*hitLoc*/, int /*partGroup*/) {}
+void CG_BulletHitEvent(int /*localClientNum*/, int /*sourceEnt*/, unsigned int /*surfType*/,
+                       unsigned int /*hitEnt*/, float * /*start*/, float * /*end*/,
+                       const float * /*normal*/, unsigned int /*flags*/, int /*hitLoc*/,
+                       unsigned char /*priority*/, int /*partGroup*/, short /*recoilIndex*/) {}
+void CG_CalcEntityLerpPositions(int /*localClientNum*/, centity_s * /*cent*/) {}
+char CG_DrawScoreboard_GetTeamColorIndex(int /*team*/, int /*localClientNum*/) { return 0; }
+void CG_EjectWeaponBrass(int /*localClientNum*/, const entityState_s * /*es*/, int /*time*/) {}
+void CG_FireWeapon(int /*localClientNum*/, centity_s * /*cent*/, int /*mode*/, unsigned short /*weapon*/,
+                   unsigned int /*surfType*/, const playerState_s * /*ps*/) {}
+void CG_ImpactEffectForWeapon(unsigned int /*weapon*/, unsigned int /*surfType*/, char /*type*/,
+                              const FxEffectDef ** /*effect*/, snd_alias_list_t ** /*sound*/) {}
+void CG_MeleeBloodEvent(int /*localClientNum*/, const centity_s * /*cent*/) {}
+void CG_OutOfAmmoChange(int /*localClientNum*/) {}
+int  CG_PlayClientSoundAlias(int /*localClientNum*/, snd_alias_list_t * /*alias*/) { return 0; }
+int  CG_PlayEntitySoundAlias(int /*localClientNum*/, int /*ent*/, snd_alias_list_t * /*alias*/) { return 0; }
+int  CG_PlaySoundAlias(int /*localClientNum*/, int /*ent*/, const float * /*pos*/, snd_alias_list_t * /*alias*/) { return 0; }
+int  CG_PlaySoundAliasAsMasterByName(int /*localClientNum*/, int /*ent*/, const float * /*pos*/, const char * /*name*/) { return 0; }
+int  CG_PlaySoundAliasByName(int /*localClientNum*/, int /*ent*/, const float * /*pos*/, const char * /*name*/) { return 0; }
+void CG_PrepOffHand(int /*localClientNum*/, const entityState_s * /*es*/, unsigned int /*offHandIndex*/) {}
+void CG_PriorityCenterPrint(int /*localClientNum*/, const char * /*text*/, int /*priority*/) {}
+void CG_SelectWeaponIndex(int /*localClientNum*/, unsigned int /*weaponIndex*/) {}
+void CG_StopSoundAlias(int /*localClientNum*/, int /*ent*/, snd_alias_list_t * /*alias*/) {}
+void CG_StopSoundsOnEnt(int /*localClientNum*/, int /*ent*/) {}
+void CG_SwitchOffHandCmd(int /*localClientNum*/) {}
+void CG_UseOffHand(int /*localClientNum*/, const centity_s * /*cent*/, unsigned int /*offHandIndex*/) {}
+
+void CL_DeathMessagePrint(int /*localClientNum*/, char * /*killerName*/, char /*killerColor*/,
+                          char * /*victimName*/, char /*victimColor*/, Material * /*icon*/,
+                          float /*duration*/, float /*scale*/, bool /*friendlyFire*/) {}
+int  CL_GetClientName(int /*localClientNum*/, int /*clientNum*/, char *name, int /*nameSize*/)
+{ if (name) name[0] = 0; return 0; }
+
+void DynEntCl_ExplosionEvent(int /*localClientNum*/, bool /*ent*/, float * /*org*/, float /*r*/, float /*rs*/,
+                             float * /*norm*/, float /*duration*/, int /*type*/, int /*flags*/) {}
+void DynEntCl_JitterEvent(int /*localClientNum*/, float * /*pos*/, float /*radius*/, float /*amp*/, float /*duration*/, float /*frequency*/) {}
+void DynEntCl_MeleeEvent(int /*localClientNum*/, int /*entityNum*/) {}
+
+void FX_PlayBoltedEffect(int /*localClientNum*/, const FxEffectDef * /*effect*/, int /*time*/, unsigned int /*entityNum*/, unsigned int /*boneIndex*/) {}
+void FX_PlayOrientedEffect(int /*localClientNum*/, const FxEffectDef * /*effect*/, int /*time*/, const float * /*origin*/, const float (* /*axis*/)[3]) {}
+
+void Scr_SetString(unsigned short * /*ptr*/, unsigned int /*stringValue*/) {}
+
+const dvar_t *bg_fallDamageMaxHeight = nullptr;
+const dvar_t *bg_fallDamageMinHeight = nullptr;
+const dvar_t *cg_debugEvents = nullptr;
+const dvar_t *cg_footsteps = nullptr;
 
 // cgMedia + cgsArray: typed via cg_local_mp.h (already in include chain).
 cgMedia_t cgMedia{};
