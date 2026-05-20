@@ -50,7 +50,7 @@ void __cdecl CG_DrawSnapshotAnalysis(int32_t localClientNum)
 {
     int32_t v1; // eax
     float v2; // [esp+Ch] [ebp-D8h]
-    double v3; // [esp+2Ch] [ebp-B8h]
+    [[maybe_unused]] double v3; // [esp+2Ch] [ebp-B8h]
     float v4; // [esp+34h] [ebp-B0h]
     float v5; // [esp+38h] [ebp-ACh]
     float v6; // [esp+40h] [ebp-A4h]
@@ -79,7 +79,7 @@ void __cdecl CG_DrawSnapshotAnalysis(int32_t localClientNum)
     float x; // [esp+CCh] [ebp-18h]
     float y; // [esp+D0h] [ebp-14h]
     const float (*color)[4]; // [esp+D4h] [ebp-10h]
-    int32_t fieldCount; // [esp+D8h] [ebp-Ch]
+    [[maybe_unused]] int32_t fieldCount; // [esp+D8h] [ebp-Ch]
     int32_t v; // [esp+DCh] [ebp-8h]
     int32_t eType; // [esp+E0h] [ebp-4h]
 
@@ -359,7 +359,7 @@ int32_t __cdecl CG_ComparePacketAnalysisSamples(int32_t *a, int32_t *b)
 
 void __cdecl CG_DrawSnapshotEntityAnalysis(int32_t localClientNum)
 {
-    const dvar_s *v2; // kr00_4
+    [[maybe_unused]] const dvar_s *v2; // kr00_4
     const char *v3; // eax
     char *v4; // eax
     const char *v5; // eax

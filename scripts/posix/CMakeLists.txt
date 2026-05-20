@@ -157,8 +157,13 @@ set(CGAME_PORTABLE_SOURCES
     "${SRC_DIR}/cgame/cg_colltree.cpp"
     "${SRC_DIR}/cgame_mp/cg_animtree_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_consolecmds_mp.cpp"
+    "${SRC_DIR}/cgame_mp/cg_draw_net_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_gamepad.cpp"
     "${SRC_DIR}/cgame_mp/dedicated_cgame.cpp"
+    # cg_predict_mp, cg_snapshot_mp, cg_view_mp, cg_players_mp compile
+    # clean but each drags 30-60 stubs (cg/cl/UI/SV/FX dependencies).
+    # Land later with bgame_mp / bg_pmove batch.
+    #
     # cg_ammocounter, cg_effects_load_obj, cg_laser, cg_shellshock —
     # compile clean but each drags a wide swath of dvar globals and
     # BG_* helpers (Ammo/Clip/Shellshock/Hud). Land with bgame batch.

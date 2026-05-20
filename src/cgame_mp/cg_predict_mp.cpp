@@ -136,7 +136,7 @@ void __cdecl CG_PredictPlayerState_Internal(int32_t localClientNum)
     float oldViewangles[3]; // [esp+134h] [ebp-64h]
     float deltaAngles[3]; // [esp+140h] [ebp-58h] BYREF
     int32_t cmdNum; // [esp+14Ch] [ebp-4Ch]
-    const playerState_s* oldPlayerState; // [esp+150h] [ebp-48h]
+    [[maybe_unused]] const playerState_s* oldPlayerState; // [esp+150h] [ebp-48h]
     float oldOrigin[3]; // [esp+154h] [ebp-44h] BYREF
     usercmd_s oldestCmd; // [esp+160h] [ebp-38h] BYREF
     int32_t oldCommandTime; // [esp+184h] [ebp-14h]
@@ -290,7 +290,7 @@ void __cdecl CG_PredictPlayerState_Internal(int32_t localClientNum)
             if (cg_pmove[localClientNum].viewChange == 0.0
                 || cg_pmove[localClientNum].viewChangeTime == cgameGlob->stepViewStart
                 || cgameGlob->playerTeleported
-                || ps->pm_type && ps->pm_type != PM_NOCLIP && ps->pm_type != PM_UFO)
+                || (ps->pm_type && ps->pm_type != PM_NOCLIP && ps->pm_type != PM_UFO))
             {
                 if (cg_viewZSmoothingTime->current.value * 1000.0 < (double)(cgameGlob->time - cgameGlob->stepViewStart))
                     cgameGlob->stepViewChange = 0.0;

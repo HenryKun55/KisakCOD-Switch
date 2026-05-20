@@ -1173,6 +1173,48 @@ const dvar_t *phys_jitterMaxMass = nullptr;
 const dvar_t *phys_noIslands = nullptr;
 PhysGlob physGlob{};
 
+// =========================================================================
+// cgame_mp small batch — cg_draw_net_mp cascade.
+// =========================================================================
+
+struct usercmd_s;
+
+int  CG_DrawBigDevString(const ScreenPlacement * /*place*/, float /*x*/, float /*y*/, char * /*text*/, float /*scale*/, char /*style*/) { return 0; }
+void CL_DrawStretchPic(const ScreenPlacement * /*place*/, float /*x*/, float /*y*/, float /*w*/, float /*h*/,
+                       int /*hAlign*/, int /*vAlign*/, float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/,
+                       const float * /*color*/, Material * /*material*/) {}
+int  CL_GetCurrentCmdNumber(int /*localClientNum*/) { return 0; }
+int  CL_GetUserCmd(int /*localClientNum*/, int /*cmdNumber*/, usercmd_s * /*cmd*/) { return 0; }
+void SV_ClearPacketAnalysis() {}
+int  SV_GetClientSnapshotPing(int /*clientNum*/, char /*ignoreSnapshotMs*/) { return 0; }
+bool SV_NewPacketAnalysisReady() { return false; }
+
+void UI_DrawHandlePic(const ScreenPlacement * /*place*/, float /*x*/, float /*y*/, float /*w*/, float /*h*/,
+                      int /*hAlign*/, int /*vAlign*/, const float * /*color*/, Material * /*material*/) {}
+int   UI_TextHeight(Font_s * /*font*/, float /*scale*/) { return 0; }
+int   UI_TextWidth(const char * /*text*/, int /*max*/, Font_s * /*font*/, float /*scale*/) { return 0; }
+
+const dvar_t *cg_drawLagometer = nullptr;
+const dvar_t *cg_nopredict = nullptr;
+const dvar_t *cg_packetAnalysisClient = nullptr;
+const dvar_t *cg_packetAnalysisEntTextScale = nullptr;
+const dvar_t *cg_packetAnalysisEntTextY = nullptr;
+const dvar_t *cg_packetAnalysisTextScale = nullptr;
+const dvar_t *cg_packetAnalysisTextY = nullptr;
+const dvar_t *cg_synchronousClients = nullptr;
+const dvar_t *net_showprofile = nullptr;
+
+// g_bitsSent / g_currentSnapshot* — typed via server_mp.h that's already
+// pulled in by stub deps.
+int g_bitsSent[64][13]{};
+int g_currentSnapshotPerEntity[64][1024]{};
+unsigned char g_currentSnapshotFieldsPerEntity[64][1024]{};
+unsigned char g_currentSnapshotPlayerStateFields[64]{};
+
+// cgMedia + cgsArray: typed via cg_local_mp.h (already in include chain).
+cgMedia_t cgMedia{};
+cgs_t cgsArray[1]{};
+
 // Con_InitChannels now in client/con_channels.cpp.
 // Con_IsChannelVisible now in client/con_channels.cpp.
 // Con_WriteFilterConfigString now in client/con_channels.cpp.

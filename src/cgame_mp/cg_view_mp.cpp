@@ -954,7 +954,7 @@ void __cdecl CG_CalcTurretViewValues(int32_t localClientNum)
     
     if ((cgameGlob->predictedPlayerState.eFlags & 0x300) != 0)
     {
-        const playerState_s *ps = &cgameGlob->predictedPlayerState;
+        [[maybe_unused]] const playerState_s *ps = &cgameGlob->predictedPlayerState;
 
         iassert(ps->viewlocked);
         iassert(ps->viewlocked_entNum != ENTITYNUM_NONE);
@@ -1060,7 +1060,7 @@ void __cdecl CalcViewValuesVehicleDriver(int32_t localClientNum)
     clientActive_t *LocalClientGlobals; // [esp+34h] [ebp-28h]
     float tmpVect[3]; // [esp+3Ch] [ebp-20h] BYREF
     float pitch; // [esp+48h] [ebp-14h]
-    playerState_s *ps; // [esp+4Ch] [ebp-10h]
+    [[maybe_unused]] playerState_s *ps; // [esp+4Ch] [ebp-10h]
     float focusPoint[3]; // [esp+50h] [ebp-Ch] BYREF
     cg_s *cgameGlob;
 
@@ -1293,8 +1293,8 @@ int32_t __cdecl CG_DrawActiveFrame(
     DObj_s* obj; // [esp+54h] [ebp-20h]
     FxCmd fxUpdateCmd; // [esp+5Ch] [ebp-18h] BYREF
     int32_t viewlocked_entNum; // [esp+68h] [ebp-Ch]
-    const cgs_t* cgs; // [esp+6Ch] [ebp-8h]
-    int32_t prevState; // [esp+70h] [ebp-4h]
+    [[maybe_unused]] const cgs_t* cgs; // [esp+6Ch] [ebp-8h]
+    [[maybe_unused]] int32_t prevState; // [esp+70h] [ebp-4h]
     cg_s *cgameGlob;
 
     prevState = 0;

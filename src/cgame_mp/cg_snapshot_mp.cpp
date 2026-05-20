@@ -33,13 +33,14 @@ void __cdecl CG_ShutdownEntity(int localClientNum, centity_s *cent)
         cent->currentState.pos.trType = TR_STATIONARY;
         cent->currentState.apos.trType = TR_STATIONARY;
     }
-    if (cent->pose.physObjId && cent->pose.physObjId != -1 || cent->currentState.pos.trType == TR_PHYSICS)
+    if ((cent->pose.physObjId && cent->pose.physObjId != -1) || cent->currentState.pos.trType == TR_PHYSICS)
     {
         if (cent->pose.physObjId != -1 && cent->pose.physObjId)
         {
             if (CG_IsEntityLinked(localClientNum, cent->nextState.number))
                 CG_UnlinkEntity(localClientNum, cent->nextState.number);
-            Phys_ObjDestroy(PHYS_WORLD_FX, (dxBody *)cent->pose.physObjId);
+            // KISAKHACK: physObjId is 32-bit holding a pointer in upstream.
+            Phys_ObjDestroy(PHYS_WORLD_FX, (dxBody *)(uintptr_t)cent->pose.physObjId);
         }
         cent->currentState.pos.trType = TR_STATIONARY;
         cent->currentState.apos.trType = TR_STATIONARY;
@@ -93,8 +94,8 @@ void __cdecl CG_ExtractTransPlayerState(const playerState_s *ps, transPlayerStat
 
 void __cdecl CG_SetNextSnap(int localClientNum, snapshot_s *snap)
 {
-    char *v2; // eax
-    const char *v3; // eax
+    [[maybe_unused]] char *v2; // eax
+    [[maybe_unused]] const char *v3; // eax
     const char *v4; // eax
     XModel *v5; // eax
     int v6; // eax
@@ -383,7 +384,7 @@ void __cdecl CG_ResetEntity(int localClientNum, centity_s *cent, int newEntity)
     clientInfo_t *ci; // [esp+30h] [ebp-Ch]
     int i; // [esp+34h] [ebp-8h]
     clientInfo_t *corpseInfo; // [esp+38h] [ebp-4h]
-    int savedregs; // [esp+3Ch] [ebp+0h] BYREF
+    [[maybe_unused]] int savedregs; // [esp+3Ch] [ebp+0h] BYREF
     cg_s *cgameGlob;
     cgs_t *cgs;
 
