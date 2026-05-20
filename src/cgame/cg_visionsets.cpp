@@ -242,6 +242,11 @@ double __cdecl LerpFloat(float from, float to, float fraction, visionSetLerpStyl
     case VISIONSETLERP_BACKFORTH_SMOOTH:
         fraction = sin(fraction * 3.141592741012573 * 0.5);
         break;
+    case VISIONSETLERP_UNDEFINED:
+    case VISIONSETLERP_NONE:
+    case VISIONSETLERP_BACKFORTH_LINEAR:
+        // Fall through to the iassert / BACKFORTH math below.
+        break;
     }
 
     iassert((style == VISIONSETLERP_BACKFORTH_SMOOTH) || (style == VISIONSETLERP_BACKFORTH_LINEAR));

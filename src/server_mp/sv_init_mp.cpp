@@ -54,7 +54,7 @@ void __cdecl SV_SetConfigstring(int index, const char *val)
     int len; // [esp+44Ch] [ebp-18h]
     int overhead; // [esp+450h] [ebp-14h]
     int sent; // [esp+454h] [ebp-10h]
-    int caseSensitive; // [esp+458h] [ebp-Ch]
+    [[maybe_unused]] int caseSensitive; // [esp+458h] [ebp-Ch]
     int i; // [esp+45Ch] [ebp-8h]
     char cmd; // [esp+463h] [ebp-1h]
 
@@ -349,7 +349,7 @@ void __cdecl SV_SetExpectedHunkUsage(char *mapname)
     const char *token; // [esp+10h] [ebp-8h]
     const char *buftrav; // [esp+14h] [ebp-4h] BYREF
 
-    handle[1] = (int)"hunkusage.dat"; // KISAKTODO: handle fubar?
+    handle[1] = (int)(uintptr_t)"hunkusage.dat"; // KISAKTODO: handle fubar?
     len = FS_FOpenFileByMode((char*)"hunkusage.dat", handle, FS_READ);
     if (len >= 0)
     {
@@ -385,8 +385,8 @@ void __cdecl SV_SetExpectedHunkUsage(char *mapname)
 
 void __cdecl SV_SpawnServer(char *mapname)
 {
-    char* v1; // eax
-    int v5; // eax
+    [[maybe_unused]] char* v1; // eax
+    [[maybe_unused]] int v5; // eax
     const char *denied; // [esp+18h] [ebp-B0h]
     client_t *client; // [esp+1Ch] [ebp-ACh]
     client_t *clienta; // [esp+1Ch] [ebp-ACh]
@@ -490,7 +490,7 @@ void __cdecl SV_SpawnServer(char *mapname)
     }
 
 
-    I_strncpyz(sv.gametype, (char *)sv_gametype->current.integer, 64);
+    I_strncpyz(sv.gametype, (char *)(uintptr_t)sv_gametype->current.integer, 64);
 
     srand(Sys_MillisecondsRaw());
     sv.checksumFeed = Sys_Milliseconds() ^ (rand() ^ (rand() << 16));

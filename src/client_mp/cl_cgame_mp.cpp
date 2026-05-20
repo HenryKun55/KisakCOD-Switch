@@ -287,7 +287,7 @@ int32_t __cdecl CL_CGameNeedsServerCommand(int32_t localClientNum, int32_t serve
             CL_ConfigstringModified(localClientNum);
             return 1;
         case 'w':
-            if (argc >= 3 && (v3 = Cmd_Argv(2), !_stricmp(v3, "PB")))
+            if (argc >= 3 && (v3 = Cmd_Argv(2), !I_stricmp(v3, "PB")))
             {
                 v9 = Cmd_Argv(1);
                 v4 = SEH_SafeTranslateString((char*)"EXE_SERVERDISCONNECTREASON");
@@ -686,7 +686,7 @@ void __cdecl CL_SetExpectedHunkUsage(const char *mapname)
     const char *token; // [esp+10h] [ebp-8h]
     const char *buftrav; // [esp+14h] [ebp-4h] BYREF
 
-    handle[1] = (int)"hunkusage.dat";
+    handle[1] = (int)(uintptr_t)"hunkusage.dat";
     len = FS_FOpenFileByMode((char*)"hunkusage.dat", handle, FS_READ);
     if (len >= 0)
     {
@@ -835,7 +835,7 @@ void __cdecl CL_FirstSnapshot(int32_t localClientNum)
         LocalClientGlobals->serverTime = LocalClientGlobals->snap.serverTime;
         clc->timeDemoBaseTime = LocalClientGlobals->snap.serverTime;
         Con_TimeJumped(localClientNum, LocalClientGlobals->serverTime);
-        if (*(_BYTE *)cl_activeAction->current.integer)
+        if (*(_BYTE *)(uintptr_t)cl_activeAction->current.integer)
         {
             Cbuf_AddText(localClientNum, cl_activeAction->current.string);
             Cbuf_AddText(localClientNum, "\n");
@@ -909,7 +909,7 @@ void __cdecl CL_NextDemo(int32_t localClientNum)
 {
     char v[1028]; // [esp+0h] [ebp-408h] BYREF
 
-    I_strncpyz(v, (char *)nextdemo->current.integer, 1024);
+    I_strncpyz(v, (char *)(uintptr_t)nextdemo->current.integer, 1024);
     Com_DPrintf(14, "CL_NextDemo: %s\n", v);
     if (v[0])
     {

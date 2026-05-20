@@ -734,7 +734,6 @@ char *Z_MallocGarbage(int size, const char * /*name*/, int /*type*/)
 // TRACK_* mem-tracking thunks. Each TRACK_<subsystem>() declares its
 // statically-allocated buffers to the mem_track system; with mem-tracking
 // off (or stubbed) these are all no-ops.
-void TRACK_cl_cgame() {}
 void TRACK_cl_console() {}
 void TRACK_cl_input() {}
 void TRACK_cl_keys() {}
@@ -1003,8 +1002,6 @@ int  CG_IsScoreboardDisplayed(int /*localClientNum*/) { return 0; }
 void CG_NextWeapon_f() {}
 void CG_PrevWeapon_f() {}
 void CG_RestartSmokeGrenades(int /*localClientNum*/) {}
-void CG_VisionSetUpdateTweaksFromFile_Film() {}
-void CG_VisionSetUpdateTweaksFromFile_Glow() {}
 
 void CL_AddReliableCommand(int /*localClientNum*/, const char * /*cmd*/) {}
 
@@ -1080,7 +1077,6 @@ void AxisToAngles(const float (& /*axis*/)[3][3], float *angles)
     angles[0] = angles[1] = angles[2] = 0;
 }
 
-void CL_DrawString(int /*localClientNum*/, int /*x*/, char * /*text*/, int /*maxChars*/, int /*y*/) {}
 
 void G_DObjUpdate(gentity_s * /*ent*/) {}
 void G_FreeEntity(gentity_s * /*ent*/) {}
@@ -1180,11 +1176,6 @@ PhysGlob physGlob{};
 struct usercmd_s;
 
 // CG_DrawBigDevString now in cgame/cg_drawtools.cpp.
-void CL_DrawStretchPic(const ScreenPlacement * /*place*/, float /*x*/, float /*y*/, float /*w*/, float /*h*/,
-                       int /*hAlign*/, int /*vAlign*/, float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/,
-                       const float * /*color*/, Material * /*material*/) {}
-int  CL_GetCurrentCmdNumber(int /*localClientNum*/) { return 0; }
-int  CL_GetUserCmd(int /*localClientNum*/, int /*cmdNumber*/, usercmd_s * /*cmd*/) { return 0; }
 void SV_ClearPacketAnalysis() {}
 int  SV_GetClientSnapshotPing(int /*clientNum*/, char /*ignoreSnapshotMs*/) { return 0; }
 bool SV_NewPacketAnalysisReady() { return false; }
@@ -1223,8 +1214,6 @@ struct rectDef_s_fwd;
 // StanceState already defined elsewhere — no forward decl needed.
 
 void CG_CloseScriptMenu(int /*localClientNum*/, bool /*all*/) {}
-void CG_CompassDrawRadarEffects(int /*localClientNum*/, CompassType /*type*/,
-                                const rectDef_s * /*r1*/, const rectDef_s * /*r2*/, float * /*color*/) {}
 void CG_EntityEvent(int /*localClientNum*/, centity_s * /*cent*/, int /*event*/) {}
 double CG_FadeHudMenu(int /*localClientNum*/, const dvar_s * /*dvar*/, int /*startTime*/, int /*duration*/) { return 1.0; }
 void CG_HoldBreathInit(cg_s * /*cg*/) {}
@@ -1233,10 +1222,6 @@ Material *CG_ObjectiveIcon(int /*localClientNum*/, int /*icon*/, int /*type*/) {
 void CG_ResetLowHealthOverlay(cg_s * /*cg*/) {}
 void CG_SetEquippedOffHand(int /*localClientNum*/, unsigned int /*weapon*/) {}
 
-void CL_DrawStretchPicRotatedST(const ScreenPlacement * /*place*/, float /*x*/, float /*y*/,
-                                float /*w*/, float /*h*/, int /*hAlign*/, int /*vAlign*/,
-                                float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/,
-                                float /*rotation*/, float /*hOff*/, const float * /*color*/, Material * /*material*/) {}
 void CL_DrawText(const ScreenPlacement * /*place*/, const char * /*text*/, int /*maxChars*/,
                  Font_s * /*font*/, float /*x*/, float /*y*/, int /*hAlign*/, int /*vAlign*/,
                  float /*xScale*/, float /*yScale*/, const float * /*color*/, int /*style*/) {}
@@ -1244,10 +1229,8 @@ void CL_DrawTextRotate(const ScreenPlacement * /*place*/, const char * /*text*/,
                        Font_s * /*font*/, float /*x*/, float /*y*/, float /*rotation*/,
                        int /*hAlign*/, int /*vAlign*/, float /*xScale*/, float /*yScale*/,
                        const float * /*color*/, int /*style*/) {}
-const char *CL_GetConfigString(int /*localClientNum*/, unsigned int /*index*/) { return ""; }
 bool CL_IsServerLoadingMap() { return false; }
 bool CL_IsWaitingOnServerToLoadMap(int /*localClientNum*/) { return false; }
-void CL_SetADS(int /*localClientNum*/, bool /*ads*/) {}
 void CL_SetStance(int /*localClientNum*/, StanceState /*stance*/) {}
 void CL_SetWaitingOnServerToLoadMap(int /*localClientNum*/, bool /*waiting*/) {}
 
@@ -1291,6 +1274,84 @@ const dvar_t *cg_hudDamageIconTime = nullptr;
 const dvar_t *hud_fade_compass = nullptr;
 const dvar_t *uiscript_debug = nullptr;
 BOOL g_waitingForServer = 0;
+
+// =========================================================================
+// cl_cgame_mp + cg_compassfriendlies_mp + cg_visionsets cascade.
+// =========================================================================
+
+struct MemoryFile;
+
+unsigned int BG_GetViewmodelWeaponIndex(const playerState_s * /*ps*/) { return 0; }
+WeaponDef *BG_GetWeaponDef(unsigned int /*weaponIndex*/) { return nullptr; }
+
+void CG_ArchiveState(int /*localClientNum*/, MemoryFile * /*memFile*/) {}
+void CG_Init(int /*localClientNum*/, int /*serverMessageNum*/, int /*serverCommandSequence*/, int /*serverTime*/) {}
+void CG_RegisterSounds() {}
+void CG_Shutdown(int /*localClientNum*/) {}
+
+char CL_AnyLocalClientsRunning() { return 0; }
+void CL_DisconnectError(char * /*msg*/) {}
+void CL_ParseServerMessage(netsrc_t /*sock*/, msg_t * /*msg*/) {}
+void CL_SystemInfoChanged(int /*localClientNum*/) {}
+bool CL_WasMapAlreadyLoaded() { return false; }
+
+void CM_LinkWorld() {}
+unsigned char ColorIndex(unsigned char /*c*/) { return 7; }
+snd_alias_t *Com_PickSoundAlias(const char * /*name*/) { return nullptr; }
+void Com_TouchMemory() {}
+
+void Con_ClearNotify(int /*localClientNum*/) {}
+void Con_Close(int /*localClientNum*/) {}
+void Con_InitMessageBuffer() {}
+void Con_TimeJumped(int /*localClientNum*/, int /*time*/) {}
+void Con_TimeNudged(int /*localClientNum*/, int /*delta*/) {}
+
+void DB_EnumXAssets(XAssetType /*type*/, void (*)(XAssetHeader, void*) /*cb*/, void * /*ctx*/, bool /*loaded*/) {}
+void DevGui_AddCommand(const char * /*name*/, char * /*menu*/) {}
+void FX_Archive(int /*localClientNum*/, MemoryFile * /*memFile*/) {}
+
+const char *Info_ValueForKey(const char * /*s*/, const char * /*key*/) { return ""; }
+
+// LargeLocal: real definition in universal/com_memory.h; provide impls.
+// Upstream is a per-frame scratch area; use plain malloc/free.
+LargeLocal::LargeLocal(int sizeParam)
+{
+    size = sizeParam;
+    // KISAKHACK: startPos holds a 64-bit malloc'd pointer in a 32-bit
+    // slot. Caller-side OK because we just hand it back via GetBuf();
+    // documented under docs/RISKS.md.
+    startPos = (int)(uintptr_t)std::malloc(sizeParam);
+}
+LargeLocal::~LargeLocal() { std::free((void*)(uintptr_t)startPos); }
+unsigned char *LargeLocal::GetBuf() { return (unsigned char *)(uintptr_t)startPos; }
+
+void R_AddCmdDrawStretchPicFlipST(float /*x*/, float /*y*/, float /*w*/, float /*h*/,
+                                  float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/,
+                                  const float * /*color*/, Material * /*material*/) {}
+void R_AddCmdDrawStretchPicRotateST(float /*x*/, float /*y*/, float /*w*/, float /*h*/,
+                                    float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/,
+                                    float /*rotationS*/, float /*rotationT*/,
+                                    const float * /*color*/, Material * /*material*/) {}
+void R_ArchiveFogState(MemoryFile * /*memFile*/) {}
+void R_EndRegistration() {}
+void R_LoadWorld(char * /*name*/, int * /*checksum*/, int /*flag*/) {}
+void R_RenderScene(const refdef_s * /*refdef*/) {}
+void R_UpdateTeamColors(int /*localClientNum*/, const float * /*color1*/, const float * /*color2*/) {}
+
+char *SEH_SafeTranslateString(char *str) { return str ? str : (char*)""; }
+const char *SEH_StringEd_GetString(const char *str) { return str ? str : ""; }
+
+void UI_CloseAll(int /*localClientNum*/) {}
+char *UI_ReplaceConversionString(char *src, const char * /*replace*/) { return src; }
+
+const dvar_t *cl_activeAction = nullptr;
+const dvar_t *cl_freezeDemo = nullptr;
+BOOL cl_serverLoadingMap = 0;
+const dvar_t *cl_showServerCommands = nullptr;
+const dvar_t *cl_showTimeDelta = nullptr;
+const dvar_t *loc_warnings = nullptr;
+const dvar_t *loc_warningsAsErrors = nullptr;
+const dvar_t *nextdemo = nullptr;
 
 // cgMedia + cgsArray: typed via cg_local_mp.h (already in include chain).
 cgMedia_t cgMedia{};

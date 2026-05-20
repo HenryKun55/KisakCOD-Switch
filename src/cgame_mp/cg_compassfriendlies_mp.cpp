@@ -112,7 +112,7 @@ void __cdecl CG_CompassRadarPingEnemyPlayers(int32_t localClientNum, float oldRa
                 if (actor->enemy)
                 {
                     cent = CG_GetEntity(localClientNum, actorIndex);
-                    if (!cent->nextValid || cent->nextState.eType == ET_PLAYER && (cent->nextState.lerp.eFlags & 0x20000) == 0)
+                    if (!cent->nextValid || (cent->nextState.eType == ET_PLAYER && (cent->nextState.lerp.eFlags & 0x20000) == 0))
                     {
                         if (DoLinesSurroundPoint(cgameGlob, radarLine1, radarLine2, actor->lastPos))
                             RadarPingEnemyPlayer(actor, cgameGlob->time);
@@ -458,7 +458,7 @@ void __cdecl CG_CompassDrawFriendlies(
     BOOL icon; // [esp+68h] [ebp-A4h]
     float yawVector[2]; // [esp+6Ch] [ebp-A0h] BYREF
     bool clipped; // [esp+77h] [ebp-95h]
-    clientInfo_t *localClientInfo; // [esp+78h] [ebp-94h]
+    [[maybe_unused]] clientInfo_t *localClientInfo; // [esp+78h] [ebp-94h]
     float xy[2]; // [esp+7Ch] [ebp-90h] BYREF
     float baseColorModdedByComapassFadeOut[4]; // [esp+84h] [ebp-88h] BYREF
     int32_t team; // [esp+94h] [ebp-78h]
@@ -715,7 +715,7 @@ void __cdecl CG_CompassDrawEnemies(
     float radarTimeAmount; // [esp+38h] [ebp-74h]
     float yawVector[2]; // [esp+3Ch] [ebp-70h] BYREF
     bool clipped; // [esp+47h] [ebp-65h]
-    clientInfo_t *localClientInfo; // [esp+48h] [ebp-64h]
+    [[maybe_unused]] clientInfo_t *localClientInfo; // [esp+48h] [ebp-64h]
     float xy[2]; // [esp+4Ch] [ebp-60h] BYREF
     int32_t team; // [esp+54h] [ebp-58h]
     const ScreenPlacement *scrPlace; // [esp+58h] [ebp-54h]

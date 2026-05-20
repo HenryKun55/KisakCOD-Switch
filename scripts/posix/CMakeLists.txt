@@ -147,8 +147,8 @@ set(SERVER_PORTABLE_SOURCES
     "${SRC_DIR}/server_mp/sv_main_pc_mp.cpp"
     "${SRC_DIR}/server_mp/sv_net_chan_mp.cpp"
     "${SRC_DIR}/server_mp/ucmds.cpp"
-    # sv_snapshot_mp compiles clean but drags MSG_WriteEntity/Delta*/
-    # SV_*Track* stub family. Land with bigger server batch.
+    # sv_init_mp + sv_snapshot_mp compile clean but each drags 60+
+    # sv_*/SV_*Track* dvars/stubs. Land with bigger server batch.
 )
 
 set(SOUND_PORTABLE_SOURCES
@@ -163,7 +163,9 @@ set(CGAME_PORTABLE_SOURCES
     "${SRC_DIR}/cgame/cg_info.cpp"
     "${SRC_DIR}/cgame/cg_playerstate.cpp"
     "${SRC_DIR}/cgame/cg_pose_utils.cpp"
+    "${SRC_DIR}/cgame/cg_visionsets.cpp"
     "${SRC_DIR}/cgame_mp/cg_animtree_mp.cpp"
+    "${SRC_DIR}/cgame_mp/cg_compassfriendlies_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_consolecmds_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_draw_net_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_gamepad.cpp"
@@ -181,6 +183,7 @@ set(CLIENT_PORTABLE_SOURCES
     "${SRC_DIR}/client/cl_debugdata.cpp"
     "${SRC_DIR}/client/con_channels.cpp"
     "${SRC_DIR}/client/screen_placement.cpp"
+    "${SRC_DIR}/client_mp/cl_cgame_mp.cpp"
     "${SRC_DIR}/client_mp/cl_net_chan_mp.cpp"
     "${SRC_DIR}/client_mp/cl_pose_mp.cpp"
     "${SRC_DIR}/client_mp/cl_rank.cpp"
