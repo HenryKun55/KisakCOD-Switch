@@ -785,7 +785,7 @@ void TRACK_stringed_hooks() {}
 void TRACK_sv_main() {}
 void TRACK_ui_main() {}
 void TRACK_ui_shared() {}
-void TRACK_ui_utils() {}
+// TRACK_ui_utils now in ui/ui_utils.cpp.
 void TRACK_win_net() {}
 void TRACK_xmodel() {}
 
@@ -1131,8 +1131,8 @@ dxJoint *dJointCreateContact(dWorldID /*w*/, dJointGroupID /*group*/, const dSur
 void dNormalize3(dVector3 /*v*/) {}
 } // extern "C"
 
-void CG_DebugBox(const float * /*center*/, const float * /*halfSize*/, const float * /*axis*/, float /*duration*/, const float * /*color*/, int /*depthTest*/, int /*flag*/) {}
-void CG_DebugLine(const float * /*start*/, const float * /*end*/, const float * /*color*/, int /*depthTest*/, int /*duration*/) {}
+// CG_DebugBox now in cgame/cg_drawtools.cpp.
+// CG_DebugLine now in cgame/cg_drawtools.cpp.
 
 void ClosestApproachOfTwoLines(const float * /*p1*/, const float * /*d1*/, const float * /*p2*/, const float * /*d2*/, float *t1, float *t2)
 { if (t1) *t1 = 0; if (t2) *t2 = 0; }
@@ -1179,7 +1179,7 @@ PhysGlob physGlob{};
 
 struct usercmd_s;
 
-int  CG_DrawBigDevString(const ScreenPlacement * /*place*/, float /*x*/, float /*y*/, char * /*text*/, float /*scale*/, char /*style*/) { return 0; }
+// CG_DrawBigDevString now in cgame/cg_drawtools.cpp.
 void CL_DrawStretchPic(const ScreenPlacement * /*place*/, float /*x*/, float /*y*/, float /*w*/, float /*h*/,
                        int /*hAlign*/, int /*vAlign*/, float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/,
                        const float * /*color*/, Material * /*material*/) {}
@@ -1210,6 +1210,87 @@ int g_bitsSent[64][13]{};
 int g_currentSnapshotPerEntity[64][1024]{};
 unsigned char g_currentSnapshotFieldsPerEntity[64][1024]{};
 unsigned char g_currentSnapshotPlayerStateFields[64]{};
+
+// =========================================================================
+// cgame batch (cg_camerashake/compass/info/drawtools/playerstate/pose_utils
+// + ui_localvars/ui_utils).
+// =========================================================================
+
+struct statement_s;
+struct itemDef_s;
+struct windowDef_t;
+struct rectDef_s_fwd;
+// StanceState already defined elsewhere — no forward decl needed.
+
+void CG_CloseScriptMenu(int /*localClientNum*/, bool /*all*/) {}
+void CG_CompassDrawRadarEffects(int /*localClientNum*/, CompassType /*type*/,
+                                const rectDef_s * /*r1*/, const rectDef_s * /*r2*/, float * /*color*/) {}
+void CG_EntityEvent(int /*localClientNum*/, centity_s * /*cent*/, int /*event*/) {}
+double CG_FadeHudMenu(int /*localClientNum*/, const dvar_s * /*dvar*/, int /*startTime*/, int /*duration*/) { return 1.0; }
+void CG_HoldBreathInit(cg_s * /*cg*/) {}
+void CG_MenuShowNotify(int /*localClientNum*/, int /*menu*/) {}
+Material *CG_ObjectiveIcon(int /*localClientNum*/, int /*icon*/, int /*type*/) { return nullptr; }
+void CG_ResetLowHealthOverlay(cg_s * /*cg*/) {}
+void CG_SetEquippedOffHand(int /*localClientNum*/, unsigned int /*weapon*/) {}
+
+void CL_DrawStretchPicRotatedST(const ScreenPlacement * /*place*/, float /*x*/, float /*y*/,
+                                float /*w*/, float /*h*/, int /*hAlign*/, int /*vAlign*/,
+                                float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/,
+                                float /*rotation*/, float /*hOff*/, const float * /*color*/, Material * /*material*/) {}
+void CL_DrawText(const ScreenPlacement * /*place*/, const char * /*text*/, int /*maxChars*/,
+                 Font_s * /*font*/, float /*x*/, float /*y*/, int /*hAlign*/, int /*vAlign*/,
+                 float /*xScale*/, float /*yScale*/, const float * /*color*/, int /*style*/) {}
+void CL_DrawTextRotate(const ScreenPlacement * /*place*/, const char * /*text*/, int /*maxChars*/,
+                       Font_s * /*font*/, float /*x*/, float /*y*/, float /*rotation*/,
+                       int /*hAlign*/, int /*vAlign*/, float /*xScale*/, float /*yScale*/,
+                       const float * /*color*/, int /*style*/) {}
+const char *CL_GetConfigString(int /*localClientNum*/, unsigned int /*index*/) { return ""; }
+bool CL_IsServerLoadingMap() { return false; }
+bool CL_IsWaitingOnServerToLoadMap(int /*localClientNum*/) { return false; }
+void CL_SetADS(int /*localClientNum*/, bool /*ads*/) {}
+void CL_SetStance(int /*localClientNum*/, StanceState /*stance*/) {}
+void CL_SetWaitingOnServerToLoadMap(int /*localClientNum*/, bool /*waiting*/) {}
+
+float DB_GetLoadedFraction() { return 1.0f; }
+
+bool IsExpressionTrue(int /*localClientNum*/, const statement_s * /*expr*/) { return false; }
+const rectDef_s *Item_GetTextRect(int /*localClientNum*/, const itemDef_s * /*item*/) { return nullptr; }
+
+float kisak_crandom() { return (std::rand() / float(RAND_MAX)) * 2.0f - 1.0f; }
+
+void SCR_UpdateLoadScreen() {}
+int  String_Parse(const char ** /*p*/, char * /*out*/, int /*outSize*/) { return 0; }
+void UI_CloseAllMenus(int /*localClientNum*/) {}
+void UI_DrawMapLevelshot(int /*localClientNum*/) {}
+void UI_DrawTextNoSnap(const ScreenPlacement * /*place*/, const char * /*text*/, int /*maxChars*/,
+                       Font_s * /*font*/, float /*x*/, float /*y*/, int /*hAlign*/, int /*vAlign*/,
+                       float /*scale*/, const float * /*color*/, int /*style*/) {}
+
+float Vec2NormalizeTo(const float *in, float *out)
+{
+    float l = std::sqrt(in[0] * in[0] + in[1] * in[1]);
+    if (l > 0) { out[0] = in[0] / l; out[1] = in[1] / l; }
+    else       { out[0] = 0; out[1] = 0; }
+    return l;
+}
+
+bool Window_IsVisible(int /*localClientNum*/, const windowDef_t * /*window*/) { return false; }
+
+void YawVectors2D(float yaw, float *forward, float *right)
+{
+    float rad = yaw * (3.14159265358979323846f / 180.0f);
+    float c = std::cos(rad), s = std::sin(rad);
+    if (forward) { forward[0] = c; forward[1] = s; }
+    if (right)   { right[0]   = s; right[1]   = -c; }
+}
+
+const dvar_t *bg_viewKickMax = nullptr;
+const dvar_t *bg_viewKickMin = nullptr;
+const dvar_t *bg_viewKickScale = nullptr;
+const dvar_t *cg_hudDamageIconTime = nullptr;
+const dvar_t *hud_fade_compass = nullptr;
+const dvar_t *uiscript_debug = nullptr;
+BOOL g_waitingForServer = 0;
 
 // cgMedia + cgsArray: typed via cg_local_mp.h (already in include chain).
 cgMedia_t cgMedia{};
@@ -1407,9 +1488,7 @@ struct dxJointBall;
 // CG_
 cpose_t *CG_GetPose(int /*localClientNum*/, unsigned int /*handle*/) { return nullptr; }
 void CG_DObjCalcBone(const cpose_t * /*pose*/, DObj_s * /*obj*/, int /*boneIndex*/) {}
-void CG_DrawStringExt(const ScreenPlacement * /*place*/, float /*x*/, float /*y*/,
-                      char * /*text*/, const float * /*color*/, int /*fontIndex*/,
-                      int /*maxChars*/, float /*scale*/) {}
+// CG_DrawStringExt now in cgame/cg_drawtools.cpp.
 
 // Com / DObj
 DObj_s *Com_GetClientDObj(unsigned int /*handle*/, int /*localClientNum*/) { return nullptr; }

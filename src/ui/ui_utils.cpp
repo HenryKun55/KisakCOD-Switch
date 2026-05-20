@@ -119,7 +119,7 @@ bool __cdecl Item_EnableShowViaDvar(const itemDef_s *item, int flag)
     {
         if (!String_Parse(&p, val, 1024))
             return (flag & item->dvarFlags) == 0;
-    } while (val[0] == 59 && !val[1] || I_stricmp(testValue, val));
+    } while ((val[0] == 59 && !val[1]) || I_stricmp(testValue, val));
     return (flag & item->dvarFlags) != 0;
 }
 

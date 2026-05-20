@@ -159,7 +159,7 @@ int32_t __cdecl CG_CheckPlayerstateEvents(int32_t localClientNum, playerState_s*
         eventSequence = v4 - 256;
     for (i = ps->eventSequence - 4; i < ps->eventSequence; ++i)
     {
-        if (i >= eventSequence || i > eventSequence - 4 && ps->events[i & 3] != ops->events[i & 3])
+        if (i >= eventSequence || (i > eventSequence - 4 && ps->events[i & 3] != ops->events[i & 3]))
         {
             event = ps->events[i & 3];
             cgameGlob->predictedPlayerEntity.nextState.eventParm = LOBYTE(ps->eventParms[i & 3]);

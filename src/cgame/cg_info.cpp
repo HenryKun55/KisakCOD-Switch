@@ -28,8 +28,8 @@ BOOL __cdecl CG_IsShowingProgress_LoadObj()
     return com_expectedHunkUsage > 0;
 }
 
-static bool drawInformationCalled = false;
-static int lastDraw = 0;
+[[maybe_unused]] static bool drawInformationCalled = false;
+[[maybe_unused]] static int lastDraw = 0;
 void __cdecl CG_DrawInformation(int32_t localClientNum)
 {
 #ifdef KISAK_MP

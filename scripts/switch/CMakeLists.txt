@@ -119,6 +119,11 @@ set(AIMASSIST_PORTABLE_SOURCES
     "${SRC_DIR}/aim_assist/aim_target_mp.cpp"
 )
 
+set(UI_PORTABLE_SOURCES
+    "${SRC_DIR}/ui/ui_localvars.cpp"
+    "${SRC_DIR}/ui/ui_utils.cpp"
+)
+
 set(PHYSICS_PORTABLE_SOURCES
     "${SRC_DIR}/physics/phys_coll_capsulebrush.cpp"
     "${SRC_DIR}/physics/phys_coll_cylinderbrush.cpp"
@@ -142,7 +147,13 @@ set(SOUND_PORTABLE_SOURCES
 )
 
 set(CGAME_PORTABLE_SOURCES
+    "${SRC_DIR}/cgame/cg_camerashake.cpp"
     "${SRC_DIR}/cgame/cg_colltree.cpp"
+    "${SRC_DIR}/cgame/cg_compass.cpp"
+    "${SRC_DIR}/cgame/cg_drawtools.cpp"
+    "${SRC_DIR}/cgame/cg_info.cpp"
+    "${SRC_DIR}/cgame/cg_playerstate.cpp"
+    "${SRC_DIR}/cgame/cg_pose_utils.cpp"
     "${SRC_DIR}/cgame_mp/cg_animtree_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_consolecmds_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_draw_net_mp.cpp"
@@ -200,6 +211,7 @@ add_executable(kisak_switch
     ${DATABASE_PORTABLE_SOURCES}
     ${DEVGUI_PORTABLE_SOURCES}
     ${AIMASSIST_PORTABLE_SOURCES}
+    ${UI_PORTABLE_SOURCES}
     ${SERVER_PORTABLE_SOURCES}
     ${SOUND_PORTABLE_SOURCES}
     ${CGAME_PORTABLE_SOURCES}

@@ -672,7 +672,7 @@ void __cdecl CG_CompassCalcDimensions(
 
 double __cdecl CG_FadeCompass(int32_t localClientNum, int32_t displayStartTime, CompassType compassType)
 {
-    float v4; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] float v4; // [esp+4h] [ebp-10h]
 
     if (compassType)
         return 1.0;
@@ -1573,8 +1573,10 @@ void __cdecl CG_CompassUpYawVector(const cg_s *cgameGlob, float *result)
     if (compassRotation->current.enabled)
         YawVectors2D(cgameGlob->refdefViewAngles[1], result, 0);
     else
+    {
         result[0] = cgameGlob->compassNorth[0];
         result[1] = cgameGlob->compassNorth[1];
+    }
 }
 
 void __cdecl CG_CompassDrawTickertape(
@@ -1611,7 +1613,7 @@ void __cdecl CG_CompassDrawTickertape(
     float tapeLeft; // [esp+8Ch] [ebp-50h]
     centity_s *cent; // [esp+90h] [ebp-4Ch]
     float tapeAngleStretch; // [esp+94h] [ebp-48h]
-    float nearestDistHeightDelta; // [esp+98h] [ebp-44h]
+    [[maybe_unused]] float nearestDistHeightDelta; // [esp+98h] [ebp-44h]
     float iconW; // [esp+9Ch] [ebp-40h] BYREF
     float iconH; // [esp+A0h] [ebp-3Ch] BYREF
     int32_t objIdx; // [esp+A4h] [ebp-38h]
@@ -1804,7 +1806,7 @@ void __cdecl DrawIconDistanceText(
     float textY; // [esp+6Ch] [ebp-20h]
     float textX; // [esp+70h] [ebp-1Ch]
     float textWidth; // [esp+74h] [ebp-18h]
-    float textHeight; // [esp+78h] [ebp-14h]
+    [[maybe_unused]] float textHeight; // [esp+78h] [ebp-14h]
     float colorMod[4]; // [esp+7Ch] [ebp-10h] BYREF
 
     if (!rect)
@@ -1884,7 +1886,7 @@ void __cdecl CG_CompassDrawPlayerPointers_MP(
     float LINE_WIDTH; // [esp+38h] [ebp-9Ch]
     Material *icon; // [esp+3Ch] [ebp-98h]
     float yawVector[2]; // [esp+40h] [ebp-94h] BYREF
-    bool clipped; // [esp+4Bh] [ebp-89h]
+    [[maybe_unused]] bool clipped; // [esp+4Bh] [ebp-89h]
     const objective_t *obj; // [esp+4Ch] [ebp-88h]
     float delta[3]; // [esp+50h] [ebp-84h] BYREF
     float xy[2]; // [esp+5Ch] [ebp-78h] BYREF

@@ -536,8 +536,8 @@ void __cdecl CG_RelativeTeamColor(int32_t clientNum, const char *prefix, float *
         Com_sprintf(dvarName, 0x20u, "%s_Spectator", prefix);
     }
     else if (clientNum == cgameGlob->clientNum
-        || cgameGlob->bgs.clientinfo[clientNum].team
-        && cgameGlob->bgs.clientinfo[cgameGlob->clientNum].team == cgameGlob->bgs.clientinfo[clientNum].team)
+        || (cgameGlob->bgs.clientinfo[clientNum].team
+            && cgameGlob->bgs.clientinfo[cgameGlob->clientNum].team == cgameGlob->bgs.clientinfo[clientNum].team))
     {
         Com_sprintf(dvarName, 0x20u, "%s_MyTeam", prefix);
     }

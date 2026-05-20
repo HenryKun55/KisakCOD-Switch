@@ -138,6 +138,8 @@ set(STRINGED_PORTABLE_SOURCES
 )
 
 set(UI_PORTABLE_SOURCES
+    "${SRC_DIR}/ui/ui_localvars.cpp"
+    "${SRC_DIR}/ui/ui_utils.cpp"
 )
 
 set(SERVER_PORTABLE_SOURCES
@@ -154,7 +156,13 @@ set(SOUND_PORTABLE_SOURCES
 )
 
 set(CGAME_PORTABLE_SOURCES
+    "${SRC_DIR}/cgame/cg_camerashake.cpp"
     "${SRC_DIR}/cgame/cg_colltree.cpp"
+    "${SRC_DIR}/cgame/cg_compass.cpp"
+    "${SRC_DIR}/cgame/cg_drawtools.cpp"
+    "${SRC_DIR}/cgame/cg_info.cpp"
+    "${SRC_DIR}/cgame/cg_playerstate.cpp"
+    "${SRC_DIR}/cgame/cg_pose_utils.cpp"
     "${SRC_DIR}/cgame_mp/cg_animtree_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_consolecmds_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_draw_net_mp.cpp"
