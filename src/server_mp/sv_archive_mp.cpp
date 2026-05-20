@@ -166,8 +166,8 @@ void __cdecl SV_ArchiveSnapshot(msg_t *msg)
                             MyAssertHandler(".\\server_mp\\sv_archive_mp.cpp", 272, 0, "%s\n\t%s", "ent->s.number == e", v3);
                         }
                         if (v30->r.broadcastTime
-                            || (v30->r.svFlags & 1) == 0
-                            && ((v30->r.svFlags & 0x18) != 0 || svsHeader.svEntities[v30->s.number].numClusters))
+                            || ((v30->r.svFlags & 1) == 0
+                                && ((v30->r.svFlags & 0x18) != 0 || svsHeader.svEntities[v30->s.number].numClusters)))
                         {
                             LODWORD(v4) = 376 * v30->s.number;
                             from = (archivedEntity_s *)((char *)&svsHeader.svEntities->baseline + LODWORD(v4));
@@ -269,8 +269,8 @@ void __cdecl SV_ArchiveSnapshot(msg_t *msg)
                 MyAssertHandler(".\\server_mp\\sv_archive_mp.cpp", 378, 0, "%s\n\t%s", "ent->s.number == e", v8);
             }
             if (v30->r.broadcastTime
-                || (v30->r.svFlags & 1) == 0
-                && ((v30->r.svFlags & 0x18) != 0 || svsHeader.svEntities[v30->s.number].numClusters))
+                || ((v30->r.svFlags & 1) == 0
+                    && ((v30->r.svFlags & 0x18) != 0 || svsHeader.svEntities[v30->s.number].numClusters)))
             {
                 LODWORD(v9) = 376 * v30->s.number;
                 from = (archivedEntity_s *)((char *)&svsHeader.svEntities->baseline + LODWORD(v9));

@@ -80,9 +80,9 @@ void __cdecl CG_ParseFog(int32_t localClientNum)
     float v5; // [esp+14h] [ebp-68h]
     float v6; // [esp+18h] [ebp-64h]
     float v7; // [esp+1Ch] [ebp-60h]
-    float v8; // [esp+24h] [ebp-58h]
-    float v9; // [esp+38h] [ebp-44h]
-    float v10; // [esp+4Ch] [ebp-30h]
+    [[maybe_unused]] float v8; // [esp+24h] [ebp-58h]
+    [[maybe_unused]] float v9; // [esp+38h] [ebp-44h]
+    [[maybe_unused]] float v10; // [esp+4Ch] [ebp-30h]
     const char *info; // [esp+5Ch] [ebp-20h] BYREF
     uint8_t r; // [esp+63h] [ebp-19h]
     int32_t transitionTime; // [esp+64h] [ebp-18h]
@@ -823,7 +823,7 @@ void __cdecl CG_SortSingleClientScore(cg_s *cgameGlob, int32_t scoreIndex)
     {
         memcpy(&temp, &cgameGlob->teamScores[10 * scoreIndex + 2], sizeof(temp));
         memcpy(&cgameGlob->teamScores[10 * scoreIndex + 2], &cgameGlob->scores[scoreIndex], 0x28u);
-        memcpy(&cgameGlob->scores[scoreIndex--], &temp, sizeof(cgameGlob->scores[scoreIndex--]));
+        memcpy(&cgameGlob->scores[scoreIndex--], &temp, sizeof(cgameGlob->scores[0]));
     }
     while (scoreIndex < cgameGlob->numScores - 1
         && CG_ClientScoreIsBetter(&cgameGlob->scores[scoreIndex + 1], &cgameGlob->scores[scoreIndex]))
@@ -833,7 +833,7 @@ void __cdecl CG_SortSingleClientScore(cg_s *cgameGlob, int32_t scoreIndex)
             &cgameGlob->scores[scoreIndex + 1],
             &cgameGlob->scores[scoreIndex],
             sizeof(cgameGlob->scores[scoreIndex + 1]));
-        memcpy(&cgameGlob->scores[scoreIndex++], &temp, sizeof(cgameGlob->scores[scoreIndex++]));
+        memcpy(&cgameGlob->scores[scoreIndex++], &temp, sizeof(cgameGlob->scores[0]));
     }
 }
 
@@ -920,7 +920,7 @@ void __cdecl CG_ConfigStringModified(int32_t localClientNum)
                         {
                             if (num < 1954 || num >= 1970)
                             {
-                                if (num >= 2259 && num < 2267 || num >= 2267 && num < 2282)
+                                if ((num >= 2259 && num < 2267) || (num >= 2267 && num < 2282))
                                 {
                                     Material_RegisterHandle(CL_GetConfigString(localClientNum, num), 7);
                                 }
@@ -961,7 +961,7 @@ void __cdecl CG_ConfigStringModified(int32_t localClientNum)
                     }
                     else
                     {
-                        *((uint32_t *)cgs + num - 665) = (uint32_t)R_RegisterModel(str); // KISAKTODO: unhack typing
+                        *((uintptr_t *)cgs + num - 665) = (uintptr_t)R_RegisterModel(str); // KISAKTODO: unhack typing
                     }
                     break;
                 }
@@ -1164,7 +1164,7 @@ void __cdecl CG_SetTeamScore(int32_t localClientNum, uint32_t team, int32_t scor
 void CG_ReverbCmd()
 {
     int32_t fademsec; // [esp+Ch] [ebp-30h]
-    float v5; // [esp+14h] [ebp-28h]
+    [[maybe_unused]] float v5; // [esp+14h] [ebp-28h]
     const char *roomstring; // [esp+24h] [ebp-18h]
     float drylevel; // [esp+28h] [ebp-14h]
     float fadetime; // [esp+2Ch] [ebp-10h]
@@ -1200,7 +1200,7 @@ void CG_DeactivateReverbCmd()
     const char *v0; // eax
     const char *v1; // eax
     int32_t v2; // [esp+4h] [ebp-20h]
-    float v3; // [esp+8h] [ebp-1Ch]
+    [[maybe_unused]] float v3; // [esp+8h] [ebp-1Ch]
     float fadetime; // [esp+18h] [ebp-Ch]
     int32_t prio; // [esp+1Ch] [ebp-8h]
     int32_t argc; // [esp+20h] [ebp-4h]
@@ -1231,7 +1231,7 @@ void __cdecl CG_SetChannelVolCmd(int32_t localClientNum)
     const char *v3; // eax
     shellshock_parms_t *ShellshockParms; // eax
     int32_t fademsec; // [esp+0h] [ebp-2Ch]
-    float v6; // [esp+8h] [ebp-24h]
+    [[maybe_unused]] float v6; // [esp+8h] [ebp-24h]
     float fadetime; // [esp+18h] [ebp-14h]
     uint32_t shockIndex; // [esp+20h] [ebp-Ch]
     int32_t prio; // [esp+24h] [ebp-8h]
@@ -1272,7 +1272,7 @@ void CG_DeactivateChannelVolCmd()
     const char *v0; // eax
     const char *v1; // eax
     int32_t v2; // [esp+4h] [ebp-20h]
-    float v3; // [esp+8h] [ebp-1Ch]
+    [[maybe_unused]] float v3; // [esp+8h] [ebp-1Ch]
     float fadetime; // [esp+18h] [ebp-Ch]
     int32_t prio; // [esp+1Ch] [ebp-8h]
     int32_t argc; // [esp+20h] [ebp-4h]
@@ -1401,7 +1401,7 @@ void __cdecl CG_SetScriptMainMenu(cg_s *cgameGlob, char *text)
 
 void __cdecl CG_ExecuteNewServerCommands(int32_t localClientNum, int32_t latestSequence)
 {
-    int32_t nesting; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int32_t nesting; // [esp+4h] [ebp-4h]
     cgs_t *cgs;
 
     nesting = cmd_args.nesting;

@@ -1353,6 +1353,21 @@ const dvar_t *loc_warnings = nullptr;
 const dvar_t *loc_warningsAsErrors = nullptr;
 const dvar_t *nextdemo = nullptr;
 
+// sv_archive_mp cascade.
+struct SnapshotInfo_s;
+struct clientState_s;
+struct archivedEntity_s;
+
+void MSG_WriteDeltaArchivedEntity(SnapshotInfo_s * /*info*/, msg_t * /*msg*/, int /*time*/, archivedEntity_s * /*from*/, archivedEntity_s * /*to*/, int /*force*/) {}
+void MSG_WriteDeltaClient(SnapshotInfo_s * /*info*/, msg_t * /*msg*/, int /*time*/, clientState_s * /*from*/, clientState_s * /*to*/, int /*force*/) {}
+void MSG_WriteDeltaPlayerstate(SnapshotInfo_s * /*info*/, msg_t * /*msg*/, int /*time*/, const playerState_s * /*from*/, const playerState_s * /*to*/) {}
+void MSG_WriteEntityIndex(SnapshotInfo_s * /*info*/, msg_t * /*msg*/, int /*newnum*/, int /*indexBits*/) {}
+void SV_PacketDataIsNotNetworkData(int /*type*/, const msg_t * /*msg*/) {}
+void SV_PacketDataIsUnknown(int /*type*/, const msg_t * /*msg*/) {}
+void SV_ResetPacketData(int /*type*/, const msg_t * /*msg*/) {}
+serverStaticHeader_t svsHeader{};
+int svsHeaderValid = 0;
+
 // cgMedia + cgsArray: typed via cg_local_mp.h (already in include chain).
 cgMedia_t cgMedia{};
 cgs_t cgsArray[1]{};

@@ -144,6 +144,7 @@ set(UI_PORTABLE_SOURCES
 
 set(SERVER_PORTABLE_SOURCES
     "${SRC_DIR}/server/sv_game.cpp"
+    "${SRC_DIR}/server_mp/sv_archive_mp.cpp"
     "${SRC_DIR}/server_mp/sv_main_pc_mp.cpp"
     "${SRC_DIR}/server_mp/sv_net_chan_mp.cpp"
     "${SRC_DIR}/server_mp/ucmds.cpp"
@@ -170,6 +171,9 @@ set(CGAME_PORTABLE_SOURCES
     "${SRC_DIR}/cgame_mp/cg_draw_net_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_gamepad.cpp"
     "${SRC_DIR}/cgame_mp/dedicated_cgame.cpp"
+    # cg_servercmds_mp compiles clean but drags 50+ CG_/CL_/FX_/SND_/UI_
+    # subsystem stubs (game messages, ambient/music, item registration,
+    # menu popups). Land with bigger cgame batch.
     # cg_predict_mp, cg_snapshot_mp, cg_view_mp, cg_players_mp compile
     # clean but each drags 30-60 stubs (cg/cl/UI/SV/FX dependencies).
     # Land later with bgame_mp / bg_pmove batch.

@@ -32,14 +32,14 @@ void __cdecl G_BroadcastVoice(gentity_s *talker, VoicePacket_t *voicePacket)
                     || voice_global->current.enabled
                     || OnSameTeam(talker, ent)
                     || talker->client->sess.cs.team == TEAM_FREE
-                    || (client->ps.perks & 0x200) != 0
-                    && (AngleVectors(level_bgs.clientinfo[otherPlayer].playerAngles, forward, 0, 0),
-                        Vec3Sub(talker->client->ps.origin, client->ps.origin, delta),
-                        dist = Vec3Normalize(delta),
-                        v3 = perk_parabolicAngle->current.value * 0.01745329238474369,
-                        v2 = cos(v3),
-                        v2 <= Vec3Dot(delta, forward))
-                    && perk_parabolicRadius->current.value >= dist)
+                    || ((client->ps.perks & 0x200) != 0
+                        && (AngleVectors(level_bgs.clientinfo[otherPlayer].playerAngles, forward, 0, 0),
+                            Vec3Sub(talker->client->ps.origin, client->ps.origin, delta),
+                            dist = Vec3Normalize(delta),
+                            v3 = perk_parabolicAngle->current.value * 0.01745329238474369,
+                            v2 = cos(v3),
+                            v2 <= Vec3Dot(delta, forward))
+                        && perk_parabolicRadius->current.value >= dist))
                 {
                     if ((ent->client->sess.sessionState == talker->client->sess.sessionState
                         || (ent->client->sess.sessionState == SESS_STATE_DEAD
