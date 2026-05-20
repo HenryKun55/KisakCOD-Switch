@@ -13,6 +13,56 @@ real hardware.
 ## [Unreleased]
 
 ### Added
+- **Mass-port session: ~113 upstream files in build**. Subdirectories
+  now contributing real CoD4 code (not just shims): `universal` (11),
+  `qcommon` (16), `script` (4), `EffectsCore` (4), `ragdoll` (4),
+  `DynEntity` (1), `xanim` (4), `bgame` (7), `common` (1),
+  `database` (6), `devgui` (2), `aim_assist` (1), `sound` (1),
+  `cgame` (8 + cg_event), `cgame_mp` (6), `client` (3),
+  `client_mp` (5), `server` (1), `server_mp` (5), `game` (6),
+  `physics` (4), `stringed` (1), `ui` (2), `ui_mp` (1).
+  All compile with `-Werror`, zero warnings. The kisak_posix executable
+  links clean every commit. Switch CMakeLists mirrored (env-blocked
+  verification but identical file set except `brush_edges` deferred
+  for GCC).
+
+  Each landed file required some combination of:
+  - `[[maybe_unused]]` tags on hex-rays scratch locals (the common case);
+  - precedence-parenthesization fixes for `&&` within `||`;
+  - explicit `(int)` / `(uintptr_t)` casts where a 32-bit literal or
+    pointer round-trips through a smaller-than-pointer integer cell
+    (KISAKHACK pattern, documented per-site in source comments);
+  - `sizeof(arr[i++])` → `sizeof(arr[0])` to drop the unevaluated
+    side-effect warning hex-rays generates;
+  - return-type alignment with the declared upstream signature
+    (many `bool`/`int`/`char`/`unsigned char`/`double` confusions).
+
+  Compile-clean source files prepared during the session but
+  deliberately deferred from the build because each drags a large
+  cascade of stubs in subsystems we haven't built yet:
+  - `cgame_mp/cg_servercmds_mp` (50+ CG_/CL_/FX_/SND_/UI_ message stubs)
+  - `cgame_mp/cg_predict_mp/snapshot_mp/view_mp/players_mp` (30-60 each)
+  - `client_mp/cl_input` + `cl_parse_mp` (cl_* dvars + MSG_Write*)
+  - `server_mp/sv_init_mp/sv_snapshot_mp/sv_voice_mp` (sv_* dvars)
+  - `game/g_helicopter/g_hudelem/g_items` (vehHelicopter dvars)
+  - `cgame/cg_ammocounter/cg_effects_load_obj/cg_laser/cg_shellshock`
+    (bgame Ammo/Clip/Shellshock/Hud helpers)
+  - `xanim/xmodel_load_phys_collmap` (ODE)
+
+- `src/posix/posix_backbone_stubs.cpp` grew from the initial ~180 entry
+  points to ~600+ stubs, all bucketed by subsystem cascade. Real
+  implementations for libc-flavored helpers; safe-default stubs for
+  Sys/FS/Con; opaque-storage globals for the larger structs (sv,
+  svsHeader, cgsArray, cgMedia, level, g_entities, etc.).
+
+- `src/posix/kisak_compat.h` additions:
+  - `_BitScanReverse` / `_BitScanForward` (POSIX shims via
+    `__builtin_clz`/`__builtin_ctz`).
+  - `EnterCriticalSection` / `LeaveCriticalSection` /
+    `InitializeCriticalSection` / `DeleteCriticalSection` no-op shims.
+  - `OVERLAPPED` struct (Win32 async I/O placeholder).
+  - `InterlockedExchangeAdd` template (atomic-fetch-add).
+
 - **qcommon backbone batch lands**: `cmd.cpp`, `common.cpp`, `files.cpp`,
   `universal/dvar.cpp`, `universal/dvar_cmds.cpp` now all compile clean
   with `-Werror` and link into the `kisak_posix` / `kisak_switch`
