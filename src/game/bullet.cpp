@@ -322,7 +322,7 @@ void __cdecl Bullet_FireExtended(BulletFireParams *bp, const WeaponDef *weapDef,
 #ifdef KISAK_MP
                 if (!weapDef->bRifleBullet
                     || !br.hitEnt->client
-                    || !Dvar_GetInt("scr_friendlyfire") && OnSameTeam(br.hitEnt, attacker))
+                    || (!Dvar_GetInt("scr_friendlyfire") && OnSameTeam(br.hitEnt, attacker)))
                 {
                     return;
                 }
@@ -440,7 +440,7 @@ void __cdecl Bullet_Process(
     int32_t damage; // [esp+14h] [ebp-10h]
     DynEntityDrawType drawType; // [esp+18h] [ebp-Ch] BYREF
     gentity_s *bulletEffectTempEnt; // [esp+1Ch] [ebp-8h] BYREF
-    uint16_t hitEntId; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] uint16_t hitEntId; // [esp+20h] [ebp-4h]
 
     iassert(bp);
     iassert(br);
@@ -835,7 +835,7 @@ void __cdecl Bullet_FirePenetrate(BulletFireParams *bp, const WeaponDef *weapDef
                 BG_AdvanceTrace(&revBp, &revBr, 0.01f);
 
             revTraceHit = Bullet_Trace(&revBp, weapDef, attacker, &revBr, revBr.depthSurfaceType);
-            v12 = revTraceHit && revBr.trace.allsolid || br.trace.startsolid && revBr.trace.startsolid;
+            v12 = (revTraceHit && revBr.trace.allsolid) || (br.trace.startsolid && revBr.trace.startsolid);
             allSolid = v12;
             if (revTraceHit || allSolid)
             {

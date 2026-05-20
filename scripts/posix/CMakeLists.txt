@@ -140,6 +140,7 @@ set(STRINGED_PORTABLE_SOURCES
 set(UI_PORTABLE_SOURCES
     "${SRC_DIR}/ui/ui_localvars.cpp"
     "${SRC_DIR}/ui/ui_utils.cpp"
+    "${SRC_DIR}/ui_mp/ui_gameinfo_mp.cpp"
 )
 
 set(SERVER_PORTABLE_SOURCES
@@ -197,6 +198,7 @@ set(CLIENT_PORTABLE_SOURCES
 )
 
 set(GAME_PORTABLE_SOURCES
+    "${SRC_DIR}/game/bullet.cpp"
     "${SRC_DIR}/game/enthandle.cpp"
     "${SRC_DIR}/game/g_client_fields.cpp"
     "${SRC_DIR}/game/g_debug.cpp"

@@ -1368,6 +1368,38 @@ void SV_ResetPacketData(int /*type*/, const msg_t * /*msg*/) {}
 serverStaticHeader_t svsHeader{};
 int svsHeaderValid = 0;
 
+// bullet + ui_gameinfo_mp cascade.
+struct BulletFireParams;
+struct BulletTraceResults;
+struct AntilagClientStore;
+
+char BG_AdvanceTrace(BulletFireParams * /*p*/, BulletTraceResults * /*r*/, float /*dist*/) { return 0; }
+double BG_GetSurfacePenetrationDepth(const WeaponDef * /*w*/, unsigned int /*surfType*/) { return 0; }
+unsigned int BG_GetWeaponIndex(const WeaponDef * /*w*/) { return 0; }
+unsigned char DirToByte(const float * /*dir*/) { return 0; }
+int  FS_GetFileList(const char * /*path*/, const char * /*ext*/, FsListBehavior_e /*behavior*/, char *listbuf, int /*size*/)
+{
+    if (listbuf) listbuf[0] = 0;
+    return 0;
+}
+void G_AntiLag_RestoreClientPos(AntilagClientStore * /*store*/) {}
+void G_AntiLagRewindClientPos(int /*clientNum*/, AntilagClientStore * /*store*/) {}
+int  G_CheckHitTriggerDamage(gentity_s * /*self*/, float * /*start*/, float * /*end*/, int /*passEnt*/, unsigned int /*contentMask*/) { return 0; }
+void G_Damage(gentity_s * /*targ*/, gentity_s * /*inflictor*/, gentity_s * /*attacker*/, float * /*dir*/,
+              float * /*point*/, int /*damage*/, int /*dflags*/, int /*mod*/, unsigned int /*weapon*/,
+              hitLocation_t /*hitLoc*/, unsigned int /*timeOffset*/, unsigned int /*modelIndex*/, int /*partGroup*/) {}
+void G_LocationalTraceAllowChildren(trace_t *trace, float * /*start*/, float * /*end*/, int /*passEnt*/, int /*contentMask*/, unsigned char * /*priority*/)
+{ if (trace) { std::memset(trace, 0, sizeof(*trace)); trace->fraction = 1.0f; } }
+gentity_s *G_TempEntity(const float * /*origin*/, int /*event*/) { return nullptr; }
+bool OnSameTeam(gentity_s * /*ent1*/, gentity_s * /*ent2*/) { return false; }
+
+const dvar_t *bullet_penetrationEnabled = nullptr;
+const dvar_t *bullet_penetrationMinFxDist = nullptr;
+const dvar_t *g_debugLocDamage = nullptr;
+const dvar_t *sv_clientSideBullets = nullptr;
+
+sharedUiInfo_t sharedUiInfo{};
+
 // cgMedia + cgsArray: typed via cg_local_mp.h (already in include chain).
 cgMedia_t cgMedia{};
 cgs_t cgsArray[1]{};

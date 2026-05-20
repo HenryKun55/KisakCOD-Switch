@@ -114,8 +114,11 @@ void __cdecl UI_LoadArenas()
                 for (i = 0; i < sharedUiInfo.numGameTypes; ++i)
                 {
                     if (!I_stricmp(pszToken, sharedUiInfo.gameTypes[i].gameType))
-                        sharedUiInfo.serverHardwareIconList[40 * sharedUiInfo.mapCount - 5115] = (Material *)((int)sharedUiInfo.serverHardwareIconList[40 * sharedUiInfo.mapCount - 5115]
-                            | (1 << i));
+                        // KISAKHACK: serverHardwareIconList holds Material* slots
+                        // bit-packed with flags. Bridge through uintptr_t.
+                        sharedUiInfo.serverHardwareIconList[40 * sharedUiInfo.mapCount - 5115] =
+                            (Material *)((uintptr_t)sharedUiInfo.serverHardwareIconList[40 * sharedUiInfo.mapCount - 5115]
+                                | (1 << i));
                 }
             }
             Com_EndParseSession();
@@ -144,11 +147,13 @@ const char *UI_LoadArenasFromFile_LoadObj()
     unsigned int v9; // [esp+24B4h] [ebp-4h]
 
     ui_numArenas = 0;
-    result = (char *)FS_GetFileList("mp", "arena", FS_LIST_PURE_ONLY, listbuf, 1024);
+    // FS_GetFileList returns int (count); hex-rays decompiled as char*.
+    // Bridge through uintptr_t.
+    result = (char *)(uintptr_t)FS_GetFileList("mp", "arena", FS_LIST_PURE_ONLY, listbuf, 1024);
     v1 = result;
     v3 = listbuf;
     v8 = 0;
-    while (v8 < (int)v1)
+    while (v8 < (int)(uintptr_t)v1)
     {
         v9 = strlen(v3);
         snprintf(string, ARRAYSIZE(string), "%s/%s", "mp", v3);
