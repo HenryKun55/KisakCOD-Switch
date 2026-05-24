@@ -153,6 +153,7 @@ set(CGAME_PORTABLE_SOURCES
     "${SRC_DIR}/cgame/cg_colltree.cpp"
     "${SRC_DIR}/cgame/cg_compass.cpp"
     "${SRC_DIR}/cgame/cg_draw_debug.cpp"
+    "${SRC_DIR}/cgame/cg_draw_indicators.cpp"
     "${SRC_DIR}/cgame/cg_draw_reticles.cpp"
     "${SRC_DIR}/cgame/cg_drawtools.cpp"
     "${SRC_DIR}/cgame/cg_effects_load_obj.cpp"

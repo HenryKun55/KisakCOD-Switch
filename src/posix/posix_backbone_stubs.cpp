@@ -1939,6 +1939,30 @@ unsigned int *Hunk_AllocateTempMemory(int size, const char * /*name*/)
 }
 unsigned int Hunk_AllocateTempMemoryHigh(int /*size*/, const char * /*name*/) { return 0u; }
 
+// === cg_draw_indicators satellites ===============================================
+
+void UI_FillRectPhysical(float, float, float, float, const float *) {}
+
+const dvar_t *bg_maxGrenadeIndicatorSpeed   = nullptr;
+const dvar_t *cg_hudDamageIconHeight        = nullptr;
+const dvar_t *cg_hudDamageIconInScope       = nullptr;
+const dvar_t *cg_hudDamageIconOffset        = nullptr;
+const dvar_t *cg_hudDamageIconWidth         = nullptr;
+const dvar_t *cg_hudGrenadeIconEnabledFlash = nullptr;
+const dvar_t *cg_hudGrenadeIconHeight       = nullptr;
+const dvar_t *cg_hudGrenadeIconInScope      = nullptr;
+const dvar_t *cg_hudGrenadeIconMaxHeight    = nullptr;
+const dvar_t *cg_hudGrenadeIconMaxRangeFlash = nullptr;
+const dvar_t *cg_hudGrenadeIconMaxRangeFrag  = nullptr;
+const dvar_t *cg_hudGrenadeIconOffset       = nullptr;
+const dvar_t *cg_hudGrenadeIconWidth        = nullptr;
+const dvar_t *cg_hudGrenadePointerHeight    = nullptr;
+const dvar_t *cg_hudGrenadePointerPivot     = nullptr;
+const dvar_t *cg_hudGrenadePointerPulseFreq = nullptr;
+const dvar_t *cg_hudGrenadePointerPulseMax  = nullptr;
+const dvar_t *cg_hudGrenadePointerPulseMin  = nullptr;
+const dvar_t *cg_hudGrenadePointerWidth     = nullptr;
+
 // === CGAME dvars and storage referenced by the new sources =========================
 
 const dvar_t *cg_crosshairAlpha        = nullptr;
