@@ -166,6 +166,7 @@ set(CGAME_PORTABLE_SOURCES
     "${SRC_DIR}/cgame/cg_drawtools.cpp"
     "${SRC_DIR}/cgame/cg_event.cpp"
     "${SRC_DIR}/cgame/cg_info.cpp"
+    "${SRC_DIR}/cgame/cg_laser.cpp"
     "${SRC_DIR}/cgame/offhandweapons.cpp"
     "${SRC_DIR}/cgame/cg_playerstate.cpp"
     "${SRC_DIR}/cgame/cg_pose_utils.cpp"

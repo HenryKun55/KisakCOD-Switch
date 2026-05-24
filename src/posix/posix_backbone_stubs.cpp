@@ -54,6 +54,7 @@
 #include <cgame_mp/cg_local_mp.h>
 #include <sound/snd_public.h>
 #include <gfx_d3d/r_init.h>
+#include <EffectsCore/fx_system.h>
 
 // Forward decls for opaque types we just need to pass through.
 struct sysEvent_t;
@@ -828,7 +829,7 @@ int  CG_DObjGetWorldTagPos(const cpose_t * /*pose*/, DObj_s * /*obj*/, unsigned 
 }
 
 // FX visibility
-char FX_GetClientVisibility(int /*localClientNum*/, const float * /*origin*/, const float * /*viewOrigin*/) { return 1; }
+double FX_GetClientVisibility(int /*localClientNum*/, const float * /*origin*/, const float * /*viewOrigin*/) { return 1.0; }
 
 // BG
 void BG_EvaluateTrajectory(const trajectory_t * /*tr*/, int /*atTime*/, float *result)
@@ -1537,10 +1538,10 @@ BOOL updateScreenCalled;
 // fx_randomTable: 507-entry deterministic random table used by the
 // EffectsCore particle system. Real upstream fills this once at startup
 // from a fixed seed so spawn positions/velocities are reproducible
-// across the network. We define the storage as writable and let the
-// `extern const float fx_randomTable[507]` declaration in fx_system.h
-// pick it up by symbol name; the static init below fills it.
-float fx_randomTable[507];
+// across the network. Storage is const to match the upstream declaration
+// `extern const float fx_randomTable[507]` in fx_system.h; the static
+// initializer below mutates through a non-const alias.
+const float fx_randomTable[507] = {};
 int fx_serverVisClient = -1;
 
 // =========================================================================
@@ -1830,10 +1831,11 @@ bool g_loadedImpureScript = false;
 namespace {
 struct FxRandomTableInit {
     FxRandomTableInit() {
+        float *table = const_cast<float *>(fx_randomTable);
         unsigned int s = 0xCAFEF00Du;
         for (int i = 0; i < 507; ++i) {
             s = s * 1103515245u + 12345u;
-            fx_randomTable[i] = ((s >> 8) & 0xFFFFFF) / float(0x800000) - 1.0f;
+            table[i] = ((s >> 8) & 0xFFFFFF) / float(0x800000) - 1.0f;
         }
     }
 };
@@ -1883,6 +1885,20 @@ void FX_DrawProfile(int, void (*)(char *), float *) {}
 int  R_PickMaterial(int, const float *, const float *, char *, char *, char *, unsigned int) { return 0; }
 uint32_t BG_GetNumWeapons() { return 0u; }
 int32_t  BG_ClipForWeapon(uint32_t) { return 0; }
+void     FX_Beam_Add(FxBeam *) {}
+void     FX_PostLight_Add(FxPostLight *) {}
+int32_t  CG_DObjGetWorldBoneMatrix(const cpose_t *, DObj_s *, int32_t, float (*)[3], float *) { return 0; }
+
+const dvar_t *cg_laserEndOffset        = nullptr;
+const dvar_t *cg_laserFlarePct         = nullptr;
+const dvar_t *cg_laserLight            = nullptr;
+const dvar_t *cg_laserLightBeginOffset = nullptr;
+const dvar_t *cg_laserLightBodyTweak   = nullptr;
+const dvar_t *cg_laserLightEndOffset   = nullptr;
+const dvar_t *cg_laserLightRadius      = nullptr;
+const dvar_t *cg_laserRadius           = nullptr;
+const dvar_t *cg_laserRange            = nullptr;
+const dvar_t *cg_laserRangePlayer      = nullptr;
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
