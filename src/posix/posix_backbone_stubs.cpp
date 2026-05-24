@@ -818,11 +818,7 @@ struct XZoneMemory;
 // CL/CG/Key
 void CL_ClearKeys(int /*localClientNum*/) {}
 int  Key_IsDown(int /*localClientNum*/, int /*key*/) { return 0; }
-void CG_TraceCapsule(trace_t *trace, const float * /*start*/, const float * /*mins*/,
-                     const float * /*maxs*/, const float * /*end*/, int /*passEnt*/, int /*contentMask*/)
-{
-    if (trace) { std::memset(trace, 0, sizeof(*trace)); trace->fraction = 1.0f; }
-}
+// CG_TraceCapsule provided by src/cgame/cg_world.cpp now.
 int  CG_DObjGetWorldTagPos(const cpose_t * /*pose*/, DObj_s * /*obj*/, unsigned int /*tag*/, float *pos)
 {
     if (pos) { pos[0] = pos[1] = pos[2] = 0; }
@@ -1996,6 +1992,19 @@ int   UI_GetKeyBindingLocalizedString(int, const char *, char *out)
 
 void CG_DrawTracer(const float *, const float *, const refdef_s *) {}
 const dvar_t *cg_tracerLength = nullptr;
+
+// === cg_world satellites =========================================================
+
+void   DObjLock(DObj_s *) {}
+void   DObjUnlock(DObj_s *) {}
+double DObjGetRadius(const DObj_s *) { return 0.0; }
+int    DObjGetContents(const DObj_s *) { return 0; }
+int    DObjHasContents(DObj_s *, int) { return 0; }
+void   DObjGeomTraceline(DObj_s *, float *, float *const, int, DObjTrace_s *) {}
+void   DObjGeomTracelinePartBits(DObj_s *, int, int *) {}
+DObjAnimMat *CG_DObjCalcPose(const cpose_t *, const DObj_s *, int32_t *) { return nullptr; }
+void   DynEntCl_ClipMoveTrace(const moveclip_t *, trace_t *) {}
+void   CM_PointTraceStaticModels(trace_t *, const float *, const float *, int) {}
 
 // === CGAME dvars and storage referenced by the new sources =========================
 

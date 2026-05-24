@@ -166,6 +166,7 @@ set(CGAME_PORTABLE_SOURCES
     "${SRC_DIR}/cgame/cg_pose_utils.cpp"
     "${SRC_DIR}/cgame/cg_shellshock.cpp"
     "${SRC_DIR}/cgame/cg_visionsets.cpp"
+    "${SRC_DIR}/cgame/cg_world.cpp"
     "${SRC_DIR}/cgame/offhandweapons.cpp"
     "${SRC_DIR}/cgame_mp/cg_animtree_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_compassfriendlies_mp.cpp"
