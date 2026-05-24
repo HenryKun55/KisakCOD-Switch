@@ -1928,6 +1928,17 @@ void SND_DeactivateEnvironmentEffects(int, int) {}
 int32_t CL_GetLocalClientActiveCount() { return 0; }
 const ClientViewParams *CG_GetLocalClientViewParams(int) { return nullptr; }
 
+// === cg_effects_load_obj satellites ==============================================
+
+const FxEffectDef *FX_Register(const char *) { return nullptr; }
+int  compare_impact_files(const char **, const char **) { return 0; }
+int  Com_SurfaceTypeFromName(const char *) { return 0; }
+unsigned int *Hunk_AllocateTempMemory(int size, const char * /*name*/)
+{
+    return static_cast<unsigned int *>(std::calloc((size + sizeof(unsigned int) - 1) / sizeof(unsigned int), sizeof(unsigned int)));
+}
+unsigned int Hunk_AllocateTempMemoryHigh(int /*size*/, const char * /*name*/) { return 0u; }
+
 // === CGAME dvars and storage referenced by the new sources =========================
 
 const dvar_t *cg_crosshairAlpha        = nullptr;
