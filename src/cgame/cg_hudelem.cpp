@@ -1638,7 +1638,7 @@ bool __cdecl ClampScreenPosToEdges(
     float borderBottom; // [esp+8Ch] [ebp-28h]
     ScreenPlacement *scrPlace; // [esp+90h] [ebp-24h]
     bool clamped; // [esp+97h] [ebp-1Dh]
-    const cg_s *cgameGlob; // [esp+98h] [ebp-1Ch]
+    [[maybe_unused]] const cg_s *cgameGlob; // [esp+98h] [ebp-1Ch]
     float halfWidth; // [esp+9Ch] [ebp-18h]
     float borderRight; // [esp+A0h] [ebp-14h]
     float pointOriginal[2]; // [esp+A4h] [ebp-10h] BYREF
@@ -1723,9 +1723,9 @@ bool __cdecl ClampScreenPosToEdges(
         dir[0] = *point - focus[0];
         dir[1] = point[1] - focus[1];
         Vec2Normalize(dir);
-        v12 = left && dir[0] < 0.0f || !left && dir[0] > 0.0f;
+        v12 = (left && dir[0] < 0.0f) || (!left && dir[0] > 0.0f);
         horzQualify = v12;
-        v11 = top && dir[1] < 0.0f || !top && dir[1] > 0.0f;
+        v11 = (top && dir[1] < 0.0f) || (!top && dir[1] > 0.0f);
         vertQualify = v11;
         if (horzQualify && vertQualify)
         {
@@ -1843,8 +1843,8 @@ void AddDrawSurfForHudElemWaypoint(int32_t localClientNum, const hudelem_s *elem
     Material *v9; // [esp-58h] [ebp-64h]
     char v10[68]; // [esp-54h] [ebp-60h] BYREF
     hudelem_color_t v11; // [esp-10h] [ebp-1Ch] BYREF
-    int32_t time; // [esp-Ch] [ebp-18h]
-    void *v13; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] int32_t time; // [esp-Ch] [ebp-18h]
+    [[maybe_unused]] void *v13; // [esp+0h] [ebp-Ch]
     const cg_s *cgameGlob;
 
     cgameGlob = CG_GetLocalClientGlobals(localClientNum);

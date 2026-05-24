@@ -1963,6 +1963,35 @@ const dvar_t *cg_hudGrenadePointerPulseMax  = nullptr;
 const dvar_t *cg_hudGrenadePointerPulseMin  = nullptr;
 const dvar_t *cg_hudGrenadePointerWidth     = nullptr;
 
+// === cg_hudelem satellites =======================================================
+
+void  FX_SpriteAdd(FxSprite *) {}
+float Vec2Distance(const float *a, const float *b)
+{
+    float dx = a[0] - b[0], dy = a[1] - b[1];
+    return std::sqrt(dx * dx + dy * dy);
+}
+int   SEH_PrintStrlen(const char *s) { return s ? static_cast<int>(std::strlen(s)) : 0; }
+void  BG_LerpHudColors(const hudelem_s *, int, hudelem_color_t *) {}
+int   compare_hudelems(const void *, const void *) { return 0; }
+bool  UI_AnyMenuVisible(int) { return false; }
+int32_t CG_ServerMaterialName(int, int, char *out, uint32_t maxLen)
+{
+    if (out && maxLen > 0) out[0] = '\0';
+    return 0;
+}
+double R_NormalizedTextScale(Font_s *, float scale) { return scale; }
+void  CL_PlayTextFXPulseSounds(uint32_t, int, int, int, int, int, int *) {}
+void  CG_GetViewAxisProjections(const refdef_s *, const float *, float *) {}
+void  CL_DrawTextPhysicalWithEffects(const char *, int, Font_s *, float, float, float, float,
+                                     const float *, int, const float *, Material *, Material *,
+                                     int, int, int, int) {}
+int   UI_GetKeyBindingLocalizedString(int, const char *, char *out)
+{
+    if (out) out[0] = '\0';
+    return 0;
+}
+
 // === CGAME dvars and storage referenced by the new sources =========================
 
 const dvar_t *cg_crosshairAlpha        = nullptr;

@@ -158,6 +158,7 @@ set(CGAME_PORTABLE_SOURCES
     "${SRC_DIR}/cgame/cg_drawtools.cpp"
     "${SRC_DIR}/cgame/cg_effects_load_obj.cpp"
     "${SRC_DIR}/cgame/cg_event.cpp"
+    "${SRC_DIR}/cgame/cg_hudelem.cpp"
     "${SRC_DIR}/cgame/cg_info.cpp"
     "${SRC_DIR}/cgame/cg_laser.cpp"
     "${SRC_DIR}/cgame/cg_playerstate.cpp"
