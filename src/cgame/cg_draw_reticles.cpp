@@ -489,7 +489,7 @@ void __cdecl CG_CalcCrosshairColor(int32_t localClientNum, float alpha, float *c
 {
     WeaponDef *weapDef; // [esp+14h] [ebp-4h]
     cg_s *cgameGlob;
-    cgs_t *cgsGlob;
+    [[maybe_unused]] cgs_t *cgsGlob;
 
     iassert(cg_crosshairAlpha);
     iassert(cg_crosshairEnemyColor);
@@ -615,6 +615,9 @@ char __cdecl AllowedToDrawCrosshair(int32_t localClientNum, const playerState_s 
     case 3:
     case 4:
         return 0;
+    default:
+        // Other weaponstates fall through to the 'show reticle' return below.
+        break;
     }
     return 1;
 }

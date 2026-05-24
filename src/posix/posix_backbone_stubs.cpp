@@ -50,6 +50,10 @@
 #include <game/game_public.h>
 #include <universal/com_sndalias.h>
 #include <physics/phys_local.h>
+#include <cgame/cg_local.h>
+#include <cgame_mp/cg_local_mp.h>
+#include <sound/snd_public.h>
+#include <gfx_d3d/r_init.h>
 
 // Forward decls for opaque types we just need to pass through.
 struct sysEvent_t;
@@ -1220,7 +1224,7 @@ void CG_HoldBreathInit(cg_s * /*cg*/) {}
 void CG_MenuShowNotify(int /*localClientNum*/, int /*menu*/) {}
 Material *CG_ObjectiveIcon(int /*localClientNum*/, int /*icon*/, int /*type*/) { return nullptr; }
 void CG_ResetLowHealthOverlay(cg_s * /*cg*/) {}
-void CG_SetEquippedOffHand(int /*localClientNum*/, unsigned int /*weapon*/) {}
+// CG_SetEquippedOffHand provided by src/cgame/offhandweapons.cpp now.
 
 void CL_DrawText(const ScreenPlacement * /*place*/, const char * /*text*/, int /*maxChars*/,
                  Font_s * /*font*/, float /*x*/, float /*y*/, int /*hAlign*/, int /*vAlign*/,
@@ -1427,13 +1431,12 @@ int  CG_PlayEntitySoundAlias(int /*localClientNum*/, int /*ent*/, snd_alias_list
 int  CG_PlaySoundAlias(int /*localClientNum*/, int /*ent*/, const float * /*pos*/, snd_alias_list_t * /*alias*/) { return 0; }
 int  CG_PlaySoundAliasAsMasterByName(int /*localClientNum*/, int /*ent*/, const float * /*pos*/, const char * /*name*/) { return 0; }
 int  CG_PlaySoundAliasByName(int /*localClientNum*/, int /*ent*/, const float * /*pos*/, const char * /*name*/) { return 0; }
-void CG_PrepOffHand(int /*localClientNum*/, const entityState_s * /*es*/, unsigned int /*offHandIndex*/) {}
+// CG_PrepOffHand provided by src/cgame/offhandweapons.cpp now.
 void CG_PriorityCenterPrint(int /*localClientNum*/, const char * /*text*/, int /*priority*/) {}
 void CG_SelectWeaponIndex(int /*localClientNum*/, unsigned int /*weaponIndex*/) {}
 void CG_StopSoundAlias(int /*localClientNum*/, int /*ent*/, snd_alias_list_t * /*alias*/) {}
 void CG_StopSoundsOnEnt(int /*localClientNum*/, int /*ent*/) {}
-void CG_SwitchOffHandCmd(int /*localClientNum*/) {}
-void CG_UseOffHand(int /*localClientNum*/, const centity_s * /*cent*/, unsigned int /*offHandIndex*/) {}
+// CG_SwitchOffHandCmd / CG_UseOffHand provided by src/cgame/offhandweapons.cpp now.
 
 void CL_DeathMessagePrint(int /*localClientNum*/, char * /*killerName*/, char /*killerColor*/,
                           char * /*victimName*/, char /*victimColor*/, Material * /*icon*/,
@@ -1852,3 +1855,61 @@ void FX_RandomDir(int seed, float *dir)
     if (l > 0) { dir[0] /= l; dir[1] /= l; dir[2] /= l; }
     else       { dir[0] = 1; dir[1] = 0; dir[2] = 0; }
 }
+
+// === CGAME draw/debug/reticles/offhandweapons satellites ===========================
+
+bool CG_ShouldDrawHud(int) { return false; }
+void R_TrackStatistics(trStatistics_t *) {}
+void FX_DrawMarkProfile(int, void (*)(const char *, float *), float *) {}
+int  PMem_GetFreeAmount() { return 0; }
+void Phys_DrawDebugText(const ScreenPlacement *) {}
+int  Scr_GetStringUsage() { return 0; }
+void Phys_GetPerformance(float *t, int *a, int *b) { if (t) *t = 0.f; if (a) *a = 0; if (b) *b = 0; }
+int  SND_GetSoundOverlay(snd_overlay_type_t, snd_overlay_info_t *, int, int *) { return 0; }
+unsigned int Scr_GetNumScriptVars() { return 0u; }
+void BG_GetSpreadForWeapon(const playerState_s *, const WeaponDef *, float *lo, float *hi)
+{ if (lo) *lo = 0.f; if (hi) *hi = 0.f; }
+snd_entchannel_info_t *SND_GetEntChannelName(int) { return nullptr; }
+void CG_UpdateViewModelPose(const DObj_s *, int) {}
+bool UI_ShouldDrawCrosshair() { return false; }
+unsigned int Scr_GetNumScriptThreads() { return 0u; }
+int  CG_PlayerTurretWeaponIdx(int) { return 0; }
+void Phys_PerformanceEndFrame() {}
+void AimAssist_DrawDebugOverlay(unsigned int) {}
+int  BG_GetFirstEquippedOffhand(const playerState_s *, int) { return 0; }
+int  BG_GetFirstAvailableOffhand(const playerState_s *, int) { return 0; }
+bool CG_Flashbanged(int) { return false; }
+void FX_DrawProfile(int, void (*)(char *), float *) {}
+int  R_PickMaterial(int, const float *, const float *, char *, char *, char *, unsigned int) { return 0; }
+uint32_t BG_GetNumWeapons() { return 0u; }
+int32_t  BG_ClipForWeapon(uint32_t) { return 0; }
+
+// === CGAME dvars and storage referenced by the new sources =========================
+
+const dvar_t *cg_crosshairAlpha        = nullptr;
+const dvar_t *cg_crosshairAlphaMin     = nullptr;
+const dvar_t *cg_crosshairDynamic      = nullptr;
+const dvar_t *cg_crosshairEnemyColor   = nullptr;
+const dvar_t *cg_debugInfoCornerOffset = nullptr;
+const dvar_t *cg_debug_overlay_viewport = nullptr;
+const dvar_t *cg_drawCrosshair         = nullptr;
+const dvar_t *cg_drawFPS               = nullptr;
+const dvar_t *cg_drawFPSLabels         = nullptr;
+const dvar_t *cg_drawGun               = nullptr;
+const dvar_t *cg_drawMaterial          = nullptr;
+const dvar_t *cg_drawScriptUsage       = nullptr;
+const dvar_t *cg_drawSnapshot          = nullptr;
+const dvar_t *cg_drawTurretCrosshair   = nullptr;
+const dvar_t *cg_drawVersion           = nullptr;
+const dvar_t *cg_drawVersionX          = nullptr;
+const dvar_t *cg_drawVersionY          = nullptr;
+const dvar_t *cg_drawpaused            = nullptr;
+const dvar_t *cg_enemyNameFadeIn       = nullptr;
+const dvar_t *cg_friendlyNameFadeIn    = nullptr;
+const dvar_t *hud_fade_offhand         = nullptr;
+const dvar_t *phys_drawDebugInfo       = nullptr;
+const dvar_t *player_debugHealth       = nullptr;
+const dvar_t *snd_drawEqChannels       = nullptr;
+const dvar_t *snd_drawInfo             = nullptr;
+
+weaponInfo_s cg_weaponsArray[1][128]{};

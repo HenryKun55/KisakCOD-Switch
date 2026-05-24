@@ -30,7 +30,7 @@ int32_t previous;
 int32_t fps_previousTimes[32];
 int32_t fps_index;
 
-const struct MemInfoData//$26A77A1ABB1A9087FD9203E2FD79C24D // sizeof=0x8
+struct MemInfoData//$26A77A1ABB1A9087FD9203E2FD79C24D // sizeof=0x8
 {                                       // ...
     const char *name;                   // ...
     int32_t budgetKB;                       // ...
@@ -100,8 +100,8 @@ double __cdecl CG_DrawFPS(const ScreenPlacement *scrPlace, float y, meminfo_t *m
     float v8; // [esp+48h] [ebp-90h]
     float v9; // [esp+4Ch] [ebp-8Ch]
     float v10; // [esp+50h] [ebp-88h]
-    float v11; // [esp+54h] [ebp-84h]
-    float v13; // [esp+74h] [ebp-64h]
+    [[maybe_unused]] float v11; // [esp+54h] [ebp-84h]
+    [[maybe_unused]] float v13; // [esp+74h] [ebp-64h]
     float v14; // [esp+84h] [ebp-54h]
     float freeMem; // [esp+8Ch] [ebp-4Ch]
     int32_t fps; // [esp+90h] [ebp-48h]
@@ -656,12 +656,12 @@ void CG_DrawVersion()
     h = (float)UI_TextHeight(font, 0.25);
     y = -h - cg_drawVersionY->current.value + 1.0f;
     x = -w - cg_drawVersionX->current.value + 1.0f;
-    UI_DrawText(&scrPlaceFullUnsafe, (char *)version->current.integer, 0x7FFFFFFF, font, x, y, 3, 3, 0.25f, shadowColor, 0);
+    UI_DrawText(&scrPlaceFullUnsafe, (char *)(uintptr_t)version->current.integer, 0x7FFFFFFF, font, x, y, 3, 3, 0.25f, shadowColor, 0);
     v1 = -h - cg_drawVersionY->current.value;
     v0 = -w - cg_drawVersionX->current.value;
     UI_DrawText(
         &scrPlaceFullUnsafe,
-        (char *)version->current.integer,
+        (char *)(uintptr_t)version->current.integer,
         0x7FFFFFFF,
         font,
         v0,
@@ -744,7 +744,7 @@ void __cdecl CG_DrawSoundEqOverlay(int32_t localClientNum)
 void __cdecl CG_DrawSoundOverlay(const ScreenPlacement *scrPlace)
 {
     snd_overlay_info_t info[64]; // [esp+20h] [ebp-4430h] BYREF
-    float v2; // [esp+4428h] [ebp-28h]
+    [[maybe_unused]] float v2; // [esp+4428h] [ebp-28h]
     int32_t Int; // [esp+442Ch] [ebp-24h]
     snd_overlay_type_t type; // [esp+4430h] [ebp-20h]
     int32_t i; // [esp+4434h] [ebp-1Ch]
@@ -764,7 +764,7 @@ void __cdecl CG_DrawSoundOverlay(const ScreenPlacement *scrPlace)
         v2 = 8.0f;
         charHeight = 10.0f;
         Int = Dvar_GetInt("snd_khz");
-        string = va("Listing Active Sounds of Type: %s", *(const char **)(snd_drawInfo->domain.integer.max + 4 * type));
+        string = va("Listing Active Sounds of Type: %s", *(const char **)(uintptr_t)(snd_drawInfo->domain.integer.max + 4 * type));
         CG_DrawStringExt(scrPlace, x, y, string, colorWhite, 0, 1, charHeight);
         y = y + charHeight;
         string = va("CPU: ^3%%%i ^7kHz: ^3%i ", cpu, Int);

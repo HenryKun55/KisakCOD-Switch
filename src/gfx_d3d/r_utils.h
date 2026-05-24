@@ -160,9 +160,16 @@ inline void __cdecl R_ReleaseAndSetNULL(
     const char *filename,
     int line)
 {
+#ifdef _WIN32
     unsigned int useCount; // [esp+0h] [ebp-4h]
 
     iassert(var);
     useCount = var->Release();
     iassert(!useCount);
+#else
+    // POSIX/Switch: IDirect3DSurface9 is forward-declared only; Release()
+    // is a D3D9 COM method we can't call. Real GL/EGL backend handles
+    // resource release via its own RAII.
+    (void)var; (void)fn; (void)filename; (void)line;
+#endif
 }
