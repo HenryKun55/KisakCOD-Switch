@@ -1992,6 +1992,11 @@ int   UI_GetKeyBindingLocalizedString(int, const char *, char *out)
     return 0;
 }
 
+// === cg_localents satellites =====================================================
+
+void CG_DrawTracer(const float *, const float *, const refdef_s *) {}
+const dvar_t *cg_tracerLength = nullptr;
+
 // === CGAME dvars and storage referenced by the new sources =========================
 
 const dvar_t *cg_crosshairAlpha        = nullptr;
