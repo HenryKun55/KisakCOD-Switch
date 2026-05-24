@@ -54,6 +54,7 @@
 #include <cgame_mp/cg_local_mp.h>
 #include <sound/snd_public.h>
 #include <gfx_d3d/r_init.h>
+#include <gfx_d3d/r_rendercmds.h>
 #include <EffectsCore/fx_system.h>
 
 // Forward decls for opaque types we just need to pass through.
@@ -1880,7 +1881,7 @@ void Phys_PerformanceEndFrame() {}
 void AimAssist_DrawDebugOverlay(unsigned int) {}
 int  BG_GetFirstEquippedOffhand(const playerState_s *, int) { return 0; }
 int  BG_GetFirstAvailableOffhand(const playerState_s *, int) { return 0; }
-bool CG_Flashbanged(int) { return false; }
+// CG_Flashbanged provided by src/cgame/cg_shellshock.cpp now.
 void FX_DrawProfile(int, void (*)(char *), float *) {}
 int  R_PickMaterial(int, const float *, const float *, char *, char *, char *, unsigned int) { return 0; }
 uint32_t BG_GetNumWeapons() { return 0u; }
@@ -1899,6 +1900,33 @@ const dvar_t *cg_laserLightRadius      = nullptr;
 const dvar_t *cg_laserRadius           = nullptr;
 const dvar_t *cg_laserRange            = nullptr;
 const dvar_t *cg_laserRangePlayer      = nullptr;
+
+// === cg_shellshock satellites ====================================================
+
+void MatrixMultiply(const mat3x3 & /*a*/, const mat3x3 & /*b*/, mat3x3 &out)
+{
+    out[0][0] = 1.f; out[0][1] = 0.f; out[0][2] = 0.f;
+    out[1][0] = 0.f; out[1][1] = 1.f; out[1][2] = 0.f;
+    out[2][0] = 0.f; out[2][1] = 0.f; out[2][2] = 1.f;
+}
+void AxisCopy(const mat3x3 &in, mat3x3 &out)
+{
+    out[0][0] = in[0][0]; out[0][1] = in[0][1]; out[0][2] = in[0][2];
+    out[1][0] = in[1][0]; out[1][1] = in[1][1]; out[1][2] = in[1][2];
+    out[2][0] = in[2][0]; out[2][1] = in[2][1]; out[2][2] = in[2][2];
+}
+void R_AddCmdSaveScreen(unsigned int) {}
+void R_AddCmdSaveScreenSection(float, float, float, float, unsigned int) {}
+void R_AddCmdBlendSavedScreenShockBlurred(int, float, float, float, float, unsigned int) {}
+void R_AddCmdBlendSavedScreenShockFlashed(float, float, float, float, float, float) {}
+int  SND_PlaySoundAlias(const snd_alias_t *, SndEntHandle, const float *, int, snd_alias_system_t) { return 0; }
+int  SND_PlayBlendedSoundAliases(const snd_alias_t *, const snd_alias_t *, float, float, SndEntHandle, const float *, int, snd_alias_system_t) { return 0; }
+void SND_SetChannelVolumes(int, const float *, int) {}
+void SND_DeactivateChannelVolumes(int, int) {}
+void SND_SetEnvironmentEffects(int, const char *, float, float, int) {}
+void SND_DeactivateEnvironmentEffects(int, int) {}
+int32_t CL_GetLocalClientActiveCount() { return 0; }
+const ClientViewParams *CG_GetLocalClientViewParams(int) { return nullptr; }
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
