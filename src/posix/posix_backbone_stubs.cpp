@@ -688,9 +688,7 @@ struct clientActive_t;
 struct NetField;
 
 float (*CL_GetMapCenter())[3] { static float center[3] = {0,0,0}; return (float (*)[3])&center; }
-bool  CL_GetPredictedOriginForServerTime(clientActive_t * /*cl*/, int /*serverTime*/,
-                                         float * /*origin*/, float * /*velocity*/, float * /*angles*/,
-                                         int * /*bobCycle*/, int * /*movementDir*/) { return false; }
+// CL_GetPredictedOriginForServerTime provided by src/client_mp/cl_parse_mp.cpp now.
 
 char *BG_GetEntityTypeName(int /*eType*/) { return const_cast<char *>(""); }
 
@@ -747,7 +745,7 @@ void TRACK_cl_console() {}
 // TRACK_cl_input provided by src/client_mp/cl_input.cpp now.
 void TRACK_cl_keys() {}
 void TRACK_cl_main() {}
-void TRACK_cl_parse() {}
+// TRACK_cl_parse provided by src/client_mp/cl_parse_mp.cpp now.
 void TRACK_cm_world() {}
 void TRACK_com_math() {}
 void TRACK_db_registry() {}
@@ -1288,8 +1286,7 @@ WeaponDef *BG_GetWeaponDef(unsigned int /*weaponIndex*/) { return nullptr; }
 
 char CL_AnyLocalClientsRunning() { return 0; }
 void CL_DisconnectError(char * /*msg*/) {}
-void CL_ParseServerMessage(netsrc_t /*sock*/, msg_t * /*msg*/) {}
-void CL_SystemInfoChanged(int /*localClientNum*/) {}
+// CL_ParseServerMessage / CL_SystemInfoChanged provided by src/client_mp/cl_parse_mp.cpp now.
 bool CL_WasMapAlreadyLoaded() { return false; }
 
 void CM_LinkWorld() {}
@@ -2146,7 +2143,7 @@ int  Load_ScriptMenu(int, const char *, int) { return 0; }
 void CG_RegisterItems(int) {}
 void Menus_ShowByName(const UiContext *, const char *) {}
 void CG_SetupWeaponDef(int) {}
-void CL_ParseMapCenter(int) {}
+// CL_ParseMapCenter provided by src/client_mp/cl_parse_mp.cpp now.
 void DynEntCl_Shutdown(int) {}
 void FX_KillAllEffects(int) {}
 void FX_ShutdownSystem(int) {}
@@ -2504,7 +2501,7 @@ bool DevGui_IsActive() { return false; }
 bool Sys_IsLANAddress(netadr_t) { return false; }
 void IN_ShowSystemCursor(BOOL) {}
 void AimAssist_UpdateMouseInput(const AimInput *, AimOutput *) {}
-void CL_SavePredictedOriginForServerTime(clientActive_t *, int32_t, float *, float *, float *, int32_t, int32_t) {}
+// CL_SavePredictedOriginForServerTime provided by src/client_mp/cl_parse_mp.cpp now.
 char ClampChar(int v) { if (v < -128) return -128; if (v > 127) return 127; return static_cast<char>(v); }
 void UI_Component::MouseEvent(int, int) {}
 
@@ -2673,6 +2670,29 @@ ping_t cl_pinglist[16]{};
 serverStatus_s cl_serverStatusList[16]{};
 const dvar_t *cl_serverStatusResendTime = nullptr;
 int g_qport = 0;
+
+// === cl_parse_mp satellites ======================================================
+
+char *FS_ShiftStr(const char *, char) { return const_cast<char *>(""); }
+void  Sys_OpenURL(const char *, int) {}
+void  FS_SV_Rename(char *, char *) {}
+void  CL_ClearState(int32_t) {}
+void  Info_NextPair(const char **head, char *key, char *value)
+{
+    if (key) key[0] = '\0';
+    if (value) value[0] = '\0';
+    if (head) *head = nullptr;
+}
+bool  FS_NeedRestart(int) { return false; }
+void  CL_DownloadsComplete(int32_t) {}
+int   FS_SV_FOpenFileWrite(const char *) { return 0; }
+void  CL_ClearStaticDownload() {}
+void  CL_RequestAuthorization(netsrc_t) {}
+
+const dvar_t *cl_allowDownload = nullptr;
+const dvar_t *cl_shownuments   = nullptr;
+const dvar_t *cl_updatefiles   = nullptr;
+LegacyHacks legacyHacks{};
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
