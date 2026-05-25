@@ -959,7 +959,7 @@ const char *StringTable_Lookup(const StringTable * /*table*/, int /*column*/, co
 
 // SV
 // SV_CloseDownload provided by src/server_mp/sv_client_mp.cpp now.
-void SV_Download_Clear(client_t * /*cl*/) {}
+// SV_Download_Clear provided by src/server_mp/sv_snapshot_mp.cpp now.
 // SV_DropClient provided by src/server_mp/sv_client_mp.cpp now.
 // SV_GetConfigstring provided by src/server_mp/sv_init_mp.cpp now.
 // SV_SendClientGameState provided by src/server_mp/sv_client_mp.cpp now.
@@ -1359,8 +1359,8 @@ void MSG_WriteEntityIndex(SnapshotInfo_s * /*info*/, msg_t * /*msg*/, int /*newn
 // SV_PacketDataIsNotNetworkData provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
 // SV_PacketDataIsUnknown provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
 // SV_ResetPacketData provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
-serverStaticHeader_t svsHeader{};
-int svsHeaderValid = 0;
+// svsHeader provided by src/server_mp/sv_snapshot_mp.cpp now.
+// svsHeaderValid provided by src/server_mp/sv_snapshot_mp.cpp now.
 
 // bullet + ui_gameinfo_mp cascade.
 struct BulletFireParams;
@@ -2535,20 +2535,20 @@ char *FS_LoadedIwdNames() { return const_cast<char *>(""); }
 // SV_SendDisconnect provided by src/server_mp/sv_client_mp.cpp now.
 void DB_UpdateDebugZone() {}
 void Hunk_FreeTempMemory(char *) {}
-void SV_EndClientSnapshot(client_t *, msg_t *) {}
+// SV_EndClientSnapshot provided by src/server_mp/sv_snapshot_mp.cpp now.
 void FS_ClearIwdReferences() {}
 char *FS_LoadedIwdChecksums() { return const_cast<char *>(""); }
 char *FS_ReferencedIwdNames() { return const_cast<char *>(""); }
 void Scr_ParseGameTypeList() {}
 char CL_IsLocalClientActive(int) { return 0; }
 // SV_AddOperatorCommands provided by src/server_mp/sv_ccmds_mp.cpp now.
-void SV_BeginClientSnapshot(client_t *, msg_t *) {}
+// SV_BeginClientSnapshot provided by src/server_mp/sv_snapshot_mp.cpp now.
 // SV_SetSystemInfoConfig provided by src/server_mp/sv_main_mp.cpp now.
 char *DB_ReferencedFFNameList() { return const_cast<char *>(""); }
 char *DB_ReferencedFFChecksums() { return const_cast<char *>(""); }
-void SV_GetServerStaticHeader() {}
-void SV_SetServerStaticHeader() {}
-void SV_WriteSnapshotToClient(client_t *, msg_t *) {}
+// SV_GetServerStaticHeader provided by src/server_mp/sv_snapshot_mp.cpp now.
+// SV_SetServerStaticHeader provided by src/server_mp/sv_snapshot_mp.cpp now.
+// SV_WriteSnapshotToClient provided by src/server_mp/sv_snapshot_mp.cpp now.
 char *FS_ReferencedIwdChecksums() { return const_cast<char *>(""); }
 // SV_WriteEntityFieldNumbers provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
 void Sys_EndLoadThreadPriorities() {}
@@ -2623,12 +2623,12 @@ int  Netchan_Process(netchan_t *, msg_t *) { return 0; }
 WinThreadLock Win_GetThreadLock() { return {}; }
 // SV_DelayDropClient provided by src/server_mp/sv_client_mp.cpp now.
 void Scr_UpdateDebugger() {}
-void SV_SendClientMessages() {}
+// SV_SendClientMessages provided by src/server_mp/sv_snapshot_mp.cpp now.
 int32_t G_GetClientArchiveTime(int32_t) { return 0; }
 // SV_ExecuteClientMessage provided by src/server_mp/sv_client_mp.cpp now.
 void MSG_WriteReliableCommandToBuffer(const char *, char *, int) {}
 
-uint8_t tempServerMsgBuf[131072]{};
+// tempServerMsgBuf provided by src/server_mp/sv_snapshot_mp.cpp now.
 
 // === sv_client_mp satellites =====================================================
 
@@ -2645,11 +2645,11 @@ void G_SetLastServerTime(int32_t, int32_t) {}
 // SV_PacketDataIsHeader provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
 bool Steam_CheckClientTicket(unsigned char *, unsigned int, unsigned long long) { return true; }
 void Steam_OnClientDropped(unsigned long long) {}
-void SV_BuildClientSnapshot(client_t *) {}
-void SV_SendMessageToClient(msg_t *, client_t *) {}
+// SV_BuildClientSnapshot provided by src/server_mp/sv_snapshot_mp.cpp now.
+// SV_SendMessageToClient provided by src/server_mp/sv_snapshot_mp.cpp now.
 bool BG_ValidateWeaponNumber(uint32_t) { return true; }
 bool Sys_IsLANAddress_IgnoreSubnet(netadr_t) { return false; }
-void SV_UpdateServerCommandsToClient(client_t *, msg_t *) {}
+// SV_UpdateServerCommandsToClient provided by src/server_mp/sv_snapshot_mp.cpp now.
 
 const dvar_t *net_lanauthorize = nullptr;
 
@@ -2693,6 +2693,15 @@ const dvar_t *cl_allowDownload = nullptr;
 const dvar_t *cl_shownuments   = nullptr;
 const dvar_t *cl_updatefiles   = nullptr;
 LegacyHacks legacyHacks{};
+
+// === sv_snapshot_mp satellites ===================================================
+
+int32_t G_GetClientSize() { return 0; }
+gclient_s *G_GetPlayerState(int32_t) { return nullptr; }
+int FS_SV_FOpenFileRead(const char *, int *fp) { if (fp) *fp = 0; return 0; }
+int32_t GetFollowPlayerState(int32_t, playerState_s *) { return 0; }
+void G_SetClientArchiveTime(int32_t, int32_t) {}
+int irand(int min, int max) { return min; }
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
