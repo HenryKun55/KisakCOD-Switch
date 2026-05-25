@@ -20,7 +20,7 @@ void __cdecl SendScoreboard(gentity_s *ent)
     int32_t scoreLimit; // [esp+5A8h] [ebp-594h]
     char msg[1404]; // [esp+5ACh] [ebp-590h] BYREF
     int32_t numSorted; // [esp+B2Ch] [ebp-10h]
-    clientState_s *clientState; // [esp+B30h] [ebp-Ch]
+    [[maybe_unused]] clientState_s *clientState; // [esp+B30h] [ebp-Ch]
     int32_t i; // [esp+B34h] [ebp-8h]
     int32_t clientNum; // [esp+B38h] [ebp-4h]
 
@@ -199,7 +199,7 @@ void __cdecl Cmd_Give_f(gentity_s *ent)
         {
             if (strlen(name))
             {
-                if (!(give_all = I_stricmp(name, "all") == 0) && I_strnicmp(name, "health", 6)
+                if ((!(give_all = I_stricmp(name, "all") == 0) && I_strnicmp(name, "health", 6))
                     || (!amount ? (ent->health = ent->client->ps.stats[2]) : (ent->health += amount), give_all))
                 {
                     if (!give_all && I_stricmp(name, "weapons"))
@@ -786,9 +786,9 @@ void __cdecl Cmd_CallVote_f(gentity_s *ent)
     const char *v3; // eax
     const char *v4; // eax
     const char *v5; // eax
-    int32_t v6; // eax
-    int32_t v7; // eax
-    int32_t v8; // eax
+    [[maybe_unused]] int32_t v6; // eax
+    [[maybe_unused]] int32_t v7; // eax
+    [[maybe_unused]] int32_t v8; // eax
     const char *v9; // eax
     const char *v10; // eax
     const char *v11; // eax
@@ -1390,7 +1390,7 @@ void Cmd_VisionSetNaked_f()
     char *v2; // eax
     float v3; // [esp+0h] [ebp-1Ch]
     int32_t v4; // [esp+4h] [ebp-18h]
-    float v5; // [esp+8h] [ebp-14h]
+    [[maybe_unused]] float v5; // [esp+8h] [ebp-14h]
     int32_t duration; // [esp+18h] [ebp-4h]
 
     duration = 1000;
@@ -1417,7 +1417,7 @@ void Cmd_VisionSetNight_f()
     char *v2; // eax
     float v3; // [esp+0h] [ebp-1Ch]
     int32_t v4; // [esp+4h] [ebp-18h]
-    float v5; // [esp+8h] [ebp-14h]
+    [[maybe_unused]] float v5; // [esp+8h] [ebp-14h]
     int32_t duration; // [esp+18h] [ebp-4h]
 
     duration = 1000;

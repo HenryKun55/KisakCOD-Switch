@@ -220,6 +220,7 @@ set(GAME_PORTABLE_SOURCES
     "${SRC_DIR}/game/g_weapon_load_obj.cpp"
     "${SRC_DIR}/game_mp/g_active_mp.cpp"
     "${SRC_DIR}/game_mp/g_client_mp.cpp"
+    "${SRC_DIR}/game_mp/g_cmds_mp.cpp"
     "${SRC_DIR}/game_mp/g_combat_mp.cpp"
     "${SRC_DIR}/game_mp/g_main_mp.cpp"
     "${SRC_DIR}/game_mp/g_misc_mp.cpp"
