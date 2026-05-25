@@ -2029,6 +2029,10 @@ const dvar_t *cg_viewZSmoothingMax  = nullptr;
 const dvar_t *cg_viewZSmoothingMin  = nullptr;
 const dvar_t *cg_viewZSmoothingTime = nullptr;
 
+// === cg_client_side_effects_mp satellites ========================================
+
+FxEffect *FX_SpawnOrientedEffect(int, const FxEffectDef *, int, const float *, const float (*)[3], uint32_t) { return nullptr; }
+
 // === CGAME dvars and storage referenced by the new sources =========================
 
 const dvar_t *cg_crosshairAlpha        = nullptr;

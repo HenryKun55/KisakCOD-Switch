@@ -178,6 +178,7 @@ set(CGAME_PORTABLE_SOURCES
     "${SRC_DIR}/cgame/cg_visionsets.cpp"
     "${SRC_DIR}/cgame/cg_world.cpp"
     "${SRC_DIR}/cgame_mp/cg_animtree_mp.cpp"
+    "${SRC_DIR}/cgame_mp/cg_client_side_effects_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_compassfriendlies_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_consolecmds_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_draw_net_mp.cpp"
