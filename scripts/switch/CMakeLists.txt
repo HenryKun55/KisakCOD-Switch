@@ -223,6 +223,7 @@ set(GAME_PORTABLE_SOURCES
     "${SRC_DIR}/game_mp/g_combat_mp.cpp"
     "${SRC_DIR}/game_mp/g_main_mp.cpp"
     "${SRC_DIR}/game_mp/g_misc_mp.cpp"
+    "${SRC_DIR}/game_mp/g_player_corpse_mp.cpp"
     "${SRC_DIR}/game_mp/g_scr_helicopter.cpp"
     "${SRC_DIR}/game_mp/g_spawn_mp.cpp"
     "${SRC_DIR}/game_mp/g_trigger_mp.cpp"

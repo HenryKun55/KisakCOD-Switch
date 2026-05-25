@@ -2451,7 +2451,7 @@ void Touch_Item_Auto(gentity_s *, gentity_s *, int) {}
 void G_ExplodeMissile(gentity_s *) {}
 // Helicopter_Think provided by src/game_mp/g_scr_helicopter.cpp now.
 void G_VehUnlinkPlayer(gentity_s *, gentity_s *) {}
-void PlayerCorpse_Free(gentity_s *) {}
+// PlayerCorpse_Free provided by src/game_mp/g_player_corpse_mp.cpp now.
 // Scr_ExecEntThread provided by src/game_mp/g_spawn_mp.cpp now.
 void FinishSpawningItem(gentity_s *) {}
 // G_PlayerController provided by src/game_mp/g_active_mp.cpp now.
@@ -2842,7 +2842,7 @@ void BG_CalculateWeaponPosition_Sway(const playerState_s *, float *, float *, fl
 // === g_main_mp satellites ========================================================
 
 void G_RunMover(gentity_s *) {}
-void G_RunCorpse(gentity_s *) {}
+// G_RunCorpse provided by src/game_mp/g_player_corpse_mp.cpp now.
 void Scr_IncTime() {}
 void G_RunMissile(gentity_s *) {}
 void SV_SightTrace(int *hit, const float *, const float *, const float *, const float *, int, int, int) { if (hit) *hit = 0; }
@@ -2878,6 +2878,7 @@ void SV_Trace(trace_t *r, const float *, const float *, const float *, const flo
 void G_RunItem(gentity_s *) {}
 void Rand_Init(int) {}
 void G_VehRegisterDvars() {}
+int SV_PointContents(float *, int, int) { return 0; }
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
