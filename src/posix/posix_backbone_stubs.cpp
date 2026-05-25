@@ -377,10 +377,10 @@ void CL_UpdateSound() {}
 void SV_AddDedicatedCommands() {}
 int  SV_Frame(int /*frameTime*/) { return 0; }
 // SV_GameCommand now in server/sv_game.cpp.
-void SV_Init() {}
+// SV_Init provided by src/server_mp/sv_init_mp.cpp now.
 void SV_PacketEvent(netadr_t /*from*/, msg_t * /*msg*/) {}
-void SV_SetConfigValueForKey(int /*index*/, int /*key*/, char * /*name*/, char * /*value*/) {}
-void SV_Shutdown(const char * /*reason*/) {}
+// SV_SetConfigValueForKey provided by src/server_mp/sv_init_mp.cpp now.
+// SV_Shutdown provided by src/server_mp/sv_init_mp.cpp now.
 // SV_ShutdownGameProgs now in server/sv_game.cpp.
 void SV_WaitServer() {}
 
@@ -962,7 +962,7 @@ const char *StringTable_Lookup(const StringTable * /*table*/, int /*column*/, co
 void SV_CloseDownload(client_t * /*cl*/) {}
 void SV_Download_Clear(client_t * /*cl*/) {}
 void SV_DropClient(client_t * /*cl*/, const char * /*reason*/, bool /*tellThem*/) {}
-void SV_GetConfigstring(unsigned int /*index*/, char *buffer, int bufferSize) { if (buffer && bufferSize > 0) buffer[0] = 0; }
+// SV_GetConfigstring provided by src/server_mp/sv_init_mp.cpp now.
 void SV_SendClientGameState(client_t * /*cl*/) {}
 
 // Voice
@@ -978,7 +978,7 @@ gentity_s g_entities[1024]{};
 level_locals_t level{};
 const dvar_t *net_profile = nullptr;
 const dvar_t *sv_maxclients = nullptr;
-const dvar_t *sv_voice = nullptr;
+// sv_voice provided by src/server_mp/sv_init_mp.cpp now.
 serverStatic_t svs{};
 
 // =========================================================================
@@ -1049,7 +1049,7 @@ unsigned int SV_ClipHandleForEntity(const gentity_s * /*ent*/) { return 0; }
 char *SV_GetMapBaseName(char *name) { if (name) name[0] = 0; return name; }
 void SV_LinkEntity(gentity_s * /*ent*/) {}
 void SV_SendServerCommand(client_t * /*cl*/, svscmd_type /*type*/, const char * /*fmt*/, ...) {}
-void SV_SetConfigstring(int /*index*/, const char * /*val*/) {}
+// SV_SetConfigstring provided by src/server_mp/sv_init_mp.cpp now.
 
 unsigned int Sys_MillisecondsRaw() { return Sys_Milliseconds(); }
 
@@ -1101,7 +1101,7 @@ client_t *SV_FindClientByAddress(netadr_t /*adr*/, int /*qport*/) { return nullp
 void SVC_GameCompleteStatus(netadr_t /*from*/) {}
 
 const dvar_t *cl_profileTextHeight = nullptr;
-const dvar_t *rcon_password = nullptr;
+// rcon_password provided by src/server_mp/sv_init_mp.cpp now.
 
 // =========================================================================
 // physics + stringed batch.
@@ -2477,7 +2477,7 @@ void G_VehEntHandler_Touch(gentity_s *, gentity_s *, int) {}
 void Helicopter_Controller(const gentity_s *, int *) {}
 void Com_SafeServerDObjFree(unsigned int) {}
 unsigned int SL_FindLowercaseString(const char *) { return 0u; }
-unsigned int SV_GetConfigstringConst(unsigned int) { return 0u; }
+// SV_GetConfigstringConst provided by src/server_mp/sv_init_mp.cpp now.
 void Hunk_OverrideDataForFile(int, const char *, void *) {}
 void MatrixInverseOrthogonal43(const mat4x3 &in, mat4x3 &out)
 {
@@ -2524,6 +2524,73 @@ const dvar_t *m_pitch            = nullptr;
 const dvar_t *m_side             = nullptr;
 const dvar_t *m_yaw              = nullptr;
 PlayerKeyState playerKeys[1]{};
+
+// === sv_init_mp satellites =======================================================
+
+void FS_Restart(int, int) {}
+void CL_InitLoad(const char *, const char *) {}
+void SV_RunFrame() {}
+void CL_MapLoading(const char *) {}
+char *ClientConnect(uint32_t, uint16_t) { return nullptr; }
+void SV_FreeClients() {}
+void SV_Heartbeat_f() {}
+void SV_InitSnapshot() {}
+char *FS_LoadedIwdNames() { return const_cast<char *>(""); }
+void SV_SendDisconnect(client_t *, int, const char *, bool, const char *) {}
+void DB_UpdateDebugZone() {}
+void Hunk_FreeTempMemory(char *) {}
+void SV_EndClientSnapshot(client_t *, msg_t *) {}
+void FS_ClearIwdReferences() {}
+char *FS_LoadedIwdChecksums() { return const_cast<char *>(""); }
+char *FS_ReferencedIwdNames() { return const_cast<char *>(""); }
+void Scr_ParseGameTypeList() {}
+char CL_IsLocalClientActive(int) { return 0; }
+void SV_AddOperatorCommands() {}
+void SV_BeginClientSnapshot(client_t *, msg_t *) {}
+void SV_SetSystemInfoConfig() {}
+char *DB_ReferencedFFNameList() { return const_cast<char *>(""); }
+char *DB_ReferencedFFChecksums() { return const_cast<char *>(""); }
+void SV_GetServerStaticHeader() {}
+void SV_SetServerStaticHeader() {}
+void SV_WriteSnapshotToClient(client_t *, msg_t *) {}
+char *FS_ReferencedIwdChecksums() { return const_cast<char *>(""); }
+void SV_WriteEntityFieldNumbers() {}
+void Sys_EndLoadThreadPriorities() {}
+void Sys_BeginLoadThreadPriorities() {}
+
+int com_inServerFrame = 0;
+int sv_serverId_value = 0;
+const dvar_t *sv_allowedClan1 = nullptr;
+const dvar_t *sv_allowedClan2 = nullptr;
+const dvar_t *sv_botsPressAttackBtn = nullptr;
+const dvar_t *sv_cheats              = nullptr;
+const dvar_t *sv_connectTimeout      = nullptr;
+const dvar_t *sv_debugMessageKey     = nullptr;
+const dvar_t *sv_debugPacketContents = nullptr;
+const dvar_t *sv_debugPacketContentsForClientThisFrame = nullptr;
+const dvar_t *sv_debugPlayerstate    = nullptr;
+const dvar_t *sv_debugRate           = nullptr;
+const dvar_t *sv_debugReliableCmds   = nullptr;
+const dvar_t *sv_disableClientConsole = nullptr;
+const dvar_t *sv_floodProtect        = nullptr;
+const dvar_t *sv_fps                 = nullptr;
+const dvar_t *sv_hostname            = nullptr;
+const dvar_t *sv_kickBanTime         = nullptr;
+const dvar_t *sv_mapRotation         = nullptr;
+const dvar_t *sv_mapRotationCurrent  = nullptr;
+const dvar_t *sv_mapname             = nullptr;
+const dvar_t *sv_maxPing             = nullptr;
+const dvar_t *sv_maxRate             = nullptr;
+const dvar_t *sv_minPing             = nullptr;
+const dvar_t *sv_packet_info         = nullptr;
+const dvar_t *sv_padPackets          = nullptr;
+const dvar_t *sv_privateClients      = nullptr;
+const dvar_t *sv_reconnectlimit      = nullptr;
+const dvar_t *sv_serverid            = nullptr;
+const dvar_t *sv_showAverageBPS      = nullptr;
+const dvar_t *sv_showCommands        = nullptr;
+const dvar_t *sv_timeout             = nullptr;
+const dvar_t *sv_zombietime          = nullptr;
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
