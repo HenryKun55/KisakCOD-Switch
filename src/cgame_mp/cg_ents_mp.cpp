@@ -45,7 +45,7 @@ void __cdecl CG_Player_PreControllers(DObj_s *obj, centity_s *cent)
         BG_Player_DoControllersSetup(&cent->nextState, ci, cgameGlob->frametime);
         for (i = 0; i < 6; ++i)
             DObjGetBoneIndex(obj, *controller_names[i], &cent->pose.player.tag[i]);
-        cent->pose.fx.triggerTime = (int)&ci->control;
+        cent->pose.fx.triggerTime = (int)(uintptr_t)&ci->control;
     }
     else
     {
@@ -144,7 +144,7 @@ void  CG_UpdateBModelWorldBounds(uint32_t localClientNum, centity_s *cent, int32
 
     //float* v4; // [esp-10h] [ebp-1F0h]
     float maxs[3]; // [esp-Ch] [ebp-1ECh] BYREF
-    float v6; // [esp+0h] [ebp-1E0h]
+    [[maybe_unused]] float v6; // [esp+0h] [ebp-1E0h]
     float mins[3]; // [esp+4h] [ebp-1DCh] BYREF
     float v8[8]; // [esp+10h] [ebp-1D0h]
     float v9; // [esp+30h] [ebp-1B0h]
@@ -162,7 +162,7 @@ void  CG_UpdateBModelWorldBounds(uint32_t localClientNum, centity_s *cent, int32
     int32_t v21; // [esp+84h] [ebp-15Ch]
     int32_t v22; // [esp+88h] [ebp-158h]
     int32_t v23; // [esp+8Ch] [ebp-154h]
-    float* v24; // [esp+90h] [ebp-150h]
+    [[maybe_unused]] float* v24; // [esp+90h] [ebp-150h]
     __int64 v25; // [esp+94h] [ebp-14Ch]
     int32_t v26; // [esp+9Ch] [ebp-144h]
     int32_t v27; // [esp+A0h] [ebp-140h]
@@ -176,7 +176,7 @@ void  CG_UpdateBModelWorldBounds(uint32_t localClientNum, centity_s *cent, int32
     int32_t v35; // [esp+C8h] [ebp-118h]
     int32_t v36; // [esp+CCh] [ebp-114h]
     int32_t v37; // [esp+D0h] [ebp-110h]
-    float* v38; // [esp+D4h] [ebp-10Ch]
+    [[maybe_unused]] float* v38; // [esp+D4h] [ebp-10Ch]
     __int64 v39; // [esp+D8h] [ebp-108h]
     int32_t v40; // [esp+E0h] [ebp-100h]
     int32_t v41; // [esp+E4h] [ebp-FCh]
@@ -193,7 +193,7 @@ void  CG_UpdateBModelWorldBounds(uint32_t localClientNum, centity_s *cent, int32
     __int64 v52; // [esp+118h] [ebp-C8h]
     float v53; // [esp+120h] [ebp-C0h]
     float v54; // [esp+124h] [ebp-BCh]
-    float* v55; // [esp+128h] [ebp-B8h]
+    [[maybe_unused]] float* v55; // [esp+128h] [ebp-B8h]
     __int64 v56; // [esp+12Ch] [ebp-B4h]
     float v57; // [esp+134h] [ebp-ACh]
     float v58; // [esp+138h] [ebp-A8h]
@@ -205,21 +205,21 @@ void  CG_UpdateBModelWorldBounds(uint32_t localClientNum, centity_s *cent, int32
     float v64; // [esp+150h] [ebp-90h]
     float v65; // [esp+154h] [ebp-8Ch]
     float v66; // [esp+158h] [ebp-88h]
-    float* v67; // [esp+15Ch] [ebp-84h]
+    [[maybe_unused]] float* v67; // [esp+15Ch] [ebp-84h]
     float v68; // [esp+160h] [ebp-80h]
     float v69; // [esp+164h] [ebp-7Ch]
     float v70; // [esp+168h] [ebp-78h]
     float v71; // [esp+16Ch] [ebp-74h]
-    float* v72; // [esp+170h] [ebp-70h]
+    [[maybe_unused]] float* v72; // [esp+170h] [ebp-70h]
     float v73; // [esp+174h] [ebp-6Ch]
     float v74; // [esp+178h] [ebp-68h]
     float v75; // [esp+17Ch] [ebp-64h]
     float v76; // [esp+180h] [ebp-60h]
-    float* origin; // [esp+184h] [ebp-5Ch]
+    [[maybe_unused]] float* origin; // [esp+184h] [ebp-5Ch]
     float v78[3][3]; // [esp+188h] [ebp-58h] BYREF
     float axis_24[4]; // [esp+1ACh] [ebp-34h]
     float bounds_4[3]; // [esp+1BCh] [ebp-24h] BYREF
-    int32_t v81; // [esp+1C8h] [ebp-18h]
+    [[maybe_unused]] int32_t v81; // [esp+1C8h] [ebp-18h]
     GfxBrushModel* brush; // [esp+1CCh] [ebp-14h]
     //int32_t bounds_28; // [esp+1D4h] [ebp-Ch]
     //GfxBrushModel* bmodel; // [esp+1D8h] [ebp-8h]
@@ -285,12 +285,12 @@ void  CG_UpdateBModelWorldBounds(uint32_t localClientNum, centity_s *cent, int32
     else
         v45 = -1;
     v50 = v45;
-    v42 = v52 & v48 | v56 & ~v48;
-    v43 = LODWORD(v53) & v49 | LODWORD(v57) & ~v49;
-    v44 = LODWORD(v54) & v50 | LODWORD(v58) & ~v50;
-    v39 = v56 & v48 | v52 & ~v48;
-    v40 = LODWORD(v57) & v49 | LODWORD(v53) & ~v49;
-    v41 = LODWORD(v58) & v50 | LODWORD(v54) & ~v50;
+    v42 = (v52 & v48) | (v56 & ~v48);
+    v43 = (LODWORD(v53) & v49) | (LODWORD(v57) & ~v49);
+    v44 = (LODWORD(v54) & v50) | (LODWORD(v58) & ~v50);
+    v39 = (v56 & v48) | (v52 & ~v48);
+    v40 = (LODWORD(v57) & v49) | (LODWORD(v53) & ~v49);
+    v41 = (LODWORD(v58) & v50) | (LODWORD(v54) & ~v50);
     *(float*)&v56 = axis_24[1];
     *((float*)&v56 + 1) = axis_24[1];
     v57 = axis_24[1];
@@ -320,12 +320,12 @@ void  CG_UpdateBModelWorldBounds(uint32_t localClientNum, centity_s *cent, int32
     else
         v31 = -1;
     v36 = v31;
-    v28 = v52 & v34 | v56 & ~v34;
-    v29 = LODWORD(v53) & v35 | LODWORD(v57) & ~v35;
-    v30 = LODWORD(v54) & v36 | LODWORD(v58) & ~v36;
-    v25 = v56 & v34 | v52 & ~v34;
-    v26 = LODWORD(v57) & v35 | LODWORD(v53) & ~v35;
-    v27 = LODWORD(v58) & v36 | LODWORD(v54) & ~v36;
+    v28 = (v52 & v34) | (v56 & ~v34);
+    v29 = (LODWORD(v53) & v35) | (LODWORD(v57) & ~v35);
+    v30 = (LODWORD(v54) & v36) | (LODWORD(v58) & ~v36);
+    v25 = (v56 & v34) | (v52 & ~v34);
+    v26 = (LODWORD(v57) & v35) | (LODWORD(v53) & ~v35);
+    v27 = (LODWORD(v58) & v36) | (LODWORD(v54) & ~v36);
     *(float*)&v56 = axis_24[2];
     *((float*)&v56 + 1) = axis_24[2];
     v57 = axis_24[2];
@@ -355,12 +355,12 @@ void  CG_UpdateBModelWorldBounds(uint32_t localClientNum, centity_s *cent, int32
     else
         v17 = -1;
     v22 = v17;
-    v14 = v52 & v20 | v56 & ~v20;
-    v15 = LODWORD(v53) & v21 | LODWORD(v57) & ~v21;
-    v16 = LODWORD(v54) & v22 | LODWORD(v58) & ~v22;
-    *(_QWORD*)&rotatedBounds[1].unitVec[1].packed = v56 & v20 | v52 & ~v20;
-    rotatedBounds[1].u[3] = LODWORD(v57) & v21 | LODWORD(v53) & ~v21;
-    v13 = LODWORD(v58) & v22 | LODWORD(v54) & ~v22;
+    v14 = (v52 & v20) | (v56 & ~v20);
+    v15 = (LODWORD(v53) & v21) | (LODWORD(v57) & ~v21);
+    v16 = (LODWORD(v54) & v22) | (LODWORD(v58) & ~v22);
+    *(_QWORD*)&rotatedBounds[1].unitVec[1].packed = (v56 & v20) | (v52 & ~v20);
+    rotatedBounds[1].u[3] = (LODWORD(v57) & v21) | (LODWORD(v53) & ~v21);
+    v13 = (LODWORD(v58) & v22) | (LODWORD(v54) & ~v22);
     v9 = *(float*)&v42 * v73 + v59;
     v10 = *((float*)&v42 + 1) * v74 + v60;
     v11 = *(float*)&v43 * v75 + v61;
@@ -564,8 +564,8 @@ void __cdecl CG_AddPacketEntity(int32_t localClientNum, int32_t entnum)
     float *v11; // [esp+38h] [ebp-50h]
     float *v12; // [esp+3Ch] [ebp-4Ch]
     float *v13; // [esp+40h] [ebp-48h]
-    float *v14; // [esp+44h] [ebp-44h]
-    float *v15; // [esp+48h] [ebp-40h]
+    [[maybe_unused]] float *v14; // [esp+44h] [ebp-44h]
+    [[maybe_unused]] float *v15; // [esp+48h] [ebp-40h]
     float radius; // [esp+4Ch] [ebp-3Ch]
     DObj_s *obj; // [esp+50h] [ebp-38h]
     float newAngles[3]; // [esp+54h] [ebp-34h] BYREF
@@ -575,7 +575,7 @@ void __cdecl CG_AddPacketEntity(int32_t localClientNum, int32_t entnum)
     float angles[3]; // [esp+74h] [ebp-14h]
     bool entMoved; // [esp+83h] [ebp-5h]
     uint32_t eType; // [esp+84h] [ebp-4h]
-    int32_t savedregs; // [esp+88h] [ebp+0h] BYREF
+    [[maybe_unused]] int32_t savedregs; // [esp+88h] [ebp+0h] BYREF
 
     cent = CG_GetEntity(localClientNum, entnum);
     eType = cent->nextState.eType;
@@ -869,8 +869,8 @@ void __cdecl CG_CalcEntityLerpPositions(int32_t localClientNum, centity_s *cent)
     {
         CG_CalcEntityPhysicsPositions(localClientNum, cent);
     }
-    else if (cent->currentState.pos.trType == TR_INTERPOLATE && cent->nextState.lerp.pos.trType != TR_PHYSICS
-        || cent->currentState.pos.trType == TR_LINEAR_STOP && cent->nextState.number < 64)
+    else if ((cent->currentState.pos.trType == TR_INTERPOLATE && cent->nextState.lerp.pos.trType != TR_PHYSICS)
+        || (cent->currentState.pos.trType == TR_LINEAR_STOP && cent->nextState.number < 64))
     {
         CG_InterpolateEntityPosition(cgameGlob, cent);
     }
@@ -1090,17 +1090,17 @@ void __cdecl CG_CreatePhysicsObject(int32_t localClientNum, centity_s *cent)
     if (physPreset)
     {
         Sys_EnterCriticalSection(CRITSECT_PHYSICS);
-        physObjId = (int)Phys_ObjCreate(PHYS_WORLD_FX, position, quat, velocity, physPreset);
+        physObjId = (int)(uintptr_t)Phys_ObjCreate(PHYS_WORLD_FX, position, quat, velocity, physPreset);
         if (physObjId)
         {
-            DObjPhysicsSetCollisionFromXModel(obj, PHYS_WORLD_FX, (dxBody *)physObjId);
+            DObjPhysicsSetCollisionFromXModel(obj, PHYS_WORLD_FX, (dxBody *)(uintptr_t)physObjId);
             direction[0] = cent->currentState.apos.trDelta[0];
             direction[1] = cent->currentState.apos.trDelta[1];
             direction[2] = cent->currentState.apos.trDelta[2];
             speed = Vec3Normalize(direction);
             Phys_ObjBulletImpact(
                 PHYS_WORLD_FX,
-                (dxBody *)physObjId,
+                (dxBody *)(uintptr_t)physObjId,
                 cent->currentState.pos.trDelta,
                 direction,
                 speed,
@@ -1136,7 +1136,7 @@ void __cdecl CG_UpdatePhysicsPose(centity_s *cent)
             "%s",
             "cent->pose.physObjId != PHYS_OBJ_ID_NULL && cent->pose.physObjId != PHYS_OBJ_ID_DEAD");
     Sys_EnterCriticalSection(CRITSECT_PHYSICS);
-    Phys_ObjGetInterpolatedState(PHYS_WORLD_FX, (dxBody *)cent->pose.physObjId, cent->pose.origin, quat);
+    Phys_ObjGetInterpolatedState(PHYS_WORLD_FX, (dxBody *)(uintptr_t)cent->pose.physObjId, cent->pose.origin, quat);
     Sys_LeaveCriticalSection(CRITSECT_PHYSICS);
     UnitQuatToAngles(quat, cent->pose.angles);
 }
@@ -1233,7 +1233,7 @@ DObj_s *__cdecl CG_PreProcess_GetDObj(int32_t localClientNum, int32_t entIndex, 
         {
             if (CG_IsEntityLinked(localClientNum, cent->nextState.number))
                 CG_UnlinkEntity(localClientNum, cent->nextState.number);
-            Phys_ObjDestroy(PHYS_WORLD_FX, (dxBody *)cent->pose.physObjId);
+            Phys_ObjDestroy(PHYS_WORLD_FX, (dxBody *)(uintptr_t)cent->pose.physObjId);
             cent->pose.physObjId = 0;
         }
         FX_MarkEntDetachAll(localClientNum, entIndex);
@@ -1550,7 +1550,7 @@ void __cdecl CG_EntityEffects(int32_t localClientNum, centity_s *cent)
 void __cdecl CG_AddEntityLoopSound(int32_t localClientNum, const centity_s *cent)
 {
     const char *ConfigString; // eax
-    char *v3; // eax
+    [[maybe_unused]] char *v3; // eax
     float midpoint[3]; // [esp+0h] [ebp-1Ch] BYREF
     float origin[3]; // [esp+Ch] [ebp-10h] BYREF
     GfxBrushModel *bmodel; // [esp+18h] [ebp-4h]
@@ -1811,7 +1811,7 @@ void __cdecl CG_LoopFx(int32_t localClientNum, centity_s *cent)
 
 void __cdecl CG_PrimaryLight(int32_t localClientNum, centity_s *cent)
 {
-    const char *v2; // eax
+    [[maybe_unused]] const char *v2; // eax
     GfxLight *light; // [esp+2Ch] [ebp-34h]
     float oldColor[4]; // [esp+30h] [ebp-30h] BYREF
     const ComPrimaryLight *refLight; // [esp+40h] [ebp-20h]

@@ -819,11 +819,7 @@ struct XZoneMemory;
 void CL_ClearKeys(int /*localClientNum*/) {}
 int  Key_IsDown(int /*localClientNum*/, int /*key*/) { return 0; }
 // CG_TraceCapsule provided by src/cgame/cg_world.cpp now.
-int  CG_DObjGetWorldTagPos(const cpose_t * /*pose*/, DObj_s * /*obj*/, unsigned int /*tag*/, float *pos)
-{
-    if (pos) { pos[0] = pos[1] = pos[2] = 0; }
-    return 0;
-}
+// CG_DObjGetWorldTagPos provided by src/cgame_mp/cg_ents_mp.cpp now.
 
 // FX visibility
 double FX_GetClientVisibility(int /*localClientNum*/, const float * /*origin*/, const float * /*viewOrigin*/) { return 1.0; }
@@ -1414,7 +1410,7 @@ void CG_BulletHitEvent(int /*localClientNum*/, int /*sourceEnt*/, unsigned int /
                        unsigned int /*hitEnt*/, float * /*start*/, float * /*end*/,
                        const float * /*normal*/, unsigned int /*flags*/, int /*hitLoc*/,
                        unsigned char /*priority*/, int /*partGroup*/, short /*recoilIndex*/) {}
-void CG_CalcEntityLerpPositions(int /*localClientNum*/, centity_s * /*cent*/) {}
+// CG_CalcEntityLerpPositions provided by src/cgame_mp/cg_ents_mp.cpp now.
 // CG_DrawScoreboard_GetTeamColorIndex provided by src/cgame_mp/cg_scoreboard_mp.cpp now.
 void CG_EjectWeaponBrass(int /*localClientNum*/, const entityState_s * /*es*/, int /*time*/) {}
 void CG_FireWeapon(int /*localClientNum*/, centity_s * /*cent*/, int /*mode*/, unsigned short /*weapon*/,
@@ -1650,8 +1646,7 @@ struct dxJointAMotor;
 struct dxJointBall;
 
 // CG_
-cpose_t *CG_GetPose(int /*localClientNum*/, unsigned int /*handle*/) { return nullptr; }
-void CG_DObjCalcBone(const cpose_t * /*pose*/, DObj_s * /*obj*/, int /*boneIndex*/) {}
+// CG_GetPose / CG_DObjCalcBone provided by src/cgame_mp/cg_ents_mp.cpp now.
 // CG_DrawStringExt now in cgame/cg_drawtools.cpp.
 
 // Com / DObj
@@ -1883,7 +1878,7 @@ uint32_t BG_GetNumWeapons() { return 0u; }
 int32_t  BG_ClipForWeapon(uint32_t) { return 0; }
 void     FX_Beam_Add(FxBeam *) {}
 void     FX_PostLight_Add(FxPostLight *) {}
-int32_t  CG_DObjGetWorldBoneMatrix(const cpose_t *, DObj_s *, int32_t, float (*)[3], float *) { return 0; }
+// CG_DObjGetWorldBoneMatrix provided by src/cgame_mp/cg_ents_mp.cpp now.
 
 const dvar_t *cg_laserEndOffset        = nullptr;
 const dvar_t *cg_laserFlarePct         = nullptr;
@@ -2014,11 +2009,7 @@ bool BG_PlayerHasRoomForEntAllAmmoTypes(const entityState_s *, const playerState
 void BG_PlayerStateToEntityState(playerState_s *, entityState_s *, int, uint8_t) {}
 void PM_UpdateViewAngles(playerState_s *, float, usercmd_s *, uint8_t) {}
 void Pmove(pmove_t *) {}
-void CG_AdjustPositionForMover(int, const float *in, int, int, int, float *out, float *outDeltaAngles)
-{
-    if (out && in) { out[0] = in[0]; out[1] = in[1]; out[2] = in[2]; }
-    if (outDeltaAngles) { outDeltaAngles[0] = 0; outDeltaAngles[1] = 0; outDeltaAngles[2] = 0; }
-}
+// CG_AdjustPositionForMover provided by src/cgame_mp/cg_ents_mp.cpp now.
 // CG_ExtractTransPlayerState provided by src/cgame_mp/cg_snapshot_mp.cpp now.
 
 const dvar_t *cg_errorDecay         = nullptr;
@@ -2035,7 +2026,7 @@ FxEffect *FX_SpawnOrientedEffect(int, const FxEffectDef *, int, const float *, c
 // === cg_snapshot_mp satellites ===================================================
 
 // CG_InitView provided by src/cgame_mp/cg_view_mp.cpp now.
-void   CG_ClearUnion(int, centity_s *) {}
+// CG_ClearUnion provided by src/cgame_mp/cg_ents_mp.cpp now.
 void   CG_GameMessage(int, const char *) {}
 void   R_UnlinkEntity(unsigned int, unsigned int) {}
 void   AimAssist_Setup(int) {}
@@ -2048,12 +2039,12 @@ void   SND_FadeAllSounds(float, int) {}
 void   FX_MarkEntDetachAll(int, int) {}
 // CG_ResetPlayerEntity provided by src/cgame_mp/cg_players_mp.cpp now.
 void   FX_ThroughWithEffect(int, FxEffect *) {}
-void   CG_mg42_PreControllers(DObj_s *, centity_s *) {}
+// CG_mg42_PreControllers provided by src/cgame_mp/cg_ents_mp.cpp now.
 void   CG_UpdateHandViewmodels(int, XModel *) {}
-void   CG_Player_PreControllers(DObj_s *, centity_s *) {}
-void   CG_SetFrameInterpolation(int) {}
+// CG_Player_PreControllers provided by src/cgame_mp/cg_ents_mp.cpp now.
+// CG_SetFrameInterpolation provided by src/cgame_mp/cg_ents_mp.cpp now.
 void   CG_UpdateWeaponViewmodels(int) {}
-void   CG_UpdateBModelWorldBounds(unsigned int, centity_s *, int) {}
+// CG_UpdateBModelWorldBounds provided by src/cgame_mp/cg_ents_mp.cpp now.
 // CG_ExecuteNewServerCommands provided by src/cgame_mp/cg_servercmds_mp.cpp now.
 // CG_CheckOpenWaitingScriptMenu provided by src/cgame_mp/cg_servercmds_mp.cpp now.
 void   AimAssist_ClearEntityReference(int, int) {}
@@ -2077,15 +2068,15 @@ void  CG_VehGunnerPOV(int, float *o, float *a)
     if (a) { a[0] = a[1] = a[2] = 0; }
 }
 void  CG_AddViewWeapon(int) {}
-void  CG_ProcessEntity(int, centity_s *) {}
+// CG_ProcessEntity provided by src/cgame_mp/cg_ents_mp.cpp now.
 void  FX_FillUpdateCmd(int, FxCmd *) {}
 void  AddLeanToPosition(float *, float, float, float, float) {}
-void  CG_DObjUpdateInfo(const cg_s *, DObj_s *, bool) {}
+// CG_DObjUpdateInfo provided by src/cgame_mp/cg_ents_mp.cpp now.
 void  Key_RemoveCatcher(int, int) {}
 double R_GetFarPlaneDist() { return 0.0; }
-void  CG_AddPacketEntity(int, int) {}
+// CG_AddPacketEntity provided by src/cgame_mp/cg_ents_mp.cpp now.
 bool  Key_IsCatcherActive(int, int) { return false; }
-int   CG_AddPacketEntities(int) { return 0; }
+// CG_AddPacketEntities provided by src/cgame_mp/cg_ents_mp.cpp now.
 float CL_GetMenuBlurRadius(int) { return 0.f; }
 void  FX_SetNextUpdateTime(int, int) {}
 void  CL_ResetSkeletonCache(int) {}
@@ -2098,11 +2089,11 @@ void  CG_VehSphereCoordsToPos(float, float, float, float *out) { if (out) { out[
 bool  G_ExitAfterConnectPaths() { return false; }
 void  R_AddCmdProjectionSet2D() {}
 void  R_UpdateSpotLightEffect(FxCmd *) {}
-int32_t CG_DObjGetWorldTagMatrix(const cpose_t *, DObj_s *, uint32_t, float (*)[3], float *) { return 0; }
+// CG_DObjGetWorldTagMatrix provided by src/cgame_mp/cg_ents_mp.cpp now.
 bool  CG_VehLocalClientDriving(int) { return false; }
 void  R_UpdateRemainingEffects(FxCmd *) {}
 float BG_GetHorizontalBobFactor(const playerState_s *, float, float, float) { return 0.f; }
-void  CG_ProcessClientNoteTracks(cg_s *, uint32_t) {}
+// CG_ProcessClientNoteTracks provided by src/cgame_mp/cg_ents_mp.cpp now.
 void  R_UpdateNonDependentEffects(FxCmd *) {}
 int32_t CG_VehLocalClientVehicleSlot(int) { return -1; }
 void  AimAssist_UpdateScreenTargets(int, const float *, const float *, float, float) {}
@@ -2247,6 +2238,46 @@ const dvar_t *hud_fade_sprint             = nullptr;
 const dvar_t *hud_fade_stance             = nullptr;
 const dvar_t *hud_health_startpulse_injured = nullptr;
 const dvar_t *ui_showEndOfGame            = nullptr;
+
+// === cg_ents_mp satellites =======================================================
+
+const char *DObjGetName(const DObj_s *) { return ""; }
+void  Vec3ScaleMad(float, const float *, float, const float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
+GfxBrushModel *R_GetBrushModel(unsigned int) { return nullptr; }
+void  CG_DoControllers(const cpose_t *, const DObj_s *, int *) {}
+void  R_LinkDObjEntity(unsigned int, unsigned int, float *, float) {}
+void  UnitQuatToAngles(const float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
+PhysPreset *DObjGetPhysPreset(const DObj_s *) { return nullptr; }
+void  FX_RetriggerEffect(int, FxEffect *, int) {}
+void  R_LinkBModelEntity(unsigned int, unsigned int, GfxBrushModel *) {}
+void  CG_VehProcessEntity(int, centity_s *) {}
+void  DObjSetHidePartBits(DObj_s *, const unsigned int *) {}
+DObj_s *Com_ClientDObjCreate(DObjModel_s *, unsigned short, XAnimTree_s *, unsigned int, int) { return nullptr; }
+void  DObjGetHierarchyBits(const DObj_s *, int, int *) {}
+void  Phys_ObjBulletImpact(PhysWorld, dxBody *, const float *, const float *, float, float) {}
+bool  CG_IsRagdollTrajectory(const trajectory_t *) { return false; }
+void  R_SkinGfxEntityDelayed(GfxSceneEntity *) {}
+int32_t CG_VehPlayerVehicleSlot(int, uint32_t) { return -1; }
+bool  CG_VehEntityUsingVehicle(int, uint32_t) { return false; }
+void  FX_AssertAllocatedEffect(int, FxEffect *) {}
+bool  CG_PlayerUsingScopedTurret(int) { return false; }
+void  R_UpdateXModelBoundsDelayed(GfxSceneEntity *) {}
+void  BG_Player_DoControllersSetup(const entityState_s *, clientInfo_t *, int) {}
+void  CG_VehSeatTransformForPlayer(int, uint32_t, float *o, float *a)
+{
+    if (o) { o[0] = o[1] = o[2] = 0; }
+    if (a) { a[0] = a[1] = a[2] = 0; }
+}
+void  FX_MarkEntUpdateHidePartBits(const uint32_t *, const uint32_t *, int, int) {}
+void  R_AddBrushModelToSceneFromAngles(const GfxBrushModel *, const float *, const float *, uint16_t) {}
+void  DObjPhysicsSetCollisionFromXModel(const DObj_s *, PhysWorld, dxBody *) {}
+void  Vec3Avg(const float *a, const float *b, float *out)
+{
+    if (a && b && out) { out[0] = (a[0]+b[0])*0.5f; out[1] = (a[1]+b[1])*0.5f; out[2] = (a[2]+b[2])*0.5f; }
+}
+
+uint16_t *controller_names[6]{};
+void *Hunk_AllocXAnimClient(int size) { return std::calloc(size > 0 ? size : 1, 1); }
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
