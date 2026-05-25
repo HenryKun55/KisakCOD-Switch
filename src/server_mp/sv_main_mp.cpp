@@ -22,7 +22,8 @@
 #ifdef WIN32
 #include <win32/win_steam.h>
 #else
-#error Steam auth for Arch(Server)
+// KISAKHACK: Steam auth is Win32-only; periodic check is #ifdef'd out below
+// so no forward declaration is needed here.
 #endif
 
 
@@ -118,7 +119,7 @@ void __cdecl SV_AddServerCommand(client_t *client, svscmd_type type, char *cmd)
 
     if (!client->bIsTestClient)
     {
-        if (client->reliableSequence - client->reliableAcknowledge < 64 && client->header.state == 4
+        if ((client->reliableSequence - client->reliableAcknowledge < 64 && client->header.state == 4)
             || (SV_CullIgnorableServerCommands(client), type))
         {
             to = SV_CanReplaceServerCommand(client, cmd);
@@ -132,7 +133,7 @@ void __cdecl SV_AddServerCommand(client_t *client, svscmd_type type, char *cmd)
                     memcpy(
                         &client->reliableCommandInfo[to++ & 0x7F],
                         &client->reliableCommandInfo[from & 0x7F],
-                        sizeof(client->reliableCommandInfo[to++ & 0x7F]));
+                        sizeof(client->reliableCommandInfo[0]));
             }
             if (client->reliableSequence - client->reliableAcknowledge == 129)
             {
@@ -331,7 +332,7 @@ void __cdecl SVC_Status(netadr_t from)
     int num; // [esp+444Ch] [ebp-418h]
     int v21; // [esp+4450h] [ebp-414h]
     int v22; // [esp+4454h] [ebp-410h]
-    playerState_s *v23; // [esp+4458h] [ebp-40Ch]
+    [[maybe_unused]] playerState_s *v23; // [esp+4458h] [ebp-40Ch]
     char v24; // [esp+445Ch] [ebp-408h] BYREF
     _BYTE v25[3]; // [esp+445Dh] [ebp-407h] BYREF
     int v26; // [esp+485Ch] [ebp-8h]
@@ -388,7 +389,7 @@ void __cdecl SVC_Status(netadr_t from)
     else
         Info_SetValueForKey(s, "pswrd", "0");
     v18 = Dvar_GetString("fs_game");
-    if (!sv_pure->current.enabled || v18 && *v18)
+    if (!sv_pure->current.enabled || (v18 && *v18))
     {
         v22 = 1;
     }
@@ -437,7 +438,7 @@ void __cdecl SVC_GameCompleteStatus(netadr_t from)
     char infostring[1028]; // [esp+438h] [ebp-818h] BYREF
     int i; // [esp+83Ch] [ebp-414h]
     int statusLength; // [esp+840h] [ebp-410h]
-    playerState_s *ps; // [esp+844h] [ebp-40Ch]
+    [[maybe_unused]] playerState_s *ps; // [esp+844h] [ebp-40Ch]
     char player[1028]; // [esp+848h] [ebp-408h] BYREF
 
     v12 = Dvar_InfoString(0, 4);
@@ -598,7 +599,7 @@ void __cdecl SVC_Info(netadr_t from)
         v11 = va("%i", 6);
         Info_SetValueForKey(infostring, "hw", v11);
     }
-    if (!sv_pure->current.enabled || gamedir && *gamedir)
+    if (!sv_pure->current.enabled || (gamedir && *gamedir))
     {
         serverModded = 1;
     }
@@ -634,12 +635,12 @@ void __cdecl SVC_Info(netadr_t from)
 
 void __cdecl SV_ConnectionlessPacket(netadr_t from, msg_t *msg)
 {
-    char *fromAddr; // [esp+0h] [ebp-1Ch]
-    client_t *clients; // [esp+4h] [ebp-18h]
+    [[maybe_unused]] char *fromAddr; // [esp+0h] [ebp-1Ch]
+    [[maybe_unused]] client_t *clients; // [esp+4h] [ebp-18h]
     const char *c; // [esp+8h] [ebp-14h]
-    int clientIndex; // [esp+Ch] [ebp-10h]
+    [[maybe_unused]] int clientIndex; // [esp+Ch] [ebp-10h]
     char *s; // [esp+10h] [ebp-Ch]
-    int i; // [esp+14h] [ebp-8h]
+    [[maybe_unused]] int i; // [esp+14h] [ebp-8h]
 
     clientIndex = -1;
     MSG_BeginReading(msg);
@@ -1253,10 +1254,12 @@ void SV_PostFrame()
     SV_MasterHeartbeat("COD-4");
 
     // LWSS ADD: Steam Periodic Auth Check
+#ifdef WIN32
     if (com_dedicated->current.integer)
     {
         Steam_CheckClients();
     }
+#endif
     // LWSS END
     
     {

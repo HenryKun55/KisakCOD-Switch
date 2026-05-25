@@ -141,6 +141,7 @@ set(SERVER_PORTABLE_SOURCES
     "${SRC_DIR}/server_mp/sv_archive_mp.cpp"
     "${SRC_DIR}/server_mp/sv_ccmds_mp.cpp"
     "${SRC_DIR}/server_mp/sv_init_mp.cpp"
+    "${SRC_DIR}/server_mp/sv_main_mp.cpp"
     "${SRC_DIR}/server_mp/sv_voice_mp.cpp"
     "${SRC_DIR}/server_mp/sv_main_pc_mp.cpp"
     "${SRC_DIR}/server_mp/sv_net_chan_mp.cpp"

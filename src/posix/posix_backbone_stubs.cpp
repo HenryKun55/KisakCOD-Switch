@@ -31,6 +31,7 @@
 #include <cmath>
 
 #include <qcommon/qcommon.h>
+#include <qcommon/threads.h>
 #include <universal/com_files.h>
 #include <universal/com_math.h>
 #include <bgame/bg_local.h>
@@ -268,7 +269,7 @@ sysEvent_t *Sys_GetEvent(sysEvent_t *result)
 void Sys_LockWrite(FastCriticalSection * /*cs*/) {}
 void Sys_UnlockWrite(FastCriticalSection * /*cs*/) {}
 
-unsigned int Win_UpdateThreadLock() { return 0; }
+void Win_UpdateThreadLock() {}
 
 // =========================================================================
 // FS_* — file system.
@@ -375,14 +376,14 @@ void CL_UpdateSound() {}
 // =========================================================================
 
 // SV_AddDedicatedCommands provided by src/server_mp/sv_ccmds_mp.cpp now.
-int  SV_Frame(int /*frameTime*/) { return 0; }
+// SV_Frame provided by src/server_mp/sv_main_mp.cpp now.
 // SV_GameCommand now in server/sv_game.cpp.
 // SV_Init provided by src/server_mp/sv_init_mp.cpp now.
-void SV_PacketEvent(netadr_t /*from*/, msg_t * /*msg*/) {}
+// SV_PacketEvent provided by src/server_mp/sv_main_mp.cpp now.
 // SV_SetConfigValueForKey provided by src/server_mp/sv_init_mp.cpp now.
 // SV_Shutdown provided by src/server_mp/sv_init_mp.cpp now.
 // SV_ShutdownGameProgs now in server/sv_game.cpp.
-void SV_WaitServer() {}
+// SV_WaitServer provided by src/server_mp/sv_main_mp.cpp now.
 
 // =========================================================================
 // SND_* — sound. Stubs.
@@ -789,7 +790,7 @@ void TRACK_snd_driver() {}
 void TRACK_snd() {}
 void TRACK_stringed_hooks() {}
 // TRACK_sv_game now in server/sv_game.cpp.
-void TRACK_sv_main() {}
+// TRACK_sv_main provided by src/server_mp/sv_main_mp.cpp now.
 void TRACK_ui_main() {}
 void TRACK_ui_shared() {}
 // TRACK_ui_utils now in ui/ui_utils.cpp.
@@ -977,9 +978,9 @@ const dvar_t *cl_voice = nullptr;
 gentity_s g_entities[1024]{};
 level_locals_t level{};
 const dvar_t *net_profile = nullptr;
-const dvar_t *sv_maxclients = nullptr;
+// sv_maxclients provided by src/server_mp/sv_main_mp.cpp now.
 // sv_voice provided by src/server_mp/sv_init_mp.cpp now.
-serverStatic_t svs{};
+// svs provided by src/server_mp/sv_main_mp.cpp now.
 
 // =========================================================================
 // Misc-2 batch — sv_game / g_svcmds / cg_consolecmds_mp cascade.
@@ -1048,7 +1049,7 @@ bool Scr_IsValidGameType(const char * /*name*/) { return false; }
 unsigned int SV_ClipHandleForEntity(const gentity_s * /*ent*/) { return 0; }
 // SV_GetMapBaseName provided by src/server_mp/sv_ccmds_mp.cpp now.
 void SV_LinkEntity(gentity_s * /*ent*/) {}
-void SV_SendServerCommand(client_t * /*cl*/, svscmd_type /*type*/, const char * /*fmt*/, ...) {}
+// SV_SendServerCommand provided by src/server_mp/sv_main_mp.cpp now.
 // SV_SetConfigstring provided by src/server_mp/sv_init_mp.cpp now.
 
 unsigned int Sys_MillisecondsRaw() { return Sys_Milliseconds(); }
@@ -1065,8 +1066,7 @@ float Vec2DistanceSq(const float *a, const float *b)
 
 const dvar_t *g_banIPs = nullptr;
 const dvar_t *g_dedicated = nullptr;
-const dvar_t *sv_gametype = nullptr;
-
+// sv_gametype provided by src/server_mp/sv_main_mp.cpp now.
 // =========================================================================
 // Small batch — cl_net_chan_mp / cl_pose_mp / sv_main_pc_mp / g_scr_mover.
 // =========================================================================
@@ -1096,9 +1096,9 @@ void Scr_Notify(gentity_s * /*ent*/, unsigned short /*name*/, unsigned int /*par
 void Scr_ObjectError(const char * /*msg*/) {}
 void Scr_ParamError(unsigned int /*paramIndex*/, const char * /*msg*/) {}
 
-client_t *SV_FindClientByAddress(netadr_t /*adr*/, int /*qport*/) { return nullptr; }
+// SV_FindClientByAddress provided by src/server_mp/sv_main_mp.cpp now.
 // SV_PreGameUserVoice / SV_UserVoice provided by src/server_mp/sv_voice_mp.cpp now.
-void SVC_GameCompleteStatus(netadr_t /*from*/) {}
+// SVC_GameCompleteStatus provided by src/server_mp/sv_main_mp.cpp now.
 
 const dvar_t *cl_profileTextHeight = nullptr;
 // rcon_password provided by src/server_mp/sv_init_mp.cpp now.
@@ -1393,8 +1393,7 @@ bool OnSameTeam(gentity_s * /*ent1*/, gentity_s * /*ent2*/) { return false; }
 const dvar_t *bullet_penetrationEnabled = nullptr;
 const dvar_t *bullet_penetrationMinFxDist = nullptr;
 const dvar_t *g_debugLocDamage = nullptr;
-const dvar_t *sv_clientSideBullets = nullptr;
-
+// sv_clientSideBullets provided by src/server_mp/sv_main_mp.cpp now.
 sharedUiInfo_t sharedUiInfo{};
 
 // cg_event cascade.
@@ -1521,7 +1520,7 @@ searchpath_s *fs_searchpaths = nullptr;
 const char *fs_serverIwdNames[1024]{};
 int fs_serverIwds[1024]{};
 const dvar_t *loc_language = nullptr;
-server_t sv;
+// sv provided by src/server_mp/sv_main_mp.cpp now.
 // updateScreenCalled provided by src/client_mp/cl_scrn_mp.cpp now.
 
 // fx_randomTable: 507-entry deterministic random table used by the
@@ -2529,12 +2528,12 @@ PlayerKeyState playerKeys[1]{};
 
 void FS_Restart(int, int) {}
 void CL_InitLoad(const char *, const char *) {}
-void SV_RunFrame() {}
+// SV_RunFrame provided by src/server_mp/sv_main_mp.cpp now.
 void CL_MapLoading(const char *) {}
 char *ClientConnect(uint32_t, uint16_t) { return nullptr; }
 void SV_FreeClients() {}
 // SV_Heartbeat_f provided by src/server_mp/sv_ccmds_mp.cpp now.
-void SV_InitSnapshot() {}
+// SV_InitSnapshot provided by src/server_mp/sv_main_mp.cpp now.
 char *FS_LoadedIwdNames() { return const_cast<char *>(""); }
 void SV_SendDisconnect(client_t *, int, const char *, bool, const char *) {}
 void DB_UpdateDebugZone() {}
@@ -2547,7 +2546,7 @@ void Scr_ParseGameTypeList() {}
 char CL_IsLocalClientActive(int) { return 0; }
 // SV_AddOperatorCommands provided by src/server_mp/sv_ccmds_mp.cpp now.
 void SV_BeginClientSnapshot(client_t *, msg_t *) {}
-void SV_SetSystemInfoConfig() {}
+// SV_SetSystemInfoConfig provided by src/server_mp/sv_main_mp.cpp now.
 char *DB_ReferencedFFNameList() { return const_cast<char *>(""); }
 char *DB_ReferencedFFChecksums() { return const_cast<char *>(""); }
 void SV_GetServerStaticHeader() {}
@@ -2558,40 +2557,39 @@ void SV_WriteEntityFieldNumbers() {}
 void Sys_EndLoadThreadPriorities() {}
 void Sys_BeginLoadThreadPriorities() {}
 
-int com_inServerFrame = 0;
+// com_inServerFrame provided by src/server_mp/sv_main_mp.cpp now.
 // sv_serverId_value provided by src/server_mp/sv_ccmds_mp.cpp now.
-const dvar_t *sv_allowedClan1 = nullptr;
-const dvar_t *sv_allowedClan2 = nullptr;
-const dvar_t *sv_botsPressAttackBtn = nullptr;
-const dvar_t *sv_cheats              = nullptr;
-const dvar_t *sv_connectTimeout      = nullptr;
-const dvar_t *sv_debugMessageKey     = nullptr;
-const dvar_t *sv_debugPacketContents = nullptr;
-const dvar_t *sv_debugPacketContentsForClientThisFrame = nullptr;
-const dvar_t *sv_debugPlayerstate    = nullptr;
-const dvar_t *sv_debugRate           = nullptr;
-const dvar_t *sv_debugReliableCmds   = nullptr;
-const dvar_t *sv_disableClientConsole = nullptr;
-const dvar_t *sv_floodProtect        = nullptr;
-const dvar_t *sv_fps                 = nullptr;
-const dvar_t *sv_hostname            = nullptr;
-const dvar_t *sv_kickBanTime         = nullptr;
-const dvar_t *sv_mapRotation         = nullptr;
-const dvar_t *sv_mapRotationCurrent  = nullptr;
-const dvar_t *sv_mapname             = nullptr;
-const dvar_t *sv_maxPing             = nullptr;
-const dvar_t *sv_maxRate             = nullptr;
-const dvar_t *sv_minPing             = nullptr;
-const dvar_t *sv_packet_info         = nullptr;
-const dvar_t *sv_padPackets          = nullptr;
-const dvar_t *sv_privateClients      = nullptr;
-const dvar_t *sv_reconnectlimit      = nullptr;
-const dvar_t *sv_serverid            = nullptr;
-const dvar_t *sv_showAverageBPS      = nullptr;
-const dvar_t *sv_showCommands        = nullptr;
-const dvar_t *sv_timeout             = nullptr;
-const dvar_t *sv_zombietime          = nullptr;
-
+// sv_allowedClan1 provided by src/server_mp/sv_main_mp.cpp now.
+// sv_allowedClan2 provided by src/server_mp/sv_main_mp.cpp now.
+// sv_botsPressAttackBtn provided by src/server_mp/sv_main_mp.cpp now.
+// sv_cheats provided by src/server_mp/sv_main_mp.cpp now.
+// sv_connectTimeout provided by src/server_mp/sv_main_mp.cpp now.
+// sv_debugMessageKey provided by src/server_mp/sv_main_mp.cpp now.
+// sv_debugPacketContents provided by src/server_mp/sv_main_mp.cpp now.
+// sv_debugPacketContentsForClientThisFrame provided by src/server_mp/sv_main_mp.cpp now.
+// sv_debugPlayerstate provided by src/server_mp/sv_main_mp.cpp now.
+// sv_debugRate provided by src/server_mp/sv_main_mp.cpp now.
+// sv_debugReliableCmds provided by src/server_mp/sv_main_mp.cpp now.
+// sv_disableClientConsole provided by src/server_mp/sv_main_mp.cpp now.
+// sv_floodProtect provided by src/server_mp/sv_main_mp.cpp now.
+// sv_fps provided by src/server_mp/sv_main_mp.cpp now.
+// sv_hostname provided by src/server_mp/sv_main_mp.cpp now.
+// sv_kickBanTime provided by src/server_mp/sv_main_mp.cpp now.
+// sv_mapRotation provided by src/server_mp/sv_main_mp.cpp now.
+// sv_mapRotationCurrent provided by src/server_mp/sv_main_mp.cpp now.
+// sv_mapname provided by src/server_mp/sv_main_mp.cpp now.
+// sv_maxPing provided by src/server_mp/sv_main_mp.cpp now.
+// sv_maxRate provided by src/server_mp/sv_main_mp.cpp now.
+// sv_minPing provided by src/server_mp/sv_main_mp.cpp now.
+// sv_packet_info provided by src/server_mp/sv_main_mp.cpp now.
+// sv_padPackets provided by src/server_mp/sv_main_mp.cpp now.
+// sv_privateClients provided by src/server_mp/sv_main_mp.cpp now.
+// sv_reconnectlimit provided by src/server_mp/sv_main_mp.cpp now.
+// sv_serverid provided by src/server_mp/sv_main_mp.cpp now.
+// sv_showAverageBPS provided by src/server_mp/sv_main_mp.cpp now.
+// sv_showCommands provided by src/server_mp/sv_main_mp.cpp now.
+// sv_timeout provided by src/server_mp/sv_main_mp.cpp now.
+// sv_zombietime provided by src/server_mp/sv_main_mp.cpp now.
 // === sv_ccmds_mp satellites ======================================================
 
 void BG_SetPerk(int32_t *, uint32_t) {}
@@ -2606,13 +2604,34 @@ int32_t G_GetClientScore(int32_t) { return 0; }
 clientState_s *G_GetClientState(int32_t) { return nullptr; }
 void G_SetSavePersist(int32_t) {}
 void SV_BanGuidBriefly(const char *) {}
-void SV_AddServerCommand(client_t *, svscmd_type, char *) {}
+// SV_AddServerCommand provided by src/server_mp/sv_main_mp.cpp now.
 void SV_ClientEnterWorld(client_t *, usercmd_s *) {}
 void Scr_DoProfileBuiltin(float) {}
 void Scr_DumpScriptThreads() {}
 void Scr_RunDebuggerRemote() {}
 void Scr_DumpScriptVariables(bool, bool, bool, bool, bool, const char *, const char *, int) {}
 void Steam_SV_AddTestCommands() {}
+
+// === sv_main_mp satellites =======================================================
+
+void G_RunFrame(int32_t) {}
+void FakeLag_Frame() {}
+void Scr_FreeValue(unsigned int) {}
+void SV_ClientThink(client_t *, usercmd_s *) {}
+void Scr_SetLoading(int) {}
+int  Netchan_Process(netchan_t *, msg_t *) { return 0; }
+void SV_GetChallenge(netadr_t) {}
+void SV_ReceiveStats(netadr_t, msg_t *) {}
+void SV_DirectConnect(netadr_t) {}
+WinThreadLock Win_GetThreadLock() { return {}; }
+void SV_DelayDropClient(client_t *, const char *) {}
+void Scr_UpdateDebugger() {}
+void SV_SendClientMessages() {}
+int32_t G_GetClientArchiveTime(int32_t) { return 0; }
+void SV_ExecuteClientMessage(client_t *, msg_t *) {}
+void MSG_WriteReliableCommandToBuffer(const char *, char *, int) {}
+
+uint8_t tempServerMsgBuf[131072]{};
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
