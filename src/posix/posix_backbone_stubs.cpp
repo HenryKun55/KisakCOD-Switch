@@ -374,7 +374,7 @@ void CL_UpdateSound() {}
 // SV_* — server. Stubs.
 // =========================================================================
 
-void SV_AddDedicatedCommands() {}
+// SV_AddDedicatedCommands provided by src/server_mp/sv_ccmds_mp.cpp now.
 int  SV_Frame(int /*frameTime*/) { return 0; }
 // SV_GameCommand now in server/sv_game.cpp.
 // SV_Init provided by src/server_mp/sv_init_mp.cpp now.
@@ -1046,7 +1046,7 @@ bool NET_IsLocalAddress(netadr_t /*adr*/) { return false; }
 bool Scr_IsValidGameType(const char * /*name*/) { return false; }
 
 unsigned int SV_ClipHandleForEntity(const gentity_s * /*ent*/) { return 0; }
-char *SV_GetMapBaseName(char *name) { if (name) name[0] = 0; return name; }
+// SV_GetMapBaseName provided by src/server_mp/sv_ccmds_mp.cpp now.
 void SV_LinkEntity(gentity_s * /*ent*/) {}
 void SV_SendServerCommand(client_t * /*cl*/, svscmd_type /*type*/, const char * /*fmt*/, ...) {}
 // SV_SetConfigstring provided by src/server_mp/sv_init_mp.cpp now.
@@ -2533,7 +2533,7 @@ void SV_RunFrame() {}
 void CL_MapLoading(const char *) {}
 char *ClientConnect(uint32_t, uint16_t) { return nullptr; }
 void SV_FreeClients() {}
-void SV_Heartbeat_f() {}
+// SV_Heartbeat_f provided by src/server_mp/sv_ccmds_mp.cpp now.
 void SV_InitSnapshot() {}
 char *FS_LoadedIwdNames() { return const_cast<char *>(""); }
 void SV_SendDisconnect(client_t *, int, const char *, bool, const char *) {}
@@ -2545,7 +2545,7 @@ char *FS_LoadedIwdChecksums() { return const_cast<char *>(""); }
 char *FS_ReferencedIwdNames() { return const_cast<char *>(""); }
 void Scr_ParseGameTypeList() {}
 char CL_IsLocalClientActive(int) { return 0; }
-void SV_AddOperatorCommands() {}
+// SV_AddOperatorCommands provided by src/server_mp/sv_ccmds_mp.cpp now.
 void SV_BeginClientSnapshot(client_t *, msg_t *) {}
 void SV_SetSystemInfoConfig() {}
 char *DB_ReferencedFFNameList() { return const_cast<char *>(""); }
@@ -2559,7 +2559,7 @@ void Sys_EndLoadThreadPriorities() {}
 void Sys_BeginLoadThreadPriorities() {}
 
 int com_inServerFrame = 0;
-int sv_serverId_value = 0;
+// sv_serverId_value provided by src/server_mp/sv_ccmds_mp.cpp now.
 const dvar_t *sv_allowedClan1 = nullptr;
 const dvar_t *sv_allowedClan2 = nullptr;
 const dvar_t *sv_botsPressAttackBtn = nullptr;
@@ -2591,6 +2591,28 @@ const dvar_t *sv_showAverageBPS      = nullptr;
 const dvar_t *sv_showCommands        = nullptr;
 const dvar_t *sv_timeout             = nullptr;
 const dvar_t *sv_zombietime          = nullptr;
+
+// === sv_ccmds_mp satellites ======================================================
+
+void BG_SetPerk(int32_t *, uint32_t) {}
+char *I_CleanStr(char *s) { return s; }
+int I_DrawStrlen(const char *s) { return s ? static_cast<int>(std::strlen(s)) : 0; }
+void SV_BanClient(client_t *) {}
+void Scr_DoProfile(float) {}
+void FS_ConvertPath(char *) {}
+void SV_UnbanClient(char *) {}
+void Scr_RunDebugger() {}
+int32_t G_GetClientScore(int32_t) { return 0; }
+clientState_s *G_GetClientState(int32_t) { return nullptr; }
+void G_SetSavePersist(int32_t) {}
+void SV_BanGuidBriefly(const char *) {}
+void SV_AddServerCommand(client_t *, svscmd_type, char *) {}
+void SV_ClientEnterWorld(client_t *, usercmd_s *) {}
+void Scr_DoProfileBuiltin(float) {}
+void Scr_DumpScriptThreads() {}
+void Scr_RunDebuggerRemote() {}
+void Scr_DumpScriptVariables(bool, bool, bool, bool, bool, const char *, const char *, int) {}
+void Steam_SV_AddTestCommands() {}
 
 // === CGAME dvars and storage referenced by the new sources =========================
 

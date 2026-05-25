@@ -20,7 +20,9 @@
 #ifdef WIN32
 #include <win32/win_steam.h>
 #else
-#error Steam auth for Arch(Server)
+// KISAKHACK: Steam auth is Win32-only. Provide a forward declaration so the
+// POSIX/Switch build can link against a stub from posix_backbone_stubs.cpp.
+void Steam_SV_AddTestCommands();
 #endif
 #include <qcommon/com_bsp.h>
 
@@ -407,7 +409,7 @@ void __cdecl SV_Map_f()
         {
             if (!fs_gameDirVar)
                 MyAssertHandler(".\\server_mp\\sv_ccmds_mp.cpp", 239, 0, "%s", "fs_gameDirVar");
-            if (!DB_FileSize(mapname, 0) && (!*(_BYTE *)fs_gameDirVar->current.integer || !DB_FileSize(mapname, 1)))
+            if (!DB_FileSize(mapname, 0) && (!*(_BYTE *)(uintptr_t)fs_gameDirVar->current.integer || !DB_FileSize(mapname, 1)))
             {
                 Com_PrintError(1, "Can't find map \"%s\".\n", mapname);
                 return;
@@ -471,7 +473,7 @@ void __cdecl SV_MapRestart(int fast_restart)
     if (com_sv_running->current.enabled)
     {
         SV_SetGametype();
-        I_strncpyz(sv.gametype, (char *)sv_gametype->current.integer, 64);
+        I_strncpyz(sv.gametype, (char *)(uintptr_t)sv_gametype->current.integer, 64);
         savepersist = G_GetSavePersist();
         if (sv_maxclients->modified || I_stricmp(sv.gametype, sv_gametype->current.string) || !fast_restart)
         {
@@ -567,12 +569,12 @@ void __cdecl SV_MapRotate_f()
     Com_Printf(0, "map_rotate...\n\n");
     Com_Printf(0, "\"sv_mapRotation\" is:\"%s\"\n\n", sv_mapRotation->current.string);
     Com_Printf(0, "\"sv_mapRotationCurrent\" is:\"%s\"\n\n", sv_mapRotationCurrent->current.string);
-    if (!*(_BYTE *)sv_mapRotationCurrent->current.integer)
-        Dvar_SetString((dvar_s *)sv_mapRotationCurrent, (char *)sv_mapRotation->current.integer);
+    if (!*(_BYTE *)(uintptr_t)sv_mapRotationCurrent->current.integer)
+        Dvar_SetString((dvar_s *)sv_mapRotationCurrent, (char *)(uintptr_t)sv_mapRotation->current.integer);
     token = SV_GetMapRotationToken();
     if (!token)
     {
-        Dvar_SetString((dvar_s *)sv_mapRotationCurrent, (char *)sv_mapRotation->current.integer);
+        Dvar_SetString((dvar_s *)sv_mapRotationCurrent, (char *)(uintptr_t)sv_mapRotation->current.integer);
         token = SV_GetMapRotationToken();
     }
     while (1)
