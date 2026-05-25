@@ -998,8 +998,7 @@ bool BoxDistSqrdExceeds(const float * /*center*/, const float * /*mins*/, const 
 
 void CG_ActionSlotDown_f() {}
 void CG_ActionSlotUp_f() {}
-void CG_FxSetTestPosition() {}
-void CG_FxTest() {}
+// CG_FxSetTestPosition / CG_FxTest provided by src/cgame_mp/cg_view_mp.cpp now.
 // CG_IsScoreboardDisplayed provided by src/cgame_mp/cg_scoreboard_mp.cpp now.
 void CG_NextWeapon_f() {}
 void CG_PrevWeapon_f() {}
@@ -1922,7 +1921,7 @@ void SND_DeactivateChannelVolumes(int, int) {}
 void SND_SetEnvironmentEffects(int, const char *, float, float, int) {}
 void SND_DeactivateEnvironmentEffects(int, int) {}
 int32_t CL_GetLocalClientActiveCount() { return 0; }
-const ClientViewParams *CG_GetLocalClientViewParams(int) { return nullptr; }
+// CG_GetLocalClientViewParams provided by src/cgame_mp/cg_view_mp.cpp now.
 
 // === cg_effects_load_obj satellites ==============================================
 
@@ -2035,7 +2034,7 @@ FxEffect *FX_SpawnOrientedEffect(int, const FxEffectDef *, int, const float *, c
 
 // === cg_snapshot_mp satellites ===================================================
 
-void   CG_InitView(int) {}
+// CG_InitView provided by src/cgame_mp/cg_view_mp.cpp now.
 void   CG_ClearUnion(int, centity_s *) {}
 void   CG_GameMessage(int, const char *) {}
 void   R_UnlinkEntity(unsigned int, unsigned int) {}
@@ -2045,7 +2044,7 @@ XModel *R_RegisterModel(const char *) { return nullptr; }
 void   SND_SetListener(int, int, const float *, const float (*)[3]) {}
 void   SND_FadeAllSounds(float, int) {}
 void   CG_UpdatePlayerDObj(int, centity_s *) {}
-void   CG_UpdateViewOffset(int) {}
+// CG_UpdateViewOffset provided by src/cgame_mp/cg_view_mp.cpp now.
 void   FX_MarkEntDetachAll(int, int) {}
 void   CG_ResetPlayerEntity(int, cg_s *, centity_s *, int) {}
 void   FX_ThroughWithEffect(int, FxEffect *) {}
@@ -2061,6 +2060,75 @@ void   AimAssist_ClearEntityReference(int, int) {}
 
 float cg_entityOriginArray[1][1024][3]{};
 const dvar_t *cg_fs_debug = nullptr;
+
+// === cg_view_mp satellites =======================================================
+
+float BG_GetSpeed(const playerState_s *, int) { return 0.f; }
+void  FX_RewindTo(int, int) {}
+void  R_ClearScene(unsigned int) {}
+void  CG_DrawActive(int) {}
+float BG_GetBobCycle(const playerState_s *) { return 0.f; }
+void  FX_BeginUpdate(int) {}
+void  Key_AddCatcher(int, int) {}
+void  R_SetLodOrigin(const refdef_s *) {}
+void  CG_VehGunnerPOV(int, float *o, float *a)
+{
+    if (o) { o[0] = o[1] = o[2] = 0; }
+    if (a) { a[0] = a[1] = a[2] = 0; }
+}
+void  CG_AddViewWeapon(int) {}
+void  CG_ProcessEntity(int, centity_s *) {}
+void  FX_FillUpdateCmd(int, FxCmd *) {}
+void  AddLeanToPosition(float *, float, float, float, float) {}
+void  CG_DObjUpdateInfo(const cg_s *, DObj_s *, bool) {}
+void  Key_RemoveCatcher(int, int) {}
+double R_GetFarPlaneDist() { return 0.0; }
+void  CG_AddPacketEntity(int, int) {}
+bool  Key_IsCatcherActive(int, int) { return false; }
+int   CG_AddPacketEntities(int) { return 0; }
+float CL_GetMenuBlurRadius(int) { return 0.f; }
+void  FX_SetNextUpdateTime(int, int) {}
+void  CL_ResetSkeletonCache(int) {}
+void  BG_CalculateViewAngles(viewState_t *, float *) {}
+void  FX_SetNextUpdateCamera(int, const refdef_s *, float) {}
+float BG_GetVerticalBobFactor(const playerState_s *, float, float, float) { return 0.f; }
+int32_t BG_IsAimDownSightWeapon(uint32_t) { return 0; }
+void  CG_UpdateViewWeaponAnim(int) {}
+void  CG_VehSphereCoordsToPos(float, float, float, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
+bool  G_ExitAfterConnectPaths() { return false; }
+void  R_AddCmdProjectionSet2D() {}
+void  R_UpdateSpotLightEffect(FxCmd *) {}
+int32_t CG_DObjGetWorldTagMatrix(const cpose_t *, DObj_s *, uint32_t, float (*)[3], float *) { return 0; }
+bool  CG_VehLocalClientDriving(int) { return false; }
+void  R_UpdateRemainingEffects(FxCmd *) {}
+float BG_GetHorizontalBobFactor(const playerState_s *, float, float, float) { return 0.f; }
+void  CG_ProcessClientNoteTracks(cg_s *, uint32_t) {}
+void  R_UpdateNonDependentEffects(FxCmd *) {}
+int32_t CG_VehLocalClientVehicleSlot(int) { return -1; }
+void  AimAssist_UpdateScreenTargets(int, const float *, const float *, float, float) {}
+bool  CG_VehLocalClientUsingVehicle(int) { return false; }
+int32_t AimAssist_GetScreenTargetCount(int) { return 0; }
+void  CG_VehSeatOriginForLocalClient(int, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
+int32_t AimAssist_GetScreenTargetEntity(int, uint32_t) { return -1; }
+int32_t CL_LocalActiveIndexFromClientNum(int) { return 0; }
+void  CL_Input(int) {}
+void  CG_Draw2D(int) {}
+void  R_SyncGpu(int (*)(unsigned long long)) {}
+
+const dvar_t *bg_bobMax           = nullptr;
+UiContext     cgDC[1]{};
+const dvar_t *cg_drawShellshock   = nullptr;
+const dvar_t *cg_dumpAnims        = nullptr;
+const dvar_t *cg_fov              = nullptr;
+const dvar_t *cg_fovMin           = nullptr;
+const dvar_t *cg_fovScale         = nullptr;
+const dvar_t *cg_thirdPerson      = nullptr;
+const dvar_t *cg_thirdPersonAngle = nullptr;
+const dvar_t *cg_thirdPersonRange = nullptr;
+const dvar_t *vehDebugClient        = nullptr;
+const dvar_t *vehDriverViewDist     = nullptr;
+const dvar_t *vehDriverViewFocusRange = nullptr;
+const dvar_t *vehDriverViewHeightMax  = nullptr;
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
