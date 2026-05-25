@@ -2006,6 +2006,29 @@ DObjAnimMat *CG_DObjCalcPose(const cpose_t *, const DObj_s *, int32_t *) { retur
 void   DynEntCl_ClipMoveTrace(const moveclip_t *, trace_t *) {}
 void   CM_PointTraceStaticModels(trace_t *, const float *, const float *, int) {}
 
+// === cg_predict_mp satellites ====================================================
+
+void CL_SendCmd(int) {}
+bool BG_CanItemBeGrabbed(const entityState_s *, const playerState_s *, int) { return false; }
+bool BG_PlayerTouchesItem(const playerState_s *, const entityState_s *, int) { return false; }
+bool BG_PlayerHasRoomForEntAllAmmoTypes(const entityState_s *, const playerState_s *) { return false; }
+void BG_PlayerStateToEntityState(playerState_s *, entityState_s *, int, uint8_t) {}
+void PM_UpdateViewAngles(playerState_s *, float, usercmd_s *, uint8_t) {}
+void Pmove(pmove_t *) {}
+void CG_AdjustPositionForMover(int, const float *in, int, int, int, float *out, float *outDeltaAngles)
+{
+    if (out && in) { out[0] = in[0]; out[1] = in[1]; out[2] = in[2]; }
+    if (outDeltaAngles) { outDeltaAngles[0] = 0; outDeltaAngles[1] = 0; outDeltaAngles[2] = 0; }
+}
+void CG_ExtractTransPlayerState(const playerState_s *, transPlayerState_t *) {}
+
+const dvar_t *cg_errorDecay         = nullptr;
+const dvar_t *cg_predictItems       = nullptr;
+const dvar_t *cg_showmiss           = nullptr;
+const dvar_t *cg_viewZSmoothingMax  = nullptr;
+const dvar_t *cg_viewZSmoothingMin  = nullptr;
+const dvar_t *cg_viewZSmoothingTime = nullptr;
+
 // === CGAME dvars and storage referenced by the new sources =========================
 
 const dvar_t *cg_crosshairAlpha        = nullptr;
