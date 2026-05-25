@@ -69,7 +69,7 @@ void __cdecl CG_DrawCenterString(
     float* color,
     int32_t textStyle)
 {
-    float v6; // [esp+24h] [ebp-20h]
+    [[maybe_unused]] float v6; // [esp+24h] [ebp-20h]
     CenterPrint* centerPrint; // [esp+34h] [ebp-10h]
     float* fadeColor; // [esp+38h] [ebp-Ch]
     int32_t time; // [esp+3Ch] [ebp-8h]
@@ -428,7 +428,7 @@ void __cdecl CG_CheckForPlayerInput(int32_t localClientNum)
     usercmd_s v1; // [esp-40h] [ebp-9Ch] BYREF
     usercmd_s v2; // [esp-20h] [ebp-7Ch] BYREF
     usercmd_s oldCmd; // [esp+8h] [ebp-54h] BYREF
-    int32_t oldCmdIndex; // [esp+28h] [ebp-34h]
+    [[maybe_unused]] int32_t oldCmdIndex; // [esp+28h] [ebp-34h]
     usercmd_s newCmd; // [esp+2Ch] [ebp-30h] BYREF
     int32_t newInput; // [esp+50h] [ebp-Ch]
     int32_t changedButtons; // [esp+54h] [ebp-8h]
@@ -598,8 +598,8 @@ void __cdecl CG_CheckHudStanceDisplay(int32_t localClientNum)
 
     cgameGlob = CG_GetLocalClientGlobals(localClientNum);
 
-    if ((cgameGlob->nextSnap->ps.eFlags & 8) != 0 && (cgameGlob->nextSnap->ps.eFlags & 0x100) != 0
-        || (cgameGlob->nextSnap->ps.eFlags & 4) != 0 && (cgameGlob->nextSnap->ps.eFlags & 0x200) != 0)
+    if (((cgameGlob->nextSnap->ps.eFlags & 8) != 0 && (cgameGlob->nextSnap->ps.eFlags & 0x100) != 0)
+        || ((cgameGlob->nextSnap->ps.eFlags & 4) != 0 && (cgameGlob->nextSnap->ps.eFlags & 0x200) != 0))
     {
         CG_MenuShowNotify(localClientNum, 3);
     }
@@ -928,7 +928,7 @@ int32_t __cdecl CG_DrawFollow(int32_t localClientNum)
     char clientName[40]; // [esp+34h] [ebp-3Ch] BYREF
     float scale; // [esp+60h] [ebp-10h]
     float x; // [esp+64h] [ebp-Ch]
-    float y; // [esp+68h] [ebp-8h]
+    [[maybe_unused]] float y; // [esp+68h] [ebp-8h]
     const playerState_s* ps; // [esp+6Ch] [ebp-4h]
 
     cg_s *cgameGlob;
@@ -1054,7 +1054,7 @@ void __cdecl CG_DrawOverheadNames(int32_t localClientNum, const centity_s *cent,
     float iconSize; // [esp+94h] [ebp-A8h]
     float textSize; // [esp+98h] [ebp-A4h]
     float rankSize; // [esp+9Ch] [ebp-A0h]
-    float distance; // [esp+A0h] [ebp-9Ch]
+    [[maybe_unused]] float distance; // [esp+A0h] [ebp-9Ch]
     float distFrac; // [esp+A4h] [ebp-98h]
     Font_s *font; // [esp+A8h] [ebp-94h]
     DObj_s *obj; // [esp+ACh] [ebp-90h]
@@ -1067,7 +1067,7 @@ void __cdecl CG_DrawOverheadNames(int32_t localClientNum, const centity_s *cent,
     char textBuffer[40]; // [esp+D8h] [ebp-64h] BYREF
     float glow[4]; // [esp+104h] [ebp-38h] BYREF
     float scale; // [esp+114h] [ebp-28h]
-    const playerState_s *ps; // [esp+118h] [ebp-24h]
+    [[maybe_unused]] const playerState_s *ps; // [esp+118h] [ebp-24h]
     float color[4]; // [esp+11Ch] [ebp-20h] BYREF
     float x; // [esp+12Ch] [ebp-10h] BYREF
     float y; // [esp+130h] [ebp-Ch] BYREF
@@ -1290,7 +1290,7 @@ void __cdecl CG_DrawCrosshairNames(int32_t localClientNum)
                         {
                             myTeam = cgameGlob->bgs.clientinfo[cgameGlob->nextSnap->ps.clientNum].team;
                             if (myTeam == TEAM_SPECTATOR
-                                || myTeam && myTeam == cgameGlob->bgs.clientinfo[cgameGlob->crosshairClientNum].team)
+                                || (myTeam && myTeam == cgameGlob->bgs.clientinfo[cgameGlob->crosshairClientNum].team))
                             {
                                 alpha = CG_FadeCrosshairNameAlpha(
                                     cgameGlob->time,

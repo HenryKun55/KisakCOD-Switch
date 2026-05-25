@@ -1429,7 +1429,7 @@ int  CG_PlaySoundAlias(int /*localClientNum*/, int /*ent*/, const float * /*pos*
 int  CG_PlaySoundAliasAsMasterByName(int /*localClientNum*/, int /*ent*/, const float * /*pos*/, const char * /*name*/) { return 0; }
 int  CG_PlaySoundAliasByName(int /*localClientNum*/, int /*ent*/, const float * /*pos*/, const char * /*name*/) { return 0; }
 // CG_PrepOffHand provided by src/cgame/offhandweapons.cpp now.
-void CG_PriorityCenterPrint(int /*localClientNum*/, const char * /*text*/, int /*priority*/) {}
+// CG_PriorityCenterPrint provided by src/cgame_mp/cg_draw_mp.cpp now.
 void CG_SelectWeaponIndex(int /*localClientNum*/, unsigned int /*weaponIndex*/) {}
 void CG_StopSoundAlias(int /*localClientNum*/, int /*ent*/, snd_alias_list_t * /*alias*/) {}
 void CG_StopSoundsOnEnt(int /*localClientNum*/, int /*ent*/) {}
@@ -1977,7 +1977,7 @@ int32_t CG_ServerMaterialName(int, int, char *out, uint32_t maxLen)
 }
 double R_NormalizedTextScale(Font_s *, float scale) { return scale; }
 void  CL_PlayTextFXPulseSounds(uint32_t, int, int, int, int, int, int *) {}
-void  CG_GetViewAxisProjections(const refdef_s *, const float *, float *) {}
+// CG_GetViewAxisProjections provided by src/cgame_mp/cg_draw_mp.cpp now.
 void  CL_DrawTextPhysicalWithEffects(const char *, int, Font_s *, float, float, float, float,
                                      const float *, int, const float *, Material *, Material *,
                                      int, int, int, int) {}
@@ -2066,7 +2066,7 @@ const dvar_t *cg_fs_debug = nullptr;
 float BG_GetSpeed(const playerState_s *, int) { return 0.f; }
 void  FX_RewindTo(int, int) {}
 void  R_ClearScene(unsigned int) {}
-void  CG_DrawActive(int) {}
+// CG_DrawActive provided by src/cgame_mp/cg_draw_mp.cpp now.
 float BG_GetBobCycle(const playerState_s *) { return 0.f; }
 void  FX_BeginUpdate(int) {}
 void  Key_AddCatcher(int, int) {}
@@ -2112,7 +2112,7 @@ void  CG_VehSeatOriginForLocalClient(int, float *out) { if (out) { out[0] = out[
 int32_t AimAssist_GetScreenTargetEntity(int, uint32_t) { return -1; }
 int32_t CL_LocalActiveIndexFromClientNum(int) { return 0; }
 void  CL_Input(int) {}
-void  CG_Draw2D(int) {}
+// CG_Draw2D provided by src/cgame_mp/cg_draw_mp.cpp now.
 void  R_SyncGpu(int (*)(unsigned long long)) {}
 
 const dvar_t *bg_bobMax           = nullptr;
@@ -2178,7 +2178,7 @@ void R_SetFogFromServer(float, unsigned char, unsigned char, unsigned char, floa
 void SND_PlayMusicAlias(int, const snd_alias_t *, bool, snd_alias_system_t) {}
 void UI_CloseInGameMenu(int) {}
 int  UI_PopupScriptMenu(int, const char *, bool) { return 0; }
-void CG_ClearCenterPrint(int) {}
+// CG_ClearCenterPrint provided by src/cgame_mp/cg_draw_mp.cpp now.
 void LiveStorage_SetStat(int, int, unsigned int) {}
 void R_InitPrimaryLights(GfxLight *) {}
 void CL_ResetPlayerMuting(uint32_t) {}
@@ -2195,6 +2195,58 @@ void Phys_Init() {}
 const dvar_t *cg_chatHeight     = nullptr;
 const dvar_t *cg_chatTime       = nullptr;
 const dvar_t *cg_teamChatsOnly  = nullptr;
+
+// === cg_draw_mp satellites =======================================================
+
+void Con_DrawSay(int, int, int) {}
+void Menu_PaintAll(UiContext *) {}
+void Con_DrawErrors(int, int, int, float) {}
+void Menus_HideByName(const UiContext *, const char *) {}
+int32_t PM_GetSprintLeft(const playerState_s *, int32_t) { return 0; }
+void Menus_CloseByName(UiContext *, const char *) {}
+int32_t BG_GetMaxSprintTime(const playerState_s *) { return 0; }
+float CG_CalcPlayerHealth(const playerState_s *) { return 1.f; }
+void CL_DrawTextPhysical(const char *, int, Font_s *, float, float, float, float, const float *, int) {}
+void Con_DrawMiniConsole(int, int, int, float) {}
+const char *UI_GetTopActiveMenuName(int) { return ""; }
+bool CG_CheckPlayerForLowAmmo(const cg_s *) { return false; }
+bool CG_CheckPlayerForLowClip(const cg_s *) { return false; }
+void BG_AssertOffhandIndexOrNone(uint32_t) {}
+void Vec4Mul(const float *a, const float *b, float *p)
+{
+    if (a && b && p) { p[0] = a[0]*b[0]; p[1] = a[1]*b[1]; p[2] = a[2]*b[2]; p[3] = a[3]*b[3]; }
+}
+
+const dvar_t *cg_centertime               = nullptr;
+const dvar_t *cg_descriptiveText          = nullptr;
+const dvar_t *cg_draw2D                   = nullptr;
+const dvar_t *cg_drawCrosshairNames       = nullptr;
+const dvar_t *cg_drawFriendlyNames        = nullptr;
+const dvar_t *cg_drawSpectatorMessages    = nullptr;
+const dvar_t *cg_drawThroughWalls         = nullptr;
+const dvar_t *cg_enemyNameFadeOut         = nullptr;
+const dvar_t *cg_friendlyNameFadeOut      = nullptr;
+const dvar_t *cg_hudChatIntermissionPosition = nullptr;
+const dvar_t *cg_hudChatPosition          = nullptr;
+const dvar_t *cg_hudSayPosition           = nullptr;
+const dvar_t *cg_hudVotePosition          = nullptr;
+const dvar_t *cg_minicon                  = nullptr;
+const dvar_t *cg_overheadIconSize         = nullptr;
+const dvar_t *cg_overheadNamesFarDist     = nullptr;
+const dvar_t *cg_overheadNamesFarScale    = nullptr;
+const dvar_t *cg_overheadNamesFont        = nullptr;
+const dvar_t *cg_overheadNamesGlow        = nullptr;
+const dvar_t *cg_overheadNamesMaxDist     = nullptr;
+const dvar_t *cg_overheadNamesNearDist    = nullptr;
+const dvar_t *cg_overheadNamesSize        = nullptr;
+const dvar_t *cg_overheadRankSize         = nullptr;
+const dvar_t *debugOverlay                = nullptr;
+const dvar_t *hud_fade_ammodisplay        = nullptr;
+const dvar_t *hud_fade_healthbar          = nullptr;
+const dvar_t *hud_fade_sprint             = nullptr;
+const dvar_t *hud_fade_stance             = nullptr;
+const dvar_t *hud_health_startpulse_injured = nullptr;
+const dvar_t *ui_showEndOfGame            = nullptr;
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
