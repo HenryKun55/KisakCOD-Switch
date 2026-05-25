@@ -1229,7 +1229,7 @@ void __cdecl PlayerCmd_finishPlayerDamage(scr_entref_t entref)
     int32_t iWeapon; // [esp+78h] [ebp-3Ch]
     int32_t psTimeOffset; // [esp+7Ch] [ebp-38h]
     int32_t dflags; // [esp+80h] [ebp-34h]
-    float mass; // [esp+84h] [ebp-30h]
+    [[maybe_unused]] float mass; // [esp+84h] [ebp-30h]
     float flinchYawDir; // [esp+88h] [ebp-2Ch]
     gentity_s *inflictor; // [esp+8Ch] [ebp-28h]
     hitLocation_t hitLoc; // [esp+90h] [ebp-24h]
@@ -2025,7 +2025,7 @@ void __cdecl PlayerCmd_ClonePlayer(scr_entref_t entref)
             "client->sess.connected != CON_DISCONNECTED");
     body = G_SpawnPlayerClone();
     body->s.clientNum = client->ps.clientNum;
-    body->s.lerp.eFlags = body->s.lerp.eFlags & 2 | client->ps.eFlags & 0xFFFFFFFD | 0xA0000;
+    body->s.lerp.eFlags = (body->s.lerp.eFlags & 2) | (client->ps.eFlags & 0xFFFFFFFD) | 0xA0000;
     G_SetOrigin(body, client->ps.origin);
     G_SetAngle(body, pSelf->r.currentAngles);
     body->s.lerp.pos.trType = TR_GRAVITY;
@@ -2406,7 +2406,7 @@ void __cdecl PlayerCmd_DeactivateReverb(scr_entref_t e)
     const char *v6; // r3
 
     v1 = HIWORD(entref);
-    if ((_WORD)entref)
+    if (entref->entnum)
     {
         v2 = "not an entity";
     }
@@ -2511,7 +2511,7 @@ void __cdecl PlayerCmd_DeactivateChannelVolumes(scr_entref_t e)
     const char *v6; // r3
 
     v1 = HIWORD(entref);
-    if ((_WORD)entref)
+    if (entref->entnum)
     {
         v2 = "not an entity";
     }
@@ -2930,7 +2930,7 @@ void __cdecl PlayerCmd_GetXuid(scr_entref_t entref)
 void __cdecl PlayerCmd_BeginLocationSelection(scr_entref_t entref)
 {
     const char *v1; // eax
-    float v2; // [esp+0h] [ebp-24h]
+    [[maybe_unused]] float v2; // [esp+0h] [ebp-24h]
     gentity_s *pSelf; // [esp+10h] [ebp-14h]
     float radius; // [esp+14h] [ebp-10h]
     float radiusa; // [esp+14h] [ebp-10h]

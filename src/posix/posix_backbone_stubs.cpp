@@ -2476,7 +2476,7 @@ void MatrixInverseOrthogonal43(const mat4x3 &in, mat4x3 &out)
 }
 void Missile_FreeAttractorRefs(gentity_s *) {}
 // G_VehEntHandler_Controller provided by src/game_mp/g_vehicles_mp.cpp now.
-void BodyEnd(gentity_s *) {}
+// BodyEnd provided by src/game_mp/g_client_script_cmd_mp.cpp now.
 void AxisClear(mat3x3 &axis)
 {
     axis[0][0] = 1; axis[0][1] = 0; axis[0][2] = 0;
@@ -2581,7 +2581,7 @@ void Sys_BeginLoadThreadPriorities() {}
 // sv_zombietime provided by src/server_mp/sv_main_mp.cpp now.
 // === sv_ccmds_mp satellites ======================================================
 
-void BG_SetPerk(int32_t *, uint32_t) {}
+// BG_SetPerk provided by src/game_mp/g_client_script_cmd_mp.cpp now.
 char *I_CleanStr(char *s) { return s; }
 int I_DrawStrlen(const char *s) { return s ? static_cast<int>(std::strlen(s)) : 0; }
 // SV_BanClient provided by src/server_mp/sv_client_mp.cpp now.
@@ -2903,6 +2903,27 @@ int32_t G_TryPushingEntity(gentity_s *, gentity_s *, float *, float *) { return 
 int32_t VEH_CorrectAllSolid(gentity_s *, trace_t *) { return 0; }
 VehicleLocalPhysics s_phys_0{};
 VehiclePhysicsBackup s_backup_0{};
+
+// === g_client_script_cmd_mp satellites ===========================================
+
+gentity_s *Drop_Weapon(gentity_s *, int, unsigned char, unsigned int) { return nullptr; }
+void Scr_AddBool(unsigned int) {}
+int  BG_WeaponAmmo(const playerState_s *, unsigned int) { return 0; }
+void GScr_AddEntity(gentity_s *) {}
+unsigned int Scr_GetPointerType(unsigned int) { return 0u; }
+int  GScr_GetLocSelIndex(const char *) { return 0; }
+void PM_ExitAimDownSight(playerState_s *) {}
+void Scr_MakeGameMessage(int, const char *) {}
+void Scr_PlayerLastStand(gentity_s *, gentity_s *, gentity_s *, int, unsigned int, unsigned int, const float *, hitLocation_t, int) {}
+void G_SetEquippedOffHand(int, unsigned int) {}
+void Scr_VerifyWeaponIndex(int, const char *) {}
+int  GScr_GetScriptMenuIndex(const char *) { return 0; }
+void Scr_ConstructMessageString(int, int, const char *, char *out, unsigned int outLen) { if (out && outLen > 0) out[0] = '\0'; }
+unsigned int Scr_GetConstLowercaseString(unsigned int) { return 0u; }
+gentity_s *Drop_Item(gentity_s *, const gitem_s *, float, int) { return nullptr; }
+void Fill_Clip(playerState_s *, unsigned int) {}
+const dvar_t *player_dmgtimer_maxTime      = nullptr;
+const dvar_t *player_dmgtimer_timePerPoint = nullptr;
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
