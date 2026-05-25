@@ -13,7 +13,10 @@
 #ifdef WIN32
 #include <win32/win_steam.h>
 #else
-#error Steam Auth for Arch
+// KISAKHACK: Steam auth is Win32-only. Stub helpers below get supplied
+// by posix_backbone_stubs.cpp.
+const char *Steam_GetClientID();
+void Steam_RequestAuthTicket();
 #endif
 
 bool s_playerMute[64];
@@ -303,7 +306,7 @@ void __cdecl CL_Connect_f()
     if (Cmd_Argc() >= 2)
     {
         if (clientUIActives[0].connectionState < CA_CONNECTING
-            || Cmd_Argc() == 3 && (v0 = Cmd_Argv(2), !I_stricmp(v0, "reconnect")))
+            || (Cmd_Argc() == 3 && (v0 = Cmd_Argv(2), !I_stricmp(v0, "reconnect"))))
         {
             SND_StopSounds(SND_STOP_ALL);
             CL_GetLocalClientGlobals(0);
@@ -388,8 +391,9 @@ bool __cdecl CL_CDKeyValidate(netadr_t addr)
 #ifdef WIN32
     return Steam_UpdateClientAuthTicket(addr);
 #else
-#error Steam Auth for Arch
-    return false;
+    // KISAKHACK: Steam auth Win32-only; accept on POSIX for now.
+    (void)addr;
+    return true;
 #endif
 }
 
@@ -438,7 +442,7 @@ void __cdecl CL_GlobalServers_f()
                 --server->requestCount;
         }
         Com_Printf(0, "Requesting servers from the master...\n");
-        NET_StringToAdr((char *)com_masterServerName->current.integer, &to);
+        NET_StringToAdr((char *)(uintptr_t)com_masterServerName->current.integer, &to);
         cls.waitglobalserverresponse = 1;
         cls.pingUpdateSource = 1;
         to.type = NA_IP;
@@ -450,10 +454,10 @@ void __cdecl CL_GlobalServers_f()
         for (i = 3; i < count; ++i)
         {
             v1 = Cmd_Argv(i);
-            buffptr += sprintf(buffptr, " %s", v1); // kiwi: uhhhh, what the hell.
+            buffptr += snprintf(buffptr, command + sizeof(command) - buffptr, " %s", v1); // kiwi: uhhhh, what the hell.
         }
         if (Dvar_GetBool("fs_restrict"))
-            sprintf(buffptr, " demo");
+            snprintf(buffptr, command + sizeof(command) - buffptr, " demo");
         NET_OutOfBandPrint(NS_SERVER, to, command);
     }
     else
@@ -465,7 +469,7 @@ void __cdecl CL_GlobalServers_f()
 void __cdecl CL_ServerStatusResponse(netadr_t from, msg_t *msg)
 {
     char *v2; // eax
-    char *v3; // eax
+    [[maybe_unused]] char *v3; // eax
     char info[1024]; // [esp+30h] [ebp-420h] BYREF
     int l; // [esp+430h] [ebp-20h]
     int ping; // [esp+434h] [ebp-1Ch] BYREF

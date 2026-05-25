@@ -904,7 +904,7 @@ struct trDebugString_t;
 
 void CalculateRanks() {}
 char CL_IsClientLocal(int /*localClientNum*/) { return 1; }
-bool CL_IsPlayerMuted(int /*localClientNum*/, unsigned int /*muteClient*/) { return false; }
+// CL_IsPlayerMuted provided by src/client_mp/cl_main_pc_mp.cpp now.
 void ClientUserinfoChanged(unsigned int /*clientNum*/) {}
 void Com_SafeClientDObjFree(unsigned int /*handle*/, int /*localClientNum*/) {}
 char *FS_LoadedIwdPureChecksums() { static char empty[1] = {0}; return empty; }
@@ -2158,7 +2158,7 @@ int  UI_PopupScriptMenu(int, const char *, bool) { return 0; }
 // CG_ClearCenterPrint provided by src/cgame_mp/cg_draw_mp.cpp now.
 void LiveStorage_SetStat(int, int, unsigned int) {}
 void R_InitPrimaryLights(GfxLight *) {}
-void CL_ResetPlayerMuting(uint32_t) {}
+// CL_ResetPlayerMuting provided by src/client_mp/cl_main_pc_mp.cpp now.
 void DynEntCl_DestroyEvent(int, uint16_t, DynEntityCollType, const float *, const float *) {}
 void DynEntCl_InitEntities(int) {}
 void UI_ClosePopupScriptMenu(int, bool) {}
@@ -2661,6 +2661,18 @@ const dvar_t *net_lanauthorize = nullptr;
 unsigned int MSG_GetBitCount(int, bool *, int, int) { return 0u; }
 const dvar_t *cl_profileTextY = nullptr;
 ClientSnapshotData s_clientSnapshotData[64]{};
+
+// === cl_main_pc_mp satellites ====================================================
+
+serverStatus_s *CL_GetServerStatus(netadr_t) { return nullptr; }
+int NET_CompareAdrSigned(netadr_t *, netadr_t *) { return 0; }
+const char *Steam_GetClientID() { return ""; }
+void Steam_RequestAuthTicket() {}
+
+ping_t cl_pinglist[16]{};
+serverStatus_s cl_serverStatusList[16]{};
+const dvar_t *cl_serverStatusResendTime = nullptr;
+int g_qport = 0;
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
