@@ -1174,9 +1174,9 @@ PhysGlob physGlob{};
 struct usercmd_s;
 
 // CG_DrawBigDevString now in cgame/cg_drawtools.cpp.
-void SV_ClearPacketAnalysis() {}
-int  SV_GetClientSnapshotPing(int /*clientNum*/, char /*ignoreSnapshotMs*/) { return 0; }
-bool SV_NewPacketAnalysisReady() { return false; }
+// SV_ClearPacketAnalysis provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
+// SV_GetClientSnapshotPing provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
+// SV_NewPacketAnalysisReady provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
 
 void UI_DrawHandlePic(const ScreenPlacement * /*place*/, float /*x*/, float /*y*/, float /*w*/, float /*h*/,
                       int /*hAlign*/, int /*vAlign*/, const float * /*color*/, Material * /*material*/) {}
@@ -1193,12 +1193,12 @@ int   UI_TextWidth(const char * /*text*/, int /*max*/, Font_s * /*font*/, float 
 // cg_synchronousClients provided by src/cgame_mp/cg_main_mp.cpp now.
 const dvar_t *net_showprofile = nullptr;
 
-// g_bitsSent / g_currentSnapshot* — typed via server_mp.h that's already
+// g_bitsSent provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
 // pulled in by stub deps.
-int g_bitsSent[64][13]{};
-int g_currentSnapshotPerEntity[64][1024]{};
-unsigned char g_currentSnapshotFieldsPerEntity[64][1024]{};
-unsigned char g_currentSnapshotPlayerStateFields[64]{};
+// g_bitsSent provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
+// g_currentSnapshotPerEntity provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
+// g_currentSnapshotFieldsPerEntity provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
+// g_currentSnapshotPlayerStateFields provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
 
 // =========================================================================
 // cgame batch (cg_camerashake/compass/info/drawtools/playerstate/pose_utils
@@ -1359,9 +1359,9 @@ void MSG_WriteDeltaArchivedEntity(SnapshotInfo_s * /*info*/, msg_t * /*msg*/, in
 void MSG_WriteDeltaClient(SnapshotInfo_s * /*info*/, msg_t * /*msg*/, int /*time*/, clientState_s * /*from*/, clientState_s * /*to*/, int /*force*/) {}
 void MSG_WriteDeltaPlayerstate(SnapshotInfo_s * /*info*/, msg_t * /*msg*/, int /*time*/, const playerState_s * /*from*/, const playerState_s * /*to*/) {}
 void MSG_WriteEntityIndex(SnapshotInfo_s * /*info*/, msg_t * /*msg*/, int /*newnum*/, int /*indexBits*/) {}
-void SV_PacketDataIsNotNetworkData(int /*type*/, const msg_t * /*msg*/) {}
-void SV_PacketDataIsUnknown(int /*type*/, const msg_t * /*msg*/) {}
-void SV_ResetPacketData(int /*type*/, const msg_t * /*msg*/) {}
+// SV_PacketDataIsNotNetworkData provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
+// SV_PacketDataIsUnknown provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
+// SV_ResetPacketData provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
 serverStaticHeader_t svsHeader{};
 int svsHeaderValid = 0;
 
@@ -2553,7 +2553,7 @@ void SV_GetServerStaticHeader() {}
 void SV_SetServerStaticHeader() {}
 void SV_WriteSnapshotToClient(client_t *, msg_t *) {}
 char *FS_ReferencedIwdChecksums() { return const_cast<char *>(""); }
-void SV_WriteEntityFieldNumbers() {}
+// SV_WriteEntityFieldNumbers provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
 void Sys_EndLoadThreadPriorities() {}
 void Sys_BeginLoadThreadPriorities() {}
 
@@ -2645,7 +2645,7 @@ void MSG_WriteEntity(SnapshotInfo_s *, msg_t *, int, entityState_s *, const enti
 bool BG_IsWeaponValid(const playerState_s *, uint32_t) { return false; }
 void ClientDisconnect(int32_t) {}
 void G_SetLastServerTime(int32_t, int32_t) {}
-void SV_PacketDataIsHeader(int, const msg_t *) {}
+// SV_PacketDataIsHeader provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
 bool Steam_CheckClientTicket(unsigned char *, unsigned int, unsigned long long) { return true; }
 void Steam_OnClientDropped(unsigned long long) {}
 void SV_BuildClientSnapshot(client_t *) {}
@@ -2655,6 +2655,12 @@ bool Sys_IsLANAddress_IgnoreSubnet(netadr_t) { return false; }
 void SV_UpdateServerCommandsToClient(client_t *, msg_t *) {}
 
 const dvar_t *net_lanauthorize = nullptr;
+
+// === sv_snapshot_profile_mp satellites ===========================================
+
+unsigned int MSG_GetBitCount(int, bool *, int, int) { return 0u; }
+const dvar_t *cl_profileTextY = nullptr;
+ClientSnapshotData s_clientSnapshotData[64]{};
 
 // === CGAME dvars and storage referenced by the new sources =========================
 

@@ -129,7 +129,7 @@ void __cdecl SV_ClearPacketAnalysis()
 
 void __cdecl SV_TrackETypeBytes(unsigned int eType, int bits)
 {
-    if (eType >= ET_EVENTS + EV_MAX_EVENTS)
+    if (eType >= static_cast<unsigned>(ET_EVENTS) + static_cast<unsigned>(EV_MAX_EVENTS))
         MyAssertHandler(
             ".\\server_mp\\sv_snapshot_profile_mp.cpp",
             207,
@@ -493,7 +493,7 @@ void __cdecl SV_AnalyzePacketData(int clientNum, const msg_t *msg)
     const char *type; // [esp+20h] [ebp-4h]
 
     if (sv_debugPacketContents->current.enabled
-        || msg->cursize > largestSize && svs.clients[clientNum].ping < 999 && svs.clients[clientNum].header.state == 4)
+        || (msg->cursize > largestSize && svs.clients[clientNum].ping < 999 && svs.clients[clientNum].header.state == 4))
     {
         largestSize = msg->cursize;
         Com_Printf(15, "Client %s's snapshot\n", svs.clients[clientNum].name);
@@ -654,7 +654,7 @@ void __cdecl SV_TrackFieldChange(int clientNum, int entityType, unsigned int fie
             "%s\n\t(field) = %i",
             "(field >= 0 && field < 160)",
             field);
-    if (entityType >= ET_EVENTS + EV_STANCE_FORCE_STAND)
+    if (entityType >= static_cast<int>(ET_EVENTS) + static_cast<int>(EV_STANCE_FORCE_STAND))
         MyAssertHandler(
             ".\\server_mp\\sv_snapshot_profile_mp.cpp",
             685,
@@ -667,7 +667,7 @@ void __cdecl SV_TrackFieldChange(int clientNum, int entityType, unsigned int fie
         PROF_SCOPED("SV_TrackFieldChange");
         if (entityType > ET_EVENTS)
         {
-            if (entityType == ET_EVENTS + EV_SOUND_ALIAS)
+            if (entityType == static_cast<int>(ET_EVENTS) + static_cast<int>(EV_SOUND_ALIAS))
                 ++g_currentSnapshotPlayerStateFields[clientNum];
         }
         else
@@ -721,13 +721,13 @@ void __cdecl SV_WriteEntityFieldNumbers()
     if (f)
     {
         totalData = bitsUsedForServerCommands + bitsUsedForPlayerstates[0];
-        for (i = 0; i < ET_EVENTS + EV_MAX_EVENTS - 1; ++i)
+        for (i = 0; i < static_cast<int>(ET_EVENTS) + static_cast<int>(EV_MAX_EVENTS) - 1; ++i)
             totalData += bitsUsedPerEType[i];
         if (!totalData)
             totalData = 1;
         FS_Printf(f, "Total data sent: %i\n", totalData);
         FS_Printf(f, "Bits used per entity type: (format: bitsUsed - entityType)\n");
-        for (i = 0; i < ET_EVENTS + EV_MAX_EVENTS - 1; ++i)
+        for (i = 0; i < static_cast<int>(ET_EVENTS) + static_cast<int>(EV_MAX_EVENTS) - 1; ++i)
         {
             if (bitsUsedPerEType[i])
             {
@@ -991,7 +991,7 @@ void __cdecl SV_Netchan_PrintProfileStats(int bPrintToConsole)
     char szLine[1028]; // [esp+10h] [ebp-490h] BYREF
     int iYPos; // [esp+414h] [ebp-8Ch]
     int totalPacketsSent; // [esp+418h] [ebp-88h]
-    int iFragmentTotal; // [esp+41Ch] [ebp-84h]
+    [[maybe_unused]] int iFragmentTotal; // [esp+41Ch] [ebp-84h]
     int totalAcked; // [esp+420h] [ebp-80h]
     char szClientName[32]; // [esp+424h] [ebp-7Ch] BYREF
     int iTotalBPSRecieved; // [esp+448h] [ebp-58h]
@@ -1005,7 +1005,7 @@ void __cdecl SV_Netchan_PrintProfileStats(int bPrintToConsole)
     int iTotalFragmentsSent; // [esp+468h] [ebp-38h]
     int packetsSent; // [esp+46Ch] [ebp-34h]
     int iTotalPacketsSent; // [esp+470h] [ebp-30h]
-    int iYStep; // [esp+474h] [ebp-2Ch]
+    [[maybe_unused]] int iYStep; // [esp+474h] [ebp-2Ch]
     int iTotalMaxSent; // [esp+478h] [ebp-28h]
     clientSnapshot_t *snap; // [esp+47Ch] [ebp-24h]
     int i; // [esp+480h] [ebp-20h]
