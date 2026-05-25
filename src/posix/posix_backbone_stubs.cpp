@@ -663,7 +663,7 @@ void SL_RemoveRefToStringOfSize(unsigned int /*stringValue*/, unsigned int /*siz
 void Scr_AddArray() {}
 void Scr_AddConstString(unsigned int /*stringValue*/) {}
 void Scr_AddFloat(float /*value*/) {}
-void Scr_NotifyNum(unsigned int /*entnum*/, unsigned int /*classnum*/, unsigned int /*stringValue*/, unsigned int /*numArgs*/) {}
+// Scr_Notify provided by src/game_mp/g_spawn_mp.cpp now.
 
 // XAnim/XModel load
 XAnimParts *XAnimLoadFile(char * /*name*/, void *(*)(int) /*Alloc*/) { return nullptr; }
@@ -950,8 +950,8 @@ unsigned int Scr_GetConstString(unsigned int /*paramIndex*/) { return 0; }
 float Scr_GetFloat(unsigned int /*paramIndex*/) { return 0; }
 int   Scr_GetInt(unsigned int /*paramIndex*/) { return 0; }
 const char *Scr_GetString(unsigned int /*paramIndex*/) { return ""; }
-void Scr_GetGenericField(unsigned char * /*structOut*/, fieldtype_t /*type*/, int /*offset*/) {}
-void Scr_SetGenericField(unsigned char * /*structIn*/, fieldtype_t /*type*/, int /*offset*/) {}
+// Scr_GetGenericField provided by src/game_mp/g_spawn_mp.cpp now.
+// Scr_SetGenericField provided by src/game_mp/g_spawn_mp.cpp now.
 
 // StringTable
 void StringTable_GetAsset(const char * /*filename*/, StringTable ** /*outTable*/) {}
@@ -1090,7 +1090,7 @@ void Scr_GetVector(unsigned int /*paramIndex*/, float *v)
 {
     if (v) v[0] = v[1] = v[2] = 0;
 }
-void Scr_Notify(gentity_s * /*ent*/, unsigned short /*name*/, unsigned int /*paramCount*/) {}
+// Scr_Notify provided by src/game_mp/g_spawn_mp.cpp now.
 void Scr_ObjectError(const char * /*msg*/) {}
 void Scr_ParamError(unsigned int /*paramIndex*/, const char * /*msg*/) {}
 
@@ -2352,9 +2352,9 @@ const dvar_t *voice_localEcho = nullptr;
 
 // === g_trigger_mp satellites =====================================================
 
-int32_t G_SpawnInt(const char *, const char *, int32_t *out) { if (out) *out = 0; return 0; }
-int32_t G_SpawnFloat(const char *, const char *, float *out) { if (out) *out = 0.f; return 0; }
-void    Scr_AddEntity(gentity_s *) {}
+// G_SpawnInt provided by src/game_mp/g_spawn_mp.cpp now.
+// G_SpawnFloat provided by src/game_mp/g_spawn_mp.cpp now.
+// Scr_AddEntity provided by src/game_mp/g_spawn_mp.cpp now.
 void    Scr_AddVector(const float *) {}
 int     CM_AreaEntities(const float *, const float *, int *, int, int) { return 0; }
 void    AddPointToBounds(const float *v, float *mins, float *maxs)
@@ -2363,7 +2363,7 @@ void    AddPointToBounds(const float *v, float *mins, float *maxs)
     for (int i = 0; i < 3; ++i) { if (v[i] < mins[i]) mins[i] = v[i]; if (v[i] > maxs[i]) maxs[i] = v[i]; }
 }
 // G_FreeEntityDelay provided by src/game_mp/g_utils_mp.cpp now.
-int32_t G_LevelSpawnString(const char *, const char *, const char **out) { if (out) *out = ""; return 0; }
+// G_LevelSpawnString provided by src/game_mp/g_spawn_mp.cpp now.
 BOOL    Scr_IsSystemActive() { return 0; }
 int     SV_SightTraceToEntity(float *, float *, float *, float *, int, int) { return 0; }
 
@@ -2444,7 +2444,7 @@ gentity_s *Weapon_RocketLauncher_Fire(gentity_s *, uint32_t, float, struct weapo
 
 void player_die(gentity_s *, gentity_s *, gentity_s *, int, int, int, const float *, hitLocation_t, int) {}
 void Helicopter_Die(gentity_s *, gentity_s *, gentity_s *, const int, const int, const int, const float *, const hitLocation_t, int) {}
-void Scr_FreeEntity(gentity_s *) {}
+// Scr_FreeEntity provided by src/game_mp/g_spawn_mp.cpp now.
 void Scr_FreeThread(uint16_t) {}
 void DB_ReplaceModel(const char *, const char *) {}
 void G_VehFreeEntity(gentity_s *) {}
@@ -2460,7 +2460,7 @@ void G_ExplodeMissile(gentity_s *) {}
 void Helicopter_Think(gentity_s *) {}
 void G_VehUnlinkPlayer(gentity_s *, gentity_s *) {}
 void PlayerCorpse_Free(gentity_s *) {}
-uint16_t Scr_ExecEntThread(gentity_s *, int, uint32_t) { return 0; }
+// Scr_ExecEntThread provided by src/game_mp/g_spawn_mp.cpp now.
 void FinishSpawningItem(gentity_s *) {}
 void G_PlayerController(const gentity_s *, int *) {}
 void G_TimedObjectThink(gentity_s *) {}
@@ -2717,6 +2717,45 @@ void HudElem_ClientDisconnect(gentity_s *) {}
 const dvar_t *bg_prone_yawcap = nullptr;
 const dvar_t *g_inactivity    = nullptr;
 const dvar_t *g_password      = nullptr;
+
+// === g_spawn_mp satellites =======================================================
+
+unsigned int G_NewString(const char *) { return 0u; }
+void G_SpawnItem(gentity_s *, const gitem_s *) {}
+int Scr_GetType(unsigned int) { return 0; }
+void trigger_use(gentity_s *) {}
+void G_VehSpawner(gentity_s *) {}
+int32_t G_SpawnString(const SpawnVar *, const char *, const char *def, const char **out) { if (out) *out = def; return 0; }
+void Scr_AddFields(const char *, const char *) {}
+void Scr_AddObject(unsigned int) {}
+unsigned int Scr_FindField(const char *, int *type) { if (type) *type = 0; return 0u; }
+unsigned int Scr_GetObject(unsigned int) { return 0u; }
+int Scr_GetOffset(unsigned int, const char *) { return 0; }
+void Scr_MakeArray() {}
+void Scr_SetAngles(gentity_s *, int) {}
+void Scr_SetHealth(gentity_s *, int) {}
+void Scr_SetOrigin(gentity_s *, int) {}
+uint16_t Scr_ExecThread(int, unsigned int) { return 0; }
+int32_t G_ParseSpawnVars(SpawnVar *) { return 0; }
+void Scr_AddEntityNum(unsigned int, unsigned int) {}
+scr_entref_t Scr_GetEntityRef(unsigned int) { return {}; }
+void Scr_AddExecThread(int, unsigned int) {}
+void Scr_FreeEntityNum(unsigned int, unsigned int) {}
+void Scr_SetStructField(unsigned int, unsigned int) {}
+void G_VehCollmapSpawner(gentity_s *) {}
+void Scr_GetHudElemField(uint32_t, uint32_t) {}
+void Scr_SetHudElemField(uint32_t, uint32_t) {}
+const gitem_s *BG_FindItemForWeapon(uint32_t, int32_t) { return nullptr; }
+uint16_t Scr_ExecEntThreadNum(unsigned int, unsigned int, int, unsigned int) { return 0; }
+bool Com_IsLegacyXModelName(const char *) { return false; }
+void Scr_SetDynamicEntityField(unsigned int, unsigned int, unsigned int) {}
+void Scr_FreeHudElemConstStrings(game_hudelem_s *) {}
+unsigned int Scr_GetConstStringIncludeNull(unsigned int) { return 0u; }
+
+const dvar_t *g_gravity = nullptr;
+const dvar_t *g_motd    = nullptr;
+game_hudelem_s g_hudelems[1024]{};
+void Scr_NotifyNum(unsigned int, unsigned int, unsigned int, unsigned int) {}
 
 // === CGAME dvars and storage referenced by the new sources =========================
 

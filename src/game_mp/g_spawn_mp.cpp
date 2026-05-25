@@ -208,7 +208,7 @@ void __cdecl Scr_SetGenericField(uint8_t *b, fieldtype_t type, int32_t ofs)
         *(float *)&b[ofs + 8] = vec[2];
         break;
     case F_ENTITY:
-        *(uint32_t *)&b[ofs] = (uint32_t)Scr_GetEntityAllowNull(0);
+        *(uint32_t *)&b[ofs] = (uint32_t)(uintptr_t)Scr_GetEntityAllowNull(0);
         break;
     case F_ENTHANDLE:
         pEnt = (EntHandle *)&b[ofs];
@@ -645,7 +645,7 @@ void __cdecl SP_worldspawn()
     }
     G_LevelSpawnString("message", "", &s);
     SV_SetConfigstring(3, (char *)s);
-    SV_SetConfigstring(10, (char *)g_motd->current.integer);
+    SV_SetConfigstring(10, (char *)(uintptr_t)g_motd->current.integer);
     G_LevelSpawnString("gravity", "800", &s);
     if (!g_gravity)
         MyAssertHandler(".\\game_mp\\g_spawn_mp.cpp", 1123, 0, "%s", "g_gravity");
