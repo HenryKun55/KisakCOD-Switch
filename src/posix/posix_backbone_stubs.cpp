@@ -2251,7 +2251,7 @@ void  Vec3Avg(const float *a, const float *b, float *out)
     if (a && b && out) { out[0] = (a[0]+b[0])*0.5f; out[1] = (a[1]+b[1])*0.5f; out[2] = (a[2]+b[2])*0.5f; }
 }
 
-uint16_t *controller_names[6]{};
+// controller_names provided by src/game_mp/g_active_mp.cpp now.
 // Hunk_AllocXAnimClient provided by src/cgame_mp/cg_main_mp.cpp now.
 
 // === cg_newDraw_mp satellites ====================================================
@@ -2460,7 +2460,7 @@ void G_VehUnlinkPlayer(gentity_s *, gentity_s *) {}
 void PlayerCorpse_Free(gentity_s *) {}
 // Scr_ExecEntThread provided by src/game_mp/g_spawn_mp.cpp now.
 void FinishSpawningItem(gentity_s *) {}
-void G_PlayerController(const gentity_s *, int *) {}
+// G_PlayerController provided by src/game_mp/g_active_mp.cpp now.
 void G_TimedObjectThink(gentity_s *) {}
 void G_VehEntHandler_Die(gentity_s *, gentity_s *, gentity_s *, const int, const int, const int, const float *, const hitLocation_t, int) {}
 void G_VehEntHandler_Use(gentity_s *, gentity_s *, gentity_s *) {}
@@ -2631,7 +2631,7 @@ void MSG_WriteReliableCommandToBuffer(const char *, char *, int) {}
 // === sv_client_mp satellites =====================================================
 
 // ClientBegin provided by src/game_mp/g_client_mp.cpp now.
-void ClientThink(int32_t) {}
+// ClientThink provided by src/game_mp/g_active_mp.cpp now.
 int  FS_WriteFile(char *, char *, unsigned int) { return 0; }
 void ClientCommand(int32_t) {}
 void Netchan_Setup(netsrc_t, netchan_t *, netadr_t, int, char *, int, char *, int) {}
@@ -2639,7 +2639,7 @@ bool NET_CompareAdr(netadr_t, netadr_t) { return false; }
 void MSG_WriteEntity(SnapshotInfo_s *, msg_t *, int, entityState_s *, const entityState_s *, int) {}
 bool BG_IsWeaponValid(const playerState_s *, uint32_t) { return false; }
 // ClientDisconnect provided by src/game_mp/g_client_mp.cpp now.
-void G_SetLastServerTime(int32_t, int32_t) {}
+// G_SetLastServerTime provided by src/game_mp/g_active_mp.cpp now.
 // SV_PacketDataIsHeader provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
 bool Steam_CheckClientTicket(unsigned char *, unsigned int, unsigned long long) { return true; }
 void Steam_OnClientDropped(unsigned long long) {}
@@ -2697,17 +2697,17 @@ LegacyHacks legacyHacks{};
 int32_t G_GetClientSize() { return 0; }
 gclient_s *G_GetPlayerState(int32_t) { return nullptr; }
 int FS_SV_FOpenFileRead(const char *, int *fp) { if (fp) *fp = 0; return 0; }
-int32_t GetFollowPlayerState(int32_t, playerState_s *) { return 0; }
+// GetFollowPlayerState provided by src/game_mp/g_active_mp.cpp now.
 void G_SetClientArchiveTime(int32_t, int32_t) {}
 int irand(int min, int /*max*/) { return min; }
 
 // === g_client_mp satellites ======================================================
 
 void StopFollowing(gentity_s *) {}
-void ClientEndFrame(gentity_s *) {}
-void ClientThink_real(gentity_s *, usercmd_s *) {}
+// ClientEndFrame provided by src/game_mp/g_active_mp.cpp now.
+// ClientThink_real provided by src/game_mp/g_active_mp.cpp now.
 void Scr_PlayerConnect(gentity_s *) {}
-void G_SetClientContents(gentity_s *) {}
+// G_SetClientContents provided by src/game_mp/g_active_mp.cpp now.
 void Scr_PlayerDisconnect(gentity_s *) {}
 void BG_GetPlayerViewOrigin(const playerState_s *, float *o, int32_t) { if (o) { o[0] = o[1] = o[2] = 0; } }
 void HudElem_ClientDisconnect(gentity_s *) {}
@@ -2827,6 +2827,27 @@ void CMD_VEH_SetTurretTargetVec(scr_entref_t) {}
 void CMD_VEH_ClearTurretTargetEnt(scr_entref_t) {}
 
 vehicle_info_t s_vehicleInfos[32]{};
+
+// === g_active_mp satellites ======================================================
+
+void FireWeapon(gentity_s *, int32_t) {}
+void G_UseOffHand(gentity_s *) {}
+void FireWeaponMelee(gentity_s *, int32_t) {}
+int32_t Cmd_FollowCycle_f(gentity_s *, int32_t) { return 0; }
+void BG_WeaponFireRecoil(const playerState_s *, float *, float *) {}
+void ExpandBoundsToWidth(float *, float *) {}
+int32_t G_VehPlayerRideSlot(gentity_s *, int32_t) { return -1; }
+void HudElem_UpdateClient(gclient_s *, int32_t, hudelem_update_t) {}
+void BG_Player_DoControllers(const CEntPlayerInfo *, const DObj_s *, int32_t *) {}
+void BG_CalculateWeaponAngles(weaponState_t *, float *) {}
+void BG_CalculateWeaponPosition_Sway(const playerState_s *, float *, float *, float *, float, int32_t) {}
+
+const dvar_t *g_antilag = nullptr;
+const dvar_t *g_mantleBlockTimeBuffer = nullptr;
+const dvar_t *g_playerCollisionEjectSpeed = nullptr;
+const dvar_t *g_smoothClients = nullptr;
+const dvar_t *g_speed = nullptr;
+const dvar_t *g_synchronousClients = nullptr;
 
 // === CGAME dvars and storage referenced by the new sources =========================
 

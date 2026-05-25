@@ -78,7 +78,7 @@ void __cdecl P_DamageFeedback(gentity_s *player)
     float kick; // [esp+10h] [ebp-38h]
     float angles[3]; // [esp+14h] [ebp-34h] BYREF
     float viewaxis[3][3]; // [esp+20h] [ebp-28h] BYREF
-    int32_t DAMAGE_COUNT_DURATION; // [esp+44h] [ebp-4h]
+    [[maybe_unused]] int32_t DAMAGE_COUNT_DURATION; // [esp+44h] [ebp-4h]
 
     DAMAGE_COUNT_DURATION = 500;
     client = player->client;
@@ -533,7 +533,7 @@ void __cdecl ClientThink_real(gentity_s *ent, usercmd_s *ucmd)
     viewState_t vs; // [esp+2FCh] [ebp-50h] BYREF
     WeaponDef *weapDef; // [esp+320h] [ebp-2Ch]
     float vAxis[3][3]; // [esp+324h] [ebp-28h] BYREF
-    float ssSwayScale; // [esp+348h] [ebp-4h]
+    [[maybe_unused]] float ssSwayScale; // [esp+348h] [ebp-4h]
 
     client = ent->client;
     if (client->sess.connected == CON_CONNECTED)
@@ -963,7 +963,7 @@ void __cdecl SpectatorClientEndFrame(gentity_s *ent)
             if (G_ClientCanSpectateTeam(client, v3.team))
             {
             doFollow:
-                v4 = client->ps.eFlags & 0x100000 | ps.eFlags & 0xFFEFFFFF;
+                v4 = (client->ps.eFlags & 0x100000) | (ps.eFlags & 0xFFEFFFFF);
                 memcpy(&client->ps, &ps, sizeof(playerState_s));
                 HudElem_UpdateClient(client, ent->s.number, HUDELEM_UPDATE_CURRENT);
                 client->ps.eFlags = v4;
