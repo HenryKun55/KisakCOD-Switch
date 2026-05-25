@@ -1000,7 +1000,7 @@ void CG_ActionSlotDown_f() {}
 void CG_ActionSlotUp_f() {}
 void CG_FxSetTestPosition() {}
 void CG_FxTest() {}
-int  CG_IsScoreboardDisplayed(int /*localClientNum*/) { return 0; }
+// CG_IsScoreboardDisplayed provided by src/cgame_mp/cg_scoreboard_mp.cpp now.
 void CG_NextWeapon_f() {}
 void CG_PrevWeapon_f() {}
 void CG_RestartSmokeGrenades(int /*localClientNum*/) {}
@@ -1416,7 +1416,7 @@ void CG_BulletHitEvent(int /*localClientNum*/, int /*sourceEnt*/, unsigned int /
                        const float * /*normal*/, unsigned int /*flags*/, int /*hitLoc*/,
                        unsigned char /*priority*/, int /*partGroup*/, short /*recoilIndex*/) {}
 void CG_CalcEntityLerpPositions(int /*localClientNum*/, centity_s * /*cent*/) {}
-char CG_DrawScoreboard_GetTeamColorIndex(int /*team*/, int /*localClientNum*/) { return 0; }
+// CG_DrawScoreboard_GetTeamColorIndex provided by src/cgame_mp/cg_scoreboard_mp.cpp now.
 void CG_EjectWeaponBrass(int /*localClientNum*/, const entityState_s * /*es*/, int /*time*/) {}
 void CG_FireWeapon(int /*localClientNum*/, centity_s * /*cent*/, int /*mode*/, unsigned short /*weapon*/,
                    unsigned int /*surfType*/, const playerState_s * /*ps*/) {}
