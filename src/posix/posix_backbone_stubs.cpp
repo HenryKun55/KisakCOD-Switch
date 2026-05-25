@@ -1379,9 +1379,7 @@ int  FS_GetFileList(const char * /*path*/, const char * /*ext*/, FsListBehavior_
 void G_AntiLag_RestoreClientPos(AntilagClientStore * /*store*/) {}
 void G_AntiLagRewindClientPos(int /*clientNum*/, AntilagClientStore * /*store*/) {}
 // G_CheckHitTriggerDamage provided by src/game_mp/g_trigger_mp.cpp now.
-void G_Damage(gentity_s * /*targ*/, gentity_s * /*inflictor*/, gentity_s * /*attacker*/, float * /*dir*/,
-              float * /*point*/, int /*damage*/, int /*dflags*/, int /*mod*/, unsigned int /*weapon*/,
-              hitLocation_t /*hitLoc*/, unsigned int /*timeOffset*/, unsigned int /*modelIndex*/, int /*partGroup*/) {}
+// G_Damage provided by src/game_mp/g_combat_mp.cpp now.
 void G_LocationalTraceAllowChildren(trace_t *trace, float * /*start*/, float * /*end*/, int /*passEnt*/, int /*contentMask*/, unsigned char * /*priority*/)
 { if (trace) { std::memset(trace, 0, sizeof(*trace)); trace->fraction = 1.0f; } }
 // G_TempEntity provided by src/game_mp/g_utils_mp.cpp now.
@@ -2442,7 +2440,7 @@ gentity_s *Weapon_RocketLauncher_Fire(gentity_s *, uint32_t, float, struct weapo
 
 // === g_utils_mp satellites =======================================================
 
-void player_die(gentity_s *, gentity_s *, gentity_s *, int, int, int, const float *, hitLocation_t, int) {}
+// player_die provided by src/game_mp/g_combat_mp.cpp now.
 void Helicopter_Die(gentity_s *, gentity_s *, gentity_s *, const int, const int, const int, const float *, const hitLocation_t, int) {}
 // Scr_FreeEntity provided by src/game_mp/g_spawn_mp.cpp now.
 void Scr_FreeThread(uint16_t) {}
@@ -2769,6 +2767,30 @@ const dvar_t *g_useholdtime           = nullptr;
 const dvar_t *player_MGUseRadius      = nullptr;
 const dvar_t *player_throwbackInnerRadius = nullptr;
 const dvar_t *player_throwbackOuterRadius = nullptr;
+
+// === g_combat_mp satellites ======================================================
+
+void Cmd_Score_f(gentity_s *) {}
+void BG_StringCopy(uint8_t *m, const char *k) { if (m && k) std::strcpy(reinterpret_cast<char *>(m), k); }
+gentity_s *G_FireGrenade(gentity_s *, float *, float *, uint32_t, uint8_t, int32_t, int32_t) { return nullptr; }
+bool LogAccuracyHit(gentity_s *, gentity_s *) { return false; }
+unsigned int Scr_AllocString(char *, int) { return 0u; }
+void Scr_AddUndefined() {}
+void Scr_PlayerDamage(gentity_s *, gentity_s *, gentity_s *, int, int, unsigned int, unsigned int, const float *, const float *, hitLocation_t, int) {}
+void Scr_PlayerKilled(gentity_s *, gentity_s *, gentity_s *, int, unsigned int, unsigned int, const float *, hitLocation_t, int, int) {}
+void Vec3NormalizeFast(float *v) { if (v) { float l = std::sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]); if (l > 0) { v[0]/=l; v[1]/=l; v[2]/=l; } } }
+bool G_VehImmuneToDamage(gentity_s *, int, char, uint32_t) { return false; }
+void BG_SetConditionValue(uint32_t, uint32_t, uint64_t) {}
+void DObjPhysicsGetBounds(const DObj_s *, float *mins, float *maxs)
+{
+    if (mins) { mins[0] = mins[1] = mins[2] = 0; }
+    if (maxs) { maxs[0] = maxs[1] = maxs[2] = 0; }
+}
+int32_t G_LocationalTracePassed(float *, float *, int, int, int, uint8_t *) { return 1; }
+uint32_t BG_FindWeaponIndexForName(const char *) { return 0u; }
+
+const dvar_t *g_debugDamage      = nullptr;
+const dvar_t *radius_damage_debug = nullptr;
 
 // === CGAME dvars and storage referenced by the new sources =========================
 

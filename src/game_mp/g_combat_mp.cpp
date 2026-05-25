@@ -361,7 +361,7 @@ void __cdecl G_Damage(
     uint32_t partName,
     int32_t timeOffset)
 {
-    uint32_t NumWeapons; // eax
+    [[maybe_unused]] uint32_t NumWeapons; // eax
     float localdir[3]; // [esp+0h] [ebp-14h] BYREF
     void(__cdecl * die)(gentity_s *, gentity_s *, gentity_s *, int, int, const int, const float *, const hitLocation_t, int); // [esp+Ch] [ebp-8h]
     void(__cdecl * pain)(gentity_s *, gentity_s *, int, const float *, const int, const float *, const hitLocation_t, const int); // [esp+10h] [ebp-4h]
@@ -491,7 +491,7 @@ double __cdecl CanDamage(
     float dir[3]; // [esp+120h] [ebp-88h] BYREF
     bool success; // [esp+12Fh] [ebp-79h]
     const float *color; // [esp+130h] [ebp-78h]
-    float halfWidth; // [esp+134h] [ebp-74h]
+    [[maybe_unused]] float halfWidth; // [esp+134h] [ebp-74h]
     float right[3]; // [esp+138h] [ebp-70h] BYREF
     float forward[3]; // [esp+144h] [ebp-64h] BYREF
     float eyeOrigin[3]; // [esp+150h] [ebp-58h] BYREF
@@ -869,7 +869,7 @@ int32_t __cdecl G_RadiusDamage(
     int32_t j; // [esp+10h] [ebp-1054h]
     float v14; // [esp+14h] [ebp-1050h]
     float diff[3]; // [esp+18h] [ebp-104Ch] BYREF
-    float v16; // [esp+24h] [ebp-1040h]
+    [[maybe_unused]] float v16; // [esp+24h] [ebp-1040h]
     float mins[3]; // [esp+28h] [ebp-103Ch] BYREF
     float v18; // [esp+34h] [ebp-1030h]
     float v19; // [esp+38h] [ebp-102Ch]
