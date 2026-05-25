@@ -42,9 +42,9 @@ void __cdecl G_BroadcastVoice(gentity_s *talker, VoicePacket_t *voicePacket)
                         && perk_parabolicRadius->current.value >= dist))
                 {
                     if ((ent->client->sess.sessionState == talker->client->sess.sessionState
-                        || (ent->client->sess.sessionState == SESS_STATE_DEAD
+                        || ((ent->client->sess.sessionState == SESS_STATE_DEAD
                             || talker->client->sess.sessionState == SESS_STATE_DEAD)
-                        && voice_deadChat->current.enabled)
+                        && voice_deadChat->current.enabled))
                         && (talker != ent || voice_localEcho->current.enabled)
                         && !SV_ClientHasClientMuted(otherPlayer, talker->s.number)
                         && SV_ClientWantsVoiceData(otherPlayer))
@@ -96,7 +96,7 @@ void __cdecl SV_UserVoice(client_t *cl, msg_t *msg)
     int packet; // [esp+0h] [ebp-11Ch]
     VoicePacket_t voicePacket; // [esp+4h] [ebp-118h] BYREF
     int packetCount; // [esp+114h] [ebp-8h]
-    int totalBytes; // [esp+118h] [ebp-4h]
+    [[maybe_unused]] int totalBytes; // [esp+118h] [ebp-4h]
 
     totalBytes = 0;
     if (sv_voice->current.enabled)
@@ -139,7 +139,7 @@ void __cdecl SV_QueueVoicePacket(int talkerNum, int clientNum, VoicePacket_t *vo
     {
         client->voicePackets[client->voicePacketCount].dataSize = voicePacket->dataSize;
         memcpy(client->voicePackets[client->voicePacketCount].data, voicePacket->data, voicePacket->dataSize);
-        if (talkerNum != talkerNum)
+        if (talkerNum != static_cast<uint8_t>(talkerNum))
             MyAssertHandler(".\\server_mp\\sv_voice_mp.cpp", 149, 0, "%s", "talkerNum == static_cast<byte>(talkerNum)");
         client->voicePackets[client->voicePacketCount++].talker = talkerNum;
     }
@@ -152,7 +152,7 @@ void __cdecl SV_PreGameUserVoice(client_t *cl, msg_t *msg)
     int otherPlayer; // [esp+114h] [ebp-10h]
     int talker; // [esp+118h] [ebp-Ch]
     int packetCount; // [esp+11Ch] [ebp-8h]
-    int totalBytes; // [esp+120h] [ebp-4h]
+    [[maybe_unused]] int totalBytes; // [esp+120h] [ebp-4h]
 
     totalBytes = 0;
     if (sv_voice->current.enabled)

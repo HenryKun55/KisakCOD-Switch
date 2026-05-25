@@ -1095,8 +1095,7 @@ void Scr_ObjectError(const char * /*msg*/) {}
 void Scr_ParamError(unsigned int /*paramIndex*/, const char * /*msg*/) {}
 
 client_t *SV_FindClientByAddress(netadr_t /*adr*/, int /*qport*/) { return nullptr; }
-void SV_PreGameUserVoice(client_t * /*cl*/, msg_t * /*msg*/) {}
-void SV_UserVoice(client_t * /*cl*/, msg_t * /*msg*/) {}
+// SV_PreGameUserVoice / SV_UserVoice provided by src/server_mp/sv_voice_mp.cpp now.
 void SVC_GameCompleteStatus(netadr_t /*from*/) {}
 
 const dvar_t *cl_profileTextHeight = nullptr;
@@ -2346,6 +2345,13 @@ uint8_t *Hunk_AllocPhysPresetPrecache(unsigned int size) { return static_cast<ui
 unsigned int bg_lastParsedWeaponIndex = 0;
 clientConnection_t clientConnections[1]{};
 const dvar_t *g_compassShowEnemies = nullptr;
+
+// === sv_voice_mp satellites ======================================================
+
+bgs_t level_bgs{};
+const dvar_t *voice_deadChat  = nullptr;
+const dvar_t *voice_global    = nullptr;
+const dvar_t *voice_localEcho = nullptr;
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
