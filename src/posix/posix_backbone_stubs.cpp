@@ -960,11 +960,11 @@ void StringTable_GetAsset(const char * /*filename*/, StringTable ** /*outTable*/
 const char *StringTable_Lookup(const StringTable * /*table*/, int /*column*/, const char * /*key*/, int /*colCount*/) { return nullptr; }
 
 // SV
-void SV_CloseDownload(client_t * /*cl*/) {}
+// SV_CloseDownload provided by src/server_mp/sv_client_mp.cpp now.
 void SV_Download_Clear(client_t * /*cl*/) {}
-void SV_DropClient(client_t * /*cl*/, const char * /*reason*/, bool /*tellThem*/) {}
+// SV_DropClient provided by src/server_mp/sv_client_mp.cpp now.
 // SV_GetConfigstring provided by src/server_mp/sv_init_mp.cpp now.
-void SV_SendClientGameState(client_t * /*cl*/) {}
+// SV_SendClientGameState provided by src/server_mp/sv_client_mp.cpp now.
 
 // Voice
 void Voice_IncomingVoiceData(unsigned char /*from*/, unsigned char * /*data*/, int /*len*/) {}
@@ -2531,11 +2531,11 @@ void CL_InitLoad(const char *, const char *) {}
 // SV_RunFrame provided by src/server_mp/sv_main_mp.cpp now.
 void CL_MapLoading(const char *) {}
 char *ClientConnect(uint32_t, uint16_t) { return nullptr; }
-void SV_FreeClients() {}
+// SV_FreeClients provided by src/server_mp/sv_client_mp.cpp now.
 // SV_Heartbeat_f provided by src/server_mp/sv_ccmds_mp.cpp now.
 // SV_InitSnapshot provided by src/server_mp/sv_main_mp.cpp now.
 char *FS_LoadedIwdNames() { return const_cast<char *>(""); }
-void SV_SendDisconnect(client_t *, int, const char *, bool, const char *) {}
+// SV_SendDisconnect provided by src/server_mp/sv_client_mp.cpp now.
 void DB_UpdateDebugZone() {}
 void Hunk_FreeTempMemory(char *) {}
 void SV_EndClientSnapshot(client_t *, msg_t *) {}
@@ -2595,17 +2595,17 @@ void Sys_BeginLoadThreadPriorities() {}
 void BG_SetPerk(int32_t *, uint32_t) {}
 char *I_CleanStr(char *s) { return s; }
 int I_DrawStrlen(const char *s) { return s ? static_cast<int>(std::strlen(s)) : 0; }
-void SV_BanClient(client_t *) {}
+// SV_BanClient provided by src/server_mp/sv_client_mp.cpp now.
 void Scr_DoProfile(float) {}
 void FS_ConvertPath(char *) {}
-void SV_UnbanClient(char *) {}
+// SV_UnbanClient provided by src/server_mp/sv_client_mp.cpp now.
 void Scr_RunDebugger() {}
 int32_t G_GetClientScore(int32_t) { return 0; }
 clientState_s *G_GetClientState(int32_t) { return nullptr; }
 void G_SetSavePersist(int32_t) {}
-void SV_BanGuidBriefly(const char *) {}
+// SV_BanGuidBriefly provided by src/server_mp/sv_client_mp.cpp now.
 // SV_AddServerCommand provided by src/server_mp/sv_main_mp.cpp now.
-void SV_ClientEnterWorld(client_t *, usercmd_s *) {}
+// SV_ClientEnterWorld provided by src/server_mp/sv_client_mp.cpp now.
 void Scr_DoProfileBuiltin(float) {}
 void Scr_DumpScriptThreads() {}
 void Scr_RunDebuggerRemote() {}
@@ -2617,21 +2617,44 @@ void Steam_SV_AddTestCommands() {}
 void G_RunFrame(int32_t) {}
 void FakeLag_Frame() {}
 void Scr_FreeValue(unsigned int) {}
-void SV_ClientThink(client_t *, usercmd_s *) {}
+// SV_ClientThink provided by src/server_mp/sv_client_mp.cpp now.
 void Scr_SetLoading(int) {}
 int  Netchan_Process(netchan_t *, msg_t *) { return 0; }
-void SV_GetChallenge(netadr_t) {}
-void SV_ReceiveStats(netadr_t, msg_t *) {}
-void SV_DirectConnect(netadr_t) {}
+// SV_GetChallenge provided by src/server_mp/sv_client_mp.cpp now.
+// SV_ReceiveStats provided by src/server_mp/sv_client_mp.cpp now.
+// SV_DirectConnect provided by src/server_mp/sv_client_mp.cpp now.
 WinThreadLock Win_GetThreadLock() { return {}; }
-void SV_DelayDropClient(client_t *, const char *) {}
+// SV_DelayDropClient provided by src/server_mp/sv_client_mp.cpp now.
 void Scr_UpdateDebugger() {}
 void SV_SendClientMessages() {}
 int32_t G_GetClientArchiveTime(int32_t) { return 0; }
-void SV_ExecuteClientMessage(client_t *, msg_t *) {}
+// SV_ExecuteClientMessage provided by src/server_mp/sv_client_mp.cpp now.
 void MSG_WriteReliableCommandToBuffer(const char *, char *, int) {}
 
 uint8_t tempServerMsgBuf[131072]{};
+
+// === sv_client_mp satellites =====================================================
+
+void ClientBegin(int32_t) {}
+void ClientThink(int32_t) {}
+int  FS_WriteFile(char *, char *, unsigned int) { return 0; }
+void ClientCommand(int32_t) {}
+void Netchan_Setup(netsrc_t, netchan_t *, netadr_t, int, char *, int, char *, int) {}
+bool NET_CompareAdr(netadr_t, netadr_t) { return false; }
+void MSG_WriteEntity(SnapshotInfo_s *, msg_t *, int, entityState_s *, const entityState_s *, int) {}
+bool BG_IsWeaponValid(const playerState_s *, uint32_t) { return false; }
+void ClientDisconnect(int32_t) {}
+void G_SetLastServerTime(int32_t, int32_t) {}
+void SV_PacketDataIsHeader(int, const msg_t *) {}
+bool Steam_CheckClientTicket(unsigned char *, unsigned int, unsigned long long) { return true; }
+void Steam_OnClientDropped(unsigned long long) {}
+void SV_BuildClientSnapshot(client_t *) {}
+void SV_SendMessageToClient(msg_t *, client_t *) {}
+bool BG_ValidateWeaponNumber(uint32_t) { return true; }
+bool Sys_IsLANAddress_IgnoreSubnet(netadr_t) { return false; }
+void SV_UpdateServerCommandsToClient(client_t *, msg_t *) {}
+
+const dvar_t *net_lanauthorize = nullptr;
 
 // === CGAME dvars and storage referenced by the new sources =========================
 

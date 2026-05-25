@@ -17,7 +17,12 @@
 #include <win32/win_steam.h>
 #include <universal/base64.h>
 #else
-#error Steam auth for Arch (Server)
+// KISAKHACK: Steam auth + base64 ticket validation are Win32-only.
+// Forward declarations let the POSIX build link against stubs in
+// posix_backbone_stubs.cpp.
+#include <universal/base64.h>
+bool Steam_CheckClientTicket(unsigned char *ticket, unsigned int ticketLen, unsigned long long steamId64);
+void Steam_OnClientDropped(unsigned long long steamId64);
 #endif
 
 struct ucmd_t // sizeof=0xC
@@ -74,7 +79,7 @@ void __cdecl SV_AuthorizeRequest(netadr_t from, int challenge, const char *cdkey
         v8 = Dvar_RegisterString("fs_game", "", DVAR_SERVERINFO | DVAR_SYSTEMINFO | DVAR_INIT, "File sysytem base game name");
         if (v8 && v8->current.integer)
         {
-            integer = (char*)v8->current.integer;
+            integer = (char*)(uintptr_t)v8->current.integer;
             v6 = game;
             do
             {
@@ -130,9 +135,9 @@ int __cdecl SV_IsTempBannedGuid(const char *cdkeyHash)
 void __cdecl SV_GetChallenge(netadr_t from)
 {
     int v1; // esi
-    __int16 v3; // ax
-    const char *v4; // eax
-    netadr_t v5; // [esp-14h] [ebp-30h]
+    [[maybe_unused]] __int16 v3; // ax
+    [[maybe_unused]] const char *v4; // eax
+    [[maybe_unused]] netadr_t v5; // [esp-14h] [ebp-30h]
     //char *cdkeyHash; // [esp+4h] [ebp-18h]
     char *clientSteamTicketBase64;
     challenge_t *challenge; // [esp+8h] [ebp-14h]
@@ -181,7 +186,7 @@ void __cdecl SV_GetChallenge(netadr_t from)
         return;
     }
 
-    uint32 decodedLen = b64_decode((unsigned char*)clientSteamTicketBase64, strlen(clientSteamTicketBase64), decodedSteamTicket);
+    uint32 decodedLen = b64_decode((const unsigned char*)clientSteamTicketBase64, static_cast<unsigned int>(strlen(clientSteamTicketBase64)), decodedSteamTicket);
 
     //if (SV_IsBannedGuid(cdkeyHash))
     if (SV_IsBannedGuid(clientSteamID64))
@@ -578,8 +583,8 @@ void __cdecl SV_FreeClients()
 void __cdecl SV_DirectConnect(netadr_t from)
 {
     const char *v6; // eax
-    const char *v8; // eax
-    const char *v9; // eax
+    [[maybe_unused]] const char *v8; // eax
+    [[maybe_unused]] const char *v9; // eax
     const char *v10; // eax
     char *v11; // edi
     const char *v12; // eax
@@ -587,11 +592,11 @@ void __cdecl SV_DirectConnect(netadr_t from)
     const char *v14; // eax
     bool v15; // [esp-8h] [ebp-490h]
     bool v16; // [esp-4h] [ebp-48Ch]
-    char *fromAddr; // [esp+1Ch] [ebp-46Ch]
+    [[maybe_unused]] char *fromAddr; // [esp+1Ch] [ebp-46Ch]
     int ping; // [esp+20h] [ebp-468h]
     char cdkeyHash[36]; // [esp+24h] [ebp-464h] BYREF
     client_t *clients; // [esp+48h] [ebp-440h]
-    int cl_pb; // [esp+4Ch] [ebp-43Ch]
+    [[maybe_unused]] int cl_pb; // [esp+4Ch] [ebp-43Ch]
     char *denied; // [esp+50h] [ebp-438h]
     int version; // [esp+54h] [ebp-434h]
     client_t *newcl; // [esp+58h] [ebp-430h]
@@ -601,7 +606,7 @@ void __cdecl SV_DirectConnect(netadr_t from)
     char userinfo[1024]; // [esp+68h] [ebp-420h] BYREF
     gentity_s *ent; // [esp+468h] [ebp-20h]
     unsigned int scriptId; // [esp+46Ch] [ebp-1Ch]
-    char *pb_authmsg; // [esp+470h] [ebp-18h]
+    [[maybe_unused]] char *pb_authmsg; // [esp+470h] [ebp-18h]
     int i; // [esp+474h] [ebp-14h]
     int clientNum; // [esp+478h] [ebp-10h]
     int count; // [esp+47Ch] [ebp-Ch]
@@ -1103,8 +1108,8 @@ void __cdecl SV_SendClientGameState(client_t *client)
         {
             ++nextConstConfigString;
             configString = SL_ConvertToString(sv.configstrings[start]);
-            if (start >= 821 && !I_stricmp(constantConfigStrings[nextConstConfigString - 1].configString, configString)
-                || start < 821 && !strcmp(constantConfigStrings[nextConstConfigString - 1].configString, configString))
+            if ((start >= 821 && !I_stricmp(constantConfigStrings[nextConstConfigString - 1].configString, configString))
+                || (start < 821 && !strcmp(constantConfigStrings[nextConstConfigString - 1].configString, configString)))
             {
                 continue;
             }
@@ -1665,11 +1670,11 @@ int __cdecl SV_ClientCommand(client_t *cl, msg_t *msg, int fromOldServer)
         if (!I_strncmp("team ", s, 5) || !I_strncmp("score ", s, 6) || !I_strncmp("mr ", s, 3))
             floodprotect = 0;
         if (fromOldServer
-            || cl->header.state >= 4
-            && cl->header.netchan.remoteAddress.type != NA_LOOPBACK
-            && sv_floodProtect->current.enabled
-            && svs.time < cl->nextReliableTime
-            && floodprotect)
+            || (cl->header.state >= 4
+                && cl->header.netchan.remoteAddress.type != NA_LOOPBACK
+                && sv_floodProtect->current.enabled
+                && svs.time < cl->nextReliableTime
+                && floodprotect))
         {
             clientOk = 0;
             Com_DPrintf(15, "client text ignored for %s: %s\n", cl->name, s);
