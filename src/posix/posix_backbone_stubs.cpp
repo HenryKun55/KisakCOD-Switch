@@ -1212,11 +1212,10 @@ struct rectDef_s_fwd;
 
 // CG_CloseScriptMenu provided by src/cgame_mp/cg_servercmds_mp.cpp now.
 // CG_EntityEvent now in cgame/cg_event.cpp.
-double CG_FadeHudMenu(int /*localClientNum*/, const dvar_s * /*dvar*/, int /*startTime*/, int /*duration*/) { return 1.0; }
+// CG_FadeHudMenu provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 void CG_HoldBreathInit(cg_s * /*cg*/) {}
 // CG_MenuShowNotify provided by src/cgame_mp/cg_servercmds_mp.cpp now.
-Material *CG_ObjectiveIcon(int /*localClientNum*/, int /*icon*/, int /*type*/) { return nullptr; }
-void CG_ResetLowHealthOverlay(cg_s * /*cg*/) {}
+// CG_ObjectiveIcon / CG_ResetLowHealthOverlay provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 // CG_SetEquippedOffHand provided by src/cgame/offhandweapons.cpp now.
 
 void CL_DrawText(const ScreenPlacement * /*place*/, const char * /*text*/, int /*maxChars*/,
@@ -1268,7 +1267,7 @@ const dvar_t *bg_viewKickMax = nullptr;
 const dvar_t *bg_viewKickMin = nullptr;
 const dvar_t *bg_viewKickScale = nullptr;
 const dvar_t *cg_hudDamageIconTime = nullptr;
-const dvar_t *hud_fade_compass = nullptr;
+// hud_fade_compass provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 const dvar_t *uiscript_debug = nullptr;
 BOOL g_waitingForServer = 0;
 
@@ -1281,7 +1280,7 @@ struct MemoryFile;
 unsigned int BG_GetViewmodelWeaponIndex(const playerState_s * /*ps*/) { return 0; }
 WeaponDef *BG_GetWeaponDef(unsigned int /*weaponIndex*/) { return nullptr; }
 
-void CG_ArchiveState(int /*localClientNum*/, MemoryFile * /*memFile*/) {}
+// CG_ArchiveState provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 void CG_Init(int /*localClientNum*/, int /*serverMessageNum*/, int /*serverCommandSequence*/, int /*serverTime*/) {}
 void CG_RegisterSounds() {}
 void CG_Shutdown(int /*localClientNum*/) {}
@@ -1851,7 +1850,7 @@ void FX_RandomDir(int seed, float *dir)
 
 // === CGAME draw/debug/reticles/offhandweapons satellites ===========================
 
-bool CG_ShouldDrawHud(int) { return false; }
+// CG_ShouldDrawHud provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 void R_TrackStatistics(trStatistics_t *) {}
 void FX_DrawMarkProfile(int, void (*)(const char *, float *), float *) {}
 int  PMem_GetFreeAmount() { return 0; }
@@ -1965,11 +1964,7 @@ int   SEH_PrintStrlen(const char *s) { return s ? static_cast<int>(std::strlen(s
 void  BG_LerpHudColors(const hudelem_s *, int, hudelem_color_t *) {}
 int   compare_hudelems(const void *, const void *) { return 0; }
 bool  UI_AnyMenuVisible(int) { return false; }
-int32_t CG_ServerMaterialName(int, int, char *out, uint32_t maxLen)
-{
-    if (out && maxLen > 0) out[0] = '\0';
-    return 0;
-}
+// CG_ServerMaterialName provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 double R_NormalizedTextScale(Font_s *, float scale) { return scale; }
 void  CL_PlayTextFXPulseSounds(uint32_t, int, int, int, int, int, int *) {}
 // CG_GetViewAxisProjections provided by src/cgame_mp/cg_draw_mp.cpp now.
@@ -2196,12 +2191,11 @@ void Menus_HideByName(const UiContext *, const char *) {}
 int32_t PM_GetSprintLeft(const playerState_s *, int32_t) { return 0; }
 void Menus_CloseByName(UiContext *, const char *) {}
 int32_t BG_GetMaxSprintTime(const playerState_s *) { return 0; }
-float CG_CalcPlayerHealth(const playerState_s *) { return 1.f; }
+// CG_CalcPlayerHealth provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 void CL_DrawTextPhysical(const char *, int, Font_s *, float, float, float, float, const float *, int) {}
 void Con_DrawMiniConsole(int, int, int, float) {}
 const char *UI_GetTopActiveMenuName(int) { return ""; }
-bool CG_CheckPlayerForLowAmmo(const cg_s *) { return false; }
-bool CG_CheckPlayerForLowClip(const cg_s *) { return false; }
+// CG_CheckPlayerForLowAmmo / CG_CheckPlayerForLowClip provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 void BG_AssertOffhandIndexOrNone(uint32_t) {}
 void Vec4Mul(const float *a, const float *b, float *p)
 {
@@ -2232,11 +2226,7 @@ const dvar_t *cg_overheadNamesNearDist    = nullptr;
 const dvar_t *cg_overheadNamesSize        = nullptr;
 const dvar_t *cg_overheadRankSize         = nullptr;
 const dvar_t *debugOverlay                = nullptr;
-const dvar_t *hud_fade_ammodisplay        = nullptr;
-const dvar_t *hud_fade_healthbar          = nullptr;
-const dvar_t *hud_fade_sprint             = nullptr;
-const dvar_t *hud_fade_stance             = nullptr;
-const dvar_t *hud_health_startpulse_injured = nullptr;
+// hud_fade_* + hud_health_startpulse_injured provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 const dvar_t *ui_showEndOfGame            = nullptr;
 
 // === cg_ents_mp satellites =======================================================
@@ -2279,6 +2269,40 @@ void  Vec3Avg(const float *a, const float *b, float *out)
 uint16_t *controller_names[6]{};
 void *Hunk_AllocXAnimClient(int size) { return std::calloc(size > 0 ? size : 1, 1); }
 
+// === cg_newDraw_mp satellites ====================================================
+
+uint32_t GetWeaponIndex(const cg_s *) { return 0u; }
+bool     PM_IsSprinting(const playerState_s *) { return false; }
+int32_t  BG_AmmoForWeapon(uint32_t) { return 0; }
+bool     Key_IsCommandBound(int, const char *) { return false; }
+int32_t  BG_GetAmmoPlayerMax(const playerState_s *, uint32_t, uint32_t) { return 0; }
+bool     CL_ShouldDisplayHud(int) { return true; }
+bool     BG_WeaponBlocksProne(uint32_t) { return false; }
+int      UI_GetTalkerClientNum(int, int) { return -1; }
+int32_t  BG_GetTotalAmmoReserve(const playerState_s *, uint32_t) { return 0; }
+void     CG_DrawPlayerActionSlot(int, const rectDef_s *, uint32_t, float *, Font_s *, float, int) {}
+void     CG_DrawPlayerWeaponIcon(int, const rectDef_s *, const float *) {}
+int32_t  PM_GetSprintLeftLastTime(const playerState_s *) { return 0; }
+const playerState_s *CG_GetPredictedPlayerState(int) { return nullptr; }
+void     CG_DrawPlayerActionSlotDpad(int, const rectDef_s *, const float *, Material *) {}
+void     CG_DrawPlayerWeaponAmmoStock(int, const rectDef_s *, Font_s *, float, float *, Material *, int) {}
+void     CG_DrawPlayerWeaponBackground(int, const rectDef_s *, const float *, Material *) {}
+int32_t  BG_PlayerWeaponCountPrimaryTypes(const playerState_s *) { return 0; }
+void     CG_DrawPlayerWeaponLowAmmoWarning(int, const rectDef_s *, Font_s *, float, int, float, float, char, Material *) {}
+void     CG_DrawPlayerWeaponAmmoClipGraphic(int, const rectDef_s *, const float *) {}
+
+const dvar_t *cg_cursorHints              = nullptr;
+const dvar_t *cg_drawBreathHint           = nullptr;
+const dvar_t *cg_drawHealth               = nullptr;
+const dvar_t *cg_drawMantleHint           = nullptr;
+const dvar_t *cg_hintFadeTime             = nullptr;
+const dvar_t *cg_hudProneY                = nullptr;
+const dvar_t *cg_hudStanceFlash           = nullptr;
+const dvar_t *cg_hudStanceHintPrints      = nullptr;
+const dvar_t *cg_invalidCmdHintBlinkInterval = nullptr;
+const dvar_t *cg_invalidCmdHintDuration   = nullptr;
+const dvar_t *cg_weaponHintsCoD1Style     = nullptr;
+
 // === CGAME dvars and storage referenced by the new sources =========================
 
 const dvar_t *cg_crosshairAlpha        = nullptr;
@@ -2301,7 +2325,7 @@ const dvar_t *cg_drawVersionY          = nullptr;
 const dvar_t *cg_drawpaused            = nullptr;
 const dvar_t *cg_enemyNameFadeIn       = nullptr;
 const dvar_t *cg_friendlyNameFadeIn    = nullptr;
-const dvar_t *hud_fade_offhand         = nullptr;
+// hud_fade_offhand provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 const dvar_t *phys_drawDebugInfo       = nullptr;
 const dvar_t *player_debugHealth       = nullptr;
 const dvar_t *snd_drawEqChannels       = nullptr;
