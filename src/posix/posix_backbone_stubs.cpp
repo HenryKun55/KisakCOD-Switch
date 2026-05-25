@@ -2439,7 +2439,7 @@ gentity_s *Weapon_RocketLauncher_Fire(gentity_s *, uint32_t, float, struct weapo
 // Scr_FreeEntity provided by src/game_mp/g_spawn_mp.cpp now.
 void Scr_FreeThread(uint16_t) {}
 void DB_ReplaceModel(const char *, const char *) {}
-void G_VehFreeEntity(gentity_s *) {}
+// G_VehFreeEntity provided by src/game_mp/g_vehicles_mp.cpp now.
 // Helicopter_Pain provided by src/game_mp/g_scr_helicopter.cpp now.
 void MatrixTranspose(const mat3x3 &in, mat3x3 &out)
 {
@@ -2450,18 +2450,18 @@ void MatrixTranspose(const mat3x3 &in, mat3x3 &out)
 void Touch_Item_Auto(gentity_s *, gentity_s *, int) {}
 void G_ExplodeMissile(gentity_s *) {}
 // Helicopter_Think provided by src/game_mp/g_scr_helicopter.cpp now.
-void G_VehUnlinkPlayer(gentity_s *, gentity_s *) {}
+// G_VehUnlinkPlayer provided by src/game_mp/g_vehicles_mp.cpp now.
 // PlayerCorpse_Free provided by src/game_mp/g_player_corpse_mp.cpp now.
 // Scr_ExecEntThread provided by src/game_mp/g_spawn_mp.cpp now.
 void FinishSpawningItem(gentity_s *) {}
 // G_PlayerController provided by src/game_mp/g_active_mp.cpp now.
 void G_TimedObjectThink(gentity_s *) {}
-void G_VehEntHandler_Die(gentity_s *, gentity_s *, gentity_s *, const int, const int, const int, const float *, const hitLocation_t, int) {}
-void G_VehEntHandler_Use(gentity_s *, gentity_s *, gentity_s *) {}
+// G_VehEntHandler_Die provided by src/game_mp/g_vehicles_mp.cpp now.
+// G_VehEntHandler_Use provided by src/game_mp/g_vehicles_mp.cpp now.
 DObj_s *Com_ServerDObjCreate(DObjModel_s *, unsigned short, XAnimTree_s *, unsigned int) { return nullptr; }
 void DroppedItemClearOwner(gentity_s *) {}
-void G_VehEntHandler_Think(gentity_s *) {}
-void G_VehEntHandler_Touch(gentity_s *, gentity_s *, int) {}
+// G_VehEntHandler_Think provided by src/game_mp/g_vehicles_mp.cpp now.
+// G_VehEntHandler_Touch provided by src/game_mp/g_vehicles_mp.cpp now.
 // Helicopter_Controller provided by src/game_mp/g_scr_helicopter.cpp now.
 void Com_SafeServerDObjFree(unsigned int) {}
 unsigned int SL_FindLowercaseString(const char *) { return 0u; }
@@ -2475,7 +2475,7 @@ void MatrixInverseOrthogonal43(const mat4x3 &in, mat4x3 &out)
     out[3][0] = -in[3][0]; out[3][1] = -in[3][1]; out[3][2] = -in[3][2];
 }
 void Missile_FreeAttractorRefs(gentity_s *) {}
-void G_VehEntHandler_Controller(const gentity_s *, int *) {}
+// G_VehEntHandler_Controller provided by src/game_mp/g_vehicles_mp.cpp now.
 void BodyEnd(gentity_s *) {}
 void AxisClear(mat3x3 &axis)
 {
@@ -2715,7 +2715,7 @@ unsigned int G_NewString(const char *) { return 0u; }
 void G_SpawnItem(gentity_s *, const gitem_s *) {}
 int Scr_GetType(unsigned int) { return 0; }
 void trigger_use(gentity_s *) {}
-void G_VehSpawner(gentity_s *) {}
+// G_VehSpawner provided by src/game_mp/g_vehicles_mp.cpp now.
 int32_t G_SpawnString(const SpawnVar *, const char *, const char *def, const char **out) { if (out) *out = def; return 0; }
 void Scr_AddFields(const char *, const char *) {}
 void Scr_AddObject(unsigned int) {}
@@ -2733,7 +2733,7 @@ scr_entref_t Scr_GetEntityRef(unsigned int) { return {}; }
 void Scr_AddExecThread(int, unsigned int) {}
 void Scr_FreeEntityNum(unsigned int, unsigned int) {}
 void Scr_SetStructField(unsigned int, unsigned int) {}
-void G_VehCollmapSpawner(gentity_s *) {}
+// G_VehCollmapSpawner provided by src/game_mp/g_vehicles_mp.cpp now.
 void Scr_GetHudElemField(uint32_t, uint32_t) {}
 void Scr_SetHudElemField(uint32_t, uint32_t) {}
 const gitem_s *BG_FindItemForWeapon(uint32_t, int32_t) { return nullptr; }
@@ -2749,8 +2749,7 @@ game_hudelem_s g_hudelems[1024]{};
 void Scr_NotifyNum(unsigned int, unsigned int, unsigned int, unsigned int) {}
 
 // === player_use_mp satellites ====================================================
-
-bool G_VehUsable(gentity_s *, gentity_s *) { return false; }
+// G_VehUsable provided by src/game_mp/g_vehicles_mp.cpp now.
 int32_t G_GetHintStringIndex(int32_t *iOut, char *) { if (iOut) *iOut = 0; return 0; }
 bool BG_ThrowingBackGrenade(const playerState_s *) { return false; }
 // G_TraceCapsuleComplete provided by src/game_mp/g_main_mp.cpp now.
@@ -2771,7 +2770,7 @@ void Scr_AddUndefined() {}
 void Scr_PlayerDamage(gentity_s *, gentity_s *, gentity_s *, int, int, unsigned int, unsigned int, const float *, const float *, hitLocation_t, int) {}
 void Scr_PlayerKilled(gentity_s *, gentity_s *, gentity_s *, int, unsigned int, unsigned int, const float *, hitLocation_t, int, int) {}
 void Vec3NormalizeFast(float *v) { if (v) { float l = std::sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]); if (l > 0) { v[0]/=l; v[1]/=l; v[2]/=l; } } }
-bool G_VehImmuneToDamage(gentity_s *, int, char, uint32_t) { return false; }
+// G_VehImmuneToDamage provided by src/game_mp/g_vehicles_mp.cpp now.
 void BG_SetConditionValue(uint32_t, uint32_t, uint64_t) {}
 void DObjPhysicsGetBounds(const DObj_s *, float *mins, float *maxs)
 {
@@ -2784,13 +2783,12 @@ uint32_t BG_FindWeaponIndexForName(const char *) { return 0u; }
 // g_debugDamage provided by src/game_mp/g_main_mp.cpp now.
 // radius_damage_debug provided by src/game_mp/g_main_mp.cpp now.
 // === g_scr_helicopter satellites =================================================
-
-void SpawnVehicle(gentity_s *, const char *) {}
-void VEH_JoltBody(gentity_s *, const float *, float, float, float) {}
+// SpawnVehicle provided by src/game_mp/g_vehicles_mp.cpp now.
+// VEH_JoltBody provided by src/game_mp/g_vehicles_mp.cpp now.
 void VEH_InitEntity(gentity_s *, scr_vehicle_s *, int) {}
 gentity_s *GScr_GetVehicle(scr_entref_t) { return nullptr; }
 void VEH_InitVehicle(gentity_s *, scr_vehicle_s *, short) {}
-void VEH_SetPosition(gentity_s *, const float *, const float *) {}
+// VEH_SetPosition provided by src/game_mp/g_vehicles_mp.cpp now.
 void CMD_VEH_GetSpeed(scr_entref_t) {}
 void CMD_VEH_SetSpeed(scr_entref_t) {}
 void CMD_VEH_SetWeapon(scr_entref_t) {}
@@ -2827,7 +2825,7 @@ void FireWeaponMelee(gentity_s *, int32_t) {}
 // Cmd_FollowCycle_f provided by src/game_mp/g_cmds_mp.cpp now.
 void BG_WeaponFireRecoil(const playerState_s *, float *, float *) {}
 void ExpandBoundsToWidth(float *, float *) {}
-int32_t G_VehPlayerRideSlot(gentity_s *, int32_t) { return -1; }
+// G_VehPlayerRideSlot provided by src/game_mp/g_vehicles_mp.cpp now.
 void HudElem_UpdateClient(gclient_s *, int32_t, hudelem_update_t) {}
 void BG_Player_DoControllers(const CEntPlayerInfo *, const DObj_s *, int32_t *) {}
 void BG_CalculateWeaponAngles(weaponState_t *, float *) {}
@@ -2848,7 +2846,7 @@ void G_RunMissile(gentity_s *) {}
 void SV_SightTrace(int *hit, const float *, const float *, const float *, const float *, int, int, int) { if (hit) *hit = 0; }
 void Scr_LoadLevel() {}
 void Z_VirtualFree(void *) {}
-void G_VehiclesInit(int) {}
+// G_VehiclesInit provided by src/game_mp/g_vehicles_mp.cpp now.
 int  SV_TracePassed(const float *, const float *, const float *, const float *, int, int, int, int, uint8_t *, int) { return 0; }
 void Scr_InitSystem(int) {}
 // SendScoreboard provided by src/game_mp/g_cmds_mp.cpp now.
@@ -2870,14 +2868,14 @@ void Scr_RunCurrentThreads() {}
 void G_RegisterMissileDvars() {}
 void Missile_InitAttractors() {}
 void SV_SetupIgnoreEntParams(IgnoreEntParams *, int) {}
-void G_VehiclesSetupSpawnedEnts() {}
+// G_VehiclesSetupSpawnedEnts provided by src/game_mp/g_vehicles_mp.cpp now.
 void G_RegisterMissileDebugDvars() {}
 // G_setfog provided by src/game_mp/g_cmds_mp.cpp now.
 void SV_Trace(trace_t *r, const float *, const float *, const float *, const float *, const IgnoreEntParams *, int, int, uint8_t *, int)
 { if (r) { std::memset(r, 0, sizeof(*r)); r->fraction = 1.f; } }
 void G_RunItem(gentity_s *) {}
 void Rand_Init(int) {}
-void G_VehRegisterDvars() {}
+// G_VehRegisterDvars provided by src/game_mp/g_vehicles_mp.cpp now.
 int SV_PointContents(float *, int, int) { return 0; }
 
 // === g_cmds_mp satellites ========================================================
@@ -2894,6 +2892,17 @@ bool BG_CanPlayerHaveWeapon(uint32_t) { return false; }
 char *Scr_GetGameTypeNameForScript(const char *) { return const_cast<char *>(""); }
 char *vtos(const float *) { static char buf[64] = ""; return buf; }
 int32_t Add_Ammo(gentity_s *, uint32_t, uint8_t, int32_t, int32_t) { return 0; }
+
+// === g_vehicles_mp satellites ====================================================
+
+void ExtendBounds(float *, float *, const float *) {}
+void AnglesSubtract(float *, float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
+float DiffTrackAngle(float, float, float, float) { return 0.f; }
+void VEH_ClipVelocity(float *in, float *, float *out) { if (in && out) { out[0] = in[0]; out[1] = in[1]; out[2] = in[2]; } }
+int32_t G_TryPushingEntity(gentity_s *, gentity_s *, float *, float *) { return 0; }
+int32_t VEH_CorrectAllSolid(gentity_s *, trace_t *) { return 0; }
+VehicleLocalPhysics s_phys_0{};
+VehiclePhysicsBackup s_backup_0{};
 
 // === CGAME dvars and storage referenced by the new sources =========================
 

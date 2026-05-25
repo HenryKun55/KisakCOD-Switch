@@ -198,8 +198,8 @@ double __cdecl GetSpeed(int32_t localClientNum, centity_s *cent)
     int32_t serverTimeDelta; // [esp+Ch] [ebp-1Ch]
     float posDelta[3]; // [esp+10h] [ebp-18h] BYREF
     float len; // [esp+1Ch] [ebp-Ch]
-    LerpEntityState *p_currentState; // [esp+20h] [ebp-8h]
-    entityState_s *ns; // [esp+24h] [ebp-4h]
+    [[maybe_unused]] LerpEntityState *p_currentState; // [esp+20h] [ebp-8h]
+    [[maybe_unused]] entityState_s *ns; // [esp+24h] [ebp-4h]
     cg_s *cgameGlob;
 
     cgameGlob = CG_GetLocalClientGlobals(localClientNum);
@@ -1150,10 +1150,10 @@ void __cdecl VEH_TouchEntities_0(gentity_s *ent, float frameTime)
     float v8[3]; // [esp+48h] [ebp-109Ch] BYREF
     float result[3]; // [esp+54h] [ebp-1090h] BYREF
     float *origin; // [esp+60h] [ebp-1084h]
-    int32_t contentmask; // [esp+64h] [ebp-1080h]
+    [[maybe_unused]] int32_t contentmask; // [esp+64h] [ebp-1080h]
     int32_t v12; // [esp+68h] [ebp-107Ch]
     float *a; // [esp+6Ch] [ebp-1078h]
-    vehicle_info_t *v14; // [esp+70h] [ebp-1074h]
+    [[maybe_unused]] vehicle_info_t *v14; // [esp+70h] [ebp-1074h]
     float maxs[3]; // [esp+74h] [ebp-1070h] BYREF
     scr_vehicle_s *scr_vehicle; // [esp+80h] [ebp-1064h]
     float b[3]; // [esp+84h] [ebp-1060h] BYREF
@@ -1202,7 +1202,7 @@ void __cdecl VEH_TouchEntities_0(gentity_s *ent, float frameTime)
             v24 = entityHandlers[target->handler].touch;
             if (target->s.number != ent->s.number
                 && (target->s.eType == ET_PLAYER || target->s.eType == ET_SCRIPTMOVER || target->s.eType == ET_VEHICLE || target->s.eType == ET_MISSILE)
-                && (!target->r.ownerNum.isDefined() || target->s.eType == ET_MISSILE && target->r.ownerNum.ent() != ent))
+                && (!target->r.ownerNum.isDefined() || (target->s.eType == ET_MISSILE && target->r.ownerNum.ent() != ent)))
             {
                 if (target->s.groundEntityNum == ent->s.number)
                     goto LABEL_18;
@@ -1996,7 +1996,7 @@ void __cdecl VEH_StepSlideMove(gentity_s *ent, int32_t gravity, float frameTime)
         down[1] = startOrigin[1];
         down[2] = startOrigin[2] - 18.0f;
         G_TraceCapsule(&trace, startOrigin, veh->phys.mins, veh->phys.maxs, down, ent->s.number, ent->clipmask);
-        if (veh->phys.vel[2] <= 0.0f || trace.fraction != 1.0f && trace.normal[2] >=0.699999988079071f)
+        if (veh->phys.vel[2] <= 0.0f || (trace.fraction != 1.0f && trace.normal[2] >=0.699999988079071f))
         {
             up[0] = startOrigin[0];
             up[1] = startOrigin[1];
@@ -2189,7 +2189,7 @@ void __cdecl VEH_GroundPlant(gentity_s *ent, int32_t gravity, float frameTime)
     float wheelPos[4][3]; // [esp+158h] [ebp-80h] BYREF
     int32_t i; // [esp+188h] [ebp-50h]
     float axis[4][3]; // [esp+18Ch] [ebp-4Ch] BYREF
-    float dot; // [esp+1BCh] [ebp-1Ch]
+    [[maybe_unused]] float dot; // [esp+1BCh] [ebp-1Ch]
     float traceStart[3]; // [esp+1C0h] [ebp-18h] BYREF
     float traceEnd[3]; // [esp+1CCh] [ebp-Ch] BYREF
 

@@ -229,6 +229,7 @@ set(GAME_PORTABLE_SOURCES
     "${SRC_DIR}/game_mp/g_spawn_mp.cpp"
     "${SRC_DIR}/game_mp/g_trigger_mp.cpp"
     "${SRC_DIR}/game_mp/g_utils_mp.cpp"
+    "${SRC_DIR}/game_mp/g_vehicles_mp.cpp"
     "${SRC_DIR}/game_mp/player_use_mp.cpp"
 )
 
