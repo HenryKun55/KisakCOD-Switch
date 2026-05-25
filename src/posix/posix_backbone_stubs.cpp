@@ -1379,7 +1379,7 @@ int  FS_GetFileList(const char * /*path*/, const char * /*ext*/, FsListBehavior_
 }
 void G_AntiLag_RestoreClientPos(AntilagClientStore * /*store*/) {}
 void G_AntiLagRewindClientPos(int /*clientNum*/, AntilagClientStore * /*store*/) {}
-int  G_CheckHitTriggerDamage(gentity_s * /*self*/, float * /*start*/, float * /*end*/, int /*passEnt*/, unsigned int /*contentMask*/) { return 0; }
+// G_CheckHitTriggerDamage provided by src/game_mp/g_trigger_mp.cpp now.
 void G_Damage(gentity_s * /*targ*/, gentity_s * /*inflictor*/, gentity_s * /*attacker*/, float * /*dir*/,
               float * /*point*/, int /*damage*/, int /*dflags*/, int /*mod*/, unsigned int /*weapon*/,
               hitLocation_t /*hitLoc*/, unsigned int /*timeOffset*/, unsigned int /*modelIndex*/, int /*partGroup*/) {}
@@ -2352,6 +2352,23 @@ bgs_t level_bgs{};
 const dvar_t *voice_deadChat  = nullptr;
 const dvar_t *voice_global    = nullptr;
 const dvar_t *voice_localEcho = nullptr;
+
+// === g_trigger_mp satellites =====================================================
+
+int32_t G_SpawnInt(const char *, const char *, int32_t *out) { if (out) *out = 0; return 0; }
+int32_t G_SpawnFloat(const char *, const char *, float *out) { if (out) *out = 0.f; return 0; }
+void    Scr_AddEntity(gentity_s *) {}
+void    Scr_AddVector(const float *) {}
+int     CM_AreaEntities(const float *, const float *, int *, int, int) { return 0; }
+void    AddPointToBounds(const float *v, float *mins, float *maxs)
+{
+    if (!v || !mins || !maxs) return;
+    for (int i = 0; i < 3; ++i) { if (v[i] < mins[i]) mins[i] = v[i]; if (v[i] > maxs[i]) maxs[i] = v[i]; }
+}
+void    G_FreeEntityDelay(gentity_s *) {}
+int32_t G_LevelSpawnString(const char *, const char *, const char **out) { if (out) *out = ""; return 0; }
+BOOL    Scr_IsSystemActive() { return 0; }
+int     SV_SightTraceToEntity(float *, float *, float *, float *, int, int) { return 0; }
 
 // === CGAME dvars and storage referenced by the new sources =========================
 

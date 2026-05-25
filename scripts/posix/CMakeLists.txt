@@ -228,6 +228,7 @@ set(GAME_PORTABLE_SOURCES
     "${SRC_DIR}/game/g_scr_mover.cpp"
     "${SRC_DIR}/game/g_svcmds.cpp"
     "${SRC_DIR}/game/g_weapon_load_obj.cpp"
+    "${SRC_DIR}/game_mp/g_trigger_mp.cpp"
     # g_helicopter, g_hudelem, g_items — compile clean but each drags 20+
     # vehHelicopter / g_drop / pickup dvar globals and BG_* helpers.
     # Land when bgame_mp (bg_pmove + bg_weapons + bg_animation_mp) is ready.

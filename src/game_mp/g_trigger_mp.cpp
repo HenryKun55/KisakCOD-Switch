@@ -255,7 +255,7 @@ bool __cdecl Respond_trigger_damage(gentity_s *pEnt, int32_t iMOD)
         return 0;
     if ((pEnt->spawnflags & 0x20) != 0 && iMOD == 7)
         return 0;
-    return (pEnt->spawnflags & 0x100) == 0 || iMOD && (iMOD <= 8 || iMOD > 13);
+    return (pEnt->spawnflags & 0x100) == 0 || (iMOD && (iMOD <= 8 || iMOD > 13));
 }
 
 void __cdecl Activate_trigger_damage(gentity_s *pEnt, gentity_s *pOther, int32_t iDamage, int32_t iMOD)
