@@ -548,13 +548,7 @@ Material *Material_RegisterHandle(const char * /*name*/, int /*imageTrack*/)
     return nullptr;
 }
 
-// `cls` global: client state, used by statmonitor to read connection
-// state. Upstream type is huge; allocate a 16 KB byte buffer aliased as
-// the upstream `clientStatic_t` type (forward-decl). Code in our build
-// path only reads a few fields which are zero-initialized.
-struct clientStatic_t;
-alignas(16) static unsigned char cls_storage[16384];
-clientStatic_t &cls = *reinterpret_cast<clientStatic_t *>(cls_storage);
+// cls global is now provided by src/client_mp/cl_main_mp.cpp.
 
 // com_statmon now defined in qcommon/common.cpp (real upstream).
 

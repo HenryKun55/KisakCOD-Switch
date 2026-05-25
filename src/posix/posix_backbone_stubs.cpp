@@ -347,29 +347,29 @@ void CL_ConsolePrint(int /*localClientNum*/, int /*channel*/, const char *msg, i
 {
     if (msg) std::fputs(msg, stdout);
 }
-int  CL_ControllerIndexFromClientNum(int /*localClientNum*/) { return 0; }
-void CL_Disconnect(int /*localClientNum*/) {}
+// CL_ControllerIndexFromClientNum provided by src/client_mp/cl_main_mp.cpp now.
+// CL_Disconnect provided by src/client_mp/cl_main_mp.cpp now.
 // CL_FlushDebugServerData now in client/cl_debugdata.cpp.
-void CL_ForwardCommandToServer(int /*localClientNum*/, const char * /*cmd*/) {}
-void CL_Frame(netsrc_t /*sock*/) {}
+// CL_ForwardCommandToServer provided by src/client_mp/cl_main_mp.cpp now.
+// CL_Frame provided by src/client_mp/cl_main_mp.cpp now.
 struct clientConnection_t;
 // CL_GetLocalClientConnection provided by src/cgame_mp/cg_main_mp.cpp now.
-const char *CL_GetUsernameForLocalClient() { return ""; }
-void CL_Init(int /*localClientNum*/) {}
-void CL_InitDedicated() {}
+// CL_GetUsernameForLocalClient provided by src/client_mp/cl_main_mp.cpp now.
+// CL_Init provided by src/client_mp/cl_main_mp.cpp now.
+// CL_InitDedicated provided by src/client_mp/cl_main_mp.cpp now.
 void CL_InitKeyCommands() {}
-void CL_InitOnceForAllClients() {}
-void CL_InitRenderer() {}
+// CL_InitOnceForAllClients provided by src/client_mp/cl_main_mp.cpp now.
+// CL_InitRenderer provided by src/client_mp/cl_main_mp.cpp now.
 void CL_KeyEvent(int /*localClientNum*/, int /*key*/, int /*down*/, unsigned int /*time*/) {}
-char CL_PacketEvent(netsrc_t /*sock*/, netadr_t /*from*/, msg_t * /*msg*/, int /*time*/) { return 0; }
-void CL_RunOncePerClientFrame(int /*localClientNum*/, int /*frameTime*/) {}
-void CL_Shutdown(int /*localClientNum*/) {}
-void CL_ShutdownAll(bool /*shutdownRef*/) {}
-void CL_ShutdownHunkUsers() {}
-void CL_ShutdownRef() {}
-void CL_StartHunkUsers() {}
+// CL_PacketEvent provided by src/client_mp/cl_main_mp.cpp now.
+// CL_RunOncePerClientFrame provided by src/client_mp/cl_main_mp.cpp now.
+// CL_Shutdown provided by src/client_mp/cl_main_mp.cpp now.
+// CL_ShutdownAll provided by src/client_mp/cl_main_mp.cpp now.
+// CL_ShutdownHunkUsers provided by src/client_mp/cl_main_mp.cpp now.
+// CL_ShutdownRef provided by src/client_mp/cl_main_mp.cpp now.
+// CL_StartHunkUsers provided by src/client_mp/cl_main_mp.cpp now.
 // CL_UpdateDebugServerData now in client/cl_debugdata.cpp.
-void CL_UpdateSound() {}
+// CL_UpdateSound provided by src/client_mp/cl_main_mp.cpp now.
 
 // =========================================================================
 // SV_* — server. Stubs.
@@ -686,8 +686,7 @@ struct rectDef_s;
 struct MapProfileEntry;
 struct clientActive_t;
 struct NetField;
-
-float (*CL_GetMapCenter())[3] { static float center[3] = {0,0,0}; return (float (*)[3])&center; }
+// CL_GetMapCenter provided by src/client_mp/cl_main_mp.cpp now.
 // CL_GetPredictedOriginForServerTime provided by src/client_mp/cl_parse_mp.cpp now.
 
 char *BG_GetEntityTypeName(int /*eType*/) { return const_cast<char *>(""); }
@@ -744,7 +743,7 @@ char *Z_MallocGarbage(int size, const char * /*name*/, int /*type*/)
 void TRACK_cl_console() {}
 // TRACK_cl_input provided by src/client_mp/cl_input.cpp now.
 void TRACK_cl_keys() {}
-void TRACK_cl_main() {}
+// TRACK_cl_main provided by src/client_mp/cl_main_mp.cpp now.
 // TRACK_cl_parse provided by src/client_mp/cl_parse_mp.cpp now.
 void TRACK_cm_world() {}
 void TRACK_com_math() {}
@@ -796,10 +795,10 @@ void TRACK_win_net() {}
 void TRACK_xmodel() {}
 
 // Globals for the new batch.
-const dvar_t *cl_shownet = nullptr;
+// cl_shownet provided by src/client_mp/cl_main_mp.cpp now.
 const dvar_t *msg_dumpEnts = nullptr;
 const dvar_t *msg_printEntityNums = nullptr;
-clientActive_t clients[STATIC_MAX_LOCAL_CLIENTS]{};
+// clients provided by src/client_mp/cl_main_mp.cpp now.
 huffman_t msgHuff{};
 unsigned int msecPerRawTimerTick = 1;
 netFieldOrderInfo_t orderInfo{};
@@ -901,7 +900,7 @@ struct trDebugLine_t;
 struct trDebugString_t;
 
 // CalculateRanks provided by src/game_mp/g_main_mp.cpp now.
-char CL_IsClientLocal(int /*localClientNum*/) { return 1; }
+// CL_IsClientLocal provided by src/client_mp/cl_main_mp.cpp now.
 // CL_IsPlayerMuted provided by src/client_mp/cl_main_pc_mp.cpp now.
 // ClientUserinfoChanged provided by src/game_mp/g_client_mp.cpp now.
 void Com_SafeClientDObjFree(unsigned int /*handle*/, int /*localClientNum*/) {}
@@ -971,8 +970,8 @@ bool Voice_IsClientTalking(unsigned int /*clientNum*/) { return false; }
 // Globals — typed where we have the type (since game_public.h pulls
 // most of the cgame/game/server headers in).
 // cg_entitiesArray provided by src/cgame_mp/cg_main_mp.cpp now.
-const dvar_t *cl_showSend = nullptr;
-const dvar_t *cl_voice = nullptr;
+// cl_showSend provided by src/client_mp/cl_main_mp.cpp now.
+// cl_voice provided by src/client_mp/cl_main_mp.cpp now.
 // g_entities / level provided by src/game_mp/g_main_mp.cpp now.
 const dvar_t *net_profile = nullptr;
 // sv_maxclients provided by src/server_mp/sv_main_mp.cpp now.
@@ -999,8 +998,7 @@ void CG_ActionSlotUp_f() {}
 void CG_NextWeapon_f() {}
 void CG_PrevWeapon_f() {}
 // CG_RestartSmokeGrenades provided by src/cgame_mp/cg_main_mp.cpp now.
-
-void CL_AddReliableCommand(int /*localClientNum*/, const char * /*cmd*/) {}
+// CL_AddReliableCommand provided by src/client_mp/cl_main_mp.cpp now.
 
 void Com_GetBspFilename(char *filename, unsigned int /*max*/, const char * /*mapname*/)
 { if (filename) filename[0] = 0; }
@@ -1097,7 +1095,7 @@ void Scr_ParamError(unsigned int /*paramIndex*/, const char * /*msg*/) {}
 // SV_PreGameUserVoice / SV_UserVoice provided by src/server_mp/sv_voice_mp.cpp now.
 // SVC_GameCompleteStatus provided by src/server_mp/sv_main_mp.cpp now.
 
-const dvar_t *cl_profileTextHeight = nullptr;
+// cl_profileTextHeight provided by src/client_mp/cl_main_mp.cpp now.
 // rcon_password provided by src/server_mp/sv_init_mp.cpp now.
 
 // =========================================================================
@@ -1216,17 +1214,11 @@ void CG_HoldBreathInit(cg_s * /*cg*/) {}
 // CG_ObjectiveIcon / CG_ResetLowHealthOverlay provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 // CG_SetEquippedOffHand provided by src/cgame/offhandweapons.cpp now.
 
-void CL_DrawText(const ScreenPlacement * /*place*/, const char * /*text*/, int /*maxChars*/,
-                 Font_s * /*font*/, float /*x*/, float /*y*/, int /*hAlign*/, int /*vAlign*/,
-                 float /*xScale*/, float /*yScale*/, const float * /*color*/, int /*style*/) {}
-void CL_DrawTextRotate(const ScreenPlacement * /*place*/, const char * /*text*/, int /*maxChars*/,
-                       Font_s * /*font*/, float /*x*/, float /*y*/, float /*rotation*/,
-                       int /*hAlign*/, int /*vAlign*/, float /*xScale*/, float /*yScale*/,
-                       const float * /*color*/, int /*style*/) {}
-bool CL_IsServerLoadingMap() { return false; }
-bool CL_IsWaitingOnServerToLoadMap(int /*localClientNum*/) { return false; }
+// CL_DrawText / CL_DrawTextRotate provided by src/client_mp/cl_main_mp.cpp now.
+// CL_IsServerLoadingMap provided by src/client_mp/cl_main_mp.cpp now.
+// CL_IsWaitingOnServerToLoadMap provided by src/client_mp/cl_main_mp.cpp now.
 // CL_SetStance provided by src/client_mp/cl_input.cpp now.
-void CL_SetWaitingOnServerToLoadMap(int /*localClientNum*/, bool /*waiting*/) {}
+// CL_SetWaitingOnServerToLoadMap provided by src/client_mp/cl_main_mp.cpp now.
 
 float DB_GetLoadedFraction() { return 1.0f; }
 
@@ -1267,7 +1259,7 @@ const dvar_t *bg_viewKickScale = nullptr;
 // cg_hudDamageIconTime provided by src/cgame_mp/cg_main_mp.cpp now.
 // hud_fade_compass provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 const dvar_t *uiscript_debug = nullptr;
-BOOL g_waitingForServer = 0;
+// g_waitingForServer provided by src/client_mp/cl_main_mp.cpp now.
 
 // =========================================================================
 // cl_cgame_mp + cg_compassfriendlies_mp + cg_visionsets cascade.
@@ -1282,11 +1274,10 @@ WeaponDef *BG_GetWeaponDef(unsigned int /*weaponIndex*/) { return nullptr; }
 // CG_Init provided by src/cgame_mp/cg_main_mp.cpp now.
 // CG_RegisterSounds provided by src/cgame_mp/cg_main_mp.cpp now.
 // CG_Shutdown provided by src/cgame_mp/cg_main_mp.cpp now.
-
-char CL_AnyLocalClientsRunning() { return 0; }
-void CL_DisconnectError(char * /*msg*/) {}
+// CL_AnyLocalClientsRunning provided by src/client_mp/cl_main_mp.cpp now.
+// CL_DisconnectError provided by src/client_mp/cl_main_mp.cpp now.
 // CL_ParseServerMessage / CL_SystemInfoChanged provided by src/client_mp/cl_parse_mp.cpp now.
-bool CL_WasMapAlreadyLoaded() { return false; }
+// CL_WasMapAlreadyLoaded provided by src/client_mp/cl_main_mp.cpp now.
 
 void CM_LinkWorld() {}
 unsigned char ColorIndex(unsigned char /*c*/) { return 7; }
@@ -1337,15 +1328,14 @@ const char *SEH_StringEd_GetString(const char *str) { return str ? str : ""; }
 void UI_CloseAll(int /*localClientNum*/) {}
 char *UI_ReplaceConversionString(char *src, const char * /*replace*/) { return src; }
 
-const dvar_t *cl_activeAction = nullptr;
-const dvar_t *cl_freezeDemo = nullptr;
-BOOL cl_serverLoadingMap = 0;
-const dvar_t *cl_showServerCommands = nullptr;
-const dvar_t *cl_showTimeDelta = nullptr;
+// cl_activeAction provided by src/client_mp/cl_main_mp.cpp now.
+// cl_freezeDemo provided by src/client_mp/cl_main_mp.cpp now.
+// cl_serverLoadingMap provided by src/client_mp/cl_main_mp.cpp now.
+// cl_showServerCommands provided by src/client_mp/cl_main_mp.cpp now.
+// cl_showTimeDelta provided by src/client_mp/cl_main_mp.cpp now.
 const dvar_t *loc_warnings = nullptr;
 const dvar_t *loc_warningsAsErrors = nullptr;
-const dvar_t *nextdemo = nullptr;
-
+// nextdemo provided by src/client_mp/cl_main_mp.cpp now.
 // sv_archive_mp cascade.
 struct SnapshotInfo_s;
 struct clientState_s;
@@ -1502,7 +1492,7 @@ int getBuildNumberAsInt() { return 0; }
 // =========================================================================
 
 bgs_t *bgs = nullptr;
-clientUIActive_t clientUIActives[STATIC_MAX_LOCAL_CLIENTS]{};
+// clientUIActives provided by src/client_mp/cl_main_mp.cpp now.
 int com_fileAccessed;
 const dvar_s *fs_basepath = nullptr;
 const dvar_s *fs_debug = nullptr;
@@ -1903,7 +1893,7 @@ void SND_SetChannelVolumes(int, const float *, int) {}
 void SND_DeactivateChannelVolumes(int, int) {}
 void SND_SetEnvironmentEffects(int, const char *, float, float, int) {}
 void SND_DeactivateEnvironmentEffects(int, int) {}
-int32_t CL_GetLocalClientActiveCount() { return 0; }
+// CL_GetLocalClientActiveCount provided by src/client_mp/cl_main_mp.cpp now.
 // CG_GetLocalClientViewParams provided by src/cgame_mp/cg_view_mp.cpp now.
 
 // === cg_effects_load_obj satellites ==============================================
@@ -1956,9 +1946,7 @@ bool  UI_AnyMenuVisible(int) { return false; }
 double R_NormalizedTextScale(Font_s *, float scale) { return scale; }
 void  CL_PlayTextFXPulseSounds(uint32_t, int, int, int, int, int, int *) {}
 // CG_GetViewAxisProjections provided by src/cgame_mp/cg_draw_mp.cpp now.
-void  CL_DrawTextPhysicalWithEffects(const char *, int, Font_s *, float, float, float, float,
-                                     const float *, int, const float *, Material *, Material *,
-                                     int, int, int, int) {}
+// CL_DrawTextPhysicalWithEffects provided by src/client_mp/cl_main_mp.cpp now.
 int   UI_GetKeyBindingLocalizedString(int, const char *, char *out)
 {
     if (out) out[0] = '\0';
@@ -2059,7 +2047,7 @@ bool  Key_IsCatcherActive(int, int) { return false; }
 // CG_AddPacketEntities provided by src/cgame_mp/cg_ents_mp.cpp now.
 // CL_GetMenuBlurRadius provided by src/client_mp/cl_scrn_mp.cpp now.
 void  FX_SetNextUpdateTime(int, int) {}
-void  CL_ResetSkeletonCache(int) {}
+// CL_ResetSkeletonCache provided by src/client_mp/cl_main_mp.cpp now.
 void  BG_CalculateViewAngles(viewState_t *, float *) {}
 void  FX_SetNextUpdateCamera(int, const refdef_s *, float) {}
 float BG_GetVerticalBobFactor(const playerState_s *, float, float, float) { return 0.f; }
@@ -2081,7 +2069,7 @@ bool  CG_VehLocalClientUsingVehicle(int) { return false; }
 int32_t AimAssist_GetScreenTargetCount(int) { return 0; }
 void  CG_VehSeatOriginForLocalClient(int, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
 int32_t AimAssist_GetScreenTargetEntity(int, uint32_t) { return -1; }
-int32_t CL_LocalActiveIndexFromClientNum(int) { return 0; }
+// CL_LocalActiveIndexFromClientNum provided by src/client_mp/cl_main_mp.cpp now.
 // CL_Input provided by src/client_mp/cl_input.cpp now.
 // CG_Draw2D provided by src/cgame_mp/cg_draw_mp.cpp now.
 void  R_SyncGpu(int (*)(unsigned long long)) {}
@@ -2175,7 +2163,7 @@ int32_t PM_GetSprintLeft(const playerState_s *, int32_t) { return 0; }
 void Menus_CloseByName(UiContext *, const char *) {}
 int32_t BG_GetMaxSprintTime(const playerState_s *) { return 0; }
 // CG_CalcPlayerHealth provided by src/cgame_mp/cg_newDraw_mp.cpp now.
-void CL_DrawTextPhysical(const char *, int, Font_s *, float, float, float, float, const float *, int) {}
+// CL_DrawTextPhysical provided by src/client_mp/cl_main_mp.cpp now.
 void Con_DrawMiniConsole(int, int, int, float) {}
 const char *UI_GetTopActiveMenuName(int) { return ""; }
 // CG_CheckPlayerForLowAmmo / CG_CheckPlayerForLowClip provided by src/cgame_mp/cg_newDraw_mp.cpp now.
@@ -2259,7 +2247,7 @@ bool     PM_IsSprinting(const playerState_s *) { return false; }
 int32_t  BG_AmmoForWeapon(uint32_t) { return 0; }
 bool     Key_IsCommandBound(int, const char *) { return false; }
 int32_t  BG_GetAmmoPlayerMax(const playerState_s *, uint32_t, uint32_t) { return 0; }
-bool     CL_ShouldDisplayHud(int) { return true; }
+// CL_ShouldDisplayHud provided by src/client_mp/cl_main_mp.cpp now.
 bool     BG_WeaponBlocksProne(uint32_t) { return false; }
 int      UI_GetTalkerClientNum(int, int) { return -1; }
 int32_t  BG_GetTotalAmmoReserve(const playerState_s *, uint32_t) { return 0; }
@@ -2293,7 +2281,7 @@ void CG_Veh_Init() {}
 MenuList *UI_LoadMenus(char *, int) { return nullptr; }
 void AimAssist_Init(int) {}
 void UI_AddMenuList(UiContext *, MenuList *) {}
-Font_s *CL_RegisterFont(const char *, int) { return nullptr; }
+// CL_RegisterFont provided by src/client_mp/cl_main_mp.cpp now.
 void SND_StopAmbient(int, int) {}
 void BG_RegisterDvars() {}
 void FX_KillEffectDef(int, const FxEffectDef *) {}
@@ -2336,7 +2324,7 @@ void BG_LoadPenetrationDepthTable() {}
 uint8_t *Hunk_AllocPhysPresetPrecache(unsigned int size) { return static_cast<uint8_t *>(std::calloc(size > 0 ? size : 1, 1)); }
 
 unsigned int bg_lastParsedWeaponIndex = 0;
-clientConnection_t clientConnections[1]{};
+// clientConnections provided by src/client_mp/cl_main_mp.cpp now.
 // g_compassShowEnemies provided by src/game_mp/g_main_mp.cpp now.
 // === sv_voice_mp satellites ======================================================
 
@@ -2365,7 +2353,7 @@ int     SV_SightTraceToEntity(float *, float *, float *, float *, int, int) { re
 
 void   R_EndFrame() {}
 void   UI_Refresh(int) {}
-void   CL_DrawLogo(int) {}
+// CL_DrawLogo provided by src/client_mp/cl_main_mp.cpp now.
 void   DevGui_Draw(int) {}
 void   R_BeginFrame() {}
 void   UI_UpdateTime(int, int) {}
@@ -2388,8 +2376,8 @@ void   R_BeginClientCmdList2D() {}
 void   R_ClearClientCmdList2D() {}
 void   R_BspGenerateReflections() {}
 void   R_LightingFromCubemapShots(const float *) {}
-char   CL_AnyLocalClientChallenging() { return 0; }
-char   CL_AllLocalClientsDisconnected() { return 1; }
+// CL_AnyLocalClientChallenging provided by src/client_mp/cl_main_mp.cpp now.
+// CL_AllLocalClientsDisconnected provided by src/client_mp/cl_main_mp.cpp now.
 unsigned int FS_FTell(int) { return 0u; }
 const dvar_t *r_reflectionProbeGenerate = nullptr;
 
@@ -2398,7 +2386,7 @@ const dvar_t *r_reflectionProbeGenerate = nullptr;
 void UI_Shutdown(int) {}
 void UI_Component_Init() {}
 const char *Key_KeynumToString(int32_t, int32_t) { return ""; }
-int32_t CL_UpdateDirtyPings(netsrc_t, uint32_t) { return 0; }
+// CL_UpdateDirtyPings provided by src/client_mp/cl_main_mp.cpp now.
 char *UI_GetMapDisplayName(const char *) { return const_cast<char *>(""); }
 void R_PushRemoteScreenUpdate(int) {}
 char *UI_GetGameTypeDisplayName(const char *) { return const_cast<char *>(""); }
@@ -2497,28 +2485,28 @@ void AimAssist_UpdateMouseInput(const AimInput *, AimOutput *) {}
 char ClampChar(int v) { if (v < -128) return -128; if (v > 127) return 127; return static_cast<char>(v); }
 void UI_Component::MouseEvent(int, int) {}
 
-const dvar_t *cl_debugMessageKey = nullptr;
-const dvar_t *cl_freelook        = nullptr;
-const dvar_t *cl_maxpackets      = nullptr;
-const dvar_t *cl_mouseAccel      = nullptr;
-const dvar_t *cl_nodelta         = nullptr;
-const dvar_t *cl_packetdup       = nullptr;
-const dvar_t *cl_sensitivity     = nullptr;
-const dvar_t *cl_showMouseRate   = nullptr;
-uint32_t      frame_msec         = 0u;
-const dvar_t *m_filter           = nullptr;
-const dvar_t *m_forward          = nullptr;
-const dvar_t *m_pitch            = nullptr;
-const dvar_t *m_side             = nullptr;
-const dvar_t *m_yaw              = nullptr;
+// cl_debugMessageKey provided by src/client_mp/cl_main_mp.cpp now.
+// cl_freelook provided by src/client_mp/cl_main_mp.cpp now.
+// cl_maxpackets provided by src/client_mp/cl_main_mp.cpp now.
+// cl_mouseAccel provided by src/client_mp/cl_main_mp.cpp now.
+// cl_nodelta provided by src/client_mp/cl_main_mp.cpp now.
+// cl_packetdup provided by src/client_mp/cl_main_mp.cpp now.
+// cl_sensitivity provided by src/client_mp/cl_main_mp.cpp now.
+// cl_showMouseRate provided by src/client_mp/cl_main_mp.cpp now.
+// frame_msec provided by src/client_mp/cl_main_mp.cpp now.
+// m_filter provided by src/client_mp/cl_main_mp.cpp now.
+// m_forward provided by src/client_mp/cl_main_mp.cpp now.
+// m_pitch provided by src/client_mp/cl_main_mp.cpp now.
+// m_side provided by src/client_mp/cl_main_mp.cpp now.
+// m_yaw provided by src/client_mp/cl_main_mp.cpp now.
 PlayerKeyState playerKeys[1]{};
 
 // === sv_init_mp satellites =======================================================
 
 void FS_Restart(int, int) {}
-void CL_InitLoad(const char *, const char *) {}
+// CL_InitLoad provided by src/client_mp/cl_main_mp.cpp now.
 // SV_RunFrame provided by src/server_mp/sv_main_mp.cpp now.
-void CL_MapLoading(const char *) {}
+// CL_MapLoading provided by src/client_mp/cl_main_mp.cpp now.
 // ClientConnect provided by src/game_mp/g_client_mp.cpp now.
 // SV_FreeClients provided by src/server_mp/sv_client_mp.cpp now.
 // SV_Heartbeat_f provided by src/server_mp/sv_ccmds_mp.cpp now.
@@ -2532,7 +2520,7 @@ void FS_ClearIwdReferences() {}
 char *FS_LoadedIwdChecksums() { return const_cast<char *>(""); }
 char *FS_ReferencedIwdNames() { return const_cast<char *>(""); }
 void Scr_ParseGameTypeList() {}
-char CL_IsLocalClientActive(int) { return 0; }
+// CL_IsLocalClientActive provided by src/client_mp/cl_main_mp.cpp now.
 // SV_AddOperatorCommands provided by src/server_mp/sv_ccmds_mp.cpp now.
 // SV_BeginClientSnapshot provided by src/server_mp/sv_snapshot_mp.cpp now.
 // SV_SetSystemInfoConfig provided by src/server_mp/sv_main_mp.cpp now.
@@ -2648,19 +2636,17 @@ const dvar_t *net_lanauthorize = nullptr;
 // === sv_snapshot_profile_mp satellites ===========================================
 
 unsigned int MSG_GetBitCount(int, bool *, int, int) { return 0u; }
-const dvar_t *cl_profileTextY = nullptr;
+// cl_profileTextY provided by src/client_mp/cl_main_mp.cpp now.
 ClientSnapshotData s_clientSnapshotData[64]{};
 
 // === cl_main_pc_mp satellites ====================================================
-
-serverStatus_s *CL_GetServerStatus(netadr_t) { return nullptr; }
+// CL_GetServerStatus provided by src/client_mp/cl_main_mp.cpp now.
 int NET_CompareAdrSigned(netadr_t *, netadr_t *) { return 0; }
 const char *Steam_GetClientID() { return ""; }
 void Steam_RequestAuthTicket() {}
 
-ping_t cl_pinglist[16]{};
-serverStatus_s cl_serverStatusList[16]{};
-const dvar_t *cl_serverStatusResendTime = nullptr;
+// cl_pinglist / cl_serverStatusList provided by src/client_mp/cl_main_mp.cpp now.
+// cl_serverStatusResendTime provided by src/client_mp/cl_main_mp.cpp now.
 int g_qport = 0;
 
 // === cl_parse_mp satellites ======================================================
@@ -2668,7 +2654,7 @@ int g_qport = 0;
 char *FS_ShiftStr(const char *, char) { return const_cast<char *>(""); }
 void  Sys_OpenURL(const char *, int) {}
 void  FS_SV_Rename(char *, char *) {}
-void  CL_ClearState(int32_t) {}
+// CL_ClearState provided by src/client_mp/cl_main_mp.cpp now.
 void  Info_NextPair(const char **head, char *key, char *value)
 {
     if (key) key[0] = '\0';
@@ -2676,14 +2662,14 @@ void  Info_NextPair(const char **head, char *key, char *value)
     if (head) *head = nullptr;
 }
 bool  FS_NeedRestart(int) { return false; }
-void  CL_DownloadsComplete(int32_t) {}
+// CL_DownloadsComplete provided by src/client_mp/cl_main_mp.cpp now.
 int   FS_SV_FOpenFileWrite(const char *) { return 0; }
-void  CL_ClearStaticDownload() {}
-void  CL_RequestAuthorization(netsrc_t) {}
+// CL_ClearStaticDownload provided by src/client_mp/cl_main_mp.cpp now.
+// CL_RequestAuthorization provided by src/client_mp/cl_main_mp.cpp now.
 
-const dvar_t *cl_allowDownload = nullptr;
-const dvar_t *cl_shownuments   = nullptr;
-const dvar_t *cl_updatefiles   = nullptr;
+// cl_allowDownload provided by src/client_mp/cl_main_mp.cpp now.
+// cl_shownuments provided by src/client_mp/cl_main_mp.cpp now.
+// cl_updatefiles provided by src/client_mp/cl_main_mp.cpp now.
 LegacyHacks legacyHacks{};
 
 // === sv_snapshot_mp satellites ===================================================
@@ -2924,6 +2910,80 @@ gentity_s *Drop_Item(gentity_s *, const gitem_s *, float, int) { return nullptr;
 void Fill_Clip(playerState_s *, unsigned int) {}
 const dvar_t *player_dmgtimer_maxTime      = nullptr;
 const dvar_t *player_dmgtimer_timePerPoint = nullptr;
+
+// === cl_main_mp satellites =======================================================
+
+void R_Shutdown(int) {}
+void SND_Update() {}
+void Sys_ShowIP() {}
+void DevGui_Init() {}
+void FS_CopyFile(char *, char *) {}
+void SND_Restore(MemoryFile *) {}
+void FS_FileClose(FILE *) {}
+void SND_Shutdown() {}
+int  FS_FileExists(char *) { return 0; }
+void UI_OpenMenu_f() {}
+void CL_DevGuiFrame(int) {}
+void DevGui_AddDvar(const char *, const dvar_s *) {}
+Font_s *R_RegisterFont(const char *, int) { return nullptr; }
+void Sys_NormalExit() {}
+void UI_CloseMenu_f() {}
+void UI_ListMenus_f() {}
+void Voice_Playback() {}
+char *Z_VirtualAlloc(int size, const char *, int) { return static_cast<char *>(std::calloc(size > 0 ? size : 1, 1)); }
+void CL_CreateDevGui() {}
+void DevGui_OpenMenu(const char *) {}
+void DevGui_Shutdown() {}
+void R_MakeDedicated(const GfxConfiguration *) {}
+void Sys_ShowConsole() {}
+void CL_DestroyDevGui() {}
+int  DB_ModFileExists() { return 0; }
+void SND_PlayFXSounds() {}
+bool NET_OutOfBandData(netsrc_t, netadr_t, const unsigned char *, int) { return false; }
+void SCR_StopCinematic(int) {}
+void SND_SaveListeners(snd_listener *) {}
+void CL_PlayCinematic_f() {}
+int  Hunk_HideTempMemory() { return 0; }
+void Hunk_ShowTempMemory(int) {}
+void R_BeginRegistration(vidConfig_t *) {}
+void R_ConfigureRenderer(const GfxConfiguration *) {}
+void Con_InitClientAssets() {}
+void SND_RestoreListeners(snd_listener *) {}
+void Sys_HideSplashWindow() {}
+int  FS_ConditionalRestart(int, int) { return 0; }
+void SND_DisconnectListener(int) {}
+void LiveStorage_UploadStats() {}
+void SND_UpdateLoopingSounds() {}
+void Sys_QuitAndStartProcess(const char *, const char *) {}
+void Voice_GetLocalVoiceData() {}
+void Steam_CancelClientTicket() {}
+unsigned long long Steam_GetClientSteamID64() { return 0ULL; }
+unsigned int Steam_GetRawClientTicket(unsigned char **t, unsigned int *s) { if (t) *t = nullptr; if (s) *s = 0; return 0u; }
+int  LiveStorage_DoWeHaveStats() { return 0; }
+void *LiveStorage_GetStatBuffer() { return nullptr; }
+void Com_ClientDObjClearAllSkel() {}
+void R_AddCmdDrawTextWithCursor(const char *, int, Font_s *, float, float, float, float, float, const float *, int, int, char) {}
+bool UI_AllowScriptMenuResponse(int) { return false; }
+void R_AddCmdDrawTextWithEffects(const char *, int, Font_s *, float, float, float, float, float, const float *, int, const float *, Material *, Material *, int, int, int, int) {}
+int  LiveStorage_ReadStatsFromDir(char *) { return 0; }
+void CL_PlayUnskippableCinematic_f() {}
+char *FS_ReferencedIwdPureChecksums() { return const_cast<char *>(""); }
+void CL_SelectStringTableEntryInDvar_f() {}
+void Com_ProcessSoundAliasFileLocalization(char *, char *) {}
+void Con_Init() {}
+void SND_Save(MemoryFile *) {}
+void FS_Remove(const char *) {}
+int  Hunk_Used() { return 0; }
+// b64_encode provided by src/client_mp/cl_main_mp.cpp now.
+
+int fs_checksumFeed = 0;
+char fs_gamedir[256]{};
+const dvar_t *fs_homepath = nullptr;
+field_t g_consoleField{};
+float g_console_char_height = 0.f;
+int32_t g_console_field_width = 0;
+const dvar_t *showpackets = nullptr;
+const dvar_t *vehDriverViewHeightMin = nullptr;
 
 // === CGAME dvars and storage referenced by the new sources =========================
 

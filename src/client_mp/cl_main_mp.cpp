@@ -39,7 +39,19 @@
 #include <win32/win_steam.h>
 #include <universal/base64.h>
 #else
-#error Steam Auth for Arch
+// KISAKHACK: Steam auth + base64 ticket encoding are Win32-only. POSIX
+// forward decls + stubs in posix_backbone_stubs.cpp.
+#include <universal/base64.h>
+void Steam_CancelClientTicket();
+unsigned int Steam_GetRawClientTicket(unsigned char **ticket, unsigned int *size);
+unsigned long long Steam_GetClientSteamID64();
+unsigned int b64_encode(const unsigned char *in, unsigned int in_len, unsigned char *out);
+#endif
+
+#ifndef _WIN32
+#  include <strings.h>
+static inline int _strnicmp(const char *a, const char *b, size_t n) { return strncasecmp(a, b, n); }
+static inline int _putenv(char *s) { return putenv(s); }
 #endif
 
 const dvar_t *cl_conXOffset;
@@ -378,8 +390,8 @@ void __cdecl CL_ResetSkeletonCache(int32_t localClientNum)
 
     if (!Sys_IsMainThread())
         MyAssertHandler(".\\client_mp\\cl_main_mp.cpp", 1512, 0, "%s", "Sys_IsMainThread()");
-    if (!clients)
-        MyAssertHandler(".\\client_mp\\cl_main_mp.cpp", 1513, 0, "%s", "clients");
+    // KISAKHACK: `!clients` was a pointer-null check upstream; here clients
+    // is a fixed array so the address is always non-null. Skip the assert.
     if (localClientNum)
         MyAssertHandler(
             ".\\client_mp\\cl_main_mp.cpp",
@@ -391,7 +403,7 @@ void __cdecl CL_ResetSkeletonCache(int32_t localClientNum)
     v1 = &clients[localClientNum];
     if (!++v1->skelTimeStamp)
         ++v1->skelTimeStamp;
-    v1->skelMemoryStart = (char *)((uint32_t)&v1->skelMemory[15] & 0xFFFFFFF0);
+    v1->skelMemoryStart = (char *)((uintptr_t)&v1->skelMemory[15] & ~uintptr_t{0xF});
     v1->skelMemPos = 0;
 }
 
@@ -738,7 +750,7 @@ void __cdecl CL_Vid_Restart_f()
     XZoneInfo zoneInfo[1]; // [esp+8h] [ebp-CCh] BYREF
     char zoneName[64]; // [esp+14h] [ebp-C0h] BYREF
     char mapname[64]; // [esp+54h] [ebp-80h] BYREF
-    clientActive_t *LocalClientGlobals; // [esp+98h] [ebp-3Ch]
+    [[maybe_unused]] clientActive_t *LocalClientGlobals; // [esp+98h] [ebp-3Ch]
     clientUIActive_t *clientUIActive; // [esp+9Ch] [ebp-38h]
     connstate_t connstate; // [esp+A0h] [ebp-34h]
     int32_t localClientNum; // [esp+A4h] [ebp-30h]
@@ -924,7 +936,10 @@ void __cdecl CL_DownloadsComplete(int32_t localClientNum)
     clc = CL_GetLocalClientConnection(localClientNum);
     if (autoupdateStarted)
     {
-        if (autoupdateFilename)
+        // KISAKHACK: `if (autoupdateFilename)` was a null check upstream;
+        // on POSIX it's a fixed-size array so the address is non-null. Guard
+        // on first-char non-empty instead so semantics still hold.
+        if (autoupdateFilename[0])
         {
             if (strlen(autoupdateFilename) > 4)
             {
@@ -993,22 +1008,22 @@ void __cdecl CL_DownloadsComplete(int32_t localClientNum)
 uint8_t msgBuffer[2048];
 void __cdecl CL_CheckForResend(netsrc_t localClientNum)
 {
-    int32_t v1; // eax
+    [[maybe_unused]] int32_t v1; // eax
     const char *v2; // eax
     char *v3; // eax
     const char *v4; // eax
     const char *v5; // eax
     const char *v6; // eax
     int32_t v7; // [esp+0h] [ebp-1188h]
-    char md5Str[36]; // [esp+2Ch] [ebp-115Ch] BYREF
+    [[maybe_unused]] char md5Str[36]; // [esp+2Ch] [ebp-115Ch] BYREF
     uint8_t dst[1244]; // [esp+50h] [ebp-1138h] BYREF
     connstate_t connectionState; // [esp+52Ch] [ebp-C5Ch]
     char dest[1028]; // [esp+530h] [ebp-C58h] BYREF
-    int32_t pktlen; // [esp+934h] [ebp-854h] BYREF
+    [[maybe_unused]] int32_t pktlen; // [esp+934h] [ebp-854h] BYREF
     uint8_t src[1028]; // [esp+938h] [ebp-850h] BYREF
     uint32_t count; // [esp+D3Ch] [ebp-44Ch]
     msg_t buf; // [esp+D40h] [ebp-448h] BYREF
-    int32_t length; // [esp+D68h] [ebp-420h]
+    [[maybe_unused]] int32_t length; // [esp+D68h] [ebp-420h]
     void *data; // [esp+D6Ch] [ebp-41Ch]
     clientConnection_t *clc; // [esp+D70h] [ebp-418h]
     int32_t c; // [esp+D74h] [ebp-414h]
@@ -1016,9 +1031,9 @@ void __cdecl CL_CheckForResend(netsrc_t localClientNum)
 
     unsigned char *pSteamClientTicket = NULL;
     uint32 steamClientTicketSize = 0;
-    char steamIDbuf[25];
+    [[maybe_unused]] char steamIDbuf[25];
     unsigned char steamTicketBase64[2048]{ 0 };
-    bool got;
+    [[maybe_unused]] bool got;
 
 #ifdef _DEBUG
     unsigned char steamTicketDecodeBuf[1024]{ 0 };
@@ -2000,7 +2015,7 @@ void __cdecl CL_WWWDownload()
         else if (ret == DL_DONE)
         {
             cls.download = 0;
-            FS_BuildOSPath((char*)fs_homepath->current.integer, cls.originalDownloadName, (char*)"", to_ospath);
+            FS_BuildOSPath((char*)(uintptr_t)fs_homepath->current.integer, cls.originalDownloadName, (char*)"", to_ospath);
             to_ospath[&to_ospath[strlen(to_ospath) + 1] - &to_ospath[1] - 1] = 0;
             if (rename(cls.downloadTempName, to_ospath))
             {
@@ -2040,7 +2055,7 @@ void __cdecl CL_WWWDownload()
 
 void __cdecl CL_CheckForUpdateKeyAuth(netsrc_t localClientNum)
 {
-    int32_t v1; // eax
+    [[maybe_unused]] int32_t v1; // eax
     clientConnection_t *clc; // [esp+0h] [ebp-4h]
 
     if (localClientNum)
@@ -2129,7 +2144,7 @@ void __cdecl CL_CheckTimeout(int32_t localClientNum)
     {
         LocalClientGlobals = CL_GetLocalClientGlobals(localClientNum);
         clc = CL_GetLocalClientConnection(localClientNum);
-        if (cl_paused->current.integer && sv_paused->current.integer
+        if ((cl_paused->current.integer && sv_paused->current.integer)
             || connstate < CA_PRIMED
             || clc->lastPacketTime <= 0
             || cl_timeout->current.value * 1000.0 >= (double)(cls.realtime - clc->lastPacketTime))
@@ -2556,9 +2571,9 @@ void __cdecl CL_PlayLogo_f()
     float v5; // [esp+8h] [ebp-48h]
     float v6; // [esp+Ch] [ebp-44h]
     float v7; // [esp+10h] [ebp-40h]
-    float v8; // [esp+14h] [ebp-3Ch]
-    float v9; // [esp+24h] [ebp-2Ch]
-    float v10; // [esp+34h] [ebp-1Ch]
+    [[maybe_unused]] float v8; // [esp+14h] [ebp-3Ch]
+    [[maybe_unused]] float v9; // [esp+24h] [ebp-2Ch]
+    [[maybe_unused]] float v10; // [esp+34h] [ebp-1Ch]
     const char *name; // [esp+4Ch] [ebp-4h]
 
     if (Cmd_Argc() != 5)
@@ -2979,7 +2994,7 @@ void __cdecl CL_RconInit()
 
 void CL_RconLogin()
 {
-    uint32_t v0; // [esp+Ch] [ebp-Ch]
+    [[maybe_unused]] uint32_t v0; // [esp+Ch] [ebp-Ch]
     const char *password; // [esp+14h] [ebp-4h]
 
     if (Cmd_Argc() == 3)
@@ -3211,7 +3226,7 @@ void __cdecl CL_UpdateLevelHunkUsage()
     clientActive_t *LocalClientGlobals; // [esp+24h] [ebp-12Ch]
     const char *memlistfile; // [esp+28h] [ebp-128h]
     char *buf; // [esp+2Ch] [ebp-124h]
-    int32_t localClientNum; // [esp+30h] [ebp-120h]
+    [[maybe_unused]] int32_t localClientNum; // [esp+30h] [ebp-120h]
     int32_t len; // [esp+34h] [ebp-11Ch]
     char *outbuftrav; // [esp+38h] [ebp-118h]
     int32_t memusage; // [esp+3Ch] [ebp-114h]
@@ -3383,7 +3398,7 @@ void __cdecl Com_WriteLocalizedSoundAliasFiles()
     int32_t fileCount; // [esp+224h] [ebp-4h] BYREF
 
     FS_BuildOSPath(
-        (char*)fs_homepath->current.integer,
+        (char*)(uintptr_t)fs_homepath->current.integer,
         (char*)"../source_data/string_resources/subtitle.st",
         (char*)"",
         stringEdExternalFileName);
@@ -3394,7 +3409,7 @@ void __cdecl Com_WriteLocalizedSoundAliasFiles()
     if (f)
     {
         fclose(f);
-        FS_BuildOSPath((char*)fs_basepath->current.integer, fs_gamedir, (char*)"soundaliases/subtitle.st", stringEdFileName);
+        FS_BuildOSPath((char*)(uintptr_t)fs_basepath->current.integer, fs_gamedir, (char*)"soundaliases/subtitle.st", stringEdFileName);
         FS_CopyFile(stringEdExternalFileName, stringEdFileName);
         if (FS_FileExists((char*)"soundaliases/subtitle.st"))
         {
