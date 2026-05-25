@@ -190,7 +190,7 @@ int __cdecl G_MaterialIndex(const char *name)
 
 int __cdecl G_ModelIndex(const char *name)
 {
-    const char *v2; // eax
+    [[maybe_unused]] const char *v2; // eax
     unsigned int nameString; // [esp+68h] [ebp-10h]
     unsigned int s; // [esp+6Ch] [ebp-Ch]
     int i; // [esp+70h] [ebp-8h]
@@ -560,13 +560,13 @@ int __cdecl G_EntLinkToInternal(gentity_s *ent, gentity_s *parent, unsigned int 
             break;
     }
     tagInfo = (char*)MT_Alloc(112, 17);
-    *(unsigned int *)tagInfo = (unsigned int)parent;
+    *(unsigned int *)tagInfo = (unsigned int)(uintptr_t)parent;
     *((_WORD *)tagInfo + 4) = 0;
 
     iassert(!tagName || SL_IsLowercaseString(tagName));
     
     Scr_SetString((unsigned __int16 *)tagInfo + 4, tagName);
-    *((unsigned int *)tagInfo + 1) = (unsigned int)parent->tagChildren;
+    *((unsigned int *)tagInfo + 1) = (unsigned int)(uintptr_t)parent->tagChildren;
     *((unsigned int *)tagInfo + 3) = index;
     memset((unsigned __int8 *)tagInfo + 16, 0, 0x30u);
     parent->tagChildren = ent;
@@ -712,8 +712,8 @@ void __cdecl G_CalcTagParentAxis(gentity_s *ent, float (*parentAxis)[3])
     float v10; // [esp+48h] [ebp-88h]
     float v11; // [esp+4Ch] [ebp-84h]
     float v12; // [esp+50h] [ebp-80h]
-    float *v13; // [esp+68h] [ebp-68h]
-    float *v14; // [esp+6Ch] [ebp-64h]
+    [[maybe_unused]] float *v13; // [esp+68h] [ebp-68h]
+    [[maybe_unused]] float *v14; // [esp+6Ch] [ebp-64h]
     tagInfo_s *tagInfo; // [esp+70h] [ebp-60h]
     float tempAxis[4][3]; // [esp+74h] [ebp-5Ch] BYREF
     gentity_s *parent; // [esp+A4h] [ebp-2Ch]
@@ -730,9 +730,13 @@ void __cdecl G_CalcTagParentAxis(gentity_s *ent, float (*parentAxis)[3])
     {
         AnglesToAxis(parent->r.currentAngles, parentAxis);
         currentOrigin = parent->r.currentOrigin;
-        (*parentAxis)[9] = parent->r.currentOrigin[0];
-        (*parentAxis)[10] = currentOrigin[1];
-        (*parentAxis)[11] = currentOrigin[2];
+        // KISAKHACK: parentAxis is declared float(*)[3] but the caller actually
+        // passes a float[4][3] (mat4x3). Hex-rays writes the translation row
+        // at offsets 9..11 of the flat layout. Cast through float* to silence
+        // the out-of-bounds-on-the-declared-3-wide-row warning.
+        reinterpret_cast<float *>(parentAxis)[9]  = parent->r.currentOrigin[0];
+        reinterpret_cast<float *>(parentAxis)[10] = currentOrigin[1];
+        reinterpret_cast<float *>(parentAxis)[11] = currentOrigin[2];
     }
     else
     {
@@ -781,7 +785,7 @@ void __cdecl G_CalcTagParentAxis(gentity_s *ent, float (*parentAxis)[3])
         axis[2][1] = v10 - v12;
         axis[2][2] = 1.0 - (v11 + v3);
         MatrixMultiply(axis, *(const mat3x3*)&tempAxis, *(mat3x3*)parentAxis);
-        MatrixTransformVector43(mat->trans, tempAxis, &(*parentAxis)[9]);
+        MatrixTransformVector43(mat->trans, tempAxis, reinterpret_cast<float *>(parentAxis) + 9);
     }
 }
 
@@ -948,8 +952,8 @@ int __cdecl G_DObjGetWorldTagMatrix(gentity_s *ent, unsigned int tagName, mat4x3
     float v11; // [esp+40h] [ebp-6Ch]
     float v12; // [esp+44h] [ebp-68h]
     float v13; // [esp+48h] [ebp-64h]
-    float *v14; // [esp+4Ch] [ebp-60h]
-    float *currentOrigin; // [esp+50h] [ebp-5Ch]
+    [[maybe_unused]] float *v14; // [esp+4Ch] [ebp-60h]
+    [[maybe_unused]] float *currentOrigin; // [esp+50h] [ebp-5Ch]
     mat4x3 ent_axis; // [esp+54h] [ebp-58h] BYREF
     DObjAnimMat *mat; // [esp+84h] [ebp-28h]
     float axis[3][3]; // [esp+88h] [ebp-24h] BYREF
@@ -1045,8 +1049,8 @@ void __cdecl G_DObjGetWorldBoneIndexMatrix(gentity_s *ent, int boneIndex, float 
     float v10; // [esp+40h] [ebp-6Ch]
     float v11; // [esp+44h] [ebp-68h]
     float v12; // [esp+48h] [ebp-64h]
-    float *v13; // [esp+4Ch] [ebp-60h]
-    float *currentOrigin; // [esp+50h] [ebp-5Ch]
+    [[maybe_unused]] float *v13; // [esp+4Ch] [ebp-60h]
+    [[maybe_unused]] float *currentOrigin; // [esp+50h] [ebp-5Ch]
     float ent_axis[4][3]; // [esp+54h] [ebp-58h] BYREF
     DObjAnimMat *mat; // [esp+84h] [ebp-28h]
     float axis[3][3]; // [esp+88h] [ebp-24h] BYREF
@@ -1092,7 +1096,7 @@ void __cdecl G_DObjGetWorldBoneIndexMatrix(gentity_s *ent, int boneIndex, float 
     axis[2][1] = v10 - v12;
     axis[2][2] = 1.0 - (v11 + v3);
     MatrixMultiply(axis, *(const mat3x3*)&ent_axis, *(mat3x3*)tagMat);
-    MatrixTransformVector43(mat->trans, ent_axis, &(*tagMat)[9]);
+    MatrixTransformVector43(mat->trans, ent_axis, reinterpret_cast<float *>(tagMat) + 9);
 }
 
 gentity_s *__cdecl G_Find(gentity_s *from, int fieldofs, unsigned __int16 match)
@@ -1195,7 +1199,7 @@ gentity_s *__cdecl G_SpawnPlayerClone()
 
     e = &level.gentities[level.currentPlayerClone + 64];
     level.currentPlayerClone = (level.currentPlayerClone + 1) % 8;
-    flags = e->s.lerp.eFlags & 2 ^ 2;
+    flags = (e->s.lerp.eFlags & 2) ^ 2;
     if (e->r.inuse)
         G_FreeEntity(e);
     G_InitGentity(e);

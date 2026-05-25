@@ -56,6 +56,7 @@
 #include <gfx_d3d/r_init.h>
 #include <gfx_d3d/r_rendercmds.h>
 #include <EffectsCore/fx_system.h>
+#include <game_mp/g_public_mp.h>
 
 // Forward decls for opaque types we just need to pass through.
 struct sysEvent_t;
@@ -689,7 +690,7 @@ bool  CL_GetPredictedOriginForServerTime(clientActive_t * /*cl*/, int /*serverTi
                                          float * /*origin*/, float * /*velocity*/, float * /*angles*/,
                                          int * /*bobCycle*/, int * /*movementDir*/) { return false; }
 
-char *BG_GetEntityTypeName(int /*eType*/) { static char empty[1] = {0}; return empty; }
+char *BG_GetEntityTypeName(int /*eType*/) { return const_cast<char *>(""); }
 
 // MSG_
 const NetFieldList *MSG_GetStateFieldListForEntityType(int /*eType*/) { return nullptr; }
@@ -905,8 +906,8 @@ bool CL_IsPlayerMuted(int /*localClientNum*/, unsigned int /*muteClient*/) { ret
 void ClientUserinfoChanged(unsigned int /*clientNum*/) {}
 void Com_SafeClientDObjFree(unsigned int /*handle*/, int /*localClientNum*/) {}
 char *FS_LoadedIwdPureChecksums() { static char empty[1] = {0}; return empty; }
-unsigned int GScr_GetHeadIconIndex(const char * /*name*/) { return 0; }
-unsigned int GScr_GetStatusIconIndex(const char * /*name*/) { return 0; }
+int32_t GScr_GetHeadIconIndex(const char * /*name*/) { return 0; }
+int32_t GScr_GetStatusIconIndex(const char * /*name*/) { return 0; }
 int  I_stricmpwild(const char *s0, const char *s1) { return strcasecmp(s0 ? s0 : "", s1 ? s1 : ""); }
 bool IN_IsTalkKeyHeld() { return false; }
 bool Material_IsDefault(const Material * /*material*/) { return true; }
@@ -1026,7 +1027,7 @@ void DObjSkelAreBonesUpToDate(const DObj_s * /*obj*/, int * /*partBits*/) {}
 bool DObjSkelExists(const DObj_s * /*obj*/, int /*boneIndex*/) { return false; }
 bool DObjSkelIsBoneUpToDate(DObj_s * /*obj*/, int /*boneIndex*/) { return false; }
 
-const char *G_GetEntityTypeName(const gentity_s * /*ent*/) { return ""; }
+// G_GetEntityTypeName provided by src/game_mp/g_utils_mp.cpp now.
 double G_GetFogOpaqueDistSqrd() { return 0; }
 int   G_GetSavePersist() { return 0; }
 void G_InitGame(int /*serverTime*/, int /*randomSeed*/, int /*restart*/, int /*savegame*/) {}
@@ -1041,7 +1042,7 @@ void MatrixTransformVector43(const float *in, const float (&m)[4][3], float *out
 }
 
 bool NET_IsLocalAddress(netadr_t /*adr*/) { return false; }
-int Scr_IsValidGameType(const char * /*name*/) { return 0; }
+bool Scr_IsValidGameType(const char * /*name*/) { return false; }
 
 unsigned int SV_ClipHandleForEntity(const gentity_s * /*ent*/) { return 0; }
 char *SV_GetMapBaseName(char *name) { if (name) name[0] = 0; return name; }
@@ -1075,8 +1076,8 @@ void AxisToAngles(const float (& /*axis*/)[3][3], float *angles)
 }
 
 
-void G_DObjUpdate(gentity_s * /*ent*/) {}
-void G_FreeEntity(gentity_s * /*ent*/) {}
+// G_DObjUpdate provided by src/game_mp/g_utils_mp.cpp now.
+// G_FreeEntity provided by src/game_mp/g_utils_mp.cpp now.
 
 void *I_dmaGetDObjSkel(const DObj_s * /*obj*/) { return nullptr; }
 
@@ -1385,7 +1386,7 @@ void G_Damage(gentity_s * /*targ*/, gentity_s * /*inflictor*/, gentity_s * /*att
               hitLocation_t /*hitLoc*/, unsigned int /*timeOffset*/, unsigned int /*modelIndex*/, int /*partGroup*/) {}
 void G_LocationalTraceAllowChildren(trace_t *trace, float * /*start*/, float * /*end*/, int /*passEnt*/, int /*contentMask*/, unsigned char * /*priority*/)
 { if (trace) { std::memset(trace, 0, sizeof(*trace)); trace->fraction = 1.0f; } }
-gentity_s *G_TempEntity(const float * /*origin*/, int /*event*/) { return nullptr; }
+// G_TempEntity provided by src/game_mp/g_utils_mp.cpp now.
 bool OnSameTeam(gentity_s * /*ent1*/, gentity_s * /*ent2*/) { return false; }
 
 const dvar_t *bullet_penetrationEnabled = nullptr;
@@ -2364,7 +2365,7 @@ void    AddPointToBounds(const float *v, float *mins, float *maxs)
     if (!v || !mins || !maxs) return;
     for (int i = 0; i < 3; ++i) { if (v[i] < mins[i]) mins[i] = v[i]; if (v[i] > maxs[i]) maxs[i] = v[i]; }
 }
-void    G_FreeEntityDelay(gentity_s *) {}
+// G_FreeEntityDelay provided by src/game_mp/g_utils_mp.cpp now.
 int32_t G_LevelSpawnString(const char *, const char *, const char **out) { if (out) *out = ""; return 0; }
 BOOL    Scr_IsSystemActive() { return 0; }
 int     SV_SightTraceToEntity(float *, float *, float *, float *, int, int) { return 0; }
@@ -2414,25 +2415,25 @@ void UI_Init(int) {}
 
 // === g_misc_mp satellites ========================================================
 
-void G_AddEvent(gentity_s *, unsigned int, unsigned int) {}
-void G_SetAngle(gentity_s *, const float *) {}
+// G_AddEvent provided by src/game_mp/g_utils_mp.cpp now.
+// G_SetAngle provided by src/game_mp/g_utils_mp.cpp now.
 void YawVectors(float, float *f, float *r) { if (f) { f[0] = 1; f[1] = 0; f[2] = 0; } if (r) { r[0] = 0; r[1] = 1; r[2] = 0; } }
-void G_SetOrigin(gentity_s *, const float *) {}
-void G_GeneralLink(gentity_s *) {}
+// G_SetOrigin provided by src/game_mp/g_utils_mp.cpp now.
+// G_GeneralLink provided by src/game_mp/g_utils_mp.cpp now.
 float ColorNormalize(const float *, float *out) { if (out) { out[0] = 1; out[1] = 1; out[2] = 1; out[3] = 1; } return 1.f; }
 void G_TraceCapsule(trace_t *trace, const float *, const float *, const float *, const float *, int, int)
 { if (trace) { std::memset(trace, 0, sizeof(*trace)); trace->fraction = 1.f; } }
 void SV_UnlinkEntity(gentity_s *) {}
-void G_PlaySoundAlias(gentity_s *, unsigned char) {}
+// G_PlaySoundAlias provided by src/game_mp/g_utils_mp.cpp now.
 int32_t IsItemRegistered(uint32_t) { return 0; }
 void G_LocationalTrace(trace_t *trace, float *, float *, int, int, uint8_t *)
 { if (trace) { std::memset(trace, 0, sizeof(*trace)); trace->fraction = 1.f; } }
-int  G_SoundAliasIndex(char *) { return 0; }
+// G_SoundAliasIndex provided by src/game_mp/g_utils_mp.cpp now.
 void SetClientViewAngle(gentity_s *, const float *) {}
 void G_GetPlayerViewOrigin(const playerState_s *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
 void DObjSetControlTagAngles(DObj_s *, int *, unsigned int, float *) {}
-DObjAnimMat *G_DObjGetLocalTagMatrix(gentity_s *, unsigned int) { return nullptr; }
-int  G_DObjGetWorldTagMatrix(gentity_s *, unsigned int, mat4x3 &) { return 0; }
+// G_DObjGetLocalTagMatrix provided by src/game_mp/g_utils_mp.cpp now.
+// G_DObjGetWorldTagMatrix provided by src/game_mp/g_utils_mp.cpp now.
 uint32_t G_GetWeaponIndexForName(const char *) { return 0u; }
 void BG_GetPlayerViewDirection(const playerState_s *, float *f, float *r, float *u)
 {
@@ -2441,6 +2442,60 @@ void BG_GetPlayerViewDirection(const playerState_s *, float *f, float *r, float 
     if (u) { u[0] = 0; u[1] = 0; u[2] = 1; }
 }
 gentity_s *Weapon_RocketLauncher_Fire(gentity_s *, uint32_t, float, struct weaponParms *, const float *, gentity_s *, const float *) { return nullptr; }
+
+// === g_utils_mp satellites =======================================================
+
+void player_die(gentity_s *, gentity_s *, gentity_s *, int, int, int, const float *, hitLocation_t, int) {}
+void Helicopter_Die(gentity_s *, gentity_s *, gentity_s *, const int, const int, const int, const float *, const hitLocation_t, int) {}
+void Scr_FreeEntity(gentity_s *) {}
+void Scr_FreeThread(uint16_t) {}
+void DB_ReplaceModel(const char *, const char *) {}
+void G_VehFreeEntity(gentity_s *) {}
+void Helicopter_Pain(gentity_s *, gentity_s *, int, const float *, const int, const float *, const hitLocation_t, const int) {}
+void MatrixTranspose(const mat3x3 &in, mat3x3 &out)
+{
+    out[0][0] = in[0][0]; out[0][1] = in[1][0]; out[0][2] = in[2][0];
+    out[1][0] = in[0][1]; out[1][1] = in[1][1]; out[1][2] = in[2][1];
+    out[2][0] = in[0][2]; out[2][1] = in[1][2]; out[2][2] = in[2][2];
+}
+void Touch_Item_Auto(gentity_s *, gentity_s *, int) {}
+void G_ExplodeMissile(gentity_s *) {}
+void Helicopter_Think(gentity_s *) {}
+void G_VehUnlinkPlayer(gentity_s *, gentity_s *) {}
+void PlayerCorpse_Free(gentity_s *) {}
+uint16_t Scr_ExecEntThread(gentity_s *, int, uint32_t) { return 0; }
+void FinishSpawningItem(gentity_s *) {}
+void G_PlayerController(const gentity_s *, int *) {}
+void G_TimedObjectThink(gentity_s *) {}
+void G_VehEntHandler_Die(gentity_s *, gentity_s *, gentity_s *, const int, const int, const int, const float *, const hitLocation_t, int) {}
+void G_VehEntHandler_Use(gentity_s *, gentity_s *, gentity_s *) {}
+DObj_s *Com_ServerDObjCreate(DObjModel_s *, unsigned short, XAnimTree_s *, unsigned int) { return nullptr; }
+void DroppedItemClearOwner(gentity_s *) {}
+void G_VehEntHandler_Think(gentity_s *) {}
+void G_VehEntHandler_Touch(gentity_s *, gentity_s *, int) {}
+void Helicopter_Controller(const gentity_s *, int *) {}
+void Com_SafeServerDObjFree(unsigned int) {}
+unsigned int SL_FindLowercaseString(const char *) { return 0u; }
+unsigned int SV_GetConfigstringConst(unsigned int) { return 0u; }
+void Hunk_OverrideDataForFile(int, const char *, void *) {}
+void MatrixInverseOrthogonal43(const mat4x3 &in, mat4x3 &out)
+{
+    out[0][0] = in[0][0]; out[0][1] = in[1][0]; out[0][2] = in[2][0];
+    out[1][0] = in[0][1]; out[1][1] = in[1][1]; out[1][2] = in[2][1];
+    out[2][0] = in[0][2]; out[2][1] = in[1][2]; out[2][2] = in[2][2];
+    out[3][0] = -in[3][0]; out[3][1] = -in[3][1]; out[3][2] = -in[3][2];
+}
+void Missile_FreeAttractorRefs(gentity_s *) {}
+void G_VehEntHandler_Controller(const gentity_s *, int *) {}
+void BodyEnd(gentity_s *) {}
+void AxisClear(mat3x3 &axis)
+{
+    axis[0][0] = 1; axis[0][1] = 0; axis[0][2] = 0;
+    axis[1][0] = 0; axis[1][1] = 1; axis[1][2] = 0;
+    axis[2][0] = 0; axis[2][1] = 0; axis[2][2] = 1;
+}
+
+scr_data_t g_scr_data{};
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
