@@ -57,6 +57,7 @@
 #include <gfx_d3d/r_rendercmds.h>
 #include <EffectsCore/fx_system.h>
 #include <game_mp/g_public_mp.h>
+#include <aim_assist/aim_assist.h>
 
 // Forward decls for opaque types we just need to pass through.
 struct sysEvent_t;
@@ -742,7 +743,7 @@ char *Z_MallocGarbage(int size, const char * /*name*/, int /*type*/)
 // statically-allocated buffers to the mem_track system; with mem-tracking
 // off (or stubbed) these are all no-ops.
 void TRACK_cl_console() {}
-void TRACK_cl_input() {}
+// TRACK_cl_input provided by src/client_mp/cl_input.cpp now.
 void TRACK_cl_keys() {}
 void TRACK_cl_main() {}
 void TRACK_cl_parse() {}
@@ -817,7 +818,7 @@ struct trajectory_t;
 struct XZoneMemory;
 
 // CL/CG/Key
-void CL_ClearKeys(int /*localClientNum*/) {}
+// CL_ClearKeys provided by src/client_mp/cl_input.cpp now.
 int  Key_IsDown(int /*localClientNum*/, int /*key*/) { return 0; }
 // CG_TraceCapsule provided by src/cgame/cg_world.cpp now.
 // CG_DObjGetWorldTagPos provided by src/cgame_mp/cg_ents_mp.cpp now.
@@ -909,7 +910,7 @@ char *FS_LoadedIwdPureChecksums() { static char empty[1] = {0}; return empty; }
 int32_t GScr_GetHeadIconIndex(const char * /*name*/) { return 0; }
 int32_t GScr_GetStatusIconIndex(const char * /*name*/) { return 0; }
 int  I_stricmpwild(const char *s0, const char *s1) { return strcasecmp(s0 ? s0 : "", s1 ? s1 : ""); }
-bool IN_IsTalkKeyHeld() { return false; }
+// IN_IsTalkKeyHeld provided by src/client_mp/cl_input.cpp now.
 bool Material_IsDefault(const Material * /*material*/) { return true; }
 bool NET_OutOfBandVoiceData(netsrc_t /*sock*/, netadr_t /*adr*/, unsigned char * /*data*/, unsigned int /*len*/) { return false; }
 bool Netchan_Transmit(netchan_t * /*chan*/, int /*length*/, char * /*data*/) { return false; }
@@ -1227,7 +1228,7 @@ void CL_DrawTextRotate(const ScreenPlacement * /*place*/, const char * /*text*/,
                        const float * /*color*/, int /*style*/) {}
 bool CL_IsServerLoadingMap() { return false; }
 bool CL_IsWaitingOnServerToLoadMap(int /*localClientNum*/) { return false; }
-void CL_SetStance(int /*localClientNum*/, StanceState /*stance*/) {}
+// CL_SetStance provided by src/client_mp/cl_input.cpp now.
 void CL_SetWaitingOnServerToLoadMap(int /*localClientNum*/, bool /*waiting*/) {}
 
 float DB_GetLoadedFraction() { return 1.0f; }
@@ -1991,7 +1992,7 @@ void   CM_PointTraceStaticModels(trace_t *, const float *, const float *, int) {
 
 // === cg_predict_mp satellites ====================================================
 
-void CL_SendCmd(int) {}
+// CL_SendCmd provided by src/client_mp/cl_input.cpp now.
 bool BG_CanItemBeGrabbed(const entityState_s *, const playerState_s *, int) { return false; }
 bool BG_PlayerTouchesItem(const playerState_s *, const entityState_s *, int) { return false; }
 bool BG_PlayerHasRoomForEntAllAmmoTypes(const entityState_s *, const playerState_s *) { return false; }
@@ -2089,7 +2090,7 @@ int32_t AimAssist_GetScreenTargetCount(int) { return 0; }
 void  CG_VehSeatOriginForLocalClient(int, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
 int32_t AimAssist_GetScreenTargetEntity(int, uint32_t) { return -1; }
 int32_t CL_LocalActiveIndexFromClientNum(int) { return 0; }
-void  CL_Input(int) {}
+// CL_Input provided by src/client_mp/cl_input.cpp now.
 // CG_Draw2D provided by src/cgame_mp/cg_draw_mp.cpp now.
 void  R_SyncGpu(int (*)(unsigned long long)) {}
 
@@ -2496,6 +2497,33 @@ void AxisClear(mat3x3 &axis)
 }
 
 scr_data_t g_scr_data{};
+
+// === cl_input satellites =========================================================
+
+void UI_MouseEvent(int, int, int) {}
+bool DevGui_IsActive() { return false; }
+bool Sys_IsLANAddress(netadr_t) { return false; }
+void IN_ShowSystemCursor(BOOL) {}
+void AimAssist_UpdateMouseInput(const AimInput *, AimOutput *) {}
+void CL_SavePredictedOriginForServerTime(clientActive_t *, int32_t, float *, float *, float *, int32_t, int32_t) {}
+char ClampChar(int v) { if (v < -128) return -128; if (v > 127) return 127; return static_cast<char>(v); }
+void UI_Component::MouseEvent(int, int) {}
+
+const dvar_t *cl_debugMessageKey = nullptr;
+const dvar_t *cl_freelook        = nullptr;
+const dvar_t *cl_maxpackets      = nullptr;
+const dvar_t *cl_mouseAccel      = nullptr;
+const dvar_t *cl_nodelta         = nullptr;
+const dvar_t *cl_packetdup       = nullptr;
+const dvar_t *cl_sensitivity     = nullptr;
+const dvar_t *cl_showMouseRate   = nullptr;
+uint32_t      frame_msec         = 0u;
+const dvar_t *m_filter           = nullptr;
+const dvar_t *m_forward          = nullptr;
+const dvar_t *m_pitch            = nullptr;
+const dvar_t *m_side             = nullptr;
+const dvar_t *m_yaw              = nullptr;
+PlayerKeyState playerKeys[1]{};
 
 // === CGAME dvars and storage referenced by the new sources =========================
 

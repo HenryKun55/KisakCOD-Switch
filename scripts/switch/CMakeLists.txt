@@ -193,6 +193,7 @@ set(CLIENT_PORTABLE_SOURCES
     "${SRC_DIR}/client/con_channels.cpp"
     "${SRC_DIR}/client/screen_placement.cpp"
     "${SRC_DIR}/client_mp/cl_cgame_mp.cpp"
+    "${SRC_DIR}/client_mp/cl_input.cpp"
     "${SRC_DIR}/client_mp/cl_net_chan_mp.cpp"
     "${SRC_DIR}/client_mp/cl_pose_mp.cpp"
     "${SRC_DIR}/client_mp/cl_scrn_mp.cpp"
