@@ -2441,12 +2441,12 @@ gentity_s *Weapon_RocketLauncher_Fire(gentity_s *, uint32_t, float, struct weapo
 // === g_utils_mp satellites =======================================================
 
 // player_die provided by src/game_mp/g_combat_mp.cpp now.
-void Helicopter_Die(gentity_s *, gentity_s *, gentity_s *, const int, const int, const int, const float *, const hitLocation_t, int) {}
+// Helicopter_Die provided by src/game_mp/g_scr_helicopter.cpp now.
 // Scr_FreeEntity provided by src/game_mp/g_spawn_mp.cpp now.
 void Scr_FreeThread(uint16_t) {}
 void DB_ReplaceModel(const char *, const char *) {}
 void G_VehFreeEntity(gentity_s *) {}
-void Helicopter_Pain(gentity_s *, gentity_s *, int, const float *, const int, const float *, const hitLocation_t, const int) {}
+// Helicopter_Pain provided by src/game_mp/g_scr_helicopter.cpp now.
 void MatrixTranspose(const mat3x3 &in, mat3x3 &out)
 {
     out[0][0] = in[0][0]; out[0][1] = in[1][0]; out[0][2] = in[2][0];
@@ -2455,7 +2455,7 @@ void MatrixTranspose(const mat3x3 &in, mat3x3 &out)
 }
 void Touch_Item_Auto(gentity_s *, gentity_s *, int) {}
 void G_ExplodeMissile(gentity_s *) {}
-void Helicopter_Think(gentity_s *) {}
+// Helicopter_Think provided by src/game_mp/g_scr_helicopter.cpp now.
 void G_VehUnlinkPlayer(gentity_s *, gentity_s *) {}
 void PlayerCorpse_Free(gentity_s *) {}
 // Scr_ExecEntThread provided by src/game_mp/g_spawn_mp.cpp now.
@@ -2468,7 +2468,7 @@ DObj_s *Com_ServerDObjCreate(DObjModel_s *, unsigned short, XAnimTree_s *, unsig
 void DroppedItemClearOwner(gentity_s *) {}
 void G_VehEntHandler_Think(gentity_s *) {}
 void G_VehEntHandler_Touch(gentity_s *, gentity_s *, int) {}
-void Helicopter_Controller(const gentity_s *, int *) {}
+// Helicopter_Controller provided by src/game_mp/g_scr_helicopter.cpp now.
 void Com_SafeServerDObjFree(unsigned int) {}
 unsigned int SL_FindLowercaseString(const char *) { return 0u; }
 // SV_GetConfigstringConst provided by src/server_mp/sv_init_mp.cpp now.
@@ -2791,6 +2791,42 @@ uint32_t BG_FindWeaponIndexForName(const char *) { return 0u; }
 
 const dvar_t *g_debugDamage      = nullptr;
 const dvar_t *radius_damage_debug = nullptr;
+
+// === g_scr_helicopter satellites =================================================
+
+void SpawnVehicle(gentity_s *, const char *) {}
+void VEH_JoltBody(gentity_s *, const float *, float, float, float) {}
+void VEH_InitEntity(gentity_s *, scr_vehicle_s *, int) {}
+gentity_s *GScr_GetVehicle(scr_entref_t) { return nullptr; }
+void VEH_InitVehicle(gentity_s *, scr_vehicle_s *, short) {}
+void VEH_SetPosition(gentity_s *, const float *, const float *) {}
+void CMD_VEH_GetSpeed(scr_entref_t) {}
+void CMD_VEH_SetSpeed(scr_entref_t) {}
+void CMD_VEH_SetWeapon(scr_entref_t) {}
+void Scr_Vehicle_Think(gentity_s *) {}
+void CMD_VEH_FireWeapon(scr_entref_t) {}
+void CMD_VEH_SetGoalPos(scr_entref_t) {}
+void CMD_VEH_SetGoalYaw(scr_entref_t) {}
+void CMD_VEH_GetSpeedMPH(scr_entref_t) {}
+void CMD_VEH_ResumeSpeed(scr_entref_t) {}
+void CMD_VEH_SetYawSpeed(scr_entref_t) {}
+void CMD_VEH_ClearGoalYaw(scr_entref_t) {}
+void CMD_VEH_SetLookAtEnt(scr_entref_t) {}
+void CMD_VEH_SetTargetYaw(scr_entref_t) {}
+int DObjSetLocalBoneIndex(DObj_s *, int *, int, const float *, const float *) { return 0; }
+void CMD_VEH_ClearLookAtEnt(scr_entref_t) {}
+void CMD_VEH_ClearTargetYaw(scr_entref_t) {}
+void CMD_VEH_SetHoverParams(scr_entref_t) {}
+void CMD_VEH_SetVehicleTeam(scr_entref_t) {}
+void CMD_VEH_SetAirResitance(scr_entref_t) {}
+void CMD_VEH_SetMaxPitchRoll(scr_entref_t) {}
+void CMD_VEH_SetTurningAbility(scr_entref_t) {}
+void CMD_VEH_NearGoalNotifyDist(scr_entref_t) {}
+void CMD_VEH_SetTurretTargetEnt(scr_entref_t) {}
+void CMD_VEH_SetTurretTargetVec(scr_entref_t) {}
+void CMD_VEH_ClearTurretTargetEnt(scr_entref_t) {}
+
+vehicle_info_t s_vehicleInfos[32]{};
 
 // === CGAME dvars and storage referenced by the new sources =========================
 

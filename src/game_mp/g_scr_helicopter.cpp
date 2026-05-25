@@ -397,7 +397,7 @@ void __cdecl Heli_InitFirstThink(gentity_s *pSelf)
     float *prevOrigin; // [esp+8h] [ebp-20h]
     float pos[3]; // [esp+Ch] [ebp-1Ch] BYREF
     vehicle_physic_t *phys; // [esp+18h] [ebp-10h]
-    vehicle_info_t *info; // [esp+1Ch] [ebp-Ch]
+    [[maybe_unused]] vehicle_info_t *info; // [esp+1Ch] [ebp-Ch]
     scr_vehicle_s *veh; // [esp+20h] [ebp-8h]
     int32_t wheelIndex; // [esp+24h] [ebp-4h]
 
