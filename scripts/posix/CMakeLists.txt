@@ -184,6 +184,7 @@ set(CGAME_PORTABLE_SOURCES
     "${SRC_DIR}/cgame_mp/cg_draw_net_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_gamepad.cpp"
     "${SRC_DIR}/cgame_mp/cg_predict_mp.cpp"
+    "${SRC_DIR}/cgame_mp/cg_snapshot_mp.cpp"
     "${SRC_DIR}/cgame_mp/dedicated_cgame.cpp"
     # cg_servercmds_mp compiles clean but drags 50+ CG_/CL_/FX_/SND_/UI_
     # subsystem stubs (game messages, ambient/music, item registration,

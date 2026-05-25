@@ -2020,7 +2020,7 @@ void CG_AdjustPositionForMover(int, const float *in, int, int, int, float *out, 
     if (out && in) { out[0] = in[0]; out[1] = in[1]; out[2] = in[2]; }
     if (outDeltaAngles) { outDeltaAngles[0] = 0; outDeltaAngles[1] = 0; outDeltaAngles[2] = 0; }
 }
-void CG_ExtractTransPlayerState(const playerState_s *, transPlayerState_t *) {}
+// CG_ExtractTransPlayerState provided by src/cgame_mp/cg_snapshot_mp.cpp now.
 
 const dvar_t *cg_errorDecay         = nullptr;
 const dvar_t *cg_predictItems       = nullptr;
@@ -2032,6 +2032,35 @@ const dvar_t *cg_viewZSmoothingTime = nullptr;
 // === cg_client_side_effects_mp satellites ========================================
 
 FxEffect *FX_SpawnOrientedEffect(int, const FxEffectDef *, int, const float *, const float (*)[3], uint32_t) { return nullptr; }
+
+// === cg_snapshot_mp satellites ===================================================
+
+void   CG_InitView(int) {}
+void   CG_ClearUnion(int, centity_s *) {}
+void   CG_GameMessage(int, const char *) {}
+void   R_UnlinkEntity(unsigned int, unsigned int) {}
+void   AimAssist_Setup(int) {}
+void   R_InitSceneData(int) {}
+XModel *R_RegisterModel(const char *) { return nullptr; }
+void   SND_SetListener(int, int, const float *, const float (*)[3]) {}
+void   SND_FadeAllSounds(float, int) {}
+void   CG_UpdatePlayerDObj(int, centity_s *) {}
+void   CG_UpdateViewOffset(int) {}
+void   FX_MarkEntDetachAll(int, int) {}
+void   CG_ResetPlayerEntity(int, cg_s *, centity_s *, int) {}
+void   FX_ThroughWithEffect(int, FxEffect *) {}
+void   CG_mg42_PreControllers(DObj_s *, centity_s *) {}
+void   CG_UpdateHandViewmodels(int, XModel *) {}
+void   CG_Player_PreControllers(DObj_s *, centity_s *) {}
+void   CG_SetFrameInterpolation(int) {}
+void   CG_UpdateWeaponViewmodels(int) {}
+void   CG_UpdateBModelWorldBounds(unsigned int, centity_s *, int) {}
+void   CG_ExecuteNewServerCommands(int, int) {}
+void   CG_CheckOpenWaitingScriptMenu(int) {}
+void   AimAssist_ClearEntityReference(int, int) {}
+
+float cg_entityOriginArray[1][1024][3]{};
+const dvar_t *cg_fs_debug = nullptr;
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
