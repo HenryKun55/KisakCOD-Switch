@@ -1214,11 +1214,11 @@ struct windowDef_t;
 struct rectDef_s_fwd;
 // StanceState already defined elsewhere — no forward decl needed.
 
-void CG_CloseScriptMenu(int /*localClientNum*/, bool /*all*/) {}
+// CG_CloseScriptMenu provided by src/cgame_mp/cg_servercmds_mp.cpp now.
 // CG_EntityEvent now in cgame/cg_event.cpp.
 double CG_FadeHudMenu(int /*localClientNum*/, const dvar_s * /*dvar*/, int /*startTime*/, int /*duration*/) { return 1.0; }
 void CG_HoldBreathInit(cg_s * /*cg*/) {}
-void CG_MenuShowNotify(int /*localClientNum*/, int /*menu*/) {}
+// CG_MenuShowNotify provided by src/cgame_mp/cg_servercmds_mp.cpp now.
 Material *CG_ObjectiveIcon(int /*localClientNum*/, int /*icon*/, int /*type*/) { return nullptr; }
 void CG_ResetLowHealthOverlay(cg_s * /*cg*/) {}
 // CG_SetEquippedOffHand provided by src/cgame/offhandweapons.cpp now.
@@ -2054,8 +2054,8 @@ void   CG_Player_PreControllers(DObj_s *, centity_s *) {}
 void   CG_SetFrameInterpolation(int) {}
 void   CG_UpdateWeaponViewmodels(int) {}
 void   CG_UpdateBModelWorldBounds(unsigned int, centity_s *, int) {}
-void   CG_ExecuteNewServerCommands(int, int) {}
-void   CG_CheckOpenWaitingScriptMenu(int) {}
+// CG_ExecuteNewServerCommands provided by src/cgame_mp/cg_servercmds_mp.cpp now.
+// CG_CheckOpenWaitingScriptMenu provided by src/cgame_mp/cg_servercmds_mp.cpp now.
 void   AimAssist_ClearEntityReference(int, int) {}
 
 float cg_entityOriginArray[1][1024][3]{};
@@ -2157,6 +2157,44 @@ const dvar_t *cg_headIconMinScreenRadius = nullptr;
 const dvar_t *cg_scriptIconSize         = nullptr;
 const dvar_t *cg_voiceIconSize          = nullptr;
 const dvar_t *cg_youInKillCamSize       = nullptr;
+
+// === cg_servercmds_mp satellites =================================================
+
+void R_SwitchFog(unsigned int, int, int) {}
+void FX_InitSystem(int) {}
+void Phys_Shutdown() {}
+void SND_StopMusic(int) {}
+void CG_StartAmbient(int) {}
+int  Load_ScriptMenu(int, const char *, int) { return 0; }
+void CG_RegisterItems(int) {}
+void Menus_ShowByName(const UiContext *, const char *) {}
+void CG_SetupWeaponDef(int) {}
+void CL_ParseMapCenter(int) {}
+void DynEntCl_Shutdown(int) {}
+void FX_KillAllEffects(int) {}
+void FX_ShutdownSystem(int) {}
+void CG_BoldGameMessage(int, const char *) {}
+void R_SetFogFromServer(float, unsigned char, unsigned char, unsigned char, float) {}
+void SND_PlayMusicAlias(int, const snd_alias_t *, bool, snd_alias_system_t) {}
+void UI_CloseInGameMenu(int) {}
+int  UI_PopupScriptMenu(int, const char *, bool) { return 0; }
+void CG_ClearCenterPrint(int) {}
+void LiveStorage_SetStat(int, int, unsigned int) {}
+void R_InitPrimaryLights(GfxLight *) {}
+void CL_ResetPlayerMuting(uint32_t) {}
+void DynEntCl_DestroyEvent(int, uint16_t, DynEntityCollType, const float *, const float *) {}
+void DynEntCl_InitEntities(int) {}
+void UI_ClosePopupScriptMenu(int, bool) {}
+int  CG_PlayClientSoundAliasByName(int, const char *) { return 0; }
+void CG_StopClientSoundAliasByName(int, const char *) {}
+uint8_t CG_ShouldPlaySoundOnLocalClient() { return 1; }
+void R_ClearShadowedPrimaryLightHistory(int) {}
+char *UI_GetMapDisplayNameFromPartialLoadNameMatch(const char *, int *) { return nullptr; }
+void Phys_Init() {}
+
+const dvar_t *cg_chatHeight     = nullptr;
+const dvar_t *cg_chatTime       = nullptr;
+const dvar_t *cg_teamChatsOnly  = nullptr;
 
 // === CGAME dvars and storage referenced by the new sources =========================
 

@@ -177,6 +177,7 @@ set(CGAME_PORTABLE_SOURCES
     "${SRC_DIR}/cgame_mp/cg_players_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_predict_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_scoreboard_mp.cpp"
+    "${SRC_DIR}/cgame_mp/cg_servercmds_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_snapshot_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_view_mp.cpp"
     "${SRC_DIR}/cgame_mp/dedicated_cgame.cpp"
