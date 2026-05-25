@@ -779,7 +779,7 @@ void __cdecl turret_think_init(gentity_s *self)
     float baseMtx[4][3]; // [esp+74h] [ebp-64h] BYREF
     trace_t trace; // [esp+A4h] [ebp-34h] BYREF
     int32_t i; // [esp+D0h] [ebp-8h]
-    int32_t numSteps; // [esp+D4h] [ebp-4h]
+    [[maybe_unused]] int32_t numSteps; // [esp+D4h] [ebp-4h]
 
     numSteps = 30;
     pTurretInfo = self->pTurretInfo;

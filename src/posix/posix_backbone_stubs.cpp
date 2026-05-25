@@ -2412,6 +2412,36 @@ void R_PushRemoteScreenUpdate(int) {}
 char *UI_GetGameTypeDisplayName(const char *) { return const_cast<char *>(""); }
 void UI_Init(int) {}
 
+// === g_misc_mp satellites ========================================================
+
+void G_AddEvent(gentity_s *, unsigned int, unsigned int) {}
+void G_SetAngle(gentity_s *, const float *) {}
+void YawVectors(float, float *f, float *r) { if (f) { f[0] = 1; f[1] = 0; f[2] = 0; } if (r) { r[0] = 0; r[1] = 1; r[2] = 0; } }
+void G_SetOrigin(gentity_s *, const float *) {}
+void G_GeneralLink(gentity_s *) {}
+float ColorNormalize(const float *, float *out) { if (out) { out[0] = 1; out[1] = 1; out[2] = 1; out[3] = 1; } return 1.f; }
+void G_TraceCapsule(trace_t *trace, const float *, const float *, const float *, const float *, int, int)
+{ if (trace) { std::memset(trace, 0, sizeof(*trace)); trace->fraction = 1.f; } }
+void SV_UnlinkEntity(gentity_s *) {}
+void G_PlaySoundAlias(gentity_s *, unsigned char) {}
+int32_t IsItemRegistered(uint32_t) { return 0; }
+void G_LocationalTrace(trace_t *trace, float *, float *, int, int, uint8_t *)
+{ if (trace) { std::memset(trace, 0, sizeof(*trace)); trace->fraction = 1.f; } }
+int  G_SoundAliasIndex(char *) { return 0; }
+void SetClientViewAngle(gentity_s *, const float *) {}
+void G_GetPlayerViewOrigin(const playerState_s *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
+void DObjSetControlTagAngles(DObj_s *, int *, unsigned int, float *) {}
+DObjAnimMat *G_DObjGetLocalTagMatrix(gentity_s *, unsigned int) { return nullptr; }
+int  G_DObjGetWorldTagMatrix(gentity_s *, unsigned int, mat4x3 &) { return 0; }
+uint32_t G_GetWeaponIndexForName(const char *) { return 0u; }
+void BG_GetPlayerViewDirection(const playerState_s *, float *f, float *r, float *u)
+{
+    if (f) { f[0] = 1; f[1] = 0; f[2] = 0; }
+    if (r) { r[0] = 0; r[1] = 1; r[2] = 0; }
+    if (u) { u[0] = 0; u[1] = 0; u[2] = 1; }
+}
+gentity_s *Weapon_RocketLauncher_Fire(gentity_s *, uint32_t, float, struct weaponParms *, const float *, gentity_s *, const float *) { return nullptr; }
+
 // === CGAME dvars and storage referenced by the new sources =========================
 
 // cg_crosshairAlpha provided by src/cgame_mp/cg_main_mp.cpp now.

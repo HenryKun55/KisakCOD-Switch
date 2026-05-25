@@ -209,6 +209,7 @@ set(GAME_PORTABLE_SOURCES
     "${SRC_DIR}/game/g_scr_mover.cpp"
     "${SRC_DIR}/game/g_svcmds.cpp"
     "${SRC_DIR}/game/g_weapon_load_obj.cpp"
+    "${SRC_DIR}/game_mp/g_misc_mp.cpp"
     "${SRC_DIR}/game_mp/g_trigger_mp.cpp"
 )
 
