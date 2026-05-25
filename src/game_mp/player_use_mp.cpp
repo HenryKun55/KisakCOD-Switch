@@ -223,8 +223,8 @@ void __cdecl Player_UpdateCursorHints(gentity_s *ent)
                             case ET_GENERAL:
                                 if (self->classname != scr_const.trigger_use && self->classname != scr_const.trigger_use_touch)
                                     goto LABEL_49;
-                                if (self->team && self->team != ent->client->sess.cs.team
-                                    || self->item[1].ammoCount != ENTITYNUM_NONE && self->item[1].ammoCount != ent->client->ps.clientNum)
+                                if ((self->team && self->team != ent->client->sess.cs.team)
+                                    || (self->item[1].ammoCount != ENTITYNUM_NONE && self->item[1].ammoCount != ent->client->ps.clientNum))
                                 {
                                     goto LABEL_21;
                                 }
@@ -379,12 +379,12 @@ int32_t __cdecl Player_GetUseList(gentity_s *ent, useList_t *useList, int32_t pr
                 }
             }
             else if (gEnt->s.eType != ET_MISSILE
-                || (prevHintEntIndex == gEnt->s.number
+                || ((prevHintEntIndex == gEnt->s.number
                     || (v13 = player_throwbackInnerRadius->current.value,
                         v13 * v13 >= Vec2DistanceSq(gEnt->r.currentOrigin, ent->r.currentOrigin)))
                 && (v3 = Vec3LengthSq(gEnt->s.lerp.pos.trDelta),
                     v6 = bg_maxGrenadeIndicatorSpeed->current.value * bg_maxGrenadeIndicatorSpeed->current.value,
-                    v6 >= v3))
+                    v6 >= v3)))
             {
                 eType = gEnt->s.eType;
                 if (eType == ET_MISSILE)
@@ -475,7 +475,7 @@ int32_t __cdecl Player_GetItemCursorHint(const gclient_s *client, const gentity_
         return 0;
     if (weapDefPlayer->inventoryType == WEAPINVENTORY_PRIMARY
         || weapDefPlayer->inventoryType == WEAPINVENTORY_ALTMODE
-        || weapDefItem->inventoryType && weapDefItem->inventoryType != WEAPINVENTORY_ALTMODE
+        || (weapDefItem->inventoryType && weapDefItem->inventoryType != WEAPINVENTORY_ALTMODE)
         || BG_PlayerWeaponCountPrimaryTypes(&client->ps) < 2)
     {
         return weapIndex + 4;

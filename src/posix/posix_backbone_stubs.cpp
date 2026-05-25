@@ -2757,6 +2757,19 @@ const dvar_t *g_motd    = nullptr;
 game_hudelem_s g_hudelems[1024]{};
 void Scr_NotifyNum(unsigned int, unsigned int, unsigned int, unsigned int) {}
 
+// === player_use_mp satellites ====================================================
+
+bool G_VehUsable(gentity_s *, gentity_s *) { return false; }
+int32_t G_GetHintStringIndex(int32_t *iOut, char *) { if (iOut) *iOut = 0; return 0; }
+bool BG_ThrowingBackGrenade(const playerState_s *) { return false; }
+int32_t G_TraceCapsuleComplete(float *, float *, float *, float *, int, int) { return 0; }
+
+const dvar_t *g_useholdspawndelay     = nullptr;
+const dvar_t *g_useholdtime           = nullptr;
+const dvar_t *player_MGUseRadius      = nullptr;
+const dvar_t *player_throwbackInnerRadius = nullptr;
+const dvar_t *player_throwbackOuterRadius = nullptr;
+
 // === CGAME dvars and storage referenced by the new sources =========================
 
 // cg_crosshairAlpha provided by src/cgame_mp/cg_main_mp.cpp now.
