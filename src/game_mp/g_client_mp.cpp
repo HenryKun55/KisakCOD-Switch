@@ -295,7 +295,7 @@ char *__cdecl ClientConnect(uint32_t clientNum, uint16_t scriptPersId)
     ClientUserinfoChanged(clientNum);
     SV_GetUserinfo(clientNum, userinfo, 1024);
     if (client->sess.localClient
-        || (value = Info_ValueForKey(userinfo, "password"), !*(_BYTE *)g_password->current.integer)
+        || (value = Info_ValueForKey(userinfo, "password"), !*(_BYTE *)(uintptr_t)g_password->current.integer)
         || !I_stricmp(g_password->current.string, "none")
         || !strcmp(g_password->current.string, value))
     {
@@ -549,8 +549,8 @@ uint32_t __cdecl G_GetNonPVSPlayerInfo(gentity_s *pSelf, float *vPosition, int32
         iPos_4 = 1024;
     }
  return ((int)(pEnt->r.currentAngles[1] * 0.7111111283302307f) << 24)
-       | (((((iPos_4 + 2) / 4) + 255) & 0x1FF) << 15) & 0xFFFFFF
-       | (((((iPos + 2) / 4) + 255) & 0x1FF) << 6) & 0x7FFF
-       | pEnt->s.number & 0x3F;
+       | ((((((iPos_4 + 2) / 4) + 255) & 0x1FF) << 15) & 0xFFFFFF)
+       | ((((((iPos + 2) / 4) + 255) & 0x1FF) << 6) & 0x7FFF)
+       | (pEnt->s.number & 0x3F);
 }
 

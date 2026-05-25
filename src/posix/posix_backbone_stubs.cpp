@@ -903,7 +903,7 @@ struct trDebugString_t;
 void CalculateRanks() {}
 char CL_IsClientLocal(int /*localClientNum*/) { return 1; }
 // CL_IsPlayerMuted provided by src/client_mp/cl_main_pc_mp.cpp now.
-void ClientUserinfoChanged(unsigned int /*clientNum*/) {}
+// ClientUserinfoChanged provided by src/game_mp/g_client_mp.cpp now.
 void Com_SafeClientDObjFree(unsigned int /*handle*/, int /*localClientNum*/) {}
 char *FS_LoadedIwdPureChecksums() { static char empty[1] = {0}; return empty; }
 int32_t GScr_GetHeadIconIndex(const char * /*name*/) { return 0; }
@@ -2426,8 +2426,8 @@ int32_t IsItemRegistered(uint32_t) { return 0; }
 void G_LocationalTrace(trace_t *trace, float *, float *, int, int, uint8_t *)
 { if (trace) { std::memset(trace, 0, sizeof(*trace)); trace->fraction = 1.f; } }
 // G_SoundAliasIndex provided by src/game_mp/g_utils_mp.cpp now.
-void SetClientViewAngle(gentity_s *, const float *) {}
-void G_GetPlayerViewOrigin(const playerState_s *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
+// SetClientViewAngle provided by src/game_mp/g_client_mp.cpp now.
+// G_GetPlayerViewOrigin provided by src/game_mp/g_client_mp.cpp now.
 void DObjSetControlTagAngles(DObj_s *, int *, unsigned int, float *) {}
 // G_DObjGetLocalTagMatrix provided by src/game_mp/g_utils_mp.cpp now.
 // G_DObjGetWorldTagMatrix provided by src/game_mp/g_utils_mp.cpp now.
@@ -2527,7 +2527,7 @@ void FS_Restart(int, int) {}
 void CL_InitLoad(const char *, const char *) {}
 // SV_RunFrame provided by src/server_mp/sv_main_mp.cpp now.
 void CL_MapLoading(const char *) {}
-char *ClientConnect(uint32_t, uint16_t) { return nullptr; }
+// ClientConnect provided by src/game_mp/g_client_mp.cpp now.
 // SV_FreeClients provided by src/server_mp/sv_client_mp.cpp now.
 // SV_Heartbeat_f provided by src/server_mp/sv_ccmds_mp.cpp now.
 // SV_InitSnapshot provided by src/server_mp/sv_main_mp.cpp now.
@@ -2632,7 +2632,7 @@ void MSG_WriteReliableCommandToBuffer(const char *, char *, int) {}
 
 // === sv_client_mp satellites =====================================================
 
-void ClientBegin(int32_t) {}
+// ClientBegin provided by src/game_mp/g_client_mp.cpp now.
 void ClientThink(int32_t) {}
 int  FS_WriteFile(char *, char *, unsigned int) { return 0; }
 void ClientCommand(int32_t) {}
@@ -2640,7 +2640,7 @@ void Netchan_Setup(netsrc_t, netchan_t *, netadr_t, int, char *, int, char *, in
 bool NET_CompareAdr(netadr_t, netadr_t) { return false; }
 void MSG_WriteEntity(SnapshotInfo_s *, msg_t *, int, entityState_s *, const entityState_s *, int) {}
 bool BG_IsWeaponValid(const playerState_s *, uint32_t) { return false; }
-void ClientDisconnect(int32_t) {}
+// ClientDisconnect provided by src/game_mp/g_client_mp.cpp now.
 void G_SetLastServerTime(int32_t, int32_t) {}
 // SV_PacketDataIsHeader provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
 bool Steam_CheckClientTicket(unsigned char *, unsigned int, unsigned long long) { return true; }
@@ -2701,7 +2701,22 @@ gclient_s *G_GetPlayerState(int32_t) { return nullptr; }
 int FS_SV_FOpenFileRead(const char *, int *fp) { if (fp) *fp = 0; return 0; }
 int32_t GetFollowPlayerState(int32_t, playerState_s *) { return 0; }
 void G_SetClientArchiveTime(int32_t, int32_t) {}
-int irand(int min, int max) { return min; }
+int irand(int min, int /*max*/) { return min; }
+
+// === g_client_mp satellites ======================================================
+
+void StopFollowing(gentity_s *) {}
+void ClientEndFrame(gentity_s *) {}
+void ClientThink_real(gentity_s *, usercmd_s *) {}
+void Scr_PlayerConnect(gentity_s *) {}
+void G_SetClientContents(gentity_s *) {}
+void Scr_PlayerDisconnect(gentity_s *) {}
+void BG_GetPlayerViewOrigin(const playerState_s *, float *o, int32_t) { if (o) { o[0] = o[1] = o[2] = 0; } }
+void HudElem_ClientDisconnect(gentity_s *) {}
+
+const dvar_t *bg_prone_yawcap = nullptr;
+const dvar_t *g_inactivity    = nullptr;
+const dvar_t *g_password      = nullptr;
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
