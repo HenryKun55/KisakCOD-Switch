@@ -2043,10 +2043,10 @@ void   R_InitSceneData(int) {}
 XModel *R_RegisterModel(const char *) { return nullptr; }
 void   SND_SetListener(int, int, const float *, const float (*)[3]) {}
 void   SND_FadeAllSounds(float, int) {}
-void   CG_UpdatePlayerDObj(int, centity_s *) {}
+// CG_UpdatePlayerDObj provided by src/cgame_mp/cg_players_mp.cpp now.
 // CG_UpdateViewOffset provided by src/cgame_mp/cg_view_mp.cpp now.
 void   FX_MarkEntDetachAll(int, int) {}
-void   CG_ResetPlayerEntity(int, cg_s *, centity_s *, int) {}
+// CG_ResetPlayerEntity provided by src/cgame_mp/cg_players_mp.cpp now.
 void   FX_ThroughWithEffect(int, FxEffect *) {}
 void   CG_mg42_PreControllers(DObj_s *, centity_s *) {}
 void   CG_UpdateHandViewmodels(int, XModel *) {}
@@ -2129,6 +2129,34 @@ const dvar_t *vehDebugClient        = nullptr;
 const dvar_t *vehDriverViewDist     = nullptr;
 const dvar_t *vehDriverViewFocusRange = nullptr;
 const dvar_t *vehDriverViewHeightMax  = nullptr;
+
+// === cg_players_mp satellites ====================================================
+
+float RotationToYaw(const float *) { return 0.f; }
+float vectosignedyaw(const float *) { return 0.f; }
+void  YawToAxis(float, mat3x3 &axis)
+{
+    axis[0][0] = 1.f; axis[0][1] = 0.f; axis[0][2] = 0.f;
+    axis[1][0] = 0.f; axis[1][1] = 1.f; axis[1][2] = 0.f;
+    axis[2][0] = 0.f; axis[2][1] = 0.f; axis[2][2] = 1.f;
+}
+void  R_AddDObjToScene(const DObj_s *, const cpose_t *, unsigned int, unsigned int, float *, float) {}
+void  BG_PlayerAnimation(int, const entityState_s *, clientInfo_t *) {}
+void  CG_AddPlayerWeapon(int, const GfxScaledPlacement *, const playerState_s *, centity_s *, int) {}
+bool  BG_IsKnifeMeleeAnim(const clientInfo_t *, int) { return false; }
+void  BG_UpdatePlayerDObj(int, DObj_s *, entityState_s *, clientInfo_t *, int) {}
+void  FX_MarkEntUpdateBegin(FxMarkDObjUpdateContext *, DObj_s *, bool, uint16_t) {}
+void  FX_MarkEntUpdateEnd(FxMarkDObjUpdateContext *, int, int, DObj_s *, bool, uint16_t) {}
+uint16_t CG_GetWeaponAttachBone(clientInfo_t *, weapType_t) { return 0; }
+
+const dvar_t *cg_connectionIconSize     = nullptr;
+const dvar_t *cg_constantSizeHeadIcons  = nullptr;
+const dvar_t *cg_debugPosition          = nullptr;
+const dvar_t *cg_drawWVisDebug          = nullptr;
+const dvar_t *cg_headIconMinScreenRadius = nullptr;
+const dvar_t *cg_scriptIconSize         = nullptr;
+const dvar_t *cg_voiceIconSize          = nullptr;
+const dvar_t *cg_youInKillCamSize       = nullptr;
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
