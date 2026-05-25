@@ -552,11 +552,7 @@ Material *Material_RegisterHandle(const char * /*name*/, int /*imageTrack*/)
 
 // com_statmon now defined in qcommon/common.cpp (real upstream).
 
-// === scr_const.cpp dep ====================================================
-// GScr_AllocString: register a string in the script string-table and
-// return its 16-bit handle. Stub returns 0 (an empty/invalid handle).
-// Real impl lands with scr_stringlist.cpp (which has its own deps).
-unsigned short GScr_AllocString(const char * /*str*/) { return 0; }
+// GScr_AllocString provided by src/game_mp/g_scr_main_mp.cpp now.
 
 // ClearBounds / ExpandBounds: declared in com_math.h, defined in
 // com_math.cpp. Trivial math we can implement portably; will collide with

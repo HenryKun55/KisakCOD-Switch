@@ -915,7 +915,7 @@ void GScr_SetDvar()
     const char *v2; // eax
     bool v3; // [esp+0h] [ebp-840h]
     char string[1028]; // [esp+18h] [ebp-828h] BYREF
-    int32_t len; // [esp+41Ch] [ebp-424h]
+    [[maybe_unused]] int32_t len; // [esp+41Ch] [ebp-424h]
     char outString[1024]; // [esp+420h] [ebp-420h] BYREF
     const char *dvarName; // [esp+828h] [ebp-18h]
     int32_t type; // [esp+82Ch] [ebp-14h]
@@ -1104,7 +1104,7 @@ void GScr_AnimHasNotetrack()
     anim = Scr_GetAnim(0, 0).linkPointer;
     floatValue = Scr_GetConstString(1);
     Anims = Scr_GetAnims(HIWORD(anim));
-    v1 = XAnimNotetrackExists(Anims, (uint16_t)anim, floatValue);
+    v1 = XAnimNotetrackExists(Anims, (uint16_t)(uintptr_t)anim, floatValue);
     Scr_AddBool(v1);
 }
 
@@ -1118,7 +1118,7 @@ void GScr_GetNotetrackTimes()
     name.intValue = Scr_GetConstString(1);
     Scr_MakeArray();
     Anims = Scr_GetAnims(HIWORD(anim));
-    XAnimAddNotetrackTimesToScriptArray(Anims, (uint16_t)anim, name.stringValue);
+    XAnimAddNotetrackTimesToScriptArray(Anims, (uint16_t)(uintptr_t)anim, name.stringValue);
 }
 
 void GScr_GetBrushModelCenter()
@@ -1843,7 +1843,7 @@ void __cdecl ScrCmd_SetModel(scr_entref_t entref)
 
 void __cdecl ScrCmd_GetNormalHealth(scr_entref_t entref)
 {
-    float value; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] float value; // [esp+0h] [ebp-Ch]
     gentity_s *pEnt; // [esp+8h] [ebp-4h]
 
     pEnt = GetEntity(entref);
@@ -2226,7 +2226,7 @@ void __cdecl ClearObjective(objective_t *obj)
 
 void Scr_Objective_Add()
 {
-    objective_t *result; // eax
+    [[maybe_unused]] objective_t *result; // eax
     objectiveState_t state; // [esp+Ch] [ebp-14h] BYREF
     objective_t *obj; // [esp+10h] [ebp-10h]
     int32_t numParam; // [esp+14h] [ebp-Ch]
@@ -2349,7 +2349,7 @@ void Scr_Objective_Icon()
 
 void Scr_Objective_Position()
 {
-    objective_t *result; // eax
+    [[maybe_unused]] objective_t *result; // eax
     objective_t *obj; // [esp+Ch] [ebp-8h]
     int32_t objNum; // [esp+10h] [ebp-4h]
 
@@ -2675,7 +2675,7 @@ void GScr_PrecacheHeadIcon()
 
 int32_t __cdecl GScr_GetHeadIconIndex(const char *pszIcon)
 {
-    const char *v2; // eax
+    [[maybe_unused]] const char *v2; // eax
     int32_t iConfigNum; // [esp+0h] [ebp-40Ch]
     char szConfigString[1028]; // [esp+4h] [ebp-408h] BYREF
 
@@ -3820,7 +3820,7 @@ char *Scr_PrecacheString()
         Scr_Error("precacheString must be called before any wait statements in the gametype or level script\n");
     result = Scr_GetIString(0);
     if (*result)
-        return (char *)G_LocalizedStringIndex((char*)result);
+        return (char *)(uintptr_t)G_LocalizedStringIndex((char*)result);
     return (char*)result;
 }
 
@@ -4195,15 +4195,19 @@ void __cdecl Scr_SetFxAngles(uint32_t  givenAxisCount, float (*axis)[3], float *
     }
     else if (givenAxisCount == 2)
     {
-        dot = Vec3Dot((const float *)axis, &(*axis)[6]);
+        // KISAKHACK: axis is declared as float (*)[3] but callers pass a
+        // float[3][3] (mat3x3). Hex-rays indexes past the declared row at
+        // offsets 3/6 (i.e. axis[1]/axis[2]) using the flat layout. Cast
+        // through float* to silence -Warray-bounds without changing storage.
+        dot = Vec3Dot((const float *)axis, reinterpret_cast<float *>(axis) + 6);
         scale = -dot;
-        Vec3Mad(&(*axis)[6], scale, (const float *)axis, &(*axis)[6]);
-        if (Vec3Normalize(&(*axis)[6]) == 0.0)
+        Vec3Mad(reinterpret_cast<float *>(axis) + 6, scale, (const float *)axis, reinterpret_cast<float *>(axis) + 6);
+        if (Vec3Normalize(reinterpret_cast<float *>(axis) + 6) == 0.0)
         {
             v3 = va("forward and up vectors are the same direction or exact opposite directions");
             Scr_Error(v3);
         }
-        Vec3Cross(&(*axis)[6], (const float *)axis, &(*axis)[3]);
+        Vec3Cross(reinterpret_cast<float *>(axis) + 6, (const float *)axis, reinterpret_cast<float *>(axis) + 3);
         AxisToAngles(*(const mat3x3*)axis, angles);
     }
     else
@@ -4263,7 +4267,7 @@ void Scr_PlayFXOnTag()
 void Scr_PlayLoopedFX()
 {
     uint32_t  NumParam; // [esp+0h] [ebp-70h]
-    float v1; // [esp+4h] [ebp-6Ch]
+    [[maybe_unused]] float v1; // [esp+4h] [ebp-6Ch]
     float pos[3]; // [esp+2Ch] [ebp-44h] BYREF
     int32_t fxId; // [esp+38h] [ebp-38h]
     int32_t repeat; // [esp+3Ch] [ebp-34h]
@@ -4372,7 +4376,7 @@ LABEL_12:
 void Scr_TriggerFX()
 {
     int32_t result; // eax
-    float v1; // [esp+4h] [ebp-14h]
+    [[maybe_unused]] float v1; // [esp+4h] [ebp-14h]
     gentity_s *ent; // [esp+14h] [ebp-4h]
 
     if (!Scr_GetNumParam() || Scr_GetNumParam() > 2)
@@ -4397,7 +4401,7 @@ void Scr_TriggerFX()
 void Scr_PhysicsExplosionSphere()
 {
     double Float; // st7
-    gentity_s *result; // eax
+    [[maybe_unused]] gentity_s *result; // eax
     float pos[3]; // [esp+8h] [ebp-10h] BYREF
     gentity_s *ent; // [esp+14h] [ebp-4h]
 
@@ -4464,7 +4468,7 @@ void Scr_PhysicsRadiusJitter()
 void Scr_PhysicsExplosionCylinder()
 {
     double Float; // st7
-    gentity_s *result; // eax
+    [[maybe_unused]] gentity_s *result; // eax
     float pos[3]; // [esp+8h] [ebp-10h] BYREF
     gentity_s *ent; // [esp+14h] [ebp-4h]
 
@@ -4812,7 +4816,7 @@ void GScr_SetClientNameMode()
 
 void GScr_UpdateClientNames()
 {
-    int32_t result; // eax
+    [[maybe_unused]] int32_t result; // eax
     gclient_s *j; // [esp+14h] [ebp-2Ch]
     char oldname[32]; // [esp+18h] [ebp-28h] BYREF
     int32_t i; // [esp+3Ch] [ebp-4h]
@@ -4896,7 +4900,7 @@ void __cdecl GScr_GetPartName()
 gentity_s *GScr_Earthquake()
 {
     gentity_s *result; // eax
-    float v1; // [esp+0h] [ebp-2Ch]
+    [[maybe_unused]] float v1; // [esp+0h] [ebp-2Ch]
     float source[3]; // [esp+10h] [ebp-1Ch] BYREF
     gentity_s *tent; // [esp+1Ch] [ebp-10h]
     int32_t duration; // [esp+20h] [ebp-Ch]
@@ -4923,7 +4927,7 @@ gentity_s *GScr_Earthquake()
 
 void __cdecl GScr_ShellShock(scr_entref_t entref)
 {
-    float v3; // [esp+8h] [ebp-424h]
+    [[maybe_unused]] float v3; // [esp+8h] [ebp-424h]
     int32_t duration; // [esp+18h] [ebp-414h]
     const char *shock; // [esp+1Ch] [ebp-410h]
     gentity_s *ent; // [esp+20h] [ebp-40Ch]
@@ -5335,7 +5339,7 @@ void GScr_MakeDvarServerInfo()
     uint32_t  NumParam; // eax
     char v1; // al
     char string[1028]; // [esp+10h] [ebp-828h] BYREF
-    int32_t len; // [esp+414h] [ebp-424h]
+    [[maybe_unused]] int32_t len; // [esp+414h] [ebp-424h]
     char outString[1024]; // [esp+418h] [ebp-420h] BYREF
     const char *dvarName; // [esp+820h] [ebp-18h]
     int32_t type; // [esp+824h] [ebp-14h]
@@ -6275,7 +6279,7 @@ int32_t Scr_ParseGameTypeList_LoadObj()
             dest = g_scr_data.gametype.list[v11].pszScript;
             I_strncpyz(dest, src, 64);
             //strlwr(dest);
-            _strlwr(dest);
+            I_strlwr(dest);
             qpath = va("maps/mp/gametypes/%s.txt", src);
             len = FS_FOpenFileByMode(qpath, &f, FS_READ);
             if (len > 0 && len < 1024)
