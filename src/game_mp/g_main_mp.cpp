@@ -257,12 +257,12 @@ void __cdecl G_InitGame(int32_t levelTime, int32_t randomSeed, int32_t restart, 
     level_bgs.SafeDObjFree = G_SafeDObjFree;
     level_bgs.AllocXAnim = (void *(__cdecl *)(int))Hunk_AllocXAnimServer;
     level_bgs.anim_user = 1;
-    if (*(_BYTE *)g_log->current.integer)
+    if (*(_BYTE *)(uintptr_t)g_log->current.integer)
     {
         if (g_logSync->current.enabled)
-            FS_FOpenFileByMode((char *)g_log->current.integer, &level.logFile, FS_APPEND_SYNC);
+            FS_FOpenFileByMode((char *)(uintptr_t)g_log->current.integer, &level.logFile, FS_APPEND_SYNC);
         else
-            FS_FOpenFileByMode((char *)g_log->current.integer, &level.logFile, FS_APPEND);
+            FS_FOpenFileByMode((char *)(uintptr_t)g_log->current.integer, &level.logFile, FS_APPEND);
         if (level.logFile)
         {
             SV_GetServerinfo(serverinfo, 1024);
@@ -984,7 +984,7 @@ void __cdecl ExitLevel()
 void G_LogPrintf(const char *fmt, ...)
 {
     char string[1024]; // [esp+10h] [ebp-818h] BYREF
-    char *argptr; // [esp+410h] [ebp-418h]
+    [[maybe_unused]] char *argptr; // [esp+410h] [ebp-418h]
     int32_t tens; // [esp+414h] [ebp-414h]
     char string2[1028]; // [esp+418h] [ebp-410h] BYREF
     int32_t min; // [esp+820h] [ebp-8h]
@@ -1425,7 +1425,7 @@ const dvar_s *ShowEntityInfo()
         i = 0;
         while (1)
         {
-            result = (const dvar_s *)i;
+            result = (const dvar_s *)(uintptr_t)i;
             if (i >= level.num_entities)
                 break;
             if (ent->s.eType < ET_EVENTS && ent->r.inuse && ent->r.linked)
@@ -1485,12 +1485,12 @@ void __cdecl ShowEntityInfo_Items(gentity_s *ent)
 
 void __cdecl G_RunFrameForEntity(gentity_s *ent)
 {
-    char *v1; // eax
-    const char *v2; // eax
-    char *v3; // eax
-    const char *v4; // eax
-    char *v5; // eax
-    const char *v6; // eax
+    [[maybe_unused]] char *v1; // eax
+    [[maybe_unused]] const char *v2; // eax
+    [[maybe_unused]] char *v3; // eax
+    [[maybe_unused]] const char *v4; // eax
+    [[maybe_unused]] char *v5; // eax
+    [[maybe_unused]] const char *v6; // eax
 
     iassert(ent->r.inuse);
 

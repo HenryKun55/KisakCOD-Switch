@@ -900,7 +900,7 @@ struct netProfileInfo_t;
 struct trDebugLine_t;
 struct trDebugString_t;
 
-void CalculateRanks() {}
+// CalculateRanks provided by src/game_mp/g_main_mp.cpp now.
 char CL_IsClientLocal(int /*localClientNum*/) { return 1; }
 // CL_IsPlayerMuted provided by src/client_mp/cl_main_pc_mp.cpp now.
 // ClientUserinfoChanged provided by src/game_mp/g_client_mp.cpp now.
@@ -973,8 +973,7 @@ bool Voice_IsClientTalking(unsigned int /*clientNum*/) { return false; }
 // cg_entitiesArray provided by src/cgame_mp/cg_main_mp.cpp now.
 const dvar_t *cl_showSend = nullptr;
 const dvar_t *cl_voice = nullptr;
-gentity_s g_entities[1024]{};
-level_locals_t level{};
+// g_entities / level provided by src/game_mp/g_main_mp.cpp now.
 const dvar_t *net_profile = nullptr;
 // sv_maxclients provided by src/server_mp/sv_main_mp.cpp now.
 // sv_voice provided by src/server_mp/sv_init_mp.cpp now.
@@ -1028,11 +1027,11 @@ bool DObjSkelExists(const DObj_s * /*obj*/, int /*boneIndex*/) { return false; }
 bool DObjSkelIsBoneUpToDate(DObj_s * /*obj*/, int /*boneIndex*/) { return false; }
 
 // G_GetEntityTypeName provided by src/game_mp/g_utils_mp.cpp now.
-double G_GetFogOpaqueDistSqrd() { return 0; }
-int   G_GetSavePersist() { return 0; }
-void G_InitGame(int /*serverTime*/, int /*randomSeed*/, int /*restart*/, int /*savegame*/) {}
+// G_GetFogOpaqueDistSqrd provided by src/game_mp/g_main_mp.cpp now.
+// G_GetSavePersist provided by src/game_mp/g_main_mp.cpp now.
+// G_InitGame provided by src/game_mp/g_main_mp.cpp now.
 void G_ResetEntityParsePoint() {}
-void G_ShutdownGame(int /*restart*/) {}
+// G_ShutdownGame provided by src/game_mp/g_main_mp.cpp now.
 
 void MatrixTransformVector43(const float *in, const float (&m)[4][3], float *out)
 {
@@ -1062,8 +1061,8 @@ float Vec2DistanceSq(const float *a, const float *b)
     return dx * dx + dy * dy;
 }
 
-const dvar_t *g_banIPs = nullptr;
-const dvar_t *g_dedicated = nullptr;
+// g_banIPs provided by src/game_mp/g_main_mp.cpp now.
+// g_dedicated provided by src/game_mp/g_main_mp.cpp now.
 // sv_gametype provided by src/server_mp/sv_main_mp.cpp now.
 // =========================================================================
 // Small batch — cl_net_chan_mp / cl_pose_mp / sv_main_pc_mp / g_scr_mover.
@@ -1380,14 +1379,13 @@ void G_AntiLag_RestoreClientPos(AntilagClientStore * /*store*/) {}
 void G_AntiLagRewindClientPos(int /*clientNum*/, AntilagClientStore * /*store*/) {}
 // G_CheckHitTriggerDamage provided by src/game_mp/g_trigger_mp.cpp now.
 // G_Damage provided by src/game_mp/g_combat_mp.cpp now.
-void G_LocationalTraceAllowChildren(trace_t *trace, float * /*start*/, float * /*end*/, int /*passEnt*/, int /*contentMask*/, unsigned char * /*priority*/)
-{ if (trace) { std::memset(trace, 0, sizeof(*trace)); trace->fraction = 1.0f; } }
+// G_LocationalTraceAllowChildren provided by src/game_mp/g_main_mp.cpp now.
 // G_TempEntity provided by src/game_mp/g_utils_mp.cpp now.
-bool OnSameTeam(gentity_s * /*ent1*/, gentity_s * /*ent2*/) { return false; }
+// OnSameTeam provided by src/game_mp/g_main_mp.cpp now.
 
-const dvar_t *bullet_penetrationEnabled = nullptr;
+// bullet_penetrationEnabled provided by src/game_mp/g_main_mp.cpp now.
 const dvar_t *bullet_penetrationMinFxDist = nullptr;
-const dvar_t *g_debugLocDamage = nullptr;
+// g_debugLocDamage provided by src/game_mp/g_main_mp.cpp now.
 // sv_clientSideBullets provided by src/server_mp/sv_main_mp.cpp now.
 sharedUiInfo_t sharedUiInfo{};
 
@@ -2068,7 +2066,7 @@ float BG_GetVerticalBobFactor(const playerState_s *, float, float, float) { retu
 int32_t BG_IsAimDownSightWeapon(uint32_t) { return 0; }
 void  CG_UpdateViewWeaponAnim(int) {}
 void  CG_VehSphereCoordsToPos(float, float, float, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
-bool  G_ExitAfterConnectPaths() { return false; }
+// G_ExitAfterConnectPaths provided by src/game_mp/g_main_mp.cpp now.
 void  R_AddCmdProjectionSet2D() {}
 void  R_UpdateSpotLightEffect(FxCmd *) {}
 // CG_DObjGetWorldTagMatrix provided by src/cgame_mp/cg_ents_mp.cpp now.
@@ -2339,15 +2337,13 @@ uint8_t *Hunk_AllocPhysPresetPrecache(unsigned int size) { return static_cast<ui
 
 unsigned int bg_lastParsedWeaponIndex = 0;
 clientConnection_t clientConnections[1]{};
-const dvar_t *g_compassShowEnemies = nullptr;
-
+// g_compassShowEnemies provided by src/game_mp/g_main_mp.cpp now.
 // === sv_voice_mp satellites ======================================================
 
-bgs_t level_bgs{};
-const dvar_t *voice_deadChat  = nullptr;
-const dvar_t *voice_global    = nullptr;
-const dvar_t *voice_localEcho = nullptr;
-
+// level_bgs provided by src/game_mp/g_main_mp.cpp now.
+// voice_deadChat provided by src/game_mp/g_main_mp.cpp now.
+// voice_global provided by src/game_mp/g_main_mp.cpp now.
+// voice_localEcho provided by src/game_mp/g_main_mp.cpp now.
 // === g_trigger_mp satellites =====================================================
 
 // G_SpawnInt provided by src/game_mp/g_spawn_mp.cpp now.
@@ -2416,13 +2412,11 @@ void YawVectors(float, float *f, float *r) { if (f) { f[0] = 1; f[1] = 0; f[2] =
 // G_SetOrigin provided by src/game_mp/g_utils_mp.cpp now.
 // G_GeneralLink provided by src/game_mp/g_utils_mp.cpp now.
 float ColorNormalize(const float *, float *out) { if (out) { out[0] = 1; out[1] = 1; out[2] = 1; out[3] = 1; } return 1.f; }
-void G_TraceCapsule(trace_t *trace, const float *, const float *, const float *, const float *, int, int)
-{ if (trace) { std::memset(trace, 0, sizeof(*trace)); trace->fraction = 1.f; } }
+// G_TraceCapsule provided by src/game_mp/g_main_mp.cpp now.
 void SV_UnlinkEntity(gentity_s *) {}
 // G_PlaySoundAlias provided by src/game_mp/g_utils_mp.cpp now.
 int32_t IsItemRegistered(uint32_t) { return 0; }
-void G_LocationalTrace(trace_t *trace, float *, float *, int, int, uint8_t *)
-{ if (trace) { std::memset(trace, 0, sizeof(*trace)); trace->fraction = 1.f; } }
+// G_LocationalTrace provided by src/game_mp/g_main_mp.cpp now.
 // G_SoundAliasIndex provided by src/game_mp/g_utils_mp.cpp now.
 // SetClientViewAngle provided by src/game_mp/g_client_mp.cpp now.
 // G_GetPlayerViewOrigin provided by src/game_mp/g_client_mp.cpp now.
@@ -2595,9 +2589,9 @@ void Scr_DoProfile(float) {}
 void FS_ConvertPath(char *) {}
 // SV_UnbanClient provided by src/server_mp/sv_client_mp.cpp now.
 void Scr_RunDebugger() {}
-int32_t G_GetClientScore(int32_t) { return 0; }
-clientState_s *G_GetClientState(int32_t) { return nullptr; }
-void G_SetSavePersist(int32_t) {}
+// G_GetClientScore provided by src/game_mp/g_main_mp.cpp now.
+// G_GetClientState provided by src/game_mp/g_main_mp.cpp now.
+// G_SetSavePersist provided by src/game_mp/g_main_mp.cpp now.
 // SV_BanGuidBriefly provided by src/server_mp/sv_client_mp.cpp now.
 // SV_AddServerCommand provided by src/server_mp/sv_main_mp.cpp now.
 // SV_ClientEnterWorld provided by src/server_mp/sv_client_mp.cpp now.
@@ -2609,7 +2603,7 @@ void Steam_SV_AddTestCommands() {}
 
 // === sv_main_mp satellites =======================================================
 
-void G_RunFrame(int32_t) {}
+// G_RunFrame provided by src/game_mp/g_main_mp.cpp now.
 void FakeLag_Frame() {}
 void Scr_FreeValue(unsigned int) {}
 // SV_ClientThink provided by src/server_mp/sv_client_mp.cpp now.
@@ -2622,7 +2616,7 @@ WinThreadLock Win_GetThreadLock() { return {}; }
 // SV_DelayDropClient provided by src/server_mp/sv_client_mp.cpp now.
 void Scr_UpdateDebugger() {}
 // SV_SendClientMessages provided by src/server_mp/sv_snapshot_mp.cpp now.
-int32_t G_GetClientArchiveTime(int32_t) { return 0; }
+// G_GetClientArchiveTime provided by src/game_mp/g_main_mp.cpp now.
 // SV_ExecuteClientMessage provided by src/server_mp/sv_client_mp.cpp now.
 void MSG_WriteReliableCommandToBuffer(const char *, char *, int) {}
 
@@ -2694,11 +2688,11 @@ LegacyHacks legacyHacks{};
 
 // === sv_snapshot_mp satellites ===================================================
 
-int32_t G_GetClientSize() { return 0; }
-gclient_s *G_GetPlayerState(int32_t) { return nullptr; }
+// G_GetClientSize provided by src/game_mp/g_main_mp.cpp now.
+// G_GetPlayerState provided by src/game_mp/g_main_mp.cpp now.
 int FS_SV_FOpenFileRead(const char *, int *fp) { if (fp) *fp = 0; return 0; }
 // GetFollowPlayerState provided by src/game_mp/g_active_mp.cpp now.
-void G_SetClientArchiveTime(int32_t, int32_t) {}
+// G_SetClientArchiveTime provided by src/game_mp/g_main_mp.cpp now.
 int irand(int min, int /*max*/) { return min; }
 
 // === g_client_mp satellites ======================================================
@@ -2713,9 +2707,8 @@ void BG_GetPlayerViewOrigin(const playerState_s *, float *o, int32_t) { if (o) {
 void HudElem_ClientDisconnect(gentity_s *) {}
 
 const dvar_t *bg_prone_yawcap = nullptr;
-const dvar_t *g_inactivity    = nullptr;
-const dvar_t *g_password      = nullptr;
-
+// g_inactivity provided by src/game_mp/g_main_mp.cpp now.
+// g_password provided by src/game_mp/g_main_mp.cpp now.
 // === g_spawn_mp satellites =======================================================
 
 unsigned int G_NewString(const char *) { return 0u; }
@@ -2750,8 +2743,8 @@ void Scr_SetDynamicEntityField(unsigned int, unsigned int, unsigned int) {}
 void Scr_FreeHudElemConstStrings(game_hudelem_s *) {}
 unsigned int Scr_GetConstStringIncludeNull(unsigned int) { return 0u; }
 
-const dvar_t *g_gravity = nullptr;
-const dvar_t *g_motd    = nullptr;
+// g_gravity provided by src/game_mp/g_main_mp.cpp now.
+// g_motd provided by src/game_mp/g_main_mp.cpp now.
 game_hudelem_s g_hudelems[1024]{};
 void Scr_NotifyNum(unsigned int, unsigned int, unsigned int, unsigned int) {}
 
@@ -2760,14 +2753,13 @@ void Scr_NotifyNum(unsigned int, unsigned int, unsigned int, unsigned int) {}
 bool G_VehUsable(gentity_s *, gentity_s *) { return false; }
 int32_t G_GetHintStringIndex(int32_t *iOut, char *) { if (iOut) *iOut = 0; return 0; }
 bool BG_ThrowingBackGrenade(const playerState_s *) { return false; }
-int32_t G_TraceCapsuleComplete(float *, float *, float *, float *, int, int) { return 0; }
+// G_TraceCapsuleComplete provided by src/game_mp/g_main_mp.cpp now.
 
-const dvar_t *g_useholdspawndelay     = nullptr;
-const dvar_t *g_useholdtime           = nullptr;
-const dvar_t *player_MGUseRadius      = nullptr;
-const dvar_t *player_throwbackInnerRadius = nullptr;
-const dvar_t *player_throwbackOuterRadius = nullptr;
-
+// g_useholdspawndelay provided by src/game_mp/g_main_mp.cpp now.
+// g_useholdtime provided by src/game_mp/g_main_mp.cpp now.
+// player_MGUseRadius provided by src/game_mp/g_main_mp.cpp now.
+// player_throwbackInnerRadius provided by src/game_mp/g_main_mp.cpp now.
+// player_throwbackOuterRadius provided by src/game_mp/g_main_mp.cpp now.
 // === g_combat_mp satellites ======================================================
 
 void Cmd_Score_f(gentity_s *) {}
@@ -2786,12 +2778,11 @@ void DObjPhysicsGetBounds(const DObj_s *, float *mins, float *maxs)
     if (mins) { mins[0] = mins[1] = mins[2] = 0; }
     if (maxs) { maxs[0] = maxs[1] = maxs[2] = 0; }
 }
-int32_t G_LocationalTracePassed(float *, float *, int, int, int, uint8_t *) { return 1; }
+// G_LocationalTracePassed provided by src/game_mp/g_main_mp.cpp now.
 uint32_t BG_FindWeaponIndexForName(const char *) { return 0u; }
 
-const dvar_t *g_debugDamage      = nullptr;
-const dvar_t *radius_damage_debug = nullptr;
-
+// g_debugDamage provided by src/game_mp/g_main_mp.cpp now.
+// radius_damage_debug provided by src/game_mp/g_main_mp.cpp now.
 // === g_scr_helicopter satellites =================================================
 
 void SpawnVehicle(gentity_s *, const char *) {}
@@ -2842,12 +2833,51 @@ void BG_Player_DoControllers(const CEntPlayerInfo *, const DObj_s *, int32_t *) 
 void BG_CalculateWeaponAngles(weaponState_t *, float *) {}
 void BG_CalculateWeaponPosition_Sway(const playerState_s *, float *, float *, float *, float, int32_t) {}
 
-const dvar_t *g_antilag = nullptr;
-const dvar_t *g_mantleBlockTimeBuffer = nullptr;
-const dvar_t *g_playerCollisionEjectSpeed = nullptr;
-const dvar_t *g_smoothClients = nullptr;
-const dvar_t *g_speed = nullptr;
-const dvar_t *g_synchronousClients = nullptr;
+// g_antilag provided by src/game_mp/g_main_mp.cpp now.
+// g_mantleBlockTimeBuffer provided by src/game_mp/g_main_mp.cpp now.
+// g_playerCollisionEjectSpeed provided by src/game_mp/g_main_mp.cpp now.
+// g_smoothClients provided by src/game_mp/g_main_mp.cpp now.
+// g_speed provided by src/game_mp/g_main_mp.cpp now.
+// g_synchronousClients provided by src/game_mp/g_main_mp.cpp now.
+// === g_main_mp satellites ========================================================
+
+void G_RunMover(gentity_s *) {}
+void G_RunCorpse(gentity_s *) {}
+void Scr_IncTime() {}
+void G_RunMissile(gentity_s *) {}
+void SV_SightTrace(int *hit, const float *, const float *, const float *, const float *, int, int, int) { if (hit) *hit = 0; }
+void Scr_LoadLevel() {}
+void Z_VirtualFree(void *) {}
+void G_VehiclesInit(int) {}
+int  SV_TracePassed(const float *, const float *, const float *, const float *, int, int, int, int, uint8_t *, int) { return 0; }
+void Scr_InitSystem(int) {}
+void SendScoreboard(gentity_s *) {}
+void GScr_FreeScripts() {}
+void GScr_LoadScripts() {}
+void G_InitObjectives() {}
+void G_SetupWeaponDef() {}
+void Scr_LoadGameType() {}
+void HudElem_DestroyAll() {}
+void Scr_FreeEntityList() {}
+void Scr_ShutdownSystem(uint8_t, int) {}
+void Hunk_ClearToMarkLow(int) {}
+void SaveRegisteredItems() {}
+void Scr_StartupGameType() {}
+uint8_t *Hunk_AllocXAnimServer(unsigned int size) { return static_cast<uint8_t *>(std::calloc(size > 0 ? size : 1, 1)); }
+void SaveRegisteredWeapons() {}
+void Scr_AllocGameVariable() {}
+void Scr_RunCurrentThreads() {}
+void G_RegisterMissileDvars() {}
+void Missile_InitAttractors() {}
+void SV_SetupIgnoreEntParams(IgnoreEntParams *, int) {}
+void G_VehiclesSetupSpawnedEnts() {}
+void G_RegisterMissileDebugDvars() {}
+void G_setfog(const char *) {}
+void SV_Trace(trace_t *r, const float *, const float *, const float *, const float *, const IgnoreEntParams *, int, int, uint8_t *, int)
+{ if (r) { std::memset(r, 0, sizeof(*r)); r->fraction = 1.f; } }
+void G_RunItem(gentity_s *) {}
+void Rand_Init(int) {}
+void G_VehRegisterDvars() {}
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
