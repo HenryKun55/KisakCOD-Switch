@@ -176,6 +176,7 @@ set(CGAME_PORTABLE_SOURCES
     "${SRC_DIR}/cgame_mp/cg_consolecmds_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_draw_net_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_gamepad.cpp"
+    "${SRC_DIR}/cgame_mp/cg_main_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_newDraw_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_players_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_predict_mp.cpp"

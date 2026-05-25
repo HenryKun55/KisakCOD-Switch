@@ -1504,7 +1504,7 @@ void __cdecl CG_SubtitlePrint(int32_t msec, const snd_alias_t *alias)
 {
     int32_t integer; // [esp+4h] [ebp-20h]
     int32_t v3; // [esp+8h] [ebp-1Ch]
-    float v4; // [esp+Ch] [ebp-18h]
+    [[maybe_unused]] float v4; // [esp+Ch] [ebp-18h]
 
     iassert(alias);
     iassert(cg_subtitleWidthStandard);
@@ -1606,7 +1606,7 @@ void __cdecl CG_RestartSmokeGrenades(int32_t localClientNum)
         nextSnap = cgameGlob->nextSnap;
         for (i = 0; i < nextSnap->numEntities; ++i)
         {
-            v3 = (int)&nextSnap->entities[i];
+            v3 = (int)(uintptr_t)&nextSnap->entities[i];
             if ((nextSnap->entities[i].lerp.eFlags & 0x10000) != 0
                 && nextSnap->entities[i].time2 >= cgameGlob->time
                 && nextSnap->entities[i].lerp.u.customExplode.startTime <= cgameGlob->time)
@@ -1620,16 +1620,16 @@ void __cdecl CG_RestartSmokeGrenades(int32_t localClientNum)
                         "(es->eType == ET_GENERAL)",
                         nextSnap->entities[i].eType);
                 eventIndex = ((uint8_t)nextSnap->entities[i].eventSequence - 1) & 3;
-                if (*(int32_t *)(v3 + 4 * eventIndex + 164) < 45 || *(int32_t *)(v3 + 4 * eventIndex + 164) > 50)
+                if (*(int32_t *)(uintptr_t)(v3 + 4 * eventIndex + 164) < 45 || *(int32_t *)(uintptr_t)(v3 + 4 * eventIndex + 164) > 50)
                     MyAssertHandler(
                         ".\\cgame_mp\\cg_main_mp.cpp",
                         1586,
                         0,
                         "es->events[eventIndex] not in [EV_GRENADE_EXPLODE, EV_CUSTOM_EXPLODE_NOMARKS]\n\t%i not in [%i, %i]",
-                        *(_DWORD *)(v3 + 4 * eventIndex + 164),
+                        *(_DWORD *)(uintptr_t)(v3 + 4 * eventIndex + 164),
                         45,
                         50);
-                ByteToDir(*(_DWORD *)(v3 + 4 * eventIndex + 180), axis[0]);
+                ByteToDir(*(_DWORD *)(uintptr_t)(v3 + 4 * eventIndex + 180), axis[0]);
                 Vec3Basis_RightHanded(axis[0], axis[1], axis[2]);
                 Com_Printf(
                     14,
@@ -1848,8 +1848,9 @@ void __cdecl CG_Init(int32_t localClientNum, int32_t serverMessageNum, int32_t s
 
 clientConnection_t *__cdecl CL_GetLocalClientConnection(int32_t localClientNum)
 {
-    if (!clientConnections)
-        MyAssertHandler("c:\\trees\\cod3\\src\\cgame_mp\\../client_mp/client_mp.h", 1095, 0, "%s", "clientConnections");
+    // KISAKHACK: original `!clientConnections` was a null-pointer check on the
+    // upstream pointer form; here clientConnections is a fixed array so the
+    // address is never null and the assert is dead. Skip the check.
     if (localClientNum)
         MyAssertHandler(
             "c:\\trees\\cod3\\src\\cgame_mp\\../client_mp/client_mp.h",
@@ -1868,7 +1869,7 @@ void __cdecl CG_RegisterGraphics(int32_t localClientNum, const char *mapname)
     const char *effectname; // [esp+4h] [ebp-10h]
     const char *modelName; // [esp+8h] [ebp-Ch]
     int32_t i; // [esp+10h] [ebp-4h]
-    int32_t ia; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] int32_t ia; // [esp+10h] [ebp-4h]
     int32_t ib; // [esp+10h] [ebp-4h]
     cgs_t *cgs;
 
@@ -2158,7 +2159,7 @@ void __cdecl CG_Shutdown(int32_t localClientNum)
         {
             if (cent->pose.physObjId != -1)
             {
-                Phys_ObjDestroy(PHYS_WORLD_FX, (dxBody*)cent->pose.physObjId);
+                Phys_ObjDestroy(PHYS_WORLD_FX, (dxBody*)(uintptr_t)cent->pose.physObjId);
                 cent->pose.physObjId = 0;
             }
         }

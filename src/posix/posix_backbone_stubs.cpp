@@ -350,7 +350,7 @@ void CL_Disconnect(int /*localClientNum*/) {}
 void CL_ForwardCommandToServer(int /*localClientNum*/, const char * /*cmd*/) {}
 void CL_Frame(netsrc_t /*sock*/) {}
 struct clientConnection_t;
-clientConnection_t *CL_GetLocalClientConnection(int /*localClientNum*/) { return nullptr; }
+// CL_GetLocalClientConnection provided by src/cgame_mp/cg_main_mp.cpp now.
 const char *CL_GetUsernameForLocalClient() { return ""; }
 void CL_Init(int /*localClientNum*/) {}
 void CL_InitDedicated() {}
@@ -969,7 +969,7 @@ bool Voice_IsClientTalking(unsigned int /*clientNum*/) { return false; }
 
 // Globals — typed where we have the type (since game_public.h pulls
 // most of the cgame/game/server headers in).
-centity_s cg_entitiesArray[1][1024]{};
+// cg_entitiesArray provided by src/cgame_mp/cg_main_mp.cpp now.
 const dvar_t *cl_showSend = nullptr;
 const dvar_t *cl_voice = nullptr;
 gentity_s g_entities[1024]{};
@@ -998,7 +998,7 @@ void CG_ActionSlotUp_f() {}
 // CG_IsScoreboardDisplayed provided by src/cgame_mp/cg_scoreboard_mp.cpp now.
 void CG_NextWeapon_f() {}
 void CG_PrevWeapon_f() {}
-void CG_RestartSmokeGrenades(int /*localClientNum*/) {}
+// CG_RestartSmokeGrenades provided by src/cgame_mp/cg_main_mp.cpp now.
 
 void CL_AddReliableCommand(int /*localClientNum*/, const char * /*cmd*/) {}
 
@@ -1182,14 +1182,14 @@ void UI_DrawHandlePic(const ScreenPlacement * /*place*/, float /*x*/, float /*y*
 int   UI_TextHeight(Font_s * /*font*/, float /*scale*/) { return 0; }
 int   UI_TextWidth(const char * /*text*/, int /*max*/, Font_s * /*font*/, float /*scale*/) { return 0; }
 
-const dvar_t *cg_drawLagometer = nullptr;
-const dvar_t *cg_nopredict = nullptr;
-const dvar_t *cg_packetAnalysisClient = nullptr;
-const dvar_t *cg_packetAnalysisEntTextScale = nullptr;
-const dvar_t *cg_packetAnalysisEntTextY = nullptr;
-const dvar_t *cg_packetAnalysisTextScale = nullptr;
-const dvar_t *cg_packetAnalysisTextY = nullptr;
-const dvar_t *cg_synchronousClients = nullptr;
+// cg_drawLagometer provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_nopredict provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_packetAnalysisClient provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_packetAnalysisEntTextScale provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_packetAnalysisEntTextY provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_packetAnalysisTextScale provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_packetAnalysisTextY provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_synchronousClients provided by src/cgame_mp/cg_main_mp.cpp now.
 const dvar_t *net_showprofile = nullptr;
 
 // g_bitsSent / g_currentSnapshot* — typed via server_mp.h that's already
@@ -1266,7 +1266,7 @@ void YawVectors2D(float yaw, float *forward, float *right)
 const dvar_t *bg_viewKickMax = nullptr;
 const dvar_t *bg_viewKickMin = nullptr;
 const dvar_t *bg_viewKickScale = nullptr;
-const dvar_t *cg_hudDamageIconTime = nullptr;
+// cg_hudDamageIconTime provided by src/cgame_mp/cg_main_mp.cpp now.
 // hud_fade_compass provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 const dvar_t *uiscript_debug = nullptr;
 BOOL g_waitingForServer = 0;
@@ -1281,9 +1281,9 @@ unsigned int BG_GetViewmodelWeaponIndex(const playerState_s * /*ps*/) { return 0
 WeaponDef *BG_GetWeaponDef(unsigned int /*weaponIndex*/) { return nullptr; }
 
 // CG_ArchiveState provided by src/cgame_mp/cg_newDraw_mp.cpp now.
-void CG_Init(int /*localClientNum*/, int /*serverMessageNum*/, int /*serverCommandSequence*/, int /*serverTime*/) {}
-void CG_RegisterSounds() {}
-void CG_Shutdown(int /*localClientNum*/) {}
+// CG_Init provided by src/cgame_mp/cg_main_mp.cpp now.
+// CG_RegisterSounds provided by src/cgame_mp/cg_main_mp.cpp now.
+// CG_Shutdown provided by src/cgame_mp/cg_main_mp.cpp now.
 
 char CL_AnyLocalClientsRunning() { return 0; }
 void CL_DisconnectError(char * /*msg*/) {}
@@ -1418,16 +1418,16 @@ void CG_ImpactEffectForWeapon(unsigned int /*weapon*/, unsigned int /*surfType*/
                               const FxEffectDef ** /*effect*/, snd_alias_list_t ** /*sound*/) {}
 void CG_MeleeBloodEvent(int /*localClientNum*/, const centity_s * /*cent*/) {}
 void CG_OutOfAmmoChange(int /*localClientNum*/) {}
-int  CG_PlayClientSoundAlias(int /*localClientNum*/, snd_alias_list_t * /*alias*/) { return 0; }
-int  CG_PlayEntitySoundAlias(int /*localClientNum*/, int /*ent*/, snd_alias_list_t * /*alias*/) { return 0; }
-int  CG_PlaySoundAlias(int /*localClientNum*/, int /*ent*/, const float * /*pos*/, snd_alias_list_t * /*alias*/) { return 0; }
-int  CG_PlaySoundAliasAsMasterByName(int /*localClientNum*/, int /*ent*/, const float * /*pos*/, const char * /*name*/) { return 0; }
-int  CG_PlaySoundAliasByName(int /*localClientNum*/, int /*ent*/, const float * /*pos*/, const char * /*name*/) { return 0; }
+// CG_PlayClientSoundAlias provided by src/cgame_mp/cg_main_mp.cpp now.
+// CG_PlayEntitySoundAlias provided by src/cgame_mp/cg_main_mp.cpp now.
+// CG_PlaySoundAlias provided by src/cgame_mp/cg_main_mp.cpp now.
+// CG_PlaySoundAliasAsMasterByName provided by src/cgame_mp/cg_main_mp.cpp now.
+// CG_PlaySoundAliasByName provided by src/cgame_mp/cg_main_mp.cpp now.
 // CG_PrepOffHand provided by src/cgame/offhandweapons.cpp now.
 // CG_PriorityCenterPrint provided by src/cgame_mp/cg_draw_mp.cpp now.
 void CG_SelectWeaponIndex(int /*localClientNum*/, unsigned int /*weaponIndex*/) {}
-void CG_StopSoundAlias(int /*localClientNum*/, int /*ent*/, snd_alias_list_t * /*alias*/) {}
-void CG_StopSoundsOnEnt(int /*localClientNum*/, int /*ent*/) {}
+// CG_StopSoundAlias provided by src/cgame_mp/cg_main_mp.cpp now.
+// CG_StopSoundsOnEnt provided by src/cgame_mp/cg_main_mp.cpp now.
 // CG_SwitchOffHandCmd / CG_UseOffHand provided by src/cgame/offhandweapons.cpp now.
 
 void CL_DeathMessagePrint(int /*localClientNum*/, char * /*killerName*/, char /*killerColor*/,
@@ -1448,12 +1448,10 @@ void Scr_SetString(unsigned short * /*ptr*/, unsigned int /*stringValue*/) {}
 
 const dvar_t *bg_fallDamageMaxHeight = nullptr;
 const dvar_t *bg_fallDamageMinHeight = nullptr;
-const dvar_t *cg_debugEvents = nullptr;
-const dvar_t *cg_footsteps = nullptr;
-
+// cg_debugEvents provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_footsteps provided by src/cgame_mp/cg_main_mp.cpp now.
 // cgMedia + cgsArray: typed via cg_local_mp.h (already in include chain).
-cgMedia_t cgMedia{};
-cgs_t cgsArray[1]{};
+// cgMedia / cgsArray provided by src/cgame_mp/cg_main_mp.cpp now.
 
 // Con_InitChannels now in client/con_channels.cpp.
 // Con_IsChannelVisible now in client/con_channels.cpp.
@@ -1712,8 +1710,8 @@ void Phys_SetHingeParams(PhysWorld /*w*/, dxJointHinge * /*j*/, float /*lo*/, fl
 // Globals from the cg / script-place layer.
 // game_public.h transitively pulls cgame_mp.h which exposes the real
 // cg_s type, so we can zero-construct directly.
-cg_s cgArray[1]{};
-const dvar_t *cg_paused = nullptr;
+// cgArray provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_paused provided by src/cgame_mp/cg_main_mp.cpp now.
 // scrPlaceFull now in client/screen_placement.cpp.
 
 // =========================================================================
@@ -1879,17 +1877,16 @@ void     FX_Beam_Add(FxBeam *) {}
 void     FX_PostLight_Add(FxPostLight *) {}
 // CG_DObjGetWorldBoneMatrix provided by src/cgame_mp/cg_ents_mp.cpp now.
 
-const dvar_t *cg_laserEndOffset        = nullptr;
-const dvar_t *cg_laserFlarePct         = nullptr;
-const dvar_t *cg_laserLight            = nullptr;
-const dvar_t *cg_laserLightBeginOffset = nullptr;
-const dvar_t *cg_laserLightBodyTweak   = nullptr;
-const dvar_t *cg_laserLightEndOffset   = nullptr;
-const dvar_t *cg_laserLightRadius      = nullptr;
-const dvar_t *cg_laserRadius           = nullptr;
-const dvar_t *cg_laserRange            = nullptr;
-const dvar_t *cg_laserRangePlayer      = nullptr;
-
+// cg_laserEndOffset provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_laserFlarePct provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_laserLight provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_laserLightBeginOffset provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_laserLightBodyTweak provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_laserLightEndOffset provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_laserLightRadius provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_laserRadius provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_laserRange provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_laserRangePlayer provided by src/cgame_mp/cg_main_mp.cpp now.
 // === cg_shellshock satellites ====================================================
 
 void MatrixMultiply(const mat3x3 & /*a*/, const mat3x3 & /*b*/, mat3x3 &out)
@@ -1933,25 +1930,24 @@ unsigned int Hunk_AllocateTempMemoryHigh(int /*size*/, const char * /*name*/) { 
 void UI_FillRectPhysical(float, float, float, float, const float *) {}
 
 const dvar_t *bg_maxGrenadeIndicatorSpeed   = nullptr;
-const dvar_t *cg_hudDamageIconHeight        = nullptr;
-const dvar_t *cg_hudDamageIconInScope       = nullptr;
-const dvar_t *cg_hudDamageIconOffset        = nullptr;
-const dvar_t *cg_hudDamageIconWidth         = nullptr;
-const dvar_t *cg_hudGrenadeIconEnabledFlash = nullptr;
-const dvar_t *cg_hudGrenadeIconHeight       = nullptr;
-const dvar_t *cg_hudGrenadeIconInScope      = nullptr;
-const dvar_t *cg_hudGrenadeIconMaxHeight    = nullptr;
-const dvar_t *cg_hudGrenadeIconMaxRangeFlash = nullptr;
-const dvar_t *cg_hudGrenadeIconMaxRangeFrag  = nullptr;
-const dvar_t *cg_hudGrenadeIconOffset       = nullptr;
-const dvar_t *cg_hudGrenadeIconWidth        = nullptr;
-const dvar_t *cg_hudGrenadePointerHeight    = nullptr;
-const dvar_t *cg_hudGrenadePointerPivot     = nullptr;
-const dvar_t *cg_hudGrenadePointerPulseFreq = nullptr;
-const dvar_t *cg_hudGrenadePointerPulseMax  = nullptr;
-const dvar_t *cg_hudGrenadePointerPulseMin  = nullptr;
-const dvar_t *cg_hudGrenadePointerWidth     = nullptr;
-
+// cg_hudDamageIconHeight provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudDamageIconInScope provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudDamageIconOffset provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudDamageIconWidth provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudGrenadeIconEnabledFlash provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudGrenadeIconHeight provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudGrenadeIconInScope provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudGrenadeIconMaxHeight provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudGrenadeIconMaxRangeFlash provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudGrenadeIconMaxRangeFrag provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudGrenadeIconOffset provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudGrenadeIconWidth provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudGrenadePointerHeight provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudGrenadePointerPivot provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudGrenadePointerPulseFreq provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudGrenadePointerPulseMax provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudGrenadePointerPulseMin provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudGrenadePointerWidth provided by src/cgame_mp/cg_main_mp.cpp now.
 // === cg_hudelem satellites =======================================================
 
 void  FX_SpriteAdd(FxSprite *) {}
@@ -1980,8 +1976,7 @@ int   UI_GetKeyBindingLocalizedString(int, const char *, char *out)
 // === cg_localents satellites =====================================================
 
 void CG_DrawTracer(const float *, const float *, const refdef_s *) {}
-const dvar_t *cg_tracerLength = nullptr;
-
+// cg_tracerLength provided by src/cgame_mp/cg_main_mp.cpp now.
 // === cg_world satellites =========================================================
 
 void   DObjLock(DObj_s *) {}
@@ -2007,13 +2002,12 @@ void Pmove(pmove_t *) {}
 // CG_AdjustPositionForMover provided by src/cgame_mp/cg_ents_mp.cpp now.
 // CG_ExtractTransPlayerState provided by src/cgame_mp/cg_snapshot_mp.cpp now.
 
-const dvar_t *cg_errorDecay         = nullptr;
-const dvar_t *cg_predictItems       = nullptr;
-const dvar_t *cg_showmiss           = nullptr;
-const dvar_t *cg_viewZSmoothingMax  = nullptr;
-const dvar_t *cg_viewZSmoothingMin  = nullptr;
-const dvar_t *cg_viewZSmoothingTime = nullptr;
-
+// cg_errorDecay provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_predictItems provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_showmiss provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_viewZSmoothingMax provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_viewZSmoothingMin provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_viewZSmoothingTime provided by src/cgame_mp/cg_main_mp.cpp now.
 // === cg_client_side_effects_mp satellites ========================================
 
 FxEffect *FX_SpawnOrientedEffect(int, const FxEffectDef *, int, const float *, const float (*)[3], uint32_t) { return nullptr; }
@@ -2022,7 +2016,7 @@ FxEffect *FX_SpawnOrientedEffect(int, const FxEffectDef *, int, const float *, c
 
 // CG_InitView provided by src/cgame_mp/cg_view_mp.cpp now.
 // CG_ClearUnion provided by src/cgame_mp/cg_ents_mp.cpp now.
-void   CG_GameMessage(int, const char *) {}
+// CG_GameMessage provided by src/cgame_mp/cg_main_mp.cpp now.
 void   R_UnlinkEntity(unsigned int, unsigned int) {}
 void   AimAssist_Setup(int) {}
 void   R_InitSceneData(int) {}
@@ -2044,9 +2038,8 @@ void   CG_UpdateWeaponViewmodels(int) {}
 // CG_CheckOpenWaitingScriptMenu provided by src/cgame_mp/cg_servercmds_mp.cpp now.
 void   AimAssist_ClearEntityReference(int, int) {}
 
-float cg_entityOriginArray[1][1024][3]{};
-const dvar_t *cg_fs_debug = nullptr;
-
+// cg_entityOriginArray provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_fs_debug provided by src/cgame_mp/cg_main_mp.cpp now.
 // === cg_view_mp satellites =======================================================
 
 float BG_GetSpeed(const playerState_s *, int) { return 0.f; }
@@ -2102,15 +2095,15 @@ void  CL_Input(int) {}
 void  R_SyncGpu(int (*)(unsigned long long)) {}
 
 const dvar_t *bg_bobMax           = nullptr;
-UiContext     cgDC[1]{};
-const dvar_t *cg_drawShellshock   = nullptr;
-const dvar_t *cg_dumpAnims        = nullptr;
-const dvar_t *cg_fov              = nullptr;
-const dvar_t *cg_fovMin           = nullptr;
-const dvar_t *cg_fovScale         = nullptr;
-const dvar_t *cg_thirdPerson      = nullptr;
-const dvar_t *cg_thirdPersonAngle = nullptr;
-const dvar_t *cg_thirdPersonRange = nullptr;
+// cgDC provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawShellshock provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_dumpAnims provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_fov provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_fovMin provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_fovScale provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_thirdPerson provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_thirdPersonAngle provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_thirdPersonRange provided by src/cgame_mp/cg_main_mp.cpp now.
 const dvar_t *vehDebugClient        = nullptr;
 const dvar_t *vehDriverViewDist     = nullptr;
 const dvar_t *vehDriverViewFocusRange = nullptr;
@@ -2133,24 +2126,23 @@ bool  BG_IsKnifeMeleeAnim(const clientInfo_t *, int) { return false; }
 void  BG_UpdatePlayerDObj(int, DObj_s *, entityState_s *, clientInfo_t *, int) {}
 void  FX_MarkEntUpdateBegin(FxMarkDObjUpdateContext *, DObj_s *, bool, uint16_t) {}
 void  FX_MarkEntUpdateEnd(FxMarkDObjUpdateContext *, int, int, DObj_s *, bool, uint16_t) {}
-uint16_t CG_GetWeaponAttachBone(clientInfo_t *, weapType_t) { return 0; }
+// CG_GetWeaponAttachBone provided by src/cgame_mp/cg_main_mp.cpp now.
 
-const dvar_t *cg_connectionIconSize     = nullptr;
-const dvar_t *cg_constantSizeHeadIcons  = nullptr;
-const dvar_t *cg_debugPosition          = nullptr;
-const dvar_t *cg_drawWVisDebug          = nullptr;
-const dvar_t *cg_headIconMinScreenRadius = nullptr;
-const dvar_t *cg_scriptIconSize         = nullptr;
-const dvar_t *cg_voiceIconSize          = nullptr;
-const dvar_t *cg_youInKillCamSize       = nullptr;
-
+// cg_connectionIconSize provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_constantSizeHeadIcons provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_debugPosition provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawWVisDebug provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_headIconMinScreenRadius provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_scriptIconSize provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_voiceIconSize provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_youInKillCamSize provided by src/cgame_mp/cg_main_mp.cpp now.
 // === cg_servercmds_mp satellites =================================================
 
 void R_SwitchFog(unsigned int, int, int) {}
 void FX_InitSystem(int) {}
 void Phys_Shutdown() {}
 void SND_StopMusic(int) {}
-void CG_StartAmbient(int) {}
+// CG_StartAmbient provided by src/cgame_mp/cg_main_mp.cpp now.
 int  Load_ScriptMenu(int, const char *, int) { return 0; }
 void CG_RegisterItems(int) {}
 void Menus_ShowByName(const UiContext *, const char *) {}
@@ -2159,7 +2151,7 @@ void CL_ParseMapCenter(int) {}
 void DynEntCl_Shutdown(int) {}
 void FX_KillAllEffects(int) {}
 void FX_ShutdownSystem(int) {}
-void CG_BoldGameMessage(int, const char *) {}
+// CG_BoldGameMessage provided by src/cgame_mp/cg_main_mp.cpp now.
 void R_SetFogFromServer(float, unsigned char, unsigned char, unsigned char, float) {}
 void SND_PlayMusicAlias(int, const snd_alias_t *, bool, snd_alias_system_t) {}
 void UI_CloseInGameMenu(int) {}
@@ -2171,17 +2163,16 @@ void CL_ResetPlayerMuting(uint32_t) {}
 void DynEntCl_DestroyEvent(int, uint16_t, DynEntityCollType, const float *, const float *) {}
 void DynEntCl_InitEntities(int) {}
 void UI_ClosePopupScriptMenu(int, bool) {}
-int  CG_PlayClientSoundAliasByName(int, const char *) { return 0; }
-void CG_StopClientSoundAliasByName(int, const char *) {}
-uint8_t CG_ShouldPlaySoundOnLocalClient() { return 1; }
+// CG_PlayClientSoundAliasByName provided by src/cgame_mp/cg_main_mp.cpp now.
+// CG_StopClientSoundAliasByName provided by src/cgame_mp/cg_main_mp.cpp now.
+// CG_ShouldPlaySoundOnLocalClient provided by src/cgame_mp/cg_main_mp.cpp now.
 void R_ClearShadowedPrimaryLightHistory(int) {}
 char *UI_GetMapDisplayNameFromPartialLoadNameMatch(const char *, int *) { return nullptr; }
 void Phys_Init() {}
 
-const dvar_t *cg_chatHeight     = nullptr;
-const dvar_t *cg_chatTime       = nullptr;
-const dvar_t *cg_teamChatsOnly  = nullptr;
-
+// cg_chatHeight provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_chatTime provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_teamChatsOnly provided by src/cgame_mp/cg_main_mp.cpp now.
 // === cg_draw_mp satellites =======================================================
 
 void Con_DrawSay(int, int, int) {}
@@ -2202,30 +2193,30 @@ void Vec4Mul(const float *a, const float *b, float *p)
     if (a && b && p) { p[0] = a[0]*b[0]; p[1] = a[1]*b[1]; p[2] = a[2]*b[2]; p[3] = a[3]*b[3]; }
 }
 
-const dvar_t *cg_centertime               = nullptr;
-const dvar_t *cg_descriptiveText          = nullptr;
-const dvar_t *cg_draw2D                   = nullptr;
-const dvar_t *cg_drawCrosshairNames       = nullptr;
-const dvar_t *cg_drawFriendlyNames        = nullptr;
-const dvar_t *cg_drawSpectatorMessages    = nullptr;
-const dvar_t *cg_drawThroughWalls         = nullptr;
-const dvar_t *cg_enemyNameFadeOut         = nullptr;
-const dvar_t *cg_friendlyNameFadeOut      = nullptr;
-const dvar_t *cg_hudChatIntermissionPosition = nullptr;
-const dvar_t *cg_hudChatPosition          = nullptr;
-const dvar_t *cg_hudSayPosition           = nullptr;
-const dvar_t *cg_hudVotePosition          = nullptr;
-const dvar_t *cg_minicon                  = nullptr;
-const dvar_t *cg_overheadIconSize         = nullptr;
-const dvar_t *cg_overheadNamesFarDist     = nullptr;
-const dvar_t *cg_overheadNamesFarScale    = nullptr;
-const dvar_t *cg_overheadNamesFont        = nullptr;
-const dvar_t *cg_overheadNamesGlow        = nullptr;
-const dvar_t *cg_overheadNamesMaxDist     = nullptr;
-const dvar_t *cg_overheadNamesNearDist    = nullptr;
-const dvar_t *cg_overheadNamesSize        = nullptr;
-const dvar_t *cg_overheadRankSize         = nullptr;
-const dvar_t *debugOverlay                = nullptr;
+// cg_centertime provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_descriptiveText provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_draw2D provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawCrosshairNames provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawFriendlyNames provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawSpectatorMessages provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawThroughWalls provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_enemyNameFadeOut provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_friendlyNameFadeOut provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudChatIntermissionPosition provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudChatPosition provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudSayPosition provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudVotePosition provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_minicon provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_overheadIconSize provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_overheadNamesFarDist provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_overheadNamesFarScale provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_overheadNamesFont provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_overheadNamesGlow provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_overheadNamesMaxDist provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_overheadNamesNearDist provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_overheadNamesSize provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_overheadRankSize provided by src/cgame_mp/cg_main_mp.cpp now.
+// debugOverlay provided by src/cgame_mp/cg_main_mp.cpp now.
 // hud_fade_* + hud_health_startpulse_injured provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 const dvar_t *ui_showEndOfGame            = nullptr;
 
@@ -2245,7 +2236,7 @@ void  DObjSetHidePartBits(DObj_s *, const unsigned int *) {}
 DObj_s *Com_ClientDObjCreate(DObjModel_s *, unsigned short, XAnimTree_s *, unsigned int, int) { return nullptr; }
 void  DObjGetHierarchyBits(const DObj_s *, int, int *) {}
 void  Phys_ObjBulletImpact(PhysWorld, dxBody *, const float *, const float *, float, float) {}
-bool  CG_IsRagdollTrajectory(const trajectory_t *) { return false; }
+// CG_IsRagdollTrajectory provided by src/cgame_mp/cg_main_mp.cpp now.
 void  R_SkinGfxEntityDelayed(GfxSceneEntity *) {}
 int32_t CG_VehPlayerVehicleSlot(int, uint32_t) { return -1; }
 bool  CG_VehEntityUsingVehicle(int, uint32_t) { return false; }
@@ -2267,7 +2258,7 @@ void  Vec3Avg(const float *a, const float *b, float *out)
 }
 
 uint16_t *controller_names[6]{};
-void *Hunk_AllocXAnimClient(int size) { return std::calloc(size > 0 ? size : 1, 1); }
+// Hunk_AllocXAnimClient provided by src/cgame_mp/cg_main_mp.cpp now.
 
 // === cg_newDraw_mp satellites ====================================================
 
@@ -2283,7 +2274,7 @@ int32_t  BG_GetTotalAmmoReserve(const playerState_s *, uint32_t) { return 0; }
 void     CG_DrawPlayerActionSlot(int, const rectDef_s *, uint32_t, float *, Font_s *, float, int) {}
 void     CG_DrawPlayerWeaponIcon(int, const rectDef_s *, const float *) {}
 int32_t  PM_GetSprintLeftLastTime(const playerState_s *) { return 0; }
-const playerState_s *CG_GetPredictedPlayerState(int) { return nullptr; }
+// CG_GetPredictedPlayerState provided by src/cgame_mp/cg_main_mp.cpp now.
 void     CG_DrawPlayerActionSlotDpad(int, const rectDef_s *, const float *, Material *) {}
 void     CG_DrawPlayerWeaponAmmoStock(int, const rectDef_s *, Font_s *, float, float *, Material *, int) {}
 void     CG_DrawPlayerWeaponBackground(int, const rectDef_s *, const float *, Material *) {}
@@ -2291,44 +2282,96 @@ int32_t  BG_PlayerWeaponCountPrimaryTypes(const playerState_s *) { return 0; }
 void     CG_DrawPlayerWeaponLowAmmoWarning(int, const rectDef_s *, Font_s *, float, int, float, float, char, Material *) {}
 void     CG_DrawPlayerWeaponAmmoClipGraphic(int, const rectDef_s *, const float *) {}
 
-const dvar_t *cg_cursorHints              = nullptr;
-const dvar_t *cg_drawBreathHint           = nullptr;
-const dvar_t *cg_drawHealth               = nullptr;
-const dvar_t *cg_drawMantleHint           = nullptr;
-const dvar_t *cg_hintFadeTime             = nullptr;
-const dvar_t *cg_hudProneY                = nullptr;
-const dvar_t *cg_hudStanceFlash           = nullptr;
-const dvar_t *cg_hudStanceHintPrints      = nullptr;
-const dvar_t *cg_invalidCmdHintBlinkInterval = nullptr;
-const dvar_t *cg_invalidCmdHintDuration   = nullptr;
-const dvar_t *cg_weaponHintsCoD1Style     = nullptr;
+// cg_cursorHints provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawBreathHint provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawHealth provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawMantleHint provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hintFadeTime provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudProneY provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudStanceFlash provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_hudStanceHintPrints provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_invalidCmdHintBlinkInterval provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_invalidCmdHintDuration provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_weaponHintsCoD1Style provided by src/cgame_mp/cg_main_mp.cpp now.
+// === cg_main_mp satellites =======================================================
+
+void Menu_Setup(UiContext *) {}
+void BG_LoadAnim() {}
+void CG_Veh_Init() {}
+MenuList *UI_LoadMenus(char *, int) { return nullptr; }
+void AimAssist_Init(int) {}
+void UI_AddMenuList(UiContext *, MenuList *) {}
+Font_s *CL_RegisterFont(const char *, int) { return nullptr; }
+void SND_StopAmbient(int, int) {}
+void BG_RegisterDvars() {}
+void FX_KillEffectDef(int, const FxEffectDef *) {}
+XModel *FX_RegisterModel(const char *) { return nullptr; }
+menuDef_t *Menus_FindByName(const UiContext *, const char *) { return nullptr; }
+void BG_ClearWeaponDef() {}
+void Com_StripExtension(char *in, char *out)
+{
+    if (!in || !out) return;
+    const char *dot = nullptr;
+    for (const char *p = in; *p; ++p) { if (*p == '.') dot = p; }
+    if (dot) { size_t n = static_cast<size_t>(dot - in); std::memcpy(out, in, n); out[n] = '\0'; }
+    else     { std::strcpy(out, in); }
+}
+void UI_LoadIngameMenus(int) {}
+void CG_VehRegisterDvars() {}
+int32_t CG_WeaponDObjHandle(int32_t) { return 0; }
+void Menus_FreeAllMemory(UiContext *) {}
+char SND_AddLengthNotify(int, const snd_alias_t *, SndLengthId) { return 0; }
+void SND_StopSoundsOnEnt(SndEntHandle) {}
+void Com_LoadSoundAliases(const char *, const char *, snd_alias_system_t) {}
+void SND_PlayAmbientAlias(int, const snd_alias_t *, int, snd_alias_system_t) {}
+void Snd_AssertAliasValid(snd_alias_t *) {}
+int32_t DB_GetAllXAssetOfType(XAssetType, XAssetHeader *, int32_t) { return 0; }
+void DynEntCl_RegisterDvars() {}
+const char **FS_ListFilesInLocation(const char *, const char *, FsListBehavior_e, int *numfiles, int)
+{
+    if (numfiles) *numfiles = 0;
+    return nullptr;
+}
+void SND_AddPlayFXSoundAlias(snd_alias_t *, SndEntHandle, const float *) {}
+void SND_StopSoundAliasOnEnt(SndEntHandle, const char *) {}
+void Scr_ShutdownGameStrings() {}
+void FX_RegisterDefaultEffect() {}
+snd_alias_list_t *Com_FindSoundAliasNoErrors(const char *) { return nullptr; }
+snd_alias_t *Com_PickSoundAliasFromList(snd_alias_list_t *) { return nullptr; }
+int SND_PlaySoundAliasAsMaster(const snd_alias_t *, SndEntHandle, const float *, int, snd_alias_system_t) { return 0; }
+void CG_AmmoCounterRegisterDvars() {}
+void BG_LoadPenetrationDepthTable() {}
+uint8_t *Hunk_AllocPhysPresetPrecache(unsigned int size) { return static_cast<uint8_t *>(std::calloc(size > 0 ? size : 1, 1)); }
+
+unsigned int bg_lastParsedWeaponIndex = 0;
+clientConnection_t clientConnections[1]{};
+const dvar_t *g_compassShowEnemies = nullptr;
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
-const dvar_t *cg_crosshairAlpha        = nullptr;
-const dvar_t *cg_crosshairAlphaMin     = nullptr;
-const dvar_t *cg_crosshairDynamic      = nullptr;
-const dvar_t *cg_crosshairEnemyColor   = nullptr;
-const dvar_t *cg_debugInfoCornerOffset = nullptr;
-const dvar_t *cg_debug_overlay_viewport = nullptr;
-const dvar_t *cg_drawCrosshair         = nullptr;
-const dvar_t *cg_drawFPS               = nullptr;
-const dvar_t *cg_drawFPSLabels         = nullptr;
-const dvar_t *cg_drawGun               = nullptr;
-const dvar_t *cg_drawMaterial          = nullptr;
-const dvar_t *cg_drawScriptUsage       = nullptr;
-const dvar_t *cg_drawSnapshot          = nullptr;
-const dvar_t *cg_drawTurretCrosshair   = nullptr;
-const dvar_t *cg_drawVersion           = nullptr;
-const dvar_t *cg_drawVersionX          = nullptr;
-const dvar_t *cg_drawVersionY          = nullptr;
-const dvar_t *cg_drawpaused            = nullptr;
-const dvar_t *cg_enemyNameFadeIn       = nullptr;
-const dvar_t *cg_friendlyNameFadeIn    = nullptr;
+// cg_crosshairAlpha provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_crosshairAlphaMin provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_crosshairDynamic provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_crosshairEnemyColor provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_debugInfoCornerOffset provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_debug_overlay_viewport provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawCrosshair provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawFPS provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawFPSLabels provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawGun provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawMaterial provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawScriptUsage provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawSnapshot provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawTurretCrosshair provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawVersion provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawVersionX provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawVersionY provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_drawpaused provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_enemyNameFadeIn provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_friendlyNameFadeIn provided by src/cgame_mp/cg_main_mp.cpp now.
 // hud_fade_offhand provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 const dvar_t *phys_drawDebugInfo       = nullptr;
 const dvar_t *player_debugHealth       = nullptr;
 const dvar_t *snd_drawEqChannels       = nullptr;
-const dvar_t *snd_drawInfo             = nullptr;
-
-weaponInfo_s cg_weaponsArray[1][128]{};
+// snd_drawInfo provided by src/cgame_mp/cg_main_mp.cpp now.
+// cg_weaponsArray provided by src/cgame_mp/cg_main_mp.cpp now.
