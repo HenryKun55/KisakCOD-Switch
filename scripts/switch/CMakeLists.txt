@@ -196,6 +196,7 @@ set(CLIENT_PORTABLE_SOURCES
     "${SRC_DIR}/client_mp/cl_net_chan_mp.cpp"
     "${SRC_DIR}/client_mp/cl_pose_mp.cpp"
     "${SRC_DIR}/client_mp/cl_scrn_mp.cpp"
+    "${SRC_DIR}/client_mp/cl_ui_mp.cpp"
     "${SRC_DIR}/client_mp/cl_rank.cpp"
     "${SRC_DIR}/client_mp/cl_voice.cpp"
 )

@@ -1432,8 +1432,7 @@ void CG_SelectWeaponIndex(int /*localClientNum*/, unsigned int /*weaponIndex*/) 
 void CL_DeathMessagePrint(int /*localClientNum*/, char * /*killerName*/, char /*killerColor*/,
                           char * /*victimName*/, char /*victimColor*/, Material * /*icon*/,
                           float /*duration*/, float /*scale*/, bool /*friendlyFire*/) {}
-int  CL_GetClientName(int /*localClientNum*/, int /*clientNum*/, char *name, int /*nameSize*/)
-{ if (name) name[0] = 0; return 0; }
+// CL_GetClientName provided by src/client_mp/cl_ui_mp.cpp now.
 
 void DynEntCl_ExplosionEvent(int /*localClientNum*/, bool /*ent*/, float * /*org*/, float /*r*/, float /*rs*/,
                              float * /*norm*/, float /*duration*/, int /*type*/, int /*flags*/) {}
@@ -2401,6 +2400,17 @@ char   CL_AnyLocalClientChallenging() { return 0; }
 char   CL_AllLocalClientsDisconnected() { return 1; }
 unsigned int FS_FTell(int) { return 0u; }
 const dvar_t *r_reflectionProbeGenerate = nullptr;
+
+// === cl_ui_mp satellites =========================================================
+
+void UI_Shutdown(int) {}
+void UI_Component_Init() {}
+const char *Key_KeynumToString(int32_t, int32_t) { return ""; }
+int32_t CL_UpdateDirtyPings(netsrc_t, uint32_t) { return 0; }
+char *UI_GetMapDisplayName(const char *) { return const_cast<char *>(""); }
+void R_PushRemoteScreenUpdate(int) {}
+char *UI_GetGameTypeDisplayName(const char *) { return const_cast<char *>(""); }
+void UI_Init(int) {}
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
