@@ -432,7 +432,7 @@ void Scr_MonitorCommand(const char * /*cmd*/) {}
 void Scr_Settings(int /*developer*/, int /*developer_script*/, int /*abort_on_error*/) {}
 void Scr_Shutdown() {}
 int  Scr_UpdateDebugSocket() { return 0; }
-void SCR_UpdateScreen() {}
+// SCR_UpdateScreen provided by src/client_mp/cl_scrn_mp.cpp now.
 void GScr_Shutdown() {}
 
 void DObjInit() {}
@@ -1236,7 +1236,7 @@ const rectDef_s *Item_GetTextRect(int /*localClientNum*/, const itemDef_s * /*it
 
 float kisak_crandom() { return (std::rand() / float(RAND_MAX)) * 2.0f - 1.0f; }
 
-void SCR_UpdateLoadScreen() {}
+// SCR_UpdateLoadScreen provided by src/client_mp/cl_scrn_mp.cpp now.
 int  String_Parse(const char ** /*p*/, char * /*out*/, int /*outSize*/) { return 0; }
 void UI_CloseAllMenus(int /*localClientNum*/) {}
 void UI_DrawMapLevelshot(int /*localClientNum*/) {}
@@ -1521,7 +1521,7 @@ const char *fs_serverIwdNames[1024]{};
 int fs_serverIwds[1024]{};
 const dvar_t *loc_language = nullptr;
 server_t sv;
-BOOL updateScreenCalled;
+// updateScreenCalled provided by src/client_mp/cl_scrn_mp.cpp now.
 
 // fx_randomTable: 507-entry deterministic random table used by the
 // EffectsCore particle system. Real upstream fills this once at startup
@@ -2064,7 +2064,7 @@ double R_GetFarPlaneDist() { return 0.0; }
 // CG_AddPacketEntity provided by src/cgame_mp/cg_ents_mp.cpp now.
 bool  Key_IsCatcherActive(int, int) { return false; }
 // CG_AddPacketEntities provided by src/cgame_mp/cg_ents_mp.cpp now.
-float CL_GetMenuBlurRadius(int) { return 0.f; }
+// CL_GetMenuBlurRadius provided by src/client_mp/cl_scrn_mp.cpp now.
 void  FX_SetNextUpdateTime(int, int) {}
 void  CL_ResetSkeletonCache(int) {}
 void  BG_CalculateViewAngles(viewState_t *, float *) {}
@@ -2369,6 +2369,38 @@ void    G_FreeEntityDelay(gentity_s *) {}
 int32_t G_LevelSpawnString(const char *, const char *, const char **out) { if (out) *out = ""; return 0; }
 BOOL    Scr_IsSystemActive() { return 0; }
 int     SV_SightTraceToEntity(float *, float *, float *, float *, int, int) { return 0; }
+
+// === cl_scrn_mp satellites =======================================================
+
+void   R_EndFrame() {}
+void   UI_Refresh(int) {}
+void   CL_DrawLogo(int) {}
+void   DevGui_Draw(int) {}
+void   R_BeginFrame() {}
+void   UI_UpdateTime(int, int) {}
+void   Con_DrawConsole(int) {}
+void   R_EndCubemapShot(CubemapShot) {}
+void   SND_InitFXSounds() {}
+double UI_GetBlurRadius(int) { return 0.0; }
+void   R_AddCmdEndOfList() {}
+void   R_SaveCubemapShot(char *, CubemapShot, float, float) {}
+void   SCR_DrawCinematic(int) {}
+void   Net_DisplayProfile(int) {}
+void   R_BeginCubemapShot(int, int) {}
+void   R_AddCmdClearScreen(int, const float *, float, unsigned char) {}
+void   R_AddCmdDrawProfile() {}
+void   R_BeginSharedCmdList() {}
+void   Sys_LoadingKeepAlive() {}
+void   UI_DrawConnectScreen(int) {}
+void   R_IssueRenderCommands(unsigned int) {}
+void   R_BeginClientCmdList2D() {}
+void   R_ClearClientCmdList2D() {}
+void   R_BspGenerateReflections() {}
+void   R_LightingFromCubemapShots(const float *) {}
+char   CL_AnyLocalClientChallenging() { return 0; }
+char   CL_AllLocalClientsDisconnected() { return 1; }
+unsigned int FS_FTell(int) { return 0u; }
+const dvar_t *r_reflectionProbeGenerate = nullptr;
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
