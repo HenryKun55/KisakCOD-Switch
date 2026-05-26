@@ -42,7 +42,7 @@ void __cdecl FFT(complex_s *data_inout, unsigned int log2_count, int *bitSwap, c
     float v40; // [esp+1068h] [ebp-A4h]
     float v41; // [esp+106Ch] [ebp-A0h]
     float v42; // [esp+1070h] [ebp-9Ch]
-    float* v43; // [esp+1074h] [ebp-98h]
+    [[maybe_unused]] float* v43; // [esp+1074h] [ebp-98h]
     int v44; // [esp+1078h] [ebp-94h]
     float real; // [esp+107Ch] [ebp-90h]
     float v46; // [esp+1080h] [ebp-8Ch]

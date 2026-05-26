@@ -41,6 +41,7 @@ set(UNIVERSAL_PORTABLE_SOURCES
     "${SRC_DIR}/universal/memfile.cpp"
     "${SRC_DIR}/universal/profile.cpp"
     "${SRC_DIR}/universal/com_loadutils.cpp"
+    "${SRC_DIR}/universal/fft.cpp"
     # com_memory.cpp uses Win32 VirtualAlloc/VirtualFree. Land behind an
     # mmap-backed shim later.
     "${SRC_DIR}/universal/com_stringtable.cpp"

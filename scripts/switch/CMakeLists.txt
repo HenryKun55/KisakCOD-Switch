@@ -42,6 +42,7 @@ set(UNIVERSAL_PORTABLE_SOURCES
     "${SRC_DIR}/universal/dvar.cpp"
     "${SRC_DIR}/universal/dvar_cmds.cpp"
     "${SRC_DIR}/universal/com_loadutils.cpp"
+    "${SRC_DIR}/universal/fft.cpp"
     "${SRC_DIR}/universal/com_stringtable.cpp"
     "${SRC_DIR}/universal/memfile.cpp"
     "${SRC_DIR}/universal/profile.cpp"
