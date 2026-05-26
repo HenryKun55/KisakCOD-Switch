@@ -3194,14 +3194,14 @@ int LiveStorage_GetStat(int, int) { return 0; }
 
 // === ui_shared satellites ==========================================================
 
-void free_expression(statement_s *) {}
+// free_expression provided by src/ui/ui_shared_obj.cpp now.
 bool I_isforfilename(int c) { return (c > ' ' && c < 127); }
-void Item_SetupKeywordHash() {}
+// Item_SetupKeywordHash provided by src/ui/ui_shared_obj.cpp now.
 void LiveStorage_ValidateCaCStat(int, int, int) {}
-void Menu_FreeItemMemory(itemDef_s *) {}
-void Menu_SetupKeywordHash() {}
-MenuList *UI_LoadMenu_LoadObj(char *, int) { return nullptr; }
-MenuList *UI_LoadMenus_LoadObj(char *, int) { return nullptr; }
+// Menu_FreeItemMemory provided by src/ui/ui_shared_obj.cpp now.
+// Menu_SetupKeywordHash provided by src/ui/ui_shared_obj.cpp now.
+// UI_LoadMenu_LoadObj provided by src/ui/ui_shared_obj.cpp now.
+// UI_LoadMenus_LoadObj provided by src/ui/ui_shared_obj.cpp now.
 
 // === CGAME dvars and storage referenced by the new sources =========================
 

@@ -126,6 +126,7 @@ set(UI_PORTABLE_SOURCES
     "${SRC_DIR}/ui/ui_expressions.cpp"
     "${SRC_DIR}/ui/ui_expressions_logicfunctions.cpp"
     "${SRC_DIR}/ui/ui_shared.cpp"
+    "${SRC_DIR}/ui/ui_shared_obj.cpp"
     "${SRC_DIR}/ui/ui_localvars.cpp"
     "${SRC_DIR}/ui/ui_utils.cpp"
     "${SRC_DIR}/ui_mp/ui_gameinfo_mp.cpp"

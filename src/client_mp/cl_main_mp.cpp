@@ -50,7 +50,7 @@ unsigned int b64_encode(const unsigned char *in, unsigned int in_len, unsigned c
 
 #ifndef _WIN32
 #  include <strings.h>
-static inline int _strnicmp(const char *a, const char *b, size_t n) { return strncasecmp(a, b, n); }
+// _strnicmp now provided as a global macro in src/posix/kisak_compat.h.
 static inline int _putenv(char *s) { return putenv(s); }
 #endif
 

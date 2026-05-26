@@ -55,6 +55,8 @@
 // use the unprefixed names. Map the ones upstream uses.
 #define _vsnprintf vsnprintf
 #define _snprintf  snprintf
+#define _stricmp   strcasecmp
+#define _strnicmp  strncasecmp
 // MSVC "secure" CRT variants: signature is (dst, dstSize, _TRUNCATE, fmt, va).
 // On POSIX vsnprintf already truncates safely; _TRUNCATE is a no-op sentinel.
 #ifndef _TRUNCATE
@@ -65,6 +67,19 @@
 // MSVC: sprintf_s(buf, sizeOfBuf, fmt, ...) — POSIX equivalent is snprintf
 // with the same destination size; truncation behavior matches our needs.
 #define sprintf_s(dst, dstSize, ...)               snprintf((dst), (dstSize), __VA_ARGS__)
+// _ctime64: MSVC's 64-bit time formatter. On POSIX time_t is already 64-bit;
+// the upstream caller pairs the result with free(), so return a strdup'd
+// copy instead of ctime's static buffer.
+#include <ctime>
+#include <cstring>
+#include <cstdlib>
+static inline char *_ctime64(const long long *t)
+{
+    if (!t) return nullptr;
+    ::time_t tt = (::time_t)(*t);
+    char *s = std::ctime(&tt);
+    return s ? strdup(s) : nullptr;
+}
 // __debugbreak: MSVC intrinsic that triggers a debugger breakpoint.
 // On clang/gcc the equivalent is __builtin_trap (or __builtin_debugtrap
 // on clang specifically, but trap works everywhere as a fallback).

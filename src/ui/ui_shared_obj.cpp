@@ -323,8 +323,8 @@ int __cdecl PS_ReadEscapeCharacter(script_s *script, char *ch)
     int cc; // [esp+4h] [ebp-Ch]
     int val; // [esp+8h] [ebp-8h]
     int vala; // [esp+8h] [ebp-8h]
-    int i; // [esp+Ch] [ebp-4h]
-    int ia; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] int ia; // [esp+Ch] [ebp-4h]
 
     switch (*++script->script_p)
     {
@@ -593,7 +593,7 @@ int __cdecl PS_ReadNumber(script_s *script, token_s *token)
         token->string[0] = *script->script_p++;
         token->string[1] = *script->script_p;
         len = 2;
-        for (c = *++script->script_p; c >= 48 && c <= 57 || c >= 97 && c <= 102 || c == 65; c = *script->script_p)
+        for (c = *++script->script_p; (c >= 48 && c <= 57) || (c >= 97 && c <= 102) || c == 65; c = *script->script_p)
         {
             token->string[len++] = *script->script_p++;
             if (len >= 1024)
@@ -709,7 +709,7 @@ int __cdecl PS_ReadName(script_s *script, token_s *token)
             return 0;
         }
         c = *script->script_p;
-    } while (c >= 97 && c <= 122 || c >= 65 && c <= 90 || c >= 48 && c <= 57 || c == 95);
+    } while ((c >= 97 && c <= 122) || (c >= 65 && c <= 90) || (c >= 48 && c <= 57) || c == 95);
     token->string[len] = 0;
     token->subtype = len;
     return 1;
@@ -721,7 +721,7 @@ int __cdecl PS_ReadPunctuation(script_s *script, token_s *token)
     unsigned int len; // [esp+14h] [ebp-8h]
     char *p; // [esp+18h] [ebp-4h]
 
-    for (punc = script->punctuationtable[*script->script_p]; punc; punc = punc->next)
+    for (punc = script->punctuationtable[(unsigned char)*script->script_p]; punc; punc = punc->next)
     {
         p = punc->p;
         len = strlen(punc->p);
@@ -766,8 +766,8 @@ int __cdecl PS_ReadToken(script_s *script, token_s *token)
         if (!PS_ReadString(script, token, 39))
             return 0;
     }
-    else if (*script->script_p >= 48 && *script->script_p <= 57
-        || *script->script_p == 46 && script->script_p[1] >= 48 && script->script_p[1] <= 57)
+    else if ((*script->script_p >= 48 && *script->script_p <= 57)
+        || (*script->script_p == 46 && script->script_p[1] >= 48 && script->script_p[1] <= 57))
     {
         if (!PS_ReadNumber(script, token))
             return 0;
@@ -776,8 +776,8 @@ int __cdecl PS_ReadToken(script_s *script, token_s *token)
     {
         if ((script->flags & 0x10) != 0)
             return PS_ReadPrimitive(script, token);
-        if (*script->script_p >= 97 && *script->script_p <= 122
-            || *script->script_p >= 65 && *script->script_p <= 90
+        if ((*script->script_p >= 97 && *script->script_p <= 122)
+            || (*script->script_p >= 65 && *script->script_p <= 90)
             || *script->script_p == 95)
         {
             if (!PS_ReadName(script, token))
@@ -1337,7 +1337,7 @@ void __cdecl PS_CreatePunctuationTable(script_s *script, punctuation_s *punctuat
     {
         newp = &punctuations[i];
         lastp = 0;
-        for (p = script->punctuationtable[*newp->p]; p; p = p->next)
+        for (p = script->punctuationtable[(unsigned char)*newp->p]; p; p = p->next)
         {
             if (strlen(p->p) < strlen(newp->p))
             {
@@ -1345,7 +1345,7 @@ void __cdecl PS_CreatePunctuationTable(script_s *script, punctuation_s *punctuat
                 if (lastp)
                     lastp->next = newp;
                 else
-                    script->punctuationtable[*newp->p] = newp;
+                    script->punctuationtable[(unsigned char)*newp->p] = newp;
                 break;
             }
             lastp = p;
@@ -1356,7 +1356,7 @@ void __cdecl PS_CreatePunctuationTable(script_s *script, punctuation_s *punctuat
             if (lastp)
                 lastp->next = newp;
             else
-                script->punctuationtable[*newp->p] = newp;
+                script->punctuationtable[(unsigned char)*newp->p] = newp;
         }
     }
 }
@@ -1693,7 +1693,7 @@ int __cdecl PC_Directive_define(source_s *source)
                 last = ta;
             }
         } while (PC_ReadLine(source, &token, 0));
-        if (!last || strcmp(definea->tokens->string, "##") && strcmp(last->string, "##"))
+        if (!last || (strcmp(definea->tokens->string, "##") && strcmp(last->string, "##")))
             return 1;
         SourceError(source, "define with misplaced ##");
         return 0;
@@ -1835,9 +1835,9 @@ define_s *__cdecl PC_CopyDefine(source_s *source, define_s *define)
     token_s *lasttokena; // [esp+2Ch] [ebp-4h]
 
     newdefine = GetMemory(strlen(define->name) + 33);
-    *newdefine = (unsigned int)(newdefine + 8);
+    *newdefine = (unsigned int)(uintptr_t)(newdefine + 8);
     name = define->name;
-    v4 = (_BYTE *)*newdefine;
+    v4 = (_BYTE *)(uintptr_t)*newdefine;
     do
     {
         v2 = *name;
@@ -1857,7 +1857,7 @@ define_s *__cdecl PC_CopyDefine(source_s *source, define_s *define)
         if (lasttoken)
             lasttoken->next = newtoken;
         else
-            newdefine[5] = (unsigned int)newtoken;
+            newdefine[5] = (unsigned int)(uintptr_t)newtoken;
         lasttoken = newtoken;
     }
     newdefine[4] = 0;
@@ -1869,7 +1869,7 @@ define_s *__cdecl PC_CopyDefine(source_s *source, define_s *define)
         if (lasttokena)
             lasttokena->next = newtokena;
         else
-            newdefine[4] = (unsigned int)newtokena;
+            newdefine[4] = (unsigned int)(uintptr_t)newtokena;
         lasttokena = newtokena;
     }
     return (define_s *)newdefine;
@@ -2080,7 +2080,7 @@ int __cdecl PC_EvaluateTokens(source_s *source, token_s *tokens, int *intvalue, 
     int numoperators; // [esp+DBCh] [ebp-1Ch]
     value_s *v; // [esp+DC0h] [ebp-18h]
     value_s *lastvalue; // [esp+DC4h] [ebp-14h]
-    int lastoperatortype; // [esp+DC8h] [ebp-10h]
+    [[maybe_unused]] int lastoperatortype; // [esp+DC8h] [ebp-10h]
     int brace; // [esp+DCCh] [ebp-Ch]
     int questmarkintvalue; // [esp+DD0h] [ebp-8h]
     int gotquestmarkvalue; // [esp+DD4h] [ebp-4h]
@@ -2184,7 +2184,7 @@ int __cdecl PC_EvaluateTokens(source_s *source, token_s *tokens, int *intvalue, 
                 else
                     firstvalue = v;
                 lastvalue = v;
-                if (!brace || (tokens = tokens->next) != 0 && !strcmp(tokens->string, ")"))
+                if (!brace || ((tokens = tokens->next) != 0 && !strcmp(tokens->string, ")")))
                 {
                     brace = 0;
                     lastwasvalue = 1;
@@ -3300,7 +3300,7 @@ void PC_SourceError(int handle, char *format, ...)
     static char string_3[4096];
 
     char filename[132]; // [esp+0h] [ebp-90h] BYREF
-    char *argptr; // [esp+88h] [ebp-8h]
+    [[maybe_unused]] char *argptr; // [esp+88h] [ebp-8h]
     int line; // [esp+8Ch] [ebp-4h] BYREF
     va_list va; // [esp+A0h] [ebp+10h] BYREF
 
@@ -3315,7 +3315,7 @@ void PC_SourceError(int handle, char *format, ...)
 
 bool __cdecl Eval_CanPushValue(const Eval *eval)
 {
-    const char *pExceptionObject; // [esp+0h] [ebp-4h] BYREF
+    [[maybe_unused]] const char *pExceptionObject; // [esp+0h] [ebp-4h] BYREF
 
     if (!eval->valStackPos)
         return 1;
@@ -3525,8 +3525,8 @@ bool __cdecl Eval_IsUnaryOp(const Eval *eval)
 void __cdecl Eval_PrepareBinaryOpSameTypes(Eval *eval)
 {
     int v1; // eax
-    const char *v2; // [esp+4h] [ebp-8h] BYREF
-    const char *pExceptionObject; // [esp+8h] [ebp-4h] BYREF
+    [[maybe_unused]] const char *v2; // [esp+4h] [ebp-8h] BYREF
+    [[maybe_unused]] const char *pExceptionObject; // [esp+8h] [ebp-4h] BYREF
 
     if (eval->valStackPos < 2)
     {
@@ -3557,8 +3557,8 @@ void __cdecl Eval_PrepareBinaryOpSameTypes(Eval *eval)
 
 void __cdecl Eval_PrepareBinaryOpIntegers(Eval *eval)
 {
-    const char *v1; // [esp+0h] [ebp-8h] BYREF
-    const char *pExceptionObject; // [esp+4h] [ebp-4h] BYREF
+    [[maybe_unused]] const char *v1; // [esp+0h] [ebp-8h] BYREF
+    [[maybe_unused]] const char *pExceptionObject; // [esp+4h] [ebp-4h] BYREF
 
     if (eval->valStackPos < 2)
     {
@@ -3585,8 +3585,8 @@ void __cdecl Eval_PrepareBinaryOpIntegers(Eval *eval)
 
 void __cdecl Eval_PrepareBinaryOpBoolean(Eval *eval)
 {
-    const char *v1; // [esp+8h] [ebp-8h] BYREF
-    const char *pExceptionObject; // [esp+Ch] [ebp-4h] BYREF
+    [[maybe_unused]] const char *v1; // [esp+8h] [ebp-8h] BYREF
+    [[maybe_unused]] const char *pExceptionObject; // [esp+Ch] [ebp-4h] BYREF
 
     if (eval->valStackPos < 2)
     {
@@ -3625,17 +3625,17 @@ bool __cdecl Eval_EvaluationStep(Eval *eval)
     EvalValue *v2; // edx
     EvalOperatorType *v3; // ecx
     int v4; // [esp+10h] [ebp-94h]
-    const char *v5; // [esp+5Ch] [ebp-48h] BYREF
-    const char *v6; // [esp+60h] [ebp-44h] BYREF
-    const char *v7; // [esp+64h] [ebp-40h] BYREF
-    const char *v8; // [esp+68h] [ebp-3Ch] BYREF
-    const char *v9; // [esp+6Ch] [ebp-38h] BYREF
-    const char *v10; // [esp+70h] [ebp-34h] BYREF
-    const char *v11; // [esp+74h] [ebp-30h] BYREF
-    const char *v12; // [esp+78h] [ebp-2Ch] BYREF
-    const char *v13; // [esp+7Ch] [ebp-28h] BYREF
-    const char *v14; // [esp+80h] [ebp-24h] BYREF
-    const char *pExceptionObject; // [esp+84h] [ebp-20h] BYREF
+    [[maybe_unused]] const char *v5; // [esp+5Ch] [ebp-48h] BYREF
+    [[maybe_unused]] const char *v6; // [esp+60h] [ebp-44h] BYREF
+    [[maybe_unused]] const char *v7; // [esp+64h] [ebp-40h] BYREF
+    [[maybe_unused]] const char *v8; // [esp+68h] [ebp-3Ch] BYREF
+    [[maybe_unused]] const char *v9; // [esp+6Ch] [ebp-38h] BYREF
+    [[maybe_unused]] const char *v10; // [esp+70h] [ebp-34h] BYREF
+    [[maybe_unused]] const char *v11; // [esp+74h] [ebp-30h] BYREF
+    [[maybe_unused]] const char *v12; // [esp+78h] [ebp-2Ch] BYREF
+    [[maybe_unused]] const char *v13; // [esp+7Ch] [ebp-28h] BYREF
+    [[maybe_unused]] const char *v14; // [esp+80h] [ebp-24h] BYREF
+    [[maybe_unused]] const char *pExceptionObject; // [esp+84h] [ebp-20h] BYREF
     bool v16; // [esp+8Ah] [ebp-1Ah]
     bool same; // [esp+8Bh] [ebp-19h]
     long double dQuotientFloor; // [esp+8Ch] [ebp-18h]
@@ -4028,8 +4028,8 @@ bool __cdecl Eval_EvaluationStep(Eval *eval)
 char __cdecl Eval_PushOperator(Eval *eval, EvalOperatorType op)
 {
     bool v3; // [esp+0h] [ebp-10h]
-    const char *v4; // [esp+4h] [ebp-Ch] BYREF
-    const char *pExceptionObject; // [esp+8h] [ebp-8h] BYREF
+    [[maybe_unused]] const char *v4; // [esp+4h] [ebp-Ch] BYREF
+    [[maybe_unused]] const char *pExceptionObject; // [esp+8h] [ebp-8h] BYREF
     bool leftToRight; // [esp+Dh] [ebp-3h]
     char precedence; // [esp+Eh] [ebp-2h]
     bool higherPrecedence; // [esp+Fh] [ebp-1h]
@@ -4078,7 +4078,7 @@ char __cdecl Eval_PushOperator(Eval *eval, EvalOperatorType op)
         if (!Eval_EvaluationStep(eval))
             return 0;
     }
-    if (op != EVAL_OP_COLON || eval->opStackPos && eval->opStack[eval->opStackPos - 1] == EVAL_OP_QUESTION)
+    if (op != EVAL_OP_COLON || (eval->opStackPos && eval->opStack[eval->opStackPos - 1] == EVAL_OP_QUESTION))
     {
         if (eval->opStackPos == 1024)
         {
@@ -4229,8 +4229,8 @@ bool __cdecl Eval_AnyMissingOperands(const Eval *eval)
 
 EvalValue *__cdecl Eval_Solve(EvalValue *result, Eval *eval)
 {
-    int v3; // [esp+0h] [ebp-2Ch] BYREF
-    const char *v5; // [esp+14h] [ebp-18h] BYREF
+    [[maybe_unused]] int v3; // [esp+0h] [ebp-2Ch] BYREF
+    [[maybe_unused]] const char *v5; // [esp+14h] [ebp-18h] BYREF
    // _DWORD pExceptionObject[5]; // [esp+18h] [ebp-14h] BYREF
 
     //pExceptionObject[1] = &v3;
@@ -4435,7 +4435,7 @@ void __cdecl free_expression(statement_s *statement)
         {
             entry = statement->entries[entryNum];
             if (entry->type == 1 && entry->data.op == OP_MULTIPLY)
-                Z_Free((char *)entry->data.operand.internals.intVal, 34);
+                Z_Free((char *)(uintptr_t)entry->data.operand.internals.intVal, 34);
             Z_Free((char *)entry, 34);
             statement->entries[entryNum] = 0;
         }
@@ -4536,8 +4536,8 @@ void __cdecl Statement_AddStringOperand(statement_s *statement, char *str)
     entry = (expressionEntry *)Z_Malloc(12, "Statement_AddStringOperand", 34);
     entry->type = 1;
     entry->data.op = OP_MULTIPLY;
-    entry->data.operand.internals.intVal = (int)Z_Malloc(strlen(str) + 1, "Statement_AddStringOperand", 34);
-    I_strncpyz((char *)entry->data.operand.internals.intVal, str, strlen(str) + 1);
+    entry->data.operand.internals.intVal = (int)(uintptr_t)Z_Malloc(strlen(str) + 1, "Statement_AddStringOperand", 34);
+    I_strncpyz((char *)(uintptr_t)entry->data.operand.internals.intVal, str, strlen(str) + 1);
     Statement_AddEntry(statement, entry);
 }
 
