@@ -546,7 +546,7 @@ void __cdecl CM_AreaEntities_r(unsigned int nodeIndex, areaParms_t *ap)
     unsigned int entnum; // [esp+Ch] [ebp-8h]
     svEntity_s *svEnt;
 
-    int n;
+    [[maybe_unused]] int n;
     for (node = &cm_world.sectors[nodeIndex]; (node->contents.contentsEntities & ap->contentmask) != 0; node = &cm_world.sectors[nodeIndex])
     {
         for (entnum = node->contents.entities; entnum; entnum = svEnt->nextEntityInWorldSector)
@@ -1223,7 +1223,7 @@ int CM_SaveWorld(unsigned __int8 *buf)
             memcpy(v1, p_tree, 0xCu);
             p_tree = (worldTree_s *)((char *)p_tree + 28);
             v1 += 12;
-        } while ((int)p_tree < (int)&cmd_args.localClientNum[2]);
+        } while ((uintptr_t)p_tree < (uintptr_t)&cmd_args.localClientNum[2]);
     }
     return 12290;
 }

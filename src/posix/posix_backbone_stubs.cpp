@@ -493,7 +493,7 @@ char *Z_MallocGarbage(int size, const char * /*name*/, int /*type*/)
 // void TRACK_cl_keys() {}  // provided by cl_keys.cpp now
 // TRACK_cl_main provided by src/client_mp/cl_main_mp.cpp now.
 // TRACK_cl_parse provided by src/client_mp/cl_parse_mp.cpp now.
-void TRACK_cm_world() {}
+// void TRACK_cm_world() {}
 // void TRACK_com_math() {}  // provided by com_math.cpp now
 void TRACK_db_registry() {}
 // void TRACK_devgui() {}
@@ -973,7 +973,7 @@ struct MemoryFile;
 // CL_ParseServerMessage / CL_SystemInfoChanged provided by src/client_mp/cl_parse_mp.cpp now.
 // CL_WasMapAlreadyLoaded provided by src/client_mp/cl_main_mp.cpp now.
 
-void CM_LinkWorld() {}
+// void CM_LinkWorld() {}
 // unsigned char ColorIndex(unsigned char /*c*/) { return 7; }  // provided by q_shared.cpp now
 snd_alias_t *Com_PickSoundAlias(const char * /*name*/) { return nullptr; }
 void Com_TouchMemory() {}
@@ -1530,7 +1530,7 @@ double R_NormalizedTextScale(Font_s *, float scale) { return scale; }
 // void   DObjGeomTracelinePartBits(DObj_s *, int, int *) {}
 DObjAnimMat *CG_DObjCalcPose(const cpose_t *, const DObj_s *, int32_t *) { return nullptr; }
 // void   DynEntCl_ClipMoveTrace(const moveclip_t *, trace_t *) {}
-void   CM_PointTraceStaticModels(trace_t *, const float *, const float *, int) {}
+// void   CM_PointTraceStaticModels(trace_t *, const float *, const float *, int) {}
 
 // === cg_predict_mp satellites ====================================================
 
@@ -1925,7 +1925,7 @@ uint8_t *Hunk_AllocPhysPresetPrecache(unsigned int size) { return static_cast<ui
 // G_SpawnFloat provided by src/game_mp/g_spawn_mp.cpp now.
 // Scr_AddEntity provided by src/game_mp/g_spawn_mp.cpp now.
 void    Scr_AddVector(const float *) {}
-int     CM_AreaEntities(const float *, const float *, int *, int, int) { return 0; }
+// int     CM_AreaEntities(const float *, const float *, int *, int, int) { return 0; }
 // AddPointToBounds provided by src/universal/com_math.cpp now.
 // G_FreeEntityDelay provided by src/game_mp/g_utils_mp.cpp now.
 // G_LevelSpawnString provided by src/game_mp/g_spawn_mp.cpp now.
@@ -2758,13 +2758,13 @@ int SND_PlayLocalSoundAliasByName(unsigned int, const char *, snd_alias_system_t
 
 // === sv_world satellites ===========================================================
 
-void CM_ClipMoveToEntities(moveclip_t *, trace_t *) {}
-int  CM_ClipSightTraceToEntities(sightclip_t *) { return 0; }
-void CM_LinkEntity(svEntity_s *, float *, float *, unsigned int) {}
-int  CM_PointSightTraceToEntities(sightpointtrace_t *) { return 0; }
-int  CM_PointTraceStaticModelsComplete(const float *, const float *, int) { return 0; }
-void CM_PointTraceToEntities(pointtrace_t *, trace_t *) {}
-void CM_UnlinkEntity(svEntity_s *) {}
+// void CM_ClipMoveToEntities(moveclip_t *, trace_t *) {}
+// int  CM_ClipSightTraceToEntities(sightclip_t *) { return 0; }
+// void CM_LinkEntity(svEntity_s *, float *, float *, unsigned int) {}
+// int  CM_PointSightTraceToEntities(sightpointtrace_t *) { return 0; }
+// int  CM_PointTraceStaticModelsComplete(const float *, const float *, int) { return 0; }
+// void CM_PointTraceToEntities(pointtrace_t *, trace_t *) {}
+// void CM_UnlinkEntity(svEntity_s *) {}
 // void DObjTraceline(DObj_s *, float *, float *, unsigned char *, DObjTrace_s *) {}
 // void DObjTracelinePartBits(DObj_s *, int *) {}
 // RadiusFromBounds2D provided by src/universal/com_math.cpp now.

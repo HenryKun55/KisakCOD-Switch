@@ -68,6 +68,7 @@ set(QCOMMON_PORTABLE_SOURCES
     "${SRC_DIR}/qcommon/com_pack.cpp"
     "${SRC_DIR}/qcommon/com_playerprofile.cpp"
     "${SRC_DIR}/qcommon/com_profilemapload.cpp"
+    "${SRC_DIR}/qcommon/cm_world.cpp"
     "${SRC_DIR}/qcommon/common.cpp"
     "${SRC_DIR}/qcommon/dl_main.cpp"
     "${SRC_DIR}/qcommon/dobj_management.cpp"

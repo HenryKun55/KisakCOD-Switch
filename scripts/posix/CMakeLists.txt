@@ -66,6 +66,7 @@ set(QCOMMON_PORTABLE_SOURCES
     "${SRC_DIR}/qcommon/com_pack.cpp"
     "${SRC_DIR}/qcommon/com_playerprofile.cpp"
     "${SRC_DIR}/qcommon/com_profilemapload.cpp"
+    "${SRC_DIR}/qcommon/cm_world.cpp"
     "${SRC_DIR}/qcommon/common.cpp"
     "${SRC_DIR}/qcommon/dl_main.cpp"
     "${SRC_DIR}/qcommon/dobj_management.cpp"
@@ -153,6 +154,11 @@ set(DYNENTITY_PORTABLE_SOURCES
 set(DATABASE_PORTABLE_SOURCES
     "${SRC_DIR}/database/db_assetnames.cpp"
     "${SRC_DIR}/database/db_auth.cpp"
+    # db_file_load.cpp is Win32-only (CloseHandle/SleepEx/GetLastError/
+    # GetFileSize / OVERLAPPED I/O). Re-port through Sys_FS abstraction.
+    # db_load.cpp drags 60+ Load_*Asset / Mark_*Asset hooks (renderer/
+    # font/menu/sound/water/clipmap). Land alongside the rest of the asset
+    # subsystem batch.
     "${SRC_DIR}/database/db_memory.cpp"
     "${SRC_DIR}/database/db_stream.cpp"
     "${SRC_DIR}/database/db_stream_load.cpp"
