@@ -248,6 +248,7 @@ set(BGAME_PORTABLE_SOURCES
     "${SRC_DIR}/bgame/bg_animation_mp.cpp"
     "${SRC_DIR}/bgame/bg_pmove.cpp"
     "${SRC_DIR}/bgame/bg_weapons.cpp"
+    "${SRC_DIR}/bgame/bg_misc.cpp"
     "${SRC_DIR}/bgame/bg_jump.cpp"
     "${SRC_DIR}/bgame/bg_mantle.cpp"
     "${SRC_DIR}/bgame/bg_misctables.cpp"

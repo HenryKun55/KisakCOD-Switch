@@ -59,6 +59,9 @@
 #endif
 #define _vsnprintf_s(dst, dstSize, count, fmt, va) vsnprintf((dst), (dstSize), (fmt), (va))
 #define _snprintf_s(dst, dstSize, count, ...)      snprintf((dst), (dstSize), __VA_ARGS__)
+// MSVC: sprintf_s(buf, sizeOfBuf, fmt, ...) — POSIX equivalent is snprintf
+// with the same destination size; truncation behavior matches our needs.
+#define sprintf_s(dst, dstSize, ...)               snprintf((dst), (dstSize), __VA_ARGS__)
 // __debugbreak: MSVC intrinsic that triggers a debugger breakpoint.
 // On clang/gcc the equivalent is __builtin_trap (or __builtin_debugtrap
 // on clang specifically, but trap works everywhere as a fallback).

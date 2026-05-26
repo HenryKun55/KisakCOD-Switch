@@ -454,7 +454,7 @@ void Swap_Init() {}
 void SL_Init() {}
 // void BG_ShutdownWeaponDefFiles() {}  // provided by bg_weapons.cpp now
 // int  BG_AnimScriptEvent(playerState_s * /*ps*/, scriptAnimEventTypes_t /*event*/, int /*isContinue*/, int /*force*/) { return 0; }  // provided by bg_animation_mp.cpp now
-void BG_AddPredictableEventToPlayerstate(unsigned int /*event*/, unsigned int /*eventParm*/, playerState_s * /*ps*/) {}
+// void BG_AddPredictableEventToPlayerstate(unsigned int /*event*/, unsigned int /*eventParm*/, playerState_s * /*ps*/) {}  // provided by bg_misc.cpp now
 // int  PM_GetEffectiveStance(const playerState_s * /*ps*/) { return 0; }  // provided by bg_pmove.cpp now
 // unsigned int PM_GroundSurfaceType(pml_t * /*pml*/) { return 0; }  // provided by bg_pmove.cpp now
 
@@ -575,11 +575,8 @@ void DObjGetHidePartBits(const DObj_s * /*obj*/, unsigned int * /*partBits*/) {}
 
 // BG
 // int  BG_AnimScriptAnimation(playerState_s * /*ps*/, aistateEnum_t /*state*/, scriptAnimMoveTypes_t /*move*/, int /*direction*/) { return 0; }  // provided by bg_animation_mp.cpp now
-char BG_CheckProne(int /*clientNum*/, const float * /*origin*/, float /*proneAngle*/, float /*forwardLen*/,
-                   float /*backwardLen*/, float * /*mins*/, float * /*maxs*/, bool /*upright*/, bool /*standing*/,
-                   bool /*proneStarting*/, unsigned char /*lerpFraction*/, proneCheckType_t /*checkType*/, float /*proneTolerance*/)
-{ return 1; }
-void BG_CreateXAnim(XAnim_s * /*anims*/, unsigned int /*animIndex*/, const char * /*name*/) {}
+// BG_CheckProne provided by src/bgame/bg_misc.cpp now.
+// void BG_CreateXAnim(XAnim_s * /*anims*/, unsigned int /*animIndex*/, const char * /*name*/) {}  // provided by bg_misc.cpp now
 // void BG_InitWeaponString(int /*weaponIndex*/, const char * /*str*/) {}  // provided by bg_animation_mp.cpp now
 
 // Misc collision / config helpers
@@ -669,7 +666,7 @@ struct NetField;
 // CL_GetMapCenter provided by src/client_mp/cl_main_mp.cpp now.
 // CL_GetPredictedOriginForServerTime provided by src/client_mp/cl_parse_mp.cpp now.
 
-char *BG_GetEntityTypeName(int /*eType*/) { return const_cast<char *>(""); }
+// char *BG_GetEntityTypeName(int /*eType*/) { return const_cast<char *>(""); }  // provided by bg_misc.cpp now
 
 // MSG_
 const NetFieldList *MSG_GetStateFieldListForEntityType(int /*eType*/) { return nullptr; }
@@ -803,10 +800,7 @@ int  Key_IsDown(int /*localClientNum*/, int /*key*/) { return 0; }
 double FX_GetClientVisibility(int /*localClientNum*/, const float * /*origin*/, const float * /*viewOrigin*/) { return 1.0; }
 
 // BG
-void BG_EvaluateTrajectory(const trajectory_t * /*tr*/, int /*atTime*/, float *result)
-{
-    if (result) { result[0] = result[1] = result[2] = 0; }
-}
+// BG_EvaluateTrajectory provided by src/bgame/bg_misc.cpp now.
 
 // DevGui
 void DevGui_Toggle() {}
@@ -962,10 +956,10 @@ const dvar_t *net_profile = nullptr;
 
 struct XBoneInfo;
 
-shellshock_parms_t *BG_GetShellshockParms(unsigned int /*index*/) { return nullptr; }
-int  BG_LoadShellShockDvars(const char * /*name*/) { return 0; }
-int  BG_SaveShellShockDvars(const char * /*name*/) { return 0; }
-void BG_SetShellShockParmsFromDvars(shellshock_parms_t * /*parms*/) {}
+// shellshock_parms_t *BG_GetShellshockParms(unsigned int /*index*/) { return nullptr; }  // provided by bg_misc.cpp now
+// int  BG_LoadShellShockDvars(const char * /*name*/) { return 0; }  // provided by bg_misc.cpp now
+// int  BG_SaveShellShockDvars(const char * /*name*/) { return 0; }  // provided by bg_misc.cpp now
+// void BG_SetShellShockParmsFromDvars(shellshock_parms_t * /*parms*/) {}  // provided by bg_misc.cpp now
 
 bool BoxDistSqrdExceeds(const float * /*center*/, const float * /*mins*/, const float * /*maxs*/, float /*distSqrd*/) { return true; }
 
@@ -1229,9 +1223,9 @@ void YawVectors2D(float yaw, float *forward, float *right)
     if (right)   { right[0]   = s; right[1]   = -c; }
 }
 
-const dvar_t *bg_viewKickMax = nullptr;
-const dvar_t *bg_viewKickMin = nullptr;
-const dvar_t *bg_viewKickScale = nullptr;
+// const dvar_t *bg_viewKickMax = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *bg_viewKickMin = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *bg_viewKickScale = nullptr;  // provided by bg_misc.cpp now
 // cg_hudDamageIconTime provided by src/cgame_mp/cg_main_mp.cpp now.
 // hud_fade_compass provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 // const dvar_t *uiscript_debug = nullptr;  // provided by ui_main_mp.cpp now
@@ -1350,7 +1344,7 @@ void G_AntiLagRewindClientPos(int /*clientNum*/, AntilagClientStore * /*store*/)
 // OnSameTeam provided by src/game_mp/g_main_mp.cpp now.
 
 // bullet_penetrationEnabled provided by src/game_mp/g_main_mp.cpp now.
-const dvar_t *bullet_penetrationMinFxDist = nullptr;
+// const dvar_t *bullet_penetrationMinFxDist = nullptr;  // provided by bg_misc.cpp now
 // g_debugLocDamage provided by src/game_mp/g_main_mp.cpp now.
 // sv_clientSideBullets provided by src/server_mp/sv_main_mp.cpp now.
 // sharedUiInfo_t sharedUiInfo{};  // provided by ui_main_mp.cpp now
@@ -1404,8 +1398,8 @@ void FX_PlayOrientedEffect(int /*localClientNum*/, const FxEffectDef * /*effect*
 
 void Scr_SetString(unsigned short * /*ptr*/, unsigned int /*stringValue*/) {}
 
-const dvar_t *bg_fallDamageMaxHeight = nullptr;
-const dvar_t *bg_fallDamageMinHeight = nullptr;
+// const dvar_t *bg_fallDamageMaxHeight = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *bg_fallDamageMinHeight = nullptr;  // provided by bg_misc.cpp now
 // cg_debugEvents provided by src/cgame_mp/cg_main_mp.cpp now.
 // cg_footsteps provided by src/cgame_mp/cg_main_mp.cpp now.
 // cgMedia + cgsArray: typed via cg_local_mp.h (already in include chain).
@@ -1886,7 +1880,7 @@ unsigned int Hunk_AllocateTempMemoryHigh(int /*size*/, const char * /*name*/) { 
 
 void UI_FillRectPhysical(float, float, float, float, const float *) {}
 
-const dvar_t *bg_maxGrenadeIndicatorSpeed   = nullptr;
+// const dvar_t *bg_maxGrenadeIndicatorSpeed   = nullptr;  // provided by bg_misc.cpp now
 // cg_hudDamageIconHeight provided by src/cgame_mp/cg_main_mp.cpp now.
 // cg_hudDamageIconInScope provided by src/cgame_mp/cg_main_mp.cpp now.
 // cg_hudDamageIconOffset provided by src/cgame_mp/cg_main_mp.cpp now.
@@ -1914,7 +1908,7 @@ float Vec2Distance(const float *a, const float *b)
     return std::sqrt(dx * dx + dy * dy);
 }
 int   SEH_PrintStrlen(const char *s) { return s ? static_cast<int>(std::strlen(s)) : 0; }
-void  BG_LerpHudColors(const hudelem_s *, int, hudelem_color_t *) {}
+// void  BG_LerpHudColors(const hudelem_s *, int, hudelem_color_t *) {}  // provided by bg_misc.cpp now
 int   compare_hudelems(const void *, const void *) { return 0; }
 // bool  UI_AnyMenuVisible(int) { return false; }  // provided by ui_main_mp.cpp now
 // CG_ServerMaterialName provided by src/cgame_mp/cg_newDraw_mp.cpp now.
@@ -1948,10 +1942,10 @@ void   CM_PointTraceStaticModels(trace_t *, const float *, const float *, int) {
 // === cg_predict_mp satellites ====================================================
 
 // CL_SendCmd provided by src/client_mp/cl_input.cpp now.
-bool BG_CanItemBeGrabbed(const entityState_s *, const playerState_s *, int) { return false; }
-bool BG_PlayerTouchesItem(const playerState_s *, const entityState_s *, int) { return false; }
-bool BG_PlayerHasRoomForEntAllAmmoTypes(const entityState_s *, const playerState_s *) { return false; }
-void BG_PlayerStateToEntityState(playerState_s *, entityState_s *, int, uint8_t) {}
+// bool BG_CanItemBeGrabbed(const entityState_s *, const playerState_s *, int) { return false; }  // provided by bg_misc.cpp now
+// bool BG_PlayerTouchesItem(const playerState_s *, const entityState_s *, int) { return false; }  // provided by bg_misc.cpp now
+// bool BG_PlayerHasRoomForEntAllAmmoTypes(const entityState_s *, const playerState_s *) { return false; }  // provided by bg_misc.cpp now
+// void BG_PlayerStateToEntityState(playerState_s *, entityState_s *, int, uint8_t) {}  // provided by bg_misc.cpp now
 // void PM_UpdateViewAngles(playerState_s *, float, usercmd_s *, uint8_t) {}  // provided by bg_pmove.cpp now
 // void Pmove(pmove_t *) {}  // provided by bg_pmove.cpp now
 // CG_AdjustPositionForMover provided by src/cgame_mp/cg_ents_mp.cpp now.
@@ -2049,7 +2043,7 @@ int32_t AimAssist_GetScreenTargetEntity(int, uint32_t) { return -1; }
 // CG_Draw2D provided by src/cgame_mp/cg_draw_mp.cpp now.
 void  R_SyncGpu(int (*)(unsigned long long)) {}
 
-const dvar_t *bg_bobMax           = nullptr;
+// const dvar_t *bg_bobMax           = nullptr;  // provided by bg_misc.cpp now
 // cgDC provided by src/cgame_mp/cg_main_mp.cpp now.
 // cg_drawShellshock provided by src/cgame_mp/cg_main_mp.cpp now.
 // cg_dumpAnims provided by src/cgame_mp/cg_main_mp.cpp now.
@@ -2136,7 +2130,7 @@ void Con_DrawErrors(int, int, int, float) {}
 void Menus_HideByName(const UiContext *, const char *) {}
 // int32_t PM_GetSprintLeft(const playerState_s *, int32_t) { return 0; }  // provided by bg_pmove.cpp now
 void Menus_CloseByName(UiContext *, const char *) {}
-int32_t BG_GetMaxSprintTime(const playerState_s *) { return 0; }
+// int32_t BG_GetMaxSprintTime(const playerState_s *) { return 0; }  // provided by bg_misc.cpp now
 // CG_CalcPlayerHealth provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 // CL_DrawTextPhysical provided by src/client_mp/cl_main_mp.cpp now.
 void Con_DrawMiniConsole(int, int, int, float) {}
@@ -2258,7 +2252,7 @@ void AimAssist_Init(int) {}
 void UI_AddMenuList(UiContext *, MenuList *) {}
 // CL_RegisterFont provided by src/client_mp/cl_main_mp.cpp now.
 void SND_StopAmbient(int, int) {}
-void BG_RegisterDvars() {}
+// void BG_RegisterDvars() {}  // provided by bg_misc.cpp now
 void FX_KillEffectDef(int, const FxEffectDef *) {}
 XModel *FX_RegisterModel(const char *) { return nullptr; }
 menuDef_t *Menus_FindByName(const UiContext *, const char *) { return nullptr; }
@@ -2387,12 +2381,7 @@ void DObjSetControlTagAngles(DObj_s *, int *, unsigned int, float *) {}
 // G_DObjGetLocalTagMatrix provided by src/game_mp/g_utils_mp.cpp now.
 // G_DObjGetWorldTagMatrix provided by src/game_mp/g_utils_mp.cpp now.
 uint32_t G_GetWeaponIndexForName(const char *) { return 0u; }
-void BG_GetPlayerViewDirection(const playerState_s *, float *f, float *r, float *u)
-{
-    if (f) { f[0] = 1; f[1] = 0; f[2] = 0; }
-    if (r) { r[0] = 0; r[1] = 1; r[2] = 0; }
-    if (u) { u[0] = 0; u[1] = 0; u[2] = 1; }
-}
+// BG_GetPlayerViewDirection provided by src/bgame/bg_misc.cpp now.
 gentity_s *Weapon_RocketLauncher_Fire(gentity_s *, uint32_t, float, struct weaponParms *, const float *, gentity_s *, const float *) { return nullptr; }
 
 // === g_utils_mp satellites =======================================================
@@ -2663,10 +2652,10 @@ int irand(int min, int /*max*/) { return min; }
 // Scr_PlayerConnect provided by src/game_mp/g_scr_main_mp.cpp now.
 // G_SetClientContents provided by src/game_mp/g_active_mp.cpp now.
 // Scr_PlayerDisconnect provided by src/game_mp/g_scr_main_mp.cpp now.
-void BG_GetPlayerViewOrigin(const playerState_s *, float *o, int32_t) { if (o) { o[0] = o[1] = o[2] = 0; } }
+// void BG_GetPlayerViewOrigin(const playerState_s *, float *o, int32_t) { if (o) { o[0] = o[1] = o[2] = 0; } }  // provided by bg_misc.cpp now
 void HudElem_ClientDisconnect(gentity_s *) {}
 
-const dvar_t *bg_prone_yawcap = nullptr;
+// const dvar_t *bg_prone_yawcap = nullptr;  // provided by bg_misc.cpp now
 // g_inactivity provided by src/game_mp/g_main_mp.cpp now.
 // g_password provided by src/game_mp/g_main_mp.cpp now.
 // === g_spawn_mp satellites =======================================================
@@ -2696,7 +2685,7 @@ void Scr_SetStructField(unsigned int, unsigned int) {}
 // G_VehCollmapSpawner provided by src/game_mp/g_vehicles_mp.cpp now.
 void Scr_GetHudElemField(uint32_t, uint32_t) {}
 void Scr_SetHudElemField(uint32_t, uint32_t) {}
-const gitem_s *BG_FindItemForWeapon(uint32_t, int32_t) { return nullptr; }
+// const gitem_s *BG_FindItemForWeapon(uint32_t, int32_t) { return nullptr; }  // provided by bg_misc.cpp now
 uint16_t Scr_ExecEntThreadNum(unsigned int, unsigned int, int, unsigned int) { return 0; }
 bool Com_IsLegacyXModelName(const char *) { return false; }
 void Scr_SetDynamicEntityField(unsigned int, unsigned int, unsigned int) {}
@@ -2840,7 +2829,7 @@ int SV_PointContents(float *, int, int) { return 0; }
 
 // === g_cmds_mp satellites ========================================================
 
-const gitem_s *G_FindItem(const char *, int32_t) { return nullptr; }
+// const gitem_s *G_FindItem(const char *, int32_t) { return nullptr; }  // provided by bg_misc.cpp now
 void Touch_Item(gentity_s *, gentity_s *, int32_t) {}
 // Scr_PlayerVote provided by src/game_mp/g_scr_main_mp.cpp now.
 // Scr_VoteCalled provided by src/game_mp/g_scr_main_mp.cpp now.
@@ -2882,8 +2871,8 @@ void G_SetEquippedOffHand(int, unsigned int) {}
 unsigned int Scr_GetConstLowercaseString(unsigned int) { return 0u; }
 gentity_s *Drop_Item(gentity_s *, const gitem_s *, float, int) { return nullptr; }
 void Fill_Clip(playerState_s *, unsigned int) {}
-const dvar_t *player_dmgtimer_maxTime      = nullptr;
-const dvar_t *player_dmgtimer_timePerPoint = nullptr;
+// const dvar_t *player_dmgtimer_maxTime      = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_dmgtimer_timePerPoint = nullptr;  // provided by bg_misc.cpp now
 
 // === cl_main_mp satellites =======================================================
 
@@ -3020,56 +3009,56 @@ field_t *g_editingField = nullptr;
 
 // === bg_animation_mp satellites ====================================================
 
-const dvar_t *anim_debugSpeeds              = nullptr;
-const dvar_t *animscript_debug              = nullptr;
-const dvar_t *bg_legYawTolerance            = nullptr;
-const dvar_t *bg_swingSpeed                 = nullptr;
-const dvar_t *player_lean_rotate_crouch_left  = nullptr;
-const dvar_t *player_lean_rotate_crouch_right = nullptr;
-const dvar_t *player_lean_rotate_left         = nullptr;
-const dvar_t *player_lean_rotate_right        = nullptr;
-const dvar_t *player_lean_shift_crouch_left   = nullptr;
-const dvar_t *player_lean_shift_crouch_right  = nullptr;
-const dvar_t *player_lean_shift_left          = nullptr;
-const dvar_t *player_lean_shift_right         = nullptr;
-const dvar_t *player_move_factor_on_torso     = nullptr;
-const dvar_t *player_sprintSpeedScale         = nullptr;
-const dvar_t *xanim_debug                     = nullptr;
+// const dvar_t *anim_debugSpeeds              = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *animscript_debug              = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *bg_legYawTolerance            = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *bg_swingSpeed                 = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_lean_rotate_crouch_left  = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_lean_rotate_crouch_right = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_lean_rotate_left         = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_lean_rotate_right        = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_lean_shift_crouch_left   = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_lean_shift_crouch_right  = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_lean_shift_left          = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_lean_shift_right         = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_move_factor_on_torso     = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_sprintSpeedScale         = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *xanim_debug                     = nullptr;  // provided by bg_misc.cpp now
 
-void BG_CheckThread() {}
+// void BG_CheckThread() {}  // provided by bg_misc.cpp now
 double GetLeanFraction(float v) { return (double)v; }
 
 // === bg_pmove satellites ===========================================================
 
-const dvar_t *bg_foliagesnd_fastinterval    = nullptr;
-const dvar_t *bg_foliagesnd_maxspeed        = nullptr;
-const dvar_t *bg_foliagesnd_minspeed        = nullptr;
-const dvar_t *bg_foliagesnd_resetinterval   = nullptr;
-const dvar_t *bg_foliagesnd_slowinterval    = nullptr;
-const dvar_t *bg_ladder_yawcap              = nullptr;
-const dvar_t *friction                      = nullptr;
-const dvar_t *inertiaAngle                  = nullptr;
-const dvar_t *inertiaDebug                  = nullptr;
-const dvar_t *inertiaMax                    = nullptr;
-const dvar_t *player_backSpeedScale         = nullptr;
-const dvar_t *player_dmgtimer_flinchTime    = nullptr;
-const dvar_t *player_dmgtimer_minScale      = nullptr;
-const dvar_t *player_dmgtimer_stumbleTime   = nullptr;
-const dvar_t *player_footstepsThreshhold    = nullptr;
-const dvar_t *player_meleeChargeFriction    = nullptr;
-const dvar_t *player_moveThreshhold         = nullptr;
-const dvar_t *player_spectateSpeedScale     = nullptr;
-const dvar_t *player_sprintCameraBob        = nullptr;
-const dvar_t *player_sprintForwardMinimum   = nullptr;
-const dvar_t *player_sprintMinTime          = nullptr;
-const dvar_t *player_sprintRechargePause    = nullptr;
-const dvar_t *player_sprintStrafeSpeedScale = nullptr;
-const dvar_t *player_strafeAnimCosAngle     = nullptr;
-const dvar_t *player_strafeSpeedScale       = nullptr;
-const dvar_t *player_turnAnims              = nullptr;
-const dvar_t *player_view_pitch_down        = nullptr;
-const dvar_t *player_view_pitch_up          = nullptr;
-const dvar_t *stopspeed                     = nullptr;
+// const dvar_t *bg_foliagesnd_fastinterval    = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *bg_foliagesnd_maxspeed        = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *bg_foliagesnd_minspeed        = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *bg_foliagesnd_resetinterval   = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *bg_foliagesnd_slowinterval    = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *bg_ladder_yawcap              = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *friction                      = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *inertiaAngle                  = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *inertiaDebug                  = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *inertiaMax                    = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_backSpeedScale         = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_dmgtimer_flinchTime    = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_dmgtimer_minScale      = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_dmgtimer_stumbleTime   = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_footstepsThreshhold    = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_meleeChargeFriction    = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_moveThreshhold         = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_spectateSpeedScale     = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_sprintCameraBob        = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_sprintForwardMinimum   = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_sprintMinTime          = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_sprintRechargePause    = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_sprintStrafeSpeedScale = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_strafeAnimCosAngle     = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_strafeSpeedScale       = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_turnAnims              = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_view_pitch_down        = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_view_pitch_up          = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *stopspeed                     = nullptr;  // provided by bg_misc.cpp now
 
 // bool   BG_UsingSniperScope(playerState_s *) { return false; }  // provided by bg_weapons.cpp now
 void   DObjSetLocalTag(DObj_s *, int *, unsigned int, const float *, const float *) {}
@@ -3088,23 +3077,32 @@ float  Vec2LengthSq(const float *v) { return v ? v[0] * v[0] + v[1] * v[1] : 0.f
 
 // === bg_weapons satellites =========================================================
 
-const dvar_t *bg_aimSpreadMoveSpeedThreshold = nullptr;
-const dvar_t *bg_bobAmplitudeDucked          = nullptr;
-const dvar_t *bg_bobAmplitudeProne           = nullptr;
-const dvar_t *bg_bobAmplitudeSprinting       = nullptr;
-const dvar_t *bg_bobAmplitudeStanding        = nullptr;
-const dvar_t *player_adsExitDelay            = nullptr;
-const dvar_t *player_breath_fire_delay       = nullptr;
-const dvar_t *player_breath_gasp_lerp        = nullptr;
-const dvar_t *player_breath_gasp_scale       = nullptr;
-const dvar_t *player_breath_gasp_time        = nullptr;
-const dvar_t *player_breath_hold_lerp        = nullptr;
-const dvar_t *player_breath_hold_time        = nullptr;
-const dvar_t *player_burstFireCooldown       = nullptr;
-const dvar_t *player_scopeExitOnDamage       = nullptr;
-const dvar_t *player_sustainAmmo             = nullptr;
+// const dvar_t *bg_aimSpreadMoveSpeedThreshold = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *bg_bobAmplitudeDucked          = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *bg_bobAmplitudeProne           = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *bg_bobAmplitudeSprinting       = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *bg_bobAmplitudeStanding        = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_adsExitDelay            = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_breath_fire_delay       = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_breath_gasp_lerp        = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_breath_gasp_scale       = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_breath_gasp_time        = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_breath_hold_lerp        = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_breath_hold_time        = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_burstFireCooldown       = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_scopeExitOnDamage       = nullptr;  // provided by bg_misc.cpp now
+// const dvar_t *player_sustainAmmo             = nullptr;  // provided by bg_misc.cpp now
 
 float DiffTrack(float current, float target, float /*rate*/, float /*frametime*/) { return target - current; }
+
+// === bg_misc satellites ============================================================
+
+int SND_GetEntChannelCount() { return 0; }
+float vectopitch(const float *v) {
+    if (!v || (v[0] == 0.f && v[1] == 0.f && v[2] == 0.f)) return 0.f;
+    float forward = std::sqrt(v[0]*v[0] + v[1]*v[1]);
+    return std::atan2(-v[2], forward) * 180.f / 3.14159265f;
+}
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
@@ -3130,7 +3128,7 @@ float DiffTrack(float current, float target, float /*rate*/, float /*frametime*/
 // cg_friendlyNameFadeIn provided by src/cgame_mp/cg_main_mp.cpp now.
 // hud_fade_offhand provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 const dvar_t *phys_drawDebugInfo       = nullptr;
-const dvar_t *player_debugHealth       = nullptr;
+// const dvar_t *player_debugHealth       = nullptr;  // provided by bg_misc.cpp now
 const dvar_t *snd_drawEqChannels       = nullptr;
 // snd_drawInfo provided by src/cgame_mp/cg_main_mp.cpp now.
 // cg_weaponsArray provided by src/cgame_mp/cg_main_mp.cpp now.
