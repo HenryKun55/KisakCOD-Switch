@@ -67,6 +67,10 @@
 // MSVC: sprintf_s(buf, sizeOfBuf, fmt, ...) — POSIX equivalent is snprintf
 // with the same destination size; truncation behavior matches our needs.
 #define sprintf_s(dst, dstSize, ...)               snprintf((dst), (dstSize), __VA_ARGS__)
+// MSVC: sscanf_s(buf, fmt, ...) — POSIX sscanf has the same contract for
+// the format specifiers KisakCOD uses (no %s/%c width pairs). Aliasing is
+// safe.
+#define sscanf_s(src, ...)                         sscanf((src), __VA_ARGS__)
 // Win32 BYTE/WORD/DWORD typedefs — referenced by hex-rays decompiled bit-field
 // accessors. POSIX/clang has no <windows.h> so define them as plain integer
 // aliases here.

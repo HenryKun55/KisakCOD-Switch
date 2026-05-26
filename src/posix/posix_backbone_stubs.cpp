@@ -1100,10 +1100,10 @@ struct snd_alias_list_t;
 // CL_DeathMessagePrint provided by src/client/cl_console.cpp now.
 // CL_GetClientName provided by src/client_mp/cl_ui_mp.cpp now.
 
-void DynEntCl_ExplosionEvent(int /*localClientNum*/, bool /*ent*/, float * /*org*/, float /*r*/, float /*rs*/,
-                             float * /*norm*/, float /*duration*/, int /*type*/, int /*flags*/) {}
-void DynEntCl_JitterEvent(int /*localClientNum*/, float * /*pos*/, float /*radius*/, float /*amp*/, float /*duration*/, float /*frequency*/) {}
-void DynEntCl_MeleeEvent(int /*localClientNum*/, int /*entityNum*/) {}
+// void DynEntCl_ExplosionEvent(int /*localClientNum*/, bool /*ent*/, float * /*org*/, float /*r*/, float /*rs*/,
+//                              float * /*norm*/, float /*duration*/, int /*type*/, int /*flags*/) {}
+// void DynEntCl_JitterEvent(int /*localClientNum*/, float * /*pos*/, float /*radius*/, float /*amp*/, float /*duration*/, float /*frequency*/) {}
+// void DynEntCl_MeleeEvent(int /*localClientNum*/, int /*entityNum*/) {}
 
 void FX_PlayBoltedEffect(int /*localClientNum*/, const FxEffectDef * /*effect*/, int /*time*/, unsigned int /*entityNum*/, unsigned int /*boneIndex*/) {}
 void FX_PlayOrientedEffect(int /*localClientNum*/, const FxEffectDef * /*effect*/, int /*time*/, const float * /*origin*/, const float (* /*axis*/)[3]) {}
@@ -1252,12 +1252,12 @@ struct dxJointBall;
 // char DObjSetSkelRotTransIndex(DObj_s * /*obj*/, const int * /*partBits*/, int /*boneIndex*/) { return 0; }
 
 // DynEnt
-DynEntityClient *DynEnt_GetClientEntity(unsigned short /*id*/, DynEntityDrawType /*draw*/) { return nullptr; }
-DynEntityColl *DynEnt_GetEntityColl(DynEntityCollType /*coll*/, unsigned short /*id*/) { return nullptr; }
-unsigned short DynEnt_GetEntityCount(DynEntityCollType /*coll*/) { return 0; }
-const DynEntityDef *DynEnt_GetEntityDef(unsigned short /*id*/, DynEntityDrawType /*draw*/) { return nullptr; }
-const DynEntityProps *DynEnt_GetEntityProps(DynEntityType /*t*/) { return nullptr; }
-unsigned short DynEnt_GetId(const DynEntityDef * /*def*/, DynEntityDrawType /*draw*/) { return 0; }
+// DynEntityClient *DynEnt_GetClientEntity(unsigned short /*id*/, DynEntityDrawType /*draw*/) { return nullptr; }
+// DynEntityColl *DynEnt_GetEntityColl(DynEntityCollType /*coll*/, unsigned short /*id*/) { return nullptr; }
+// unsigned short DynEnt_GetEntityCount(DynEntityCollType /*coll*/) { return 0; }
+// const DynEntityDef *DynEnt_GetEntityDef(unsigned short /*id*/, DynEntityDrawType /*draw*/) { return nullptr; }
+// const DynEntityProps *DynEnt_GetEntityProps(DynEntityType /*t*/) { return nullptr; }
+// unsigned short DynEnt_GetId(const DynEntityDef * /*def*/, DynEntityDrawType /*draw*/) { return 0; }
 
 // XModelGetBounds now provided by xanim/xmodel.cpp.
 
@@ -1529,7 +1529,7 @@ double R_NormalizedTextScale(Font_s *, float scale) { return scale; }
 // void   DObjGeomTraceline(DObj_s *, float *, float *const, int, DObjTrace_s *) {}
 // void   DObjGeomTracelinePartBits(DObj_s *, int, int *) {}
 DObjAnimMat *CG_DObjCalcPose(const cpose_t *, const DObj_s *, int32_t *) { return nullptr; }
-void   DynEntCl_ClipMoveTrace(const moveclip_t *, trace_t *) {}
+// void   DynEntCl_ClipMoveTrace(const moveclip_t *, trace_t *) {}
 void   CM_PointTraceStaticModels(trace_t *, const float *, const float *, int) {}
 
 // === cg_predict_mp satellites ====================================================
@@ -1630,7 +1630,15 @@ FxMarksSystem fx_marksSystemPool[1] = {};
 dxBody *Phys_ObjLoad(PhysWorld /*w*/, MemoryFile * /*memFile*/) { return nullptr; }
 void Phys_ObjSave(dxBody * /*body*/, MemoryFile * /*memFile*/) {}
 
-void DynEnt_LoadEntities() {}
+// void DynEnt_LoadEntities() {}
+void R_LinkDynEnt(unsigned int /*idx*/, DynEntityDrawType /*type*/, float * /*mins*/, float * /*maxs*/) {}
+void R_UnlinkDynEnt(unsigned int /*idx*/, DynEntityDrawType /*type*/) {}
+void Phys_AddJitterRegion(PhysWorld /*w*/, const float * /*pos*/, float /*r*/, float /*j1*/, float /*j2*/, float /*j3*/) {}
+struct XModelPieces;
+XModelPieces *XModelPiecesPrecache(const char * /*name*/, void *(* /*alloc*/)(int)) { return nullptr; }
+struct GfxScaledPlacement;
+void R_FilterXModelIntoScene(const XModel * /*model*/, const GfxScaledPlacement * /*placement*/, unsigned short /*flags*/, unsigned short * /*outIds*/) {}
+void Phys_ObjSetAngularVelocity(dxBody * /*b*/, float * /*omega*/) {}
 
 // Code-mesh stubs (provided once r_drawsurf.cpp lands).
 struct Material;
@@ -1724,7 +1732,7 @@ void SND_StopMusic(int) {}
 // void Menus_ShowByName(const UiContext *, const char *) {}  // provided by ui_shared.cpp now
 // void CG_SetupWeaponDef(int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // CL_ParseMapCenter provided by src/client_mp/cl_parse_mp.cpp now.
-void DynEntCl_Shutdown(int) {}
+// void DynEntCl_Shutdown(int) {}
 void FX_KillAllEffects(int) {}
 void FX_ShutdownSystem(int) {}
 // CG_BoldGameMessage provided by src/cgame_mp/cg_main_mp.cpp now.
@@ -1736,8 +1744,8 @@ void SND_PlayMusicAlias(int, const snd_alias_t *, bool, snd_alias_system_t) {}
 void LiveStorage_SetStat(int, int, unsigned int) {}
 void R_InitPrimaryLights(GfxLight *) {}
 // CL_ResetPlayerMuting provided by src/client_mp/cl_main_pc_mp.cpp now.
-void DynEntCl_DestroyEvent(int, uint16_t, DynEntityCollType, const float *, const float *) {}
-void DynEntCl_InitEntities(int) {}
+// void DynEntCl_DestroyEvent(int, uint16_t, DynEntityCollType, const float *, const float *) {}
+// void DynEntCl_InitEntities(int) {}
 // void UI_ClosePopupScriptMenu(int, bool) {}  // provided by ui_main_mp.cpp now
 // CG_PlayClientSoundAliasByName provided by src/cgame_mp/cg_main_mp.cpp now.
 // CG_StopClientSoundAliasByName provided by src/cgame_mp/cg_main_mp.cpp now.
@@ -1889,7 +1897,7 @@ void Com_LoadSoundAliases(const char *, const char *, snd_alias_system_t) {}
 void SND_PlayAmbientAlias(int, const snd_alias_t *, int, snd_alias_system_t) {}
 void Snd_AssertAliasValid(snd_alias_t *) {}
 int32_t DB_GetAllXAssetOfType(XAssetType, XAssetHeader *, int32_t) { return 0; }
-void DynEntCl_RegisterDvars() {}
+// void DynEntCl_RegisterDvars() {}
 // FS_ListFilesInLocation provided by src/universal/com_files.cpp now.
 void SND_AddPlayFXSoundAlias(snd_alias_t *, SndEntHandle, const float *) {}
 void SND_StopSoundAliasOnEnt(SndEntHandle, const char *) {}
@@ -2689,8 +2697,8 @@ int SND_GetEntChannelCount() { return 0; }
 const dvar_t *heli_barrelRotation = nullptr;
 
 // void DObjClearSkel(const DObj_s *) {}
-char DynEntCl_DynEntImpactEvent(int, int, float *, float *, int, bool) { return 0; }
-void DynEntCl_EntityImpactEvent(const trace_t *, int, int, const float *, const float *, bool) {}
+// char DynEntCl_DynEntImpactEvent(int, int, float *, float *, int, bool) { return 0; }
+// void DynEntCl_EntityImpactEvent(const trace_t *, int, int, const float *, const float *, bool) {}
 char FX_GetBoneOrientation(int, unsigned int, int, orientation_t *) { return 0; }
 void FX_PlayOrientedEffectWithMarkEntity(int, const FxEffectDef *, int, const float *, const float (*)[3], unsigned int) {}
 // RotatePointAroundVector provided by src/universal/com_math.cpp now.
@@ -2797,7 +2805,7 @@ int  R_ReadPrimDrawSurfData(GfxReadCmdBuf *, unsigned int) { return 0; }
 int  R_ReadPrimDrawSurfInt(GfxReadCmdBuf *) { return 0; }
 GfxWorld s_world{};
 r_globals_load_t rgl{};
-DynEntityPose *DynEnt_GetClientModelPoseList() { return nullptr; }
+// DynEntityPose *DynEnt_GetClientModelPoseList() { return nullptr; }
 
 void Material_UpdatePicmipAll() {}
 void R_Cmd_LoadSun() {}

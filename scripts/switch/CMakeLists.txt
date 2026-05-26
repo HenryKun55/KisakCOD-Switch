@@ -133,7 +133,10 @@ set(RAGDOLL_PORTABLE_SOURCES
 )
 
 set(DYNENTITY_PORTABLE_SOURCES
+    "${SRC_DIR}/DynEntity/DynEntity_client.cpp"
     "${SRC_DIR}/DynEntity/DynEntity_coll.cpp"
+    "${SRC_DIR}/DynEntity/DynEntity_load_obj.cpp"
+    "${SRC_DIR}/DynEntity/DynEntity_pieces.cpp"
 )
 
 set(DATABASE_PORTABLE_SOURCES

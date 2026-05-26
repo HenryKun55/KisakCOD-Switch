@@ -1,6 +1,6 @@
 #include <qcommon/qcommon.h>
 
-#include "dynentity_client.h"
+#include "DynEntity_client.h"
 #include <gfx_d3d/r_scene.h>
 #include <cgame/cg_local.h>
 #include <EffectsCore/fx_system.h>
@@ -217,69 +217,69 @@ void __cdecl DynEntCl_LinkModel(uint16_t dynEntId)
         v1 = 0;
     else
         v1 = -1;
-    worldBoundsFloat4[0].v[0] = COERCE_FLOAT(modelBoundsFloat4[1].u[0] & v12 | modelBoundsFloat4[0].u[0] & ~v12)
+    worldBoundsFloat4[0].v[0] = COERCE_FLOAT((modelBoundsFloat4[1].u[0] & v12) | (modelBoundsFloat4[0].u[0] & ~v12))
         * modelAxis[0][0]
         + v16;
-    worldBoundsFloat4[0].v[1] = COERCE_FLOAT(modelBoundsFloat4[1].u[0] & v11 | modelBoundsFloat4[0].u[0] & ~v11)
+    worldBoundsFloat4[0].v[1] = COERCE_FLOAT((modelBoundsFloat4[1].u[0] & v11) | (modelBoundsFloat4[0].u[0] & ~v11))
         * modelAxis[0][1]
         + v17;
-    worldBoundsFloat4[0].v[2] = COERCE_FLOAT(modelBoundsFloat4[1].u[0] & v10 | modelBoundsFloat4[0].u[0] & ~v10)
+    worldBoundsFloat4[0].v[2] = COERCE_FLOAT((modelBoundsFloat4[1].u[0] & v10) | (modelBoundsFloat4[0].u[0] & ~v10))
         * modelAxis[0][2]
         + v18;
-    worldBoundsFloat4[0].v[3] = COERCE_FLOAT(modelBoundsFloat4[1].u[0] & v9 | modelBoundsFloat4[0].u[0] & ~v9) * v14 + v19;
-    worldBoundsFloat4[0].v[0] = COERCE_FLOAT(modelBoundsFloat4[1].u[1] & v8 | modelBoundsFloat4[0].u[1] & ~v8)
+    worldBoundsFloat4[0].v[3] = COERCE_FLOAT((modelBoundsFloat4[1].u[0] & v9) | (modelBoundsFloat4[0].u[0] & ~v9)) * v14 + v19;
+    worldBoundsFloat4[0].v[0] = COERCE_FLOAT((modelBoundsFloat4[1].u[1] & v8) | (modelBoundsFloat4[0].u[1] & ~v8))
         * modelAxis[1][0]
         + worldBoundsFloat4[0].v[0];
-    worldBoundsFloat4[0].v[1] = COERCE_FLOAT(modelBoundsFloat4[1].u[1] & v7 | modelBoundsFloat4[0].u[1] & ~v7)
+    worldBoundsFloat4[0].v[1] = COERCE_FLOAT((modelBoundsFloat4[1].u[1] & v7) | (modelBoundsFloat4[0].u[1] & ~v7))
         * modelAxis[1][1]
         + worldBoundsFloat4[0].v[1];
-    worldBoundsFloat4[0].v[2] = COERCE_FLOAT(modelBoundsFloat4[1].u[1] & v6 | modelBoundsFloat4[0].u[1] & ~v6)
+    worldBoundsFloat4[0].v[2] = COERCE_FLOAT((modelBoundsFloat4[1].u[1] & v6) | (modelBoundsFloat4[0].u[1] & ~v6))
         * modelAxis[1][2]
         + worldBoundsFloat4[0].v[2];
-    worldBoundsFloat4[0].v[3] = COERCE_FLOAT(modelBoundsFloat4[1].u[1] & v5 | modelBoundsFloat4[0].u[1] & ~v5) * v13
+    worldBoundsFloat4[0].v[3] = COERCE_FLOAT((modelBoundsFloat4[1].u[1] & v5) | (modelBoundsFloat4[0].u[1] & ~v5)) * v13
         + worldBoundsFloat4[0].v[3];
-    worldBoundsFloat4[0].v[0] = COERCE_FLOAT(modelBoundsFloat4[1].u[2] & v4 | modelBoundsFloat4[0].u[2] & ~v4)
+    worldBoundsFloat4[0].v[0] = COERCE_FLOAT((modelBoundsFloat4[1].u[2] & v4) | (modelBoundsFloat4[0].u[2] & ~v4))
         * modelAxis[2][0]
         + worldBoundsFloat4[0].v[0];
-    worldBoundsFloat4[0].v[1] = COERCE_FLOAT(modelBoundsFloat4[1].u[2] & v3 | modelBoundsFloat4[0].u[2] & ~v3)
+    worldBoundsFloat4[0].v[1] = COERCE_FLOAT((modelBoundsFloat4[1].u[2] & v3) | (modelBoundsFloat4[0].u[2] & ~v3))
         * modelAxis[2][1]
         + worldBoundsFloat4[0].v[1];
-    worldBoundsFloat4[0].v[2] = COERCE_FLOAT(modelBoundsFloat4[1].u[2] & v2 | modelBoundsFloat4[0].u[2] & ~v2)
+    worldBoundsFloat4[0].v[2] = COERCE_FLOAT((modelBoundsFloat4[1].u[2] & v2) | (modelBoundsFloat4[0].u[2] & ~v2))
         * modelAxis[2][2]
         + worldBoundsFloat4[0].v[2];
-    worldBoundsFloat4[0].v[3] = COERCE_FLOAT(modelBoundsFloat4[1].u[2] & v1 | modelBoundsFloat4[0].u[2] & ~v1) * v15
+    worldBoundsFloat4[0].v[3] = COERCE_FLOAT((modelBoundsFloat4[1].u[2] & v1) | (modelBoundsFloat4[0].u[2] & ~v1)) * v15
         + worldBoundsFloat4[0].v[3];
-    worldBoundsFloat4[1].v[0] = COERCE_FLOAT(modelBoundsFloat4[0].u[0] & v12 | modelBoundsFloat4[1].u[0] & ~v12)
+    worldBoundsFloat4[1].v[0] = COERCE_FLOAT((modelBoundsFloat4[0].u[0] & v12) | (modelBoundsFloat4[1].u[0] & ~v12))
         * modelAxis[0][0]
         + v16;
-    worldBoundsFloat4[1].v[1] = COERCE_FLOAT(modelBoundsFloat4[0].u[0] & v11 | modelBoundsFloat4[1].u[0] & ~v11)
+    worldBoundsFloat4[1].v[1] = COERCE_FLOAT((modelBoundsFloat4[0].u[0] & v11) | (modelBoundsFloat4[1].u[0] & ~v11))
         * modelAxis[0][1]
         + v17;
-    worldBoundsFloat4[1].v[2] = COERCE_FLOAT(modelBoundsFloat4[0].u[0] & v10 | modelBoundsFloat4[1].u[0] & ~v10)
+    worldBoundsFloat4[1].v[2] = COERCE_FLOAT((modelBoundsFloat4[0].u[0] & v10) | (modelBoundsFloat4[1].u[0] & ~v10))
         * modelAxis[0][2]
         + v18;
-    worldBoundsFloat4[1].v[3] = COERCE_FLOAT(modelBoundsFloat4[0].u[0] & v9 | modelBoundsFloat4[1].u[0] & ~v9) * v14 + v19;
-    worldBoundsFloat4[1].v[0] = COERCE_FLOAT(modelBoundsFloat4[0].u[1] & v8 | modelBoundsFloat4[1].u[1] & ~v8)
+    worldBoundsFloat4[1].v[3] = COERCE_FLOAT((modelBoundsFloat4[0].u[0] & v9) | (modelBoundsFloat4[1].u[0] & ~v9)) * v14 + v19;
+    worldBoundsFloat4[1].v[0] = COERCE_FLOAT((modelBoundsFloat4[0].u[1] & v8) | (modelBoundsFloat4[1].u[1] & ~v8))
         * modelAxis[1][0]
         + worldBoundsFloat4[1].v[0];
-    worldBoundsFloat4[1].v[1] = COERCE_FLOAT(modelBoundsFloat4[0].u[1] & v7 | modelBoundsFloat4[1].u[1] & ~v7)
+    worldBoundsFloat4[1].v[1] = COERCE_FLOAT((modelBoundsFloat4[0].u[1] & v7) | (modelBoundsFloat4[1].u[1] & ~v7))
         * modelAxis[1][1]
         + worldBoundsFloat4[1].v[1];
-    worldBoundsFloat4[1].v[2] = COERCE_FLOAT(modelBoundsFloat4[0].u[1] & v6 | modelBoundsFloat4[1].u[1] & ~v6)
+    worldBoundsFloat4[1].v[2] = COERCE_FLOAT((modelBoundsFloat4[0].u[1] & v6) | (modelBoundsFloat4[1].u[1] & ~v6))
         * modelAxis[1][2]
         + worldBoundsFloat4[1].v[2];
-    worldBoundsFloat4[1].v[3] = COERCE_FLOAT(modelBoundsFloat4[0].u[1] & v5 | modelBoundsFloat4[1].u[1] & ~v5) * v13
+    worldBoundsFloat4[1].v[3] = COERCE_FLOAT((modelBoundsFloat4[0].u[1] & v5) | (modelBoundsFloat4[1].u[1] & ~v5)) * v13
         + worldBoundsFloat4[1].v[3];
-    worldBoundsFloat4[1].v[0] = COERCE_FLOAT(modelBoundsFloat4[0].u[2] & v4 | modelBoundsFloat4[1].u[2] & ~v4)
+    worldBoundsFloat4[1].v[0] = COERCE_FLOAT((modelBoundsFloat4[0].u[2] & v4) | (modelBoundsFloat4[1].u[2] & ~v4))
         * modelAxis[2][0]
         + worldBoundsFloat4[1].v[0];
-    worldBoundsFloat4[1].v[1] = COERCE_FLOAT(modelBoundsFloat4[0].u[2] & v3 | modelBoundsFloat4[1].u[2] & ~v3)
+    worldBoundsFloat4[1].v[1] = COERCE_FLOAT((modelBoundsFloat4[0].u[2] & v3) | (modelBoundsFloat4[1].u[2] & ~v3))
         * modelAxis[2][1]
         + worldBoundsFloat4[1].v[1];
-    worldBoundsFloat4[1].v[2] = COERCE_FLOAT(modelBoundsFloat4[0].u[2] & v2 | modelBoundsFloat4[1].u[2] & ~v2)
+    worldBoundsFloat4[1].v[2] = COERCE_FLOAT((modelBoundsFloat4[0].u[2] & v2) | (modelBoundsFloat4[1].u[2] & ~v2))
         * modelAxis[2][2]
         + worldBoundsFloat4[1].v[2];
-    worldBoundsFloat4[1].v[3] = COERCE_FLOAT(modelBoundsFloat4[0].u[2] & v1 | modelBoundsFloat4[1].u[2] & ~v1) * v15
+    worldBoundsFloat4[1].v[3] = COERCE_FLOAT((modelBoundsFloat4[0].u[2] & v1) | (modelBoundsFloat4[1].u[2] & ~v1)) * v15
         + worldBoundsFloat4[1].v[3];
     worldBoundsVec3[0][0] = worldBoundsFloat4[0].v[0];
     worldBoundsVec3[0][1] = worldBoundsFloat4[0].v[1];
@@ -400,24 +400,24 @@ double __cdecl DynEntCl_UpdateBModelWorldBounds(const DynEntityDef *dynEntDef, c
         v3 = 0;
     else
         v3 = -1;
-    rotatedBounds = COERCE_FLOAT(bounds_16 & v11 | bounds & ~v11) * axis[0][0] + v13;
-    rotatedBounds_4 = COERCE_FLOAT(bounds_16 & v10 | bounds & ~v10) * axis[0][1] + v14;
-    rotatedBounds_8 = COERCE_FLOAT(bounds_16 & v9 | bounds & ~v9) * axis[0][2] + v15;
-    rotatedBoundsa = COERCE_FLOAT(HIDWORD(bounds_16) & v8 | HIDWORD(bounds) & ~v8) * axis[1][0] + rotatedBounds;
-    rotatedBounds_4a = COERCE_FLOAT(HIDWORD(bounds_16) & v7 | HIDWORD(bounds) & ~v7) * axis[1][1] + rotatedBounds_4;
-    rotatedBounds_8a = COERCE_FLOAT(HIDWORD(bounds_16) & v6 | HIDWORD(bounds) & ~v6) * axis[1][2] + rotatedBounds_8;
-    rotatedBoundsb = COERCE_FLOAT(bounds_24 & v5 | bounds_8 & ~v5) * axis[2][0] + rotatedBoundsa;
-    rotatedBounds_4b = COERCE_FLOAT(bounds_24 & v4 | bounds_8 & ~v4) * axis[2][1] + rotatedBounds_4a;
-    rotatedBounds_8b = COERCE_FLOAT(bounds_24 & v3 | bounds_8 & ~v3) * axis[2][2] + rotatedBounds_8a;
-    rotatedBounds_16 = COERCE_FLOAT(bounds & v11 | bounds_16 & ~v11) * axis[0][0] + v13;
-    rotatedBounds_20 = COERCE_FLOAT(bounds & v10 | bounds_16 & ~v10) * axis[0][1] + v14;
-    rotatedBounds_24 = COERCE_FLOAT(bounds & v9 | bounds_16 & ~v9) * axis[0][2] + v15;
-    rotatedBounds_16a = COERCE_FLOAT(HIDWORD(bounds) & v8 | HIDWORD(bounds_16) & ~v8) * axis[1][0] + rotatedBounds_16;
-    rotatedBounds_20a = COERCE_FLOAT(HIDWORD(bounds) & v7 | HIDWORD(bounds_16) & ~v7) * axis[1][1] + rotatedBounds_20;
-    rotatedBounds_24a = COERCE_FLOAT(HIDWORD(bounds) & v6 | HIDWORD(bounds_16) & ~v6) * axis[1][2] + rotatedBounds_24;
-    rotatedBounds_16b = COERCE_FLOAT(bounds_8 & v5 | bounds_24 & ~v5) * axis[2][0] + rotatedBounds_16a;
-    rotatedBounds_20b = COERCE_FLOAT(bounds_8 & v4 | bounds_24 & ~v4) * axis[2][1] + rotatedBounds_20a;
-    rotatedBounds_24b = COERCE_FLOAT(bounds_8 & v3 | bounds_24 & ~v3) * axis[2][2] + rotatedBounds_24a;
+    rotatedBounds = COERCE_FLOAT((bounds_16 & v11) | (bounds & ~v11)) * axis[0][0] + v13;
+    rotatedBounds_4 = COERCE_FLOAT((bounds_16 & v10) | (bounds & ~v10)) * axis[0][1] + v14;
+    rotatedBounds_8 = COERCE_FLOAT((bounds_16 & v9) | (bounds & ~v9)) * axis[0][2] + v15;
+    rotatedBoundsa = COERCE_FLOAT((HIDWORD(bounds_16) & v8) | (HIDWORD(bounds) & ~v8)) * axis[1][0] + rotatedBounds;
+    rotatedBounds_4a = COERCE_FLOAT((HIDWORD(bounds_16) & v7) | (HIDWORD(bounds) & ~v7)) * axis[1][1] + rotatedBounds_4;
+    rotatedBounds_8a = COERCE_FLOAT((HIDWORD(bounds_16) & v6) | (HIDWORD(bounds) & ~v6)) * axis[1][2] + rotatedBounds_8;
+    rotatedBoundsb = COERCE_FLOAT((bounds_24 & v5) | (bounds_8 & ~v5)) * axis[2][0] + rotatedBoundsa;
+    rotatedBounds_4b = COERCE_FLOAT((bounds_24 & v4) | (bounds_8 & ~v4)) * axis[2][1] + rotatedBounds_4a;
+    rotatedBounds_8b = COERCE_FLOAT((bounds_24 & v3) | (bounds_8 & ~v3)) * axis[2][2] + rotatedBounds_8a;
+    rotatedBounds_16 = COERCE_FLOAT((bounds & v11) | (bounds_16 & ~v11)) * axis[0][0] + v13;
+    rotatedBounds_20 = COERCE_FLOAT((bounds & v10) | (bounds_16 & ~v10)) * axis[0][1] + v14;
+    rotatedBounds_24 = COERCE_FLOAT((bounds & v9) | (bounds_16 & ~v9)) * axis[0][2] + v15;
+    rotatedBounds_16a = COERCE_FLOAT((HIDWORD(bounds) & v8) | (HIDWORD(bounds_16) & ~v8)) * axis[1][0] + rotatedBounds_16;
+    rotatedBounds_20a = COERCE_FLOAT((HIDWORD(bounds) & v7) | (HIDWORD(bounds_16) & ~v7)) * axis[1][1] + rotatedBounds_20;
+    rotatedBounds_24a = COERCE_FLOAT((HIDWORD(bounds) & v6) | (HIDWORD(bounds_16) & ~v6)) * axis[1][2] + rotatedBounds_24;
+    rotatedBounds_16b = COERCE_FLOAT((bounds_8 & v5) | (bounds_24 & ~v5)) * axis[2][0] + rotatedBounds_16a;
+    rotatedBounds_20b = COERCE_FLOAT((bounds_8 & v4) | (bounds_24 & ~v4)) * axis[2][1] + rotatedBounds_20a;
+    rotatedBounds_24b = COERCE_FLOAT((bounds_8 & v3) | (bounds_24 & ~v3)) * axis[2][2] + rotatedBounds_24a;
     bmodel->writable.mins[0] = rotatedBoundsb;
     bmodel->writable.mins[1] = rotatedBounds_4b;
     bmodel->writable.mins[2] = rotatedBounds_8b;
@@ -453,12 +453,12 @@ void __cdecl DynEntCl_ProcessEntities(int32_t localClientNum)
                 dynEntPose = DynEnt_GetClientPose(dynEntId, DYNENT_DRAW_MODEL);
                 Phys_ObjGetInterpolatedState(
                     PHYS_WORLD_DYNENT,
-                    (dxBody *)dynEntClient->physObjId,
+                    (dxBody *)(uintptr_t)dynEntClient->physObjId,
                     origin,
                     dynEntPose->pose.quat);
-                if (Phys_ObjIsAsleep((dxBody *)dynEntClient->physObjId))
+                if (Phys_ObjIsAsleep((dxBody *)(uintptr_t)dynEntClient->physObjId))
                 {
-                    Phys_ObjDestroy(PHYS_WORLD_DYNENT, (dxBody *)dynEntClient->physObjId);
+                    Phys_ObjDestroy(PHYS_WORLD_DYNENT, (dxBody *)(uintptr_t)dynEntClient->physObjId);
                     dynEntClient->physObjId = 0;
                 }
                 if (!VecNCompareCustomEpsilon(origin, dynEntPose->pose.origin, 0.0099999998f, 3))
@@ -479,12 +479,12 @@ void __cdecl DynEntCl_ProcessEntities(int32_t localClientNum)
                 dynEntPosea = DynEnt_GetClientPose(dynEntId, DYNENT_DRAW_BRUSH);
                 Phys_ObjGetInterpolatedState(
                     PHYS_WORLD_DYNENT,
-                    (dxBody *)dynEntClient->physObjId,
+                    (dxBody *)(uintptr_t)dynEntClient->physObjId,
                     origin,
                     dynEntPosea->pose.quat);
-                if (Phys_ObjIsAsleep((dxBody *)dynEntClient->physObjId))
+                if (Phys_ObjIsAsleep((dxBody *)(uintptr_t)dynEntClient->physObjId))
                 {
-                    Phys_ObjDestroy(PHYS_WORLD_DYNENT, (dxBody *)dynEntClient->physObjId);
+                    Phys_ObjDestroy(PHYS_WORLD_DYNENT, (dxBody *)(uintptr_t)dynEntClient->physObjId);
                     dynEntClient->physObjId = 0;
                 }
                 if (!VecNCompareCustomEpsilon(origin, dynEntPosea->pose.origin, 0.0099999998f, 3))
@@ -522,7 +522,7 @@ void __cdecl DynEntCl_Shutdown(int32_t localClientNum)
             {
                 if (dynEntClient->physObjId)
                 {
-                    Phys_ObjDestroy(PHYS_WORLD_DYNENT, (dxBody *)dynEntClient->physObjId);
+                    Phys_ObjDestroy(PHYS_WORLD_DYNENT, (dxBody *)(uintptr_t)dynEntClient->physObjId);
                     dynEntClient->physObjId = 0;
                     dynEntClient->flags &= ~1u;
                 }
@@ -534,7 +534,7 @@ void __cdecl DynEntCl_Shutdown(int32_t localClientNum)
             dynEntClienta = DynEnt_GetClientEntity(dynEntIda, DYNENT_DRAW_BRUSH);
             if ((dynEntClienta->flags & 1) != 0 && dynEntClienta->physObjId)
             {
-                Phys_ObjDestroy(PHYS_WORLD_DYNENT, (dxBody *)dynEntClienta->physObjId);
+                Phys_ObjDestroy(PHYS_WORLD_DYNENT, (dxBody *)(uintptr_t)dynEntClienta->physObjId);
                 dynEntClienta->physObjId = 0;
                 dynEntClienta->flags &= ~1u;
             }
@@ -1005,7 +1005,7 @@ void __cdecl DynEntCl_EntityImpactEvent(
                 MyAssertHandler(".\\DynEntity\\DynEntity_client.cpp", 1013, 0, "%s", "physPreset");
             Phys_ObjBulletImpact(
                 PHYS_WORLD_DYNENT,
-                (dxBody *)cent->pose.physObjId,
+                (dxBody *)(uintptr_t)cent->pose.physObjId,
                 hitPos,
                 hitDir,
                 dynEnt_bulletForce->current.value,
@@ -1185,12 +1185,12 @@ char __cdecl DynEntCl_DynEntImpactEvent(
         if (!dynEntClient->physObjId)
         {
             PhysObj = DynEntCl_CreatePhysObj(dynEntDef, &dynEntPose->pose);
-            dynEntClient->physObjId = (int)PhysObj;
+            dynEntClient->physObjId = (int)(uintptr_t)PhysObj;
         }
         if (dynEntClient->physObjId)
             Phys_ObjBulletImpact(
                 PHYS_WORLD_DYNENT,
-                (dxBody *)dynEntClient->physObjId,
+                (dxBody *)(uintptr_t)dynEntClient->physObjId,
                 hitPos,
                 hitDir,
                 dynEnt_bulletForce->current.value,
@@ -1289,7 +1289,7 @@ void __cdecl DynEntCl_Damage(
         dynEntClient->flags &= 0xFFFCu;
         if (dynEntClient->physObjId)
         {
-            Phys_ObjDestroy(PHYS_WORLD_DYNENT, (dxBody *)dynEntClient->physObjId);
+            Phys_ObjDestroy(PHYS_WORLD_DYNENT, (dxBody *)(uintptr_t)dynEntClient->physObjId);
             dynEntClient->physObjId = 0;
         }
         DynEntCl_UnlinkEntity(dynEntId, drawType);
@@ -1486,18 +1486,18 @@ void __cdecl DynEntCl_ExplosionEvent(
                         if (!dynEntClient->physObjId)
                         {
                             PhysObj = DynEntCl_CreatePhysObj(dynEntDef, &dynEntPose->pose);
-                            dynEntClient->physObjId = (int)PhysObj;
+                            dynEntClient->physObjId = (int)(uintptr_t)PhysObj;
                         }
                         if (dynEntClient->physObjId)
                         {
-                            Phys_ObjGetCenterOfMass((dxBody *)dynEntClient->physObjId, outPosition);
+                            Phys_ObjGetCenterOfMass((dxBody *)(uintptr_t)dynEntClient->physObjId, outPosition);
                             v10 = flrand(-1.0, 1.0);
                             outPosition[0] = v10 * dynEnt_explodeSpinScale->current.value + outPosition[0];
                             v11 = flrand(-1.0, 1.0);
                             outPosition[1] = v11 * dynEnt_explodeSpinScale->current.value + outPosition[1];
                             v12 = flrand(-1.0, 1.0);
                             outPosition[2] = v12 * dynEnt_explodeSpinScale->current.value + outPosition[2];
-                            Phys_ObjAddForce(PHYS_WORLD_DYNENT, (dxBody *)dynEntClient->physObjId, outPosition, result);
+                            Phys_ObjAddForce(PHYS_WORLD_DYNENT, (dxBody *)(uintptr_t)dynEntClient->physObjId, outPosition, result);
                         }
                     }
                     if (DynEnt_GetEntityProps(dynEntDef->type)->destroyable)
@@ -1523,7 +1523,7 @@ uint32_t __cdecl DynEntCl_GetClosestEntities(
     DynEntityPose *dynEntPose; // [esp+12Ch] [ebp-8010h]
     uint32_t hitCount; // [esp+130h] [ebp-800Ch]
     DynEntSortStruct v10[4096]; // [esp+134h] [ebp-8008h] BYREF
-    DynEntityClient *dynEntClient; // [esp+8134h] [ebp-8h]
+    [[maybe_unused]] DynEntityClient *dynEntClient; // [esp+8134h] [ebp-8h]
     uint32_t i; // [esp+8138h] [ebp-4h]
 
     hitCount = DynEntCl_AreaEntities(drawType, radiusMins, radiusMaxs, 0x802013, 0x1000u, hitEnts);
@@ -1650,7 +1650,7 @@ void __cdecl DynEntCl_JitterEvent(
                 {
                     dynEntPosea = DynEnt_GetClientPose(dynEntList[i], drawType);
                     PhysObj = DynEntCl_CreatePhysObj(dynEntDef, &dynEntPosea->pose);
-                    ClientEntity->physObjId = (int)PhysObj;
+                    ClientEntity->physObjId = (int)(uintptr_t)PhysObj;
                 }
             }
         }

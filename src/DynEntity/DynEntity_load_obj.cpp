@@ -758,7 +758,7 @@ void DynEnt_SaveEntities(MemoryFile *memFile)
                     v6 = (*dynEntClientList)[v5].physObjId != 0;
                     MemFile_WriteData(memFile, 1, &v6);
                     if (v6)
-                        Phys_ObjSave((dxBody*)(*dynEntClientList)[v5].physObjId, memFile);
+                        Phys_ObjSave((dxBody *)(uintptr_t)(*dynEntClientList)[v5].physObjId, memFile);
                     v5 = (unsigned __int16)(v5 + 1);
                 } while (v5 < *dynEntCount);
             }
