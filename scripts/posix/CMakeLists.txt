@@ -144,6 +144,8 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_add_cmdbuf.cpp"
     "${SRC_DIR}/gfx_d3d/r_add_staticmodel.cpp"
     "${SRC_DIR}/gfx_d3d/r_marks.cpp"
+    # r_material.cpp pulls IDirect3DDevice9 / _D3DVERTEXELEMENT9 D3D9
+    # types. Land behind graphics abstraction.
     # r_model_lighting.cpp pulls IDirect3DVolumeTexture9 / _D3DLOCKED_BOX
     # / _D3DBOX. Land behind graphics abstraction.
     "${SRC_DIR}/gfx_d3d/r_model_pose.cpp"
@@ -185,7 +187,12 @@ set(GFX_PORTABLE_SOURCES
 # files which have hex-rays-style issues (uninitialized warnings,
 # array-bounds, sign-compare). All 34 land together once the harder
 # subset gets cleaned. Skipping ODE for this pass.
-set(PHYSICS_ODE_SOURCES)
+set(PHYSICS_ODE_SOURCES
+    # ODE files depend on `dArrayBase` and `dAlloc`/`dFree` (memory.h
+    # and array.h are wrapped in `#if 0` upstream). All 34 sources
+    # share the same gate and land together when ODE memory/array
+    # storage is reimplemented.
+)
 
 set(EFFECTSCORE_PORTABLE_SOURCES
     "${SRC_DIR}/EffectsCore/fx_archive.cpp"
