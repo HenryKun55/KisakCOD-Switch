@@ -25,6 +25,9 @@
 #ifndef __fastcall
 #define __fastcall
 #endif
+#ifndef __thiscall
+#define __thiscall
+#endif
 
 // === Forced inline ==========================================================
 #ifndef __forceinline
