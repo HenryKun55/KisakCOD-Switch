@@ -70,6 +70,7 @@ set(QCOMMON_PORTABLE_SOURCES
     "${SRC_DIR}/qcommon/md4.cpp"
     "${SRC_DIR}/qcommon/mem_track.cpp"
     "${SRC_DIR}/qcommon/msg_mp.cpp"
+    "${SRC_DIR}/qcommon/net_chan_mp.cpp"
     "${SRC_DIR}/qcommon/statmonitor.cpp"
     # qcommon/threads.cpp deliberately skipped: 934-line Win32-only threading.
     # The single-threaded port uses pthread-backed Sys_* stubs in

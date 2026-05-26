@@ -437,8 +437,8 @@ int  Scr_UpdateDebugSocket() { return 0; }
 
 void DObjInit() {}
 void DObjShutdown() {}
-void FakeLag_Init() {}
-void FakeLag_Shutdown() {}
+// void FakeLag_Init() {}  // provided by net_chan_mp.cpp now
+// void FakeLag_Shutdown() {}  // provided by net_chan_mp.cpp now
 void FX_UnregisterAll() {}
 void IN_Frame() {}
 void DevGui_Update(int /*localClientNum*/, float /*frameTime*/) {}
@@ -767,8 +767,8 @@ void TRACK_xmodel() {}
 
 // Globals for the new batch.
 // cl_shownet provided by src/client_mp/cl_main_mp.cpp now.
-const dvar_t *msg_dumpEnts = nullptr;
-const dvar_t *msg_printEntityNums = nullptr;
+// msg_dumpEnts provided by src/qcommon/net_chan_mp.cpp now.
+// msg_printEntityNums provided by src/qcommon/net_chan_mp.cpp now.
 // clients provided by src/client_mp/cl_main_mp.cpp now.
 huffman_t msgHuff{};
 unsigned int msecPerRawTimerTick = 1;
@@ -878,13 +878,13 @@ char *FS_LoadedIwdPureChecksums() { static char empty[1] = {0}; return empty; }
 int  I_stricmpwild(const char *s0, const char *s1) { return strcasecmp(s0 ? s0 : "", s1 ? s1 : ""); }
 // IN_IsTalkKeyHeld provided by src/client_mp/cl_input.cpp now.
 bool Material_IsDefault(const Material * /*material*/) { return true; }
-bool NET_OutOfBandVoiceData(netsrc_t /*sock*/, netadr_t /*adr*/, unsigned char * /*data*/, unsigned int /*len*/) { return false; }
-bool Netchan_Transmit(netchan_t * /*chan*/, int /*length*/, char * /*data*/) { return false; }
-bool Netchan_TransmitNextFragment(netchan_t * /*chan*/) { return false; }
+// bool NET_OutOfBandVoiceData(netsrc_t /*sock*/, netadr_t /*adr*/, unsigned char * /*data*/, unsigned int /*len*/) { return false; }  // provided by net_chan_mp.cpp now
+// bool Netchan_Transmit(netchan_t * /*chan*/, int /*length*/, char * /*data*/) { return false; }  // provided by net_chan_mp.cpp now
+// bool Netchan_TransmitNextFragment(netchan_t * /*chan*/) { return false; }  // provided by net_chan_mp.cpp now
 
-void NetProf_AddPacket(netProfileStream_t * /*stream*/, int /*size*/, int /*type*/) {}
-void NetProf_PrepProfiling(netProfileInfo_t * /*info*/) {}
-void NetProf_UpdateStatistics(netProfileStream_t * /*stream*/) {}
+// void NetProf_AddPacket(netProfileStream_t * /*stream*/, int /*size*/, int /*type*/) {}  // provided by net_chan_mp.cpp now
+// void NetProf_PrepProfiling(netProfileInfo_t * /*info*/) {}  // provided by net_chan_mp.cpp now
+// void NetProf_UpdateStatistics(netProfileStream_t * /*stream*/) {}  // provided by net_chan_mp.cpp now
 
 void PerpendicularVector(const float *src, float *dst)
 {
@@ -941,7 +941,7 @@ bool Voice_IsClientTalking(unsigned int /*clientNum*/) { return false; }
 // cl_showSend provided by src/client_mp/cl_main_mp.cpp now.
 // cl_voice provided by src/client_mp/cl_main_mp.cpp now.
 // g_entities / level provided by src/game_mp/g_main_mp.cpp now.
-const dvar_t *net_profile = nullptr;
+// const dvar_t *net_profile = nullptr;  // provided by net_chan_mp.cpp now
 // sv_maxclients provided by src/server_mp/sv_main_mp.cpp now.
 // sv_voice provided by src/server_mp/sv_init_mp.cpp now.
 // svs provided by src/server_mp/sv_main_mp.cpp now.
@@ -1006,7 +1006,7 @@ void MatrixTransformVector43(const float *in, const float (&m)[4][3], float *out
     out[2] = in[0] * m[0][2] + in[1] * m[1][2] + in[2] * m[2][2] + m[3][2];
 }
 
-bool NET_IsLocalAddress(netadr_t /*adr*/) { return false; }
+// bool NET_IsLocalAddress(netadr_t /*adr*/) { return false; }  // provided by net_chan_mp.cpp now
 // Scr_IsValidGameType provided by src/game_mp/g_scr_main_mp.cpp now.
 
 // unsigned int SV_ClipHandleForEntity(const gentity_s * /*ent*/) { return 0; }  // provided by sv_world.cpp now
@@ -1045,10 +1045,10 @@ void AxisToAngles(const float (& /*axis*/)[3][3], float *angles)
 
 void *I_dmaGetDObjSkel(const DObj_s * /*obj*/) { return nullptr; }
 
-const char *NET_AdrToString(netadr_t /*adr*/) { return ""; }
-bool NET_CompareBaseAdr(netadr_t /*a*/, netadr_t /*b*/) { return false; }
-bool NET_OutOfBandPrint(netsrc_t /*sock*/, netadr_t /*adr*/, const char * /*data*/) { return false; }
-int  NET_StringToAdr(char * /*str*/, netadr_t * /*adr*/) { return 0; }
+// const char *NET_AdrToString(netadr_t /*adr*/) { return ""; }  // provided by net_chan_mp.cpp now
+// bool NET_CompareBaseAdr(netadr_t /*a*/, netadr_t /*b*/) { return false; }  // provided by net_chan_mp.cpp now
+// bool NET_OutOfBandPrint(netsrc_t /*sock*/, netadr_t /*adr*/, const char * /*data*/) { return false; }  // provided by net_chan_mp.cpp now
+// int  NET_StringToAdr(char * /*str*/, netadr_t * /*adr*/) { return 0; }  // provided by net_chan_mp.cpp now
 
 unsigned int Scr_GetNumParam() { return 0; }
 void Scr_GetVector(unsigned int /*paramIndex*/, float *v)
@@ -1153,7 +1153,7 @@ struct usercmd_s;
 // cg_packetAnalysisTextScale provided by src/cgame_mp/cg_main_mp.cpp now.
 // cg_packetAnalysisTextY provided by src/cgame_mp/cg_main_mp.cpp now.
 // cg_synchronousClients provided by src/cgame_mp/cg_main_mp.cpp now.
-const dvar_t *net_showprofile = nullptr;
+// const dvar_t *net_showprofile = nullptr;  // provided by net_chan_mp.cpp now
 
 // g_bitsSent provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
 // pulled in by stub deps.
@@ -1408,13 +1408,13 @@ const char *StringTable_GetColumnValueForRow(const StringTable * /*table*/, int 
 // =========================================================================
 
 void NET_Init() {}
-int  NET_GetClientPacket(netadr_t * /*from*/, msg_t * /*msg*/) { return 0; }
-int  NET_GetLoopPacket(netsrc_t /*sock*/, netadr_t * /*from*/, msg_t * /*msg*/) { return 0; }
-int  NET_GetServerPacket(netadr_t * /*from*/, msg_t * /*msg*/) { return 0; }
+// int  NET_GetClientPacket(netadr_t * /*from*/, msg_t * /*msg*/) { return 0; }  // provided by net_chan_mp.cpp now
+// int  NET_GetLoopPacket(netsrc_t /*sock*/, netadr_t * /*from*/, msg_t * /*msg*/) { return 0; }  // provided by net_chan_mp.cpp now
+// int  NET_GetServerPacket(netadr_t * /*from*/, msg_t * /*msg*/) { return 0; }  // provided by net_chan_mp.cpp now
 void NET_RestartDebug() {}
 void NET_ShutdownDebug() {}
 void NET_Sleep(int /*msec*/) {}
-void Netchan_Init(short /*port*/) {}
+// void Netchan_Init(short /*port*/) {}  // provided by net_chan_mp.cpp now
 // MSG_Init now in qcommon/msg_mp.cpp.
 
 // =========================================================================
@@ -2320,7 +2320,7 @@ void   SND_InitFXSounds() {}
 void   R_AddCmdEndOfList() {}
 void   R_SaveCubemapShot(char *, CubemapShot, float, float) {}
 void   SCR_DrawCinematic(int) {}
-void   Net_DisplayProfile(int) {}
+// void   Net_DisplayProfile(int) {}  // provided by net_chan_mp.cpp now
 void   R_BeginCubemapShot(int, int) {}
 void   R_AddCmdClearScreen(int, const float *, float, unsigned char) {}
 void   R_AddCmdDrawProfile() {}
@@ -2542,11 +2542,11 @@ void Steam_SV_AddTestCommands() {}
 // === sv_main_mp satellites =======================================================
 
 // G_RunFrame provided by src/game_mp/g_main_mp.cpp now.
-void FakeLag_Frame() {}
+// void FakeLag_Frame() {}  // provided by net_chan_mp.cpp now
 void Scr_FreeValue(unsigned int) {}
 // SV_ClientThink provided by src/server_mp/sv_client_mp.cpp now.
 void Scr_SetLoading(int) {}
-int  Netchan_Process(netchan_t *, msg_t *) { return 0; }
+// int  Netchan_Process(netchan_t *, msg_t *) { return 0; }  // provided by net_chan_mp.cpp now
 // SV_GetChallenge provided by src/server_mp/sv_client_mp.cpp now.
 // SV_ReceiveStats provided by src/server_mp/sv_client_mp.cpp now.
 // SV_DirectConnect provided by src/server_mp/sv_client_mp.cpp now.
@@ -2566,8 +2566,8 @@ void MSG_WriteReliableCommandToBuffer(const char *, char *, int) {}
 // ClientThink provided by src/game_mp/g_active_mp.cpp now.
 int  FS_WriteFile(char *, char *, unsigned int) { return 0; }
 // ClientCommand provided by src/game_mp/g_cmds_mp.cpp now.
-void Netchan_Setup(netsrc_t, netchan_t *, netadr_t, int, char *, int, char *, int) {}
-bool NET_CompareAdr(netadr_t, netadr_t) { return false; }
+// void Netchan_Setup(netsrc_t, netchan_t *, netadr_t, int, char *, int, char *, int) {}  // provided by net_chan_mp.cpp now
+// bool NET_CompareAdr(netadr_t, netadr_t) { return false; }  // provided by net_chan_mp.cpp now
 void MSG_WriteEntity(SnapshotInfo_s *, msg_t *, int, entityState_s *, const entityState_s *, int) {}
 // bool BG_IsWeaponValid(const playerState_s *, uint32_t) { return false; }  // provided by bg_weapons.cpp now
 // ClientDisconnect provided by src/game_mp/g_client_mp.cpp now.
@@ -2581,23 +2581,23 @@ void Steam_OnClientDropped(unsigned long long) {}
 bool Sys_IsLANAddress_IgnoreSubnet(netadr_t) { return false; }
 // SV_UpdateServerCommandsToClient provided by src/server_mp/sv_snapshot_mp.cpp now.
 
-const dvar_t *net_lanauthorize = nullptr;
+// const dvar_t *net_lanauthorize = nullptr;  // provided by net_chan_mp.cpp now
 
 // === sv_snapshot_profile_mp satellites ===========================================
 
 unsigned int MSG_GetBitCount(int, bool *, int, int) { return 0u; }
 // cl_profileTextY provided by src/client_mp/cl_main_mp.cpp now.
-ClientSnapshotData s_clientSnapshotData[64]{};
+// s_clientSnapshotData storage provided by src/qcommon/net_chan_mp.cpp now.
 
 // === cl_main_pc_mp satellites ====================================================
 // CL_GetServerStatus provided by src/client_mp/cl_main_mp.cpp now.
-int NET_CompareAdrSigned(netadr_t *, netadr_t *) { return 0; }
+// int NET_CompareAdrSigned(netadr_t *, netadr_t *) { return 0; }  // provided by net_chan_mp.cpp now
 const char *Steam_GetClientID() { return ""; }
 void Steam_RequestAuthTicket() {}
 
 // cl_pinglist / cl_serverStatusList provided by src/client_mp/cl_main_mp.cpp now.
 // cl_serverStatusResendTime provided by src/client_mp/cl_main_mp.cpp now.
-int g_qport = 0;
+// int g_qport = 0;  // provided by net_chan_mp.cpp now
 
 // === cl_parse_mp satellites ======================================================
 
@@ -2888,7 +2888,7 @@ void Sys_ShowConsole() {}
 // CL_DestroyDevGui provided by src/client/cl_devgui.cpp now.
 int  DB_ModFileExists() { return 0; }
 void SND_PlayFXSounds() {}
-bool NET_OutOfBandData(netsrc_t, netadr_t, const unsigned char *, int) { return false; }
+// bool NET_OutOfBandData(netsrc_t, netadr_t, const unsigned char *, int) { return false; }  // provided by net_chan_mp.cpp now
 void SCR_StopCinematic(int) {}
 void SND_SaveListeners(snd_listener *) {}
 void CL_PlayCinematic_f() {}
@@ -2931,7 +2931,7 @@ const dvar_t *fs_homepath = nullptr;
 // g_consoleField storage provided by src/client/cl_keys.cpp now.
 // float g_console_char_height = 0.f;  // provided by cl_console.cpp now
 // int32_t g_console_field_width = 0;  // provided by cl_console.cpp now
-const dvar_t *showpackets = nullptr;
+// const dvar_t *showpackets = nullptr;  // provided by net_chan_mp.cpp now
 // const dvar_t *vehDriverViewHeightMin = nullptr;  // provided by ui_main_mp.cpp now
 
 // === g_scr_main_mp satellites ====================================================
@@ -3182,6 +3182,12 @@ float RadiusFromBounds2D(const float *mins, const float *maxs) {
     float dy = (maxs[1] - mins[1]) * 0.5f;
     return std::sqrt(dx*dx + dy*dy);
 }
+
+// === net_chan_mp satellites ========================================================
+
+bool Sys_GetPacket(netadr_t *, msg_t *) { return false; }
+bool Sys_SendPacket(int, unsigned char *, netadr_t) { return false; }
+bool Sys_StringToAdr(const char *, netadr_t *out) { if (out) std::memset(out, 0, sizeof(*out)); return false; }
 
 // === CGAME dvars and storage referenced by the new sources =========================
 

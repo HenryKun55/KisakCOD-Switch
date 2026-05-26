@@ -84,7 +84,7 @@ void __cdecl NetProf_PrepProfiling(netProfileInfo_t *prof)
     {
         if (!net_iProfilingOn)
         {
-            if (!com_sv_running->current.enabled || CL_AnyLocalClientsRunning() && net_profile->current.integer == 2)
+            if (!com_sv_running->current.enabled || (CL_AnyLocalClientsRunning() && net_profile->current.integer == 2))
                 net_iProfilingOn = 1;
             else
                 net_iProfilingOn = 2;
@@ -501,7 +501,7 @@ int __cdecl FakeLag_GetPacket(bool loopback, netsrc_t sock, netadr_t *net_from, 
             && !laggedPackets[packet].outbound
             && laggedPackets[packet].sock == sock
             && laggedPackets[packet].loopback == loopback
-            && (FakeLag_HostingGameOrParty() && !laggedPackets[packet].loopback
+            && ((FakeLag_HostingGameOrParty() && !laggedPackets[packet].loopback)
                 || laggedPackets[packet].startTime + fakelag_current->current.integer / 2 < now))
         {
             break;
@@ -574,8 +574,8 @@ int __cdecl FakeLag_SendLaggedPackets()
     {
         if (laggedPackets[packet].length
             && laggedPackets[packet].outbound
-            && (laggedPackets[packet].loopback && laggedPackets[packet].startTime <= loopbackPacketTime
-                || !laggedPackets[packet].loopback && laggedPackets[packet].startTime <= networkPacketTime))
+            && ((laggedPackets[packet].loopback && laggedPackets[packet].startTime <= loopbackPacketTime)
+                || (!laggedPackets[packet].loopback && laggedPackets[packet].startTime <= networkPacketTime)))
         {
             if (showpackets->current.integer && (showpackets->current.integer > 1 || !laggedPackets[packet].loopback))
             {
@@ -914,7 +914,7 @@ int __cdecl Netchan_Process(netchan_t *chan, msg_t *msg)
     if (sequence <= chan->incomingSequence)
     {
         if (showdrop->current.enabled
-            || showpackets->current.integer && (showpackets->current.integer > 1 || chan->remoteAddress.type != NA_LOOPBACK))
+            || (showpackets->current.integer && (showpackets->current.integer > 1 || chan->remoteAddress.type != NA_LOOPBACK)))
         {
             incomingSequence = chan->incomingSequence;
             v2 = NET_AdrToString(chan->remoteAddress);
@@ -931,7 +931,7 @@ int __cdecl Netchan_Process(netchan_t *chan, msg_t *msg)
     chan->dropped = sequence - (chan->incomingSequence + 1);
     if (chan->dropped > 0
         && (showdrop->current.enabled
-            || showpackets->current.integer && (showpackets->current.integer > 1 || chan->remoteAddress.type != NA_LOOPBACK)))
+            || (showpackets->current.integer && (showpackets->current.integer > 1 || chan->remoteAddress.type != NA_LOOPBACK))))
     {
         dropped = chan->dropped;
         v4 = NET_AdrToString(chan->remoteAddress);
@@ -951,7 +951,7 @@ int __cdecl Netchan_Process(netchan_t *chan, msg_t *msg)
     if (fragmentStart != chan->fragmentLength)
     {
         if (showdrop->current.enabled
-            || showpackets->current.integer && (showpackets->current.integer > 1 || chan->remoteAddress.type != NA_LOOPBACK))
+            || (showpackets->current.integer && (showpackets->current.integer > 1 || chan->remoteAddress.type != NA_LOOPBACK)))
         {
             v5 = NET_AdrToString(chan->remoteAddress);
             Com_Printf(16, "%s:Dropped a message fragment\n", v5);
@@ -982,7 +982,7 @@ int __cdecl Netchan_Process(netchan_t *chan, msg_t *msg)
         goto LABEL_52;
     }
     if (showdrop->current.enabled
-        || showpackets->current.integer && (showpackets->current.integer > 1 || chan->remoteAddress.type != NA_LOOPBACK))
+        || (showpackets->current.integer && (showpackets->current.integer > 1 || chan->remoteAddress.type != NA_LOOPBACK)))
     {
         v6 = NET_AdrToString(chan->remoteAddress);
         Com_Printf(16, "%s:illegal fragment length\n", v6);
@@ -1004,6 +1004,10 @@ int __cdecl NET_CompareBaseAdrSigned(netadr_t *a, netadr_t *b)
         return memcmp((const char *)a->ip, (const char *)b->ip, 4);
     case NA_IPX:
         return memcmp((const char *)a->ipx, (const char *)b->ipx, 10);
+    case NA_BAD:
+    case NA_BROADCAST:
+    case NA_BROADCAST_IPX:
+        break;
     }
     Com_Printf(16, "NET_CompareBaseAdrSigned: bad address type\n");
     return 0;
