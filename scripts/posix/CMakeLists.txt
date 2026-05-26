@@ -130,6 +130,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_dpvs_sceneent.cpp"
     "${SRC_DIR}/gfx_d3d/r_dpvs_static.cpp"
     "${SRC_DIR}/gfx_d3d/r_dvars.cpp"
+    "${SRC_DIR}/gfx_d3d/r_add_bsp.cpp"
     "${SRC_DIR}/gfx_d3d/r_add_cmdbuf.cpp"
     "${SRC_DIR}/gfx_d3d/r_marks.cpp"
     # r_model_lighting.cpp pulls IDirect3DVolumeTexture9 / _D3DLOCKED_BOX

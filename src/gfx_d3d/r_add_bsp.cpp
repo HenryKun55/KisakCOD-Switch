@@ -18,20 +18,20 @@ char __cdecl R_PreTessBspDrawSurfs(
     unsigned int count,
     GfxBspDrawSurfData *surfData)
 {
-    int v5; // [esp+1Ch] [ebp-248h]
-    unsigned int simplifiedCount; // [esp+34h] [ebp-230h]
-    unsigned __int16 surfIndex; // [esp+38h] [ebp-22Ch]
-    const GfxSurface *tris; // [esp+3Ch] [ebp-228h]
-    unsigned int copyIndex; // [esp+40h] [ebp-224h]
+    [[maybe_unused]] int v5; // [esp+1Ch] [ebp-248h]
+    [[maybe_unused]] unsigned int simplifiedCount; // [esp+34h] [ebp-230h]
+    [[maybe_unused]] unsigned __int16 surfIndex; // [esp+38h] [ebp-22Ch]
+    [[maybe_unused]] const GfxSurface *tris; // [esp+3Ch] [ebp-228h]
+    [[maybe_unused]] unsigned int copyIndex; // [esp+40h] [ebp-224h]
     GfxBspPreTessDrawSurf simplifiedList[128]; // [esp+44h] [ebp-220h] BYREF
-    unsigned int lmapIndex; // [esp+244h] [ebp-20h]
-    unsigned __int16 *preTessIndices; // [esp+248h] [ebp-1Ch]
-    unsigned int firstIndex; // [esp+24Ch] [ebp-18h]
-    unsigned int triCount; // [esp+250h] [ebp-14h]
-    unsigned int reflectionProbeIndex; // [esp+254h] [ebp-10h]
-    const GfxSurface *surf; // [esp+258h] [ebp-Ch]
-    unsigned int surfIter; // [esp+25Ch] [ebp-8h]
-    int baseVertex; // [esp+260h] [ebp-4h]
+    [[maybe_unused]] unsigned int lmapIndex; // [esp+244h] [ebp-20h]
+    [[maybe_unused]] unsigned __int16 *preTessIndices; // [esp+248h] [ebp-1Ch]
+    [[maybe_unused]] unsigned int firstIndex; // [esp+24Ch] [ebp-18h]
+    [[maybe_unused]] unsigned int triCount; // [esp+250h] [ebp-14h]
+    [[maybe_unused]] unsigned int reflectionProbeIndex; // [esp+254h] [ebp-10h]
+    [[maybe_unused]] const GfxSurface *surf; // [esp+258h] [ebp-Ch]
+    [[maybe_unused]] unsigned int surfIter; // [esp+25Ch] [ebp-8h]
+    [[maybe_unused]] int baseVertex; // [esp+260h] [ebp-4h]
 
     triCount = 0;
     for (surfIter = 0; surfIter < count; ++surfIter)
@@ -98,7 +98,7 @@ void __cdecl R_AddBspDrawSurfs(
     unsigned int count,
     GfxBspDrawSurfData *surfData)
 {
-    bool v4; // [esp+Bh] [ebp-1h]
+    [[maybe_unused]] bool v4; // [esp+Bh] [ebp-1h]
 
     iassert(drawSurf.fields.surfType == SF_TRIANGLES);
     v4 = !dx.deviceLost && r_pretess->current.enabled;
@@ -124,16 +124,16 @@ void __cdecl R_AddAllBspDrawSurfacesRangeCamera(
     unsigned int stage,
     unsigned int maxDrawSurfCount)
 {
-    int packed_high; // edx
+    [[maybe_unused]] int packed_high; // edx
     unsigned __int16 triSurfList[128]; // [esp+30h] [ebp-148h] BYREF
-    int debugFastSunShadow; // [esp+138h] [ebp-40h]
-    unsigned int* surfaceCastsSunShadow; // [esp+13Ch] [ebp-3Ch]
-    GfxDrawSurf drawSurf; // [esp+140h] [ebp-38h]
-    GfxDrawSurf prevDrawSurf; // [esp+148h] [ebp-30h]
-    unsigned int sortedSurfIndex; // [esp+150h] [ebp-28h]
-    const unsigned __int8* surfaceVisData; // [esp+154h] [ebp-24h]
-    unsigned int triSurfCount; // [esp+158h] [ebp-20h]
-    GfxDrawSurf* surfaceMaterials; // [esp+15Ch] [ebp-1Ch]
+    [[maybe_unused]] int debugFastSunShadow; // [esp+138h] [ebp-40h]
+    [[maybe_unused]] unsigned int* surfaceCastsSunShadow; // [esp+13Ch] [ebp-3Ch]
+    [[maybe_unused]] GfxDrawSurf drawSurf; // [esp+140h] [ebp-38h]
+    [[maybe_unused]] GfxDrawSurf prevDrawSurf; // [esp+148h] [ebp-30h]
+    [[maybe_unused]] unsigned int sortedSurfIndex; // [esp+150h] [ebp-28h]
+    [[maybe_unused]] const unsigned __int8* surfaceVisData; // [esp+154h] [ebp-24h]
+    [[maybe_unused]] unsigned int triSurfCount; // [esp+158h] [ebp-20h]
+    [[maybe_unused]] GfxDrawSurf* surfaceMaterials; // [esp+15Ch] [ebp-1Ch]
     GfxBspDrawSurfData surfData; // [esp+160h] [ebp-18h] BYREF
 
     PROF_SCOPED("BspSurfaces");
@@ -191,16 +191,16 @@ void __cdecl R_AddAllBspDrawSurfacesCameraNonlit(
     unsigned int endSurface,
     unsigned int stage)
 {
-    int packed_high; // edx
+    [[maybe_unused]] int packed_high; // edx
     unsigned __int16 triSurfList[128]; // [esp+0h] [ebp-148h] BYREF
-    GfxDrawSurf drawSurf; // [esp+108h] [ebp-40h]
-    GfxDrawSurf prevDrawSurf; // [esp+110h] [ebp-38h]
-    unsigned int sortedSurfIndex; // [esp+118h] [ebp-30h]
-    const unsigned __int8* surfaceVisData; // [esp+11Ch] [ebp-2Ch]
-    unsigned int triSurfCount; // [esp+120h] [ebp-28h]
-    GfxDrawSurf *surfaceMaterials; // [esp+124h] [ebp-24h]
+    [[maybe_unused]] GfxDrawSurf drawSurf; // [esp+108h] [ebp-40h]
+    [[maybe_unused]] GfxDrawSurf prevDrawSurf; // [esp+110h] [ebp-38h]
+    [[maybe_unused]] unsigned int sortedSurfIndex; // [esp+118h] [ebp-30h]
+    [[maybe_unused]] const unsigned __int8* surfaceVisData; // [esp+11Ch] [ebp-2Ch]
+    [[maybe_unused]] unsigned int triSurfCount; // [esp+120h] [ebp-28h]
+    [[maybe_unused]] GfxDrawSurf *surfaceMaterials; // [esp+124h] [ebp-24h]
     GfxBspDrawSurfData surfData; // [esp+128h] [ebp-20h] BYREF
-    int drawSurfCount; // [esp+144h] [ebp-4h]
+    [[maybe_unused]] int drawSurfCount; // [esp+144h] [ebp-4h]
 
     iassert(rgp.world);
     surfaceVisData = rgp.world->dpvs.surfaceVisData[0];
@@ -256,21 +256,21 @@ void __cdecl R_AddAllBspDrawSurfacesRangeSunShadow(
     unsigned int endSurface,
     unsigned int maxDrawSurfCount)
 {
-    int v4; // eax
-    int packed_high; // edx
+    [[maybe_unused]] int v4; // eax
+    [[maybe_unused]] int packed_high; // edx
     unsigned __int16 triSurfList[128]; // [esp+3Ch] [ebp-158h] BYREF
-    unsigned int *surfaceCastsSunShadow; // [esp+140h] [ebp-54h]
-    GfxDrawSurf drawSurf; // [esp+144h] [ebp-50h]
-    GfxDrawSurf prevDrawSurf; // [esp+14Ch] [ebp-48h]
-    unsigned int stage; // [esp+158h] [ebp-3Ch]
-    unsigned int sortedSurfIndex; // [esp+15Ch] [ebp-38h]
-    const unsigned __int8 *surfaceVisData; // [esp+160h] [ebp-34h]
-    int hasApproxSunDirChanged; // [esp+164h] [ebp-30h]
-    unsigned int triSurfCount; // [esp+168h] [ebp-2Ch]
-    GfxDrawSurf *surfaceMaterials; // [esp+16Ch] [ebp-28h]
-    int fastSunShadow; // [esp+170h] [ebp-24h]
+    [[maybe_unused]] unsigned int *surfaceCastsSunShadow; // [esp+140h] [ebp-54h]
+    [[maybe_unused]] GfxDrawSurf drawSurf; // [esp+144h] [ebp-50h]
+    [[maybe_unused]] GfxDrawSurf prevDrawSurf; // [esp+14Ch] [ebp-48h]
+    [[maybe_unused]] unsigned int stage; // [esp+158h] [ebp-3Ch]
+    [[maybe_unused]] unsigned int sortedSurfIndex; // [esp+15Ch] [ebp-38h]
+    [[maybe_unused]] const unsigned __int8 *surfaceVisData; // [esp+160h] [ebp-34h]
+    [[maybe_unused]] int hasApproxSunDirChanged; // [esp+164h] [ebp-30h]
+    [[maybe_unused]] unsigned int triSurfCount; // [esp+168h] [ebp-2Ch]
+    [[maybe_unused]] GfxDrawSurf *surfaceMaterials; // [esp+16Ch] [ebp-28h]
+    [[maybe_unused]] int fastSunShadow; // [esp+170h] [ebp-24h]
     GfxBspDrawSurfData surfData; // [esp+174h] [ebp-20h] BYREF
-    int skipMaterial; // [esp+190h] [ebp-4h]
+    [[maybe_unused]] int skipMaterial; // [esp+190h] [ebp-4h]
 
     PROF_SCOPED("BspSurfacesShadow");
 
@@ -366,19 +366,19 @@ void __cdecl R_AddAllBspDrawSurfacesRangeSunShadow(
 
 void __cdecl R_AddAllBspDrawSurfacesSpotShadow(unsigned int spotShadowIndex, unsigned int primaryLightIndex)
 {
-    int packed_high; // eax
+    [[maybe_unused]] int packed_high; // eax
     unsigned __int16 triSurfList[128]; // [esp+0h] [ebp-158h] BYREF
-    GfxDrawSurf drawSurf; // [esp+108h] [ebp-50h]
-    GfxShadowGeometry* shadowGeom; // [esp+114h] [ebp-44h]
-    GfxDrawSurf prevDrawSurf; // [esp+118h] [ebp-40h]
-    unsigned int stage; // [esp+120h] [ebp-38h]
-    unsigned int sortedSurfIndex; // [esp+124h] [ebp-34h]
-    unsigned int triSurfCount; // [esp+128h] [ebp-30h]
-    GfxDrawSurf* drawSurfs; // [esp+12Ch] [ebp-2Ch]
-    unsigned int surfIter; // [esp+130h] [ebp-28h]
-    GfxDrawSurf* surfaceMaterials; // [esp+134h] [ebp-24h]
+    [[maybe_unused]] GfxDrawSurf drawSurf; // [esp+108h] [ebp-50h]
+    [[maybe_unused]] GfxShadowGeometry* shadowGeom; // [esp+114h] [ebp-44h]
+    [[maybe_unused]] GfxDrawSurf prevDrawSurf; // [esp+118h] [ebp-40h]
+    [[maybe_unused]] unsigned int stage; // [esp+120h] [ebp-38h]
+    [[maybe_unused]] unsigned int sortedSurfIndex; // [esp+124h] [ebp-34h]
+    [[maybe_unused]] unsigned int triSurfCount; // [esp+128h] [ebp-30h]
+    [[maybe_unused]] GfxDrawSurf* drawSurfs; // [esp+12Ch] [ebp-2Ch]
+    [[maybe_unused]] unsigned int surfIter; // [esp+130h] [ebp-28h]
+    [[maybe_unused]] GfxDrawSurf* surfaceMaterials; // [esp+134h] [ebp-24h]
     GfxBspDrawSurfData surfData; // [esp+138h] [ebp-20h] BYREF
-    int drawSurfCount; // [esp+154h] [ebp-4h]
+    [[maybe_unused]] int drawSurfCount; // [esp+154h] [ebp-4h]
 
     iassert( rgp.world );
     surfaceMaterials = rgp.world->dpvs.surfaceMaterials;

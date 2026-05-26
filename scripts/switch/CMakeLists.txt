@@ -119,6 +119,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_font.cpp"
     "${SRC_DIR}/gfx_d3d/r_image_utils.cpp"
     "${SRC_DIR}/gfx_d3d/r_model.cpp"
+    "${SRC_DIR}/gfx_d3d/r_add_bsp.cpp"
     "${SRC_DIR}/gfx_d3d/r_add_cmdbuf.cpp"
     "${SRC_DIR}/gfx_d3d/r_marks.cpp"
     "${SRC_DIR}/gfx_d3d/r_pretess.cpp"
