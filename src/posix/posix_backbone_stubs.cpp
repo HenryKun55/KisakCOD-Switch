@@ -1643,7 +1643,7 @@ void Phys_ObjSetAngularVelocity(dxBody * /*b*/, float * /*omega*/) {}
 // r_dvars satellite storage (declared extern in r_dvars.h, owned by the
 // Win32 build's r_init.cpp; we own them here until r_init.cpp lands).
 const dvar_t *r_fullscreen;
-const dvar_t *r_warningRepeatDelay;
+// const dvar_t *r_warningRepeatDelay;  // provided by r_warn.cpp now
 const dvar_t *vid_xpos;
 const dvar_t *vid_ypos;
 
@@ -1689,6 +1689,8 @@ struct GfxImageFileHeader;
 char Image_ValidateHeader(GfxImageFileHeader * /*hdr*/, const char * /*name*/) { return 0; }
 struct WaveletDecode;
 void Wavelet_DecompressLevel(unsigned char * /*dst*/, unsigned char * /*src*/, WaveletDecode * /*ctx*/) {}
+unsigned char *Material_Alloc(unsigned int /*size*/) { return nullptr; }
+void Image_BuildWaterMap(GfxImage * /*img*/) {}
 struct DiskGfxReflectionProbe;
 void R_CreateReflectionRawDataFromCubemapShot(DiskGfxReflectionProbe * /*probe*/, int /*downRes*/) {}
 

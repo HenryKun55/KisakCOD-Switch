@@ -5,24 +5,30 @@ const dvar_s *r_warningRepeatDelay;
 unsigned int s_warnCount[41];
 
 
-void R_WarnOncePerFrame(GfxWarningType warnType, ...)
+// KISAKHACK: va_start with a fixed-size enum argument triggers -Wvarargs
+// on clang (it's spec-UB for promotable types). Forward through an int-
+// parameterized helper so the va_start sees an int argument.
+static void R_WarnOncePerFrameV(int warnType, va_list va)
 {
-    char message[1028]; // [esp+0h] [ebp-410h] BYREF
-    float frameRate; // [esp+408h] [ebp-8h]
-    char *vargs; // [esp+40Ch] [ebp-4h]
-    va_list va; // [esp+41Ch] [ebp+Ch] BYREF
+    char message[1028];
+    float frameRate;
 
-    va_start(va, warnType);
     iassert( r_warningRepeatDelay );
     frameRate = R_UpdateFrameRate();
     if (s_warnCount[warnType] < rg.frontEndFrameCount)
     {
         s_warnCount[warnType] = rg.frontEndFrameCount + (int)(frameRate * r_warningRepeatDelay->current.value);
-        va_copy(vargs, va);
         _vsnprintf(message, 0x400u, s_warnFormat[warnType], va);
-        vargs = 0;
         Com_PrintWarning(8, "%s", message);
     }
+}
+
+void R_WarnOncePerFrame(int warnType, ...)
+{
+    va_list va;
+    va_start(va, warnType);
+    R_WarnOncePerFrameV(warnType, va);
+    va_end(va);
 }
 
 unsigned int frameCount;

@@ -119,6 +119,8 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_font.cpp"
     "${SRC_DIR}/gfx_d3d/r_image_utils.cpp"
     "${SRC_DIR}/gfx_d3d/r_imagedecode.cpp"
+    "${SRC_DIR}/gfx_d3d/r_warn.cpp"
+    "${SRC_DIR}/gfx_d3d/r_water_load_obj.cpp"
     "${SRC_DIR}/gfx_d3d/r_model.cpp"
     "${SRC_DIR}/gfx_d3d/r_add_bsp.cpp"
     "${SRC_DIR}/gfx_d3d/r_add_cmdbuf.cpp"

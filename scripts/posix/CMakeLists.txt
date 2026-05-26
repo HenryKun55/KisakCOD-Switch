@@ -162,6 +162,8 @@ set(GFX_PORTABLE_SOURCES
     # r_state_utils.cpp has hard D3D9 dependencies past LOD functions —
     # bring back after D3D9 abstraction layer or selective extraction.
     "${SRC_DIR}/gfx_d3d/r_utils.cpp"
+    "${SRC_DIR}/gfx_d3d/r_warn.cpp"
+    "${SRC_DIR}/gfx_d3d/r_water_load_obj.cpp"
     "${SRC_DIR}/gfx_d3d/r_pixelcost_load_obj.cpp"
     "${SRC_DIR}/gfx_d3d/r_primarylights.cpp"
     "${SRC_DIR}/gfx_d3d/r_reflection_probe_load_obj.cpp"

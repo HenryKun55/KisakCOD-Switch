@@ -218,7 +218,11 @@ void __cdecl R_DebugFree(void **dataPtr);
 
 
 // r_warn
-void R_WarnOncePerFrame(GfxWarningType warnType, ...);
+// warnType is GfxWarningType in spirit; declared as `int` here so that
+// va_start in the impl sees a non-promotable last fixed param (clang
+// -Wvarargs). Callers pass enumerators directly; the implicit
+// enum-to-int conversion is well-defined for the fixed-size enum.
+void R_WarnOncePerFrame(int warnType, ...);
 double __cdecl R_UpdateFrameRate();
 void __cdecl R_WarnInitDvars();
 
