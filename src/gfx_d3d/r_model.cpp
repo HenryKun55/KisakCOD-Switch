@@ -144,7 +144,7 @@ void __cdecl R_ModelList_f()
 void __cdecl R_GetModelList(XAssetHeader header, XAssetHeader *data)
 {
     //iassert( modelList->count < ARRAY_COUNT( modelList->sorted ) ); // KISAKTODO
-    data[(int)data->xmodelPieces++ + 1] = header;
+    data[(int)(uintptr_t)data->xmodelPieces++ + 1] = header;
 }
 
 XModel *__cdecl R_RegisterModel(const char *name)
@@ -288,7 +288,7 @@ int __cdecl R_SkinXModel(
     int lodForDist; // [esp+E64h] [ebp-20h]
     float dist; // [esp+E68h] [ebp-1Ch]
     float AdjustedLodDist; // [esp+E6Ch] [ebp-18h]
-    XModelDrawInfo* modelInfoa; // [esp+E78h] [ebp-Ch]
+    [[maybe_unused]] XModelDrawInfo* modelInfoa; // [esp+E78h] [ebp-Ch]
     //const XModel* modela; // [esp+E7Ch] [ebp-8h]
     //const GfxPlacement* obja; // [esp+E84h] [ebp+0h]
 
@@ -322,10 +322,10 @@ int __cdecl R_SkinXModel(
     {
         xsurf = surfaces + surfaceIndex;
         if (obj
-            && xsurf->partBits[3] & hidePartBits[3]
-            | xsurf->partBits[2] & hidePartBits[2]
-            | xsurf->partBits[1] & hidePartBits[1]
-            | xsurf->partBits[0] & hidePartBits[0])
+            && ((xsurf->partBits[3] & hidePartBits[3])
+                | (xsurf->partBits[2] & hidePartBits[2])
+                | (xsurf->partBits[1] & hidePartBits[1])
+                | (xsurf->partBits[0] & hidePartBits[0])))
         {
             *(_DWORD*)surfPos = -3;
             surfPos += 2;
@@ -338,7 +338,7 @@ int __cdecl R_SkinXModel(
                 startSurfPos = -1;
             *(_DWORD*)surfPos = startSurfPos;
             // @Correctness
-            *((_DWORD*)surfPos + 1) = (_DWORD)xsurf;
+            *((_DWORD*)surfPos + 1) = (_DWORD)(uintptr_t)xsurf;
             surfPos[7] = gfxEntIndex;
             surfPos[8] = 0;
             qmemcpy(surfPos + 12, placement, 0x1Cu);
@@ -381,7 +381,7 @@ int __cdecl R_SkinAndBoundSceneEnt(GfxSceneEntity *sceneEnt)
     DObjAnimMat *boneMatrix; // [esp+0h] [ebp-Ch]
     const DObj_s *obj; // [esp+4h] [ebp-8h] BYREF
     GfxSceneEntity *localSceneEnt; // [esp+8h] [ebp-4h] BYREF
-    int savedregs; // [esp+Ch] [ebp+0h] BYREF
+    [[maybe_unused]] int savedregs; // [esp+Ch] [ebp+0h] BYREF
 
     boneMatrix = R_UpdateSceneEntBounds(sceneEnt, &localSceneEnt, &obj, 1);
     if (boneMatrix)
@@ -413,7 +413,7 @@ void __cdecl R_LockSkinnedCache()
         PROF_SCOPED("LockSkinnedCache");
 
         gfxBuf.skinnedCacheLockAddr = (unsigned char *)R_LockVertexBuffer(vb, 0, 0, 0x2000);
-        if (((unsigned int)gfxBuf.skinnedCacheLockAddr & 0xF) != 0)
+        if (((unsigned int)(uintptr_t)gfxBuf.skinnedCacheLockAddr & 0xF) != 0)
         {
             R_UnlockVertexBuffer(vb);
             gfxBuf.skinnedCacheLockAddr = 0;

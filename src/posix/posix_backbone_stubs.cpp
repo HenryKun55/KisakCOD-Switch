@@ -513,7 +513,7 @@ void TRACK_r_image_wavelet() {}
 void TRACK_r_image() {}
 void TRACK_r_init() {}
 void TRACK_r_material() {}
-void TRACK_r_model() {}
+// void TRACK_r_model() {}
 void TRACK_r_rendercmds() {}
 void TRACK_r_scene() {}
 void TRACK_r_screenshot() {}
@@ -1562,7 +1562,7 @@ FxEffect *FX_SpawnOrientedEffect(int, const FxEffectDef *, int, const float *, c
 void   R_UnlinkEntity(unsigned int, unsigned int) {}
 // void   AimAssist_Setup(int) {}  // provided by aim_assist.cpp now
 void   R_InitSceneData(int) {}
-XModel *R_RegisterModel(const char *) { return nullptr; }
+// XModel *R_RegisterModel(const char *) { return nullptr; }
 void   SND_SetListener(int, int, const float *, const float (*)[3]) {}
 void   SND_FadeAllSounds(float, int) {}
 // CG_UpdatePlayerDObj provided by src/cgame_mp/cg_players_mp.cpp now.
@@ -1657,7 +1657,7 @@ void Z_VirtualCommit(void * /*addr*/, int /*size*/) {}
 void R_AddWorkerCmd(WorkerCmdType /*type*/, unsigned char * /*data*/) {}
 struct GfxSceneEntity;
 const float (*R_UpdateSceneEntBounds(GfxSceneEntity * /*sceneEnt*/, GfxSceneEntity ** /*outLocal*/, const DObj_s ** /*outObj*/, int /*flag*/))[3] { return nullptr; }
-void R_XModelDebug(const DObj_s * /*obj*/, int * /*partBits*/) {}
+// void R_XModelDebug(const DObj_s * /*obj*/, int * /*partBits*/) {}
 
 // r_dpvs satellite stubs.
 struct DpvsPlane;
@@ -1665,6 +1665,12 @@ float R_DpvsPlaneMaxSignedDistToBox(const DpvsPlane * /*plane*/, const float * /
 void R_CopyClipPlane(const DpvsPlane * /*in*/, DpvsPlane * /*out*/) {}
 thread_local unsigned char *g_smodelVisData;
 thread_local unsigned char *g_surfaceVisData;
+
+// r_model satellite stubs.
+struct IDirect3DVertexBuffer9;
+void *R_LockVertexBuffer(IDirect3DVertexBuffer9 * /*vb*/, int /*offset*/, int /*size*/, int /*flags*/) { return nullptr; }
+unsigned char *Hunk_AllocXModelPrecache(unsigned int /*size*/) { return nullptr; }
+unsigned char *Hunk_AllocXModelPrecacheColl(unsigned int /*size*/) { return nullptr; }
 #include <gfx_d3d/r_init.h>
 GfxConfiguration gfxCfg{};
 
@@ -2841,7 +2847,7 @@ void R_Cmd_ReloadMaterialTextures() {}
 void R_Cmd_SaveSun() {}
 void R_ImageList_f() {}
 void R_MaterialList_f() {}
-void R_ModelList_f() {}
+// void R_ModelList_f() {}
 enum GfxScreenshotType : int;
 void R_ScreenshotCommand(GfxScreenshotType) {}
 void R_StaticModelCacheFlush_f() {}
