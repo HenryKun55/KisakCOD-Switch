@@ -2859,6 +2859,16 @@ const dvar_t *r_clear = nullptr;
 const dvar_t *r_clearColor = nullptr;
 const dvar_t *r_clearColor2 = nullptr;
 const dvar_t *developer = nullptr;
+#include <gfx_d3d/r_scene.h>
+GfxBuffers gfxBuf{};
+GfxBackEndData *frontEndDataOut = nullptr;
+GfxScene scene{};
+
+struct IDirect3DIndexBuffer9;
+struct GfxReadCmdBuf;
+int  R_LockIndexBuffer(IDirect3DIndexBuffer9 *, int, int, int) { return 0; }
+int  R_ReadPrimDrawSurfData(GfxReadCmdBuf *, unsigned int) { return 0; }
+int  R_ReadPrimDrawSurfInt(GfxReadCmdBuf *) { return 0; }
 GfxWorld s_world{};
 r_globals_load_t rgl{};
 DynEntityPose *DynEnt_GetClientModelPoseList() { return nullptr; }

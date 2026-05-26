@@ -48,7 +48,7 @@ int __cdecl R_AllocDrawSurf(
     else
     {
         R_EndCmdBuf(delayedCmdBuf);
-        primDrawSurfPos = InterlockedExchangeAdd(&frontEndDataOut->primDrawSurfPos, 512);
+        primDrawSurfPos = InterlockedExchangeAdd(&frontEndDataOut->primDrawSurfPos, 512u);
         if (primDrawSurfPos >= 0x10000)
         {
             delayedCmdBuf->primDrawSurfSize = 0;
@@ -64,7 +64,7 @@ int __cdecl R_AllocDrawSurf(
     {
         delayedCmdBuf->drawSurfKey = drawSurf;
         bcassert(primDrawSurfPos, (1 << MTL_SORT_OBJECT_ID_BITS));
-        *(unsigned int *)&drawSurf.fields = (unsigned __int16)primDrawSurfPos | *(unsigned int *)&drawSurf.fields & 0xFFFF0000;
+        *(unsigned int *)&drawSurf.fields = (unsigned __int16)primDrawSurfPos | (*(unsigned int *)&drawSurf.fields & 0xFFFF0000);
         drawSurfList->current->fields = drawSurf.fields;
         ++drawSurfList->current;
         return 1;
