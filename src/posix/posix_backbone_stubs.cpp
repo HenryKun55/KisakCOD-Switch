@@ -2855,6 +2855,8 @@ DxGlobals dx{};
 r_globals_t rg{};
 r_global_permanent_t rgp{};
 const dvar_t *r_drawDynEnts = nullptr;
+GfxWorld s_world{};
+r_globals_load_t rgl{};
 DynEntityPose *DynEnt_GetClientModelPoseList() { return nullptr; }
 
 void Material_UpdatePicmipAll() {}
@@ -2869,6 +2871,10 @@ void R_ScreenshotCommand(GfxScreenshotType) {}
 void R_StaticModelCacheFlush_f() {}
 void R_StaticModelCacheStats_f() {}
 void RB_Stats_f() {}
+
+struct GfxReflectionProbe;
+struct DiskGfxReflectionProbe;
+void R_GenerateReflectionImages(GfxReflectionProbe *, const DiskGfxReflectionProbe *, int, int) {}
 
 struct GfxCmdBufSourceState;
 void R_WarnOncePerFrame(GfxWarningType, ...) {}
