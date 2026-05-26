@@ -106,7 +106,10 @@ set(GFX_PORTABLE_SOURCES
     # r_buffers.cpp is hard-tied to IDirect3DDevice9/IDirect3DVertexBuffer9/
     # IDirect3DIndexBuffer9. Land behind a graphics abstraction layer.
     "${SRC_DIR}/gfx_d3d/r_cmdbuf.cpp"
+    "${SRC_DIR}/gfx_d3d/r_debug.cpp"
     "${SRC_DIR}/gfx_d3d/r_debug_alloc.cpp"
+    # r_material_override.cpp drags Material_FindTechniqueSet,
+    # materialGlobals, mtlUploadGlob. Land with material batch.
     "${SRC_DIR}/gfx_d3d/r_dobj_skin.cpp"
     # r_image_load_common.cpp needs D3DFMT_* constants — land with the
     # graphics abstraction pass.
@@ -189,6 +192,7 @@ set(DEVGUI_PORTABLE_SOURCES
 
 set(AIMASSIST_PORTABLE_SOURCES
     "${SRC_DIR}/aim_assist/aim_assist.cpp"
+    # aim_target.cpp is SP-only.
     "${SRC_DIR}/aim_assist/aim_target_mp.cpp"
 )
 

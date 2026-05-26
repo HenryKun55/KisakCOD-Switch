@@ -506,7 +506,7 @@ void TRACK_fx_system() {}
 void TRACK_phys() {}
 // void TRACK_q_shared() {}  // provided by q_shared.cpp now
 void TRACK_r_buffers() {}
-void TRACK_r_debug() {}
+// void TRACK_r_debug() {}
 void TRACK_r_dpvs() {}
 void TRACK_r_font() {}
 void TRACK_r_image_wavelet() {}
@@ -659,11 +659,11 @@ bool Material_IsDefault(const Material * /*material*/) { return true; }
 
 // PerpendicularVector provided by src/universal/com_math.cpp now.
 
-void R_CopyDebugLines(trDebugLine_t * /*dst*/, int /*dstCap*/, trDebugLine_t * /*src*/, int /*count*/, int /*offset*/) {}
-void R_CopyDebugStrings(trDebugString_t * /*dst*/, int /*dstCap*/, trDebugString_t * /*src*/, int /*count*/, int /*offset*/) {}
+// void R_CopyDebugLines(trDebugLine_t * /*dst*/, int /*dstCap*/, trDebugLine_t * /*src*/, int /*count*/, int /*offset*/) {}
+// void R_CopyDebugStrings(trDebugString_t * /*dst*/, int /*dstCap*/, trDebugString_t * /*src*/, int /*count*/, int /*offset*/) {}
 // void R_DebugAlloc(void **out, int size, const char * /*name*/) { if (out) *out = std::calloc(1, size); }  // provided by gfx_d3d batch now
 // void R_DebugFree(void **p) { if (p && *p) { std::free(*p); *p = nullptr; } }  // provided by gfx_d3d batch now
-void R_ShutdownDebug() {}
+// void R_ShutdownDebug() {}
 
 // Scr_*
 // void Scr_AddClassField(unsigned int /*classnum*/, char * /*name*/, unsigned int /*offset*/) {}  // provided by scr_variable/scr_stringlist now

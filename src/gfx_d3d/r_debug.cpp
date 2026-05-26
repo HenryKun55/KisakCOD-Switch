@@ -247,7 +247,7 @@ void __cdecl R_CopyDebugStrings(
     unsigned __int8 *dest; // [esp+8h] [ebp-4h]
 
     dg = &frontEndDataOut->debugGlobals;
-    if (!clStrings && !svStrings
+    if ((!clStrings && !svStrings)
         || frontEndDataOut->debugGlobals.externStrings
         || (R_DebugAlloc((void **)&frontEndDataOut->debugGlobals.externStrings, maxStringCount << 7, "R_CopyDebugStrings"),
             dg->externStrings))
@@ -275,7 +275,7 @@ void __cdecl R_CopyDebugLines(
     unsigned __int8 *dest; // [esp+8h] [ebp-4h]
 
     dg = &frontEndDataOut->debugGlobals;
-    if (!clLines && !svLines
+    if ((!clLines && !svLines)
         || frontEndDataOut->debugGlobals.externLines
         || (R_DebugAlloc((void **)&frontEndDataOut->debugGlobals.externLines, 44 * maxLineCount, "R_CopyDebugLines"),
             dg->externLines))
