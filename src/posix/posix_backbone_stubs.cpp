@@ -2857,6 +2857,19 @@ r_global_permanent_t rgp{};
 const dvar_t *r_drawDynEnts = nullptr;
 DynEntityPose *DynEnt_GetClientModelPoseList() { return nullptr; }
 
+void Material_UpdatePicmipAll() {}
+void R_Cmd_LoadSun() {}
+void R_Cmd_ReloadMaterialTextures() {}
+void R_Cmd_SaveSun() {}
+void R_ImageList_f() {}
+void R_MaterialList_f() {}
+void R_ModelList_f() {}
+enum GfxScreenshotType : int;
+void R_ScreenshotCommand(GfxScreenshotType) {}
+void R_StaticModelCacheFlush_f() {}
+void R_StaticModelCacheStats_f() {}
+void RB_Stats_f() {}
+
 struct GfxCmdBufSourceState;
 void R_WarnOncePerFrame(GfxWarningType, ...) {}
 void R_MatrixIdentity44(float (*m)[4]) {

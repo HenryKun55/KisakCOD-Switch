@@ -95,11 +95,13 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_cmdbuf.cpp"
     "${SRC_DIR}/gfx_d3d/r_debug_alloc.cpp"
     "${SRC_DIR}/gfx_d3d/r_devgui.cpp"
+    "${SRC_DIR}/gfx_d3d/r_cmds.cpp"
     "${SRC_DIR}/gfx_d3d/r_dpvs_dynmodel.cpp"
     "${SRC_DIR}/gfx_d3d/r_draw_pixelshader.cpp"
     "${SRC_DIR}/gfx_d3d/r_fog.cpp"
     "${SRC_DIR}/gfx_d3d/r_image_utils.cpp"
     "${SRC_DIR}/gfx_d3d/r_pixelcost_load_obj.cpp"
+    "${SRC_DIR}/gfx_d3d/r_staticmodel.cpp"
     "${SRC_DIR}/gfx_d3d/r_xsurface.cpp"
 )
 
