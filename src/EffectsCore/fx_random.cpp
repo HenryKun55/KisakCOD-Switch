@@ -9,8 +9,8 @@ void __cdecl TRACK_fx_random()
 
 void __cdecl FX_RandomDir(int32_t seed, float* dir)
 {
-    const char *v2; // eax
-    double v3; // [esp+18h] [ebp-3Ch]
+    [[maybe_unused]] const char *v2; // eax
+    [[maybe_unused]] double v3; // [esp+18h] [ebp-3Ch]
     float v4; // [esp+20h] [ebp-34h]
     float v5; // [esp+24h] [ebp-30h]
     float height; // [esp+40h] [ebp-14h]
@@ -175,4 +175,5 @@ const float fx_randomTable[507] = { // idb
 , 0.65731519f, 0.29047075f
 };
 #if UINTPTR_MAX == 0xFFFFFFFFu
-static_assert(sizeof(fx_randomTable) == 0x7EC, "");#endif
+static_assert(sizeof(fx_randomTable) == 0x7EC, "");
+#endif

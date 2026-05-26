@@ -10,11 +10,11 @@ void __cdecl FX_SortEffects(FxSystem *system)
     int v4; // [esp+1048h] [ebp-20h]
     unsigned __int16 v5; // [esp+104Ch] [ebp-1Ch]
     float *a; // [esp+1050h] [ebp-18h]
-    volatile int j; // [esp+1054h] [ebp-14h]
+    int j; // [esp+1054h] [ebp-14h]
     int v8; // [esp+1058h] [ebp-10h]
     FxEffect *secondEffect; // [esp+105Ch] [ebp-Ch]
     float v10; // [esp+1060h] [ebp-8h]
-    volatile int i; // [esp+1064h] [ebp-4h]
+    int i; // [esp+1064h] [ebp-4h]
 
     PROF_SCOPED("FX_Sort");
     if (!system)
@@ -60,7 +60,7 @@ void __cdecl FX_WaitBeginIteratingOverEffects_Exclusive(FxSystem *system)
     {
         while (*Destination)
             ;
-    } while (InterlockedCompareExchange(Destination, -1, 0));
+    } while (InterlockedCompareExchange(Destination, static_cast<long>(-1), static_cast<long>(0)));
 }
 
 bool __cdecl FX_FirstEffectIsFurther(FxEffect *firstEffect, FxEffect *secondEffect)
@@ -168,7 +168,7 @@ void __cdecl FX_SortSpriteElemIntoEffect(FxSystem *system, FxEffect *effect, FxE
     unsigned __int16 elemHandle; // [esp+70h] [ebp-14h]
     FxElem *nextElem; // [esp+74h] [ebp-10h]
     unsigned __int16 *prevNextElemHandle; // [esp+78h] [ebp-Ch]
-    FxElem *prevElem; // [esp+7Ch] [ebp-8h]
+    [[maybe_unused]] FxElem *prevElem; // [esp+7Ch] [ebp-8h]
     unsigned __int16 prevElemHandle; // [esp+80h] [ebp-4h]
 
     nextElem = 0;

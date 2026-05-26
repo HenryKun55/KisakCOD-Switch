@@ -499,7 +499,7 @@ void TRACK_db_registry() {}
 void TRACK_devgui() {}
 void TRACK_dobj_management() {}
 void TRACK_fx_marks() {}
-void TRACK_fx_random() {}
+// void TRACK_fx_random() {}  // provided by fx_random.cpp now
 void TRACK_fx_system() {}
 // void TRACK_missile_attractors() {}  // provided by g_missile.cpp now
 // void TRACK_msg() {}  // provided by sv_msg_write_mp.cpp now
@@ -986,7 +986,7 @@ void Com_TouchMemory() {}
 
 void DB_EnumXAssets(XAssetType /*type*/, void (*)(XAssetHeader, void*) /*cb*/, void * /*ctx*/, bool /*loaded*/) {}
 void DevGui_AddCommand(const char * /*name*/, char * /*menu*/) {}
-void FX_Archive(int /*localClientNum*/, MemoryFile * /*memFile*/) {}
+// void FX_Archive(int, MemoryFile*) {}  // provided by fx_archive.cpp now
 
 // const char *Info_ValueForKey(const char * /*s*/, const char * /*key*/) { return ""; }  // provided by q_shared.cpp now
 
@@ -1194,7 +1194,7 @@ int getBuildNumberAsInt() { return 0; }
 // across the network. Storage is const to match the upstream declaration
 // `extern const float fx_randomTable[507]` in fx_system.h; the static
 // initializer below mutates through a non-const alias.
-const float fx_randomTable[507] = {};
+// const float fx_randomTable[507] — provided by fx_random.cpp now.
 int fx_serverVisClient = -1;
 
 // =========================================================================
@@ -1408,41 +1408,13 @@ scrParserPub_t   scrParserPub{};
 scrVmPub_t       scrVmPub{};
 bool g_loadedImpureScript = false;
 
-namespace {
-struct FxRandomTableInit {
-    FxRandomTableInit() {
-        float *table = const_cast<float *>(fx_randomTable);
-        unsigned int s = 0xCAFEF00Du;
-        for (int i = 0; i < 507; ++i) {
-            s = s * 1103515245u + 12345u;
-            table[i] = ((s >> 8) & 0xFFFFFF) / float(0x800000) - 1.0f;
-        }
-    }
-};
-[[maybe_unused]] FxRandomTableInit g_fxRandomTableInit;
-}
-
-void FX_RandomDir(int seed, float *dir)
-{
-    // Use fx_randomTable as the seed source. Pull three entries from the
-    // table at staggered offsets, treat as a 3D vector, normalize.
-    const int n = 507;
-    int i0 = ((seed * 1664525) >> 0) % n; if (i0 < 0) i0 += n;
-    int i1 = ((seed * 1013904223) >> 4) % n; if (i1 < 0) i1 += n;
-    int i2 = ((seed * 22695477) >> 8) % n; if (i2 < 0) i2 += n;
-    dir[0] = fx_randomTable[i0];
-    dir[1] = fx_randomTable[i1];
-    dir[2] = fx_randomTable[i2];
-    float l = std::sqrt(dir[0] * dir[0] + dir[1] * dir[1] + dir[2] * dir[2]);
-    if (l > 0) { dir[0] /= l; dir[1] /= l; dir[2] /= l; }
-    else       { dir[0] = 1; dir[1] = 0; dir[2] = 0; }
-}
+// FxRandomTableInit / FX_RandomDir — provided by fx_random.cpp now.
 
 // === CGAME draw/debug/reticles/offhandweapons satellites ===========================
 
 // CG_ShouldDrawHud provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 void R_TrackStatistics(trStatistics_t *) {}
-void FX_DrawMarkProfile(int, void (*)(const char *, float *), float *) {}
+// void FX_DrawMarkProfile(int, void (*)(const char *, float *), float *) {}  // provided by fx_profile.cpp now
 int  PMem_GetFreeAmount() { return 0; }
 void Phys_DrawDebugText(const ScreenPlacement *) {}
 int  Scr_GetStringUsage() { return 0; }
@@ -1460,7 +1432,7 @@ void Phys_PerformanceEndFrame() {}
 // int  BG_GetFirstEquippedOffhand(const playerState_s *, int) { return 0; }  // provided by bg_weapons.cpp now
 // int  BG_GetFirstAvailableOffhand(const playerState_s *, int) { return 0; }  // provided by bg_weapons.cpp now
 // CG_Flashbanged provided by src/cgame/cg_shellshock.cpp now.
-void FX_DrawProfile(int, void (*)(char *), float *) {}
+// void FX_DrawProfile(int, void (*)(char *), float *) {}  // provided by fx_profile.cpp now
 int  R_PickMaterial(int, const float *, const float *, char *, char *, char *, unsigned int) { return 0; }
 // uint32_t BG_GetNumWeapons() { return 0u; }  // provided by bg_weapons.cpp now
 // int32_t  BG_ClipForWeapon(uint32_t) { return 0; }  // provided by bg_weapons.cpp now
@@ -1635,6 +1607,28 @@ double R_GetFarPlaneDist() { return 0.0; }
 double R_GetBaseLodDist(const float * /*origin*/) { return 0.0; }
 enum XModelLodRampType : int;
 double R_GetAdjustedLodDist(float dist, XModelLodRampType /*lodRampType*/) { return dist; }
+
+// FX_ family — stubs until fx_system / fx_marks / fx_update land.
+struct FxSystem;
+struct FxSystemBuffers;
+struct FxEffectDef;
+struct FxMarksSystem;
+struct FxMark;
+struct MemoryFile;
+FxSystem *FX_GetSystem(int /*localClientNum*/) { return nullptr; }
+FxSystemBuffers *FX_GetSystemBuffers(int /*localClientNum*/) { return nullptr; }
+void FX_LinkSystemBuffers(FxSystem * /*system*/, FxSystemBuffers * /*buffers*/) {}
+void FX_RelocateSystem(FxSystem * /*system*/, int /*delta*/) {}
+void FX_RunGarbageCollection(FxSystem * /*system*/) {}
+void FX_BeginIteratingOverEffects_Cooperative(FxSystem * /*system*/) {}
+void FX_ForEachEffectDef(void (* /*cb*/)(const FxEffectDef *, void *), void * /*data*/) {}
+unsigned short FX_MarkToHandle(FxMarksSystem * /*sys*/, FxMark * /*mark*/) { return 0; }
+FxMark *FX_MarkFromHandle(FxMarksSystem * /*sys*/, unsigned short /*handle*/) { return nullptr; }
+#include <gfx_d3d/fxprimitives.h>
+FxMarksSystem fx_marksSystemPool[1] = {};
+
+dxBody *Phys_ObjLoad(PhysWorld /*w*/, MemoryFile * /*memFile*/) { return nullptr; }
+void Phys_ObjSave(dxBody * /*body*/, MemoryFile * /*memFile*/) {}
 // CG_AddPacketEntity provided by src/cgame_mp/cg_ents_mp.cpp now.
 // bool  Key_IsCatcherActive(int, int) { return false; }  // provided by cl_keys.cpp now
 // CG_AddPacketEntities provided by src/cgame_mp/cg_ents_mp.cpp now.

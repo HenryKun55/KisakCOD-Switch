@@ -18,7 +18,7 @@ void __cdecl FX_DrawProfile(int32_t clientIndex, void(__cdecl *drawFunc)(char *)
     FxSystem *system; // [esp+48h] [ebp-700Ch]
     FxProfileEntry entryPool[1024]; // [esp+4Ch] [ebp-7008h] BYREF
     FxProfileEntry *entry; // [esp+704Ch] [ebp-8h]
-    volatile int32_t i; // [esp+7050h] [ebp-4h]
+    int32_t i; // [esp+7050h] [ebp-4h]
 
     system = FX_GetSystem(clientIndex);
     if (!system)
