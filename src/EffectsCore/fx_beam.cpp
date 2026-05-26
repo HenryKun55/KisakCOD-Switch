@@ -35,64 +35,64 @@ static const float4 wiggle[] = {
 
 void __cdecl FX_Beam_GenerateVerts(FxGenerateVertsCmd *cmd)
 {
-    float4 v1; // [esp-24h] [ebp-2DCh]
-    float v2; // [esp+8h] [ebp-2B0h]
-    float v3; // [esp+2Ch] [ebp-28Ch]
-    float v4; // [esp+30h] [ebp-288h]
-    float v5; // [esp+34h] [ebp-284h]
-    float v6; // [esp+38h] [ebp-280h]
-    unsigned __int8 v7; // [esp+40h] [ebp-278h]
-    int v8; // [esp+44h] [ebp-274h]
-    float v9; // [esp+48h] [ebp-270h]
-    float4 *v10; // [esp+4Ch] [ebp-26Ch]
-    float4 *v11; // [esp+50h] [ebp-268h]
-    float4 *v12; // [esp+54h] [ebp-264h]
-    float4 v20; // [esp+ACh] [ebp-20Ch]
-    float4 wiggleVec; // [esp+CCh] [ebp-1ECh]
-    float4 scaledWiggle; // [esp+DCh] [ebp-1DCh]
-    int dim; // [esp+ECh] [ebp-1CCh]
-    float4 basePos; // [esp+F0h] [ebp-1C8h]
-    float lerpedRadius; // [esp+100h] [ebp-1B8h]
-    float4 wiggleYs; // [esp+104h] [ebp-1B4h]
-    float alpha; // [esp+114h] [ebp-1A4h]
-    float4 wiggleXs; // [esp+118h] [ebp-1A0h]
-    int indexPairIter; // [esp+128h] [ebp-190h]
-    unsigned __int16 offset; // [esp+12Ch] [ebp-18Ch]
-    float endRadius; // [esp+130h] [ebp-188h]
-    r_double_index_t workingIndex; // [esp+134h] [ebp-184h]
+    [[maybe_unused]] float4 v1; // [esp-24h] [ebp-2DCh]
+    [[maybe_unused]] float v2; // [esp+8h] [ebp-2B0h]
+    [[maybe_unused]] float v3; // [esp+2Ch] [ebp-28Ch]
+    [[maybe_unused]] float v4; // [esp+30h] [ebp-288h]
+    [[maybe_unused]] float v5; // [esp+34h] [ebp-284h]
+    [[maybe_unused]] float v6; // [esp+38h] [ebp-280h]
+    [[maybe_unused]] unsigned __int8 v7; // [esp+40h] [ebp-278h]
+    [[maybe_unused]] int v8; // [esp+44h] [ebp-274h]
+    [[maybe_unused]] float v9; // [esp+48h] [ebp-270h]
+    [[maybe_unused]] float4 *v10; // [esp+4Ch] [ebp-26Ch]
+    [[maybe_unused]] float4 *v11; // [esp+50h] [ebp-268h]
+    [[maybe_unused]] float4 *v12; // [esp+54h] [ebp-264h]
+    [[maybe_unused]] float4 v20; // [esp+ACh] [ebp-20Ch]
+    [[maybe_unused]] float4 wiggleVec; // [esp+CCh] [ebp-1ECh]
+    [[maybe_unused]] float4 scaledWiggle; // [esp+DCh] [ebp-1DCh]
+    [[maybe_unused]] int dim; // [esp+ECh] [ebp-1CCh]
+    [[maybe_unused]] float4 basePos; // [esp+F0h] [ebp-1C8h]
+    [[maybe_unused]] float lerpedRadius; // [esp+100h] [ebp-1B8h]
+    [[maybe_unused]] float4 wiggleYs; // [esp+104h] [ebp-1B4h]
+    [[maybe_unused]] float alpha; // [esp+114h] [ebp-1A4h]
+    [[maybe_unused]] float4 wiggleXs; // [esp+118h] [ebp-1A0h]
+    [[maybe_unused]] int indexPairIter; // [esp+128h] [ebp-190h]
+    [[maybe_unused]] unsigned __int16 offset; // [esp+12Ch] [ebp-18Ch]
+    [[maybe_unused]] float endRadius; // [esp+130h] [ebp-188h]
+    [[maybe_unused]] r_double_index_t workingIndex; // [esp+134h] [ebp-184h]
     r_double_index_t *baseIndices; // [esp+138h] [ebp-180h] BYREF
     float4 flatDelta; // [esp+13Ch] [ebp-17Ch] BYREF
-    int segIter; // [esp+14Ch] [ebp-16Ch]
-    float4 *baseArgs; // [esp+150h] [ebp-168h]
-    FxBeam *beam; // [esp+154h] [ebp-164h]
-    float4 beamWorldEnd; // [esp+158h] [ebp-160h]
-    float4 vertPos; // [esp+168h] [ebp-150h]
-    GfxColor endColor; // [esp+178h] [ebp-140h]
-    float beginRadius; // [esp+17Ch] [ebp-13Ch]
-    float wiggleDist; // [esp+180h] [ebp-138h]
-    int vertexCount; // [esp+184h] [ebp-134h]
-    int segCount; // [esp+188h] [ebp-130h]
-    int indexCount; // [esp+18Ch] [ebp-12Ch]
-    GfxPackedVertex *verts; // [esp+190h] [ebp-128h]
-    float4 beamDot; // [esp+194h] [ebp-124h]
-    r_double_index_t *indices; // [esp+1A4h] [ebp-114h]
-    float4 beamWorldBegin; // [esp+1A8h] [ebp-110h]
-    GfxColor beginColor; // [esp+1B8h] [ebp-100h]
-    GfxColor lerpedColor; // [esp+1BCh] [ebp-FCh]
-    float4 tpos0; // [esp+1C0h] [ebp-F8h]
+    [[maybe_unused]] int segIter; // [esp+14Ch] [ebp-16Ch]
+    [[maybe_unused]] float4 *baseArgs; // [esp+150h] [ebp-168h]
+    [[maybe_unused]] FxBeam *beam; // [esp+154h] [ebp-164h]
+    [[maybe_unused]] float4 beamWorldEnd; // [esp+158h] [ebp-160h]
+    [[maybe_unused]] float4 vertPos; // [esp+168h] [ebp-150h]
+    [[maybe_unused]] GfxColor endColor; // [esp+178h] [ebp-140h]
+    [[maybe_unused]] float beginRadius; // [esp+17Ch] [ebp-13Ch]
+    [[maybe_unused]] float wiggleDist; // [esp+180h] [ebp-138h]
+    [[maybe_unused]] int vertexCount; // [esp+184h] [ebp-134h]
+    [[maybe_unused]] int segCount; // [esp+188h] [ebp-130h]
+    [[maybe_unused]] int indexCount; // [esp+18Ch] [ebp-12Ch]
+    [[maybe_unused]] GfxPackedVertex *verts; // [esp+190h] [ebp-128h]
+    [[maybe_unused]] float4 beamDot; // [esp+194h] [ebp-124h]
+    [[maybe_unused]] r_double_index_t *indices; // [esp+1A4h] [ebp-114h]
+    [[maybe_unused]] float4 beamWorldBegin; // [esp+1A8h] [ebp-110h]
+    [[maybe_unused]] GfxColor beginColor; // [esp+1B8h] [ebp-100h]
+    [[maybe_unused]] GfxColor lerpedColor; // [esp+1BCh] [ebp-FCh]
+    [[maybe_unused]] float4 tpos0; // [esp+1C0h] [ebp-F8h]
     float4 normDelta; // [esp+1D0h] [ebp-E8h] BYREF
     unsigned int argOffset; // [esp+1E0h] [ebp-D8h] BYREF
     unsigned __int16 baseVertex; // [esp+1E4h] [ebp-D4h] BYREF
     float4 perpFlatDelta; // [esp+1E8h] [ebp-D0h] BYREF
-    float4 *args; // [esp+1F8h] [ebp-C0h]
-    GfxPackedVertex *baseVerts; // [esp+1FCh] [ebp-BCh]
-    float4 tpos1; // [esp+200h] [ebp-B8h]
-    FxBeamInfo *beamInfo; // [esp+210h] [ebp-A8h]
+    [[maybe_unused]] float4 *args; // [esp+1F8h] [ebp-C0h]
+    [[maybe_unused]] GfxPackedVertex *baseVerts; // [esp+1FCh] [ebp-BCh]
+    [[maybe_unused]] float4 tpos1; // [esp+200h] [ebp-B8h]
+    [[maybe_unused]] FxBeamInfo *beamInfo; // [esp+210h] [ebp-A8h]
     float4 viewAxis; // [esp+218h] [ebp-A0h] BYREF
     float4x4 clipMtx; // [esp+228h] [ebp-90h] BYREF
-    int beamIter; // [esp+26Ch] [ebp-4Ch]
+    [[maybe_unused]] int beamIter; // [esp+26Ch] [ebp-4Ch]
     float4x4 invClipMtx; // [esp+270h] [ebp-48h] BYREF
-    int savedregs; // [esp+2B8h] [ebp+0h] BYREF
+    [[maybe_unused]] int savedregs; // [esp+2B8h] [ebp+0h] BYREF
 
     iassert(cmd);
     iassert(cmd->beamInfo);
@@ -332,7 +332,7 @@ void __cdecl FX_Beam_GenerateVerts(FxGenerateVertsCmd *cmd)
 
 void __cdecl CreateClipMatrix(float4x4* clipMtx, const float* vieworg, const mat3x3& viewaxis)
 {
-    unsigned int v3; // [esp+Ch] [ebp-90h]
+    [[maybe_unused]] unsigned int v3; // [esp+Ch] [ebp-90h]
     float4x4 viewMtx; // [esp+14h] [ebp-88h] BYREF
     float4x4 projMtx; // [esp+54h] [ebp-48h] BYREF
     cg_s *cgameGlob;
@@ -408,9 +408,9 @@ void __cdecl CreateClipMatrix(float4x4* clipMtx, const float* vieworg, const mat
 
 void __cdecl Float4x4ForViewer(float4x4 *mtx, const vec3r origin3, const mat3x3& axis3)
 {
-    float4 origin; // [esp+144h] [ebp-A8h]
+    [[maybe_unused]] float4 origin; // [esp+144h] [ebp-A8h]
     float4x4 tAxis; // [esp+154h] [ebp-98h] BYREF
-    float4 transRow; // [esp+194h] [ebp-58h]
+    [[maybe_unused]] float4 transRow; // [esp+194h] [ebp-58h]
     float4x4 axis; // [esp+1A4h] [ebp-48h] BYREF
 
     origin.v[0] = origin3[0];
@@ -443,10 +443,10 @@ void __cdecl Float4x4ForViewer(float4x4 *mtx, const vec3r origin3, const mat3x3&
     tAxis.y.v[2] = -tAxis.y.v[2];
     tAxis.y.v[3] = -(float)0.0;
 
-    axis.x = { tAxis.x.v[0], tAxis.y.v[0], tAxis.z.v[0], 0.0f };
-    axis.y = { tAxis.x.v[1], tAxis.y.v[1], tAxis.z.v[1], 0.0f };
-    axis.z = { tAxis.x.v[2], tAxis.y.v[2], tAxis.z.v[2], 0.0f };
-    axis.w = { 0.0f,         tAxis.y.v[3], 0.0f,         1.0f };
+    axis.x = { { tAxis.x.v[0], tAxis.y.v[0], tAxis.z.v[0], 0.0f } };
+    axis.y = { { tAxis.x.v[1], tAxis.y.v[1], tAxis.z.v[1], 0.0f } };
+    axis.z = { { tAxis.x.v[2], tAxis.y.v[2], tAxis.z.v[2], 0.0f } };
+    axis.w = { { 0.0f,         tAxis.y.v[3], 0.0f,         1.0f } };
 
     mtx->x.unitVec[0].array[0] = axis.x.unitVec[0].array[g_swizzleYZXW.unitVec[0].array[3]];
     mtx->x.unitVec[0].array[1] = axis.x.unitVec[0].array[g_swizzleYZXW.unitVec[0].array[2]];
@@ -541,54 +541,54 @@ char  FX_GenerateBeam_GetFlatDelta(
     float4 beamWorldEnd,
     float4 *outFlatDelta)
 {
-    float v7; // [esp-148h] [ebp-154h]
-    float v8; // [esp-144h] [ebp-150h]
-    float v9; // [esp-144h] [ebp-150h]
+    [[maybe_unused]] float v7; // [esp-148h] [ebp-154h]
+    [[maybe_unused]] float v8; // [esp-144h] [ebp-150h]
+    [[maybe_unused]] float v9; // [esp-144h] [ebp-150h]
     float4 v10; // [esp-140h] [ebp-14Ch] BYREF
-    float4 v11; // [esp-12Ch] [ebp-138h]
-    float v12; // [esp-11Ch] [ebp-128h]
-    __int64 v13; // [esp-118h] [ebp-124h]
-    float v14; // [esp-110h] [ebp-11Ch]
-    float v15; // [esp-10Ch] [ebp-118h]
-    __int64 v16; // [esp-108h] [ebp-114h]
-    float v17; // [esp-100h] [ebp-10Ch]
-    float4 v18; // [esp-FCh] [ebp-108h]
-    float4 v19; // [esp-ECh] [ebp-F8h]
-    float4 v20; // [esp-DCh] [ebp-E8h]
-    float v21; // [esp-CCh] [ebp-D8h]
-    float v22; // [esp-C8h] [ebp-D4h]
-    float v23; // [esp-C4h] [ebp-D0h]
-    float v24; // [esp-C0h] [ebp-CCh]
-    float v25; // [esp-BCh] [ebp-C8h]
-    float v26; // [esp-B8h] [ebp-C4h]
-    float v27; // [esp-B4h] [ebp-C0h]
-    float v28; // [esp-B0h] [ebp-BCh]
-    float v29; // [esp-ACh] [ebp-B8h]
-    float v30; // [esp-A8h] [ebp-B4h]
+    [[maybe_unused]] float4 v11; // [esp-12Ch] [ebp-138h]
+    [[maybe_unused]] float v12; // [esp-11Ch] [ebp-128h]
+    [[maybe_unused]] __int64 v13; // [esp-118h] [ebp-124h]
+    [[maybe_unused]] float v14; // [esp-110h] [ebp-11Ch]
+    [[maybe_unused]] float v15; // [esp-10Ch] [ebp-118h]
+    [[maybe_unused]] __int64 v16; // [esp-108h] [ebp-114h]
+    [[maybe_unused]] float v17; // [esp-100h] [ebp-10Ch]
+    [[maybe_unused]] float4 v18; // [esp-FCh] [ebp-108h]
+    [[maybe_unused]] float4 v19; // [esp-ECh] [ebp-F8h]
+    [[maybe_unused]] float4 v20; // [esp-DCh] [ebp-E8h]
+    [[maybe_unused]] float v21; // [esp-CCh] [ebp-D8h]
+    [[maybe_unused]] float v22; // [esp-C8h] [ebp-D4h]
+    [[maybe_unused]] float v23; // [esp-C4h] [ebp-D0h]
+    [[maybe_unused]] float v24; // [esp-C0h] [ebp-CCh]
+    [[maybe_unused]] float v25; // [esp-BCh] [ebp-C8h]
+    [[maybe_unused]] float v26; // [esp-B8h] [ebp-C4h]
+    [[maybe_unused]] float v27; // [esp-B4h] [ebp-C0h]
+    [[maybe_unused]] float v28; // [esp-B0h] [ebp-BCh]
+    [[maybe_unused]] float v29; // [esp-ACh] [ebp-B8h]
+    [[maybe_unused]] float v30; // [esp-A8h] [ebp-B4h]
     float4 in; // [esp-A4h] [ebp-B0h] BYREF
-    float4 v32; // [esp-94h] [ebp-A0h]
-    float v33; // [esp-84h] [ebp-90h]
-    float v34; // [esp-80h] [ebp-8Ch]
-    float v35; // [esp-7Ch] [ebp-88h]
-    float v36; // [esp-78h] [ebp-84h]
+    [[maybe_unused]] float4 v32; // [esp-94h] [ebp-A0h]
+    [[maybe_unused]] float v33; // [esp-84h] [ebp-90h]
+    [[maybe_unused]] float v34; // [esp-80h] [ebp-8Ch]
+    [[maybe_unused]] float v35; // [esp-7Ch] [ebp-88h]
+    [[maybe_unused]] float v36; // [esp-78h] [ebp-84h]
     float4 v37; // [esp-74h] [ebp-80h] BYREF
-    float4 v38; // [esp-64h] [ebp-70h]
-    float v39; // [esp-54h] [ebp-60h]
-    float v40; // [esp-50h] [ebp-5Ch]
-    float v41; // [esp-4Ch] [ebp-58h]
-    float v42; // [esp-48h] [ebp-54h]
-    float v43; // [esp-44h] [ebp-50h]
-    float v44; // [esp-40h] [ebp-4Ch]
-    float v45; // [esp-3Ch] [ebp-48h]
-    float v46; // [esp-38h] [ebp-44h]
-    float4 v47; // [esp-34h] [ebp-40h]
-    float v48; // [esp-24h] [ebp-30h]
-    float v49; // [esp-20h] [ebp-2Ch]
-    float v50; // [esp-1Ch] [ebp-28h]
-    float v51; // [esp-18h] [ebp-24h]
-    float4 v52; // [esp-14h] [ebp-20h]
-    void* v54; // [esp+4h] [ebp-8h]
-    void* retaddr; // [esp+Ch] [ebp+0h]
+    [[maybe_unused]] float4 v38; // [esp-64h] [ebp-70h]
+    [[maybe_unused]] float v39; // [esp-54h] [ebp-60h]
+    [[maybe_unused]] float v40; // [esp-50h] [ebp-5Ch]
+    [[maybe_unused]] float v41; // [esp-4Ch] [ebp-58h]
+    [[maybe_unused]] float v42; // [esp-48h] [ebp-54h]
+    [[maybe_unused]] float v43; // [esp-44h] [ebp-50h]
+    [[maybe_unused]] float v44; // [esp-40h] [ebp-4Ch]
+    [[maybe_unused]] float v45; // [esp-3Ch] [ebp-48h]
+    [[maybe_unused]] float v46; // [esp-38h] [ebp-44h]
+    [[maybe_unused]] float4 v47; // [esp-34h] [ebp-40h]
+    [[maybe_unused]] float v48; // [esp-24h] [ebp-30h]
+    [[maybe_unused]] float v49; // [esp-20h] [ebp-2Ch]
+    [[maybe_unused]] float v50; // [esp-1Ch] [ebp-28h]
+    [[maybe_unused]] float v51; // [esp-18h] [ebp-24h]
+    [[maybe_unused]] float4 v52; // [esp-14h] [ebp-20h]
+    [[maybe_unused]] void* v54; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] void* retaddr; // [esp+Ch] [ebp+0h]
 
     v48 = beamWorldBegin.v[0] + 0.0;
     v49 = beamWorldBegin.v[1] + 0.0;
@@ -702,38 +702,38 @@ bool __cdecl Vec4HomogenousClipBothZ(float4 *pt0, float4 *pt1)
 
 bool __cdecl Vec4HomogenousClipZW(float4 *pt0, float4 *pt1, float4 coeffZW)
 {
-    float v4; // [esp+4h] [ebp-D8h]
-    float v5; // [esp+8h] [ebp-D4h]
-    float v6; // [esp+Ch] [ebp-D0h]
-    float v7; // [esp+10h] [ebp-CCh]
-    int v8; // [esp+14h] [ebp-C8h]
-    int v9; // [esp+18h] [ebp-C4h]
-    int v10; // [esp+1Ch] [ebp-C0h]
-    int v11; // [esp+20h] [ebp-BCh]
-    int v12; // [esp+24h] [ebp-B8h]
-    int v13; // [esp+28h] [ebp-B4h]
-    int v14; // [esp+2Ch] [ebp-B0h]
-    int v15; // [esp+30h] [ebp-ACh]
-    float v16; // [esp+3Ch] [ebp-A0h]
-    float v17; // [esp+40h] [ebp-9Ch]
-    __int64 dist1Cmp; // [esp+44h] [ebp-98h]
-    __int64 dist1Cmp_8; // [esp+4Ch] [ebp-90h]
-    float clipped; // [esp+58h] [ebp-84h]
-    __int64 clippeda; // [esp+58h] [ebp-84h]
-    float clipped_4; // [esp+5Ch] [ebp-80h]
-    float clipped_8; // [esp+60h] [ebp-7Ch]
-    __int64 clipped_8a; // [esp+60h] [ebp-7Ch]
-    float clipped_12; // [esp+64h] [ebp-78h]
-    __int64 dist1Sel1; // [esp+78h] [ebp-64h]
-    __int64 dist1Sel1_8; // [esp+80h] [ebp-5Ch]
-    __int64 dist0Cmp; // [esp+98h] [ebp-44h]
-    __int64 dist0Cmp_8; // [esp+A0h] [ebp-3Ch]
-    float alpha; // [esp+B8h] [ebp-24h]
-    float alphaa; // [esp+B8h] [ebp-24h]
-    float alpha_4; // [esp+BCh] [ebp-20h]
-    float alpha_8; // [esp+C0h] [ebp-1Ch]
-    float alpha_12; // [esp+C4h] [ebp-18h]
-    __int64 dist1Sel0_8; // [esp+D0h] [ebp-Ch]
+    [[maybe_unused]] float v4; // [esp+4h] [ebp-D8h]
+    [[maybe_unused]] float v5; // [esp+8h] [ebp-D4h]
+    [[maybe_unused]] float v6; // [esp+Ch] [ebp-D0h]
+    [[maybe_unused]] float v7; // [esp+10h] [ebp-CCh]
+    [[maybe_unused]] int v8; // [esp+14h] [ebp-C8h]
+    [[maybe_unused]] int v9; // [esp+18h] [ebp-C4h]
+    [[maybe_unused]] int v10; // [esp+1Ch] [ebp-C0h]
+    [[maybe_unused]] int v11; // [esp+20h] [ebp-BCh]
+    [[maybe_unused]] int v12; // [esp+24h] [ebp-B8h]
+    [[maybe_unused]] int v13; // [esp+28h] [ebp-B4h]
+    [[maybe_unused]] int v14; // [esp+2Ch] [ebp-B0h]
+    [[maybe_unused]] int v15; // [esp+30h] [ebp-ACh]
+    [[maybe_unused]] float v16; // [esp+3Ch] [ebp-A0h]
+    [[maybe_unused]] float v17; // [esp+40h] [ebp-9Ch]
+    [[maybe_unused]] __int64 dist1Cmp; // [esp+44h] [ebp-98h]
+    [[maybe_unused]] __int64 dist1Cmp_8; // [esp+4Ch] [ebp-90h]
+    [[maybe_unused]] float clipped; // [esp+58h] [ebp-84h]
+    [[maybe_unused]] __int64 clippeda; // [esp+58h] [ebp-84h]
+    [[maybe_unused]] float clipped_4; // [esp+5Ch] [ebp-80h]
+    [[maybe_unused]] float clipped_8; // [esp+60h] [ebp-7Ch]
+    [[maybe_unused]] __int64 clipped_8a; // [esp+60h] [ebp-7Ch]
+    [[maybe_unused]] float clipped_12; // [esp+64h] [ebp-78h]
+    [[maybe_unused]] __int64 dist1Sel1; // [esp+78h] [ebp-64h]
+    [[maybe_unused]] __int64 dist1Sel1_8; // [esp+80h] [ebp-5Ch]
+    [[maybe_unused]] __int64 dist0Cmp; // [esp+98h] [ebp-44h]
+    [[maybe_unused]] __int64 dist0Cmp_8; // [esp+A0h] [ebp-3Ch]
+    [[maybe_unused]] float alpha; // [esp+B8h] [ebp-24h]
+    [[maybe_unused]] float alphaa; // [esp+B8h] [ebp-24h]
+    [[maybe_unused]] float alpha_4; // [esp+BCh] [ebp-20h]
+    [[maybe_unused]] float alpha_8; // [esp+C0h] [ebp-1Ch]
+    [[maybe_unused]] float alpha_12; // [esp+C4h] [ebp-18h]
+    [[maybe_unused]] __int64 dist1Sel0_8; // [esp+D0h] [ebp-Ch]
 
     v17 = coeffZW.v[0] * pt0->v[0] + coeffZW.v[1] * pt0->v[1] + coeffZW.v[2] * pt0->v[2] + coeffZW.v[3] * pt0->v[3];
     v16 = coeffZW.v[0] * pt1->v[0] + coeffZW.v[1] * pt1->v[1] + coeffZW.v[2] * pt1->v[2] + coeffZW.v[3] * pt1->v[3];
@@ -806,13 +806,13 @@ bool __cdecl Vec4HomogenousClipZW(float4 *pt0, float4 *pt1, float4 coeffZW)
     *((float *)&clippeda + 1) = alpha_4 * clipped_4 + pt0->v[1];
     *(float *)&clipped_8a = alpha_8 * clipped_8 + pt0->v[2];
     *((float *)&clipped_8a + 1) = alpha_12 * clipped_12 + pt0->v[3];
-    dist1Sel0_8 = *(_QWORD *)&pt0->unitVec[2].packed & dist1Cmp_8 | clipped_8a & ~dist1Cmp_8;
-    dist1Sel1 = clippeda & dist1Cmp | *(_QWORD *)pt1->v & ~dist1Cmp;
-    dist1Sel1_8 = clipped_8a & dist1Cmp_8 | *(_QWORD *)&pt1->unitVec[2].packed & ~dist1Cmp_8;
-    *(_QWORD *)pt0->v = (*(_QWORD *)pt0->v & dist1Cmp | clippeda & ~dist1Cmp) & dist0Cmp | *(_QWORD *)pt0->v & ~dist0Cmp;
-    *(_QWORD *)&pt0->unitVec[2].packed = dist1Sel0_8 & dist0Cmp_8 | *(_QWORD *)&pt0->unitVec[2].packed & ~dist0Cmp_8;
-    *(_QWORD *)pt1->v = *(_QWORD *)pt1->v & dist0Cmp | dist1Sel1 & ~dist0Cmp;
-    *(_QWORD *)&pt1->unitVec[2].packed = *(_QWORD *)&pt1->unitVec[2].packed & dist0Cmp_8 | dist1Sel1_8 & ~dist0Cmp_8;
+    dist1Sel0_8 = (*(_QWORD *)&pt0->unitVec[2].packed & dist1Cmp_8) | (clipped_8a & ~dist1Cmp_8);
+    dist1Sel1 = (clippeda & dist1Cmp) | (*(_QWORD *)pt1->v & ~dist1Cmp);
+    dist1Sel1_8 = (clipped_8a & dist1Cmp_8) | (*(_QWORD *)&pt1->unitVec[2].packed & ~dist1Cmp_8);
+    *(_QWORD *)pt0->v = (((*(_QWORD *)pt0->v & dist1Cmp) | (clippeda & ~dist1Cmp)) & dist0Cmp) | (*(_QWORD *)pt0->v & ~dist0Cmp);
+    *(_QWORD *)&pt0->unitVec[2].packed = (dist1Sel0_8 & dist0Cmp_8) | (*(_QWORD *)&pt0->unitVec[2].packed & ~dist0Cmp_8);
+    *(_QWORD *)pt1->v = (*(_QWORD *)pt1->v & dist0Cmp) | (dist1Sel1 & ~dist0Cmp);
+    *(_QWORD *)&pt1->unitVec[2].packed = (*(_QWORD *)&pt1->unitVec[2].packed & dist0Cmp_8) | (dist1Sel1_8 & ~dist0Cmp_8);
     return (v11 & v15) == 0;
 }
 

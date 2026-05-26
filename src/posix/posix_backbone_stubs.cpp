@@ -1419,7 +1419,7 @@ void Phys_PerformanceEndFrame() {}
 int  R_PickMaterial(int, const float *, const float *, char *, char *, char *, unsigned int) { return 0; }
 // uint32_t BG_GetNumWeapons() { return 0u; }  // provided by bg_weapons.cpp now
 // int32_t  BG_ClipForWeapon(uint32_t) { return 0; }  // provided by bg_weapons.cpp now
-void     FX_Beam_Add(FxBeam *) {}
+// void     FX_Beam_Add(FxBeam *) {}  // provided by fx_beam.cpp now
 // void     FX_PostLight_Add(FxPostLight *) {}  // provided by fx_postlight.cpp now
 // CG_DObjGetWorldBoneMatrix provided by src/cgame_mp/cg_ents_mp.cpp now.
 
