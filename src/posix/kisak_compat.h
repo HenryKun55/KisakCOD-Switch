@@ -401,4 +401,8 @@ typedef long HRESULT;
 #define FALSE 0
 #endif
 
+// Windows GDI POINT — minimal shim so cursor-position helpers compile.
+// The POSIX/Switch input path is a stub; nothing reads x/y for real yet.
+typedef struct tagPOINT { long x, y; } tagPOINT, POINT;
+
 #endif // !_MSC_VER

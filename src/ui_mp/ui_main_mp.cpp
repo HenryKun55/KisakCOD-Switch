@@ -25,6 +25,7 @@
 #include <universal/timing.h>
 #include <universal/profile.h>
 
+
 enum sscType_t : __int32
 {                                       // ...
     SSC_STRING = 0x0,
@@ -957,8 +958,8 @@ uiInfo_s *UI_BuildFindPlayerList()
     result = &uiInfoArray;
     if (uiInfoArray.nextFindPlayerRefresh)
     {
-        result = (uiInfo_s *)uiInfo->nextFindPlayerRefresh;
-        if ((int)result <= uiInfo->uiDC.realTime)
+        result = (uiInfo_s *)(uintptr_t)uiInfo->nextFindPlayerRefresh;
+        if ((int)(uintptr_t)result <= uiInfo->uiDC.realTime)
         {
             UI_UpdateDisplayServers(uiInfo);
             for (i = 0; i < 16; ++i)
@@ -1046,7 +1047,7 @@ uiInfo_s *UI_BuildFindPlayerList()
                 if (uiInfo->numFoundPlayerServers)
                 {
                     if (uiInfo->numFoundPlayerServers == 2)
-                        result = (uiInfo_s *)Com_sprintf(
+                        result = (uiInfo_s *)(uintptr_t)Com_sprintf(
                             uiInfo->foundPlayerServerAddresses[uiInfo->numFoundPlayerServers + 15],
                             0x40u,
                             "%d server%s found with player %s",
@@ -1054,7 +1055,7 @@ uiInfo_s *UI_BuildFindPlayerList()
                             "",
                             uiInfo->findPlayerName);
                     else
-                        result = (uiInfo_s *)Com_sprintf(
+                        result = (uiInfo_s *)(uintptr_t)Com_sprintf(
                             uiInfo->foundPlayerServerAddresses[uiInfo->numFoundPlayerServers + 15],
                             0x40u,
                             "%d server%s found with player %s",
@@ -1064,7 +1065,7 @@ uiInfo_s *UI_BuildFindPlayerList()
                 }
                 else
                 {
-                    result = (uiInfo_s *)Com_sprintf(
+                    result = (uiInfo_s *)(uintptr_t)Com_sprintf(
                         uiInfo->foundPlayerServerAddresses[uiInfo->numFoundPlayerServers + 15],
                         0x40u,
                         "no servers found");
@@ -1996,7 +1997,7 @@ void UI_CreatePlayerProfile()
 
     if (strlen(ui_playerProfileNameNew->current.string))
     {
-        I_strncpyz(name, (char *)ui_playerProfileNameNew->current.integer, 32);
+        I_strncpyz(name, (char *)(uintptr_t)ui_playerProfileNameNew->current.integer, 32);
         Dvar_SetString((dvar_s *)ui_playerProfileNameNew, (char *)"");
         if (uiInfoArray.playerProfileCount == 64)
         {
@@ -2341,8 +2342,8 @@ void __cdecl UI_LoadPlayerProfile(int localClientNum)
 {
     if (!ui_playerProfileSelected)
         MyAssertHandler(".\\ui_mp\\ui_main_mp.cpp", 2289, 0, "%s", "ui_playerProfileSelected");
-    if (*(_BYTE *)ui_playerProfileSelected->current.integer)
-        Com_ChangePlayerProfile(localClientNum, (char *)ui_playerProfileSelected->current.integer);
+    if (*(_BYTE *)(uintptr_t)ui_playerProfileSelected->current.integer)
+        Com_ChangePlayerProfile(localClientNum, (char *)(uintptr_t)ui_playerProfileSelected->current.integer);
 }
 
 void __cdecl UI_Update(const char *name)
@@ -2578,7 +2579,7 @@ const char *UI_LoadMods()
     dirptr = dirlist;
     for (i = 0; ; ++i)
     {
-        result = (const char *)i;
+        result = (const char *)(uintptr_t)i;
         if (i >= numdirs)
             break;
         dirlen = strlen(dirptr) + 1;
@@ -2793,12 +2794,12 @@ void __cdecl UI_RunMenuScript(int localClientNum, const char **args, const char 
     char s[1028]; // [esp+CE4h] [ebp-1D48h] BYREF
     int i; // [esp+10E8h] [ebp-1944h] BYREF
     char v44[1028]; // [esp+10ECh] [ebp-1940h] BYREF
-    int ServerPunkBuster; // [esp+14F0h] [ebp-153Ch]
+    [[maybe_unused]] int ServerPunkBuster; // [esp+14F0h] [ebp-153Ch]
     char value[264]; // [esp+14F4h] [ebp-1538h] BYREF
     char key[1024]; // [esp+15FCh] [ebp-1430h] BYREF
     char checksum[1028]; // [esp+19FCh] [ebp-1030h] BYREF
     char dest[20]; // [esp+1E00h] [ebp-C2Ch] BYREF
-    char buf; // [esp+1E14h] [ebp-C18h] BYREF
+    char buf = 0; // [esp+1E14h] [ebp-C18h] BYREF
     _BYTE v51[3]; // [esp+1E15h] [ebp-C17h] BYREF
     char src[4]; // [esp+1E18h] [ebp-C14h] BYREF
     char v53[4]; // [esp+1E1Ch] [ebp-C10h] BYREF
@@ -3636,7 +3637,7 @@ void __cdecl UI_BuildServerDisplayList(uiInfo_s *uiInfo, int force)
     int ping; // [esp+438h] [ebp-1Ch]
     int maxClients; // [esp+43Ch] [ebp-18h]
     int len; // [esp+440h] [ebp-14h]
-    int dirty; // [esp+444h] [ebp-10h]
+    [[maybe_unused]] int dirty; // [esp+444h] [ebp-10h]
     int i; // [esp+448h] [ebp-Ch]
     int clients; // [esp+44Ch] [ebp-8h]
     int count; // [esp+450h] [ebp-4h]
@@ -3691,7 +3692,7 @@ void __cdecl UI_BuildServerDisplayList(uiInfo_s *uiInfo, int force)
                         clients = atoi(v4);
                         *(unsigned int *)&sharedUiInfo.gap8EB4[72908] += clients;
                         v5 = Info_ValueForKey(info, "addr");
-                        if (!I_strnicmp(v5, "000.000.000.000", 15) || !ui_browserShowEmpty->current.enabled && !clients)
+                        if (!I_strnicmp(v5, "000.000.000.000", 15) || (!ui_browserShowEmpty->current.enabled && !clients))
                             goto LABEL_55;
                         if (!ui_browserShowFull->current.enabled)
                         {
@@ -3934,7 +3935,7 @@ int __cdecl UI_MapCountByGameType()
     for (i = 0; i < sharedUiInfo.mapCount; ++i)
     {
         sharedUiInfo.serverHardwareIconList[40 * i - 5081] = 0;
-        if (((int)sharedUiInfo.serverHardwareIconList[40 * i - 5115] & (1 << game)) != 0)
+        if (((int)(uintptr_t)sharedUiInfo.serverHardwareIconList[40 * i - 5115] & (1 << game)) != 0)
         {
             ++c;
             sharedUiInfo.serverHardwareIconList[40 * i - 5081] = (Material *)1;
@@ -5296,7 +5297,7 @@ void __cdecl UI_DisplayDownloadInfo(char *downloadName, float centerPoint, float
     char dlTimeBuf[68]; // [esp+7Ch] [ebp-150h] BYREF
     int downloadTime; // [esp+C0h] [ebp-10Ch]
     char xferRateBuf[64]; // [esp+C4h] [ebp-108h] BYREF
-    int firstColumn; // [esp+104h] [ebp-C8h]
+    [[maybe_unused]] int firstColumn; // [esp+104h] [ebp-C8h]
     uiInfo_s *uiInfo; // [esp+108h] [ebp-C4h]
     int percent; // [esp+10Ch] [ebp-C0h]
     int width; // [esp+110h] [ebp-BCh]
@@ -5558,7 +5559,7 @@ void __cdecl UI_DrawConnectScreen(int localClientNum)
                 ps[index] = s[i];
                 if (index > 40 && i > 0)
                     neednewline = 1;
-                if (index >= 58 || i == v8 - 1 || neednewline && s[i] == 32)
+                if (index >= 58 || i == v8 - 1 || (neednewline && s[i] == 32))
                 {
                     ps[index + 1] = 0;
                     Text_PaintCenter(&scrPlaceFull, centerPoint, yPrint, font, scale, colorYellow, ps, 0);
@@ -5684,8 +5685,8 @@ double __cdecl UI_GetBlurRadius(int localClientNum)
             "%s\n\t(localClientNum) = %i",
             "(localClientNum == 0)",
             localClientNum);
-    if (!&uiInfoArray)
-        MyAssertHandler(".\\ui_mp\\ui_main_mp.cpp", 7029, 0, "%s", "uiInfo");
+    // KISAKHACK: `!&uiInfoArray` was a sanity null check upstream; on POSIX
+    // the array address is always non-null. Skip the assert.
     return uiInfoArray.uiDC.blurRadiusOut;
 }
 
@@ -5916,7 +5917,7 @@ void __cdecl UI_ReplaceConversions(
 
     if (!sourceString)
         MyAssertHandler(".\\ui_mp\\ui_main_mp.cpp", 7349, 0, "%s", "sourceString");
-    v4 = (int)strstr(sourceString, "&&");
+    v4 = (int)(uintptr_t)strstr(sourceString, "&&");
     if (v4)
     {
         if (!arguments)

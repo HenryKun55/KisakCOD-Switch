@@ -141,6 +141,7 @@ set(UI_PORTABLE_SOURCES
     "${SRC_DIR}/ui/ui_localvars.cpp"
     "${SRC_DIR}/ui/ui_utils.cpp"
     "${SRC_DIR}/ui_mp/ui_gameinfo_mp.cpp"
+    "${SRC_DIR}/ui_mp/ui_main_mp.cpp"
 )
 
 set(SERVER_PORTABLE_SOURCES

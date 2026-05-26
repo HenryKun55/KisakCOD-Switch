@@ -418,9 +418,9 @@ void R_WaitWorkerCmds() {}
 
 int  UI_GetMenuScreen() { return 0; }
 int  UI_GetMenuScreenForError() { return 0; }
-int  UI_IsFullscreen(int /*localClientNum*/) { return 0; }
-int  UI_SetActiveMenu(int /*localClientNum*/, uiMenuCommand_t /*menu*/) { return 0; }
-void UI_SetMap(char * /*name*/, char * /*gametype*/) {}
+// int  UI_IsFullscreen(int /*localClientNum*/) { return 0; }  // provided by ui_main_mp.cpp now
+// int  UI_SetActiveMenu(int /*localClientNum*/, uiMenuCommand_t /*menu*/) { return 0; }  // provided by ui_main_mp.cpp now
+// void UI_SetMap(char * /*name*/, char * /*gametype*/) {}  // provided by ui_main_mp.cpp now
 
 // =========================================================================
 // Scripting + misc. Stubs.
@@ -721,12 +721,10 @@ const char *Sys_DefaultInstallPath() { return "."; }
 void Sys_RemoveDirTree(const char * /*path*/) {}
 
 // UI text-draw helpers (used by ProfLoad overlay)
-void UI_DrawText(const ScreenPlacement * /*place*/, const char * /*text*/, int /*maxChars*/,
-                 Font_s * /*font*/, float /*x*/, float /*y*/, int /*hAlign*/, int /*vAlign*/,
-                 float /*scale*/, const float * /*color*/, int /*style*/) {}
+// UI_DrawText provided by src/ui_mp/ui_main_mp.cpp now.
 void UI_FillRect(const ScreenPlacement * /*place*/, float /*x*/, float /*y*/, float /*w*/,
                  float /*h*/, int /*hAlign*/, int /*vAlign*/, const float * /*color*/) {}
-Font_s *UI_GetFontHandle(const ScreenPlacement * /*place*/, int /*fontIndex*/, float /*scale*/) { return nullptr; }
+// Font_s *UI_GetFontHandle(const ScreenPlacement * /*place*/, int /*fontIndex*/, float /*scale*/) { return nullptr; }  // provided by ui_main_mp.cpp now
 
 // Win_LocalizeRef
 const char *Win_LocalizeRef(const char *str) { return str; }
@@ -788,7 +786,7 @@ void TRACK_snd() {}
 void TRACK_stringed_hooks() {}
 // TRACK_sv_game now in server/sv_game.cpp.
 // TRACK_sv_main provided by src/server_mp/sv_main_mp.cpp now.
-void TRACK_ui_main() {}
+// void TRACK_ui_main() {}  // provided by ui_main_mp.cpp now
 void TRACK_ui_shared() {}
 // TRACK_ui_utils now in ui/ui_utils.cpp.
 void TRACK_win_net() {}
@@ -1049,9 +1047,9 @@ void SV_LinkEntity(gentity_s * /*ent*/) {}
 
 unsigned int Sys_MillisecondsRaw() { return Sys_Milliseconds(); }
 
-uiMenuCommand_t UI_GetActiveMenu(int /*localClientNum*/) { return uiMenuCommand_t{}; }
-int  UI_Popup(int /*localClientNum*/, const char * /*ref*/) { return 0; }
-char *UI_SafeTranslateString(const char *str) { return const_cast<char *>(str ? str : ""); }
+// uiMenuCommand_t UI_GetActiveMenu(int /*localClientNum*/) { return uiMenuCommand_t{}; }  // provided by ui_main_mp.cpp now
+// int  UI_Popup(int /*localClientNum*/, const char * /*ref*/) { return 0; }  // provided by ui_main_mp.cpp now
+// char *UI_SafeTranslateString(const char *str) { return const_cast<char *>(str ? str : ""); }  // provided by ui_main_mp.cpp now
 
 float Vec2DistanceSq(const float *a, const float *b)
 {
@@ -1175,8 +1173,8 @@ struct usercmd_s;
 
 void UI_DrawHandlePic(const ScreenPlacement * /*place*/, float /*x*/, float /*y*/, float /*w*/, float /*h*/,
                       int /*hAlign*/, int /*vAlign*/, const float * /*color*/, Material * /*material*/) {}
-int   UI_TextHeight(Font_s * /*font*/, float /*scale*/) { return 0; }
-int   UI_TextWidth(const char * /*text*/, int /*max*/, Font_s * /*font*/, float /*scale*/) { return 0; }
+// int   UI_TextHeight(Font_s * /*font*/, float /*scale*/) { return 0; }  // provided by ui_main_mp.cpp now
+// int   UI_TextWidth(const char * /*text*/, int /*max*/, Font_s * /*font*/, float /*scale*/) { return 0; }  // provided by ui_main_mp.cpp now
 
 // cg_drawLagometer provided by src/cgame_mp/cg_main_mp.cpp now.
 // cg_nopredict provided by src/cgame_mp/cg_main_mp.cpp now.
@@ -1229,11 +1227,9 @@ float kisak_crandom() { return (std::rand() / float(RAND_MAX)) * 2.0f - 1.0f; }
 
 // SCR_UpdateLoadScreen provided by src/client_mp/cl_scrn_mp.cpp now.
 int  String_Parse(const char ** /*p*/, char * /*out*/, int /*outSize*/) { return 0; }
-void UI_CloseAllMenus(int /*localClientNum*/) {}
-void UI_DrawMapLevelshot(int /*localClientNum*/) {}
-void UI_DrawTextNoSnap(const ScreenPlacement * /*place*/, const char * /*text*/, int /*maxChars*/,
-                       Font_s * /*font*/, float /*x*/, float /*y*/, int /*hAlign*/, int /*vAlign*/,
-                       float /*scale*/, const float * /*color*/, int /*style*/) {}
+// void UI_CloseAllMenus(int /*localClientNum*/) {}  // provided by ui_main_mp.cpp now
+// void UI_DrawMapLevelshot(int /*localClientNum*/) {}  // provided by ui_main_mp.cpp now
+// UI_DrawTextNoSnap provided by src/ui_mp/ui_main_mp.cpp now.
 
 float Vec2NormalizeTo(const float *in, float *out)
 {
@@ -1258,7 +1254,7 @@ const dvar_t *bg_viewKickMin = nullptr;
 const dvar_t *bg_viewKickScale = nullptr;
 // cg_hudDamageIconTime provided by src/cgame_mp/cg_main_mp.cpp now.
 // hud_fade_compass provided by src/cgame_mp/cg_newDraw_mp.cpp now.
-const dvar_t *uiscript_debug = nullptr;
+// const dvar_t *uiscript_debug = nullptr;  // provided by ui_main_mp.cpp now
 // g_waitingForServer provided by src/client_mp/cl_main_mp.cpp now.
 
 // =========================================================================
@@ -1325,8 +1321,8 @@ void R_UpdateTeamColors(int /*localClientNum*/, const float * /*color1*/, const 
 char *SEH_SafeTranslateString(char *str) { return str ? str : (char*)""; }
 const char *SEH_StringEd_GetString(const char *str) { return str ? str : ""; }
 
-void UI_CloseAll(int /*localClientNum*/) {}
-char *UI_ReplaceConversionString(char *src, const char * /*replace*/) { return src; }
+// void UI_CloseAll(int /*localClientNum*/) {}  // provided by ui_main_mp.cpp now
+// char *UI_ReplaceConversionString(char *src, const char * /*replace*/) { return src; }  // provided by ui_main_mp.cpp now
 
 // cl_activeAction provided by src/client_mp/cl_main_mp.cpp now.
 // cl_freezeDemo provided by src/client_mp/cl_main_mp.cpp now.
@@ -1377,7 +1373,7 @@ void G_AntiLagRewindClientPos(int /*clientNum*/, AntilagClientStore * /*store*/)
 const dvar_t *bullet_penetrationMinFxDist = nullptr;
 // g_debugLocDamage provided by src/game_mp/g_main_mp.cpp now.
 // sv_clientSideBullets provided by src/server_mp/sv_main_mp.cpp now.
-sharedUiInfo_t sharedUiInfo{};
+// sharedUiInfo_t sharedUiInfo{};  // provided by ui_main_mp.cpp now
 
 // cg_event cascade.
 struct FxEffectDef;
@@ -1843,7 +1839,7 @@ void BG_GetSpreadForWeapon(const playerState_s *, const WeaponDef *, float *lo, 
 { if (lo) *lo = 0.f; if (hi) *hi = 0.f; }
 snd_entchannel_info_t *SND_GetEntChannelName(int) { return nullptr; }
 void CG_UpdateViewModelPose(const DObj_s *, int) {}
-bool UI_ShouldDrawCrosshair() { return false; }
+// bool UI_ShouldDrawCrosshair() { return false; }  // provided by ui_main_mp.cpp now
 unsigned int Scr_GetNumScriptThreads() { return 0u; }
 int  CG_PlayerTurretWeaponIdx(int) { return 0; }
 void Phys_PerformanceEndFrame() {}
@@ -1941,7 +1937,7 @@ float Vec2Distance(const float *a, const float *b)
 int   SEH_PrintStrlen(const char *s) { return s ? static_cast<int>(std::strlen(s)) : 0; }
 void  BG_LerpHudColors(const hudelem_s *, int, hudelem_color_t *) {}
 int   compare_hudelems(const void *, const void *) { return 0; }
-bool  UI_AnyMenuVisible(int) { return false; }
+// bool  UI_AnyMenuVisible(int) { return false; }  // provided by ui_main_mp.cpp now
 // CG_ServerMaterialName provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 double R_NormalizedTextScale(Font_s *, float scale) { return scale; }
 void  CL_PlayTextFXPulseSounds(uint32_t, int, int, int, int, int, int *) {}
@@ -2087,7 +2083,7 @@ const dvar_t *bg_bobMax           = nullptr;
 const dvar_t *vehDebugClient        = nullptr;
 const dvar_t *vehDriverViewDist     = nullptr;
 const dvar_t *vehDriverViewFocusRange = nullptr;
-const dvar_t *vehDriverViewHeightMax  = nullptr;
+// const dvar_t *vehDriverViewHeightMax  = nullptr;  // provided by ui_main_mp.cpp now
 
 // === cg_players_mp satellites ====================================================
 
@@ -2123,7 +2119,7 @@ void FX_InitSystem(int) {}
 void Phys_Shutdown() {}
 void SND_StopMusic(int) {}
 // CG_StartAmbient provided by src/cgame_mp/cg_main_mp.cpp now.
-int  Load_ScriptMenu(int, const char *, int) { return 0; }
+// int  Load_ScriptMenu(int, const char *, int) { return 0; }  // provided by ui_main_mp.cpp now
 void CG_RegisterItems(int) {}
 void Menus_ShowByName(const UiContext *, const char *) {}
 void CG_SetupWeaponDef(int) {}
@@ -2134,20 +2130,20 @@ void FX_ShutdownSystem(int) {}
 // CG_BoldGameMessage provided by src/cgame_mp/cg_main_mp.cpp now.
 void R_SetFogFromServer(float, unsigned char, unsigned char, unsigned char, float) {}
 void SND_PlayMusicAlias(int, const snd_alias_t *, bool, snd_alias_system_t) {}
-void UI_CloseInGameMenu(int) {}
-int  UI_PopupScriptMenu(int, const char *, bool) { return 0; }
+// void UI_CloseInGameMenu(int) {}  // provided by ui_main_mp.cpp now
+// int  UI_PopupScriptMenu(int, const char *, bool) { return 0; }  // provided by ui_main_mp.cpp now
 // CG_ClearCenterPrint provided by src/cgame_mp/cg_draw_mp.cpp now.
 void LiveStorage_SetStat(int, int, unsigned int) {}
 void R_InitPrimaryLights(GfxLight *) {}
 // CL_ResetPlayerMuting provided by src/client_mp/cl_main_pc_mp.cpp now.
 void DynEntCl_DestroyEvent(int, uint16_t, DynEntityCollType, const float *, const float *) {}
 void DynEntCl_InitEntities(int) {}
-void UI_ClosePopupScriptMenu(int, bool) {}
+// void UI_ClosePopupScriptMenu(int, bool) {}  // provided by ui_main_mp.cpp now
 // CG_PlayClientSoundAliasByName provided by src/cgame_mp/cg_main_mp.cpp now.
 // CG_StopClientSoundAliasByName provided by src/cgame_mp/cg_main_mp.cpp now.
 // CG_ShouldPlaySoundOnLocalClient provided by src/cgame_mp/cg_main_mp.cpp now.
 void R_ClearShadowedPrimaryLightHistory(int) {}
-char *UI_GetMapDisplayNameFromPartialLoadNameMatch(const char *, int *) { return nullptr; }
+// char *UI_GetMapDisplayNameFromPartialLoadNameMatch(const char *, int *) { return nullptr; }  // provided by ui_main_mp.cpp now
 void Phys_Init() {}
 
 // cg_chatHeight provided by src/cgame_mp/cg_main_mp.cpp now.
@@ -2165,7 +2161,7 @@ int32_t BG_GetMaxSprintTime(const playerState_s *) { return 0; }
 // CG_CalcPlayerHealth provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 // CL_DrawTextPhysical provided by src/client_mp/cl_main_mp.cpp now.
 void Con_DrawMiniConsole(int, int, int, float) {}
-const char *UI_GetTopActiveMenuName(int) { return ""; }
+// const char *UI_GetTopActiveMenuName(int) { return ""; }  // provided by ui_main_mp.cpp now
 // CG_CheckPlayerForLowAmmo / CG_CheckPlayerForLowClip provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 void BG_AssertOffhandIndexOrNone(uint32_t) {}
 void Vec4Mul(const float *a, const float *b, float *p)
@@ -2198,7 +2194,7 @@ void Vec4Mul(const float *a, const float *b, float *p)
 // cg_overheadRankSize provided by src/cgame_mp/cg_main_mp.cpp now.
 // debugOverlay provided by src/cgame_mp/cg_main_mp.cpp now.
 // hud_fade_* + hud_health_startpulse_injured provided by src/cgame_mp/cg_newDraw_mp.cpp now.
-const dvar_t *ui_showEndOfGame            = nullptr;
+// const dvar_t *ui_showEndOfGame            = nullptr;  // provided by ui_main_mp.cpp now
 
 // === cg_ents_mp satellites =======================================================
 
@@ -2249,7 +2245,7 @@ bool     Key_IsCommandBound(int, const char *) { return false; }
 int32_t  BG_GetAmmoPlayerMax(const playerState_s *, uint32_t, uint32_t) { return 0; }
 // CL_ShouldDisplayHud provided by src/client_mp/cl_main_mp.cpp now.
 bool     BG_WeaponBlocksProne(uint32_t) { return false; }
-int      UI_GetTalkerClientNum(int, int) { return -1; }
+// int      UI_GetTalkerClientNum(int, int) { return -1; }  // provided by ui_main_mp.cpp now
 int32_t  BG_GetTotalAmmoReserve(const playerState_s *, uint32_t) { return 0; }
 void     CG_DrawPlayerActionSlot(int, const rectDef_s *, uint32_t, float *, Font_s *, float, int) {}
 void     CG_DrawPlayerWeaponIcon(int, const rectDef_s *, const float *) {}
@@ -2296,7 +2292,7 @@ void Com_StripExtension(char *in, char *out)
     if (dot) { size_t n = static_cast<size_t>(dot - in); std::memcpy(out, in, n); out[n] = '\0'; }
     else     { std::strcpy(out, in); }
 }
-void UI_LoadIngameMenus(int) {}
+// void UI_LoadIngameMenus(int) {}  // provided by ui_main_mp.cpp now
 void CG_VehRegisterDvars() {}
 int32_t CG_WeaponDObjHandle(int32_t) { return 0; }
 void Menus_FreeAllMemory(UiContext *) {}
@@ -2352,15 +2348,15 @@ int     SV_SightTraceToEntity(float *, float *, float *, float *, int, int) { re
 // === cl_scrn_mp satellites =======================================================
 
 void   R_EndFrame() {}
-void   UI_Refresh(int) {}
+// void   UI_Refresh(int) {}  // provided by ui_main_mp.cpp now
 // CL_DrawLogo provided by src/client_mp/cl_main_mp.cpp now.
 void   DevGui_Draw(int) {}
 void   R_BeginFrame() {}
-void   UI_UpdateTime(int, int) {}
+// void   UI_UpdateTime(int, int) {}  // provided by ui_main_mp.cpp now
 void   Con_DrawConsole(int) {}
 void   R_EndCubemapShot(CubemapShot) {}
 void   SND_InitFXSounds() {}
-double UI_GetBlurRadius(int) { return 0.0; }
+// double UI_GetBlurRadius(int) { return 0.0; }  // provided by ui_main_mp.cpp now
 void   R_AddCmdEndOfList() {}
 void   R_SaveCubemapShot(char *, CubemapShot, float, float) {}
 void   SCR_DrawCinematic(int) {}
@@ -2370,7 +2366,7 @@ void   R_AddCmdClearScreen(int, const float *, float, unsigned char) {}
 void   R_AddCmdDrawProfile() {}
 void   R_BeginSharedCmdList() {}
 void   Sys_LoadingKeepAlive() {}
-void   UI_DrawConnectScreen(int) {}
+// void   UI_DrawConnectScreen(int) {}  // provided by ui_main_mp.cpp now
 void   R_IssueRenderCommands(unsigned int) {}
 void   R_BeginClientCmdList2D() {}
 void   R_ClearClientCmdList2D() {}
@@ -2383,14 +2379,14 @@ const dvar_t *r_reflectionProbeGenerate = nullptr;
 
 // === cl_ui_mp satellites =========================================================
 
-void UI_Shutdown(int) {}
+// void UI_Shutdown(int) {}  // provided by ui_main_mp.cpp now
 void UI_Component_Init() {}
 const char *Key_KeynumToString(int32_t, int32_t) { return ""; }
 // CL_UpdateDirtyPings provided by src/client_mp/cl_main_mp.cpp now.
-char *UI_GetMapDisplayName(const char *) { return const_cast<char *>(""); }
+// char *UI_GetMapDisplayName(const char *) { return const_cast<char *>(""); }  // provided by ui_main_mp.cpp now
 void R_PushRemoteScreenUpdate(int) {}
-char *UI_GetGameTypeDisplayName(const char *) { return const_cast<char *>(""); }
-void UI_Init(int) {}
+// char *UI_GetGameTypeDisplayName(const char *) { return const_cast<char *>(""); }  // provided by ui_main_mp.cpp now
+// void UI_Init(int) {}  // provided by ui_main_mp.cpp now
 
 // === g_misc_mp satellites ========================================================
 
@@ -2475,7 +2471,7 @@ void AxisClear(mat3x3 &axis)
 
 // === cl_input satellites =========================================================
 
-void UI_MouseEvent(int, int, int) {}
+// void UI_MouseEvent(int, int, int) {}  // provided by ui_main_mp.cpp now
 bool DevGui_IsActive() { return false; }
 bool Sys_IsLANAddress(netadr_t) { return false; }
 void IN_ShowSystemCursor(BOOL) {}
@@ -2669,7 +2665,7 @@ int   FS_SV_FOpenFileWrite(const char *) { return 0; }
 // cl_allowDownload provided by src/client_mp/cl_main_mp.cpp now.
 // cl_shownuments provided by src/client_mp/cl_main_mp.cpp now.
 // cl_updatefiles provided by src/client_mp/cl_main_mp.cpp now.
-LegacyHacks legacyHacks{};
+// LegacyHacks legacyHacks{};  // provided by ui_main_mp.cpp now
 
 // === sv_snapshot_mp satellites ===================================================
 
@@ -2921,13 +2917,13 @@ void SND_Restore(MemoryFile *) {}
 void FS_FileClose(FILE *) {}
 void SND_Shutdown() {}
 int  FS_FileExists(char *) { return 0; }
-void UI_OpenMenu_f() {}
+// void UI_OpenMenu_f() {}  // provided by ui_main_mp.cpp now
 void CL_DevGuiFrame(int) {}
 void DevGui_AddDvar(const char *, const dvar_s *) {}
 Font_s *R_RegisterFont(const char *, int) { return nullptr; }
 void Sys_NormalExit() {}
-void UI_CloseMenu_f() {}
-void UI_ListMenus_f() {}
+// void UI_CloseMenu_f() {}  // provided by ui_main_mp.cpp now
+// void UI_ListMenus_f() {}  // provided by ui_main_mp.cpp now
 void Voice_Playback() {}
 char *Z_VirtualAlloc(int size, const char *, int) { return static_cast<char *>(std::calloc(size > 0 ? size : 1, 1)); }
 void CL_CreateDevGui() {}
@@ -2962,12 +2958,12 @@ int  LiveStorage_DoWeHaveStats() { return 0; }
 void *LiveStorage_GetStatBuffer() { return nullptr; }
 void Com_ClientDObjClearAllSkel() {}
 void R_AddCmdDrawTextWithCursor(const char *, int, Font_s *, float, float, float, float, float, const float *, int, int, char) {}
-bool UI_AllowScriptMenuResponse(int) { return false; }
+// bool UI_AllowScriptMenuResponse(int) { return false; }  // provided by ui_main_mp.cpp now
 void R_AddCmdDrawTextWithEffects(const char *, int, Font_s *, float, float, float, float, float, const float *, int, const float *, Material *, Material *, int, int, int, int) {}
 int  LiveStorage_ReadStatsFromDir(char *) { return 0; }
 void CL_PlayUnskippableCinematic_f() {}
 char *FS_ReferencedIwdPureChecksums() { return const_cast<char *>(""); }
-void CL_SelectStringTableEntryInDvar_f() {}
+// void CL_SelectStringTableEntryInDvar_f() {}  // provided by ui_main_mp.cpp now
 void Com_ProcessSoundAliasFileLocalization(char *, char *) {}
 void Con_Init() {}
 void SND_Save(MemoryFile *) {}
@@ -2982,7 +2978,7 @@ field_t g_consoleField{};
 float g_console_char_height = 0.f;
 int32_t g_console_field_width = 0;
 const dvar_t *showpackets = nullptr;
-const dvar_t *vehDriverViewHeightMin = nullptr;
+// const dvar_t *vehDriverViewHeightMin = nullptr;  // provided by ui_main_mp.cpp now
 
 // === g_scr_main_mp satellites ====================================================
 
@@ -3013,6 +3009,35 @@ void Scr_MissileCreateAttractorEnt() {}
 void Scr_MissileCreateRepulsorOrigin() {}
 void Scr_MissileCreateAttractorOrigin() {}
 snd_alias_list_t *Com_TryFindSoundAlias(const char *) { return nullptr; }
+
+// === ui_main_mp satellites =======================================================
+
+int  Menu_Count(UiContext *) { return 0; }
+char Menu_Paint(UiContext *, menuDef_t *) { return 0; }
+void Menus_Open(UiContext *, menuDef_t *) {}
+MenuList *UI_LoadMenu(char *, int) { return nullptr; }
+void Key_SetCatcher(int, int) {}
+void Menu_HandleKey(UiContext *, menuDef_t *, int, int) {}
+char Menu_IsVisible(UiContext *, menuDef_t *) { return 0; }
+void Menus_CloseAll(UiContext *) {}
+void IN_SetCursorPos(tagPOINT) {}
+void Key_ClearStates(int) {}
+menuDef_t *Menu_GetFocused(UiContext *) { return nullptr; }
+int  Menus_OpenByName(UiContext *, const char *) { return 0; }
+int  Display_MouseMove(UiContext *) { return 0; }
+Material *Material_Duplicate(Material *, char *) { return nullptr; }
+int  Menus_MenuIsInStack(UiContext *, menuDef_t *) { return 0; }
+float Voice_GetVoiceLevel() { return 0.f; }
+int  Display_KeyBindPending() { return 0; }
+int  Item_ListBox_MaxScroll(int, itemDef_s *) { return 0; }
+void Menu_SetFeederSelection(UiContext *, menuDef_t *, int, int, const char *) {}
+void R_AddCmdDrawTextSubtitle(const char *, int, Font_s *, float, float, float, float, float, const float *, int, const float *, bool) {}
+void Menus_PrintAllLoadedMenus(UiContext *) {}
+int  Menus_AnyFullScreenVisible(UiContext *) { return 0; }
+int  SEH_VerifyLanguageSelection(int) { return 0; }
+void LerpColor(float *, float *, float *out, float) { if (out) { out[0] = out[1] = out[2] = out[3] = 1.f; } }
+
+field_t *g_editingField = nullptr;
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
