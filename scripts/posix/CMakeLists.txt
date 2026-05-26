@@ -126,8 +126,14 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_font.cpp"
     "${SRC_DIR}/gfx_d3d/r_image_utils.cpp"
     "${SRC_DIR}/gfx_d3d/r_imagedecode.cpp"
+    # r_light.cpp has ~12 past-end float[4] array indices, six `&`-in-`|`
+    # precedence sites, and several uint32 truncations. Focused pass.
     "${SRC_DIR}/gfx_d3d/r_model.cpp"
     "${SRC_DIR}/gfx_d3d/r_cmds.cpp"
+    # r_dpvs.cpp drags R_AddDObjSurfaces / R_AddBModelSurfaces /
+    # R_AddXModelSurfaces / R_AllocSceneModel / R_AllocModelLighting_*
+    # / R_WaitWorkerCmdsOfType / R_ShowLightVisCachePoints — land
+    # together with the renderer-frame batch.
     "${SRC_DIR}/gfx_d3d/r_dpvs_dynmodel.cpp"
     "${SRC_DIR}/gfx_d3d/r_dpvs_entity.cpp"
     "${SRC_DIR}/gfx_d3d/r_dpvs_sceneent.cpp"
