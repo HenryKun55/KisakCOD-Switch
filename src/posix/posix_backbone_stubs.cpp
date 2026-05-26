@@ -371,8 +371,8 @@ void BuildBrushdAdjacencyWindingForSide(float * /*points*/, int /*numPoints*/,
                                         void * /*winding*/, int /*sideIndex*/) {}
 bool DB_IsXAssetDefault(XAssetType /*type*/, const char * /*name*/) { return true; }
 snd_alias_list_t *Com_FindSoundAlias(const char * /*name*/) { return nullptr; }
-char *Com_LoadRawTextFile(const char * /*filename*/) { return nullptr; }
-void Com_UnloadRawTextFile(char * /*buffer*/) {}
+// char *Com_LoadRawTextFile(const char * /*filename*/) { return nullptr; }
+// void Com_UnloadRawTextFile(char * /*buffer*/) {}
 // Com_SurfaceTypeToName provided by src/universal/surfaceflags.cpp now.
 // Com_sprintfPos provided by src/universal/q_shared.cpp now.
 // bool Info_Validate(const char * /*s*/) { return true; }  // provided by q_shared.cpp now
@@ -446,7 +446,7 @@ struct NetField;
 // const NetFieldList *MSG_GetStateFieldListForEntityType(int /*eType*/) { return nullptr; }  // provided by sv_msg_write_mp.cpp now
 
 // Com_
-char *Com_LoadInfoString(char * /*filename*/, const char * /*fileDesc*/, const char * /*ident*/, char * /*loadBuffer*/) { return nullptr; }
+// char *Com_LoadInfoString(char * /*filename*/, const char * /*fileDesc*/, const char * /*ident*/, char * /*loadBuffer*/) { return nullptr; }
 
 // DevGui
 // void DevGui_AddGraph(const char * /*name*/, DevGraph * /*graph*/) {}
@@ -678,8 +678,8 @@ const char *Scr_GetString(unsigned int /*paramIndex*/) { return ""; }
 // Scr_SetGenericField provided by src/game_mp/g_spawn_mp.cpp now.
 
 // StringTable
-void StringTable_GetAsset(const char * /*filename*/, StringTable ** /*outTable*/) {}
-const char *StringTable_Lookup(const StringTable * /*table*/, int /*column*/, const char * /*key*/, int /*colCount*/) { return nullptr; }
+// void StringTable_GetAsset(const char * /*filename*/, StringTable ** /*outTable*/) {}
+// const char *StringTable_Lookup(const StringTable * /*table*/, int /*column*/, const char * /*key*/, int /*colCount*/) { return nullptr; }
 
 // SV
 // SV_CloseDownload provided by src/server_mp/sv_client_mp.cpp now.
@@ -1123,7 +1123,7 @@ void FX_PlayOrientedEffect(int /*localClientNum*/, const FxEffectDef * /*effect*
 // void Key_WriteBindings(int /*localClientNum*/, int /*f*/) {}  // provided by cl_keys.cpp now
 // char *SEH_LocalizeTextMessage(const char *src, const char * /*context*/, msgLocErrType_t /*err*/) { return const_cast<char *>(src); }  // provided by stringed_hooks.cpp now
 // void SEH_UpdateLanguageInfo() {}  // provided by stringed_hooks.cpp now
-const char *StringTable_GetColumnValueForRow(const StringTable * /*table*/, int /*row*/, int /*col*/) { return ""; }
+// const char *StringTable_GetColumnValueForRow(const StringTable * /*table*/, int /*row*/, int /*col*/) { return ""; }
 // ProfLoad_Init now in qcommon/com_profilemapload.cpp.
 // ProfLoad_IsActive now in qcommon/com_profilemapload.cpp.
 // ProfLoad_Deactivate now in qcommon/com_profilemapload.cpp.
