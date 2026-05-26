@@ -323,8 +323,9 @@ set(SERVER_PORTABLE_SOURCES
 )
 
 set(SOUND_PORTABLE_SOURCES
-    # snd_driver.cpp pulls Miles Sound System (MSS.H) — Win32-only — and
-    # Bink. Bring back behind an audio abstraction layer.
+    # snd.cpp / snd_driver.cpp / snd_mss.cpp / snd_driver_load_obj.cpp
+    # all pull Miles Sound System (AIL_*, _AILMIXINFO). Bring back
+    # behind an audio abstraction layer.
     "${SRC_DIR}/sound/snd_utils.cpp"
 )
 
