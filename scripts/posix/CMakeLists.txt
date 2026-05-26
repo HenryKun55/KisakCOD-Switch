@@ -146,6 +146,7 @@ set(UI_PORTABLE_SOURCES
 
 set(SERVER_PORTABLE_SOURCES
     "${SRC_DIR}/server/sv_game.cpp"
+    "${SRC_DIR}/server/sv_world.cpp"
     "${SRC_DIR}/server_mp/sv_archive_mp.cpp"
     "${SRC_DIR}/server_mp/sv_ccmds_mp.cpp"
     "${SRC_DIR}/server_mp/sv_client_mp.cpp"

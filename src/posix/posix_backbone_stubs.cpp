@@ -1010,9 +1010,9 @@ void MatrixTransformVector43(const float *in, const float (&m)[4][3], float *out
 bool NET_IsLocalAddress(netadr_t /*adr*/) { return false; }
 // Scr_IsValidGameType provided by src/game_mp/g_scr_main_mp.cpp now.
 
-unsigned int SV_ClipHandleForEntity(const gentity_s * /*ent*/) { return 0; }
+// unsigned int SV_ClipHandleForEntity(const gentity_s * /*ent*/) { return 0; }  // provided by sv_world.cpp now
 // SV_GetMapBaseName provided by src/server_mp/sv_ccmds_mp.cpp now.
-void SV_LinkEntity(gentity_s * /*ent*/) {}
+// void SV_LinkEntity(gentity_s * /*ent*/) {}  // provided by sv_world.cpp now
 // SV_SendServerCommand provided by src/server_mp/sv_main_mp.cpp now.
 // SV_SetConfigstring provided by src/server_mp/sv_init_mp.cpp now.
 
@@ -2305,7 +2305,7 @@ void    AddPointToBounds(const float *v, float *mins, float *maxs)
 // G_FreeEntityDelay provided by src/game_mp/g_utils_mp.cpp now.
 // G_LevelSpawnString provided by src/game_mp/g_spawn_mp.cpp now.
 BOOL    Scr_IsSystemActive() { return 0; }
-int     SV_SightTraceToEntity(float *, float *, float *, float *, int, int) { return 0; }
+// int     SV_SightTraceToEntity(float *, float *, float *, float *, int, int) { return 0; }  // provided by sv_world.cpp now
 
 // === cl_scrn_mp satellites =======================================================
 
@@ -2359,7 +2359,7 @@ void YawVectors(float, float *f, float *r) { if (f) { f[0] = 1; f[1] = 0; f[2] =
 // G_GeneralLink provided by src/game_mp/g_utils_mp.cpp now.
 float ColorNormalize(const float *, float *out) { if (out) { out[0] = 1; out[1] = 1; out[2] = 1; out[3] = 1; } return 1.f; }
 // G_TraceCapsule provided by src/game_mp/g_main_mp.cpp now.
-void SV_UnlinkEntity(gentity_s *) {}
+// void SV_UnlinkEntity(gentity_s *) {}  // provided by sv_world.cpp now
 // G_PlaySoundAlias provided by src/game_mp/g_utils_mp.cpp now.
 int32_t IsItemRegistered(uint32_t) { return 0; }
 // G_LocationalTrace provided by src/game_mp/g_main_mp.cpp now.
@@ -2781,11 +2781,11 @@ void G_RunMover(gentity_s *) {}
 // G_RunCorpse provided by src/game_mp/g_player_corpse_mp.cpp now.
 void Scr_IncTime() {}
 void G_RunMissile(gentity_s *) {}
-void SV_SightTrace(int *hit, const float *, const float *, const float *, const float *, int, int, int) { if (hit) *hit = 0; }
+// void SV_SightTrace(int *hit, const float *, const float *, const float *, const float *, int, int, int) { if (hit) *hit = 0; }  // provided by sv_world.cpp now
 // Scr_LoadLevel provided by src/game_mp/g_scr_main_mp.cpp now.
 void Z_VirtualFree(void *) {}
 // G_VehiclesInit provided by src/game_mp/g_vehicles_mp.cpp now.
-int  SV_TracePassed(const float *, const float *, const float *, const float *, int, int, int, int, uint8_t *, int) { return 0; }
+// int  SV_TracePassed(const float *, const float *, const float *, const float *, int, int, int, int, uint8_t *, int) { return 0; }  // provided by sv_world.cpp now
 void Scr_InitSystem(int) {}
 // SendScoreboard provided by src/game_mp/g_cmds_mp.cpp now.
 // GScr_FreeScripts provided by src/game_mp/g_scr_main_mp.cpp now.
@@ -2805,16 +2805,15 @@ void Scr_AllocGameVariable() {}
 void Scr_RunCurrentThreads() {}
 void G_RegisterMissileDvars() {}
 void Missile_InitAttractors() {}
-void SV_SetupIgnoreEntParams(IgnoreEntParams *, int) {}
+// void SV_SetupIgnoreEntParams(IgnoreEntParams *, int) {}  // provided by sv_world.cpp now
 // G_VehiclesSetupSpawnedEnts provided by src/game_mp/g_vehicles_mp.cpp now.
 void G_RegisterMissileDebugDvars() {}
 // G_setfog provided by src/game_mp/g_cmds_mp.cpp now.
-void SV_Trace(trace_t *r, const float *, const float *, const float *, const float *, const IgnoreEntParams *, int, int, uint8_t *, int)
-{ if (r) { std::memset(r, 0, sizeof(*r)); r->fraction = 1.f; } }
+// SV_Trace provided by src/server/sv_world.cpp now.
 void G_RunItem(gentity_s *) {}
 void Rand_Init(int) {}
 // G_VehRegisterDvars provided by src/game_mp/g_vehicles_mp.cpp now.
-int SV_PointContents(float *, int, int) { return 0; }
+// int SV_PointContents(float *, int, int) { return 0; }  // provided by sv_world.cpp now
 
 // === g_cmds_mp satellites ========================================================
 
@@ -3166,6 +3165,24 @@ unsigned int SEH_ReadCharFromString(const char **p, int *consumed) {
 int SND_PlayLocalSoundAliasByName(unsigned int, const char *, snd_alias_system_t) { return 0; }
 void Vec4Scale(const float *in, float s, float *out) {
     if (in && out) { out[0]=in[0]*s; out[1]=in[1]*s; out[2]=in[2]*s; out[3]=in[3]*s; }
+}
+
+// === sv_world satellites ===========================================================
+
+void CM_ClipMoveToEntities(moveclip_t *, trace_t *) {}
+int  CM_ClipSightTraceToEntities(sightclip_t *) { return 0; }
+void CM_LinkEntity(svEntity_s *, float *, float *, unsigned int) {}
+int  CM_PointSightTraceToEntities(sightpointtrace_t *) { return 0; }
+int  CM_PointTraceStaticModelsComplete(const float *, const float *, int) { return 0; }
+void CM_PointTraceToEntities(pointtrace_t *, trace_t *) {}
+void CM_UnlinkEntity(svEntity_s *) {}
+void DObjTraceline(DObj_s *, float *, float *, unsigned char *, DObjTrace_s *) {}
+void DObjTracelinePartBits(DObj_s *, int *) {}
+float RadiusFromBounds2D(const float *mins, const float *maxs) {
+    if (!mins || !maxs) return 0.f;
+    float dx = (maxs[0] - mins[0]) * 0.5f;
+    float dy = (maxs[1] - mins[1]) * 0.5f;
+    return std::sqrt(dx*dx + dy*dy);
 }
 
 // === CGAME dvars and storage referenced by the new sources =========================

@@ -123,7 +123,7 @@ void __cdecl SV_LinkEntity(gentity_s *gEnt)
             "!IS_NAN((origin)[0]) && !IS_NAN((origin)[1]) && !IS_NAN((origin)[2])");
     }
     SnapAngles(angles);
-    if (!gEnt->r.bmodel || *angles == 0.0 && angles[1] == 0.0 && angles[2] == 0.0)
+    if (!gEnt->r.bmodel || (*angles == 0.0 && angles[1] == 0.0 && angles[2] == 0.0))
     {
         Vec3Add(origin, gEnt->r.mins, gEnt->r.absmin);
         Vec3Add(origin, gEnt->r.maxs, gEnt->r.absmax);
@@ -436,16 +436,16 @@ void __cdecl SV_PointTraceToEntity(const pointtrace_t *clip, svEntity_s *check, 
     entnum = check - sv.svEntities;
     touch = SV_GentityNum(entnum);
     if ((touch->r.contents & clip->contentmask) == 0
-        || clip->ignoreEntParams
-        && clip->ignoreEntParams->baseEntity != ENTITYNUM_NONE
-        && (clip->ignoreEntParams->ignoreSelf && entnum == clip->ignoreEntParams->baseEntity
-            || clip->ignoreEntParams->ignoreParent && entnum == clip->ignoreEntParams->parentEntity
-            || touch->r.ownerNum.isDefined()
-            && (clip->ignoreEntParams->ignoreSiblings
-                && touch->r.ownerNum.entnum() == clip->ignoreEntParams->parentEntity
-                && entnum != clip->ignoreEntParams->baseEntity
-                || clip->ignoreEntParams->ignoreChildren
-                && touch->r.ownerNum.entnum() == clip->ignoreEntParams->baseEntity)))
+        || (clip->ignoreEntParams
+            && clip->ignoreEntParams->baseEntity != ENTITYNUM_NONE
+            && ((clip->ignoreEntParams->ignoreSelf && entnum == clip->ignoreEntParams->baseEntity)
+                || (clip->ignoreEntParams->ignoreParent && entnum == clip->ignoreEntParams->parentEntity)
+                || (touch->r.ownerNum.isDefined()
+                    && ((clip->ignoreEntParams->ignoreSiblings
+                            && touch->r.ownerNum.entnum() == clip->ignoreEntParams->parentEntity
+                            && entnum != clip->ignoreEntParams->baseEntity)
+                        || (clip->ignoreEntParams->ignoreChildren
+                            && touch->r.ownerNum.entnum() == clip->ignoreEntParams->baseEntity))))))
     {
         return;
     }
@@ -594,10 +594,10 @@ void __cdecl SV_ClipMoveToEntity(const moveclip_t *clip, svEntity_s *check, trac
     touch = SV_GentityNum(entnum);
     if ((touch->r.contents & clip->contentmask) != 0
         && (clip->passEntityNum == ENTITYNUM_NONE
-            || entnum != clip->passEntityNum
-            && (!touch->r.ownerNum.isDefined()
-                || touch->r.ownerNum.entnum() != clip->passEntityNum
-                && touch->r.ownerNum.entnum() != clip->passOwnerNum)))
+            || (entnum != clip->passEntityNum
+                && (!touch->r.ownerNum.isDefined()
+                    || (touch->r.ownerNum.entnum() != clip->passEntityNum
+                        && touch->r.ownerNum.entnum() != clip->passOwnerNum)))))
     {
         Vec3Add(touch->r.absmin, clip->mins, absmin);
         Vec3Add(touch->r.absmax, clip->maxs, absmax);
@@ -1073,7 +1073,7 @@ int __cdecl SV_TracePassed(
     PROF_SCOPED("SV_TracePassed");
 
     if (CM_BoxSightTrace(0, start, end, mins, maxs, 0, contentmask)
-        || staticmodels && !CM_PointTraceStaticModelsComplete(start, end, contentmask))
+        || (staticmodels && !CM_PointTraceStaticModelsComplete(start, end, contentmask)))
     {
         return 0;
     }
