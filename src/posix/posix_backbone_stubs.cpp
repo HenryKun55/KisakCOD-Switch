@@ -724,8 +724,8 @@ bool Material_IsDefault(const Material * /*material*/) { return true; }
 
 void R_CopyDebugLines(trDebugLine_t * /*dst*/, int /*dstCap*/, trDebugLine_t * /*src*/, int /*count*/, int /*offset*/) {}
 void R_CopyDebugStrings(trDebugString_t * /*dst*/, int /*dstCap*/, trDebugString_t * /*src*/, int /*count*/, int /*offset*/) {}
-void R_DebugAlloc(void **out, int size, const char * /*name*/) { if (out) *out = std::calloc(1, size); }
-void R_DebugFree(void **p) { if (p && *p) { std::free(*p); *p = nullptr; } }
+// void R_DebugAlloc(void **out, int size, const char * /*name*/) { if (out) *out = std::calloc(1, size); }  // provided by gfx_d3d batch now
+// void R_DebugFree(void **p) { if (p && *p) { std::free(*p); *p = nullptr; } }  // provided by gfx_d3d batch now
 void R_ShutdownDebug() {}
 
 // Scr_*
@@ -1077,7 +1077,7 @@ void R_AddCmdDrawStretchPicRotateST(float /*x*/, float /*y*/, float /*w*/, float
                                     float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/,
                                     float /*rotationS*/, float /*rotationT*/,
                                     const float * /*color*/, Material * /*material*/) {}
-void R_ArchiveFogState(MemoryFile * /*memFile*/) {}
+// void R_ArchiveFogState(MemoryFile * /*memFile*/) {}  // provided by gfx_d3d batch now
 void R_EndRegistration() {}
 void R_LoadWorld(char * /*name*/, int * /*checksum*/, int /*flag*/) {}
 void R_RenderScene(const refdef_s * /*refdef*/) {}
@@ -1770,7 +1770,7 @@ void  FX_MarkEntUpdateEnd(FxMarkDObjUpdateContext *, int, int, DObj_s *, bool, u
 // cg_youInKillCamSize provided by src/cgame_mp/cg_main_mp.cpp now.
 // === cg_servercmds_mp satellites =================================================
 
-void R_SwitchFog(unsigned int, int, int) {}
+// void R_SwitchFog(unsigned int, int, int) {}  // provided by gfx_d3d batch now
 void FX_InitSystem(int) {}
 void Phys_Shutdown() {}
 void SND_StopMusic(int) {}
@@ -1784,7 +1784,7 @@ void DynEntCl_Shutdown(int) {}
 void FX_KillAllEffects(int) {}
 void FX_ShutdownSystem(int) {}
 // CG_BoldGameMessage provided by src/cgame_mp/cg_main_mp.cpp now.
-void R_SetFogFromServer(float, unsigned char, unsigned char, unsigned char, float) {}
+// void R_SetFogFromServer(float, unsigned char, unsigned char, unsigned char, float) {}  // provided by gfx_d3d batch now
 void SND_PlayMusicAlias(int, const snd_alias_t *, bool, snd_alias_system_t) {}
 // void UI_CloseInGameMenu(int) {}  // provided by ui_main_mp.cpp now
 // int  UI_PopupScriptMenu(int, const char *, bool) { return 0; }  // provided by ui_main_mp.cpp now
@@ -2767,7 +2767,7 @@ char SND_GetKnownLength(int, int *out) { if (out) *out = 0; return 0; }
 
 // === cl_devgui satellites ==========================================================
 
-void R_CreateDevGui() {}
+// R_CreateDevGui provided by src/gfx_d3d/r_devgui.cpp now.
 void DevGui_RemoveMenu(const char *) {}
 void Com_InitSoundDevGuiGraphs() {}
 
@@ -2848,6 +2848,24 @@ bool Sys_StringToAdr(const char *, netadr_t *out) { if (out) std::memset(out, 0,
 // === ui_expressions satellites =====================================================
 
 int LiveStorage_GetStat(int, int) { return 0; }
+
+// === gfx_d3d satellites ============================================================
+
+DxGlobals dx{};
+r_globals_t rg{};
+
+struct GfxCmdBufSourceState;
+void R_WarnOncePerFrame(GfxWarningType, ...) {}
+void R_MatrixIdentity44(float (*m)[4]) {
+    if (!m) return;
+    for (int i = 0; i < 4; ++i) {
+        m[i][0] = (i == 0) ? 1.0f : 0.0f;
+        m[i][1] = (i == 1) ? 1.0f : 0.0f;
+        m[i][2] = (i == 2) ? 1.0f : 0.0f;
+        m[i][3] = (i == 3) ? 1.0f : 0.0f;
+    }
+}
+void R_GetActiveWorldMatrix(GfxCmdBufSourceState *) {}
 
 // === com_files satellites ==========================================================
 

@@ -90,6 +90,16 @@ set(SCRIPT_PORTABLE_SOURCES
     "${SRC_DIR}/script/scr_variable.cpp"
 )
 
+set(GFX_PORTABLE_SOURCES
+    "${SRC_DIR}/gfx_d3d/r_cmdbuf.cpp"
+    "${SRC_DIR}/gfx_d3d/r_debug_alloc.cpp"
+    "${SRC_DIR}/gfx_d3d/r_devgui.cpp"
+    "${SRC_DIR}/gfx_d3d/r_draw_pixelshader.cpp"
+    "${SRC_DIR}/gfx_d3d/r_fog.cpp"
+    "${SRC_DIR}/gfx_d3d/r_image_utils.cpp"
+    "${SRC_DIR}/gfx_d3d/r_xsurface.cpp"
+)
+
 # physics/ode/: 15 of 34 ODE source files compile clean (collision_kernel,
 # collision_quadtreespace, ode, mass, matrix, util, rotation, odemath, ...).
 # They reference dSpaceCollide2 / dSpaceRemove / etc. from the OTHER 19
@@ -318,6 +328,7 @@ add_executable(kisak_posix
     ${QCOMMON_PORTABLE_SOURCES}
     ${COMMON_PORTABLE_SOURCES}
     ${SCRIPT_PORTABLE_SOURCES}
+    ${GFX_PORTABLE_SOURCES}
     ${PHYSICS_ODE_SOURCES}
     ${EFFECTSCORE_PORTABLE_SOURCES}
     ${RAGDOLL_PORTABLE_SOURCES}
