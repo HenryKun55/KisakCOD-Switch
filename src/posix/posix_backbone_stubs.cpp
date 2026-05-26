@@ -1640,6 +1640,17 @@ struct GfxScaledPlacement;
 void R_FilterXModelIntoScene(const XModel * /*model*/, const GfxScaledPlacement * /*placement*/, unsigned short /*flags*/, unsigned short * /*outIds*/) {}
 void Phys_ObjSetAngularVelocity(dxBody * /*b*/, float * /*omega*/) {}
 
+// r_dvars satellite storage (declared extern in r_dvars.h, owned by the
+// Win32 build's r_init.cpp; we own them here until r_init.cpp lands).
+const dvar_t *r_fullscreen;
+const dvar_t *r_warningRepeatDelay;
+const dvar_t *vid_xpos;
+const dvar_t *vid_ypos;
+
+// r_dvars satellite hooks (r_init.cpp's registration routines).
+void R_RegisterSunDvars() {}
+void Material_PreventOverrideTechniqueGeneration() {}
+
 // Code-mesh stubs (provided once r_drawsurf.cpp lands).
 struct Material;
 struct r_double_index_t;
@@ -1962,7 +1973,7 @@ void   R_LightingFromCubemapShots(const float *) {}
 // CL_AnyLocalClientChallenging provided by src/client_mp/cl_main_mp.cpp now.
 // CL_AllLocalClientsDisconnected provided by src/client_mp/cl_main_mp.cpp now.
 // unsigned int FS_FTell(int) { return 0u; }  // provided by com_files.cpp now
-const dvar_t *r_reflectionProbeGenerate = nullptr;
+// const dvar_t *r_reflectionProbeGenerate = nullptr;  // provided by r_dvars.cpp now
 
 // === cl_ui_mp satellites =========================================================
 
@@ -2788,11 +2799,11 @@ int LiveStorage_GetStat(int, int) { return 0; }
 DxGlobals dx{};
 r_globals_t rg{};
 r_global_permanent_t rgp{};
-const dvar_t *r_drawDynEnts = nullptr;
-const dvar_t *r_clear = nullptr;
-const dvar_t *r_clearColor = nullptr;
-const dvar_t *r_clearColor2 = nullptr;
-const dvar_t *developer = nullptr;
+// const dvar_t *r_drawDynEnts = nullptr;  // provided by r_dvars.cpp now
+// const dvar_t *r_clear = nullptr;          // provided by r_dvars.cpp now
+// const dvar_t *r_clearColor = nullptr;     // provided by r_dvars.cpp now
+// const dvar_t *r_clearColor2 = nullptr;    // provided by r_dvars.cpp now
+// const dvar_t *developer = nullptr;        // provided by r_dvars.cpp now
 #include <gfx_d3d/r_scene.h>
 GfxBuffers gfxBuf{};
 GfxBackEndData *frontEndDataOut = nullptr;
