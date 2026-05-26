@@ -83,6 +83,8 @@ set(SCRIPT_PORTABLE_SOURCES
     "${SRC_DIR}/script/scr_const.cpp"
     "${SRC_DIR}/script/scr_main.cpp"
     "${SRC_DIR}/script/scr_memorytree.cpp"
+    "${SRC_DIR}/script/scr_stringlist.cpp"
+    "${SRC_DIR}/script/scr_variable.cpp"
 )
 
 # physics/ode/: 15 of 34 ODE source files compile clean (collision_kernel,

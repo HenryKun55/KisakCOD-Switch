@@ -101,10 +101,12 @@ void SL_AddUserInternal(RefString* refStr, unsigned int user)
 			InterlockedIncrement(&scrStringDebugGlob->refCount[str]);
 		}
 
-		volatile int Comperand;
+		volatile unsigned int Comperand;
 		do
 			Comperand = refStr->data;
-		while (InterlockedCompareExchange(&refStr->data, Comperand | (user << 16), Comperand) != Comperand);
+		while (InterlockedCompareExchange(&refStr->data,
+			static_cast<unsigned int>(Comperand | (user << 16)),
+			static_cast<unsigned int>(Comperand)) != Comperand);
 		InterlockedIncrement(&refStr->data);
 	}
 }
@@ -176,7 +178,7 @@ void SL_ShutdownSystem(unsigned int user)
 			if (((unsigned __int8)user & refStr->user) == 0)
 				break;
 
-			refStr->data = ((unsigned __int8)(~(BYTE)user & HIWORD(refStr->data)) << 16) | refStr->data & 0xFF00FFFF;
+			refStr->data = ((unsigned __int8)(~(BYTE)user & HIWORD(refStr->data)) << 16) | (refStr->data & 0xFF00FFFF);
 
 			scrStringGlob.nextFreeEntry = 0;
 			SL_RemoveRefToString(scrStringGlob.hashTable[hash].u.prev);
@@ -216,8 +218,8 @@ void SL_TransferSystem(unsigned int from, unsigned int to)
 			RefString* refStr = GetRefString(scrStringGlob.hashTable[hash].u.prev);
 			if (((unsigned __int8)from & refStr->user) != 0)
 			{
-				refStr->data = ((unsigned __int8)(~(BYTE)from & HIWORD(refStr->data)) << 16) | refStr->data & 0xFF00FFFF;
-				refStr->data = ((unsigned __int8)(to | HIWORD(refStr->data)) << 16) | refStr->data & 0xFF00FFFF;
+				refStr->data = ((unsigned __int8)(~(BYTE)from & HIWORD(refStr->data)) << 16) | (refStr->data & 0xFF00FFFF);
+				refStr->data = ((unsigned __int8)(to | HIWORD(refStr->data)) << 16) | (refStr->data & 0xFF00FFFF);
 			}
 		}
 	}
@@ -281,9 +283,9 @@ unsigned int SL_GetStringOfSize(const char* str, unsigned int user, unsigned int
 
 			if (refStr->byteLen == len && !memcmp(refStr->str, str, len))
 			{
-				scrStringGlob.hashTable[prev].status_next = (unsigned __int16)newEntry->status_next | scrStringGlob.hashTable[prev].status_next & HASH_STAT_MASK;
-				newEntry->status_next = (unsigned __int16)entry->status_next | newEntry->status_next & HASH_STAT_MASK;
-				entry->status_next = newIndex | entry->status_next & HASH_STAT_MASK;
+				scrStringGlob.hashTable[prev].status_next = (unsigned __int16)newEntry->status_next | (scrStringGlob.hashTable[prev].status_next & HASH_STAT_MASK);
+				newEntry->status_next = (unsigned __int16)entry->status_next | (newEntry->status_next & HASH_STAT_MASK);
+				entry->status_next = newIndex | (entry->status_next & HASH_STAT_MASK);
 				stringValue = newEntry->u.prev;
 				newEntry->u.prev = entry->u.prev;
 				entry->u.prev = stringValue;
@@ -319,7 +321,7 @@ unsigned int SL_GetStringOfSize(const char* str, unsigned int user, unsigned int
 		scrStringGlob.hashTable[0].status_next = newNext;
 		scrStringGlob.hashTable[newNext].u.prev = 0;
 		newEntry->status_next = (unsigned __int16)entry->status_next | HASH_STAT_MOVABLE;
-		entry->status_next = (unsigned __int16)newIndex | entry->status_next & HASH_STAT_MASK;
+		entry->status_next = (unsigned __int16)newIndex | (entry->status_next & HASH_STAT_MASK);
 		newEntry->u.prev = entry->u.prev;
 	}
 	else
@@ -358,7 +360,7 @@ unsigned int SL_GetStringOfSize(const char* str, unsigned int user, unsigned int
 
 			scrStringGlob.hashTable[0].status_next = newNext;
 			scrStringGlob.hashTable[newNext].u.prev = 0;
-			scrStringGlob.hashTable[prev].status_next = newIndex | scrStringGlob.hashTable[prev].status_next & HASH_STAT_MASK;
+			scrStringGlob.hashTable[prev].status_next = newIndex | (scrStringGlob.hashTable[prev].status_next & HASH_STAT_MASK);
 			newEntry->status_next = next | HASH_STAT_MOVABLE;
 			newEntry->u.prev = entry->u.prev;
 		}
@@ -368,7 +370,7 @@ unsigned int SL_GetStringOfSize(const char* str, unsigned int user, unsigned int
 			prev = entry->u.prev;
 			next = (unsigned __int16)entry->status_next;
 
-			scrStringGlob.hashTable[prev].status_next = next | scrStringGlob.hashTable[prev].status_next & HASH_STAT_MASK;
+			scrStringGlob.hashTable[prev].status_next = next | (scrStringGlob.hashTable[prev].status_next & HASH_STAT_MASK);
 			scrStringGlob.hashTable[next].u.prev = prev;
 		}
 		iassert(!(hash & HASH_STAT_MASK));
@@ -379,10 +381,10 @@ unsigned int SL_GetStringOfSize(const char* str, unsigned int user, unsigned int
 
 	refStr = GetRefString(stringValue);
 	memcpy((unsigned __int8*)refStr->str, (unsigned __int8*)str, len);
-	refStr->data = ((unsigned __int8)user << 16) | refStr->data & 0xFF00FFFF;
+	refStr->data = ((unsigned __int8)user << 16) | (refStr->data & 0xFF00FFFF);
 	iassert(refStr->user == user);
-	refStr->data = refStr->data & 0xFFFF0000 | 1;
-	refStr->data = (len << 24) | refStr->data & 0xFFFFFF;
+	refStr->data = (refStr->data & 0xFFFF0000) | 1;
+	refStr->data = (len << 24) | (refStr->data & 0xFFFFFF);
 
 	if (scrStringDebugGlob)
 	{
@@ -468,9 +470,9 @@ static unsigned int FindStringOfSize(const char* str, unsigned int len)
 
 			if (refStr->byteLen == len && !memcmp(refStr->str, str, len))
 			{
-				scrStringGlob.hashTable[prev].status_next = (unsigned __int16)newEntry->status_next | scrStringGlob.hashTable[prev].status_next & HASH_STAT_MASK;
-				newEntry->status_next = (unsigned __int16)entry->status_next | newEntry->status_next & HASH_STAT_MASK;
-				entry->status_next = newIndex | entry->status_next & HASH_STAT_MASK;
+				scrStringGlob.hashTable[prev].status_next = (unsigned __int16)newEntry->status_next | (scrStringGlob.hashTable[prev].status_next & HASH_STAT_MASK);
+				newEntry->status_next = (unsigned __int16)entry->status_next | (newEntry->status_next & HASH_STAT_MASK);
+				entry->status_next = newIndex | (entry->status_next & HASH_STAT_MASK);
 				stringValue = newEntry->u.prev;
 				newEntry->u.prev = entry->u.prev;
 				entry->u.prev = stringValue;
@@ -528,7 +530,9 @@ void __cdecl SL_TransferRefToUser(unsigned int stringValue, unsigned int user)
 	{
 		do
 			Comperand = refStr->data;
-		while (InterlockedCompareExchange(&refStr->data, Comperand | (user << 16), Comperand) != Comperand);
+		while (InterlockedCompareExchange(&refStr->data,
+			static_cast<unsigned int>(Comperand | (user << 16)),
+			static_cast<unsigned int>(Comperand)) != Comperand);
 	}
 }
 

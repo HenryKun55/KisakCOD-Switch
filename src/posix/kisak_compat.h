@@ -67,6 +67,29 @@
 // MSVC: sprintf_s(buf, sizeOfBuf, fmt, ...) — POSIX equivalent is snprintf
 // with the same destination size; truncation behavior matches our needs.
 #define sprintf_s(dst, dstSize, ...)               snprintf((dst), (dstSize), __VA_ARGS__)
+// Win32 BYTE/WORD/DWORD typedefs — referenced by hex-rays decompiled bit-field
+// accessors. POSIX/clang has no <windows.h> so define them as plain integer
+// aliases here.
+#ifndef BYTE
+typedef unsigned char  BYTE;
+#endif
+#ifndef WORD
+typedef unsigned short WORD;
+#endif
+// Win32 HIWORD / LOWORD / HIBYTE / LOBYTE macros.
+#ifndef HIWORD
+#define HIWORD(x) (static_cast<WORD>((static_cast<DWORD>(x) >> 16) & 0xFFFF))
+#endif
+#ifndef LOWORD
+#define LOWORD(x) (static_cast<WORD>(static_cast<DWORD>(x) & 0xFFFF))
+#endif
+#ifndef HIBYTE
+#define HIBYTE(x) (static_cast<BYTE>((static_cast<WORD>(x) >> 8) & 0xFF))
+#endif
+#ifndef LOBYTE
+#define LOBYTE(x) (static_cast<BYTE>(static_cast<WORD>(x) & 0xFF))
+#endif
+// DWORD typedef defined later in this header as `unsigned long`.
 // _ctime64: MSVC's 64-bit time formatter. On POSIX time_t is already 64-bit;
 // the upstream caller pairs the result with free(), so return a strdup'd
 // copy instead of ctime's static buffer.

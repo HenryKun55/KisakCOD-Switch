@@ -373,10 +373,10 @@ void R_WaitWorkerCmds() {}
 // =========================================================================
 
 bool Scr_CanDrawScript() { return false; }
-void Scr_Cleanup() {}
+// void Scr_Cleanup() {}  // provided by scr_variable/scr_stringlist now
 void Scr_DrawScript() {}
 void Scr_Init() {}
-void Scr_InitVariables() {}
+// void Scr_InitVariables() {}  // provided by scr_variable/scr_stringlist now
 void Scr_MonitorCommand(const char * /*cmd*/) {}
 void Scr_Settings(int /*developer*/, int /*developer_script*/, int /*abort_on_error*/) {}
 void Scr_Shutdown() {}
@@ -397,7 +397,7 @@ void LargeLocalReset() {}
 void LiveStorage_Init() {}
 // XAnimInit/Shutdown now provided by xanim/xanim.cpp.
 void Swap_Init() {}
-void SL_Init() {}
+// void SL_Init() {}  // provided by scr_variable/scr_stringlist now
 // void BG_ShutdownWeaponDefFiles() {}  // provided by bg_weapons.cpp now
 // int  BG_AnimScriptEvent(playerState_s * /*ps*/, scriptAnimEventTypes_t /*event*/, int /*isContinue*/, int /*force*/) { return 0; }  // provided by bg_animation_mp.cpp now
 // void BG_AddPredictableEventToPlayerstate(unsigned int /*event*/, unsigned int /*eventParm*/, playerState_s * /*ps*/) {}  // provided by bg_misc.cpp now
@@ -490,11 +490,11 @@ void *Hunk_FindDataForFile(int /*fileId*/, const char * /*filename*/) { return n
 char *Hunk_SetDataForFile(int /*type*/, const char * /*name*/, void * /*data*/, void *(*)(int) /*alloc*/) { return nullptr; }
 
 // Stringlist (extra entries pulled by bgame/xanim)
-void SL_AddRefToString(unsigned int /*stringValue*/) {}
-unsigned int SL_ConvertToLowercase(unsigned int stringValue, unsigned int /*user*/, int /*type*/) { return stringValue; }
-unsigned int SL_GetLowercaseString(const char * /*str*/, unsigned int /*user*/) { return 0; }
-unsigned int SL_GetStringOfSize(const char * /*str*/, unsigned int /*size*/, unsigned int /*user*/, int /*type*/) { return 0; }
-void SL_RemoveRefToStringOfSize(unsigned int /*stringValue*/, unsigned int /*size*/) {}
+// void SL_AddRefToString(unsigned int /*stringValue*/) {}  // provided by scr_variable/scr_stringlist now
+// unsigned int SL_ConvertToLowercase(unsigned int stringValue, unsigned int /*user*/, int /*type*/) { return stringValue; }  // provided by scr_variable/scr_stringlist now
+// unsigned int SL_GetLowercaseString(const char * /*str*/, unsigned int /*user*/) { return 0; }  // provided by scr_variable/scr_stringlist now
+// unsigned int SL_GetStringOfSize(const char * /*str*/, unsigned int /*size*/, unsigned int /*user*/, int /*type*/) { return 0; }  // provided by scr_variable/scr_stringlist now
+// void SL_RemoveRefToStringOfSize(unsigned int /*stringValue*/, unsigned int /*size*/) {}  // provided by scr_variable/scr_stringlist now
 
 // Scr_*
 void Scr_AddArray() {}
@@ -697,8 +697,8 @@ unsigned char *PMem_Alloc(unsigned int size, unsigned int /*alignment*/, unsigne
 unsigned int PMem_GetOverAllocatedSize() { return 0; }
 
 // SL
-unsigned int SL_GetString(const char * /*str*/, unsigned int /*user*/) { return 0; }
-void SL_AddUser(unsigned int /*stringValue*/, unsigned int /*user*/) {}
+// unsigned int SL_GetString(const char * /*str*/, unsigned int /*user*/) { return 0; }  // provided by scr_variable/scr_stringlist now
+// void SL_AddUser(unsigned int /*stringValue*/, unsigned int /*user*/) {}  // provided by scr_variable/scr_stringlist now
 
 // Math
 // RadiusFromBounds provided by src/universal/com_math.cpp now.
@@ -752,7 +752,7 @@ void R_DebugFree(void **p) { if (p && *p) { std::free(*p); *p = nullptr; } }
 void R_ShutdownDebug() {}
 
 // Scr_*
-void Scr_AddClassField(unsigned int /*classnum*/, char * /*name*/, unsigned int /*offset*/) {}
+// void Scr_AddClassField(unsigned int /*classnum*/, char * /*name*/, unsigned int /*offset*/) {}  // provided by scr_variable/scr_stringlist now
 void Scr_AddInt(int /*value*/) {}
 void Scr_AddString(const char * /*value*/) {}
 void Scr_Error(const char * /*msg*/) {}
@@ -1202,7 +1202,7 @@ void DynEntCl_MeleeEvent(int /*localClientNum*/, int /*entityNum*/) {}
 void FX_PlayBoltedEffect(int /*localClientNum*/, const FxEffectDef * /*effect*/, int /*time*/, unsigned int /*entityNum*/, unsigned int /*boneIndex*/) {}
 void FX_PlayOrientedEffect(int /*localClientNum*/, const FxEffectDef * /*effect*/, int /*time*/, const float * /*origin*/, const float (* /*axis*/)[3]) {}
 
-void Scr_SetString(unsigned short * /*ptr*/, unsigned int /*stringValue*/) {}
+// void Scr_SetString(unsigned short * /*ptr*/, unsigned int /*stringValue*/) {}  // provided by scr_variable/scr_stringlist now
 
 // const dvar_t *bg_fallDamageMaxHeight = nullptr;  // provided by bg_misc.cpp now
 // const dvar_t *bg_fallDamageMinHeight = nullptr;  // provided by bg_misc.cpp now
@@ -1359,7 +1359,7 @@ unsigned short DynEnt_GetId(const DynEntityDef * /*def*/, DynEntityDrawType /*dr
 unsigned int R_GetLocalClientNum() { return 0; }
 
 // SL (stringlist)
-unsigned int SL_FindString(const char * /*str*/) { return 0; }
+// unsigned int SL_FindString(const char * /*str*/) { return 0; }  // provided by scr_variable/scr_stringlist now
 
 // Phys_ family — all stubs. PhysWorld is passed by-value as an opaque
 // `struct PhysWorld` so we just take it; nothing happens.
@@ -1417,42 +1417,42 @@ struct XAnim_s;
 struct XAnimParts;
 struct HunkUser;
 
-unsigned int FindObject(unsigned int /*id*/) { return 0; }
-unsigned int GetObject(unsigned int /*id*/) { return 0; }
-unsigned int FindVariable(unsigned int /*parentId*/, unsigned int /*name*/) { return 0; }
-unsigned int GetVariable(unsigned int /*parentId*/, unsigned int /*name*/) { return 0; }
-unsigned int FindArrayVariable(unsigned int /*parentId*/, int /*intValue*/) { return 0; }
-unsigned int GetArrayVariable(unsigned int /*parentId*/, unsigned int /*value*/) { return 0; }
-unsigned int GetNewVariable(unsigned int /*parentId*/, unsigned int /*value*/) { return 0; }
-unsigned int GetArray(unsigned int /*id*/) { return 0; }
-unsigned int GetArraySize(unsigned int /*id*/) { return 0; }
-unsigned int FindFirstSibling(unsigned int /*id*/) { return 0; }
-unsigned int FindNextSibling(unsigned int /*id*/) { return 0; }
-unsigned int GetVariableName(unsigned int /*id*/) { return 0; }
-Vartype_t    GetValueType(unsigned int /*id*/) { return VAR_UNDEFINED; }
-VariableValueInternal_u *GetVariableValueAddress(unsigned int /*id*/) { return nullptr; }
-void         RemoveRefToObject(unsigned int /*id*/) {}
-void         RemoveVariable(unsigned int /*parentId*/, unsigned int /*name*/) {}
-void         ClearObject(unsigned int /*parentId*/) {}
-void         SetVariableValue(unsigned int /*id*/, VariableValue * /*value*/) {}
+// unsigned int FindObject(unsigned int /*id*/) { return 0; }  // provided by scr_variable/scr_stringlist now
+// unsigned int GetObject(unsigned int /*id*/) { return 0; }  // provided by scr_variable/scr_stringlist now
+// unsigned int FindVariable(unsigned int /*parentId*/, unsigned int /*name*/) { return 0; }  // provided by scr_variable/scr_stringlist now
+// unsigned int GetVariable(unsigned int /*parentId*/, unsigned int /*name*/) { return 0; }  // provided by scr_variable/scr_stringlist now
+// unsigned int FindArrayVariable(unsigned int /*parentId*/, int /*intValue*/) { return 0; }  // provided by scr_variable/scr_stringlist now
+// unsigned int GetArrayVariable(unsigned int /*parentId*/, unsigned int /*value*/) { return 0; }  // provided by scr_variable/scr_stringlist now
+// unsigned int GetNewVariable(unsigned int /*parentId*/, unsigned int /*value*/) { return 0; }  // provided by scr_variable/scr_stringlist now
+// unsigned int GetArray(unsigned int /*id*/) { return 0; }  // provided by scr_variable/scr_stringlist now
+// unsigned int GetArraySize(unsigned int /*id*/) { return 0; }  // provided by scr_variable/scr_stringlist now
+// unsigned int FindFirstSibling(unsigned int /*id*/) { return 0; }  // provided by scr_variable/scr_stringlist now
+// unsigned int FindNextSibling(unsigned int /*id*/) { return 0; }  // provided by scr_variable/scr_stringlist now
+// unsigned int GetVariableName(unsigned int /*id*/) { return 0; }  // provided by scr_variable/scr_stringlist now
+// Vartype_t    GetValueType(unsigned int /*id*/) { return VAR_UNDEFINED; }  // provided by scr_variable/scr_stringlist now
+// VariableValueInternal_u *GetVariableValueAddress(unsigned int /*id*/) { return nullptr; }  // provided by scr_variable/scr_stringlist now
+// void         RemoveRefToObject(unsigned int /*id*/) {}  // provided by scr_variable/scr_stringlist now
+// void         RemoveVariable(unsigned int /*parentId*/, unsigned int /*name*/) {}  // provided by scr_variable/scr_stringlist now
+// void         ClearObject(unsigned int /*parentId*/) {}  // provided by scr_variable/scr_stringlist now
+// void         SetVariableValue(unsigned int /*id*/, VariableValue * /*value*/) {}  // provided by scr_variable/scr_stringlist now
 
 // --- Stringlist (scr_stringlist.cpp) --------------------------------------
-const char *SL_ConvertToString(unsigned int /*stringValue*/) { return ""; }
-const char *SL_DebugConvertToString(unsigned int /*stringValue*/) { return ""; }
-unsigned int SL_GetLowercaseString_(const char * /*str*/, unsigned int /*user*/, int /*type*/) { return 0; }
-unsigned int SL_GetString_(const char * /*str*/, unsigned int /*user*/, int /*type*/) { return 0; }
-void SL_RemoveRefToString(unsigned int /*stringValue*/) {}
-void SL_ShutdownSystem(unsigned int /*user*/) {}
-void SL_TransferRefToUser(unsigned int /*stringValue*/, unsigned int /*user*/) {}
+// const char *SL_ConvertToString(unsigned int /*stringValue*/) { return ""; }  // provided by scr_variable/scr_stringlist now
+// const char *SL_DebugConvertToString(unsigned int /*stringValue*/) { return ""; }  // provided by scr_variable/scr_stringlist now
+// unsigned int SL_GetLowercaseString_(const char * /*str*/, unsigned int /*user*/, int /*type*/) { return 0; }  // provided by scr_variable/scr_stringlist now
+// unsigned int SL_GetString_(const char * /*str*/, unsigned int /*user*/, int /*type*/) { return 0; }  // provided by scr_variable/scr_stringlist now
+// void SL_RemoveRefToString(unsigned int /*stringValue*/) {}  // provided by scr_variable/scr_stringlist now
+// void SL_ShutdownSystem(unsigned int /*user*/) {}  // provided by scr_variable/scr_stringlist now
+// void SL_TransferRefToUser(unsigned int /*stringValue*/, unsigned int /*user*/) {}  // provided by scr_variable/scr_stringlist now
 
 // --- Scr_* lifecycle + helpers --------------------------------------------
 char *Scr_AddSourceBuffer(const char * /*filename*/, char * /*extFilename*/,
                           const char * /*codePos*/, bool /*archive*/) { return nullptr; }
-unsigned int Scr_AllocArray() { return 0; }
+// unsigned int Scr_AllocArray() { return 0; }  // provided by scr_variable/scr_stringlist now
 void Scr_ClearErrorMessage() {}
-unsigned int Scr_CreateCanonicalFilename(const char * /*filename*/) { return 0; }
+// unsigned int Scr_CreateCanonicalFilename(const char * /*filename*/) { return 0; }  // provided by scr_variable/scr_stringlist now
 void Scr_EndLoadEvaluate() {}
-VariableValue Scr_EvalVariable(unsigned int /*id*/) { VariableValue v{}; return v; }
+// VariableValue Scr_EvalVariable(unsigned int /*id*/) { VariableValue v{}; return v; }  // provided by scr_variable/scr_stringlist now
 void Scr_InitAllocNode() {}
 void Scr_InitDebugger() {}
 void Scr_InitDebuggerMain() {}
@@ -1497,9 +1497,8 @@ bool I_iscsym(int c) { return std::isalnum(c) || c == '_'; }
 // headers included at the top, so we can zero-construct them properly.
 scrCompilePub_t  scrCompilePub{};
 scrParserPub_t   scrParserPub{};
-scrVarPub_t      scrVarPub{};
-static scrVarDebugPub_t scrVarDebugPub_storage{};
-scrVarDebugPub_t *scrVarDebugPub = &scrVarDebugPub_storage;
+// scrVarPub_t      scrVarPub{};  // provided by scr_variable/scr_stringlist now
+// scrVarDebugPub storage provided by scr_variable/scr_stringlist now.
 scrVmPub_t       scrVmPub{};
 bool g_loadedImpureScript = false;
 
@@ -1543,7 +1542,7 @@ void Phys_DrawDebugText(const ScreenPlacement *) {}
 int  Scr_GetStringUsage() { return 0; }
 void Phys_GetPerformance(float *t, int *a, int *b) { if (t) *t = 0.f; if (a) *a = 0; if (b) *b = 0; }
 int  SND_GetSoundOverlay(snd_overlay_type_t, snd_overlay_info_t *, int, int *) { return 0; }
-unsigned int Scr_GetNumScriptVars() { return 0u; }
+// unsigned int Scr_GetNumScriptVars() { return 0u; }  // provided by scr_variable/scr_stringlist now
 // BG_GetSpreadForWeapon provided by src/bgame/bg_weapons.cpp now.
 snd_entchannel_info_t *SND_GetEntChannelName(int) { return nullptr; }
 // void CG_UpdateViewModelPose(const DObj_s *, int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
@@ -2112,7 +2111,7 @@ DObj_s *Com_ServerDObjCreate(DObjModel_s *, unsigned short, XAnimTree_s *, unsig
 // G_VehEntHandler_Touch provided by src/game_mp/g_vehicles_mp.cpp now.
 // Helicopter_Controller provided by src/game_mp/g_scr_helicopter.cpp now.
 void Com_SafeServerDObjFree(unsigned int) {}
-unsigned int SL_FindLowercaseString(const char *) { return 0u; }
+// unsigned int SL_FindLowercaseString(const char *) { return 0u; }  // provided by scr_variable/scr_stringlist now
 // SV_GetConfigstringConst provided by src/server_mp/sv_init_mp.cpp now.
 void Hunk_OverrideDataForFile(int, const char *, void *) {}
 // MatrixInverseOrthogonal43 provided by src/universal/com_math.cpp now.
@@ -2232,16 +2231,16 @@ void Scr_RunDebugger() {}
 // SV_AddServerCommand provided by src/server_mp/sv_main_mp.cpp now.
 // SV_ClientEnterWorld provided by src/server_mp/sv_client_mp.cpp now.
 void Scr_DoProfileBuiltin(float) {}
-void Scr_DumpScriptThreads() {}
+// void Scr_DumpScriptThreads() {}  // provided by scr_variable/scr_stringlist now
 void Scr_RunDebuggerRemote() {}
-void Scr_DumpScriptVariables(bool, bool, bool, bool, bool, const char *, const char *, int) {}
+// void Scr_DumpScriptVariables(bool, bool, bool, bool, bool, const char *, const char *, int) {}  // provided by scr_variable/scr_stringlist now
 void Steam_SV_AddTestCommands() {}
 
 // === sv_main_mp satellites =======================================================
 
 // G_RunFrame provided by src/game_mp/g_main_mp.cpp now.
 // void FakeLag_Frame() {}  // provided by net_chan_mp.cpp now
-void Scr_FreeValue(unsigned int) {}
+// void Scr_FreeValue(unsigned int) {}  // provided by scr_variable/scr_stringlist now
 // SV_ClientThink provided by src/server_mp/sv_client_mp.cpp now.
 void Scr_SetLoading(int) {}
 // int  Netchan_Process(netchan_t *, msg_t *) { return 0; }  // provided by net_chan_mp.cpp now
@@ -2351,11 +2350,11 @@ int Scr_GetType(unsigned int) { return 0; }
 // void trigger_use(gentity_s *) {}  // provided by game/ batch now
 // G_VehSpawner provided by src/game_mp/g_vehicles_mp.cpp now.
 // int32_t G_SpawnString(const SpawnVar *, const char *, const char *def, const char **out) { if (out) *out = def; return 0; }  // provided by game/ batch now
-void Scr_AddFields(const char *, const char *) {}
+// void Scr_AddFields(const char *, const char *) {}  // provided by scr_variable/scr_stringlist now
 void Scr_AddObject(unsigned int) {}
-unsigned int Scr_FindField(const char *, int *type) { if (type) *type = 0; return 0u; }
+// unsigned int Scr_FindField(const char *, int *type) { if (type) *type = 0; return 0u; }  // provided by scr_variable/scr_stringlist now
 unsigned int Scr_GetObject(unsigned int) { return 0u; }
-int Scr_GetOffset(unsigned int, const char *) { return 0; }
+// int Scr_GetOffset(unsigned int, const char *) { return 0; }  // provided by scr_variable/scr_stringlist now
 void Scr_MakeArray() {}
 // Scr_SetAngles provided by src/game_mp/g_scr_main_mp.cpp now.
 // Scr_SetHealth provided by src/game_mp/g_scr_main_mp.cpp now.
@@ -2365,7 +2364,7 @@ uint16_t Scr_ExecThread(int, unsigned int) { return 0; }
 void Scr_AddEntityNum(unsigned int, unsigned int) {}
 scr_entref_t Scr_GetEntityRef(unsigned int) { return {}; }
 void Scr_AddExecThread(int, unsigned int) {}
-void Scr_FreeEntityNum(unsigned int, unsigned int) {}
+// void Scr_FreeEntityNum(unsigned int, unsigned int) {}  // provided by scr_variable/scr_stringlist now
 void Scr_SetStructField(unsigned int, unsigned int) {}
 // G_VehCollmapSpawner provided by src/game_mp/g_vehicles_mp.cpp now.
 // void Scr_GetHudElemField(uint32_t, uint32_t) {}  // provided by game/ batch now
@@ -2399,7 +2398,7 @@ void Scr_NotifyNum(unsigned int, unsigned int, unsigned int, unsigned int) {}
 // void BG_StringCopy(uint8_t *m, const char *k) { if (m && k) std::strcpy(reinterpret_cast<char *>(m), k); }  // provided by bg_weapons.cpp now
 // gentity_s *G_FireGrenade(gentity_s *, float *, float *, uint32_t, uint8_t, int32_t, int32_t) { return nullptr; }  // provided by g_missile.cpp now
 // bool LogAccuracyHit(gentity_s *, gentity_s *) { return false; }  // provided by game/ batch now
-unsigned int Scr_AllocString(char *, int) { return 0u; }
+// unsigned int Scr_AllocString(char *, int) { return 0u; }  // provided by scr_variable/scr_stringlist now
 void Scr_AddUndefined() {}
 // Scr_PlayerDamage provided by src/game_mp/g_scr_main_mp.cpp now.
 // Scr_PlayerKilled provided by src/game_mp/g_scr_main_mp.cpp now.
@@ -2490,14 +2489,14 @@ void Scr_InitSystem(int) {}
 // void G_SetupWeaponDef() {}  // provided by game/ batch now
 // Scr_LoadGameType provided by src/game_mp/g_scr_main_mp.cpp now.
 // void HudElem_DestroyAll() {}  // provided by game/ batch now
-void Scr_FreeEntityList() {}
+// void Scr_FreeEntityList() {}  // provided by scr_variable/scr_stringlist now
 void Scr_ShutdownSystem(uint8_t, int) {}
 void Hunk_ClearToMarkLow(int) {}
 // void SaveRegisteredItems() {}  // provided by game/ batch now
 // Scr_StartupGameType provided by src/game_mp/g_scr_main_mp.cpp now.
 uint8_t *Hunk_AllocXAnimServer(unsigned int size) { return static_cast<uint8_t *>(std::calloc(size > 0 ? size : 1, 1)); }
 // void SaveRegisteredWeapons() {}  // provided by game/ batch now
-void Scr_AllocGameVariable() {}
+// void Scr_AllocGameVariable() {}  // provided by scr_variable/scr_stringlist now
 void Scr_RunCurrentThreads() {}
 // void G_RegisterMissileDvars() {}  // provided by g_missile.cpp now
 // void Missile_InitAttractors() {}  // provided by g_missile.cpp now
@@ -2642,12 +2641,12 @@ void Scr_AddIString(const char *) {}
 const char *Scr_GetIString(unsigned int) { return ""; }
 // void GScr_NewHudElem() {}  // provided by game/ batch now
 const char *Scr_GetTypeName(unsigned int) { return ""; }
-void Scr_SetClassMap(unsigned int) {}
-void Scr_AddArrayKeys(unsigned int) {}
+// void Scr_SetClassMap(unsigned int) {}  // provided by scr_variable/scr_stringlist now
+// void Scr_AddArrayKeys(unsigned int) {}  // provided by scr_variable/scr_stringlist now
 void Scr_ResetTimeout() {}
 // void (*HudElem_GetMethod(const char **))(scr_entref_t) { return nullptr; }  // provided by game/ batch now
 const char *Scr_GetDebugString(unsigned int) { return ""; }
-void Scr_RemoveClassMap(unsigned int) {}
+// void Scr_RemoveClassMap(unsigned int) {}  // provided by scr_variable/scr_stringlist now
 // void GScr_NewTeamHudElem() {}  // provided by game/ batch now
 int  DObjGetModelBoneIndex(const DObj_s *, const char *, unsigned int, unsigned char *out) { if (out) *out = 0; return 0; }
 // void GScr_NewClientHudElem() {}  // provided by game/ batch now
@@ -2880,6 +2879,26 @@ bool Sys_StringToAdr(const char *, netadr_t *out) { if (out) std::memset(out, 0,
 // === ui_expressions satellites =====================================================
 
 int LiveStorage_GetStat(int, int) { return 0; }
+
+// === scr_variable satellites =======================================================
+
+VariableValue GetEntityFieldValue(unsigned int, int, int) { VariableValue v{}; return v; }
+void Scr_CancelNotifyList(unsigned int) {}
+const char *Scr_PrevCodePosFileName(char *) { return ""; }
+bool Scr_PrevCodePosFileNameMatches(char *, const char *) { return false; }
+const char *Scr_PrevCodePosFunctionName(char *) { return ""; }
+void Scr_PrintPrevCodePos(int, char *, unsigned int) {}
+void Scr_PrintPrevCodePosSpreadSheet(int, char *, bool, bool) {}
+void Scr_TerminalError(const char *) {}
+char SetEntityFieldValue(unsigned int, int, int, VariableValue *) { return 0; }
+// unsigned int SL_ConvertFromString(const char *) { return 0; }  // provided by scr_variable/scr_stringlist now
+// unsigned int SL_GetStringForFloat(float) { return 0; }  // provided by scr_variable/scr_stringlist now
+// unsigned int SL_GetStringForInt(int) { return 0; }  // provided by scr_variable/scr_stringlist now
+// unsigned int SL_GetStringForVector(const float *) { return 0; }  // provided by scr_variable/scr_stringlist now
+// int SL_GetStringLen(unsigned int) { return 0; }  // provided by scr_variable/scr_stringlist now
+void TempMemorySetPos(char *) {}
+void VM_CancelNotify(unsigned int, unsigned int) {}
+char *Z_TryVirtualAlloc(int size, const char *, int) { return static_cast<char *>(std::calloc(size > 0 ? size : 1, 1)); }
 
 // === g_mover satellites ============================================================
 
