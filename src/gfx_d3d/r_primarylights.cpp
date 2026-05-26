@@ -36,7 +36,7 @@ void __cdecl R_AddDynamicShadowableLight(GfxViewInfo *viewInfo, const GfxLight *
         memcpy(
             &viewInfo->shadowableLights[viewInfo->shadowableLightCount++],
             visibleLight,
-            sizeof(viewInfo->shadowableLights[viewInfo->shadowableLightCount++]));
+            sizeof(viewInfo->shadowableLights[0]));
     }
 }
 
@@ -61,7 +61,7 @@ void __cdecl R_ChooseShadowedLights(GfxViewInfo *viewInfo)
     unsigned int scanIndex; // [esp+44h] [ebp-44h]
     GfxShadowedLightHistory *shadowHistory; // [esp+48h] [ebp-40h]
     unsigned int leadingZeros; // [esp+4Ch] [ebp-3Ch]
-    unsigned int bitIndex; // [esp+50h] [ebp-38h]
+    [[maybe_unused]] unsigned int bitIndex; // [esp+50h] [ebp-38h]
     unsigned int usedBits; // [esp+54h] [ebp-34h]
     float fadeDelta; // [esp+58h] [ebp-30h]
     unsigned int candidateLightIndex; // [esp+5Ch] [ebp-2Ch]

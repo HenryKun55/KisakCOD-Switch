@@ -127,6 +127,8 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_dvars.cpp"
     "${SRC_DIR}/gfx_d3d/r_add_cmdbuf.cpp"
     "${SRC_DIR}/gfx_d3d/r_marks.cpp"
+    # r_model_lighting.cpp pulls IDirect3DVolumeTexture9 / _D3DLOCKED_BOX
+    # / _D3DBOX. Land behind graphics abstraction.
     "${SRC_DIR}/gfx_d3d/r_model_pose.cpp"
     "${SRC_DIR}/gfx_d3d/r_model_skin.cpp"
     # r_meshdata.cpp needs ~15 R_Setup* / R_Draw* / R_BeginMaterial /
@@ -136,6 +138,7 @@ set(GFX_PORTABLE_SOURCES
     # bring back after D3D9 abstraction layer or selective extraction.
     "${SRC_DIR}/gfx_d3d/r_utils.cpp"
     "${SRC_DIR}/gfx_d3d/r_pixelcost_load_obj.cpp"
+    "${SRC_DIR}/gfx_d3d/r_primarylights.cpp"
     "${SRC_DIR}/gfx_d3d/r_reflection_probe_load_obj.cpp"
     "${SRC_DIR}/gfx_d3d/r_staticmodel.cpp"
     "${SRC_DIR}/gfx_d3d/r_xsurface.cpp"

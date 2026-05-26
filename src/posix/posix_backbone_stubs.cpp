@@ -1673,6 +1673,9 @@ unsigned char *Hunk_AllocXModelPrecache(unsigned int /*size*/) { return nullptr;
 unsigned char *Hunk_AllocXModelPrecacheColl(unsigned int /*size*/) { return nullptr; }
 #include <gfx_d3d/r_init.h>
 GfxConfiguration gfxCfg{};
+GfxMetrics gfxMetrics{};
+
+void R_AddSpotShadowsForLight(GfxViewInfo * /*viewInfo*/, GfxLight * /*light*/, unsigned int /*idx*/, float /*scale*/) {}
 
 // Code-mesh stubs (provided once r_drawsurf.cpp lands).
 struct Material;
@@ -1784,7 +1787,7 @@ void R_InitPrimaryLights(GfxLight *) {}
 // CG_PlayClientSoundAliasByName provided by src/cgame_mp/cg_main_mp.cpp now.
 // CG_StopClientSoundAliasByName provided by src/cgame_mp/cg_main_mp.cpp now.
 // CG_ShouldPlaySoundOnLocalClient provided by src/cgame_mp/cg_main_mp.cpp now.
-void R_ClearShadowedPrimaryLightHistory(int) {}
+// void R_ClearShadowedPrimaryLightHistory(int) {}  // provided by r_primarylights.cpp now
 // char *UI_GetMapDisplayNameFromPartialLoadNameMatch(const char *, int *) { return nullptr; }  // provided by ui_main_mp.cpp now
 void Phys_Init() {}
 
