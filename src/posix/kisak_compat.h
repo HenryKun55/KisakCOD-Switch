@@ -324,6 +324,20 @@ enum D3DFormatShim : unsigned int {
 };
 #endif
 
+// D3DCUBEMAP_FACES — Win32 DX9 cubemap face enum. Upstream code only uses
+// it as an opaque int-typed parameter to Image_UploadData. We declare it
+// here as an enum alias so the parse succeeds; values match DX9 ordering.
+#ifndef D3DCUBEMAP_FACE_POSITIVE_X
+enum D3DCUBEMAP_FACES : int {
+    D3DCUBEMAP_FACE_POSITIVE_X = 0,
+    D3DCUBEMAP_FACE_NEGATIVE_X = 1,
+    D3DCUBEMAP_FACE_POSITIVE_Y = 2,
+    D3DCUBEMAP_FACE_NEGATIVE_Y = 3,
+    D3DCUBEMAP_FACE_POSITIVE_Z = 4,
+    D3DCUBEMAP_FACE_NEGATIVE_Z = 5,
+};
+#endif
+
 typedef struct _OVERLAPPED {
     unsigned long long Internal;
     unsigned long long InternalHigh;

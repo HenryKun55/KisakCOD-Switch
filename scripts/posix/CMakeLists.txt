@@ -123,6 +123,9 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_fog.cpp"
     "${SRC_DIR}/gfx_d3d/r_font.cpp"
     "${SRC_DIR}/gfx_d3d/r_image_utils.cpp"
+    # r_image_load_obj.cpp uses D3DCUBEMAP_FACE_* / D3DFMT_G16R16F.
+    # Land behind a graphics format/cubemap abstraction.
+    "${SRC_DIR}/gfx_d3d/r_image_wavelet.cpp"
     "${SRC_DIR}/gfx_d3d/r_imagedecode.cpp"
     "${SRC_DIR}/gfx_d3d/r_light_load_obj.cpp"
     # r_light.cpp has ~12 past-end float[4] array indices, six `&`-in-`|`

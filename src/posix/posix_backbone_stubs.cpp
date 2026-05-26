@@ -509,7 +509,7 @@ void TRACK_r_buffers() {}
 // void TRACK_r_debug() {}
 void TRACK_r_dpvs() {}
 // void TRACK_r_font() {}
-void TRACK_r_image_wavelet() {}
+// void TRACK_r_image_wavelet() {}  // provided by r_image_wavelet.cpp now
 void TRACK_r_image() {}
 void TRACK_r_init() {}
 void TRACK_r_material() {}
@@ -1681,9 +1681,15 @@ void Image_GenerateCube(GfxImage * /*img*/, const unsigned char *(* /*faces*/)[1
 struct GfxImageFileHeader;
 char Image_ValidateHeader(GfxImageFileHeader * /*hdr*/, const char * /*name*/) { return 0; }
 struct WaveletDecode;
-void Wavelet_DecompressLevel(unsigned char * /*dst*/, unsigned char * /*src*/, WaveletDecode * /*ctx*/) {}
+// void Wavelet_DecompressLevel(unsigned char * /*dst*/, unsigned char * /*src*/, WaveletDecode * /*ctx*/) {}  // provided by r_image_wavelet.cpp now
 unsigned char *Material_Alloc(unsigned int /*size*/) { return nullptr; }
 void Image_BuildWaterMap(GfxImage * /*img*/) {}
+void Image_UploadData(const GfxImage * /*img*/, int /*format*/, int /*face*/, unsigned int /*mip*/, unsigned char * /*data*/) {}
+unsigned int Image_CubemapFace(unsigned int /*faceIndex*/) { return 0; }
+void Image_SetupFromFile(GfxImage * /*img*/, const GfxImageFileHeader * /*hdr*/, int /*flags*/) {}
+void Image_FreeTempMemory(unsigned char * /*p*/, int /*size*/) {}
+unsigned char *Image_AllocTempMemory(int /*size*/) { return nullptr; }
+unsigned int Image_CountMipmapsForFile(const GfxImageFileHeader * /*hdr*/) { return 0; }
 struct DiskGfxReflectionProbe;
 void R_CreateReflectionRawDataFromCubemapShot(DiskGfxReflectionProbe * /*probe*/, int /*downRes*/) {}
 

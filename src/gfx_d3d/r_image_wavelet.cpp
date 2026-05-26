@@ -5,7 +5,7 @@
 
 struct WaveletHuffmanDecode // sizeof=0x4
 {                                       // ...
-	__int16 value;
+	__int32 value;
 	__int16 bits;
 };
 
