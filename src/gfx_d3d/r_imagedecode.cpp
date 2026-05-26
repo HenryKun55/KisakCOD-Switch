@@ -10,8 +10,8 @@ void __cdecl Image_FreeRawPixels(GfxRawImage *image)
 
 void __cdecl Image_CopyBitmapData(GfxRawImage *image, GfxImageFileHeader *imageFile, unsigned __int8 *imageData)
 {
-    int pixelCount; // [esp+4h] [ebp-8h]
-    GfxRawPixel *pixel; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int pixelCount; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] GfxRawPixel *pixel; // [esp+8h] [ebp-4h]
 
     pixelCount = imageFile->dimensions[1] * imageFile->dimensions[0];
     pixel = image->pixels;
@@ -94,11 +94,11 @@ void __cdecl Image_DecodeBitmap(
     unsigned __int8 *imageData,
     int bytesPerPixel)
 {
-    int v4; // [esp+0h] [ebp-28h]
-    int v5; // [esp+4h] [ebp-24h]
-    int face; // [esp+1Ch] [ebp-Ch]
-    int faceCount; // [esp+20h] [ebp-8h]
-    int mipLevel; // [esp+24h] [ebp-4h]
+    [[maybe_unused]] int v4; // [esp+0h] [ebp-28h]
+    [[maybe_unused]] int v5; // [esp+4h] [ebp-24h]
+    [[maybe_unused]] int face; // [esp+1Ch] [ebp-Ch]
+    [[maybe_unused]] int faceCount; // [esp+20h] [ebp-8h]
+    [[maybe_unused]] int mipLevel; // [esp+24h] [ebp-4h]
 
     iassert( image );
     iassert( imageFile );
@@ -132,14 +132,14 @@ void __cdecl Image_DecompressDxt1_Internal(
     int y,
     bool nonTransparent)
 {
-    float r; // [esp+1BCh] [ebp-2Ch]
-    float r_4; // [esp+1C0h] [ebp-28h]
-    float g; // [esp+1C4h] [ebp-24h]
-    float g_4; // [esp+1C8h] [ebp-20h]
-    float b; // [esp+1CCh] [ebp-1Ch]
-    float b_4; // [esp+1D0h] [ebp-18h]
-    GfxRawPixel pixel[4]; // [esp+1D4h] [ebp-14h]
-    int dy; // [esp+1E4h] [ebp-4h]
+    [[maybe_unused]] float r; // [esp+1BCh] [ebp-2Ch]
+    [[maybe_unused]] float r_4; // [esp+1C0h] [ebp-28h]
+    [[maybe_unused]] float g; // [esp+1C4h] [ebp-24h]
+    [[maybe_unused]] float g_4; // [esp+1C8h] [ebp-20h]
+    [[maybe_unused]] float b; // [esp+1CCh] [ebp-1Ch]
+    [[maybe_unused]] float b_4; // [esp+1D0h] [ebp-18h]
+    [[maybe_unused]] GfxRawPixel pixel[4]; // [esp+1D4h] [ebp-14h]
+    [[maybe_unused]] int dy; // [esp+1E4h] [ebp-4h]
 
     r = (HIBYTE(dxt1->color0.rgb) >> 3) * 0.03125f;
     g = ((dxt1->color0.rgb >> 5) & 0x3F) * 0.015625f;
@@ -201,7 +201,7 @@ void __cdecl Image_DecompressDxt1(unsigned __int8 *block, GfxRawImage *image, in
 
 void __cdecl Image_DecompressDxt3(unsigned __int8 *block, GfxRawImage *image, int x, int y)
 {
-    int dy; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int dy; // [esp+4h] [ebp-4h]
 
     Image_DecompressDxt1_Internal((DdsBlock_Dxt1_t*)(block + 1), image, x, y, 1);
     for (dy = 0; dy < 4; ++dy)
@@ -215,12 +215,12 @@ void __cdecl Image_DecompressDxt3(unsigned __int8 *block, GfxRawImage *image, in
 
 void __cdecl Image_DecompressDxt5(unsigned __int8 *block, GfxRawImage *image, int x, int y)
 {
-    int i; // [esp+F4h] [ebp-24h]
-    unsigned int used; // [esp+F8h] [ebp-20h]
-    int bit; // [esp+FCh] [ebp-1Ch]
-    unsigned __int8 a[8]; // [esp+104h] [ebp-14h]
-    int dy; // [esp+110h] [ebp-8h]
-    int sample; // [esp+114h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+F4h] [ebp-24h]
+    [[maybe_unused]] unsigned int used; // [esp+F8h] [ebp-20h]
+    [[maybe_unused]] int bit; // [esp+FCh] [ebp-1Ch]
+    [[maybe_unused]] unsigned __int8 a[8]; // [esp+104h] [ebp-14h]
+    [[maybe_unused]] int dy; // [esp+110h] [ebp-8h]
+    [[maybe_unused]] int sample; // [esp+114h] [ebp-4h]
 
     Image_DecompressDxt1_Internal((DdsBlock_Dxt1_t*)(block + 1), image, x, y, 1);
 
@@ -270,11 +270,11 @@ void __cdecl Image_DecompressDxt5(unsigned __int8 *block, GfxRawImage *image, in
 
 void __cdecl Image_CopyDxtcData(GfxRawImage *image, GfxImageFileHeader *imageFile, unsigned __int8 *imageData)
 {
-    unsigned __int8 format; // [esp+0h] [ebp-14h]
-    int blockSize; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] unsigned __int8 format; // [esp+0h] [ebp-14h]
+    [[maybe_unused]] int blockSize; // [esp+4h] [ebp-10h]
     void(__cdecl * DecompressDxtcBlock)(unsigned __int8 *, GfxRawImage *, int, int); // [esp+8h] [ebp-Ch]
-    int x; // [esp+Ch] [ebp-8h]
-    int y; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] int x; // [esp+Ch] [ebp-8h]
+    [[maybe_unused]] int y; // [esp+10h] [ebp-4h]
 
     format = imageFile->format;
     switch (format)
@@ -312,11 +312,11 @@ void __cdecl Image_DecodeDxtc(
     unsigned __int8 *imageData,
     int bytesPerBlock)
 {
-    int v4; // [esp+0h] [ebp-28h]
-    int v5; // [esp+4h] [ebp-24h]
-    int face; // [esp+1Ch] [ebp-Ch]
-    int faceCount; // [esp+20h] [ebp-8h]
-    int mipLevel; // [esp+24h] [ebp-4h]
+    [[maybe_unused]] int v4; // [esp+0h] [ebp-28h]
+    [[maybe_unused]] int v5; // [esp+4h] [ebp-24h]
+    [[maybe_unused]] int face; // [esp+1Ch] [ebp-Ch]
+    [[maybe_unused]] int faceCount; // [esp+20h] [ebp-8h]
+    [[maybe_unused]] int mipLevel; // [esp+24h] [ebp-4h]
 
     iassert( image );
     iassert( imageFile );
@@ -352,10 +352,10 @@ void __cdecl Image_DecodeDxtc(
 
 void __cdecl Image_GetRawPixels(char *imageName, GfxRawImage *image)
 {
-    char v2; // [esp+7h] [ebp-5Dh]
-    GfxRawImage *v3; // [esp+Ch] [ebp-58h]
-    char *v4; // [esp+10h] [ebp-54h]
-    GfxImageFileHeader *imageData; // [esp+14h] [ebp-50h]
+    [[maybe_unused]] char v2; // [esp+7h] [ebp-5Dh]
+    [[maybe_unused]] GfxRawImage *v3; // [esp+Ch] [ebp-58h]
+    [[maybe_unused]] char *v4; // [esp+10h] [ebp-54h]
+    [[maybe_unused]] GfxImageFileHeader *imageData; // [esp+14h] [ebp-50h]
     char filepath[64]; // [esp+1Ch] [ebp-48h] BYREF
     GfxImageFileHeader *imageFile; // [esp+60h] [ebp-4h] BYREF
 
@@ -433,11 +433,11 @@ void __cdecl Image_GetRawPixels(char *imageName, GfxRawImage *image)
 
 int __cdecl Image_CountMipmapsForFile(GfxImageFileHeader *imageFile)
 {
-    int v2; // [esp+0h] [ebp-1Ch]
-    int v3; // [esp+4h] [ebp-18h]
-    int mipCount; // [esp+10h] [ebp-Ch]
-    int width; // [esp+14h] [ebp-8h]
-    int height; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] int v2; // [esp+0h] [ebp-1Ch]
+    [[maybe_unused]] int v3; // [esp+4h] [ebp-18h]
+    [[maybe_unused]] int mipCount; // [esp+10h] [ebp-Ch]
+    [[maybe_unused]] int width; // [esp+14h] [ebp-8h]
+    [[maybe_unused]] int height; // [esp+18h] [ebp-4h]
 
     if ((imageFile->flags & 2) != 0)
         return 1;
@@ -464,11 +464,11 @@ int __cdecl Image_CountMipmapsForFile(GfxImageFileHeader *imageFile)
 
 int __cdecl Image_CountMipmapsForFile_0(GfxImageFileHeader *imageFile)
 {
-    int v2; // [esp+0h] [ebp-1Ch]
-    int v3; // [esp+4h] [ebp-18h]
-    int mipCount; // [esp+10h] [ebp-Ch]
-    int width; // [esp+14h] [ebp-8h]
-    int height; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] int v2; // [esp+0h] [ebp-1Ch]
+    [[maybe_unused]] int v3; // [esp+4h] [ebp-18h]
+    [[maybe_unused]] int mipCount; // [esp+10h] [ebp-Ch]
+    [[maybe_unused]] int width; // [esp+14h] [ebp-8h]
+    [[maybe_unused]] int height; // [esp+18h] [ebp-4h]
 
     if ((imageFile->flags & 2) != 0)
         return 1;
@@ -500,18 +500,18 @@ void __cdecl Image_DecodeWavelet(
     int bytesPerPixel)
 {
     unsigned __int8 *TempMemory; // eax
-    int v5; // [esp+0h] [ebp-90h]
-    int v6; // [esp+4h] [ebp-8Ch]
-    unsigned __int8 *from[6]; // [esp+10h] [ebp-80h]
-    unsigned __int8 *pixels[6]; // [esp+28h] [ebp-68h]
-    int sizeForLevel; // [esp+40h] [ebp-50h]
-    int width; // [esp+44h] [ebp-4Ch]
-    int height; // [esp+48h] [ebp-48h]
-    int face; // [esp+4Ch] [ebp-44h]
-    int faceCount; // [esp+50h] [ebp-40h]
+    [[maybe_unused]] int v5; // [esp+0h] [ebp-90h]
+    [[maybe_unused]] int v6; // [esp+4h] [ebp-8Ch]
+    [[maybe_unused]] unsigned __int8 *from[6]; // [esp+10h] [ebp-80h]
+    [[maybe_unused]] unsigned __int8 *pixels[6]; // [esp+28h] [ebp-68h]
+    [[maybe_unused]] int sizeForLevel; // [esp+40h] [ebp-50h]
+    [[maybe_unused]] int width; // [esp+44h] [ebp-4Ch]
+    [[maybe_unused]] int height; // [esp+48h] [ebp-48h]
+    [[maybe_unused]] int face; // [esp+4Ch] [ebp-44h]
+    [[maybe_unused]] int faceCount; // [esp+50h] [ebp-40h]
     WaveletDecode decode; // [esp+54h] [ebp-3Ch] BYREF
-    unsigned __int8 *to[6]; // [esp+74h] [ebp-1Ch]
-    int totalSize; // [esp+8Ch] [ebp-4h]
+    [[maybe_unused]] unsigned __int8 *to[6]; // [esp+74h] [ebp-1Ch]
+    [[maybe_unused]] int totalSize; // [esp+8Ch] [ebp-4h]
 
     iassert( image );
     iassert( imageFile );

@@ -1685,6 +1685,10 @@ GfxImage *Image_Register(const char * /*name*/, unsigned char /*flags*/, int /*f
 void Image_Generate2D(GfxImage * /*img*/, unsigned char * /*data*/, int /*w*/, int /*h*/, int /*format*/) {}
 GfxImage *Image_Alloc(char * /*name*/, unsigned char /*flags*/, unsigned char /*a*/, unsigned char /*b*/) { return nullptr; }
 void Image_GenerateCube(GfxImage * /*img*/, const unsigned char *(* /*faces*/)[15], int /*w*/, int /*h*/, unsigned int /*flags*/) {}
+struct GfxImageFileHeader;
+char Image_ValidateHeader(GfxImageFileHeader * /*hdr*/, const char * /*name*/) { return 0; }
+struct WaveletDecode;
+void Wavelet_DecompressLevel(unsigned char * /*dst*/, unsigned char * /*src*/, WaveletDecode * /*ctx*/) {}
 struct DiskGfxReflectionProbe;
 void R_CreateReflectionRawDataFromCubemapShot(DiskGfxReflectionProbe * /*probe*/, int /*downRes*/) {}
 
