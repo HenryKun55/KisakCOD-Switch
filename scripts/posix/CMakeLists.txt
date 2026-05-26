@@ -140,6 +140,10 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_dpvs_entity.cpp"
     "${SRC_DIR}/gfx_d3d/r_dpvs_sceneent.cpp"
     "${SRC_DIR}/gfx_d3d/r_dpvs_static.cpp"
+    # r_draw_bsp / r_draw_staticmodel / r_draw_xmodel need RB_ShowTess,
+    # R_Set{Index,Vertex,Stream,Constant,...} batch — all live in
+    # r_rendercmds / r_setstate_d3d. Land alongside the renderer-frame
+    # batch.
     "${SRC_DIR}/gfx_d3d/r_draw_method.cpp"
     "${SRC_DIR}/gfx_d3d/r_drawsurf.cpp"
     "${SRC_DIR}/gfx_d3d/r_dvars.cpp"
@@ -161,6 +165,8 @@ set(GFX_PORTABLE_SOURCES
     # r_rendertarget.cpp pulls IDirect3D9 + D3DRTYPE_SURFACE +
     # D3DMULTISAMPLE_NONE — D3D9 swap chain / multisample setup.
     # Land behind graphics abstraction.
+    # r_scene.cpp pulls r_cinematic.h (Bink BINKTEXTURES*) and
+    # IDirect3DQuery9. Land alongside r_cinematic.
     # r_screenshot.cpp uses tagMONITORINFO/HMONITOR/ClientToScreen
     # (Win32) and IDirect3DSurface9/IDirect3DSwapChain9 (D3D9). Land
     # behind a screen-capture abstraction.
