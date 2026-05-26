@@ -93,6 +93,9 @@ set(QCOMMON_PORTABLE_SOURCES
 set(SCRIPT_PORTABLE_SOURCES
     "${SRC_DIR}/script/scr_animtree.cpp"
     "${SRC_DIR}/script/scr_const.cpp"
+    # scr_evaluate.cpp depends on scr_debugger / scr_compiler / scr_parser
+    # batch (debugger_node*, Scr_CompileStatement, Scr_ClearDebugExpr,
+    # scrCompileGlob, scrVmDebugPub). Land together.
     "${SRC_DIR}/script/scr_main.cpp"
     "${SRC_DIR}/script/scr_memorytree.cpp"
     "${SRC_DIR}/script/scr_stringlist.cpp"
