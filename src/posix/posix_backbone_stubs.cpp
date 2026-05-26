@@ -696,8 +696,7 @@ void Sys_RemoveDirTree(const char * /*path*/) {}
 
 // UI text-draw helpers (used by ProfLoad overlay)
 // UI_DrawText provided by src/ui_mp/ui_main_mp.cpp now.
-void UI_FillRect(const ScreenPlacement * /*place*/, float /*x*/, float /*y*/, float /*w*/,
-                 float /*h*/, int /*hAlign*/, int /*vAlign*/, const float * /*color*/) {}
+// UI_FillRect provided by src/ui/ui_atoms.cpp now.
 // Font_s *UI_GetFontHandle(const ScreenPlacement * /*place*/, int /*fontIndex*/, float /*scale*/) { return nullptr; }  // provided by ui_main_mp.cpp now
 
 // Win_LocalizeRef
@@ -1142,8 +1141,7 @@ struct usercmd_s;
 // SV_GetClientSnapshotPing provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
 // SV_NewPacketAnalysisReady provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
 
-void UI_DrawHandlePic(const ScreenPlacement * /*place*/, float /*x*/, float /*y*/, float /*w*/, float /*h*/,
-                      int /*hAlign*/, int /*vAlign*/, const float * /*color*/, Material * /*material*/) {}
+// UI_DrawHandlePic provided by src/ui/ui_atoms.cpp now.
 // int   UI_TextHeight(Font_s * /*font*/, float /*scale*/) { return 0; }  // provided by ui_main_mp.cpp now
 // int   UI_TextWidth(const char * /*text*/, int /*max*/, Font_s * /*font*/, float /*scale*/) { return 0; }  // provided by ui_main_mp.cpp now
 
@@ -1867,7 +1865,7 @@ unsigned int Hunk_AllocateTempMemoryHigh(int /*size*/, const char * /*name*/) { 
 
 // === cg_draw_indicators satellites ===============================================
 
-void UI_FillRectPhysical(float, float, float, float, const float *) {}
+// UI_FillRectPhysical provided by src/ui/ui_atoms.cpp now.
 
 // const dvar_t *bg_maxGrenadeIndicatorSpeed   = nullptr;  // provided by bg_misc.cpp now
 // cg_hudDamageIconHeight provided by src/cgame_mp/cg_main_mp.cpp now.

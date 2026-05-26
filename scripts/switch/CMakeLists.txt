@@ -120,6 +120,7 @@ set(AIMASSIST_PORTABLE_SOURCES
 )
 
 set(UI_PORTABLE_SOURCES
+    "${SRC_DIR}/ui/ui_atoms.cpp"
     "${SRC_DIR}/ui/ui_localvars.cpp"
     "${SRC_DIR}/ui/ui_utils.cpp"
     "${SRC_DIR}/ui_mp/ui_gameinfo_mp.cpp"
