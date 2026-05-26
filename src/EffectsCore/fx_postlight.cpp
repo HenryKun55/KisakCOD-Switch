@@ -37,13 +37,13 @@ void __cdecl FX_PostLight_GenerateVerts(FxPostLightInfo *postLightInfoAddr, FxSy
     unsigned __int16 baseVertex; // [esp+B8h] [ebp-40h] BYREF
     float (*args)[4]; // [esp+BCh] [ebp-3Ch]
     GfxPackedVertex *baseVerts; // [esp+C0h] [ebp-38h]
-    int VERT_COUNT; // [esp+C4h] [ebp-34h]
+    [[maybe_unused]] int VERT_COUNT; // [esp+C4h] [ebp-34h]
     float lightOrigin[3]; // [esp+C8h] [ebp-30h] BYREF
     FxPostLightInfo *postLightInfo; // [esp+D4h] [ebp-24h]
     int postLightIter; // [esp+D8h] [ebp-20h]
     float eyeOffset[5]; // [esp+DCh] [ebp-1Ch] BYREF
     float POLYGON_RADIUS_GROW; // [esp+F0h] [ebp-8h]
-    int POINTS_AROUND; // [esp+F4h] [ebp-4h]
+    [[maybe_unused]] int POINTS_AROUND; // [esp+F4h] [ebp-4h]
 
     POINTS_AROUND = 8;
     POLYGON_RADIUS_GROW = 1.4142135f;
@@ -85,10 +85,10 @@ void __cdecl FX_PostLight_GenerateVerts(FxPostLightInfo *postLightInfoAddr, FxSy
             (*args)[1] = v10;
             (*args)[2] = v11;
             (*args)[3] = v12;
-            v7 = &(*args)[4];
+            v7 = &reinterpret_cast<float *>(args)[4];
             v8 = posDelta[1];
             v9 = posDelta[2];
-            (*args)[4] = posDelta[0];
+            reinterpret_cast<float *>(args)[4] = posDelta[0];
             v7[1] = v8;
             v7[2] = v9;
             v7[3] = 1.0 / posDeltaLenSq;
@@ -168,7 +168,7 @@ void __cdecl FX_PostLight_Add(FxPostLight *postLight)
         memcpy(
             &g_postLightInfo.postLights[g_postLightInfo.postLightCount++],
             postLight,
-            sizeof(g_postLightInfo.postLights[g_postLightInfo.postLightCount++]));
+            sizeof(g_postLightInfo.postLights[0]));
 }
 
 FxPostLightInfo *__cdecl FX_PostLight_GetInfo()

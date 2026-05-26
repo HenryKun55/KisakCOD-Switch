@@ -1437,7 +1437,7 @@ int  R_PickMaterial(int, const float *, const float *, char *, char *, char *, u
 // uint32_t BG_GetNumWeapons() { return 0u; }  // provided by bg_weapons.cpp now
 // int32_t  BG_ClipForWeapon(uint32_t) { return 0; }  // provided by bg_weapons.cpp now
 void     FX_Beam_Add(FxBeam *) {}
-void     FX_PostLight_Add(FxPostLight *) {}
+// void     FX_PostLight_Add(FxPostLight *) {}  // provided by fx_postlight.cpp now
 // CG_DObjGetWorldBoneMatrix provided by src/cgame_mp/cg_ents_mp.cpp now.
 
 // cg_laserEndOffset provided by src/cgame_mp/cg_main_mp.cpp now.
@@ -1629,6 +1629,18 @@ FxMarksSystem fx_marksSystemPool[1] = {};
 
 dxBody *Phys_ObjLoad(PhysWorld /*w*/, MemoryFile * /*memFile*/) { return nullptr; }
 void Phys_ObjSave(dxBody * /*body*/, MemoryFile * /*memFile*/) {}
+
+// Code-mesh stubs (provided once r_drawsurf.cpp lands).
+struct Material;
+struct r_double_index_t;
+struct GfxPackedVertex;
+char R_ReserveCodeMeshIndices(int /*indexCount*/, r_double_index_t ** /*out*/) { return 0; }
+char R_ReserveCodeMeshVerts(int /*vertCount*/, unsigned short * /*out*/) { return 0; }
+char R_ReserveCodeMeshArgs(int /*argCount*/, unsigned int * /*out*/) { return 0; }
+void R_AddCodeMeshDrawSurf(Material * /*m*/, r_double_index_t * /*idx*/, unsigned int /*iCount*/,
+                            unsigned int /*argOffset*/, unsigned int /*argCount*/, const char * /*fxName*/) {}
+float (*R_GetCodeMeshArgs(unsigned int /*argOffset*/))[4] { return nullptr; }
+GfxPackedVertex *R_GetCodeMeshVerts(unsigned short /*baseVertex*/) { return nullptr; }
 // CG_AddPacketEntity provided by src/cgame_mp/cg_ents_mp.cpp now.
 // bool  Key_IsCatcherActive(int, int) { return false; }  // provided by cl_keys.cpp now
 // CG_AddPacketEntities provided by src/cgame_mp/cg_ents_mp.cpp now.

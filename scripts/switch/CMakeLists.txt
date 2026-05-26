@@ -115,6 +115,7 @@ set(EFFECTSCORE_PORTABLE_SOURCES
     "${SRC_DIR}/EffectsCore/fx_archive.cpp"
     "${SRC_DIR}/EffectsCore/fx_dvars.cpp"
     "${SRC_DIR}/EffectsCore/fx_graph.cpp"
+    "${SRC_DIR}/EffectsCore/fx_postlight.cpp"
     "${SRC_DIR}/EffectsCore/fx_profile.cpp"
     "${SRC_DIR}/EffectsCore/fx_random.cpp"
     "${SRC_DIR}/EffectsCore/fx_sort.cpp"
