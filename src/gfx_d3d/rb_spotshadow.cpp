@@ -10,7 +10,7 @@
 void __cdecl RB_SetSpotShadowOverlayScaleAndBias(const GfxSpotShadow *spotShadow)
 {
     float nearDepth; // [esp+20h] [ebp-1Ch] BYREF
-    MaterialTechniqueType shadowmapBuildTechType; // [esp+24h] [ebp-18h]
+    [[maybe_unused]] MaterialTechniqueType shadowmapBuildTechType; // [esp+24h] [ebp-18h]
     float zNear; // [esp+28h] [ebp-14h]
     float bias; // [esp+2Ch] [ebp-10h]
     float zFar; // [esp+30h] [ebp-Ch]

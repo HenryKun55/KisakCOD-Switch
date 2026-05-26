@@ -29,17 +29,17 @@ void __cdecl XAnimCalc(
     int rotTransArrayIndex,
     DObjAnimMat *rotTransArray)
 {
-    XAnimInfo *firstInfo; // [esp+18h] [ebp-28h]
-    XAnimInfo *secondInfo; // [esp+1Ch] [ebp-24h]
-    const XAnimTree_s *tree; // [esp+20h] [ebp-20h]
-    unsigned int secondInfoIndex; // [esp+24h] [ebp-1Ch]
-    DObjAnimMat *calcBuffer; // [esp+28h] [ebp-18h]
-    unsigned int firstInfoIndex; // [esp+2Ch] [ebp-14h]
-    bool secondChildFound; // [esp+32h] [ebp-Eh]
-    bool additiveChildExists; // [esp+33h] [ebp-Dh]
-    int allocedCalcBuffer; // [esp+34h] [ebp-Ch]
-    float weight; // [esp+38h] [ebp-8h]
-    float firstWeight; // [esp+3Ch] [ebp-4h]
+    [[maybe_unused]] XAnimInfo *firstInfo; // [esp+18h] [ebp-28h]
+    [[maybe_unused]] XAnimInfo *secondInfo; // [esp+1Ch] [ebp-24h]
+    [[maybe_unused]] const XAnimTree_s *tree; // [esp+20h] [ebp-20h]
+    [[maybe_unused]] unsigned int secondInfoIndex; // [esp+24h] [ebp-1Ch]
+    [[maybe_unused]] DObjAnimMat *calcBuffer; // [esp+28h] [ebp-18h]
+    [[maybe_unused]] unsigned int firstInfoIndex; // [esp+2Ch] [ebp-14h]
+    [[maybe_unused]] bool secondChildFound; // [esp+32h] [ebp-Eh]
+    [[maybe_unused]] bool additiveChildExists; // [esp+33h] [ebp-Dh]
+    [[maybe_unused]] int allocedCalcBuffer; // [esp+34h] [ebp-Ch]
+    [[maybe_unused]] float weight; // [esp+38h] [ebp-8h]
+    [[maybe_unused]] float firstWeight; // [esp+3Ch] [ebp-4h]
 
     tree = obj->tree;
     iassert(tree);
@@ -167,7 +167,7 @@ bool __cdecl IsInfoAdditive(const XAnimInfo *info)
 
 void __cdecl XAnimClearRotTransArray(const DObj_s *obj, DObjAnimMat *rotTransArray, XAnimCalcAnimInfo *info)
 {
-    unsigned int modelPartIndex; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] unsigned int modelPartIndex; // [esp+4h] [ebp-4h]
 
     for (modelPartIndex = 0; (int)modelPartIndex < obj->numBones; ++modelPartIndex)
     {
@@ -195,100 +195,100 @@ void __cdecl XAnimCalcParts(
     DObjAnimMat *rotTransArray,
     const bitarray<128> *ignorePartBits)
 {
-    unsigned __int64 v6; // kr00_8
-    unsigned __int64 v7; // rax
+    [[maybe_unused]] unsigned __int64 v6; // kr00_8
+    [[maybe_unused]] unsigned __int64 v7; // rax
 
-    float scale; // [esp+4Ch] [ebp-254h]
-    float v13; // [esp+50h] [ebp-250h]
-    int *v14; // [esp+A4h] [ebp-1FCh]
-    __int16 *v15; // [esp+A8h] [ebp-1F8h]
-    unsigned __int8 *v16; // [esp+ACh] [ebp-1F4h]
-    char v17; // [esp+B7h] [ebp-1E9h]
-    const unsigned __int8 *v18; // [esp+B8h] [ebp-1E8h]
-    char v19; // [esp+C3h] [ebp-1DDh]
-    const unsigned __int8 *v20; // [esp+C4h] [ebp-1DCh]
-    float v21[7]; // [esp+CCh] [ebp-1D4h] BYREF
-    int v22; // [esp+E8h] [ebp-1B8h]
-    float v23; // [esp+ECh] [ebp-1B4h]
-    int v24; // [esp+F0h] [ebp-1B0h]
-    float v25; // [esp+F4h] [ebp-1ACh]
-    int v26; // [esp+F8h] [ebp-1A8h]
-    float v27; // [esp+FCh] [ebp-1A4h]
-    float v28; // [esp+100h] [ebp-1A0h]
-    int v29; // [esp+104h] [ebp-19Ch]
-    unsigned __int64 v30; // [esp+108h] [ebp-198h]
-    float v[4]; // [esp+110h] [ebp-190h] BYREF
-    float v32; // [esp+120h] [ebp-180h]
-    float *v33; // [esp+124h] [ebp-17Ch]
+    [[maybe_unused]] float scale; // [esp+4Ch] [ebp-254h]
+    [[maybe_unused]] float v13; // [esp+50h] [ebp-250h]
+    [[maybe_unused]] int *v14; // [esp+A4h] [ebp-1FCh]
+    [[maybe_unused]] __int16 *v15; // [esp+A8h] [ebp-1F8h]
+    [[maybe_unused]] unsigned __int8 *v16; // [esp+ACh] [ebp-1F4h]
+    [[maybe_unused]] char v17; // [esp+B7h] [ebp-1E9h]
+    [[maybe_unused]] const unsigned __int8 *v18; // [esp+B8h] [ebp-1E8h]
+    [[maybe_unused]] char v19; // [esp+C3h] [ebp-1DDh]
+    [[maybe_unused]] const unsigned __int8 *v20; // [esp+C4h] [ebp-1DCh]
+    [[maybe_unused]] float v21[7]; // [esp+CCh] [ebp-1D4h] BYREF
+    [[maybe_unused]] int v22; // [esp+E8h] [ebp-1B8h]
+    [[maybe_unused]] float v23; // [esp+ECh] [ebp-1B4h]
+    [[maybe_unused]] int v24; // [esp+F0h] [ebp-1B0h]
+    [[maybe_unused]] float v25; // [esp+F4h] [ebp-1ACh]
+    [[maybe_unused]] int v26; // [esp+F8h] [ebp-1A8h]
+    [[maybe_unused]] float v27; // [esp+FCh] [ebp-1A4h]
+    [[maybe_unused]] float v28; // [esp+100h] [ebp-1A0h]
+    [[maybe_unused]] int v29; // [esp+104h] [ebp-19Ch]
+    [[maybe_unused]] unsigned __int64 v30; // [esp+108h] [ebp-198h]
+    [[maybe_unused]] float v[4]; // [esp+110h] [ebp-190h] BYREF
+    [[maybe_unused]] float v32; // [esp+120h] [ebp-180h]
+    [[maybe_unused]] float *v33; // [esp+124h] [ebp-17Ch]
     float v34[5]; // [esp+128h] [ebp-178h] BYREF
-    float *quat; // [esp+13Ch] [ebp-164h]
+    [[maybe_unused]] float *quat; // [esp+13Ch] [ebp-164h]
     float dir[4] = { 0.0f, 0.0f, 0.0f, 0.0f }; // [esp+140h] [ebp-160h] BYREF
-    __int64 v37; // [esp+148h] [ebp-158h]
-    float v38; // [esp+154h] [ebp-14Ch]
-    float *result; // [esp+158h] [ebp-148h]
-    float v40; // [esp+15Ch] [ebp-144h]
-    float v41; // [esp+160h] [ebp-140h]
-    char v42; // [esp+167h] [ebp-139h]
-    unsigned __int8 *v43; // [esp+168h] [ebp-138h]
-    float v44; // [esp+16Ch] [ebp-134h]
-    float *start; // [esp+170h] [ebp-130h]
-    float scale1; // [esp+174h] [ebp-12Ch]
-    float scale0; // [esp+178h] [ebp-128h]
-    char v48; // [esp+17Fh] [ebp-121h]
-    unsigned __int8 *v49; // [esp+180h] [ebp-120h]
+    [[maybe_unused]] __int64 v37; // [esp+148h] [ebp-158h]
+    [[maybe_unused]] float v38; // [esp+154h] [ebp-14Ch]
+    [[maybe_unused]] float *result; // [esp+158h] [ebp-148h]
+    [[maybe_unused]] float v40; // [esp+15Ch] [ebp-144h]
+    [[maybe_unused]] float v41; // [esp+160h] [ebp-140h]
+    [[maybe_unused]] char v42; // [esp+167h] [ebp-139h]
+    [[maybe_unused]] unsigned __int8 *v43; // [esp+168h] [ebp-138h]
+    [[maybe_unused]] float v44; // [esp+16Ch] [ebp-134h]
+    [[maybe_unused]] float *start; // [esp+170h] [ebp-130h]
+    [[maybe_unused]] float scale1; // [esp+174h] [ebp-12Ch]
+    [[maybe_unused]] float scale0; // [esp+178h] [ebp-128h]
+    [[maybe_unused]] char v48; // [esp+17Fh] [ebp-121h]
+    [[maybe_unused]] unsigned __int8 *v49; // [esp+180h] [ebp-120h]
     int v50; // [esp+184h] [ebp-11Ch] BYREF
-    unsigned __int16 *v51; // [esp+188h] [ebp-118h]
+    [[maybe_unused]] unsigned __int16 *v51; // [esp+188h] [ebp-118h]
     //__int64 v52; // [esp+18Ch] [ebp-114h]
-    __int16 v52[4];
-    float v53; // [esp+194h] [ebp-10Ch]
-    float v54; // [esp+198h] [ebp-108h]
+    [[maybe_unused]] __int16 v52[4];
+    [[maybe_unused]] float v53; // [esp+194h] [ebp-10Ch]
+    [[maybe_unused]] float v54; // [esp+198h] [ebp-108h]
     float lerpFrac2; // [esp+19Ch] [ebp-104h] BYREF
     //__int64 v56; // [esp+1A0h] [ebp-100h]
-    __int16 v56[4];
-    float v57; // [esp+1A8h] [ebp-F8h]
-    float v58; // [esp+1ACh] [ebp-F4h]
+    [[maybe_unused]] __int16 v56[4];
+    [[maybe_unused]] float v57; // [esp+1A8h] [ebp-F8h]
+    [[maybe_unused]] float v58; // [esp+1ACh] [ebp-F4h]
     int v59; // [esp+1B0h] [ebp-F0h] BYREF
-    unsigned __int8 *v60; // [esp+1B4h] [ebp-ECh]
+    [[maybe_unused]] unsigned __int8 *v60; // [esp+1B4h] [ebp-ECh]
     //__int64 v61; // [esp+1B8h] [ebp-E8h]
-    __int16 v61[4];
-    float v62; // [esp+1C0h] [ebp-E0h]
-    float v63; // [esp+1C4h] [ebp-DCh]
+    [[maybe_unused]] __int16 v61[4];
+    [[maybe_unused]] float v62; // [esp+1C0h] [ebp-E0h]
+    [[maybe_unused]] float v63; // [esp+1C4h] [ebp-DCh]
     float lerpFrac; // [esp+1C8h] [ebp-D8h] BYREF
     //__int64 v65; // [esp+1CCh] [ebp-D4h]
-    __int16 v65[4];
-    float v66; // [esp+1D4h] [ebp-CCh]
-    float v67; // [esp+1D8h] [ebp-C8h]
-    float v68; // [esp+1DCh] [ebp-C4h]
-    float v69; // [esp+1E0h] [ebp-C0h]
-    float v70; // [esp+1E4h] [ebp-BCh]
-    float v71; // [esp+1E8h] [ebp-B8h]
-    float v72; // [esp+1ECh] [ebp-B4h]
-    float v73; // [esp+1F0h] [ebp-B0h]
-    float v74; // [esp+1F4h] [ebp-ACh]
-    float v75; // [esp+1F8h] [ebp-A8h]
-    float4 frameVec; // [esp+1FCh] [ebp-A4h]
+    [[maybe_unused]] __int16 v65[4];
+    [[maybe_unused]] float v66; // [esp+1D4h] [ebp-CCh]
+    [[maybe_unused]] float v67; // [esp+1D8h] [ebp-C8h]
+    [[maybe_unused]] float v68; // [esp+1DCh] [ebp-C4h]
+    [[maybe_unused]] float v69; // [esp+1E0h] [ebp-C0h]
+    [[maybe_unused]] float v70; // [esp+1E4h] [ebp-BCh]
+    [[maybe_unused]] float v71; // [esp+1E8h] [ebp-B8h]
+    [[maybe_unused]] float v72; // [esp+1ECh] [ebp-B4h]
+    [[maybe_unused]] float v73; // [esp+1F0h] [ebp-B0h]
+    [[maybe_unused]] float v74; // [esp+1F4h] [ebp-ACh]
+    [[maybe_unused]] float v75; // [esp+1F8h] [ebp-A8h]
+    [[maybe_unused]] float4 frameVec; // [esp+1FCh] [ebp-A4h]
     int v77; // [esp+20Ch] [ebp-94h] BYREF
-    __int16 *v78; // [esp+210h] [ebp-90h]
+    [[maybe_unused]] __int16 *v78; // [esp+210h] [ebp-90h]
     float dir1[4]; // [esp+214h] [ebp-8Ch] BYREF
     float v80; // [esp+224h] [ebp-7Ch] BYREF
     float dir0[4]; // [esp+228h] [ebp-78h] BYREF
     int keyFrameIndex; // [esp+238h] [ebp-68h] BYREF
-    const __int16 *frame; // [esp+23Ch] [ebp-64h]
+    [[maybe_unused]] const __int16 *frame; // [esp+23Ch] [ebp-64h]
     float4 toVec; // [esp+240h] [ebp-60h] BYREF
     float keyFrameLerpFrac; // [esp+250h] [ebp-50h] BYREF
     float4 fromVec; // [esp+254h] [ebp-4Ch] BYREF
-    __int16 *dataShort; // [esp+268h] [ebp-38h]
+    [[maybe_unused]] __int16 *dataShort; // [esp+268h] [ebp-38h]
     XAnimTime animTime; // [esp+26Ch] [ebp-34h] BYREF
-    unsigned int animPartIndex; // [esp+278h] [ebp-28h]
-    unsigned __int8 *dataByte; // [esp+27Ch] [ebp-24h]
-    int *randomDataInt; // [esp+280h] [ebp-20h]
-    unsigned int size; // [esp+284h] [ebp-1Ch]
-    int *dataInt; // [esp+288h] [ebp-18h]
-    __int16 *randomDataShort; // [esp+28Ch] [ebp-14h]
-    unsigned __int8 *randomDataByte; // [esp+290h] [ebp-10h]
-    unsigned int tableSize; // [esp+294h] [ebp-Ch]
-    T *indices; // [esp+298h] [ebp-8h]
-    int modelPartIndex; // [esp+29Ch] [ebp-4h]
+    [[maybe_unused]] unsigned int animPartIndex; // [esp+278h] [ebp-28h]
+    [[maybe_unused]] unsigned __int8 *dataByte; // [esp+27Ch] [ebp-24h]
+    [[maybe_unused]] int *randomDataInt; // [esp+280h] [ebp-20h]
+    [[maybe_unused]] unsigned int size; // [esp+284h] [ebp-1Ch]
+    [[maybe_unused]] int *dataInt; // [esp+288h] [ebp-18h]
+    [[maybe_unused]] __int16 *randomDataShort; // [esp+28Ch] [ebp-14h]
+    [[maybe_unused]] unsigned __int8 *randomDataByte; // [esp+290h] [ebp-10h]
+    [[maybe_unused]] unsigned int tableSize; // [esp+294h] [ebp-Ch]
+    [[maybe_unused]] T *indices; // [esp+298h] [ebp-8h]
+    [[maybe_unused]] int modelPartIndex; // [esp+29Ch] [ebp-4h]
 
     iassert(parts->numframes);
     iassert(time >= 0);
@@ -755,11 +755,11 @@ LABEL_141:
 
 void __cdecl XAnimCalcLeaf(XAnimInfo *info, float weightScale, DObjAnimMat *rotTransArray, XAnimCalcAnimInfo *animInfo)
 {
-    bool v5; // [esp+14h] [ebp-20h]
-    float time; // [esp+24h] [ebp-10h]
-    XAnimToXModel *animToModel; // [esp+28h] [ebp-Ch]
-    int i; // [esp+2Ch] [ebp-8h]
-    XAnimParts *parts; // [esp+30h] [ebp-4h]
+    [[maybe_unused]] bool v5; // [esp+14h] [ebp-20h]
+    [[maybe_unused]] float time; // [esp+24h] [ebp-10h]
+    [[maybe_unused]] XAnimToXModel *animToModel; // [esp+28h] [ebp-Ch]
+    [[maybe_unused]] int i; // [esp+2Ch] [ebp-8h]
+    [[maybe_unused]] XAnimParts *parts; // [esp+30h] [ebp-4h]
 
     iassert(info->inuse);
     parts = info->parts;
@@ -821,84 +821,84 @@ void __cdecl XAnimCalcNonLoopEnd(
 {
     float *trans; // edx
     float *v6; // ecx
-    int *v7; // [esp+54h] [ebp-1C8h]
-    __int16 *v8; // [esp+58h] [ebp-1C4h]
-    unsigned __int8 *v9; // [esp+5Ch] [ebp-1C0h]
+    [[maybe_unused]] int *v7; // [esp+54h] [ebp-1C8h]
+    [[maybe_unused]] __int16 *v8; // [esp+58h] [ebp-1C4h]
+    [[maybe_unused]] unsigned __int8 *v9; // [esp+5Ch] [ebp-1C0h]
     float v10[5]; // [esp+74h] [ebp-1A8h] BYREF
-    float *quat; // [esp+88h] [ebp-194h]
+    [[maybe_unused]] float *quat; // [esp+88h] [ebp-194h]
     float v12[5]; // [esp+8Ch] [ebp-190h] BYREF
-    float *result; // [esp+A0h] [ebp-17Ch]
+    [[maybe_unused]] float *result; // [esp+A0h] [ebp-17Ch]
     float v14[5]; // [esp+A4h] [ebp-178h] BYREF
-    unsigned int v15; // [esp+B8h] [ebp-164h]
-    float *start; // [esp+BCh] [ebp-160h]
-    float dir[4]; // [esp+C0h] [ebp-15Ch] BYREF
-    __int64 v18; // [esp+C8h] [ebp-154h]
-    unsigned int v19; // [esp+D4h] [ebp-148h]
-    float v20; // [esp+D8h] [ebp-144h]
-    float v21; // [esp+DCh] [ebp-140h]
-    float v22; // [esp+E0h] [ebp-13Ch]
-    float v23; // [esp+E4h] [ebp-138h]
-    float v24; // [esp+E8h] [ebp-134h]
-    float v25; // [esp+ECh] [ebp-130h]
-    float v26; // [esp+F0h] [ebp-12Ch]
-    float v27; // [esp+F4h] [ebp-128h]
-    __int16 *v28; // [esp+F8h] [ebp-124h]
-    float v29; // [esp+FCh] [ebp-120h]
-    float v30; // [esp+100h] [ebp-11Ch]
-    float v31; // [esp+104h] [ebp-118h]
-    float v32; // [esp+108h] [ebp-114h]
-    float v33; // [esp+10Ch] [ebp-110h]
-    float v34; // [esp+110h] [ebp-10Ch]
-    float v35; // [esp+114h] [ebp-108h]
-    float v36; // [esp+118h] [ebp-104h]
-    float v37; // [esp+11Ch] [ebp-100h]
-    float v38; // [esp+120h] [ebp-FCh]
-    float v39; // [esp+124h] [ebp-F8h]
-    float transWeight; // [esp+128h] [ebp-F4h]
-    float v41; // [esp+12Ch] [ebp-F0h]
-    float v42; // [esp+130h] [ebp-ECh]
-    float v43; // [esp+134h] [ebp-E8h]
-    float v44; // [esp+138h] [ebp-E4h]
-    float v45; // [esp+13Ch] [ebp-E0h]
-    float v46; // [esp+140h] [ebp-DCh]
-    float v47; // [esp+144h] [ebp-D8h]
-    float v48; // [esp+148h] [ebp-D4h]
-    XAnimDynamicFrames frame; // [esp+14Ch] [ebp-D0h]
-    float4 sizeVec; // [esp+150h] [ebp-CCh]
-    float v51; // [esp+160h] [ebp-BCh]
-    float v52; // [esp+164h] [ebp-B8h]
-    float v53; // [esp+168h] [ebp-B4h]
-    float v54; // [esp+16Ch] [ebp-B0h]
-    float4 posVec; // [esp+170h] [ebp-ACh]
-    float4 lerp; // [esp+180h] [ebp-9Ch]
-    float4 minsVec; // [esp+190h] [ebp-8Ch]
-    float v58; // [esp+1A0h] [ebp-7Ch]
-    float v59; // [esp+1A4h] [ebp-78h]
-    float v60; // [esp+1A8h] [ebp-74h]
-    float v61; // [esp+1ACh] [ebp-70h]
-    float v62; // [esp+1B0h] [ebp-6Ch]
-    float v63; // [esp+1B4h] [ebp-68h]
-    float v64; // [esp+1B8h] [ebp-64h]
-    float v65; // [esp+1BCh] [ebp-60h]
-    float v66; // [esp+1C0h] [ebp-5Ch]
-    float v67; // [esp+1C4h] [ebp-58h]
-    float v68; // [esp+1C8h] [ebp-54h]
-    float v69; // [esp+1CCh] [ebp-50h]
-    __int16 *v70; // [esp+1D0h] [ebp-4Ch]
-    float4 frameVec; // [esp+1D4h] [ebp-48h]
-    const __int16 *rotLastFrame; // [esp+1E8h] [ebp-34h]
-    int useSmallIndices; // [esp+1ECh] [ebp-30h]
-    __int16 *dataShort; // [esp+1F0h] [ebp-2Ch]
-    DObjAnimMat *totalRotTrans; // [esp+1F4h] [ebp-28h]
-    unsigned int animPartIndex; // [esp+1F8h] [ebp-24h]
-    unsigned __int8 *dataByte; // [esp+1FCh] [ebp-20h]
-    int *randomDataInt; // [esp+200h] [ebp-1Ch]
-    unsigned int size; // [esp+204h] [ebp-18h]
-    int *dataInt; // [esp+208h] [ebp-14h]
-    __int16 *randomDataShort; // [esp+20Ch] [ebp-10h]
-    unsigned __int8 *randomDataByte; // [esp+210h] [ebp-Ch]
-    unsigned int tableSize; // [esp+214h] [ebp-8h]
-    int modelPartIndex; // [esp+218h] [ebp-4h]
+    [[maybe_unused]] unsigned int v15; // [esp+B8h] [ebp-164h]
+    [[maybe_unused]] float *start; // [esp+BCh] [ebp-160h]
+    [[maybe_unused]] float dir[4]; // [esp+C0h] [ebp-15Ch] BYREF
+    [[maybe_unused]] __int64 v18; // [esp+C8h] [ebp-154h]
+    [[maybe_unused]] unsigned int v19; // [esp+D4h] [ebp-148h]
+    [[maybe_unused]] float v20; // [esp+D8h] [ebp-144h]
+    [[maybe_unused]] float v21; // [esp+DCh] [ebp-140h]
+    [[maybe_unused]] float v22; // [esp+E0h] [ebp-13Ch]
+    [[maybe_unused]] float v23; // [esp+E4h] [ebp-138h]
+    [[maybe_unused]] float v24; // [esp+E8h] [ebp-134h]
+    [[maybe_unused]] float v25; // [esp+ECh] [ebp-130h]
+    [[maybe_unused]] float v26; // [esp+F0h] [ebp-12Ch]
+    [[maybe_unused]] float v27; // [esp+F4h] [ebp-128h]
+    [[maybe_unused]] __int16 *v28; // [esp+F8h] [ebp-124h]
+    [[maybe_unused]] float v29; // [esp+FCh] [ebp-120h]
+    [[maybe_unused]] float v30; // [esp+100h] [ebp-11Ch]
+    [[maybe_unused]] float v31; // [esp+104h] [ebp-118h]
+    [[maybe_unused]] float v32; // [esp+108h] [ebp-114h]
+    [[maybe_unused]] float v33; // [esp+10Ch] [ebp-110h]
+    [[maybe_unused]] float v34; // [esp+110h] [ebp-10Ch]
+    [[maybe_unused]] float v35; // [esp+114h] [ebp-108h]
+    [[maybe_unused]] float v36; // [esp+118h] [ebp-104h]
+    [[maybe_unused]] float v37; // [esp+11Ch] [ebp-100h]
+    [[maybe_unused]] float v38; // [esp+120h] [ebp-FCh]
+    [[maybe_unused]] float v39; // [esp+124h] [ebp-F8h]
+    [[maybe_unused]] float transWeight; // [esp+128h] [ebp-F4h]
+    [[maybe_unused]] float v41; // [esp+12Ch] [ebp-F0h]
+    [[maybe_unused]] float v42; // [esp+130h] [ebp-ECh]
+    [[maybe_unused]] float v43; // [esp+134h] [ebp-E8h]
+    [[maybe_unused]] float v44; // [esp+138h] [ebp-E4h]
+    [[maybe_unused]] float v45; // [esp+13Ch] [ebp-E0h]
+    [[maybe_unused]] float v46; // [esp+140h] [ebp-DCh]
+    [[maybe_unused]] float v47; // [esp+144h] [ebp-D8h]
+    [[maybe_unused]] float v48; // [esp+148h] [ebp-D4h]
+    [[maybe_unused]] XAnimDynamicFrames frame; // [esp+14Ch] [ebp-D0h]
+    [[maybe_unused]] float4 sizeVec; // [esp+150h] [ebp-CCh]
+    [[maybe_unused]] float v51; // [esp+160h] [ebp-BCh]
+    [[maybe_unused]] float v52; // [esp+164h] [ebp-B8h]
+    [[maybe_unused]] float v53; // [esp+168h] [ebp-B4h]
+    [[maybe_unused]] float v54; // [esp+16Ch] [ebp-B0h]
+    [[maybe_unused]] float4 posVec; // [esp+170h] [ebp-ACh]
+    [[maybe_unused]] float4 lerp; // [esp+180h] [ebp-9Ch]
+    [[maybe_unused]] float4 minsVec; // [esp+190h] [ebp-8Ch]
+    [[maybe_unused]] float v58; // [esp+1A0h] [ebp-7Ch]
+    [[maybe_unused]] float v59; // [esp+1A4h] [ebp-78h]
+    [[maybe_unused]] float v60; // [esp+1A8h] [ebp-74h]
+    [[maybe_unused]] float v61; // [esp+1ACh] [ebp-70h]
+    [[maybe_unused]] float v62; // [esp+1B0h] [ebp-6Ch]
+    [[maybe_unused]] float v63; // [esp+1B4h] [ebp-68h]
+    [[maybe_unused]] float v64; // [esp+1B8h] [ebp-64h]
+    [[maybe_unused]] float v65; // [esp+1BCh] [ebp-60h]
+    [[maybe_unused]] float v66; // [esp+1C0h] [ebp-5Ch]
+    [[maybe_unused]] float v67; // [esp+1C4h] [ebp-58h]
+    [[maybe_unused]] float v68; // [esp+1C8h] [ebp-54h]
+    [[maybe_unused]] float v69; // [esp+1CCh] [ebp-50h]
+    [[maybe_unused]] __int16 *v70; // [esp+1D0h] [ebp-4Ch]
+    [[maybe_unused]] float4 frameVec; // [esp+1D4h] [ebp-48h]
+    [[maybe_unused]] const __int16 *rotLastFrame; // [esp+1E8h] [ebp-34h]
+    [[maybe_unused]] int useSmallIndices; // [esp+1ECh] [ebp-30h]
+    [[maybe_unused]] __int16 *dataShort; // [esp+1F0h] [ebp-2Ch]
+    [[maybe_unused]] DObjAnimMat *totalRotTrans; // [esp+1F4h] [ebp-28h]
+    [[maybe_unused]] unsigned int animPartIndex; // [esp+1F8h] [ebp-24h]
+    [[maybe_unused]] unsigned __int8 *dataByte; // [esp+1FCh] [ebp-20h]
+    [[maybe_unused]] int *randomDataInt; // [esp+200h] [ebp-1Ch]
+    [[maybe_unused]] unsigned int size; // [esp+204h] [ebp-18h]
+    [[maybe_unused]] int *dataInt; // [esp+208h] [ebp-14h]
+    [[maybe_unused]] __int16 *randomDataShort; // [esp+20Ch] [ebp-10h]
+    [[maybe_unused]] unsigned __int8 *randomDataByte; // [esp+210h] [ebp-Ch]
+    [[maybe_unused]] unsigned int tableSize; // [esp+214h] [ebp-8h]
+    [[maybe_unused]] int modelPartIndex; // [esp+218h] [ebp-4h]
 
     iassert(!parts->bLoop);
 
@@ -1245,8 +1245,8 @@ void __cdecl XAnimCalcNonLoopEnd(
 
 DObjAnimMat *__cdecl XAnimGetCalcBuffer(XAnimCalcAnimInfo *info, const DObj_s *obj, int *rotTransArrayIndex)
 {
-    DObjAnimMat *calcBuffer; // [esp+0h] [ebp-8h]
-    int index; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] DObjAnimMat *calcBuffer; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] int index; // [esp+4h] [ebp-4h]
 
     calcBuffer = &info->rotTransArray[*rotTransArrayIndex];
     index = *rotTransArrayIndex + obj->numBones;
@@ -1265,8 +1265,8 @@ DObjAnimMat *__cdecl XAnimGetCalcBuffer(XAnimCalcAnimInfo *info, const DObj_s *o
 
 void __cdecl XAnimScaleRotTransArray(int numBones, const XAnimCalcAnimInfo *info, DObjAnimMat *rotTransArray)
 {
-    float r; // [esp+8h] [ebp-8h]
-    unsigned int i; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] float r; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] unsigned int i; // [esp+Ch] [ebp-4h]
 
     for (i = 0; (int)i < numBones; ++i)
     {
@@ -1343,11 +1343,11 @@ void __cdecl XAnimApplyAdditives(
     int boneCount,
     XAnimCalcAnimInfo *info)
 {
-    float scale; // [esp+Ch] [ebp-28h]
-    float v6; // [esp+10h] [ebp-24h]
-    DObjAnimMat *v7; // [esp+14h] [ebp-20h]
-    float r; // [esp+18h] [ebp-1Ch]
-    float ra; // [esp+18h] [ebp-1Ch]
+    [[maybe_unused]] float scale; // [esp+Ch] [ebp-28h]
+    [[maybe_unused]] float v6; // [esp+10h] [ebp-24h]
+    [[maybe_unused]] DObjAnimMat *v7; // [esp+14h] [ebp-20h]
+    [[maybe_unused]] float r; // [esp+18h] [ebp-1Ch]
+    [[maybe_unused]] float ra; // [esp+18h] [ebp-1Ch]
     float rot[4]; // [esp+20h] [ebp-14h] BYREF
     const bitarray<128> *ignorePartBits; // [esp+30h] [ebp-4h]
 
@@ -1379,8 +1379,8 @@ void __cdecl XAnimApplyAdditives(
 
 void __cdecl XAnim_CalcRotDeltaEntire(const XAnimDeltaPart *animDelta, float *rotDelta)
 {
-    XAnimDeltaPartQuat *rotFrameDeltas; // [esp+8h] [ebp-8h]
-    const __int16 *rotDeltaLastFrame; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] XAnimDeltaPartQuat *rotFrameDeltas; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] const __int16 *rotDeltaLastFrame; // [esp+Ch] [ebp-4h]
 
     if (animDelta->quat)
     {
@@ -1401,13 +1401,13 @@ void __cdecl XAnim_CalcRotDeltaEntire(const XAnimDeltaPart *animDelta, float *ro
 
 void __cdecl XAnim_CalcPosDeltaEntire(const XAnimDeltaPart *animDelta, float4 *posDelta)
 {
-    XAnimPartTrans *trans; // ecx
-    unsigned short *v3; // [esp+20h] [ebp-44h]
-    unsigned __int8 *v4; // [esp+24h] [ebp-40h]
-    float sizeVec[2]; // [esp+30h] [ebp-34h]
-    float lerp[4]; // [esp+3Ch] [ebp-28h]
-    float minsVec[2]; // [esp+50h] [ebp-14h]
-    XAnimPartTrans *posFrameDeltas; // [esp+60h] [ebp-4h]
+    [[maybe_unused]] XAnimPartTrans *trans; // ecx
+    [[maybe_unused]] unsigned short *v3; // [esp+20h] [ebp-44h]
+    [[maybe_unused]] unsigned __int8 *v4; // [esp+24h] [ebp-40h]
+    [[maybe_unused]] float sizeVec[2]; // [esp+30h] [ebp-34h]
+    [[maybe_unused]] float lerp[4]; // [esp+3Ch] [ebp-28h]
+    [[maybe_unused]] float minsVec[2]; // [esp+50h] [ebp-14h]
+    [[maybe_unused]] XAnimPartTrans *posFrameDeltas; // [esp+60h] [ebp-4h]
 
     if (animDelta->trans)
     {
@@ -1465,7 +1465,7 @@ void __cdecl XAnimWeightedAccumLerpedTrans(
 {
     float frameVec[3]; // [esp+10h] [ebp-20h] BYREF
     float lerp[3]; // [esp+1Ch] [ebp-14h] BYREF
-    const float *minsVec; // [esp+28h] [ebp-8h]
+    [[maybe_unused]] const float *minsVec; // [esp+28h] [ebp-8h]
 
     Vec3Lerp(fromVec.v, toVec.v, keyFrameLerpFrac, lerp); // KISAKTODO: remove these shitty float4's
     minsVec = dataInt;
@@ -1488,10 +1488,10 @@ void XAnim_GetTimeIndex(
     int *keyFrameIndex,
     float *keyFrameLerpFrac)
 {
-    unsigned int low; // [esp+20h] [ebp-10h]
-    unsigned int frameIndex; // [esp+24h] [ebp-Ch]
-    int index; // [esp+28h] [ebp-8h]
-    int high; // [esp+2Ch] [ebp-4h]
+    [[maybe_unused]] unsigned int low; // [esp+20h] [ebp-10h]
+    [[maybe_unused]] unsigned int frameIndex; // [esp+24h] [ebp-Ch]
+    [[maybe_unused]] int index; // [esp+28h] [ebp-8h]
+    [[maybe_unused]] int high; // [esp+2Ch] [ebp-4h]
 
     index = (int)((float)tableSize * animTime->time);
     frameIndex = animTime->frameIndex;
@@ -1553,25 +1553,25 @@ void XAnim_CalcPosDeltaDuring(
     int frameCount,
     float4 *posDelta)
 {
-    float v4; // [esp+68h] [ebp-98h]
-    float v5; // [esp+6Ch] [ebp-94h]
-    float v6; // [esp+70h] [ebp-90h]
-    float v7; // [esp+74h] [ebp-8Ch]
-    unsigned __int16 *v8; // [esp+7Ch] [ebp-84h]
-    unsigned __int16 *v9; // [esp+80h] [ebp-80h]
-    unsigned __int8 *v10; // [esp+84h] [ebp-7Ch]
-    unsigned __int8 *v11; // [esp+88h] [ebp-78h]
-    XAnimPartTransData *p_u; // [esp+8Ch] [ebp-74h]
+    [[maybe_unused]] float v4; // [esp+68h] [ebp-98h]
+    [[maybe_unused]] float v5; // [esp+6Ch] [ebp-94h]
+    [[maybe_unused]] float v6; // [esp+70h] [ebp-90h]
+    [[maybe_unused]] float v7; // [esp+74h] [ebp-8Ch]
+    [[maybe_unused]] unsigned __int16 *v8; // [esp+7Ch] [ebp-84h]
+    [[maybe_unused]] unsigned __int16 *v9; // [esp+80h] [ebp-80h]
+    [[maybe_unused]] unsigned __int8 *v10; // [esp+84h] [ebp-7Ch]
+    [[maybe_unused]] unsigned __int8 *v11; // [esp+88h] [ebp-78h]
+    [[maybe_unused]] XAnimPartTransData *p_u; // [esp+8Ch] [ebp-74h]
     int keyFrameIndex; // [esp+90h] [ebp-70h] BYREF
-    float4 sizeVec; // [esp+94h] [ebp-6Ch]
-    float4 toVec; // [esp+A4h] [ebp-5Ch]
+    [[maybe_unused]] float4 sizeVec; // [esp+94h] [ebp-6Ch]
+    [[maybe_unused]] float4 toVec; // [esp+A4h] [ebp-5Ch]
     XAnimTime animTime; // [esp+B4h] [ebp-4Ch] BYREF
-    int nextKeyFrameIndex; // [esp+C0h] [ebp-40h]
+    [[maybe_unused]] int nextKeyFrameIndex; // [esp+C0h] [ebp-40h]
     float keyFrameLerpFrac; // [esp+C4h] [ebp-3Ch] BYREF
-    float4 fromVec; // [esp+C8h] [ebp-38h]
-    float4 lerp; // [esp+D8h] [ebp-28h]
-    float4 minsVec; // [esp+E8h] [ebp-18h]
-    const XAnimPartTrans *posFrameDeltas; // [esp+FCh] [ebp-4h]
+    [[maybe_unused]] float4 fromVec; // [esp+C8h] [ebp-38h]
+    [[maybe_unused]] float4 lerp; // [esp+D8h] [ebp-28h]
+    [[maybe_unused]] float4 minsVec; // [esp+E8h] [ebp-18h]
+    [[maybe_unused]] const XAnimPartTrans *posFrameDeltas; // [esp+FCh] [ebp-4h]
 
     iassert(frameCount && time != 1.0f);
 
@@ -1661,11 +1661,11 @@ void XAnim_CalcRotDeltaDuring(
     int frameCount,
     float *rotDelta)
 {
-    XAnimDeltaPartQuatData *p_u; // [esp+18h] [ebp-1Ch]
+    [[maybe_unused]] XAnimDeltaPartQuatData *p_u; // [esp+18h] [ebp-1Ch]
     int keyFrameIndex; // [esp+1Ch] [ebp-18h] BYREF
     XAnimTime animTime; // [esp+20h] [ebp-14h] BYREF
     float keyFrameLerpFrac; // [esp+2Ch] [ebp-8h] BYREF
-    const XAnimDeltaPartQuat *rotFrameDeltas; // [esp+30h] [ebp-4h]
+    [[maybe_unused]] const XAnimDeltaPartQuat *rotFrameDeltas; // [esp+30h] [ebp-4h]
 
     iassert(frameCount && (time != 1.0f));
 
@@ -1710,41 +1710,41 @@ void __cdecl XAnim_SetTime(float time, int frameCount, XAnimTime *animTime)
 
 void DObjCalcAnim(const DObj_s *obj, int *partBits)
 {
-    void *v3; // esp
-    const char *v4; // eax
-    const char *v5; // eax
-    float v6; // [esp+38h] [ebp-60FCh]
-    float v7; // [esp+38h] [ebp-60FCh]
-    float v8; // [esp+3Ch] [ebp-60F8h]
-    float v9; // [esp+3Ch] [ebp-60F8h]
-    float v10; // [esp+40h] [ebp-60F4h]
-    float v11; // [esp+40h] [ebp-60F4h]
-    float v12; // [esp+44h] [ebp-60F0h]
-    float v13; // [esp+44h] [ebp-60F0h]
-    __int16 *quats; // [esp+68h] [ebp-60CCh]
-    int mm; // [esp+90h] [ebp-60A4h]
-    int numNonRootBones; // [esp+90h] [ebp-60A4h]
-    XModel *model; // [esp+94h] [ebp-60A0h]
-    int kk; // [esp+98h] [ebp-609Ch]
-    XModel **models; // [esp+9Ch] [ebp-6098h]
-    unsigned int boneIndex; // [esp+A0h] [ebp-6094h]
-    XAnimInfo *AnimInfo; // [esp+A4h] [ebp-6090h]
-    XAnimTree_s *tree; // [esp+A8h] [ebp-608Ch]
-    int jj; // [esp+ACh] [ebp-6088h]
-    int ii; // [esp+B0h] [ebp-6084h]
-    unsigned int bone; // [esp+D0h] [ebp-6064h]
-    DObjAnimMat *mat; // [esp+D4h] [ebp-6060h]
+    [[maybe_unused]] void *v3; // esp
+    [[maybe_unused]] const char *v4; // eax
+    [[maybe_unused]] const char *v5; // eax
+    [[maybe_unused]] float v6; // [esp+38h] [ebp-60FCh]
+    [[maybe_unused]] float v7; // [esp+38h] [ebp-60FCh]
+    [[maybe_unused]] float v8; // [esp+3Ch] [ebp-60F8h]
+    [[maybe_unused]] float v9; // [esp+3Ch] [ebp-60F8h]
+    [[maybe_unused]] float v10; // [esp+40h] [ebp-60F4h]
+    [[maybe_unused]] float v11; // [esp+40h] [ebp-60F4h]
+    [[maybe_unused]] float v12; // [esp+44h] [ebp-60F0h]
+    [[maybe_unused]] float v13; // [esp+44h] [ebp-60F0h]
+    [[maybe_unused]] __int16 *quats; // [esp+68h] [ebp-60CCh]
+    [[maybe_unused]] int mm; // [esp+90h] [ebp-60A4h]
+    [[maybe_unused]] int numNonRootBones; // [esp+90h] [ebp-60A4h]
+    [[maybe_unused]] XModel *model; // [esp+94h] [ebp-60A0h]
+    [[maybe_unused]] int kk; // [esp+98h] [ebp-609Ch]
+    [[maybe_unused]] XModel **models; // [esp+9Ch] [ebp-6098h]
+    [[maybe_unused]] unsigned int boneIndex; // [esp+A0h] [ebp-6094h]
+    [[maybe_unused]] XAnimInfo *AnimInfo; // [esp+A4h] [ebp-6090h]
+    [[maybe_unused]] XAnimTree_s *tree; // [esp+A8h] [ebp-608Ch]
+    [[maybe_unused]] int jj; // [esp+ACh] [ebp-6088h]
+    [[maybe_unused]] int ii; // [esp+B0h] [ebp-6084h]
+    [[maybe_unused]] unsigned int bone; // [esp+D0h] [ebp-6064h]
+    [[maybe_unused]] DObjAnimMat *mat; // [esp+D4h] [ebp-6060h]
     //float *quat; // [esp+D4h] [ebp-6060h]
-    char endEarly; // [esp+DBh] [ebp-6059h]
-    int m; // [esp+DCh] [ebp-6058h]
-    int k; // [esp+E0h] [ebp-6054h]
-    int j; // [esp+E4h] [ebp-6050h]
+    [[maybe_unused]] char endEarly; // [esp+DBh] [ebp-6059h]
+    [[maybe_unused]] int m; // [esp+DCh] [ebp-6058h]
+    [[maybe_unused]] int k; // [esp+E0h] [ebp-6054h]
+    [[maybe_unused]] int j; // [esp+E4h] [ebp-6050h]
     XAnimCalcAnimInfo info; // [esp+E8h] [ebp-604Ch] BYREF
-    int i; // [esp+6114h] [ebp-20h]
-    DSkel *p_skel; // [esp+6120h] [ebp-14h]
-    int v37; // [esp+6128h] [ebp-Ch]
-    void *v38; // [esp+612Ch] [ebp-8h]
-    void *retaddr; // [esp+6134h] [ebp+0h]
+    [[maybe_unused]] int i; // [esp+6114h] [ebp-20h]
+    [[maybe_unused]] DSkel *p_skel; // [esp+6120h] [ebp-14h]
+    [[maybe_unused]] int v37; // [esp+6128h] [ebp-Ch]
+    [[maybe_unused]] void *v38; // [esp+612Ch] [ebp-8h]
+    [[maybe_unused]] void *retaddr; // [esp+6134h] [ebp+0h]
 
     //v38 = retaddr;
     //v3 = alloca(24844); // LWSS: this was for `XAnimCalcAnimInfo`, which is a bigass struct
@@ -1866,8 +1866,8 @@ LABEL_20:
 
 void __cdecl XAnim_CalcDeltaForTime(const XAnimParts *anim, float time, float *rotDelta, float4 *posDelta)
 {
-    int frameCount; // [esp+20h] [ebp-8h]
-    XAnimDeltaPart *animDelta; // [esp+24h] [ebp-4h]
+    [[maybe_unused]] int frameCount; // [esp+20h] [ebp-8h]
+    [[maybe_unused]] XAnimDeltaPart *animDelta; // [esp+24h] [ebp-4h]
 
     if (time < 0.0 || time > 1.0)
         MyAssertHandler(

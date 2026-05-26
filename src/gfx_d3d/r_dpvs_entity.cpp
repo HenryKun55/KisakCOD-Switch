@@ -21,7 +21,7 @@ void __cdecl R_AddEntitySurfacesInFrustumCmd(unsigned __int16 *data)
     if (boneMatrix)
     {
         iassert( localSceneEnt );
-        planes = (const DpvsPlane *)*((unsigned int *)data + 1);
+        planes = (const DpvsPlane *)(uintptr_t)*((unsigned int *)data + 1);
         itr = 0;
         plane = planes;
         while (itr < data[4])
@@ -50,7 +50,7 @@ void __cdecl R_AddEntitySurfacesInFrustumCmd(unsigned __int16 *data)
             CG_CullIn(localSceneEnt->info.pose);
             R_SkinSceneDObj(sceneEnt, localSceneEnt, obj, boneMatrix, 0);
             iassert( localSceneEnt->entnum != gfxCfg.entnumNone );
-            *(_BYTE *)(localSceneEnt->entnum + *((unsigned int *)data + 3)) = 1;
+            *(_BYTE *)(uintptr_t)(localSceneEnt->entnum + *((unsigned int *)data + 3)) = 1;
         }
         else
         {
@@ -77,7 +77,7 @@ bool __cdecl R_BoundsInCell_r(mnode_t *node, int findCellIndex, const float *min
     int side; // [esp+20h] [ebp-38h]
     cplane_s *plane; // [esp+24h] [ebp-34h]
     int cellIndex; // [esp+28h] [ebp-30h]
-    mnode_t *leftNode; // [esp+30h] [ebp-28h]
+    [[maybe_unused]] mnode_t *leftNode; // [esp+30h] [ebp-28h]
     float mins2[3]; // [esp+34h] [ebp-24h] BYREF
     int cellCount; // [esp+40h] [ebp-18h]
     float maxs2[3]; // [esp+44h] [ebp-14h] BYREF

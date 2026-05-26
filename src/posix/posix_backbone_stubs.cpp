@@ -308,8 +308,8 @@ int  Scr_UpdateDebugSocket() { return 0; }
 // SCR_UpdateScreen provided by src/client_mp/cl_scrn_mp.cpp now.
 // GScr_Shutdown provided by src/game_mp/g_scr_main_mp.cpp now.
 
-void DObjInit() {}
-void DObjShutdown() {}
+// void DObjInit() {}
+// void DObjShutdown() {}
 // void FakeLag_Init() {}  // provided by net_chan_mp.cpp now
 // void FakeLag_Shutdown() {}  // provided by net_chan_mp.cpp now
 void FX_UnregisterAll() {}
@@ -344,9 +344,9 @@ void LiveStorage_Init() {}
 // all provided by src/universal/com_math.cpp now.
 
 // DObj
-void DObjCalcAnim(const DObj_s * /*obj*/, int * /*partBits*/) {}
-void DObjDumpInfo(const DObj_s * /*obj*/) {}
-void DObjGetHidePartBits(const DObj_s * /*obj*/, unsigned int * /*partBits*/) {}
+// void DObjCalcAnim(const DObj_s * /*obj*/, int * /*partBits*/) {}
+// void DObjDumpInfo(const DObj_s * /*obj*/) {}
+// void DObjGetHidePartBits(const DObj_s * /*obj*/, unsigned int * /*partBits*/) {}
 
 // PM_
 // void PM_AddTouchEnt(pmove_t * /*pm*/, int /*entityNum*/) {}  // provided by bg_pmove.cpp now
@@ -419,7 +419,7 @@ void Scr_AddFloat(float /*value*/) {}
 // XAnim/XModel load
 XAnimParts *XAnimLoadFile(char * /*name*/, void *(*)(int) /*Alloc*/) { return nullptr; }
 XModel *XModelPrecache_LoadObj(char * /*name*/, void *(*)(int) /*Alloc*/, void *(*)(int) /*AllocColl*/) { return nullptr; }
-void XAnim_CalcDeltaForTime(const XAnimParts * /*part*/, float /*time*/, float * /*deltaTrans*/, float4 * /*deltaQuat*/) {}
+// void XAnim_CalcDeltaForTime(const XAnimParts * /*part*/, float /*time*/, float * /*deltaTrans*/, float4 * /*deltaQuat*/) {}
 
 // Globals
 // int surfaceTypeSoundListCount = 0;  // provided by bg_weapons.cpp now
@@ -732,22 +732,22 @@ void Com_UnloadSoundAliases(snd_alias_system_t /*sys*/) {}
 
 // ConcatArgs provided by src/game_mp/g_cmds_mp.cpp now.
 
-void DObjCreateSkel(DObj_s * /*obj*/, char * /*partBits*/, int /*controlPartBits*/) {}
-unsigned int DObjGetAllocSkelSize(const DObj_s * /*obj*/) { return 0; }
-void DObjGetBoneInfo(const DObj_s * /*obj*/, XBoneInfo ** /*info*/) {}
-void DObjGetBounds(const DObj_s * /*obj*/, float *mins, float *maxs)
-{
-    if (mins) mins[0] = mins[1] = mins[2] = 0;
-    if (maxs) maxs[0] = maxs[1] = maxs[2] = 0;
-}
-const XModel *DObjGetModel(const DObj_s * /*obj*/, int /*modelIndex*/) { return nullptr; }
-unsigned int DObjGetNumModels(const DObj_s * /*obj*/) { return 0; }
-XAnimTree_s *DObjGetTree(const DObj_s * /*obj*/) { return nullptr; }
-bool DObjIgnoreCollision(const DObj_s * /*obj*/, char /*modelIndex*/) { return false; }
-unsigned int DObjNumBones(const DObj_s * /*obj*/) { return 0; }
-void DObjSkelAreBonesUpToDate(const DObj_s * /*obj*/, int * /*partBits*/) {}
-bool DObjSkelExists(const DObj_s * /*obj*/, int /*boneIndex*/) { return false; }
-bool DObjSkelIsBoneUpToDate(DObj_s * /*obj*/, int /*boneIndex*/) { return false; }
+// void DObjCreateSkel(DObj_s * /*obj*/, char * /*partBits*/, int /*controlPartBits*/) {}
+// unsigned int DObjGetAllocSkelSize(const DObj_s * /*obj*/) { return 0; }
+// void DObjGetBoneInfo(const DObj_s * /*obj*/, XBoneInfo ** /*info*/) {}
+// void DObjGetBounds(const DObj_s * /*obj*/, float *mins, float *maxs)
+// {
+//     if (mins) mins[0] = mins[1] = mins[2] = 0;
+//     if (maxs) maxs[0] = maxs[1] = maxs[2] = 0;
+// }
+// const XModel *DObjGetModel(const DObj_s * /*obj*/, int /*modelIndex*/) { return nullptr; }
+// unsigned int DObjGetNumModels(const DObj_s * /*obj*/) { return 0; }
+// XAnimTree_s *DObjGetTree(const DObj_s * /*obj*/) { return nullptr; }
+// bool DObjIgnoreCollision(const DObj_s * /*obj*/, char /*modelIndex*/) { return false; }
+// unsigned int DObjNumBones(const DObj_s * /*obj*/) { return 0; }
+// void DObjSkelAreBonesUpToDate(const DObj_s * /*obj*/, int * /*partBits*/) {}
+// bool DObjSkelExists(const DObj_s * /*obj*/, int /*boneIndex*/) { return false; }
+// bool DObjSkelIsBoneUpToDate(DObj_s * /*obj*/, int /*boneIndex*/) { return false; }
 
 // G_GetEntityTypeName provided by src/game_mp/g_utils_mp.cpp now.
 // G_GetFogOpaqueDistSqrd provided by src/game_mp/g_main_mp.cpp now.
@@ -788,7 +788,7 @@ unsigned int Sys_MillisecondsRaw() { return Sys_Milliseconds(); }
 // G_DObjUpdate provided by src/game_mp/g_utils_mp.cpp now.
 // G_FreeEntity provided by src/game_mp/g_utils_mp.cpp now.
 
-void *I_dmaGetDObjSkel(const DObj_s * /*obj*/) { return nullptr; }
+// void *I_dmaGetDObjSkel(const DObj_s * /*obj*/) { return nullptr; }
 
 // const char *NET_AdrToString(netadr_t /*adr*/) { return ""; }  // provided by net_chan_mp.cpp now
 // bool NET_CompareBaseAdr(netadr_t /*a*/, netadr_t /*b*/) { return false; }  // provided by net_chan_mp.cpp now
@@ -1242,14 +1242,14 @@ struct dxJointBall;
 // Com / DObj
 DObj_s *Com_GetClientDObj(unsigned int /*handle*/, int /*localClientNum*/) { return nullptr; }
 // DObjDisplayAnim now provided by xanim/xanim.cpp.
-void DObjGetBasePoseMatrix(const DObj_s * /*obj*/, unsigned char /*boneIndex*/, DObjAnimMat * /*outMat*/) {}
-int  DObjGetBoneIndex(const DObj_s * /*obj*/, unsigned int /*name*/, unsigned char *index)
-{
-    if (index) *index = 255;
-    return 0;
-}
-DObjAnimMat *DObjGetRotTransArray(const DObj_s * /*obj*/) { return nullptr; }
-char DObjSetSkelRotTransIndex(DObj_s * /*obj*/, const int * /*partBits*/, int /*boneIndex*/) { return 0; }
+// void DObjGetBasePoseMatrix(const DObj_s * /*obj*/, unsigned char /*boneIndex*/, DObjAnimMat * /*outMat*/) {}
+// int  DObjGetBoneIndex(const DObj_s * /*obj*/, unsigned int /*name*/, unsigned char *index)
+// {
+//     if (index) *index = 255;
+//     return 0;
+// }
+// DObjAnimMat *DObjGetRotTransArray(const DObj_s * /*obj*/) { return nullptr; }
+// char DObjSetSkelRotTransIndex(DObj_s * /*obj*/, const int * /*partBits*/, int /*boneIndex*/) { return 0; }
 
 // DynEnt
 DynEntityClient *DynEnt_GetClientEntity(unsigned short /*id*/, DynEntityDrawType /*draw*/) { return nullptr; }
@@ -1549,13 +1549,13 @@ double R_NormalizedTextScale(Font_s *, float scale) { return scale; }
 // cg_tracerLength provided by src/cgame_mp/cg_main_mp.cpp now.
 // === cg_world satellites =========================================================
 
-void   DObjLock(DObj_s *) {}
-void   DObjUnlock(DObj_s *) {}
-double DObjGetRadius(const DObj_s *) { return 0.0; }
-int    DObjGetContents(const DObj_s *) { return 0; }
-int    DObjHasContents(DObj_s *, int) { return 0; }
-void   DObjGeomTraceline(DObj_s *, float *, float *const, int, DObjTrace_s *) {}
-void   DObjGeomTracelinePartBits(DObj_s *, int, int *) {}
+// void   DObjLock(DObj_s *) {}
+// void   DObjUnlock(DObj_s *) {}
+// double DObjGetRadius(const DObj_s *) { return 0.0; }
+// int    DObjGetContents(const DObj_s *) { return 0; }
+// int    DObjHasContents(DObj_s *, int) { return 0; }
+// void   DObjGeomTraceline(DObj_s *, float *, float *const, int, DObjTrace_s *) {}
+// void   DObjGeomTracelinePartBits(DObj_s *, int, int *) {}
 DObjAnimMat *CG_DObjCalcPose(const cpose_t *, const DObj_s *, int32_t *) { return nullptr; }
 void   DynEntCl_ClipMoveTrace(const moveclip_t *, trace_t *) {}
 void   CM_PointTraceStaticModels(trace_t *, const float *, const float *, int) {}
@@ -1632,6 +1632,9 @@ void  FX_FillUpdateCmd(int, FxCmd *) {}
 // CG_DObjUpdateInfo provided by src/cgame_mp/cg_ents_mp.cpp now.
 // void  Key_RemoveCatcher(int, int) {}  // provided by cl_keys.cpp now
 double R_GetFarPlaneDist() { return 0.0; }
+double R_GetBaseLodDist(const float * /*origin*/) { return 0.0; }
+enum XModelLodRampType : int;
+double R_GetAdjustedLodDist(float dist, XModelLodRampType /*lodRampType*/) { return dist; }
 // CG_AddPacketEntity provided by src/cgame_mp/cg_ents_mp.cpp now.
 // bool  Key_IsCatcherActive(int, int) { return false; }  // provided by cl_keys.cpp now
 // CG_AddPacketEntities provided by src/cgame_mp/cg_ents_mp.cpp now.
@@ -1784,19 +1787,19 @@ void Phys_Init() {}
 
 // === cg_ents_mp satellites =======================================================
 
-const char *DObjGetName(const DObj_s *) { return ""; }
+// const char *DObjGetName(const DObj_s *) { return ""; }
 // void  Vec3ScaleMad(float, const float *, float, const float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }  // provided by com_math.cpp now
 GfxBrushModel *R_GetBrushModel(unsigned int) { return nullptr; }
 void  CG_DoControllers(const cpose_t *, const DObj_s *, int *) {}
 void  R_LinkDObjEntity(unsigned int, unsigned int, float *, float) {}
 // void  UnitQuatToAngles(const float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }  // provided by com_math.cpp now
-PhysPreset *DObjGetPhysPreset(const DObj_s *) { return nullptr; }
+// PhysPreset *DObjGetPhysPreset(const DObj_s *) { return nullptr; }
 void  FX_RetriggerEffect(int, FxEffect *, int) {}
 void  R_LinkBModelEntity(unsigned int, unsigned int, GfxBrushModel *) {}
 void  CG_VehProcessEntity(int, centity_s *) {}
-void  DObjSetHidePartBits(DObj_s *, const unsigned int *) {}
+// void  DObjSetHidePartBits(DObj_s *, const unsigned int *) {}
 DObj_s *Com_ClientDObjCreate(DObjModel_s *, unsigned short, XAnimTree_s *, unsigned int, int) { return nullptr; }
-void  DObjGetHierarchyBits(const DObj_s *, int, int *) {}
+// void  DObjGetHierarchyBits(const DObj_s *, int, int *) {}
 void  Phys_ObjBulletImpact(PhysWorld, dxBody *, const float *, const float *, float, float) {}
 // CG_IsRagdollTrajectory provided by src/cgame_mp/cg_main_mp.cpp now.
 void  R_SkinGfxEntityDelayed(GfxSceneEntity *) {}
@@ -1813,7 +1816,7 @@ void  CG_VehSeatTransformForPlayer(int, uint32_t, float *o, float *a)
 }
 void  FX_MarkEntUpdateHidePartBits(const uint32_t *, const uint32_t *, int, int) {}
 void  R_AddBrushModelToSceneFromAngles(const GfxBrushModel *, const float *, const float *, uint16_t) {}
-void  DObjPhysicsSetCollisionFromXModel(const DObj_s *, PhysWorld, dxBody *) {}
+// void  DObjPhysicsSetCollisionFromXModel(const DObj_s *, PhysWorld, dxBody *) {}
 // Vec3Avg provided by src/universal/com_math.cpp now.
 
 // controller_names provided by src/game_mp/g_active_mp.cpp now.
@@ -1972,7 +1975,7 @@ void R_PushRemoteScreenUpdate(int) {}
 // G_SoundAliasIndex provided by src/game_mp/g_utils_mp.cpp now.
 // SetClientViewAngle provided by src/game_mp/g_client_mp.cpp now.
 // G_GetPlayerViewOrigin provided by src/game_mp/g_client_mp.cpp now.
-void DObjSetControlTagAngles(DObj_s *, int *, unsigned int, float *) {}
+// void DObjSetControlTagAngles(DObj_s *, int *, unsigned int, float *) {}
 // G_DObjGetLocalTagMatrix provided by src/game_mp/g_utils_mp.cpp now.
 // G_DObjGetWorldTagMatrix provided by src/game_mp/g_utils_mp.cpp now.
 // uint32_t G_GetWeaponIndexForName(const char *) { return 0u; }  // provided by game/ batch now
@@ -2295,11 +2298,11 @@ void Scr_AddUndefined() {}
 // void Vec3NormalizeFast(float *v) { if (v) { float l = std::sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]); if (l > 0) { v[0]/=l; v[1]/=l; v[2]/=l; } } }  // provided by com_math.cpp now
 // G_VehImmuneToDamage provided by src/game_mp/g_vehicles_mp.cpp now.
 // void BG_SetConditionValue(uint32_t, uint32_t, uint64_t) {}  // provided by bg_animation_mp.cpp now
-void DObjPhysicsGetBounds(const DObj_s *, float *mins, float *maxs)
-{
-    if (mins) { mins[0] = mins[1] = mins[2] = 0; }
-    if (maxs) { maxs[0] = maxs[1] = maxs[2] = 0; }
-}
+// void DObjPhysicsGetBounds(const DObj_s *, float *mins, float *maxs)
+// {
+//     if (mins) { mins[0] = mins[1] = mins[2] = 0; }
+//     if (maxs) { maxs[0] = maxs[1] = maxs[2] = 0; }
+// }
 // G_LocationalTracePassed provided by src/game_mp/g_main_mp.cpp now.
 // uint32_t BG_FindWeaponIndexForName(const char *) { return 0u; }  // provided by bg_weapons.cpp now
 
@@ -2325,7 +2328,7 @@ void DObjPhysicsGetBounds(const DObj_s *, float *mins, float *maxs)
 // void CMD_VEH_ClearGoalYaw(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
 // void CMD_VEH_SetLookAtEnt(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
 // void CMD_VEH_SetTargetYaw(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
-int DObjSetLocalBoneIndex(DObj_s *, int *, int, const float *, const float *) { return 0; }
+// int DObjSetLocalBoneIndex(DObj_s *, int *, int, const float *, const float *) { return 0; }
 // void CMD_VEH_ClearLookAtEnt(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
 // void CMD_VEH_ClearTargetYaw(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
 // void CMD_VEH_SetHoverParams(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
@@ -2538,7 +2541,7 @@ void Scr_ResetTimeout() {}
 const char *Scr_GetDebugString(unsigned int) { return ""; }
 // void Scr_RemoveClassMap(unsigned int) {}  // provided by scr_variable/scr_stringlist now
 // void GScr_NewTeamHudElem() {}  // provided by game/ batch now
-int  DObjGetModelBoneIndex(const DObj_s *, const char *, unsigned int, unsigned char *out) { if (out) *out = 0; return 0; }
+// int  DObjGetModelBoneIndex(const DObj_s *, const char *, unsigned int, unsigned char *out) { if (out) *out = 0; return 0; }
 // void GScr_NewClientHudElem() {}  // provided by game/ batch now
 int  Scr_GetFunctionHandle(const char *, const char *) { return 0; }
 void Scr_NeverTerminalError(const char *) {}
@@ -2634,7 +2637,7 @@ void R_AddCmdDrawTextSubtitle(const char *, int, Font_s *, float, float, float, 
 // const dvar_t *stopspeed                     = nullptr;  // provided by bg_misc.cpp now
 
 // bool   BG_UsingSniperScope(playerState_s *) { return false; }  // provided by bg_weapons.cpp now
-void   DObjSetLocalTag(DObj_s *, int *, unsigned int, const float *, const float *) {}
+// void   DObjSetLocalTag(DObj_s *, int *, unsigned int, const float *, const float *) {}
 // float  PitchForYawOnNormal(float, const float *) { return 0.f; }  // provided by com_math.cpp now
 // void   PM_AdjustAimSpreadScale(pmove_t *, pml_t *) {}  // provided by bg_weapons.cpp now
 // int    PM_InteruptWeaponWithProneMove(playerState_s *) { return 0; }  // provided by bg_weapons.cpp now
@@ -2677,7 +2680,7 @@ int SND_GetEntChannelCount() { return 0; }
 
 const dvar_t *heli_barrelRotation = nullptr;
 
-void DObjClearSkel(const DObj_s *) {}
+// void DObjClearSkel(const DObj_s *) {}
 char DynEntCl_DynEntImpactEvent(int, int, float *, float *, int, bool) { return 0; }
 void DynEntCl_EntityImpactEvent(const trace_t *, int, int, const float *, const float *, bool) {}
 char FX_GetBoneOrientation(int, unsigned int, int, orientation_t *) { return 0; }
@@ -2746,8 +2749,8 @@ int  CM_PointSightTraceToEntities(sightpointtrace_t *) { return 0; }
 int  CM_PointTraceStaticModelsComplete(const float *, const float *, int) { return 0; }
 void CM_PointTraceToEntities(pointtrace_t *, trace_t *) {}
 void CM_UnlinkEntity(svEntity_s *) {}
-void DObjTraceline(DObj_s *, float *, float *, unsigned char *, DObjTrace_s *) {}
-void DObjTracelinePartBits(DObj_s *, int *) {}
+// void DObjTraceline(DObj_s *, float *, float *, unsigned char *, DObjTrace_s *) {}
+// void DObjTracelinePartBits(DObj_s *, int *) {}
 // RadiusFromBounds2D provided by src/universal/com_math.cpp now.
 
 // === net_chan_mp satellites ========================================================
@@ -2800,7 +2803,7 @@ void R_ScreenshotCommand(GfxScreenshotType) {}
 void R_StaticModelCacheFlush_f() {}
 void R_StaticModelCacheStats_f() {}
 void RB_Stats_f() {}
-int DObjGetSurfaces(const DObj_s *, int *, const char *) { return 0; }
+// int DObjGetSurfaces(const DObj_s *, int *, const char *) { return 0; }
 
 struct GfxReflectionProbe;
 struct DiskGfxReflectionProbe;

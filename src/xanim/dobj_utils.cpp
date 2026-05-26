@@ -531,7 +531,7 @@ void __cdecl DObjLock(DObj_s *obj)
     {
         while (*Destination)
             ;
-    } while (InterlockedCompareExchange(Destination, 1, 0));
+    } while (InterlockedCompareExchange(Destination, static_cast<unsigned int>(1), static_cast<unsigned int>(0)));
 }
 
 void __cdecl DObjUnlock(DObj_s *obj)

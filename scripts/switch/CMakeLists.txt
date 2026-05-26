@@ -288,8 +288,11 @@ set(GAME_PORTABLE_SOURCES
 )
 
 set(XANIM_PORTABLE_SOURCES
+    "${SRC_DIR}/xanim/dobj.cpp"
     "${SRC_DIR}/xanim/dobj_skel.cpp"
+    "${SRC_DIR}/xanim/dobj_utils.cpp"
     "${SRC_DIR}/xanim/xanim.cpp"
+    "${SRC_DIR}/xanim/xanim_calc.cpp"
     "${SRC_DIR}/xanim/xmodel.cpp"
     "${SRC_DIR}/xanim/xmodel_utils.cpp"
 )

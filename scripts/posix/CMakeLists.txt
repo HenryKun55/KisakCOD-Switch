@@ -103,6 +103,8 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_add_cmdbuf.cpp"
     "${SRC_DIR}/gfx_d3d/r_marks.cpp"
     "${SRC_DIR}/gfx_d3d/r_pretess.cpp"
+    # r_state_utils.cpp has hard D3D9 dependencies past LOD functions —
+    # bring back after D3D9 abstraction layer or selective extraction.
     "${SRC_DIR}/gfx_d3d/r_utils.cpp"
     "${SRC_DIR}/gfx_d3d/r_pixelcost_load_obj.cpp"
     "${SRC_DIR}/gfx_d3d/r_reflection_probe_load_obj.cpp"
@@ -313,8 +315,15 @@ set(GAME_PORTABLE_SOURCES
 
 set(XANIM_PORTABLE_SOURCES
     "${SRC_DIR}/xanim/dobj_skel.cpp"
+    "${SRC_DIR}/xanim/dobj.cpp"
+    "${SRC_DIR}/xanim/dobj_utils.cpp"
     "${SRC_DIR}/xanim/xanim.cpp"
+    "${SRC_DIR}/xanim/xanim_calc.cpp"
+    # xanim_load_obj.cpp has hex-rays scratch dest[char buffer] using
+    # 32-bit pointer offsets — needs typed struct refactor before landing.
+    # xanim_readwrite.cpp is SP-only (pulls server.h saves)
     "${SRC_DIR}/xanim/xmodel.cpp"
+    # xmodel_load_obj.cpp pending until xanim_load_obj refactor.
     "${SRC_DIR}/xanim/xmodel_utils.cpp"
     # xmodel_load_phys_collmap.cpp compiles clean but pulls ODE
     # (dMass*). Brings back once ODE physics is in the build.
