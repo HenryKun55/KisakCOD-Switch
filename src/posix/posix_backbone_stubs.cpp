@@ -2871,6 +2871,7 @@ void R_ScreenshotCommand(GfxScreenshotType) {}
 void R_StaticModelCacheFlush_f() {}
 void R_StaticModelCacheStats_f() {}
 void RB_Stats_f() {}
+int DObjGetSurfaces(const DObj_s *, int *, const char *) { return 0; }
 
 struct GfxReflectionProbe;
 struct DiskGfxReflectionProbe;
