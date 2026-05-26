@@ -245,6 +245,7 @@ set(XANIM_PORTABLE_SOURCES
 )
 
 set(BGAME_PORTABLE_SOURCES
+    "${SRC_DIR}/bgame/bg_animation_mp.cpp"
     "${SRC_DIR}/bgame/bg_jump.cpp"
     "${SRC_DIR}/bgame/bg_mantle.cpp"
     "${SRC_DIR}/bgame/bg_misctables.cpp"

@@ -453,7 +453,7 @@ void LiveStorage_Init() {}
 void Swap_Init() {}
 void SL_Init() {}
 void BG_ShutdownWeaponDefFiles() {}
-int  BG_AnimScriptEvent(playerState_s * /*ps*/, scriptAnimEventTypes_t /*event*/, int /*isContinue*/, int /*force*/) { return 0; }
+// int  BG_AnimScriptEvent(playerState_s * /*ps*/, scriptAnimEventTypes_t /*event*/, int /*isContinue*/, int /*force*/) { return 0; }  // provided by bg_animation_mp.cpp now
 void BG_AddPredictableEventToPlayerstate(unsigned int /*event*/, unsigned int /*eventParm*/, playerState_s * /*ps*/) {}
 int  PM_GetEffectiveStance(const playerState_s * /*ps*/) { return 0; }
 unsigned int PM_GroundSurfaceType(pml_t * /*pml*/) { return 0; }
@@ -594,13 +594,13 @@ void PM_trace(pmove_t *pm, trace_t *trace, const float *start, const float *mins
 }
 
 // BG
-int  BG_AnimScriptAnimation(playerState_s * /*ps*/, aistateEnum_t /*state*/, scriptAnimMoveTypes_t /*move*/, int /*direction*/) { return 0; }
+// int  BG_AnimScriptAnimation(playerState_s * /*ps*/, aistateEnum_t /*state*/, scriptAnimMoveTypes_t /*move*/, int /*direction*/) { return 0; }  // provided by bg_animation_mp.cpp now
 char BG_CheckProne(int /*clientNum*/, const float * /*origin*/, float /*proneAngle*/, float /*forwardLen*/,
                    float /*backwardLen*/, float * /*mins*/, float * /*maxs*/, bool /*upright*/, bool /*standing*/,
                    bool /*proneStarting*/, unsigned char /*lerpFraction*/, proneCheckType_t /*checkType*/, float /*proneTolerance*/)
 { return 1; }
 void BG_CreateXAnim(XAnim_s * /*anims*/, unsigned int /*animIndex*/, const char * /*name*/) {}
-void BG_InitWeaponString(int /*weaponIndex*/, const char * /*str*/) {}
+// void BG_InitWeaponString(int /*weaponIndex*/, const char * /*str*/) {}  // provided by bg_animation_mp.cpp now
 
 // Misc collision / config helpers
 struct SimplePlaneIntersection_fwd;
@@ -1487,7 +1487,7 @@ int getBuildNumberAsInt() { return 0; }
 // Globals expected by other backbone files.
 // =========================================================================
 
-bgs_t *bgs = nullptr;
+// bgs_t *bgs = nullptr;  // provided by bg_animation_mp.cpp now
 // clientUIActives provided by src/client_mp/cl_main_mp.cpp now.
 int com_fileAccessed;
 const dvar_s *fs_basepath = nullptr;
@@ -2096,10 +2096,10 @@ void  YawToAxis(float, mat3x3 &axis)
     axis[2][0] = 0.f; axis[2][1] = 0.f; axis[2][2] = 1.f;
 }
 void  R_AddDObjToScene(const DObj_s *, const cpose_t *, unsigned int, unsigned int, float *, float) {}
-void  BG_PlayerAnimation(int, const entityState_s *, clientInfo_t *) {}
+// void  BG_PlayerAnimation(int, const entityState_s *, clientInfo_t *) {}  // provided by bg_animation_mp.cpp now
 void  CG_AddPlayerWeapon(int, const GfxScaledPlacement *, const playerState_s *, centity_s *, int) {}
-bool  BG_IsKnifeMeleeAnim(const clientInfo_t *, int) { return false; }
-void  BG_UpdatePlayerDObj(int, DObj_s *, entityState_s *, clientInfo_t *, int) {}
+// bool  BG_IsKnifeMeleeAnim(const clientInfo_t *, int) { return false; }  // provided by bg_animation_mp.cpp now
+// void  BG_UpdatePlayerDObj(int, DObj_s *, entityState_s *, clientInfo_t *, int) {}  // provided by bg_animation_mp.cpp now
 void  FX_MarkEntUpdateBegin(FxMarkDObjUpdateContext *, DObj_s *, bool, uint16_t) {}
 void  FX_MarkEntUpdateEnd(FxMarkDObjUpdateContext *, int, int, DObj_s *, bool, uint16_t) {}
 // CG_GetWeaponAttachBone provided by src/cgame_mp/cg_main_mp.cpp now.
@@ -2219,7 +2219,7 @@ bool  CG_VehEntityUsingVehicle(int, uint32_t) { return false; }
 void  FX_AssertAllocatedEffect(int, FxEffect *) {}
 bool  CG_PlayerUsingScopedTurret(int) { return false; }
 void  R_UpdateXModelBoundsDelayed(GfxSceneEntity *) {}
-void  BG_Player_DoControllersSetup(const entityState_s *, clientInfo_t *, int) {}
+// void  BG_Player_DoControllersSetup(const entityState_s *, clientInfo_t *, int) {}  // provided by bg_animation_mp.cpp now
 void  CG_VehSeatTransformForPlayer(int, uint32_t, float *o, float *a)
 {
     if (o) { o[0] = o[1] = o[2] = 0; }
@@ -2272,7 +2272,7 @@ void     CG_DrawPlayerWeaponAmmoClipGraphic(int, const rectDef_s *, const float 
 // === cg_main_mp satellites =======================================================
 
 void Menu_Setup(UiContext *) {}
-void BG_LoadAnim() {}
+// void BG_LoadAnim() {}  // provided by bg_animation_mp.cpp now
 void CG_Veh_Init() {}
 MenuList *UI_LoadMenus(char *, int) { return nullptr; }
 void AimAssist_Init(int) {}
@@ -2752,7 +2752,7 @@ void Scr_AddUndefined() {}
 // Scr_PlayerKilled provided by src/game_mp/g_scr_main_mp.cpp now.
 void Vec3NormalizeFast(float *v) { if (v) { float l = std::sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]); if (l > 0) { v[0]/=l; v[1]/=l; v[2]/=l; } } }
 // G_VehImmuneToDamage provided by src/game_mp/g_vehicles_mp.cpp now.
-void BG_SetConditionValue(uint32_t, uint32_t, uint64_t) {}
+// void BG_SetConditionValue(uint32_t, uint32_t, uint64_t) {}  // provided by bg_animation_mp.cpp now
 void DObjPhysicsGetBounds(const DObj_s *, float *mins, float *maxs)
 {
     if (mins) { mins[0] = mins[1] = mins[2] = 0; }
@@ -3038,6 +3038,27 @@ int  SEH_VerifyLanguageSelection(int) { return 0; }
 void LerpColor(float *, float *, float *out, float) { if (out) { out[0] = out[1] = out[2] = out[3] = 1.f; } }
 
 field_t *g_editingField = nullptr;
+
+// === bg_animation_mp satellites ====================================================
+
+const dvar_t *anim_debugSpeeds              = nullptr;
+const dvar_t *animscript_debug              = nullptr;
+const dvar_t *bg_legYawTolerance            = nullptr;
+const dvar_t *bg_swingSpeed                 = nullptr;
+const dvar_t *player_lean_rotate_crouch_left  = nullptr;
+const dvar_t *player_lean_rotate_crouch_right = nullptr;
+const dvar_t *player_lean_rotate_left         = nullptr;
+const dvar_t *player_lean_rotate_right        = nullptr;
+const dvar_t *player_lean_shift_crouch_left   = nullptr;
+const dvar_t *player_lean_shift_crouch_right  = nullptr;
+const dvar_t *player_lean_shift_left          = nullptr;
+const dvar_t *player_lean_shift_right         = nullptr;
+const dvar_t *player_move_factor_on_torso     = nullptr;
+const dvar_t *player_sprintSpeedScale         = nullptr;
+const dvar_t *xanim_debug                     = nullptr;
+
+void BG_CheckThread() {}
+double GetLeanFraction(float v) { return (double)v; }
 
 // === CGAME dvars and storage referenced by the new sources =========================
 

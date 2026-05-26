@@ -52,6 +52,13 @@
 // use the unprefixed names. Map the ones upstream uses.
 #define _vsnprintf vsnprintf
 #define _snprintf  snprintf
+// MSVC "secure" CRT variants: signature is (dst, dstSize, _TRUNCATE, fmt, va).
+// On POSIX vsnprintf already truncates safely; _TRUNCATE is a no-op sentinel.
+#ifndef _TRUNCATE
+#define _TRUNCATE ((size_t)-1)
+#endif
+#define _vsnprintf_s(dst, dstSize, count, fmt, va) vsnprintf((dst), (dstSize), (fmt), (va))
+#define _snprintf_s(dst, dstSize, count, ...)      snprintf((dst), (dstSize), __VA_ARGS__)
 // __debugbreak: MSVC intrinsic that triggers a debugger breakpoint.
 // On clang/gcc the equivalent is __builtin_trap (or __builtin_debugtrap
 // on clang specifically, but trap works everywhere as a fallback).
