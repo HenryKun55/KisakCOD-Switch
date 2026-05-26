@@ -963,12 +963,12 @@ struct XBoneInfo;
 
 bool BoxDistSqrdExceeds(const float * /*center*/, const float * /*mins*/, const float * /*maxs*/, float /*distSqrd*/) { return true; }
 
-void CG_ActionSlotDown_f() {}
-void CG_ActionSlotUp_f() {}
+// void CG_ActionSlotDown_f() {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
+// void CG_ActionSlotUp_f() {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // CG_FxSetTestPosition / CG_FxTest provided by src/cgame_mp/cg_view_mp.cpp now.
 // CG_IsScoreboardDisplayed provided by src/cgame_mp/cg_scoreboard_mp.cpp now.
-void CG_NextWeapon_f() {}
-void CG_PrevWeapon_f() {}
+// void CG_NextWeapon_f() {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
+// void CG_PrevWeapon_f() {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // CG_RestartSmokeGrenades provided by src/cgame_mp/cg_main_mp.cpp now.
 // CL_AddReliableCommand provided by src/client_mp/cl_main_mp.cpp now.
 
@@ -1181,7 +1181,7 @@ struct rectDef_s_fwd;
 // CG_CloseScriptMenu provided by src/cgame_mp/cg_servercmds_mp.cpp now.
 // CG_EntityEvent now in cgame/cg_event.cpp.
 // CG_FadeHudMenu provided by src/cgame_mp/cg_newDraw_mp.cpp now.
-void CG_HoldBreathInit(cg_s * /*cg*/) {}
+// void CG_HoldBreathInit(cg_s * /*cg*/) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // CG_MenuShowNotify provided by src/cgame_mp/cg_servercmds_mp.cpp now.
 // CG_ObjectiveIcon / CG_ResetLowHealthOverlay provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 // CG_SetEquippedOffHand provided by src/cgame/offhandweapons.cpp now.
@@ -1356,21 +1356,15 @@ struct snd_alias_list_t;
 // int  BG_WeaponIsClipOnly(unsigned int /*weaponIndex*/) { return 0; }  // provided by bg_weapons.cpp now
 void ByteToDir(unsigned int /*b*/, float *dir)
 { if (dir) { dir[0] = 1; dir[1] = 0; dir[2] = 0; } }
-void CG_BulletHitClientEvent(int /*localClientNum*/, int /*ent*/, float * /*start*/, float * /*end*/,
-                             unsigned int /*type*/, int /*hitLoc*/, int /*partGroup*/) {}
-void CG_BulletHitEvent(int /*localClientNum*/, int /*sourceEnt*/, unsigned int /*surfType*/,
-                       unsigned int /*hitEnt*/, float * /*start*/, float * /*end*/,
-                       const float * /*normal*/, unsigned int /*flags*/, int /*hitLoc*/,
-                       unsigned char /*priority*/, int /*partGroup*/, short /*recoilIndex*/) {}
+// CG_BulletHitClientEvent provided by src/cgame/cg_weapons.cpp now.
+// CG_BulletHitEvent provided by src/cgame/cg_weapons.cpp now.
 // CG_CalcEntityLerpPositions provided by src/cgame_mp/cg_ents_mp.cpp now.
 // CG_DrawScoreboard_GetTeamColorIndex provided by src/cgame_mp/cg_scoreboard_mp.cpp now.
-void CG_EjectWeaponBrass(int /*localClientNum*/, const entityState_s * /*es*/, int /*time*/) {}
-void CG_FireWeapon(int /*localClientNum*/, centity_s * /*cent*/, int /*mode*/, unsigned short /*weapon*/,
-                   unsigned int /*surfType*/, const playerState_s * /*ps*/) {}
-void CG_ImpactEffectForWeapon(unsigned int /*weapon*/, unsigned int /*surfType*/, char /*type*/,
-                              const FxEffectDef ** /*effect*/, snd_alias_list_t ** /*sound*/) {}
-void CG_MeleeBloodEvent(int /*localClientNum*/, const centity_s * /*cent*/) {}
-void CG_OutOfAmmoChange(int /*localClientNum*/) {}
+// void CG_EjectWeaponBrass(int /*localClientNum*/, const entityState_s * /*es*/, int /*time*/) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
+// CG_FireWeapon provided by src/cgame/cg_weapons.cpp now.
+// CG_ImpactEffectForWeapon provided by src/cgame/cg_weapons.cpp now.
+// void CG_MeleeBloodEvent(int /*localClientNum*/, const centity_s * /*cent*/) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
+// void CG_OutOfAmmoChange(int /*localClientNum*/) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // CG_PlayClientSoundAlias provided by src/cgame_mp/cg_main_mp.cpp now.
 // CG_PlayEntitySoundAlias provided by src/cgame_mp/cg_main_mp.cpp now.
 // CG_PlaySoundAlias provided by src/cgame_mp/cg_main_mp.cpp now.
@@ -1378,7 +1372,7 @@ void CG_OutOfAmmoChange(int /*localClientNum*/) {}
 // CG_PlaySoundAliasByName provided by src/cgame_mp/cg_main_mp.cpp now.
 // CG_PrepOffHand provided by src/cgame/offhandweapons.cpp now.
 // CG_PriorityCenterPrint provided by src/cgame_mp/cg_draw_mp.cpp now.
-void CG_SelectWeaponIndex(int /*localClientNum*/, unsigned int /*weaponIndex*/) {}
+// void CG_SelectWeaponIndex(int /*localClientNum*/, unsigned int /*weaponIndex*/) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // CG_StopSoundAlias provided by src/cgame_mp/cg_main_mp.cpp now.
 // CG_StopSoundsOnEnt provided by src/cgame_mp/cg_main_mp.cpp now.
 // CG_SwitchOffHandCmd / CG_UseOffHand provided by src/cgame/offhandweapons.cpp now.
@@ -1811,10 +1805,10 @@ int  SND_GetSoundOverlay(snd_overlay_type_t, snd_overlay_info_t *, int, int *) {
 unsigned int Scr_GetNumScriptVars() { return 0u; }
 // BG_GetSpreadForWeapon provided by src/bgame/bg_weapons.cpp now.
 snd_entchannel_info_t *SND_GetEntChannelName(int) { return nullptr; }
-void CG_UpdateViewModelPose(const DObj_s *, int) {}
+// void CG_UpdateViewModelPose(const DObj_s *, int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // bool UI_ShouldDrawCrosshair() { return false; }  // provided by ui_main_mp.cpp now
 unsigned int Scr_GetNumScriptThreads() { return 0u; }
-int  CG_PlayerTurretWeaponIdx(int) { return 0; }
+// int  CG_PlayerTurretWeaponIdx(int) { return 0; }  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 void Phys_PerformanceEndFrame() {}
 void AimAssist_DrawDebugOverlay(unsigned int) {}
 // int  BG_GetFirstEquippedOffhand(const playerState_s *, int) { return 0; }  // provided by bg_weapons.cpp now
@@ -1924,7 +1918,7 @@ int   UI_GetKeyBindingLocalizedString(int, const char *, char *out)
 
 // === cg_localents satellites =====================================================
 
-void CG_DrawTracer(const float *, const float *, const refdef_s *) {}
+// void CG_DrawTracer(const float *, const float *, const refdef_s *) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // cg_tracerLength provided by src/cgame_mp/cg_main_mp.cpp now.
 // === cg_world satellites =========================================================
 
@@ -1978,10 +1972,10 @@ void   FX_MarkEntDetachAll(int, int) {}
 // CG_ResetPlayerEntity provided by src/cgame_mp/cg_players_mp.cpp now.
 void   FX_ThroughWithEffect(int, FxEffect *) {}
 // CG_mg42_PreControllers provided by src/cgame_mp/cg_ents_mp.cpp now.
-void   CG_UpdateHandViewmodels(int, XModel *) {}
+// void   CG_UpdateHandViewmodels(int, XModel *) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // CG_Player_PreControllers provided by src/cgame_mp/cg_ents_mp.cpp now.
 // CG_SetFrameInterpolation provided by src/cgame_mp/cg_ents_mp.cpp now.
-void   CG_UpdateWeaponViewmodels(int) {}
+// void   CG_UpdateWeaponViewmodels(int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // CG_UpdateBModelWorldBounds provided by src/cgame_mp/cg_ents_mp.cpp now.
 // CG_ExecuteNewServerCommands provided by src/cgame_mp/cg_servercmds_mp.cpp now.
 // CG_CheckOpenWaitingScriptMenu provided by src/cgame_mp/cg_servercmds_mp.cpp now.
@@ -2004,7 +1998,7 @@ void  CG_VehGunnerPOV(int, float *o, float *a)
     if (o) { o[0] = o[1] = o[2] = 0; }
     if (a) { a[0] = a[1] = a[2] = 0; }
 }
-void  CG_AddViewWeapon(int) {}
+// void  CG_AddViewWeapon(int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // CG_ProcessEntity provided by src/cgame_mp/cg_ents_mp.cpp now.
 void  FX_FillUpdateCmd(int, FxCmd *) {}
 void  AddLeanToPosition(float *, float, float, float, float) {}
@@ -2021,7 +2015,7 @@ void  FX_SetNextUpdateTime(int, int) {}
 void  FX_SetNextUpdateCamera(int, const refdef_s *, float) {}
 // float BG_GetVerticalBobFactor(const playerState_s *, float, float, float) { return 0.f; }  // provided by bg_weapons.cpp now
 // int32_t BG_IsAimDownSightWeapon(uint32_t) { return 0; }  // provided by bg_weapons.cpp now
-void  CG_UpdateViewWeaponAnim(int) {}
+// void  CG_UpdateViewWeaponAnim(int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 void  CG_VehSphereCoordsToPos(float, float, float, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
 // G_ExitAfterConnectPaths provided by src/game_mp/g_main_mp.cpp now.
 void  R_AddCmdProjectionSet2D() {}
@@ -2070,7 +2064,7 @@ void  YawToAxis(float, mat3x3 &axis)
 }
 void  R_AddDObjToScene(const DObj_s *, const cpose_t *, unsigned int, unsigned int, float *, float) {}
 // void  BG_PlayerAnimation(int, const entityState_s *, clientInfo_t *) {}  // provided by bg_animation_mp.cpp now
-void  CG_AddPlayerWeapon(int, const GfxScaledPlacement *, const playerState_s *, centity_s *, int) {}
+// void  CG_AddPlayerWeapon(int, const GfxScaledPlacement *, const playerState_s *, centity_s *, int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // bool  BG_IsKnifeMeleeAnim(const clientInfo_t *, int) { return false; }  // provided by bg_animation_mp.cpp now
 // void  BG_UpdatePlayerDObj(int, DObj_s *, entityState_s *, clientInfo_t *, int) {}  // provided by bg_animation_mp.cpp now
 void  FX_MarkEntUpdateBegin(FxMarkDObjUpdateContext *, DObj_s *, bool, uint16_t) {}
@@ -2093,9 +2087,9 @@ void Phys_Shutdown() {}
 void SND_StopMusic(int) {}
 // CG_StartAmbient provided by src/cgame_mp/cg_main_mp.cpp now.
 // int  Load_ScriptMenu(int, const char *, int) { return 0; }  // provided by ui_main_mp.cpp now
-void CG_RegisterItems(int) {}
+// void CG_RegisterItems(int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 void Menus_ShowByName(const UiContext *, const char *) {}
-void CG_SetupWeaponDef(int) {}
+// void CG_SetupWeaponDef(int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // CL_ParseMapCenter provided by src/client_mp/cl_parse_mp.cpp now.
 void DynEntCl_Shutdown(int) {}
 void FX_KillAllEffects(int) {}
@@ -2190,7 +2184,7 @@ void  R_SkinGfxEntityDelayed(GfxSceneEntity *) {}
 int32_t CG_VehPlayerVehicleSlot(int, uint32_t) { return -1; }
 bool  CG_VehEntityUsingVehicle(int, uint32_t) { return false; }
 void  FX_AssertAllocatedEffect(int, FxEffect *) {}
-bool  CG_PlayerUsingScopedTurret(int) { return false; }
+// bool  CG_PlayerUsingScopedTurret(int) { return false; }  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 void  R_UpdateXModelBoundsDelayed(GfxSceneEntity *) {}
 // void  BG_Player_DoControllersSetup(const entityState_s *, clientInfo_t *, int) {}  // provided by bg_animation_mp.cpp now
 void  CG_VehSeatTransformForPlayer(int, uint32_t, float *o, float *a)
@@ -2211,7 +2205,7 @@ void  Vec3Avg(const float *a, const float *b, float *out)
 
 // === cg_newDraw_mp satellites ====================================================
 
-uint32_t GetWeaponIndex(const cg_s *) { return 0u; }
+// uint32_t GetWeaponIndex(const cg_s *) { return 0u; }  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // bool     PM_IsSprinting(const playerState_s *) { return false; }  // provided by bg_pmove.cpp now
 // int32_t  BG_AmmoForWeapon(uint32_t) { return 0; }  // provided by bg_weapons.cpp now
 bool     Key_IsCommandBound(int, const char *) { return false; }
@@ -2220,16 +2214,16 @@ bool     Key_IsCommandBound(int, const char *) { return false; }
 // bool     BG_WeaponBlocksProne(uint32_t) { return false; }  // provided by bg_weapons.cpp now
 // int      UI_GetTalkerClientNum(int, int) { return -1; }  // provided by ui_main_mp.cpp now
 // int32_t  BG_GetTotalAmmoReserve(const playerState_s *, uint32_t) { return 0; }  // provided by bg_weapons.cpp now
-void     CG_DrawPlayerActionSlot(int, const rectDef_s *, uint32_t, float *, Font_s *, float, int) {}
-void     CG_DrawPlayerWeaponIcon(int, const rectDef_s *, const float *) {}
+// void     CG_DrawPlayerActionSlot(int, const rectDef_s *, uint32_t, float *, Font_s *, float, int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
+// void     CG_DrawPlayerWeaponIcon(int, const rectDef_s *, const float *) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // int32_t  PM_GetSprintLeftLastTime(const playerState_s *) { return 0; }  // provided by bg_pmove.cpp now
 // CG_GetPredictedPlayerState provided by src/cgame_mp/cg_main_mp.cpp now.
-void     CG_DrawPlayerActionSlotDpad(int, const rectDef_s *, const float *, Material *) {}
-void     CG_DrawPlayerWeaponAmmoStock(int, const rectDef_s *, Font_s *, float, float *, Material *, int) {}
-void     CG_DrawPlayerWeaponBackground(int, const rectDef_s *, const float *, Material *) {}
+// void     CG_DrawPlayerActionSlotDpad(int, const rectDef_s *, const float *, Material *) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
+// void     CG_DrawPlayerWeaponAmmoStock(int, const rectDef_s *, Font_s *, float, float *, Material *, int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
+// void     CG_DrawPlayerWeaponBackground(int, const rectDef_s *, const float *, Material *) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // int32_t  BG_PlayerWeaponCountPrimaryTypes(const playerState_s *) { return 0; }  // provided by bg_weapons.cpp now
-void     CG_DrawPlayerWeaponLowAmmoWarning(int, const rectDef_s *, Font_s *, float, int, float, float, char, Material *) {}
-void     CG_DrawPlayerWeaponAmmoClipGraphic(int, const rectDef_s *, const float *) {}
+// void     CG_DrawPlayerWeaponLowAmmoWarning(int, const rectDef_s *, Font_s *, float, int, float, float, char, Material *) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
+// void     CG_DrawPlayerWeaponAmmoClipGraphic(int, const rectDef_s *, const float *) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 
 // cg_cursorHints provided by src/cgame_mp/cg_main_mp.cpp now.
 // cg_drawBreathHint provided by src/cgame_mp/cg_main_mp.cpp now.
@@ -2267,7 +2261,7 @@ void Com_StripExtension(char *in, char *out)
 }
 // void UI_LoadIngameMenus(int) {}  // provided by ui_main_mp.cpp now
 void CG_VehRegisterDvars() {}
-int32_t CG_WeaponDObjHandle(int32_t) { return 0; }
+// int32_t CG_WeaponDObjHandle(int32_t) { return 0; }  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 void Menus_FreeAllMemory(UiContext *) {}
 char SND_AddLengthNotify(int, const snd_alias_t *, SndLengthId) { return 0; }
 void SND_StopSoundsOnEnt(SndEntHandle) {}
@@ -2288,7 +2282,7 @@ void FX_RegisterDefaultEffect() {}
 snd_alias_list_t *Com_FindSoundAliasNoErrors(const char *) { return nullptr; }
 snd_alias_t *Com_PickSoundAliasFromList(snd_alias_list_t *) { return nullptr; }
 int SND_PlaySoundAliasAsMaster(const snd_alias_t *, SndEntHandle, const float *, int, snd_alias_system_t) { return 0; }
-void CG_AmmoCounterRegisterDvars() {}
+// void CG_AmmoCounterRegisterDvars() {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // void BG_LoadPenetrationDepthTable() {}  // provided by bg_weapons.cpp now
 uint8_t *Hunk_AllocPhysPresetPrecache(unsigned int size) { return static_cast<uint8_t *>(std::calloc(size > 0 ? size : 1, 1)); }
 
@@ -3103,6 +3097,22 @@ float vectopitch(const float *v) {
     float forward = std::sqrt(v[0]*v[0] + v[1]*v[1]);
     return std::atan2(-v[2], forward) * 180.f / 3.14159265f;
 }
+
+// === cg_weapons satellites =========================================================
+
+const dvar_t *heli_barrelRotation = nullptr;
+
+void DObjClearSkel(const DObj_s *) {}
+char DynEntCl_DynEntImpactEvent(int, int, float *, float *, int, bool) { return 0; }
+void DynEntCl_EntityImpactEvent(const trace_t *, int, int, const float *, const float *, bool) {}
+char FX_GetBoneOrientation(int, unsigned int, int, orientation_t *) { return 0; }
+void FX_PlayOrientedEffectWithMarkEntity(int, const FxEffectDef *, int, const float *, const float (*)[3], unsigned int) {}
+void RotatePointAroundVector(float *out, const float * /*dir*/, const float *p, float /*deg*/) {
+    if (out && p) { out[0] = p[0]; out[1] = p[1]; out[2] = p[2]; }
+}
+char SND_GetKnownLength(int, int *out) { if (out) *out = 0; return 0; }
+void UI_DrawWrappedText(const ScreenPlacement *, const char *, const rectDef_s *, Font_s *,
+                        float, float, float, const float *, int, char, rectDef_s *) {}
 
 // === CGAME dvars and storage referenced by the new sources =========================
 

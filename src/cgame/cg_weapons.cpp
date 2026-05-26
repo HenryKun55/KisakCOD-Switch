@@ -95,10 +95,10 @@ int32_t __cdecl CG_WeaponDObjHandle(int32_t weaponNum)
 
 void __cdecl CG_RegisterWeapon(int32_t localClientNum, uint32_t weaponNum)
 {
-    uint32_t NumWeapons; // eax
-    char *v3; // eax
-    int64_t _C; // [esp+Ch] [ebp-34h]
-    const char *blendTime; // [esp+14h] [ebp-2Ch]
+    [[maybe_unused]] uint32_t NumWeapons; // eax
+    [[maybe_unused]] char *v3; // eax
+    [[maybe_unused]] int64_t _C; // [esp+Ch] [ebp-34h]
+    [[maybe_unused]] const char *blendTime; // [esp+14h] [ebp-2Ch]
     weaponInfo_s *weapInfo; // [esp+18h] [ebp-28h]
     uint32_t dobjHandle; // [esp+1Ch] [ebp-24h]
     uint8_t boneIndex; // [esp+23h] [ebp-1Dh] BYREF
@@ -295,7 +295,7 @@ void __cdecl ChangeViewmodelDobj(
     XModel *newKnife,
     bool updateClientInfo)
 {
-    uint32_t NumWeapons; // eax
+    [[maybe_unused]] uint32_t NumWeapons; // eax
     weaponInfo_s *weapInfo; // [esp+8h] [ebp-34h]
     uint32_t dobjHandle; // [esp+Ch] [ebp-30h]
     int32_t mdlIdx; // [esp+10h] [ebp-2Ch]
@@ -401,7 +401,7 @@ void __cdecl CG_RegisterItemVisuals(int32_t localClientNum, uint32_t weapIdx)
 
     for (modelIdx = 0; modelIdx < 16; ++modelIdx)
     {
-        gitem_s *item = &bg_itemlist[128 * modelIdx + weapIdx];
+        [[maybe_unused]] gitem_s *item = &bg_itemlist[128 * modelIdx + weapIdx];
         iassert(item->giType == IT_WEAPON);
     }
 
@@ -1200,8 +1200,8 @@ void __cdecl PlayNoteMappedSoundAliases(int32_t localClientNum, const char *note
 // KISAKTODO: would like to have this function more like blops, it's cleaner
 void __cdecl CG_AddViewWeapon(int32_t localClientNum)
 {
-    double v1; // st7
-    double v2; // st7
+    [[maybe_unused]] double v1; // st7
+    [[maybe_unused]] double v2; // st7
     int32_t v3; // [esp+Ch] [ebp-12Ch]
     float* vGunSpeed; // [esp+10h] [ebp-128h]
     float* vGunOffset; // [esp+14h] [ebp-124h]
@@ -1930,6 +1930,9 @@ void __cdecl CG_ActionSlotDown_f()
             cgameGlob->extraButtons |= 0x40000u;
             didSomething = 1;
             break;
+        case ACTIONSLOTTYPE_DONOTHING:
+        case ACTIONSLOTTYPECOUNT:
+            break;
         }
         cgameGlob->ammoFadeTime = cgameGlob->time;
         if (didSomething)
@@ -2225,7 +2228,7 @@ void __cdecl DrawBulletImpacts(
     int32_t shotCount; // [esp+64h] [ebp-F4h]
     float origin[3]; // [esp+68h] [ebp-F0h] BYREF
     float range; // [esp+74h] [ebp-E4h]
-    float dist; // [esp+78h] [ebp-E0h]
+    [[maybe_unused]] float dist; // [esp+78h] [ebp-E0h]
     cg_s *cgameGlob; // [esp+7Ch] [ebp-DCh]
     int32_t shot; // [esp+80h] [ebp-D8h]
     int32_t dobjNumber; // [esp+84h] [ebp-D4h]
@@ -2416,7 +2419,7 @@ void __cdecl FireBulletPenetrate(
     float v11; // [esp+20h] [ebp-1DCh]
     double value; // [esp+24h] [ebp-1D8h]
     float v13; // [esp+2Ch] [ebp-1D0h]
-    bool v14; // [esp+30h] [ebp-1CCh]
+    [[maybe_unused]] bool v14; // [esp+30h] [ebp-1CCh]
     __int16 v15; // [esp+34h] [ebp-1C8h]
     int32_t v16; // [esp+38h] [ebp-1C4h]
     uint32_t v17; // [esp+3Ch] [ebp-1C0h]
@@ -2546,7 +2549,7 @@ void __cdecl FireBulletPenetrate(
                     BG_AdvanceTrace(&revBp, &revBr, 0.0099999998f);
 
                 revTraceHit = BulletTrace(localClientNum, &revBp, weapDef, attacker, &revBr, revBr.depthSurfaceType);
-                allSolid = revTraceHit && revBr.trace.allsolid || br.trace.startsolid && revBr.trace.startsolid;
+                allSolid = (revTraceHit && revBr.trace.allsolid) || (br.trace.startsolid && revBr.trace.startsolid);
 
                 if (revTraceHit || allSolid)
                 {
@@ -3415,7 +3418,7 @@ void __cdecl CG_BulletHitEvent_Internal(
     snapshot_s *nextSnap; // [esp+4h] [ebp-3Ch]
     snd_alias_list_t *hitSound; // [esp+Ch] [ebp-34h] BYREF
     cg_s *cgameGlob; // [esp+10h] [ebp-30h]
-    int32_t time; // [esp+14h] [ebp-2Ch]
+    [[maybe_unused]] int32_t time; // [esp+14h] [ebp-2Ch]
     const FxEffectDef *fx; // [esp+18h] [ebp-28h] BYREF
     float axis[3][3]; // [esp+1Ch] [ebp-24h] BYREF
 
@@ -3613,7 +3616,7 @@ void __cdecl CG_MeleeBloodEvent(int32_t localClientNum, const centity_s *cent)
     iassert(cent);
 
     nextSnap = CG_GetLocalClientGlobals(localClientNum)->nextSnap;
-    bool isPlayer = (nextSnap->ps.otherFlags & 6) != 0 && cent->nextState.number == nextSnap->ps.clientNum;
+    [[maybe_unused]] bool isPlayer = (nextSnap->ps.otherFlags & 6) != 0 && cent->nextState.number == nextSnap->ps.clientNum;
 
     iassert(isPlayer);
 
@@ -3659,7 +3662,7 @@ void __cdecl CG_SetupWeaponDef(int32_t localClientNum)
         *v2++ = *v3++;
     } while (v1);
     v7 = v8;
-    dst[iNumFiles++] = (_DWORD)v8;
+    dst[iNumFiles++] = (_DWORD)(uintptr_t)v8;
     while (*v7)
     {
         if (*v7 == 32)
@@ -3669,7 +3672,7 @@ void __cdecl CG_SetupWeaponDef(int32_t localClientNum)
             {
                 if (iNumFiles >= 127)
                     break;
-                dst[iNumFiles++] = (_DWORD)v7;
+                dst[iNumFiles++] = (_DWORD)(uintptr_t)v7;
             }
         }
         else
