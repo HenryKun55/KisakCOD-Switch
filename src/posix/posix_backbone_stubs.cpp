@@ -666,7 +666,7 @@ struct NetField;
 // char *BG_GetEntityTypeName(int /*eType*/) { return const_cast<char *>(""); }  // provided by bg_misc.cpp now
 
 // MSG_
-const NetFieldList *MSG_GetStateFieldListForEntityType(int /*eType*/) { return nullptr; }
+// const NetFieldList *MSG_GetStateFieldListForEntityType(int /*eType*/) { return nullptr; }  // provided by sv_msg_write_mp.cpp now
 
 // Com_
 char *Com_LoadInfoString(char * /*filename*/, const char * /*fileDesc*/, const char * /*ident*/, char * /*loadBuffer*/) { return nullptr; }
@@ -725,7 +725,7 @@ void TRACK_fx_marks() {}
 void TRACK_fx_random() {}
 void TRACK_fx_system() {}
 void TRACK_missile_attractors() {}
-void TRACK_msg() {}
+// void TRACK_msg() {}  // provided by sv_msg_write_mp.cpp now
 void TRACK_phys() {}
 void TRACK_q_shared() {}
 void TRACK_r_buffers() {}
@@ -770,9 +770,9 @@ void TRACK_xmodel() {}
 // msg_dumpEnts provided by src/qcommon/net_chan_mp.cpp now.
 // msg_printEntityNums provided by src/qcommon/net_chan_mp.cpp now.
 // clients provided by src/client_mp/cl_main_mp.cpp now.
-huffman_t msgHuff{};
+// huffman_t msgHuff{};  // provided by sv_msg_write_mp.cpp now
 unsigned int msecPerRawTimerTick = 1;
-netFieldOrderInfo_t orderInfo{};
+// netFieldOrderInfo_t orderInfo{};  // provided by sv_msg_write_mp.cpp now
 alignas(16) static unsigned char sys_info_storage[8192];
 void *sys_info = sys_info_storage;
 
@@ -1306,10 +1306,10 @@ struct SnapshotInfo_s;
 struct clientState_s;
 struct archivedEntity_s;
 
-void MSG_WriteDeltaArchivedEntity(SnapshotInfo_s * /*info*/, msg_t * /*msg*/, int /*time*/, archivedEntity_s * /*from*/, archivedEntity_s * /*to*/, int /*force*/) {}
-void MSG_WriteDeltaClient(SnapshotInfo_s * /*info*/, msg_t * /*msg*/, int /*time*/, clientState_s * /*from*/, clientState_s * /*to*/, int /*force*/) {}
-void MSG_WriteDeltaPlayerstate(SnapshotInfo_s * /*info*/, msg_t * /*msg*/, int /*time*/, const playerState_s * /*from*/, const playerState_s * /*to*/) {}
-void MSG_WriteEntityIndex(SnapshotInfo_s * /*info*/, msg_t * /*msg*/, int /*newnum*/, int /*indexBits*/) {}
+// void MSG_WriteDeltaArchivedEntity(SnapshotInfo_s * /*info*/, msg_t * /*msg*/, int /*time*/, archivedEntity_s * /*from*/, archivedEntity_s * /*to*/, int /*force*/) {}  // provided by sv_msg_write_mp.cpp now
+// void MSG_WriteDeltaClient(SnapshotInfo_s * /*info*/, msg_t * /*msg*/, int /*time*/, clientState_s * /*from*/, clientState_s * /*to*/, int /*force*/) {}  // provided by sv_msg_write_mp.cpp now
+// void MSG_WriteDeltaPlayerstate(SnapshotInfo_s * /*info*/, msg_t * /*msg*/, int /*time*/, const playerState_s * /*from*/, const playerState_s * /*to*/) {}  // provided by sv_msg_write_mp.cpp now
+// void MSG_WriteEntityIndex(SnapshotInfo_s * /*info*/, msg_t * /*msg*/, int /*newnum*/, int /*indexBits*/) {}  // provided by sv_msg_write_mp.cpp now
 // SV_PacketDataIsNotNetworkData provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
 // SV_PacketDataIsUnknown provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
 // SV_ResetPacketData provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
@@ -2556,7 +2556,7 @@ void Scr_UpdateDebugger() {}
 // SV_SendClientMessages provided by src/server_mp/sv_snapshot_mp.cpp now.
 // G_GetClientArchiveTime provided by src/game_mp/g_main_mp.cpp now.
 // SV_ExecuteClientMessage provided by src/server_mp/sv_client_mp.cpp now.
-void MSG_WriteReliableCommandToBuffer(const char *, char *, int) {}
+// void MSG_WriteReliableCommandToBuffer(const char *, char *, int) {}  // provided by sv_msg_write_mp.cpp now
 
 // tempServerMsgBuf provided by src/server_mp/sv_snapshot_mp.cpp now.
 
@@ -2568,7 +2568,7 @@ int  FS_WriteFile(char *, char *, unsigned int) { return 0; }
 // ClientCommand provided by src/game_mp/g_cmds_mp.cpp now.
 // void Netchan_Setup(netsrc_t, netchan_t *, netadr_t, int, char *, int, char *, int) {}  // provided by net_chan_mp.cpp now
 // bool NET_CompareAdr(netadr_t, netadr_t) { return false; }  // provided by net_chan_mp.cpp now
-void MSG_WriteEntity(SnapshotInfo_s *, msg_t *, int, entityState_s *, const entityState_s *, int) {}
+// void MSG_WriteEntity(SnapshotInfo_s *, msg_t *, int, entityState_s *, const entityState_s *, int) {}  // provided by sv_msg_write_mp.cpp now
 // bool BG_IsWeaponValid(const playerState_s *, uint32_t) { return false; }  // provided by bg_weapons.cpp now
 // ClientDisconnect provided by src/game_mp/g_client_mp.cpp now.
 // G_SetLastServerTime provided by src/game_mp/g_active_mp.cpp now.
@@ -2585,7 +2585,7 @@ bool Sys_IsLANAddress_IgnoreSubnet(netadr_t) { return false; }
 
 // === sv_snapshot_profile_mp satellites ===========================================
 
-unsigned int MSG_GetBitCount(int, bool *, int, int) { return 0u; }
+// unsigned int MSG_GetBitCount(int, bool *, int, int) { return 0u; }  // provided by sv_msg_write_mp.cpp now
 // cl_profileTextY provided by src/client_mp/cl_main_mp.cpp now.
 // s_clientSnapshotData storage provided by src/qcommon/net_chan_mp.cpp now.
 
