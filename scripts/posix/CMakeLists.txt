@@ -95,8 +95,13 @@ set(SCRIPT_PORTABLE_SOURCES
 )
 
 set(GFX_PORTABLE_SOURCES
+    # r_buffers.cpp is hard-tied to IDirect3DDevice9/IDirect3DVertexBuffer9/
+    # IDirect3DIndexBuffer9. Land behind a graphics abstraction layer.
     "${SRC_DIR}/gfx_d3d/r_cmdbuf.cpp"
     "${SRC_DIR}/gfx_d3d/r_debug_alloc.cpp"
+    "${SRC_DIR}/gfx_d3d/r_dobj_skin.cpp"
+    # r_image_load_common.cpp needs D3DFMT_* constants — land with the
+    # graphics abstraction pass.
     "${SRC_DIR}/gfx_d3d/r_devgui.cpp"
     "${SRC_DIR}/gfx_d3d/r_draw_pixelshader.cpp"
     "${SRC_DIR}/gfx_d3d/r_fog.cpp"

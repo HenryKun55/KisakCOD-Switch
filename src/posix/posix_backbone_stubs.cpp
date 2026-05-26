@@ -1651,6 +1651,14 @@ const dvar_t *vid_ypos;
 void R_RegisterSunDvars() {}
 void Material_PreventOverrideTechniqueGeneration() {}
 
+// r_dobj_skin satellite hooks.
+enum WorkerCmdType : int;
+void Z_VirtualCommit(void * /*addr*/, int /*size*/) {}
+void R_AddWorkerCmd(WorkerCmdType /*type*/, unsigned char * /*data*/) {}
+struct GfxSceneEntity;
+const float (*R_UpdateSceneEntBounds(GfxSceneEntity * /*sceneEnt*/, GfxSceneEntity ** /*outLocal*/, const DObj_s ** /*outObj*/, int /*flag*/))[3] { return nullptr; }
+void R_XModelDebug(const DObj_s * /*obj*/, int * /*partBits*/) {}
+
 // Code-mesh stubs (provided once r_drawsurf.cpp lands).
 struct Material;
 struct r_double_index_t;
