@@ -301,7 +301,7 @@ int32_t __cdecl PM_GetSprintLeftLastTime(const playerState_s *ps)
     int32_t v3; // [esp+4h] [ebp-10h]
     int32_t maxSprintTime; // [esp+10h] [ebp-4h]
 
-    bool isSprinting = PM_IsSprinting(ps);
+    [[maybe_unused]] bool isSprinting = PM_IsSprinting(ps);
     iassert(!isSprinting);
 
     maxSprintTime = BG_GetMaxSprintTime(ps);
@@ -402,7 +402,7 @@ void __cdecl PM_FootstepEvent(pmove_t *pm, pml_t *pml, char iOldBobCycle, char i
     float mins[3] = { 0 }; // [esp+14h] [ebp-60h] BYREF
     float vEnd[3] = { 0 }; // [esp+20h] [ebp-54h] BYREF
     int32_t iClipMask; // [esp+2Ch] [ebp-48h]
-    float fTraceDist; // [esp+30h] [ebp-44h]
+    [[maybe_unused]] float fTraceDist; // [esp+30h] [ebp-44h]
     float maxs[3] = { 0 }; // [esp+34h] [ebp-40h] BYREF
     trace_t trace; // [esp+40h] [ebp-34h] BYREF
     int32_t iSurfaceType; // [esp+6Ch] [ebp-8h]
@@ -1473,7 +1473,7 @@ void __cdecl PmoveSingle(pmove_t *pm)
     AngleVectors(ps->viewangles, pml.forward, pml.right, pml.up);
     if (pm->cmd.forwardmove >= 0)
     {
-        if (pm->cmd.forwardmove > 0 || !pm->cmd.forwardmove && pm->cmd.rightmove)
+        if (pm->cmd.forwardmove > 0 || (!pm->cmd.forwardmove && pm->cmd.rightmove))
             ps->pm_flags &= ~PMF_BACKWARDS_RUN;
     }
     else
@@ -1737,7 +1737,7 @@ void __cdecl PM_UpdateSprint(pmove_t *pm, const pml_t *pml)
 
 void __cdecl PM_StartSprint(playerState_s *ps, pmove_t *pm, const pml_t *pml, int32_t sprintLeft)
 {
-    SprintState* ss = &ps->sprintState;
+    [[maybe_unused]] SprintState* ss = &ps->sprintState;
     iassert(ss->lastSprintEnd == 0 || ss->lastSprintEnd >= ss->lastSprintStart);
 
     ps->sprintState.sprintStartMaxLength = sprintLeft;
@@ -1780,7 +1780,7 @@ bool __cdecl PM_SprintStartInterferingButtons(const playerState_s *ps, int32_t f
     return ps->weaponstate == WEAPON_MELEE_INIT
         || ps->weaponstate == WEAPON_MELEE_FIRE
         || ps->weaponstate == WEAPON_MELEE_END
-        || ps->weaponstate >= WEAPON_OFFHAND_INIT && ps->weaponstate <= WEAPON_OFFHAND_END;
+        || (ps->weaponstate >= WEAPON_OFFHAND_INIT && ps->weaponstate <= WEAPON_OFFHAND_END);
 }
 
 bool __cdecl PM_SprintEndingButtons(const playerState_s *ps, int32_t forwardSpeed, int16_t buttons)
@@ -1800,7 +1800,7 @@ bool __cdecl PM_SprintEndingButtons(const playerState_s *ps, int32_t forwardSpee
     return ps->weaponstate == WEAPON_MELEE_INIT
         || ps->weaponstate == WEAPON_MELEE_FIRE
         || ps->weaponstate == WEAPON_MELEE_END
-        || ps->weaponstate >= WEAPON_OFFHAND_INIT && ps->weaponstate <= WEAPON_OFFHAND_END
+        || (ps->weaponstate >= WEAPON_OFFHAND_INIT && ps->weaponstate <= WEAPON_OFFHAND_END)
         || ps->weaponstate == WEAPON_NIGHTVISION_WEAR
         || ps->weaponstate == WEAPON_NIGHTVISION_REMOVE;
 }
@@ -1948,7 +1948,7 @@ void __cdecl PM_Accelerate(playerState_s *ps, const pml_t *pml, const float *wis
     float pushLen = 0; // [esp+34h] [ebp-1Ch]
     float canPush = 0; // [esp+38h] [ebp-18h]
     float inertiaspeed = 0; // [esp+3Ch] [ebp-14h]
-    float control = 0; // [esp+40h] [ebp-10h]
+    [[maybe_unused]] float control = 0; // [esp+40h] [ebp-10h]
     float addspeed = 0; // [esp+44h] [ebp-Ch]
     float currentspeed = 0; // [esp+48h] [ebp-8h]
     float accelspeed = 0; // [esp+4Ch] [ebp-4h]
@@ -2230,7 +2230,7 @@ void __cdecl PM_SetMovementDir(pmove_t *pm, pml_t *pml)
         else
         {
             Vec3Sub(ps->origin, pml->previous_origin, moved);
-            if (!pm->cmd.forwardmove && !pm->cmd.rightmove
+            if ((!pm->cmd.forwardmove && !pm->cmd.rightmove)
                 || ps->groundEntityNum == ENTITYNUM_NONE
                 || (speed = Vec3Length(moved), speed == 0.0)
                 || speed <= pml->frametime * 5.0)
@@ -3040,9 +3040,9 @@ double __cdecl PM_GetViewHeightLerp(const pmove_t *pm, int32_t iFromHeight, int3
     if (iFromHeight != -1
         && iToHeight != -1
         && (iToHeight != ps->viewHeightLerpTarget
-            || iToHeight == 40
-            && (iFromHeight != 11 || ps->viewHeightLerpDown)
-            && (iFromHeight != 60 || !ps->viewHeightLerpDown)))
+            || (iToHeight == 40
+                && (iFromHeight != 11 || ps->viewHeightLerpDown)
+                && (iFromHeight != 60 || !ps->viewHeightLerpDown))))
     {
         return 0.0;
     }
@@ -3073,7 +3073,7 @@ void __cdecl PM_CheckDuck(pmove_t *pm, pml_t *pml)
     float vEnd[3] = { 0 }; // [esp+28h] [ebp-48h] BYREF
     int32_t iStance; // [esp+34h] [ebp-3Ch]
     int32_t bWasProne; // [esp+38h] [ebp-38h]
-    int32_t bWasStanding; // [esp+3Ch] [ebp-34h]
+    [[maybe_unused]] int32_t bWasStanding; // [esp+3Ch] [ebp-34h]
     trace_t trace; // [esp+40h] [ebp-30h] BYREF
      
 
@@ -3505,8 +3505,8 @@ void __cdecl PM_ViewHeightAdjust(pmove_t *pm, pml_t *pml)
                 if (ps->viewHeightLerpTime)
                 {
                     if (ps->viewHeightTarget != ps->viewHeightLerpTarget
-                        && (ps->viewHeightTarget < ps->viewHeightLerpTarget && !ps->viewHeightLerpDown
-                            || ps->viewHeightTarget > ps->viewHeightLerpTarget && ps->viewHeightLerpDown))
+                        && ((ps->viewHeightTarget < ps->viewHeightLerpTarget && !ps->viewHeightLerpDown)
+                            || (ps->viewHeightTarget > ps->viewHeightLerpTarget && ps->viewHeightLerpDown)))
                     {
                         iLerpFrac = 100 - iLerpFrac;
                         ps->viewHeightLerpDown ^= 1u;
@@ -3712,7 +3712,6 @@ void __cdecl PM_Footsteps(pmove_t *pm, pml_t *pml)
             if (ps->groundEntityNum != ENTITYNUM_NONE || ps->pm_type == PM_NORMAL_LINKED)
             {
                 walking = (ps->pm_flags & PMF_WALKING) != 0 || ps->leanf != 0.0;
-                walking = walking;
                 sprinting = ps->pm_flags & PMF_SPRINTING;
                 sprinting = sprinting != 0;
 
@@ -4298,7 +4297,7 @@ void __cdecl PM_CheckLadderMove(pmove_t *pm, pml_t *pml)
 
                 Vec3Mad(ps->origin, tracedist, vLadderCheckDir, spot);
                 PM_playerTrace(pm, &trace, ps->origin, mins, maxs, spot, ps->clientNum, pm->tracemask);
-                if (trace.fraction >= 1.0 || (trace.surfaceFlags & 8) == 0 || pml->walking && pm->cmd.forwardmove <= 0)
+                if (trace.fraction >= 1.0 || (trace.surfaceFlags & 8) == 0 || (pml->walking && pm->cmd.forwardmove <= 0))
                     goto LABEL_45;
 
                 if ((ps->pm_flags & PMF_LADDER) != 0)

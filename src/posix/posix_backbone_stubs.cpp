@@ -455,8 +455,8 @@ void SL_Init() {}
 void BG_ShutdownWeaponDefFiles() {}
 // int  BG_AnimScriptEvent(playerState_s * /*ps*/, scriptAnimEventTypes_t /*event*/, int /*isContinue*/, int /*force*/) { return 0; }  // provided by bg_animation_mp.cpp now
 void BG_AddPredictableEventToPlayerstate(unsigned int /*event*/, unsigned int /*eventParm*/, playerState_s * /*ps*/) {}
-int  PM_GetEffectiveStance(const playerState_s * /*ps*/) { return 0; }
-unsigned int PM_GroundSurfaceType(pml_t * /*pml*/) { return 0; }
+// int  PM_GetEffectiveStance(const playerState_s * /*ps*/) { return 0; }  // provided by bg_pmove.cpp now
+// unsigned int PM_GroundSurfaceType(pml_t * /*pml*/) { return 0; }  // provided by bg_pmove.cpp now
 
 // =========================================================================
 // xanim/bgame cascade — landed with the xanim + bgame files. Math
@@ -565,33 +565,13 @@ void DObjDumpInfo(const DObj_s * /*obj*/) {}
 void DObjGetHidePartBits(const DObj_s * /*obj*/, unsigned int * /*partBits*/) {}
 
 // PM_
-void PM_AddTouchEnt(pmove_t * /*pm*/, int /*entityNum*/) {}
-void PM_ClipVelocity(const float *in, const float *normal, float *out)
-{
-    float dot = in[0] * normal[0] + in[1] * normal[1] + in[2] * normal[2];
-    out[0] = in[0] - dot * normal[0];
-    out[1] = in[1] - dot * normal[1];
-    out[2] = in[2] - dot * normal[2];
-}
-void PM_ProjectVelocity(const float *in, const float *normal, float *out)
-{
-    PM_ClipVelocity(in, normal, out);
-}
-void PM_FootstepEvent(pmove_t * /*pm*/, pml_t * /*pml*/, char /*surfType*/, char /*step*/, int /*eventParm*/) {}
-bool PM_ShouldMakeFootsteps(pmove_t * /*pm*/) { return false; }
-void PM_playerTrace(pmove_t * /*pm*/, trace_t *trace, const float * /*start*/, const float * /*mins*/,
-                    const float * /*maxs*/, const float * /*end*/, int /*passEnt*/, int /*contentMask*/)
-{
-    if (trace) {
-        std::memset(trace, 0, sizeof(*trace));
-        trace->fraction = 1.0f;
-    }
-}
-void PM_trace(pmove_t *pm, trace_t *trace, const float *start, const float *mins,
-              const float *maxs, const float *end, int passEnt, int contentMask)
-{
-    PM_playerTrace(pm, trace, start, mins, maxs, end, passEnt, contentMask);
-}
+// void PM_AddTouchEnt(pmove_t * /*pm*/, int /*entityNum*/) {}  // provided by bg_pmove.cpp now
+// PM_ClipVelocity provided by src/bgame/bg_pmove.cpp now.
+// PM_ProjectVelocity provided by src/bgame/bg_pmove.cpp now.
+// void PM_FootstepEvent(pmove_t * /*pm*/, pml_t * /*pml*/, char /*surfType*/, char /*step*/, int /*eventParm*/) {}  // provided by bg_pmove.cpp now
+// bool PM_ShouldMakeFootsteps(pmove_t * /*pm*/) { return false; }  // provided by bg_pmove.cpp now
+// PM_playerTrace provided by src/bgame/bg_pmove.cpp now.
+// PM_trace provided by src/bgame/bg_pmove.cpp now.
 
 // BG
 // int  BG_AnimScriptAnimation(playerState_s * /*ps*/, aistateEnum_t /*state*/, scriptAnimMoveTypes_t /*move*/, int /*direction*/) { return 0; }  // provided by bg_animation_mp.cpp now
@@ -1973,8 +1953,8 @@ bool BG_CanItemBeGrabbed(const entityState_s *, const playerState_s *, int) { re
 bool BG_PlayerTouchesItem(const playerState_s *, const entityState_s *, int) { return false; }
 bool BG_PlayerHasRoomForEntAllAmmoTypes(const entityState_s *, const playerState_s *) { return false; }
 void BG_PlayerStateToEntityState(playerState_s *, entityState_s *, int, uint8_t) {}
-void PM_UpdateViewAngles(playerState_s *, float, usercmd_s *, uint8_t) {}
-void Pmove(pmove_t *) {}
+// void PM_UpdateViewAngles(playerState_s *, float, usercmd_s *, uint8_t) {}  // provided by bg_pmove.cpp now
+// void Pmove(pmove_t *) {}  // provided by bg_pmove.cpp now
 // CG_AdjustPositionForMover provided by src/cgame_mp/cg_ents_mp.cpp now.
 // CG_ExtractTransPlayerState provided by src/cgame_mp/cg_snapshot_mp.cpp now.
 
@@ -2018,7 +1998,7 @@ void   AimAssist_ClearEntityReference(int, int) {}
 // cg_fs_debug provided by src/cgame_mp/cg_main_mp.cpp now.
 // === cg_view_mp satellites =======================================================
 
-float BG_GetSpeed(const playerState_s *, int) { return 0.f; }
+// float BG_GetSpeed(const playerState_s *, int) { return 0.f; }  // provided by bg_pmove.cpp now
 void  FX_RewindTo(int, int) {}
 void  R_ClearScene(unsigned int) {}
 // CG_DrawActive provided by src/cgame_mp/cg_draw_mp.cpp now.
@@ -2155,7 +2135,7 @@ void Con_DrawSay(int, int, int) {}
 void Menu_PaintAll(UiContext *) {}
 void Con_DrawErrors(int, int, int, float) {}
 void Menus_HideByName(const UiContext *, const char *) {}
-int32_t PM_GetSprintLeft(const playerState_s *, int32_t) { return 0; }
+// int32_t PM_GetSprintLeft(const playerState_s *, int32_t) { return 0; }  // provided by bg_pmove.cpp now
 void Menus_CloseByName(UiContext *, const char *) {}
 int32_t BG_GetMaxSprintTime(const playerState_s *) { return 0; }
 // CG_CalcPlayerHealth provided by src/cgame_mp/cg_newDraw_mp.cpp now.
@@ -2239,7 +2219,7 @@ void  Vec3Avg(const float *a, const float *b, float *out)
 // === cg_newDraw_mp satellites ====================================================
 
 uint32_t GetWeaponIndex(const cg_s *) { return 0u; }
-bool     PM_IsSprinting(const playerState_s *) { return false; }
+// bool     PM_IsSprinting(const playerState_s *) { return false; }  // provided by bg_pmove.cpp now
 int32_t  BG_AmmoForWeapon(uint32_t) { return 0; }
 bool     Key_IsCommandBound(int, const char *) { return false; }
 int32_t  BG_GetAmmoPlayerMax(const playerState_s *, uint32_t, uint32_t) { return 0; }
@@ -2249,7 +2229,7 @@ bool     BG_WeaponBlocksProne(uint32_t) { return false; }
 int32_t  BG_GetTotalAmmoReserve(const playerState_s *, uint32_t) { return 0; }
 void     CG_DrawPlayerActionSlot(int, const rectDef_s *, uint32_t, float *, Font_s *, float, int) {}
 void     CG_DrawPlayerWeaponIcon(int, const rectDef_s *, const float *) {}
-int32_t  PM_GetSprintLeftLastTime(const playerState_s *) { return 0; }
+// int32_t  PM_GetSprintLeftLastTime(const playerState_s *) { return 0; }  // provided by bg_pmove.cpp now
 // CG_GetPredictedPlayerState provided by src/cgame_mp/cg_main_mp.cpp now.
 void     CG_DrawPlayerActionSlotDpad(int, const rectDef_s *, const float *, Material *) {}
 void     CG_DrawPlayerWeaponAmmoStock(int, const rectDef_s *, Font_s *, float, float *, Material *, int) {}
@@ -2808,7 +2788,7 @@ void BG_WeaponFireRecoil(const playerState_s *, float *, float *) {}
 void ExpandBoundsToWidth(float *, float *) {}
 // G_VehPlayerRideSlot provided by src/game_mp/g_vehicles_mp.cpp now.
 void HudElem_UpdateClient(gclient_s *, int32_t, hudelem_update_t) {}
-void BG_Player_DoControllers(const CEntPlayerInfo *, const DObj_s *, int32_t *) {}
+// void BG_Player_DoControllers(const CEntPlayerInfo *, const DObj_s *, int32_t *) {}  // provided by bg_pmove.cpp now
 void BG_CalculateWeaponAngles(weaponState_t *, float *) {}
 void BG_CalculateWeaponPosition_Sway(const playerState_s *, float *, float *, float *, float, int32_t) {}
 
@@ -3059,6 +3039,53 @@ const dvar_t *xanim_debug                     = nullptr;
 
 void BG_CheckThread() {}
 double GetLeanFraction(float v) { return (double)v; }
+
+// === bg_pmove satellites ===========================================================
+
+const dvar_t *bg_foliagesnd_fastinterval    = nullptr;
+const dvar_t *bg_foliagesnd_maxspeed        = nullptr;
+const dvar_t *bg_foliagesnd_minspeed        = nullptr;
+const dvar_t *bg_foliagesnd_resetinterval   = nullptr;
+const dvar_t *bg_foliagesnd_slowinterval    = nullptr;
+const dvar_t *bg_ladder_yawcap              = nullptr;
+const dvar_t *friction                      = nullptr;
+const dvar_t *inertiaAngle                  = nullptr;
+const dvar_t *inertiaDebug                  = nullptr;
+const dvar_t *inertiaMax                    = nullptr;
+const dvar_t *player_backSpeedScale         = nullptr;
+const dvar_t *player_dmgtimer_flinchTime    = nullptr;
+const dvar_t *player_dmgtimer_minScale      = nullptr;
+const dvar_t *player_dmgtimer_stumbleTime   = nullptr;
+const dvar_t *player_footstepsThreshhold    = nullptr;
+const dvar_t *player_meleeChargeFriction    = nullptr;
+const dvar_t *player_moveThreshhold         = nullptr;
+const dvar_t *player_spectateSpeedScale     = nullptr;
+const dvar_t *player_sprintCameraBob        = nullptr;
+const dvar_t *player_sprintForwardMinimum   = nullptr;
+const dvar_t *player_sprintMinTime          = nullptr;
+const dvar_t *player_sprintRechargePause    = nullptr;
+const dvar_t *player_sprintStrafeSpeedScale = nullptr;
+const dvar_t *player_strafeAnimCosAngle     = nullptr;
+const dvar_t *player_strafeSpeedScale       = nullptr;
+const dvar_t *player_turnAnims              = nullptr;
+const dvar_t *player_view_pitch_down        = nullptr;
+const dvar_t *player_view_pitch_up          = nullptr;
+const dvar_t *stopspeed                     = nullptr;
+
+bool   BG_UsingSniperScope(playerState_s *) { return false; }
+void   DObjSetLocalTag(DObj_s *, int *, unsigned int, const float *, const float *) {}
+float  PitchForYawOnNormal(float, const float *) { return 0.f; }
+void   PM_AdjustAimSpreadScale(pmove_t *, pml_t *) {}
+int    PM_InteruptWeaponWithProneMove(playerState_s *) { return 0; }
+void   PM_ResetWeaponState(playerState_s *) {}
+void   PM_UpdateAimDownSightFlag(pmove_t *, pml_t *) {}
+void   PM_UpdateAimDownSightLerp(pmove_t *, pml_t *) {}
+void   PM_Weapon(pmove_t *, pml_t *) {}
+int    PM_WeaponAmmoAvailable(playerState_s *) { return 0; }
+void   ProjectPointOnPlane(const float *, const float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0.f; } }
+void   Sys_SnapVector(float *) {}
+double UnGetLeanFraction(float v) { return (double)v; }
+float  Vec2LengthSq(const float *v) { return v ? v[0] * v[0] + v[1] * v[1] : 0.f; }
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
