@@ -1485,7 +1485,7 @@ const FxEffectDef *FX_Register(const char *) { return nullptr; }
 // cg_hudGrenadePointerWidth provided by src/cgame_mp/cg_main_mp.cpp now.
 // === cg_hudelem satellites =======================================================
 
-void  FX_SpriteAdd(FxSprite *) {}
+// void  FX_SpriteAdd(FxSprite *) {}  // provided by fx_sprite.cpp now
 // Vec2Distance provided by src/universal/com_math.cpp now.
 // int   SEH_PrintStrlen(const char *s) { return s ? static_cast<int>(std::strlen(s)) : 0; }  // provided by stringed_hooks.cpp now
 // void  BG_LerpHudColors(const hudelem_s *, int, hudelem_color_t *) {}  // provided by bg_misc.cpp now

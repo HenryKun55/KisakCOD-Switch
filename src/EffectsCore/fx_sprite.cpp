@@ -16,8 +16,8 @@ static FxSprite g_sprites[96]; // ADDED
 
 void __cdecl FX_SpriteGenerateVerts(FxGenerateVertsCmd *cmd)
 {
-    int32_t i; // [esp+0h] [ebp-8h]
-    FxSpriteInfo *spriteInfo; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int32_t i; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] FxSpriteInfo *spriteInfo; // [esp+4h] [ebp-4h]
 
     if (!cmd)
         MyAssertHandler(".\\EffectsCore\\fx_sprite.cpp", 248, 0, "%s", "cmd");
@@ -71,9 +71,9 @@ void __cdecl FX_BuildSpriteCodeMeshVerts(
     const uint8_t* rgbaColor,
     char spriteFlags)
 {
-    uint32_t v5; // [esp+10h] [ebp-30h]
-    uint32_t v6; // [esp+14h] [ebp-2Ch]
-    uint32_t LocalClientNum; // [esp+18h] [ebp-28h]
+    [[maybe_unused]] uint32_t v5; // [esp+10h] [ebp-30h]
+    [[maybe_unused]] uint32_t v6; // [esp+14h] [ebp-2Ch]
+    [[maybe_unused]] uint32_t LocalClientNum; // [esp+18h] [ebp-28h]
     float left[3]; // [esp+1Ch] [ebp-24h] BYREF
     float worldOrigin[3]; // [esp+28h] [ebp-18h] BYREF
     float up[3]; // [esp+34h] [ebp-Ch] BYREF
@@ -116,39 +116,39 @@ void __cdecl FX_BuildQuadStampCodeMeshVerts(
     int32_t t1)
 {
     double v10; // st7
-    __int16 v11; // [esp+10h] [ebp-1DCh]
-    __int16 v12; // [esp+14h] [ebp-1D8h]
-    __int16 v13; // [esp+18h] [ebp-1D4h]
-    __int16 v14; // [esp+1Ch] [ebp-1D0h]
-    __int16 v15; // [esp+20h] [ebp-1CCh]
-    __int16 v16; // [esp+24h] [ebp-1C8h]
-    __int16 v17; // [esp+28h] [ebp-1C4h]
-    __int16 v18; // [esp+2Ch] [ebp-1C0h]
-    int32_t v19; // [esp+7Ch] [ebp-170h]
-    int32_t v20; // [esp+90h] [ebp-15Ch]
-    int32_t v21; // [esp+B0h] [ebp-13Ch]
-    int32_t v22; // [esp+C4h] [ebp-128h]
-    int32_t v23; // [esp+E4h] [ebp-108h]
-    int32_t v24; // [esp+F8h] [ebp-F4h]
-    int32_t v25; // [esp+118h] [ebp-D4h]
-    int32_t v26; // [esp+12Ch] [ebp-C0h]
-    PackedUnitVec v27; // [esp+148h] [ebp-A4h]
-    float v28; // [esp+154h] [ebp-98h]
-    float v29; // [esp+158h] [ebp-94h]
-    float v30; // [esp+15Ch] [ebp-90h]
-    PackedUnitVec v31; // [esp+168h] [ebp-84h]
-    float v32; // [esp+174h] [ebp-78h]
-    float v33; // [esp+178h] [ebp-74h]
-    float v34; // [esp+17Ch] [ebp-70h]
+    [[maybe_unused]] __int16 v11; // [esp+10h] [ebp-1DCh]
+    [[maybe_unused]] __int16 v12; // [esp+14h] [ebp-1D8h]
+    [[maybe_unused]] __int16 v13; // [esp+18h] [ebp-1D4h]
+    [[maybe_unused]] __int16 v14; // [esp+1Ch] [ebp-1D0h]
+    [[maybe_unused]] __int16 v15; // [esp+20h] [ebp-1CCh]
+    [[maybe_unused]] __int16 v16; // [esp+24h] [ebp-1C8h]
+    [[maybe_unused]] __int16 v17; // [esp+28h] [ebp-1C4h]
+    [[maybe_unused]] __int16 v18; // [esp+2Ch] [ebp-1C0h]
+    [[maybe_unused]] int32_t v19; // [esp+7Ch] [ebp-170h]
+    [[maybe_unused]] int32_t v20; // [esp+90h] [ebp-15Ch]
+    [[maybe_unused]] int32_t v21; // [esp+B0h] [ebp-13Ch]
+    [[maybe_unused]] int32_t v22; // [esp+C4h] [ebp-128h]
+    [[maybe_unused]] int32_t v23; // [esp+E4h] [ebp-108h]
+    [[maybe_unused]] int32_t v24; // [esp+F8h] [ebp-F4h]
+    [[maybe_unused]] int32_t v25; // [esp+118h] [ebp-D4h]
+    [[maybe_unused]] int32_t v26; // [esp+12Ch] [ebp-C0h]
+    [[maybe_unused]] PackedUnitVec v27; // [esp+148h] [ebp-A4h]
+    [[maybe_unused]] float v28; // [esp+154h] [ebp-98h]
+    [[maybe_unused]] float v29; // [esp+158h] [ebp-94h]
+    [[maybe_unused]] float v30; // [esp+15Ch] [ebp-90h]
+    [[maybe_unused]] PackedUnitVec v31; // [esp+168h] [ebp-84h]
+    [[maybe_unused]] float v32; // [esp+174h] [ebp-78h]
+    [[maybe_unused]] float v33; // [esp+178h] [ebp-74h]
+    [[maybe_unused]] float v34; // [esp+17Ch] [ebp-70h]
     float testBinormal[3]; // [esp+1B0h] [ebp-3Ch] BYREF
-    GfxPackedVertex *verts; // [esp+1BCh] [ebp-30h]
+    [[maybe_unused]] GfxPackedVertex *verts; // [esp+1BCh] [ebp-30h]
     r_double_index_t *indices; // [esp+1C0h] [ebp-2Ch] BYREF
     GfxColor nativeColor; // [esp+1C4h] [ebp-28h] BYREF
-    r_double_index_t index; // [esp+1C8h] [ebp-24h]
+    [[maybe_unused]] r_double_index_t index; // [esp+1C8h] [ebp-24h]
     float leftDown[3]; // [esp+1CCh] [ebp-20h] BYREF
     uint16_t baseVertex; // [esp+1D8h] [ebp-14h] BYREF
     float leftUp[3]; // [esp+1DCh] [ebp-10h] BYREF
-    GfxPackedVertex *baseVerts; // [esp+1E8h] [ebp-4h]
+    [[maybe_unused]] GfxPackedVertex *baseVerts; // [esp+1E8h] [ebp-4h]
 
     if (R_ReserveCodeMeshVerts(4, &baseVertex) && R_ReserveCodeMeshIndices(6, &indices))
     {
@@ -207,7 +207,7 @@ void __cdecl FX_BuildQuadStampCodeMeshVerts(
             v17 = v25;
         else
             v17 = -16384;
-        verts->texCoord.packed = (v17 & 0x3FFF | (t0 >> 16) & 0xC000) + ((v18 & 0x3FFF | (s0 >> 16) & 0xC000) << 16);
+        verts->texCoord.packed = ((v17 & 0x3FFF) | ((t0 >> 16) & 0xC000)) + (((v18 & 0x3FFF) | ((s0 >> 16) & 0xC000)) << 16);
         verts->tangent = v27;
         Vec3Sub(origin, leftDown, verts[1].xyz);
         verts[1].binormalSign = 1.0;
@@ -229,7 +229,7 @@ void __cdecl FX_BuildQuadStampCodeMeshVerts(
             v15 = v23;
         else
             v15 = -16384;
-        verts[1].texCoord.packed = (v15 & 0x3FFF | (t0 >> 16) & 0xC000) + ((v16 & 0x3FFF | (s1 >> 16) & 0xC000) << 16);
+        verts[1].texCoord.packed = ((v15 & 0x3FFF) | ((t0 >> 16) & 0xC000)) + (((v16 & 0x3FFF) | ((s1 >> 16) & 0xC000)) << 16);
         verts[1].tangent = v27;
         Vec3Sub(origin, leftUp, verts[2].xyz);
         verts[2].binormalSign = 1.0;
@@ -251,7 +251,7 @@ void __cdecl FX_BuildQuadStampCodeMeshVerts(
             v13 = v21;
         else
             v13 = -16384;
-        verts[2].texCoord.packed = (v13 & 0x3FFF | (t1 >> 16) & 0xC000) + ((v14 & 0x3FFF | (s1 >> 16) & 0xC000) << 16);
+        verts[2].texCoord.packed = ((v13 & 0x3FFF) | ((t1 >> 16) & 0xC000)) + (((v14 & 0x3FFF) | ((s1 >> 16) & 0xC000)) << 16);
         verts[2].tangent = v27;
         Vec3Add(origin, leftDown, verts[3].xyz);
         verts[3].binormalSign = 1.0;
@@ -273,7 +273,7 @@ void __cdecl FX_BuildQuadStampCodeMeshVerts(
             v11 = v19;
         else
             v11 = -16384;
-        verts[3].texCoord.packed = (v11 & 0x3FFF | (t1 >> 16) & 0xC000) + ((v12 & 0x3FFF | (s0 >> 16) & 0xC000) << 16);
+        verts[3].texCoord.packed = ((v11 & 0x3FFF) | ((t1 >> 16) & 0xC000)) + (((v12 & 0x3FFF) | ((s0 >> 16) & 0xC000)) << 16);
         verts[3].tangent = v27;
     }
 }
@@ -284,9 +284,9 @@ char __cdecl FX_HeightScreenToWorld(
     float *worldHeight,
     FxGenerateVertsCmd *cmd)
 {
-    uint32_t LocalClientNum; // [esp+8h] [ebp-Ch]
-    float clipSpaceW; // [esp+Ch] [ebp-8h]
-    float clipSpaceHeight; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] uint32_t LocalClientNum; // [esp+8h] [ebp-Ch]
+    [[maybe_unused]] float clipSpaceW; // [esp+Ch] [ebp-8h]
+    [[maybe_unused]] float clipSpaceHeight; // [esp+10h] [ebp-4h]
     cg_s *cgameGlob;
 
     iassert(screenHeight > 0);
@@ -321,9 +321,9 @@ void __cdecl FX_GenerateSpriteCodeMeshVertsFixedWorldSize(
     char spriteFlags,
     FxGenerateVertsCmd* cmd)
 {
-    float worldRadius; // [esp+Ch] [ebp-10h]
+    [[maybe_unused]] float worldRadius; // [esp+Ch] [ebp-10h]
     float screenRadius; // [esp+14h] [ebp-8h] BYREF
-    float screenScale; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] float screenScale; // [esp+18h] [ebp-4h]
 
     worldRadius = radius;
     if (minScreenRadius > 0.0)
@@ -353,9 +353,9 @@ char __cdecl FX_HeightWorldToScreen(
     float *screenHeight,
     FxGenerateVertsCmd *cmd)
 {
-    uint32_t LocalClientNum; // [esp+8h] [ebp-Ch]
-    float clipSpaceW; // [esp+Ch] [ebp-8h]
-    float clipSpaceHeight; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] uint32_t LocalClientNum; // [esp+8h] [ebp-Ch]
+    [[maybe_unused]] float clipSpaceW; // [esp+Ch] [ebp-8h]
+    [[maybe_unused]] float clipSpaceHeight; // [esp+10h] [ebp-4h]
     cg_s *cgameGlob;
 
     iassert(worldHeight > 0);

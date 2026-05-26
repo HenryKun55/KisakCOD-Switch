@@ -152,6 +152,7 @@ set(EFFECTSCORE_PORTABLE_SOURCES
     "${SRC_DIR}/EffectsCore/fx_profile.cpp"
     "${SRC_DIR}/EffectsCore/fx_random.cpp"
     "${SRC_DIR}/EffectsCore/fx_sort.cpp"
+    "${SRC_DIR}/EffectsCore/fx_sprite.cpp"
     "${SRC_DIR}/EffectsCore/fx_update_util.cpp"
     "${SRC_DIR}/EffectsCore/fxcurve.cpp"
 )
