@@ -1150,13 +1150,7 @@ void PMem_EndAlloc(const char * /*name*/, unsigned int /*allocType*/) {}
 // 0 build (BUILD_NUMBER macro is in src/buildnumber.h).
 // =========================================================================
 
-char *getBuildNumber()
-{
-    static char buf[8] = "0";
-    return buf;
-}
-
-int getBuildNumberAsInt() { return 0; }
+// getBuildNumber / getBuildNumberAsInt — provided by buildnumber.cpp now.
 
 // =========================================================================
 // Globals expected by other backbone files.

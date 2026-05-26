@@ -51,6 +51,7 @@ set(UNIVERSAL_PORTABLE_SOURCES
 )
 
 set(COMMON_PORTABLE_SOURCES
+    "${SRC_DIR}/buildnumber.cpp"
     # brush_edges.cpp: compiles clean on clang, but GCC's -Warray-bounds
     # flags hex-rays-style `(*xyz)[3*k]` indexing. Needs signature
     # refactor before it lands on Switch (devkitA64 GCC).

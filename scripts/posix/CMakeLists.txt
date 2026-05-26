@@ -54,6 +54,7 @@ set(UNIVERSAL_PORTABLE_SOURCES
 )
 
 set(COMMON_PORTABLE_SOURCES
+    "${SRC_DIR}/buildnumber.cpp"
     "${SRC_DIR}/common/brush_edges.cpp"
     # ^ compiles clean on clang. On the Switch GCC target, the
     # -Warray-bounds flagging on hex-rays-style `(*xyz)[3*k]` indexing
