@@ -52,6 +52,7 @@ set(COMMON_PORTABLE_SOURCES
 
 set(QCOMMON_PORTABLE_SOURCES
     "${SRC_DIR}/qcommon/cm_load.cpp"
+    "${SRC_DIR}/qcommon/cm_load_obj.cpp"
     "${SRC_DIR}/qcommon/cm_mesh.cpp"
     "${SRC_DIR}/qcommon/cm_showcollision.cpp"
     "${SRC_DIR}/qcommon/cm_staticmodel.cpp"
@@ -67,6 +68,7 @@ set(QCOMMON_PORTABLE_SOURCES
     "${SRC_DIR}/qcommon/com_profilemapload.cpp"
     "${SRC_DIR}/qcommon/common.cpp"
     "${SRC_DIR}/qcommon/dl_main.cpp"
+    "${SRC_DIR}/qcommon/dobj_management.cpp"
     "${SRC_DIR}/qcommon/files.cpp"
     "${SRC_DIR}/qcommon/graph.cpp"
     "${SRC_DIR}/qcommon/huffman.cpp"
@@ -179,6 +181,8 @@ set(STRINGED_PORTABLE_SOURCES
 
 set(UI_PORTABLE_SOURCES
     "${SRC_DIR}/ui/ui_atoms.cpp"
+    # ui_component.cpp uses SetForegroundWindow (Win32) and has pervasive
+    # 32-bit ptr/precedence patterns — land after ifdef pass.
     "${SRC_DIR}/ui/ui_expressions.cpp"
     "${SRC_DIR}/ui/ui_expressions_logicfunctions.cpp"
     "${SRC_DIR}/ui/ui_localvars.cpp"

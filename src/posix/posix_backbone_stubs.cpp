@@ -118,8 +118,8 @@ void FX_RandomDir(int seed, float *dir);  // forward decl, defined after fx_rand
 // Com_HasPlayerProfile now provided by qcommon/com_playerprofile.cpp.
 // Com_InitPlayerProfiles now in qcommon/com_playerprofile.cpp.
 void Com_InitHunkMemory() {}
-void Com_InitDObj() {}
-void Com_ShutdownDObj() {}
+// void Com_InitDObj() {}
+// void Com_ShutdownDObj() {}
 // Com_ShutdownWorld now in qcommon/com_bsp.cpp.
 // Com_CleanupBsp now in qcommon/com_bsp.cpp.
 // Com_CheckSetRecommended now in qcommon/com_playerprofile.cpp.
@@ -497,7 +497,7 @@ void TRACK_cm_world() {}
 // void TRACK_com_math() {}  // provided by com_math.cpp now
 void TRACK_db_registry() {}
 // void TRACK_devgui() {}
-void TRACK_dobj_management() {}
+// void TRACK_dobj_management() {}
 void TRACK_fx_marks() {}
 // void TRACK_fx_random() {}  // provided by fx_random.cpp now
 void TRACK_fx_system() {}
@@ -642,7 +642,7 @@ struct trDebugString_t;
 // CL_IsClientLocal provided by src/client_mp/cl_main_mp.cpp now.
 // CL_IsPlayerMuted provided by src/client_mp/cl_main_pc_mp.cpp now.
 // ClientUserinfoChanged provided by src/game_mp/g_client_mp.cpp now.
-void Com_SafeClientDObjFree(unsigned int /*handle*/, int /*localClientNum*/) {}
+// void Com_SafeClientDObjFree(unsigned int /*handle*/, int /*localClientNum*/) {}
 // char *FS_LoadedIwdPureChecksums() { static char empty[1] = {0}; return empty; }  // provided by com_files.cpp now
 // GScr_GetHeadIconIndex provided by src/game_mp/g_scr_main_mp.cpp now.
 // GScr_GetStatusIconIndex provided by src/game_mp/g_scr_main_mp.cpp now.
@@ -727,7 +727,7 @@ struct XBoneInfo;
 
 // void Com_GetBspFilename(char *filename, unsigned int /*max*/, const char * /*mapname*/)  // provided by com_files.cpp now
 // { if (filename) filename[0] = 0; }
-DObj_s *Com_GetServerDObj(unsigned int /*handle*/) { return nullptr; }
+// DObj_s *Com_GetServerDObj(unsigned int /*handle*/) { return nullptr; }
 void Com_UnloadSoundAliases(snd_alias_system_t /*sys*/) {}
 
 // ConcatArgs provided by src/game_mp/g_cmds_mp.cpp now.
@@ -1240,7 +1240,7 @@ struct dxJointBall;
 // CG_DrawStringExt now in cgame/cg_drawtools.cpp.
 
 // Com / DObj
-DObj_s *Com_GetClientDObj(unsigned int /*handle*/, int /*localClientNum*/) { return nullptr; }
+// DObj_s *Com_GetClientDObj(unsigned int /*handle*/, int /*localClientNum*/) { return nullptr; }
 // DObjDisplayAnim now provided by xanim/xanim.cpp.
 // void DObjGetBasePoseMatrix(const DObj_s * /*obj*/, unsigned char /*boneIndex*/, DObjAnimMat * /*outMat*/) {}
 // int  DObjGetBoneIndex(const DObj_s * /*obj*/, unsigned int /*name*/, unsigned char *index)
@@ -1630,6 +1630,8 @@ FxMarksSystem fx_marksSystemPool[1] = {};
 dxBody *Phys_ObjLoad(PhysWorld /*w*/, MemoryFile * /*memFile*/) { return nullptr; }
 void Phys_ObjSave(dxBody * /*body*/, MemoryFile * /*memFile*/) {}
 
+void DynEnt_LoadEntities() {}
+
 // Code-mesh stubs (provided once r_drawsurf.cpp lands).
 struct Material;
 struct r_double_index_t;
@@ -1804,7 +1806,7 @@ void  FX_RetriggerEffect(int, FxEffect *, int) {}
 void  R_LinkBModelEntity(unsigned int, unsigned int, GfxBrushModel *) {}
 void  CG_VehProcessEntity(int, centity_s *) {}
 // void  DObjSetHidePartBits(DObj_s *, const unsigned int *) {}
-DObj_s *Com_ClientDObjCreate(DObjModel_s *, unsigned short, XAnimTree_s *, unsigned int, int) { return nullptr; }
+// DObj_s *Com_ClientDObjCreate(DObjModel_s *, unsigned short, XAnimTree_s *, unsigned int, int) { return nullptr; }
 // void  DObjGetHierarchyBits(const DObj_s *, int, int *) {}
 void  Phys_ObjBulletImpact(PhysWorld, dxBody *, const float *, const float *, float, float) {}
 // CG_IsRagdollTrajectory provided by src/cgame_mp/cg_main_mp.cpp now.
@@ -2009,12 +2011,12 @@ void DB_ReplaceModel(const char *, const char *) {}
 // void G_TimedObjectThink(gentity_s *) {}  // provided by g_missile.cpp now
 // G_VehEntHandler_Die provided by src/game_mp/g_vehicles_mp.cpp now.
 // G_VehEntHandler_Use provided by src/game_mp/g_vehicles_mp.cpp now.
-DObj_s *Com_ServerDObjCreate(DObjModel_s *, unsigned short, XAnimTree_s *, unsigned int) { return nullptr; }
+// DObj_s *Com_ServerDObjCreate(DObjModel_s *, unsigned short, XAnimTree_s *, unsigned int) { return nullptr; }
 // void DroppedItemClearOwner(gentity_s *) {}  // provided by game/ batch now
 // G_VehEntHandler_Think provided by src/game_mp/g_vehicles_mp.cpp now.
 // G_VehEntHandler_Touch provided by src/game_mp/g_vehicles_mp.cpp now.
 // Helicopter_Controller provided by src/game_mp/g_scr_helicopter.cpp now.
-void Com_SafeServerDObjFree(unsigned int) {}
+// void Com_SafeServerDObjFree(unsigned int) {}
 // unsigned int SL_FindLowercaseString(const char *) { return 0u; }  // provided by scr_variable/scr_stringlist now
 // SV_GetConfigstringConst provided by src/server_mp/sv_init_mp.cpp now.
 void Hunk_OverrideDataForFile(int, const char *, void *) {}
@@ -2506,7 +2508,7 @@ unsigned long long Steam_GetClientSteamID64() { return 0ULL; }
 unsigned int Steam_GetRawClientTicket(unsigned char **t, unsigned int *s) { if (t) *t = nullptr; if (s) *s = 0; return 0u; }
 int  LiveStorage_DoWeHaveStats() { return 0; }
 void *LiveStorage_GetStatBuffer() { return nullptr; }
-void Com_ClientDObjClearAllSkel() {}
+// void Com_ClientDObjClearAllSkel() {}
 void R_AddCmdDrawTextWithCursor(const char *, int, Font_s *, float, float, float, float, float, const float *, int, int, char) {}
 // bool UI_AllowScriptMenuResponse(int) { return false; }  // provided by ui_main_mp.cpp now
 void R_AddCmdDrawTextWithEffects(const char *, int, Font_s *, float, float, float, float, float, const float *, int, const float *, Material *, Material *, int, int, int, int) {}

@@ -94,7 +94,7 @@ DObj_s *__cdecl Com_ClientDObjCreate(
     unsigned int handle,
     int localClientNum)
 {
-    unsigned int index; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] unsigned int index; // [esp+0h] [ebp-4h]
 
     iassert(dobjModels);
     iassert(((unsigned)handle < (((1 << 10)) + 128)));
@@ -172,7 +172,7 @@ int __cdecl Com_GetFreeDObjIndex()
 
 void __cdecl Com_ClientDObjClearAllSkel()
 {
-    int handleOffset; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int handleOffset; // [esp+4h] [ebp-4h]
 
     for (handleOffset = 0; handleOffset < CLIENT_DOBJ_HANDLE_MAX; ++handleOffset)
     {
@@ -187,7 +187,7 @@ DObj_s *__cdecl Com_ServerDObjCreate(
     XAnimTree_s *tree,
     unsigned int handle)
 {
-    unsigned int index; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] unsigned int index; // [esp+0h] [ebp-4h]
 
     iassert(dobjModels);
     iassert(handle < SERVER_DOBJ_HANDLE_MAX);
@@ -215,7 +215,7 @@ DObj_s *__cdecl Com_ServerDObjCreate(
 
 void __cdecl Com_SafeClientDObjFree(unsigned int handle, int localClientNum)
 {
-    unsigned int index; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] unsigned int index; // [esp+0h] [ebp-4h]
 
     iassert(handle < CLIENT_DOBJ_HANDLE_MAX);
 
@@ -244,7 +244,7 @@ void __cdecl Com_SafeClientDObjFree(unsigned int handle, int localClientNum)
 
 void __cdecl Com_SafeServerDObjFree(unsigned int handle)
 {
-    unsigned int index; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] unsigned int index; // [esp+0h] [ebp-4h]
 
     iassert(handle < SERVER_DOBJ_HANDLE_MAX);
 
@@ -290,8 +290,8 @@ void __cdecl Com_InitDObj()
 
 void __cdecl Com_ShutdownDObj()
 {
-    const char *v0; // eax
-    const char *v1; // eax
+    [[maybe_unused]] const char *v0; // eax
+    [[maybe_unused]] const char *v1; // eax
 
     if (g_bDObjInited)
     {

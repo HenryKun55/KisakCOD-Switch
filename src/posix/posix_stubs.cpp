@@ -203,7 +203,7 @@ XAssetHeader DB_FindXAssetHeader(XAssetType /*type*/, const char * /*name*/)
 // CM_LoadMapData_LoadObj: collision-model loader entry. Real impl lands
 // with cm_load_obj.cpp (which depends on more renderer state). Until
 // then, map data simply isn't loaded.
-void CM_LoadMapData_LoadObj(const char * /*name*/) {}
+// void CM_LoadMapData_LoadObj(const char * /*name*/) {}  // provided by cm_load_obj.cpp now
 
 // === Globals required by cm_load and friends ==============================
 // Definitions of upstream globals so the linker resolves the externs.
