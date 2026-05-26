@@ -2855,6 +2855,10 @@ DxGlobals dx{};
 r_globals_t rg{};
 r_global_permanent_t rgp{};
 const dvar_t *r_drawDynEnts = nullptr;
+const dvar_t *r_clear = nullptr;
+const dvar_t *r_clearColor = nullptr;
+const dvar_t *r_clearColor2 = nullptr;
+const dvar_t *developer = nullptr;
 GfxWorld s_world{};
 r_globals_load_t rgl{};
 DynEntityPose *DynEnt_GetClientModelPoseList() { return nullptr; }

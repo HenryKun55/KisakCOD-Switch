@@ -114,4 +114,4 @@ void __cdecl R_SortDrawSurfs(GfxDrawSurf *drawSurfList, int surfCount);
 GfxWorldVertex *__cdecl R_GetMarkMeshVerts(unsigned __int16 baseVertex);
 GfxDrawSurf __cdecl R_GetWorldDrawSurf(GfxSurface *worldSurf);
 void __cdecl R_SortWorldSurfaces();
-char __cdecl R_AddParticleCloudDrawSurf(volatile unsigned int cloudIndex, Material *material);
+char __cdecl R_AddParticleCloudDrawSurf(unsigned int cloudIndex, Material *material);
