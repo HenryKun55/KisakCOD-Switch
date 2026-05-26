@@ -140,6 +140,10 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_pixelcost_load_obj.cpp"
     "${SRC_DIR}/gfx_d3d/r_primarylights.cpp"
     "${SRC_DIR}/gfx_d3d/r_reflection_probe_load_obj.cpp"
+    # r_shadowcookie.cpp needs R_SortDrawSurfs / R_AllocViewParms /
+    # R_AddBspDrawSurfs / R_AddDObjSurfaces / R_FrustumClipPlanes /
+    # Material_GetTechnique / R_SetupViewProjectionMatrices —
+    # land with renderer-mid-frame batch.
     "${SRC_DIR}/gfx_d3d/r_staticmodel.cpp"
     "${SRC_DIR}/gfx_d3d/r_xsurface.cpp"
 )
