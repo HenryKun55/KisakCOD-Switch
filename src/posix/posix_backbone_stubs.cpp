@@ -1683,6 +1683,10 @@ void R_AddSpotShadowsForLight(GfxViewInfo * /*viewInfo*/, GfxLight * /*light*/, 
 struct GfxImage;
 GfxImage *Image_Register(const char * /*name*/, unsigned char /*flags*/, int /*format*/) { return nullptr; }
 void Image_Generate2D(GfxImage * /*img*/, unsigned char * /*data*/, int /*w*/, int /*h*/, int /*format*/) {}
+GfxImage *Image_Alloc(char * /*name*/, unsigned char /*flags*/, unsigned char /*a*/, unsigned char /*b*/) { return nullptr; }
+void Image_GenerateCube(GfxImage * /*img*/, const unsigned char *(* /*faces*/)[15], int /*w*/, int /*h*/, unsigned int /*flags*/) {}
+struct DiskGfxReflectionProbe;
+void R_CreateReflectionRawDataFromCubemapShot(DiskGfxReflectionProbe * /*probe*/, int /*downRes*/) {}
 
 // Code-mesh stubs (provided once r_drawsurf.cpp lands).
 struct Material;
@@ -2001,7 +2005,7 @@ void   Sys_LoadingKeepAlive() {}
 void   R_IssueRenderCommands(unsigned int) {}
 void   R_BeginClientCmdList2D() {}
 void   R_ClearClientCmdList2D() {}
-void   R_BspGenerateReflections() {}
+// void   R_BspGenerateReflections() {}  // provided by r_reflection_probe.cpp now
 void   R_LightingFromCubemapShots(const float *) {}
 // CL_AnyLocalClientChallenging provided by src/client_mp/cl_main_mp.cpp now.
 // CL_AllLocalClientsDisconnected provided by src/client_mp/cl_main_mp.cpp now.
@@ -2867,7 +2871,7 @@ void RB_Stats_f() {}
 
 struct GfxReflectionProbe;
 struct DiskGfxReflectionProbe;
-void R_GenerateReflectionImages(GfxReflectionProbe *, const DiskGfxReflectionProbe *, int, int) {}
+// void R_GenerateReflectionImages(GfxReflectionProbe *, const DiskGfxReflectionProbe *, int, int) {}  // provided by r_reflection_probe.cpp now
 
 struct GfxCmdBufSourceState;
 void R_WarnOncePerFrame(GfxWarningType, ...) {}

@@ -121,6 +121,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_add_cmdbuf.cpp"
     "${SRC_DIR}/gfx_d3d/r_marks.cpp"
     "${SRC_DIR}/gfx_d3d/r_pretess.cpp"
+    "${SRC_DIR}/gfx_d3d/r_reflection_probe.cpp"
     "${SRC_DIR}/gfx_d3d/r_sky.cpp"
     "${SRC_DIR}/gfx_d3d/r_pixelcost_load_obj.cpp"
     "${SRC_DIR}/gfx_d3d/r_primarylights.cpp"

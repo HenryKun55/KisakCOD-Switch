@@ -135,7 +135,11 @@ set(GFX_PORTABLE_SOURCES
     # r_meshdata.cpp needs ~15 R_Setup* / R_Draw* / R_BeginMaterial /
     # R_LockVertexBuffer satellites; land with the D3D draw batch.
     "${SRC_DIR}/gfx_d3d/r_pretess.cpp"
+    "${SRC_DIR}/gfx_d3d/r_reflection_probe.cpp"
     "${SRC_DIR}/gfx_d3d/r_sky.cpp"
+    # r_spotshadow.cpp drags R_DrawCall / R_DrawSurfs / R_ClearScreen /
+    # R_AddSceneDObj / R_DrawQuadMesh / R_SetRenderTarget / Image_Alloc.
+    # Land with renderer-frame batch.
     # r_state_utils.cpp has hard D3D9 dependencies past LOD functions —
     # bring back after D3D9 abstraction layer or selective extraction.
     "${SRC_DIR}/gfx_d3d/r_utils.cpp"
