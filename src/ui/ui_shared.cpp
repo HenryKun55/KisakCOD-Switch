@@ -560,21 +560,21 @@ int __cdecl Menu_ItemsMatchingGroup(menuDef_t *menu, char *name)
 
     count = 0;
     wildcard = -1;
-    v2 = (int)strstr(name, "*");
+    v2 = (int)(uintptr_t)strstr(name, "*");
     if (v2)
-        wildcard = v2 - (unsigned int)name;
+        wildcard = v2 - (unsigned int)(uintptr_t)name;
     for (i = 0; i < menu->itemCount; ++i)
     {
         if (wildcard == -1)
         {
-            if (menu->items[i]->window.name && !I_stricmp(menu->items[i]->window.name, name)
-                || menu->items[i]->window.group && !I_stricmp(menu->items[i]->window.group, name))
+            if ((menu->items[i]->window.name && !I_stricmp(menu->items[i]->window.name, name))
+                || (menu->items[i]->window.group && !I_stricmp(menu->items[i]->window.group, name)))
             {
                 ++count;
             }
         }
-        else if (menu->items[i]->window.name && !I_strncmp(menu->items[i]->window.name, name, wildcard)
-            || menu->items[i]->window.group && !I_strncmp(menu->items[i]->window.group, name, wildcard))
+        else if ((menu->items[i]->window.name && !I_strncmp(menu->items[i]->window.name, name, wildcard))
+            || (menu->items[i]->window.group && !I_strncmp(menu->items[i]->window.group, name, wildcard)))
         {
             ++count;
         }
@@ -591,23 +591,23 @@ itemDef_s *__cdecl Menu_GetMatchingItemByNumber(menuDef_t *menu, int index, char
 
     count = 0;
     wildcard = -1;
-    v3 = (int)strstr(name, "*");
+    v3 = (int)(uintptr_t)strstr(name, "*");
     if (v3)
-        wildcard = v3 - (unsigned int)name;
+        wildcard = v3 - (unsigned int)(uintptr_t)name;
     for (i = 0; i < menu->itemCount; ++i)
     {
         if (wildcard == -1)
         {
-            if (menu->items[i]->window.name && !I_stricmp(menu->items[i]->window.name, name)
-                || menu->items[i]->window.group && !I_stricmp(menu->items[i]->window.group, name))
+            if ((menu->items[i]->window.name && !I_stricmp(menu->items[i]->window.name, name))
+                || (menu->items[i]->window.group && !I_stricmp(menu->items[i]->window.group, name)))
             {
                 if (count == index)
                     return menu->items[i];
                 ++count;
             }
         }
-        else if (menu->items[i]->window.name && !I_strncmp(menu->items[i]->window.name, name, wildcard)
-            || menu->items[i]->window.group && !I_strncmp(menu->items[i]->window.group, name, wildcard))
+        else if ((menu->items[i]->window.name && !I_strncmp(menu->items[i]->window.name, name, wildcard))
+            || (menu->items[i]->window.group && !I_strncmp(menu->items[i]->window.group, name, wildcard)))
         {
             if (count == index)
                 return menu->items[i];
@@ -1171,7 +1171,7 @@ int __cdecl Item_ListBox_OverLB(int localClientNum, itemDef_s *item, float x, fl
     float thumbstarta; // [esp+Ch] [ebp-28h]
     rectDef_s r; // [esp+10h] [ebp-24h] BYREF
     const rectDef_s *rect; // [esp+2Ch] [ebp-8h]
-    int count; // [esp+30h] [ebp-4h]
+    [[maybe_unused]] int count; // [esp+30h] [ebp-4h]
 
     if (!item)
         MyAssertHandler(".\\ui\\ui_shared.cpp", 2467, 0, "%s", "item");
@@ -1596,7 +1596,7 @@ void __cdecl Script_SetFocus(UiContext *dc, itemDef_s *item, const char **args)
 {
     char name[1028]; // [esp+8h] [ebp-410h] BYREF
     itemDef_s *focusItem; // [esp+410h] [ebp-8h]
-    const rectDef_s *rect; // [esp+414h] [ebp-4h]
+    [[maybe_unused]] const rectDef_s *rect; // [esp+414h] [ebp-4h]
 
     if (String_Parse(args, name, 1024))
     {
@@ -1627,7 +1627,7 @@ void __cdecl Script_SetFocusByDvar(UiContext *dc, itemDef_s *item, const char **
     menuDef_t *parent; // [esp+Ch] [ebp-414h]
     char dvarName[1028]; // [esp+10h] [ebp-410h] BYREF
     int i; // [esp+418h] [ebp-8h]
-    const rectDef_s *rect; // [esp+41Ch] [ebp-4h]
+    [[maybe_unused]] const rectDef_s *rect; // [esp+41Ch] [ebp-4h]
 
     if (String_Parse(args, dvarName, 1024))
     {
@@ -2571,7 +2571,7 @@ void __cdecl Menu_HandleKey(UiContext *dc, menuDef_t *menu, int key, int down)
     float y; // [esp+4h] [ebp-1A0h]
     itemDef_s it; // [esp+1Ch] [ebp-188h] BYREF
     itemDef_s *item; // [esp+194h] [ebp-10h]
-    int inHandler; // [esp+198h] [ebp-Ch]
+    [[maybe_unused]] int inHandler; // [esp+198h] [ebp-Ch]
     int i; // [esp+19Ch] [ebp-8h]
     const char *binding; // [esp+1A0h] [ebp-4h]
 
@@ -2614,7 +2614,7 @@ void __cdecl Menu_HandleKey(UiContext *dc, menuDef_t *menu, int key, int down)
                 || menu->fullScreen
                 || Rect_ContainsPoint(dc->localClientNum, &menu->window.rect, dc->cursor.x, dc->cursor.y)
                 || inHandleKey
-                || key != 200 && key != 201 && key != 202)
+                || (key != 200 && key != 201 && key != 202))
             {
                 for (i = 0; i < menu->itemCount; ++i)
                 {
@@ -2624,7 +2624,7 @@ void __cdecl Menu_HandleKey(UiContext *dc, menuDef_t *menu, int key, int down)
                             item = menu->items[i];
                     }
                 }
-                if (key != 205 && key != 206 || item && item->type == 6)
+                if ((key != 205 && key != 206) || (item && item->type == 6))
                 {
                     if (item && Item_HandleKey(dc, item, key, down))
                     {
@@ -2749,7 +2749,7 @@ bool __cdecl Item_TextField_HandleKey(UiContext *dc, itemDef_s *item, int key)
     int cursorPos; // [esp+30h] [ebp-410h]
     int cursorPosa; // [esp+30h] [ebp-410h]
     int cursorPosb; // [esp+30h] [ebp-410h]
-    bool validInput; // [esp+37h] [ebp-409h] BYREF
+    [[maybe_unused]] bool validInput; // [esp+37h] [ebp-409h] BYREF
     char buff[1024]; // [esp+38h] [ebp-408h] BYREF
     int memMoveCount; // [esp+43Ch] [ebp-4h]
 
@@ -2819,7 +2819,7 @@ bool __cdecl Item_TextField_HandleKey(UiContext *dc, itemDef_s *item, int key)
             key = toupper(key);
         if (!Key_GetOverstrikeMode(dc->localClientNum))
         {
-            if (len == 255 || editPtr->maxChars && len >= editPtr->maxChars)
+            if (len == 255 || (editPtr->maxChars && len >= editPtr->maxChars))
                 return 1;
             cursorPosa = item->cursorPos[dc->localClientNum];
             memMoveCount = len + 1 - cursorPosa;
@@ -3008,15 +3008,15 @@ void __cdecl Scroll_ListBox_ThumbFunc(UiContext *dc, void *p)
             v4 = *((_DWORD *)p + 6);
             if (!v4)
                 MyAssertHandler("c:\\trees\\cod3\\src\\ui\\../ui/ui_utils.h", 53, 0, "%s", "w");
-            if ((*(_DWORD *)(v4 + 76) & 0x200000) != 0)
+            if ((*(_DWORD *)(uintptr_t)(v4 + 76) & 0x200000) != 0)
             {
-                if (*((float *)p + 4) == dc->cursor.x)
+                if (*((float *)(uintptr_t)p + 4) == dc->cursor.x)
                     return;
                 v3 = *((_DWORD *)p + 6);
                 if (!v3)
                     MyAssertHandler("c:\\trees\\cod3\\src\\ui\\ui_utils_api.h", 36, 0, "%s", "w");
-                r = *(float *)(v3 + 4) + 16.0 + 1.0;
-                r_8 = *(float *)(v3 + 12) - 32.0 - 2.0;
+                r = *(float *)(uintptr_t)(v3 + 4) + 16.0 + 1.0;
+                r_8 = *(float *)(uintptr_t)(v3 + 12) - 32.0 - 2.0;
                 max = Item_ListBox_MaxScroll(dc->localClientNum, *((itemDef_s **)p + 6));
                 pos = (int)((dc->cursor.x - r - 8.0) * (double)max / (r_8 - 16.0));
                 if (pos >= 0)
@@ -3029,15 +3029,15 @@ void __cdecl Scroll_ListBox_ThumbFunc(UiContext *dc, void *p)
                     pos = 0;
                 }
                 listPtr->startPos[dc->localClientNum] = pos;
-                *((float *)p + 4) = dc->cursor.x;
+                *((float *)(uintptr_t)p + 4) = dc->cursor.x;
             }
-            else if (*((float *)p + 5) != dc->cursor.y)
+            else if (*((float *)(uintptr_t)p + 5) != dc->cursor.y)
             {
                 v2 = *((_DWORD *)p + 6);
                 if (!v2)
                     MyAssertHandler("c:\\trees\\cod3\\src\\ui\\ui_utils_api.h", 36, 0, "%s", "w");
-                r_4 = *(float *)(v2 + 8) + 16.0 + 1.0;
-                r_12 = *(float *)(v2 + 16) - 32.0 - 2.0;
+                r_4 = *(float *)(uintptr_t)(v2 + 8) + 16.0 + 1.0;
+                r_12 = *(float *)(uintptr_t)(v2 + 16) - 32.0 - 2.0;
                 maxa = Item_ListBox_MaxScroll(dc->localClientNum, *((itemDef_s **)p + 6));
                 posa = (int)((dc->cursor.y - r_4 - 8.0) * (double)maxa / (r_12 - 16.0));
                 if (posa >= 0)
@@ -3050,7 +3050,7 @@ void __cdecl Scroll_ListBox_ThumbFunc(UiContext *dc, void *p)
                     posa = 0;
                 }
                 listPtr->startPos[dc->localClientNum] = posa;
-                *((float *)p + 5) = dc->cursor.y;
+                *((float *)(uintptr_t)p + 5) = dc->cursor.y;
             }
             if (dc->realTime > *(_DWORD *)p)
             {
@@ -3070,7 +3070,7 @@ void __cdecl Scroll_ListBox_ThumbFunc(UiContext *dc, void *p)
 int __cdecl Item_Slider_OverSlider(int localClientNum, itemDef_s *item, float x, float y)
 {
     rectDef_s r; // [esp+8h] [ebp-1Ch] BYREF
-    const rectDef_s *rect; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] const rectDef_s *rect; // [esp+20h] [ebp-4h]
 
     if (!item)
         MyAssertHandler("c:\\trees\\cod3\\src\\ui\\ui_utils_api.h", 36, 0, "%s", "w");
@@ -3520,7 +3520,7 @@ bool __cdecl Item_ShouldHandleKey(UiContext *dc, itemDef_s *item, int key)
 {
     if (!Window_HasFocus(dc->localClientNum, &item->window))
         return 0;
-    return key != 200 && key != 201 && key != 202 || Item_ContainsMouse(dc, item);
+    return (key != 200 && key != 201 && key != 202) || Item_ContainsMouse(dc, item);
 }
 
 int __cdecl Item_Multi_HandleKey(UiContext *dc, itemDef_s *item, int key)
@@ -3613,7 +3613,7 @@ int __cdecl Item_List_NextEntryForKey(int key, int current, int count)
 
     if (count < 0)
         MyAssertHandler(".\\ui\\ui_shared.cpp", 3199, 0, "%s\n\t(count) = %i", "(count >= 0)", count);
-    if (current < 0 || current >= count && count)
+    if (current < 0 || (current >= count && count))
         MyAssertHandler(
             ".\\ui\\ui_shared.cpp",
             3200,
@@ -3707,7 +3707,7 @@ int __cdecl Item_DvarEnum_EnumIndex(itemDef_s *item)
         return enumIndex;
     for (enumIndexa = 0; enumIndexa < enumDvar->domain.enumeration.stringCount; ++enumIndexa)
     {
-        if (!I_stricmp(enumString, *(const char **)(enumDvar->domain.integer.max + 4 * enumIndexa)))
+        if (!I_stricmp(enumString, *(const char **)(uintptr_t)(enumDvar->domain.integer.max + 4 * enumIndexa)))
             return enumIndexa;
     }
     return 0;
@@ -3835,7 +3835,7 @@ void __cdecl Scroll_Slider_SetThumbPos(UiContext *dc, itemDef_s *item)
     float cursorx; // [esp+38h] [ebp-14h]
     float usableWidth; // [esp+3Ch] [ebp-10h] BYREF
     float x; // [esp+40h] [ebp-Ch]
-    const rectDef_s *rect; // [esp+44h] [ebp-8h]
+    [[maybe_unused]] const rectDef_s *rect; // [esp+44h] [ebp-8h]
     float value; // [esp+48h] [ebp-4h]
 
     editDef = Item_GetEditFieldDef(item);
@@ -4637,7 +4637,7 @@ char __cdecl Menu_Paint(UiContext *dc, menuDef_t *menu)
 
     iassert(menu);
 
-    if (*(_BYTE *)ui_showMenuOnly->current.integer
+    if (*(_BYTE *)(uintptr_t)ui_showMenuOnly->current.integer
         && menu->window.name
         && I_stricmp(menu->window.name, ui_showMenuOnly->current.string))
     {
@@ -4727,7 +4727,7 @@ void __cdecl Window_Paint(
     float fillRect_12; // [esp+78h] [ebp-2Ch]
     float lowColor[4]; // [esp+84h] [ebp-20h] BYREF
     const ScreenPlacement *scrPlace; // [esp+94h] [ebp-10h]
-    const float *foreColor; // [esp+98h] [ebp-Ch]
+    [[maybe_unused]] const float *foreColor; // [esp+98h] [ebp-Ch]
     int flags; // [esp+9Ch] [ebp-8h] BYREF
     const rectDef_s *origRect; // [esp+A0h] [ebp-4h]
 
@@ -5327,7 +5327,7 @@ void __cdecl Item_TextColor(UiContext *dc, itemDef_s *item, float (*newColor)[4]
         v9 = (float)(dc->realTime / 75);
         v7 = sin(v9);
         t = v7 * 0.5 + 0.5;
-        LerpColor(parent->focusColor, lowLight, (float *)newColor, t);
+        LerpColor(parent->focusColor, lowLight, (float *)(uintptr_t)newColor, t);
     }
     else if (item->textStyle != 1 || ((dc->realTime / 256) & 1) != 0)
     {
@@ -5345,7 +5345,7 @@ void __cdecl Item_TextColor(UiContext *dc, itemDef_s *item, float (*newColor)[4]
         v8 = (float)(dc->realTime / 75);
         v5 = sin(v8);
         v4 = v5 * 0.5 + 0.5;
-        LerpColor(item->window.foreColor, lowLight, (float *)newColor, v4);
+        LerpColor(item->window.foreColor, lowLight, (float *)(uintptr_t)newColor, v4);
     }
     if (item->enableDvar
         && *item->enableDvar
@@ -5436,7 +5436,7 @@ void __cdecl Item_TextField_Paint(UiContext *dc, itemDef_s *item)
     char buff[1028]; // [esp+6Ch] [ebp-430h] BYREF
     int maxChars; // [esp+474h] [ebp-28h]
     float x; // [esp+478h] [ebp-24h]
-    const rectDef_s *rect; // [esp+47Ch] [ebp-20h]
+    [[maybe_unused]] const rectDef_s *rect; // [esp+47Ch] [ebp-20h]
     const dvar_s *dvar; // [esp+480h] [ebp-1Ch]
     const char *text; // [esp+484h] [ebp-18h]
     const rectDef_s *textRect; // [esp+488h] [ebp-14h]
@@ -5639,7 +5639,7 @@ const char *__cdecl Item_DvarEnum_Setting(itemDef_s *item)
             "enumIndex >= 0 && enumIndex < enumDvar->domain.enumeration.stringCount",
             v2);
     }
-    return *(const char **)(enumDvar->domain.integer.max + 4 * enumIndex);
+    return *(const char **)(uintptr_t)(enumDvar->domain.integer.max + 4 * enumIndex);
 }
 
 void __cdecl Item_Slider_Paint(UiContext *dc, itemDef_s *item)
@@ -5659,7 +5659,7 @@ void __cdecl Item_Slider_Paint(UiContext *dc, itemDef_s *item)
     float x; // [esp+64h] [ebp-20h]
     float y; // [esp+68h] [ebp-1Ch]
     const rectDef_s *rect; // [esp+6Ch] [ebp-18h]
-    float value; // [esp+70h] [ebp-14h]
+    [[maybe_unused]] float value; // [esp+70h] [ebp-14h]
     float newColor[4]; // [esp+74h] [ebp-10h] BYREF
 
     PROF_SCOPED("Item_Slider_Paint");
@@ -6551,9 +6551,9 @@ void __cdecl Menu_PaintAll_BeginVisibleList(char *stringBegin, unsigned int stri
     strcpy(VISIBLE_LIST_PREFIX, "ui_showlist: ");
     if (stringSize < 0xE)
         MyAssertHandler(".\\ui\\ui_shared.cpp", 6048, 0, "%s", "stringSize >= sizeof( VISIBLE_LIST_PREFIX )");
-    *(unsigned int *)stringBegin = *(unsigned int *)VISIBLE_LIST_PREFIX;
-    *((unsigned int *)stringBegin + 1) = *(unsigned int *)&VISIBLE_LIST_PREFIX[4];
-    *((unsigned int *)stringBegin + 2) = *(unsigned int *)&VISIBLE_LIST_PREFIX[8];
+    *(unsigned int *)(uintptr_t)stringBegin = *(unsigned int *)(uintptr_t)VISIBLE_LIST_PREFIX;
+    *((unsigned int *)(uintptr_t)stringBegin + 1) = *(unsigned int *)&VISIBLE_LIST_PREFIX[4];
+    *((unsigned int *)(uintptr_t)stringBegin + 2) = *(unsigned int *)&VISIBLE_LIST_PREFIX[8];
     *((_WORD *)stringBegin + 6) = *(_WORD *)&VISIBLE_LIST_PREFIX[12];
 }
 
@@ -6562,10 +6562,10 @@ void __cdecl Menu_PaintAll_AppendToVisibleList(char *stringBegin, unsigned int s
     PROF_SCOPED("Menu_PaintAll_AppendToVisibleList");
 
     unsigned int v3; // [esp+0h] [ebp-64h]
-    std::reverse_iterator<char *> result; // [esp+44h] [ebp-20h] BYREF
+    [[maybe_unused]] std::reverse_iterator<char *> result; // [esp+44h] [ebp-20h] BYREF
     char _Val; // [esp+53h] [ebp-11h] BYREF
     const char *lastNewline; // [esp+54h] [ebp-10h]
-    int VISIBLE_LIST_LINE_LENGTH; // [esp+58h] [ebp-Ch]
+    [[maybe_unused]] int VISIBLE_LIST_LINE_LENGTH; // [esp+58h] [ebp-Ch]
     char *stringEnd; // [esp+5Ch] [ebp-8h]
     const char *terminus; // [esp+60h] [ebp-4h]
 
@@ -6590,7 +6590,7 @@ void __cdecl Menu_PaintAll_AppendToVisibleList(char *stringBegin, unsigned int s
     //    //(std::reverse_iterator<char *>)stringBegin,
     //    &_Val)->current - 1;
     auto it = std::find<std::reverse_iterator<char *>, char>(_Last, _First, _Val); // KISAKTODO: i'd be surprised if this works.
-    lastNewline = it._Get_current() - 1;
+    lastNewline = it.base() - 1;  // libc++/libstdc++ portable accessor
 
     if (stringEnd - lastNewline <= 80)
         terminus = ", ";

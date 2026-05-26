@@ -413,8 +413,8 @@ void R_WaitWorkerCmds() {}
 // UI_* — UI shell. Stubs.
 // =========================================================================
 
-int  UI_GetMenuScreen() { return 0; }
-int  UI_GetMenuScreenForError() { return 0; }
+// int  UI_GetMenuScreen() { return 0; }  // provided by ui_shared.cpp now
+// int  UI_GetMenuScreenForError() { return 0; }  // provided by ui_shared.cpp now
 // int  UI_IsFullscreen(int /*localClientNum*/) { return 0; }  // provided by ui_main_mp.cpp now
 // int  UI_SetActiveMenu(int /*localClientNum*/, uiMenuCommand_t /*menu*/) { return 0; }  // provided by ui_main_mp.cpp now
 // void UI_SetMap(char * /*name*/, char * /*gametype*/) {}  // provided by ui_main_mp.cpp now
@@ -760,7 +760,7 @@ void TRACK_stringed_hooks() {}
 // TRACK_sv_game now in server/sv_game.cpp.
 // TRACK_sv_main provided by src/server_mp/sv_main_mp.cpp now.
 // void TRACK_ui_main() {}  // provided by ui_main_mp.cpp now
-void TRACK_ui_shared() {}
+// void TRACK_ui_shared() {}  // provided by ui_shared.cpp now
 // TRACK_ui_utils now in ui/ui_utils.cpp.
 void TRACK_win_net() {}
 void TRACK_xmodel() {}
@@ -1190,12 +1190,12 @@ struct rectDef_s_fwd;
 float DB_GetLoadedFraction() { return 1.0f; }
 
 // IsExpressionTrue provided by src/ui/ui_expressions.cpp now.
-const rectDef_s *Item_GetTextRect(int /*localClientNum*/, const itemDef_s * /*item*/) { return nullptr; }
+// const rectDef_s *Item_GetTextRect(int /*localClientNum*/, const itemDef_s * /*item*/) { return nullptr; }  // provided by ui_shared.cpp now
 
 float kisak_crandom() { return (std::rand() / float(RAND_MAX)) * 2.0f - 1.0f; }
 
 // SCR_UpdateLoadScreen provided by src/client_mp/cl_scrn_mp.cpp now.
-int  String_Parse(const char ** /*p*/, char * /*out*/, int /*outSize*/) { return 0; }
+// int  String_Parse(const char ** /*p*/, char * /*out*/, int /*outSize*/) { return 0; }  // provided by ui_shared.cpp now
 // void UI_CloseAllMenus(int /*localClientNum*/) {}  // provided by ui_main_mp.cpp now
 // void UI_DrawMapLevelshot(int /*localClientNum*/) {}  // provided by ui_main_mp.cpp now
 // UI_DrawTextNoSnap provided by src/ui_mp/ui_main_mp.cpp now.
@@ -1208,7 +1208,7 @@ float Vec2NormalizeTo(const float *in, float *out)
     return l;
 }
 
-bool Window_IsVisible(int /*localClientNum*/, const windowDef_t * /*window*/) { return false; }
+// bool Window_IsVisible(int /*localClientNum*/, const windowDef_t * /*window*/) { return false; }  // provided by ui_shared.cpp now
 
 void YawVectors2D(float yaw, float *forward, float *right)
 {
@@ -1903,11 +1903,7 @@ double R_NormalizedTextScale(Font_s *, float scale) { return scale; }
 // void  CL_PlayTextFXPulseSounds(uint32_t, int, int, int, int, int, int *) {}  // provided by cl_console.cpp now
 // CG_GetViewAxisProjections provided by src/cgame_mp/cg_draw_mp.cpp now.
 // CL_DrawTextPhysicalWithEffects provided by src/client_mp/cl_main_mp.cpp now.
-int   UI_GetKeyBindingLocalizedString(int, const char *, char *out)
-{
-    if (out) out[0] = '\0';
-    return 0;
-}
+// UI_GetKeyBindingLocalizedString provided by src/ui/ui_shared.cpp now.
 
 // === cg_localents satellites =====================================================
 
@@ -2081,7 +2077,7 @@ void SND_StopMusic(int) {}
 // CG_StartAmbient provided by src/cgame_mp/cg_main_mp.cpp now.
 // int  Load_ScriptMenu(int, const char *, int) { return 0; }  // provided by ui_main_mp.cpp now
 // void CG_RegisterItems(int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
-void Menus_ShowByName(const UiContext *, const char *) {}
+// void Menus_ShowByName(const UiContext *, const char *) {}  // provided by ui_shared.cpp now
 // void CG_SetupWeaponDef(int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // CL_ParseMapCenter provided by src/client_mp/cl_parse_mp.cpp now.
 void DynEntCl_Shutdown(int) {}
@@ -2112,11 +2108,11 @@ void Phys_Init() {}
 // === cg_draw_mp satellites =======================================================
 
 // void Con_DrawSay(int, int, int) {}  // provided by cl_console.cpp now
-void Menu_PaintAll(UiContext *) {}
+// void Menu_PaintAll(UiContext *) {}  // provided by ui_shared.cpp now
 // void Con_DrawErrors(int, int, int, float) {}  // provided by cl_console.cpp now
-void Menus_HideByName(const UiContext *, const char *) {}
+// void Menus_HideByName(const UiContext *, const char *) {}  // provided by ui_shared.cpp now
 // int32_t PM_GetSprintLeft(const playerState_s *, int32_t) { return 0; }  // provided by bg_pmove.cpp now
-void Menus_CloseByName(UiContext *, const char *) {}
+// void Menus_CloseByName(UiContext *, const char *) {}  // provided by ui_shared.cpp now
 // int32_t BG_GetMaxSprintTime(const playerState_s *) { return 0; }  // provided by bg_misc.cpp now
 // CG_CalcPlayerHealth provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 // CL_DrawTextPhysical provided by src/client_mp/cl_main_mp.cpp now.
@@ -2231,18 +2227,18 @@ void  Vec3Avg(const float *a, const float *b, float *out)
 // cg_weaponHintsCoD1Style provided by src/cgame_mp/cg_main_mp.cpp now.
 // === cg_main_mp satellites =======================================================
 
-void Menu_Setup(UiContext *) {}
+// void Menu_Setup(UiContext *) {}  // provided by ui_shared.cpp now
 // void BG_LoadAnim() {}  // provided by bg_animation_mp.cpp now
 void CG_Veh_Init() {}
-MenuList *UI_LoadMenus(char *, int) { return nullptr; }
+// MenuList *UI_LoadMenus(char *, int) { return nullptr; }  // provided by ui_shared.cpp now
 void AimAssist_Init(int) {}
-void UI_AddMenuList(UiContext *, MenuList *) {}
+// void UI_AddMenuList(UiContext *, MenuList *) {}  // provided by ui_shared.cpp now
 // CL_RegisterFont provided by src/client_mp/cl_main_mp.cpp now.
 void SND_StopAmbient(int, int) {}
 // void BG_RegisterDvars() {}  // provided by bg_misc.cpp now
 void FX_KillEffectDef(int, const FxEffectDef *) {}
 XModel *FX_RegisterModel(const char *) { return nullptr; }
-menuDef_t *Menus_FindByName(const UiContext *, const char *) { return nullptr; }
+// menuDef_t *Menus_FindByName(const UiContext *, const char *) { return nullptr; }  // provided by ui_shared.cpp now
 // void BG_ClearWeaponDef() {}  // provided by bg_weapons.cpp now
 void Com_StripExtension(char *in, char *out)
 {
@@ -2255,7 +2251,7 @@ void Com_StripExtension(char *in, char *out)
 // void UI_LoadIngameMenus(int) {}  // provided by ui_main_mp.cpp now
 void CG_VehRegisterDvars() {}
 // int32_t CG_WeaponDObjHandle(int32_t) { return 0; }  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
-void Menus_FreeAllMemory(UiContext *) {}
+// void Menus_FreeAllMemory(UiContext *) {}  // provided by ui_shared.cpp now
 char SND_AddLengthNotify(int, const snd_alias_t *, SndLengthId) { return 0; }
 void SND_StopSoundsOnEnt(SndEntHandle) {}
 void Com_LoadSoundAliases(const char *, const char *, snd_alias_system_t) {}
@@ -2966,32 +2962,32 @@ snd_alias_list_t *Com_TryFindSoundAlias(const char *) { return nullptr; }
 
 // === ui_main_mp satellites =======================================================
 
-int  Menu_Count(UiContext *) { return 0; }
-char Menu_Paint(UiContext *, menuDef_t *) { return 0; }
-void Menus_Open(UiContext *, menuDef_t *) {}
-MenuList *UI_LoadMenu(char *, int) { return nullptr; }
+// int  Menu_Count(UiContext *) { return 0; }  // provided by ui_shared.cpp now
+// char Menu_Paint(UiContext *, menuDef_t *) { return 0; }  // provided by ui_shared.cpp now
+// void Menus_Open(UiContext *, menuDef_t *) {}  // provided by ui_shared.cpp now
+// MenuList *UI_LoadMenu(char *, int) { return nullptr; }  // provided by ui_shared.cpp now
 // void Key_SetCatcher(int, int) {}  // provided by cl_keys.cpp now
-void Menu_HandleKey(UiContext *, menuDef_t *, int, int) {}
-char Menu_IsVisible(UiContext *, menuDef_t *) { return 0; }
-void Menus_CloseAll(UiContext *) {}
+// void Menu_HandleKey(UiContext *, menuDef_t *, int, int) {}  // provided by ui_shared.cpp now
+// char Menu_IsVisible(UiContext *, menuDef_t *) { return 0; }  // provided by ui_shared.cpp now
+// void Menus_CloseAll(UiContext *) {}  // provided by ui_shared.cpp now
 void IN_SetCursorPos(tagPOINT) {}
 // void Key_ClearStates(int) {}  // provided by cl_keys.cpp now
-menuDef_t *Menu_GetFocused(UiContext *) { return nullptr; }
-int  Menus_OpenByName(UiContext *, const char *) { return 0; }
-int  Display_MouseMove(UiContext *) { return 0; }
+// menuDef_t *Menu_GetFocused(UiContext *) { return nullptr; }  // provided by ui_shared.cpp now
+// int  Menus_OpenByName(UiContext *, const char *) { return 0; }  // provided by ui_shared.cpp now
+// int  Display_MouseMove(UiContext *) { return 0; }  // provided by ui_shared.cpp now
 Material *Material_Duplicate(Material *, char *) { return nullptr; }
-int  Menus_MenuIsInStack(UiContext *, menuDef_t *) { return 0; }
+// int  Menus_MenuIsInStack(UiContext *, menuDef_t *) { return 0; }  // provided by ui_shared.cpp now
 float Voice_GetVoiceLevel() { return 0.f; }
-int  Display_KeyBindPending() { return 0; }
-int  Item_ListBox_MaxScroll(int, itemDef_s *) { return 0; }
-void Menu_SetFeederSelection(UiContext *, menuDef_t *, int, int, const char *) {}
+// int  Display_KeyBindPending() { return 0; }  // provided by ui_shared.cpp now
+// int  Item_ListBox_MaxScroll(int, itemDef_s *) { return 0; }  // provided by ui_shared.cpp now
+// void Menu_SetFeederSelection(UiContext *, menuDef_t *, int, int, const char *) {}  // provided by ui_shared.cpp now
 void R_AddCmdDrawTextSubtitle(const char *, int, Font_s *, float, float, float, float, float, const float *, int, const float *, bool) {}
-void Menus_PrintAllLoadedMenus(UiContext *) {}
-int  Menus_AnyFullScreenVisible(UiContext *) { return 0; }
+// void Menus_PrintAllLoadedMenus(UiContext *) {}  // provided by ui_shared.cpp now
+// int  Menus_AnyFullScreenVisible(UiContext *) { return 0; }  // provided by ui_shared.cpp now
 int  SEH_VerifyLanguageSelection(int) { return 0; }
-void LerpColor(float *, float *, float *out, float) { if (out) { out[0] = out[1] = out[2] = out[3] = 1.f; } }
+// void LerpColor(float *, float *, float *out, float) { if (out) { out[0] = out[1] = out[2] = out[3] = 1.f; } }  // provided by ui_shared.cpp now
 
-field_t *g_editingField = nullptr;
+// field_t *g_editingField = nullptr;  // provided by ui_shared.cpp now
 
 // === bg_animation_mp satellites ====================================================
 
@@ -3103,8 +3099,7 @@ void RotatePointAroundVector(float *out, const float * /*dir*/, const float *p, 
     if (out && p) { out[0] = p[0]; out[1] = p[1]; out[2] = p[2]; }
 }
 char SND_GetKnownLength(int, int *out) { if (out) *out = 0; return 0; }
-void UI_DrawWrappedText(const ScreenPlacement *, const char *, const rectDef_s *, Font_s *,
-                        float, float, float, const float *, int, char, rectDef_s *) {}
+// UI_DrawWrappedText provided by src/ui/ui_shared.cpp now.
 
 // === cl_devgui satellites ==========================================================
 
@@ -3196,6 +3191,17 @@ bool Sys_StringToAdr(const char *, netadr_t *out) { if (out) std::memset(out, 0,
 // === ui_expressions satellites =====================================================
 
 int LiveStorage_GetStat(int, int) { return 0; }
+
+// === ui_shared satellites ==========================================================
+
+void free_expression(statement_s *) {}
+bool I_isforfilename(int c) { return (c > ' ' && c < 127); }
+void Item_SetupKeywordHash() {}
+void LiveStorage_ValidateCaCStat(int, int, int) {}
+void Menu_FreeItemMemory(itemDef_s *) {}
+void Menu_SetupKeywordHash() {}
+MenuList *UI_LoadMenu_LoadObj(char *, int) { return nullptr; }
+MenuList *UI_LoadMenus_LoadObj(char *, int) { return nullptr; }
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
