@@ -426,7 +426,7 @@ bool DB_IsXAssetDefault(XAssetType /*type*/, const char * /*name*/) { return tru
 snd_alias_list_t *Com_FindSoundAlias(const char * /*name*/) { return nullptr; }
 char *Com_LoadRawTextFile(const char * /*filename*/) { return nullptr; }
 void Com_UnloadRawTextFile(char * /*buffer*/) {}
-const char *Com_SurfaceTypeToName(int /*surfaceType*/) { return ""; }
+// Com_SurfaceTypeToName provided by src/universal/surfaceflags.cpp now.
 int Com_sprintfPos(char *dest, int destSize, int *destPos, const char *fmt, ...)
 {
     if (!dest || !destPos) return 0;
@@ -1565,7 +1565,7 @@ void SND_DeactivateEnvironmentEffects(int, int) {}
 
 const FxEffectDef *FX_Register(const char *) { return nullptr; }
 // compare_impact_files provided by src/ui/ui_expressions_logicfunctions.cpp now.
-int  Com_SurfaceTypeFromName(const char *) { return 0; }
+// Com_SurfaceTypeFromName provided by src/universal/surfaceflags.cpp now.
 unsigned int *Hunk_AllocateTempMemory(int size, const char * /*name*/)
 {
     return static_cast<unsigned int *>(std::calloc((size + sizeof(unsigned int) - 1) / sizeof(unsigned int), sizeof(unsigned int)));
