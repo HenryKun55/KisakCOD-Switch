@@ -277,6 +277,8 @@ set(PHYSICS_PORTABLE_SOURCES
     "${SRC_DIR}/physics/phys_coll_capsulebrush.cpp"
     "${SRC_DIR}/physics/phys_coll_cylinderbrush.cpp"
     "${SRC_DIR}/physics/phys_contacts.cpp"
+    # phys_ode.cpp drags 50+ ODE_*/Phys_* helpers from the gated ODE
+    # collision/joint kernel files. Land with the full ODE batch.
     # phys_world_collision.cpp depends on phys_coll_boxbrush and 15
     # ODE collide helpers — land alongside the broader physics batch.
     "${SRC_DIR}/physics/physpreset_load_obj.cpp"
