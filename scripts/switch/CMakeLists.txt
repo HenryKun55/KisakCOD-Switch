@@ -202,6 +202,9 @@ set(UI_PORTABLE_SOURCES
 )
 
 set(PHYSICS_PORTABLE_SOURCES
+    "${SRC_DIR}/physics/ode/error.cpp"
+    "${SRC_DIR}/physics/ode/odemath.cpp"
+    "${SRC_DIR}/physics/ode/rotation.cpp"
     "${SRC_DIR}/physics/phys_coll_capsulebrush.cpp"
     "${SRC_DIR}/physics/phys_coll_cylinderbrush.cpp"
     "${SRC_DIR}/physics/phys_contacts.cpp"

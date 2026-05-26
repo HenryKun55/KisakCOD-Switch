@@ -26,6 +26,9 @@ set(POSIX_SOURCES
 # with clang/gcc after the shims in src/posix/kisak_compat.h.
 set(UNIVERSAL_PORTABLE_SOURCES
     "${SRC_DIR}/universal/aabbtree.cpp"
+    # assertive.cpp uses Win32 clipboard (OpenClipboard/EmptyClipboard/
+    # GlobalAlloc), ExitProcess, GetModuleHandleA, FindFirstFile, and
+    # intrin.h __debugbreak. Land behind a clipboard/process shim.
     "${SRC_DIR}/universal/base64.cpp"
     "${SRC_DIR}/universal/com_constantconfigstrings.cpp"
     "${SRC_DIR}/universal/com_convexhull.cpp"
@@ -204,10 +207,13 @@ set(GFX_PORTABLE_SOURCES
 # array-bounds, sign-compare). All 34 land together once the harder
 # subset gets cleaned. Skipping ODE for this pass.
 set(PHYSICS_ODE_SOURCES
-    # ODE files depend on `dArrayBase` and `dAlloc`/`dFree` (memory.h
-    # and array.h are wrapped in `#if 0` upstream). All 34 sources
-    # share the same gate and land together when ODE memory/array
-    # storage is reimplemented.
+    # mat.cpp / mass.cpp / matrix.cpp / odemath.cpp / rotation.cpp /
+    # util.cpp / error.cpp / array.cpp depend on dArrayBase, dAlloc,
+    # dFree (memory.h and array.h are wrapped in `#if 0` upstream).
+    # Land together when ODE memory/array storage is reimplemented.
+    "${SRC_DIR}/physics/ode/error.cpp"
+    "${SRC_DIR}/physics/ode/odemath.cpp"
+    "${SRC_DIR}/physics/ode/rotation.cpp"
 )
 
 set(EFFECTSCORE_PORTABLE_SOURCES

@@ -830,7 +830,7 @@ void dBodyGetPointVel(dBodyID /*body*/, dReal /*px*/, dReal /*py*/, dReal /*pz*/
 { if (result) result[0] = result[1] = result[2] = 0; }
 void dJointAttach(dJointID /*j*/, dBodyID /*b1*/, dBodyID /*b2*/) {}
 dxJoint *dJointCreateContact(dWorldID /*w*/, dJointGroupID /*group*/, const dSurfaceParameters * /*s*/, const dContactGeom * /*c*/) { return nullptr; }
-void dNormalize3(dVector3 /*v*/) {}
+// void dNormalize3(dVector3 /*v*/) {}  // provided by odemath.cpp now
 } // extern "C"
 
 // CG_DebugBox now in cgame/cg_drawtools.cpp.
