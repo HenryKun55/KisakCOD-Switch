@@ -227,47 +227,24 @@ void Win_UpdateThreadLock() {}
 // is far enough along to need actual asset loads.
 // =========================================================================
 
-bool FS_Initialized() { return false; }
-void FS_InitFilesystem() {}
-void FS_Shutdown() {}
-void FS_ResetFiles() {}
-void FS_FCloseFile(int /*h*/) {}
-void FS_FCloseLogFile(int /*h*/) {}
-void FS_Flush(int /*f*/) {}
-void FS_FreeFile(char * /*buffer*/) {}
-int  FS_FilenameCompare(const char *s1, const char *s2)
-{
-    while (*s1 && *s2) {
-        int c1 = std::tolower(static_cast<unsigned char>(*s1++));
-        int c2 = std::tolower(static_cast<unsigned char>(*s2++));
-        if (c1 == '\\') c1 = '/';
-        if (c2 == '\\') c2 = '/';
-        if (c1 != c2) return c1 - c2;
-    }
-    return *s1 - *s2;
-}
-unsigned int FS_FOpenFileRead(const char * /*filename*/, int *file)
-{
-    if (file) *file = 0;
-    return 0;
-}
-int FS_FOpenFileWrite(const char * /*filename*/) { return 0; }
-int FS_FOpenFileWriteToDir(const char * /*filename*/, const char * /*dir*/) { return 0; }
-int FS_FOpenTextFileWrite(const char * /*filename*/) { return 0; }
-int FS_ReadFile(const char * /*qpath*/, void **buffer)
-{
-    if (buffer) *buffer = nullptr;
-    return -1;
-}
-int FS_SV_FileExists(char * /*file*/) { return 0; }
-const char **FS_ListFiles(const char * /*path*/, const char * /*ext*/,
-                          FsListBehavior_e /*behavior*/, int *numfiles)
-{
-    if (numfiles) *numfiles = 0;
-    return nullptr;
-}
-unsigned int FS_WriteLog(const char * /*buffer*/, unsigned int /*len*/, int /*h*/) { return 0; }
-void FS_Printf(int /*h*/, const char * /*fmt*/, ...) {}
+// bool FS_Initialized() { return false; }  // provided by com_files.cpp now
+// void FS_InitFilesystem() {}  // provided by com_files.cpp now
+// void FS_Shutdown() {}  // provided by com_files.cpp now
+// void FS_ResetFiles() {}  // provided by com_files.cpp now
+// void FS_FCloseFile(int /*h*/) {}  // provided by com_files.cpp now
+// void FS_FCloseLogFile(int /*h*/) {}  // provided by com_files.cpp now
+// void FS_Flush(int /*f*/) {}  // provided by com_files.cpp now
+// void FS_FreeFile(char * /*buffer*/) {}  // provided by com_files.cpp now
+// FS_FilenameCompare provided by src/universal/com_files.cpp now.
+// FS_FOpenFileRead provided by src/universal/com_files.cpp now.
+// int FS_FOpenFileWrite(const char * /*filename*/) { return 0; }  // provided by com_files.cpp now
+// int FS_FOpenFileWriteToDir(const char * /*filename*/, const char * /*dir*/) { return 0; }  // provided by com_files.cpp now
+// int FS_FOpenTextFileWrite(const char * /*filename*/) { return 0; }  // provided by com_files.cpp now
+// FS_ReadFile provided by src/universal/com_files.cpp now.
+// int FS_SV_FileExists(char * /*file*/) { return 0; }  // provided by com_files.cpp now
+// FS_ListFiles provided by src/universal/com_files.cpp now.
+// unsigned int FS_WriteLog(const char * /*buffer*/, unsigned int /*len*/, int /*h*/) { return 0; }  // provided by com_files.cpp now
+// void FS_Printf(int /*h*/, const char * /*fmt*/, ...) {}  // provided by com_files.cpp now
 
 // =========================================================================
 // DB_* — asset database.
@@ -470,8 +447,8 @@ bool ParseConfigStringToStructCustomSize(unsigned char * /*pStruct*/, const cspF
 { return false; }
 
 // FS - the read API path
-unsigned int FS_FOpenFileByMode(char * /*qpath*/, int *file, fsMode_t /*mode*/) { if (file) *file = 0; return 0; }
-unsigned int FS_Read(unsigned char * /*buffer*/, unsigned int /*len*/, int /*file*/) { return 0; }
+// unsigned int FS_FOpenFileByMode(char * /*qpath*/, int *file, fsMode_t /*mode*/) { if (file) *file = 0; return 0; }  // provided by com_files.cpp now
+// unsigned int FS_Read(unsigned char * /*buffer*/, unsigned int /*len*/, int /*file*/) { return 0; }  // provided by com_files.cpp now
 
 // Hunk family
 void *Hunk_AllocDebugMem(unsigned int size) { return std::malloc(size); }
@@ -538,13 +515,13 @@ char *Com_LoadInfoString(char * /*filename*/, const char * /*fileDesc*/, const c
 void DevGui_AddGraph(const char * /*name*/, DevGraph * /*graph*/) {}
 
 // FS_
-void FS_BuildOSPath(const char * /*base*/, const char * /*game*/, const char * /*qpath*/, char *ospath)
-{ if (ospath) ospath[0] = 0; }
-int  FS_CreatePath(char * /*OSPath*/) { return 0; }
-void FS_FreeFileList(const char ** /*list*/) {}
-int  FS_OpenFileOverwrite(char * /*filename*/) { return 0; }
-unsigned int FS_Write(const char * /*buffer*/, unsigned int /*len*/, int /*h*/) { return 0; }
-int  FS_WriteFileToDir(const char * /*qpath*/, const char * /*dir*/, char * /*buffer*/, unsigned int /*size*/) { return 0; }
+// void FS_BuildOSPath(const char * /*base*/, const char * /*game*/, const char * /*qpath*/, char *ospath)  // provided by com_files.cpp now
+// { if (ospath) ospath[0] = 0; }
+// int  FS_CreatePath(char * /*OSPath*/) { return 0; }  // provided by com_files.cpp now
+// void FS_FreeFileList(const char ** /*list*/) {}  // provided by com_files.cpp now
+// int  FS_OpenFileOverwrite(char * /*filename*/) { return 0; }  // provided by com_files.cpp now
+// unsigned int FS_Write(const char * /*buffer*/, unsigned int /*len*/, int /*h*/) { return 0; }  // provided by com_files.cpp now
+// int  FS_WriteFileToDir(const char * /*qpath*/, const char * /*dir*/, char * /*buffer*/, unsigned int /*size*/) { return 0; }  // provided by com_files.cpp now
 
 // I_str
 unsigned char I_CleanChar(unsigned char c) { return c; }
@@ -729,7 +706,7 @@ struct trDebugString_t;
 // CL_IsPlayerMuted provided by src/client_mp/cl_main_pc_mp.cpp now.
 // ClientUserinfoChanged provided by src/game_mp/g_client_mp.cpp now.
 void Com_SafeClientDObjFree(unsigned int /*handle*/, int /*localClientNum*/) {}
-char *FS_LoadedIwdPureChecksums() { static char empty[1] = {0}; return empty; }
+// char *FS_LoadedIwdPureChecksums() { static char empty[1] = {0}; return empty; }  // provided by com_files.cpp now
 // GScr_GetHeadIconIndex provided by src/game_mp/g_scr_main_mp.cpp now.
 // GScr_GetStatusIconIndex provided by src/game_mp/g_scr_main_mp.cpp now.
 int  I_stricmpwild(const char *s0, const char *s1) { return strcasecmp(s0 ? s0 : "", s1 ? s1 : ""); }
@@ -811,8 +788,8 @@ struct XBoneInfo;
 // CG_RestartSmokeGrenades provided by src/cgame_mp/cg_main_mp.cpp now.
 // CL_AddReliableCommand provided by src/client_mp/cl_main_mp.cpp now.
 
-void Com_GetBspFilename(char *filename, unsigned int /*max*/, const char * /*mapname*/)
-{ if (filename) filename[0] = 0; }
+// void Com_GetBspFilename(char *filename, unsigned int /*max*/, const char * /*mapname*/)  // provided by com_files.cpp now
+// { if (filename) filename[0] = 0; }
 DObj_s *Com_GetServerDObj(unsigned int /*handle*/) { return nullptr; }
 void Com_UnloadSoundAliases(snd_alias_system_t /*sys*/) {}
 
@@ -1144,11 +1121,7 @@ struct AntilagClientStore;
 // double BG_GetSurfacePenetrationDepth(const WeaponDef * /*w*/, unsigned int /*surfType*/) { return 0; }  // provided by bg_weapons.cpp now
 // unsigned int BG_GetWeaponIndex(const WeaponDef * /*w*/) { return 0; }  // provided by bg_weapons.cpp now
 // unsigned char DirToByte(const float * /*dir*/) { return 0; }  // provided by com_math.cpp now
-int  FS_GetFileList(const char * /*path*/, const char * /*ext*/, FsListBehavior_e /*behavior*/, char *listbuf, int /*size*/)
-{
-    if (listbuf) listbuf[0] = 0;
-    return 0;
-}
+// FS_GetFileList provided by src/universal/com_files.cpp now.
 // void G_AntiLag_RestoreClientPos(AntilagClientStore * /*store*/) {}  // provided by game/ batch now
 // void G_AntiLagRewindClientPos(int /*clientNum*/, AntilagClientStore * /*store*/) {}  // provided by game/ batch now
 // G_CheckHitTriggerDamage provided by src/game_mp/g_trigger_mp.cpp now.
@@ -1269,15 +1242,15 @@ int getBuildNumberAsInt() { return 0; }
 
 // bgs_t *bgs = nullptr;  // provided by bg_animation_mp.cpp now
 // clientUIActives provided by src/client_mp/cl_main_mp.cpp now.
-int com_fileAccessed;
-const dvar_s *fs_basepath = nullptr;
-const dvar_s *fs_debug = nullptr;
-int fs_fakeChkSum;
-const dvar_s *fs_gameDirVar = nullptr;
-int fs_numServerIwds;
-searchpath_s *fs_searchpaths = nullptr;
-const char *fs_serverIwdNames[1024]{};
-int fs_serverIwds[1024]{};
+// int com_fileAccessed;  // provided by com_files.cpp now
+// const dvar_s *fs_basepath = nullptr;  // provided by com_files.cpp now
+// const dvar_s *fs_debug = nullptr;  // provided by com_files.cpp now
+// int fs_fakeChkSum;  // provided by com_files.cpp now
+// const dvar_s *fs_gameDirVar = nullptr;  // provided by com_files.cpp now
+// int fs_numServerIwds;  // provided by com_files.cpp now
+// searchpath_s *fs_searchpaths = nullptr;  // provided by com_files.cpp now
+// const char *fs_serverIwdNames[1024]{};  // provided by com_files.cpp now
+// int fs_serverIwds[1024]{};  // provided by com_files.cpp now
 const dvar_t *loc_language = nullptr;
 // sv provided by src/server_mp/sv_main_mp.cpp now.
 // updateScreenCalled provided by src/client_mp/cl_scrn_mp.cpp now.
@@ -1980,11 +1953,7 @@ void SND_PlayAmbientAlias(int, const snd_alias_t *, int, snd_alias_system_t) {}
 void Snd_AssertAliasValid(snd_alias_t *) {}
 int32_t DB_GetAllXAssetOfType(XAssetType, XAssetHeader *, int32_t) { return 0; }
 void DynEntCl_RegisterDvars() {}
-const char **FS_ListFilesInLocation(const char *, const char *, FsListBehavior_e, int *numfiles, int)
-{
-    if (numfiles) *numfiles = 0;
-    return nullptr;
-}
+// FS_ListFilesInLocation provided by src/universal/com_files.cpp now.
 void SND_AddPlayFXSoundAlias(snd_alias_t *, SndEntHandle, const float *) {}
 void SND_StopSoundAliasOnEnt(SndEntHandle, const char *) {}
 void Scr_ShutdownGameStrings() {}
@@ -2047,7 +2016,7 @@ void   R_BspGenerateReflections() {}
 void   R_LightingFromCubemapShots(const float *) {}
 // CL_AnyLocalClientChallenging provided by src/client_mp/cl_main_mp.cpp now.
 // CL_AllLocalClientsDisconnected provided by src/client_mp/cl_main_mp.cpp now.
-unsigned int FS_FTell(int) { return 0u; }
+// unsigned int FS_FTell(int) { return 0u; }  // provided by com_files.cpp now
 const dvar_t *r_reflectionProbeGenerate = nullptr;
 
 // === cl_ui_mp satellites =========================================================
@@ -2150,7 +2119,7 @@ void UI_Component::MouseEvent(int, int) {}
 
 // === sv_init_mp satellites =======================================================
 
-void FS_Restart(int, int) {}
+// void FS_Restart(int, int) {}  // provided by com_files.cpp now
 // CL_InitLoad provided by src/client_mp/cl_main_mp.cpp now.
 // SV_RunFrame provided by src/server_mp/sv_main_mp.cpp now.
 // CL_MapLoading provided by src/client_mp/cl_main_mp.cpp now.
@@ -2158,14 +2127,14 @@ void FS_Restart(int, int) {}
 // SV_FreeClients provided by src/server_mp/sv_client_mp.cpp now.
 // SV_Heartbeat_f provided by src/server_mp/sv_ccmds_mp.cpp now.
 // SV_InitSnapshot provided by src/server_mp/sv_main_mp.cpp now.
-char *FS_LoadedIwdNames() { return const_cast<char *>(""); }
+// char *FS_LoadedIwdNames() { return const_cast<char *>(""); }  // provided by com_files.cpp now
 // SV_SendDisconnect provided by src/server_mp/sv_client_mp.cpp now.
 void DB_UpdateDebugZone() {}
 void Hunk_FreeTempMemory(char *) {}
 // SV_EndClientSnapshot provided by src/server_mp/sv_snapshot_mp.cpp now.
-void FS_ClearIwdReferences() {}
-char *FS_LoadedIwdChecksums() { return const_cast<char *>(""); }
-char *FS_ReferencedIwdNames() { return const_cast<char *>(""); }
+// void FS_ClearIwdReferences() {}  // provided by com_files.cpp now
+// char *FS_LoadedIwdChecksums() { return const_cast<char *>(""); }  // provided by com_files.cpp now
+// char *FS_ReferencedIwdNames() { return const_cast<char *>(""); }  // provided by com_files.cpp now
 // Scr_ParseGameTypeList provided by src/game_mp/g_scr_main_mp.cpp now.
 // CL_IsLocalClientActive provided by src/client_mp/cl_main_mp.cpp now.
 // SV_AddOperatorCommands provided by src/server_mp/sv_ccmds_mp.cpp now.
@@ -2176,7 +2145,7 @@ char *DB_ReferencedFFChecksums() { return const_cast<char *>(""); }
 // SV_GetServerStaticHeader provided by src/server_mp/sv_snapshot_mp.cpp now.
 // SV_SetServerStaticHeader provided by src/server_mp/sv_snapshot_mp.cpp now.
 // SV_WriteSnapshotToClient provided by src/server_mp/sv_snapshot_mp.cpp now.
-char *FS_ReferencedIwdChecksums() { return const_cast<char *>(""); }
+// char *FS_ReferencedIwdChecksums() { return const_cast<char *>(""); }  // provided by com_files.cpp now
 // SV_WriteEntityFieldNumbers provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
 void Sys_EndLoadThreadPriorities() {}
 void Sys_BeginLoadThreadPriorities() {}
@@ -2221,7 +2190,7 @@ char *I_CleanStr(char *s) { return s; }
 int I_DrawStrlen(const char *s) { return s ? static_cast<int>(std::strlen(s)) : 0; }
 // SV_BanClient provided by src/server_mp/sv_client_mp.cpp now.
 void Scr_DoProfile(float) {}
-void FS_ConvertPath(char *) {}
+// void FS_ConvertPath(char *) {}  // provided by com_files.cpp now
 // SV_UnbanClient provided by src/server_mp/sv_client_mp.cpp now.
 void Scr_RunDebugger() {}
 // G_GetClientScore provided by src/game_mp/g_main_mp.cpp now.
@@ -2261,7 +2230,7 @@ void Scr_UpdateDebugger() {}
 
 // ClientBegin provided by src/game_mp/g_client_mp.cpp now.
 // ClientThink provided by src/game_mp/g_active_mp.cpp now.
-int  FS_WriteFile(char *, char *, unsigned int) { return 0; }
+// int  FS_WriteFile(char *, char *, unsigned int) { return 0; }  // provided by com_files.cpp now
 // ClientCommand provided by src/game_mp/g_cmds_mp.cpp now.
 // void Netchan_Setup(netsrc_t, netchan_t *, netadr_t, int, char *, int, char *, int) {}  // provided by net_chan_mp.cpp now
 // bool NET_CompareAdr(netadr_t, netadr_t) { return false; }  // provided by net_chan_mp.cpp now
@@ -2298,9 +2267,9 @@ void Steam_RequestAuthTicket() {}
 
 // === cl_parse_mp satellites ======================================================
 
-char *FS_ShiftStr(const char *, char) { return const_cast<char *>(""); }
+// char *FS_ShiftStr(const char *, char) { return const_cast<char *>(""); }  // provided by com_files.cpp now
 void  Sys_OpenURL(const char *, int) {}
-void  FS_SV_Rename(char *, char *) {}
+// void  FS_SV_Rename(char *, char *) {}  // provided by com_files.cpp now
 // CL_ClearState provided by src/client_mp/cl_main_mp.cpp now.
 void  Info_NextPair(const char **head, char *key, char *value)
 {
@@ -2308,9 +2277,9 @@ void  Info_NextPair(const char **head, char *key, char *value)
     if (value) value[0] = '\0';
     if (head) *head = nullptr;
 }
-bool  FS_NeedRestart(int) { return false; }
+// bool  FS_NeedRestart(int) { return false; }  // provided by com_files.cpp now
 // CL_DownloadsComplete provided by src/client_mp/cl_main_mp.cpp now.
-int   FS_SV_FOpenFileWrite(const char *) { return 0; }
+// int   FS_SV_FOpenFileWrite(const char *) { return 0; }  // provided by com_files.cpp now
 // CL_ClearStaticDownload provided by src/client_mp/cl_main_mp.cpp now.
 // CL_RequestAuthorization provided by src/client_mp/cl_main_mp.cpp now.
 
@@ -2323,7 +2292,7 @@ int   FS_SV_FOpenFileWrite(const char *) { return 0; }
 
 // G_GetClientSize provided by src/game_mp/g_main_mp.cpp now.
 // G_GetPlayerState provided by src/game_mp/g_main_mp.cpp now.
-int FS_SV_FOpenFileRead(const char *, int *fp) { if (fp) *fp = 0; return 0; }
+// int FS_SV_FOpenFileRead(const char *, int *fp) { if (fp) *fp = 0; return 0; }  // provided by com_files.cpp now
 // GetFollowPlayerState provided by src/game_mp/g_active_mp.cpp now.
 // G_SetClientArchiveTime provided by src/game_mp/g_main_mp.cpp now.
 // int irand(int min, int /*max*/) { return min; }  // provided by com_math.cpp now
@@ -2563,11 +2532,11 @@ void R_Shutdown(int) {}
 void SND_Update() {}
 void Sys_ShowIP() {}
 void DevGui_Init() {}
-void FS_CopyFile(char *, char *) {}
+// void FS_CopyFile(char *, char *) {}  // provided by com_files.cpp now
 void SND_Restore(MemoryFile *) {}
-void FS_FileClose(FILE *) {}
+// void FS_FileClose(FILE *) {}  // provided by com_files.cpp now
 void SND_Shutdown() {}
-int  FS_FileExists(char *) { return 0; }
+// int  FS_FileExists(char *) { return 0; }  // provided by com_files.cpp now
 // void UI_OpenMenu_f() {}  // provided by ui_main_mp.cpp now
 // CL_DevGuiFrame provided by src/client/cl_devgui.cpp now.
 void DevGui_AddDvar(const char *, const dvar_s *) {}
@@ -2596,7 +2565,7 @@ void R_ConfigureRenderer(const GfxConfiguration *) {}
 // void Con_InitClientAssets() {}  // provided by cl_console.cpp now
 void SND_RestoreListeners(snd_listener *) {}
 void Sys_HideSplashWindow() {}
-int  FS_ConditionalRestart(int, int) { return 0; }
+// int  FS_ConditionalRestart(int, int) { return 0; }  // provided by com_files.cpp now
 void SND_DisconnectListener(int) {}
 void LiveStorage_UploadStats() {}
 void SND_UpdateLoopingSounds() {}
@@ -2613,18 +2582,18 @@ void R_AddCmdDrawTextWithCursor(const char *, int, Font_s *, float, float, float
 void R_AddCmdDrawTextWithEffects(const char *, int, Font_s *, float, float, float, float, float, const float *, int, const float *, Material *, Material *, int, int, int, int) {}
 int  LiveStorage_ReadStatsFromDir(char *) { return 0; }
 void CL_PlayUnskippableCinematic_f() {}
-char *FS_ReferencedIwdPureChecksums() { return const_cast<char *>(""); }
+// char *FS_ReferencedIwdPureChecksums() { return const_cast<char *>(""); }  // provided by com_files.cpp now
 // void CL_SelectStringTableEntryInDvar_f() {}  // provided by ui_main_mp.cpp now
 void Com_ProcessSoundAliasFileLocalization(char *, char *) {}
 // void Con_Init() {}  // provided by cl_console.cpp now
 void SND_Save(MemoryFile *) {}
-void FS_Remove(const char *) {}
+// void FS_Remove(const char *) {}  // provided by com_files.cpp now
 int  Hunk_Used() { return 0; }
 // b64_encode provided by src/client_mp/cl_main_mp.cpp now.
 
-int fs_checksumFeed = 0;
-char fs_gamedir[256]{};
-const dvar_t *fs_homepath = nullptr;
+// int fs_checksumFeed = 0;  // provided by com_files.cpp now
+// char fs_gamedir[256]{};  // provided by com_files.cpp now
+// const dvar_t *fs_homepath = nullptr;  // provided by com_files.cpp now
 // g_consoleField storage provided by src/client/cl_keys.cpp now.
 // float g_console_char_height = 0.f;  // provided by cl_console.cpp now
 // int32_t g_console_field_width = 0;  // provided by cl_console.cpp now
@@ -2879,6 +2848,60 @@ bool Sys_StringToAdr(const char *, netadr_t *out) { if (out) std::memset(out, 0,
 // === ui_expressions satellites =====================================================
 
 int LiveStorage_GetStat(int, int) { return 0; }
+
+// === com_files satellites ==========================================================
+
+const char *Com_GetExtensionSubString(const char *s) {
+    if (!s) return "";
+    const char *dot = std::strrchr(s, '.');
+    return dot ? dot : "";
+}
+char *Hunk_CopyString(HunkUser *, const char *s) {
+    if (!s) return nullptr;
+    char *r = static_cast<char *>(std::malloc(std::strlen(s) + 1));
+    if (r) std::strcpy(r, s);
+    return r;
+}
+void *Hunk_UserAlloc(HunkUser *, unsigned int size, int /*align*/) {
+    return std::calloc(size > 0 ? size : 1, 1);
+}
+bool I_islower(int c) { return c >= 'a' && c <= 'z'; }
+int  SEH_GetLanguageIndexForName(const char *, int *out) { if (out) *out = 0; return 0; }
+const char *SEH_GetLanguageName(unsigned int) { return "english"; }
+void SEH_Init_StringEd() {}
+void SEH_InitLanguage() {}
+void SEH_Shutdown_StringEd() {}
+int  Sys_CountFileList(char **list) {
+    if (!list) return 0;
+    int n = 0;
+    while (list[n]) ++n;
+    return n;
+}
+const char *Sys_Cwd() { return "."; }
+const char *Sys_DefaultCDPath() { return ""; }
+char **Sys_ListFiles(const char *, const char *, const char *, int *nFound, int) {
+    if (nFound) *nFound = 0;
+    return nullptr;
+}
+void Sys_Mkdir(const char *) {}
+
+// unzip API: not yet ported. Stubs return null/0 so iwd file enumeration
+// gracefully skips zip-backed bundles at startup.
+struct unz_file_info_s;
+struct unz_global_info_s;
+int  unzClose(unsigned char *) { return 0; }
+int  unzCloseCurrentFile(unsigned char *) { return 0; }
+int  unzGetCurrentFileInfo(unsigned char *, unz_file_info_s *, char *, unsigned long, void *, unsigned long, char *, unsigned long) { return 0; }
+int  unzGetCurrentFileInfoPosition(unsigned char *, unsigned long *out) { if (out) *out = 0; return 0; }
+int  unzGetGlobalInfo(unsigned char *, unz_global_info_s *) { return 0; }
+int  unzGoToFirstFile(unsigned char *) { return 0; }
+int  unzGoToNextFile(unsigned char *) { return -100; }  // UNZ_END_OF_LIST_OF_FILE
+unsigned char *unzOpen(const char *) { return nullptr; }
+int  unzOpenCurrentFile(unsigned char *) { return 0; }
+int  unzReadCurrentFile(unsigned char *, void *, unsigned int) { return 0; }
+unsigned char *unzReOpen(const char *, unsigned char *) { return nullptr; }
+int  unzSetCurrentFileInfoPosition(unsigned char *, unsigned long) { return 0; }
+long unztell(unsigned char *) { return 0; }
 
 // === scr_variable satellites =======================================================
 
