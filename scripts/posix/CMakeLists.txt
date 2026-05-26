@@ -110,6 +110,8 @@ set(SCRIPT_PORTABLE_SOURCES
 set(GFX_PORTABLE_SOURCES
     # r_buffers.cpp is hard-tied to IDirect3DDevice9/IDirect3DVertexBuffer9/
     # IDirect3DIndexBuffer9. Land behind a graphics abstraction layer.
+    # r_cinematic.cpp pulls Bink (BINKTEXTURESET/BINKTEXTURES/BINKREALTIME)
+    # and Miles MSS.H. Land behind an audio/video abstraction layer.
     "${SRC_DIR}/gfx_d3d/r_cmdbuf.cpp"
     "${SRC_DIR}/gfx_d3d/r_debug.cpp"
     "${SRC_DIR}/gfx_d3d/r_debug_alloc.cpp"
