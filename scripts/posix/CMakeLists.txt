@@ -41,13 +41,11 @@ set(UNIVERSAL_PORTABLE_SOURCES
     "${SRC_DIR}/universal/memfile.cpp"
     "${SRC_DIR}/universal/profile.cpp"
     "${SRC_DIR}/universal/com_loadutils.cpp"
-    # com_sndalias.cpp/com_sndalias_load_obj.cpp have a dozen 32-bit
-    # int<->pointer casts (snd_alias_t indices used as offsets into a
-    # byte buffer) and negative-index array-bounds artifacts. Land
+    # com_sndalias[_load_obj] both pull a dozen 32-bit int<->pointer
+    # casts, deprecated sprintf, and negative-index artifacts. Lands
     # alongside snd_driver behind the audio abstraction.
+    "${SRC_DIR}/universal/com_memory.cpp"
     "${SRC_DIR}/universal/fft.cpp"
-    # com_memory.cpp uses Win32 VirtualAlloc/VirtualFree. Land behind an
-    # mmap-backed shim later.
     "${SRC_DIR}/universal/com_stringtable.cpp"
     "${SRC_DIR}/universal/q_parse.cpp"
 )

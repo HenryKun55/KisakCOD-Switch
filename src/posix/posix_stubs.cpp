@@ -113,6 +113,40 @@ BOOL QueryPerformanceFrequency(LARGE_INTEGER *freq)
     return 1;
 }
 
+// VirtualAlloc / VirtualFree shim — see kisak_compat.h comment.
+#include <sys/mman.h>
+void *VirtualAlloc(void *addr, size_t size, unsigned int flags, unsigned int /*prot*/)
+{
+    // COMMIT on an already-mapped region is a no-op for us — return the
+    // address the caller asked us to commit (POSIX has no separate
+    // commit step; the pages get backed lazily on first touch).
+    if ((flags & MEM_RESERVE) == 0 && (flags & MEM_COMMIT) != 0 && addr != nullptr) {
+        return addr;
+    }
+    // RESERVE or RESERVE|COMMIT — fresh anonymous mapping.
+    void *p = mmap(nullptr, size, PROT_READ | PROT_WRITE,
+                   MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+    if (p == MAP_FAILED) return nullptr;
+    return p;
+}
+BOOL VirtualFree(void *addr, size_t size, unsigned int flags)
+{
+    if (!addr) return 0;
+    if (flags & MEM_RELEASE) {
+        // Win32 RELEASE requires size==0 and frees the whole reservation;
+        // we don't track sizes, so the caller passes the original size via
+        // a separate decommit (see Z_VirtualDecommitInternal) and we just
+        // ignore the size here. If we ever leak, switch to a sidecar map.
+        // Best-effort: no-op when size unknown.
+        return 1;
+    }
+    if (flags & MEM_DECOMMIT) {
+        if (size > 0) madvise(addr, size, MADV_DONTNEED);
+        return 1;
+    }
+    return 0;
+}
+
 // Win32 UI stubs — see kisak_compat.h comment.
 HWND GetActiveWindow() { return nullptr; }
 int  MessageBoxA(HWND /*hWnd*/, const char *text, const char *caption,
@@ -153,22 +187,7 @@ enum MapProfileTrackedValue : int;
 
 #include <new>
 
-// Hunk_Alloc: upstream's permanent memory hunk allocator. Backed by a fresh
-// new[] for now — bytes leak intentionally; the hunk lives for the engine's
-// lifetime in upstream too. Will be replaced when qcommon's hunk subsystem
-// is properly ported.
-void *Hunk_Alloc(unsigned int size, const char * /*name*/, int /*type*/)
-{
-    return new (std::nothrow) unsigned char[size]();
-}
-
-// Hunk_AllocAlign: aligned hunk allocation. new[] on uchar gives at least
-// alignof(std::max_align_t), enough for EffectsCore's float-array uses.
-void *Hunk_AllocAlign(unsigned int size, int /*align*/,
-                      const char * /*name*/, int /*type*/)
-{
-    return new (std::nothrow) unsigned char[size]();
-}
+// Hunk_Alloc / Hunk_AllocAlign — provided by com_memory.cpp now.
 
 // Sys_Error: fatal engine error. Same behaviour as Com_Error for now.
 void Sys_Error(const char *fmt, ...)

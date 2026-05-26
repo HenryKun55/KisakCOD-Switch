@@ -73,31 +73,31 @@ struct StringTable;
 // String / memory helpers — real implementations.
 // =========================================================================
 
-const char *CopyString(const char *in)
-{
-    if (!in) return nullptr;
-    size_t n = std::strlen(in) + 1;
-    char *out = static_cast<char *>(std::malloc(n));
-    std::memcpy(out, in, n);
-    return out;
-}
+// const char *CopyString(const char *in)
+// {
+//     if (!in) return nullptr;
+//     size_t n = std::strlen(in) + 1;
+//     char *out = static_cast<char *>(std::malloc(n));
+//     std::memcpy(out, in, n);
+//     return out;
+// }
 
-void FreeString(const char *str)
-{
-    std::free(const_cast<char *>(str));
-}
+// void FreeString(const char *str)
+// {
+//     std::free(const_cast<char *>(str));
+// }
 
 // CanKeepStringPointer provided by src/universal/q_shared.cpp now.
 
-void *Z_Malloc(int size, const char * /*name*/, int /*type*/)
-{
-    return std::malloc(static_cast<size_t>(size));
-}
+// void *Z_Malloc(int size, const char * /*name*/, int /*type*/)
+// {
+//     return std::malloc(static_cast<size_t>(size));
+// }
 
-void Z_Free(void *ptr, int /*type*/)
-{
-    std::free(ptr);
-}
+// void Z_Free(void *ptr, int /*type*/)
+// {
+//     std::free(ptr);
+// }
 
 // Vec4Compare, Vec4IsNormalized, Vec3Basis_RightHanded, UnitQuatToAxis
 // provided by src/universal/com_math.cpp now.
@@ -117,7 +117,7 @@ void FX_RandomDir(int seed, float *dir);  // forward decl, defined after fx_rand
 // Com_BuildPlayerProfilePath now provided by qcommon/com_playerprofile.cpp.
 // Com_HasPlayerProfile now provided by qcommon/com_playerprofile.cpp.
 // Com_InitPlayerProfiles now in qcommon/com_playerprofile.cpp.
-void Com_InitHunkMemory() {}
+// void Com_InitHunkMemory() {}
 // void Com_InitDObj() {}
 // void Com_ShutdownDObj() {}
 // Com_ShutdownWorld now in qcommon/com_bsp.cpp.
@@ -317,7 +317,7 @@ void IN_Frame() {}
 // void DevGui_Update(int /*localClientNum*/, float /*frameTime*/) {}
 // Ragdoll_Update now provided by ragdoll/ragdoll_update.cpp.
 // SetAnimCheck now provided by script/scr_animtree.cpp.
-void LargeLocalReset() {}
+// void LargeLocalReset() {}
 void LiveStorage_Init() {}
 // XAnimInit/Shutdown now provided by xanim/xanim.cpp.
 // void Swap_Init() {}  // provided by q_shared.cpp now
@@ -388,20 +388,20 @@ snd_alias_list_t *Com_FindSoundAlias(const char * /*name*/) { return nullptr; }
 // unsigned int FS_Read(unsigned char * /*buffer*/, unsigned int /*len*/, int /*file*/) { return 0; }  // provided by com_files.cpp now
 
 // Hunk family
-void *Hunk_AllocDebugMem(unsigned int size) { return std::malloc(size); }
-void  Hunk_FreeDebugMem(void *ptr) { std::free(ptr); }
-unsigned char *Hunk_AllocLow(unsigned int size, const char * /*name*/, int /*type*/)
-{
-    return static_cast<unsigned char *>(std::calloc(1, size));
-}
-unsigned char *Hunk_AllocLowAlign(unsigned int size, int /*align*/, const char * /*name*/, int /*type*/)
-{
-    return static_cast<unsigned char *>(std::calloc(1, size));
-}
-void  Hunk_AddData(int /*type*/, void * /*data*/, void *(*)(int) /*alloc*/) {}
-bool  Hunk_DataOnHunk(unsigned char * /*data*/) { return false; }
-void *Hunk_FindDataForFile(int /*fileId*/, const char * /*filename*/) { return nullptr; }
-char *Hunk_SetDataForFile(int /*type*/, const char * /*name*/, void * /*data*/, void *(*)(int) /*alloc*/) { return nullptr; }
+// void *Hunk_AllocDebugMem(unsigned int size) { return std::malloc(size); }
+// void  Hunk_FreeDebugMem(void *ptr) { std::free(ptr); }
+// unsigned char *Hunk_AllocLow(unsigned int size, const char * /*name*/, int /*type*/)
+// {
+//     return static_cast<unsigned char *>(std::calloc(1, size));
+// }
+// unsigned char *Hunk_AllocLowAlign(unsigned int size, int /*align*/, const char * /*name*/, int /*type*/)
+// {
+//     return static_cast<unsigned char *>(std::calloc(1, size));
+// }
+// void  Hunk_AddData(int /*type*/, void * /*data*/, void *(*)(int) /*alloc*/) {}
+// bool  Hunk_DataOnHunk(unsigned char * /*data*/) { return false; }
+// void *Hunk_FindDataForFile(int /*fileId*/, const char * /*filename*/) { return nullptr; }
+// char *Hunk_SetDataForFile(int /*type*/, const char * /*name*/, void * /*data*/, void *(*)(int) /*alloc*/) { return nullptr; }
 
 // Stringlist (extra entries pulled by bgame/xanim)
 // void SL_AddRefToString(unsigned int /*stringValue*/) {}  // provided by scr_variable/scr_stringlist now
@@ -480,10 +480,10 @@ void Sys_RemoveDirTree(const char * /*path*/) {}
 const char *Win_LocalizeRef(const char *str) { return str; }
 
 // Z_MallocGarbage: GP allocator variant — same as malloc for us.
-char *Z_MallocGarbage(int size, const char * /*name*/, int /*type*/)
-{
-    return static_cast<char *>(std::malloc(static_cast<size_t>(size)));
-}
+// char *Z_MallocGarbage(int size, const char * /*name*/, int /*type*/)
+// {
+//     return static_cast<char *>(std::malloc(static_cast<size_t>(size)));
+// }
 
 // TRACK_* mem-tracking thunks. Each TRACK_<subsystem>() declares its
 // statically-allocated buffers to the mem_track system; with mem-tracking
@@ -976,7 +976,7 @@ struct MemoryFile;
 // void CM_LinkWorld() {}
 // unsigned char ColorIndex(unsigned char /*c*/) { return 7; }  // provided by q_shared.cpp now
 snd_alias_t *Com_PickSoundAlias(const char * /*name*/) { return nullptr; }
-void Com_TouchMemory() {}
+// void Com_TouchMemory() {}
 
 // void Con_ClearNotify(int /*localClientNum*/) {}  // provided by cl_console.cpp now
 // void Con_Close(int /*localClientNum*/) {}  // provided by cl_console.cpp now
@@ -990,18 +990,7 @@ void DB_EnumXAssets(XAssetType /*type*/, void (*)(XAssetHeader, void*) /*cb*/, v
 
 // const char *Info_ValueForKey(const char * /*s*/, const char * /*key*/) { return ""; }  // provided by q_shared.cpp now
 
-// LargeLocal: real definition in universal/com_memory.h; provide impls.
-// Upstream is a per-frame scratch area; use plain malloc/free.
-LargeLocal::LargeLocal(int sizeParam)
-{
-    size = sizeParam;
-    // KISAKHACK: startPos holds a 64-bit malloc'd pointer in a 32-bit
-    // slot. Caller-side OK because we just hand it back via GetBuf();
-    // documented under docs/RISKS.md.
-    startPos = (int)(uintptr_t)std::malloc(sizeParam);
-}
-LargeLocal::~LargeLocal() { std::free((void*)(uintptr_t)startPos); }
-unsigned char *LargeLocal::GetBuf() { return (unsigned char *)(uintptr_t)startPos; }
+// LargeLocal — provided by com_memory.cpp now.
 
 void R_AddCmdDrawStretchPicFlipST(float /*x*/, float /*y*/, float /*w*/, float /*h*/,
                                   float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/,
@@ -1146,12 +1135,12 @@ void NET_Sleep(int /*msec*/) {}
 // Hunk + PMem.
 // =========================================================================
 
-void Hunk_Clear() {}
-void Hunk_ClearTempMemory() {}
-void Hunk_ClearTempMemoryHigh() {}
-void Hunk_InitDebugMemory() {}
-void Hunk_ResetDebugMem() {}
-void Hunk_ShutdownDebugMemory() {}
+// void Hunk_Clear() {}
+// void Hunk_ClearTempMemory() {}
+// void Hunk_ClearTempMemoryHigh() {}
+// void Hunk_InitDebugMemory() {}
+// void Hunk_ResetDebugMem() {}
+// void Hunk_ShutdownDebugMemory() {}
 void PMem_Init() {}
 void PMem_BeginAlloc(const char * /*name*/, unsigned int /*allocType*/) {}
 void PMem_EndAlloc(const char * /*name*/, unsigned int /*allocType*/) {}
@@ -1377,17 +1366,17 @@ void ScriptCompile(sval_u /*val*/, unsigned int /*fileId*/, unsigned int /*scrip
 void ScriptParse(sval_u * /*parseData*/, unsigned char /*user*/) {}
 
 // --- TempMalloc / Hunk debug ----------------------------------------------
-char *TempMalloc(unsigned int len) { return static_cast<char *>(std::malloc(len)); }
-void TempMemoryReset(HunkUser * /*user*/) {}
-unsigned char *Hunk_AllocXAnimPrecache(unsigned int size)
-{
-    return static_cast<unsigned char *>(std::calloc(1, size));
-}
-void Hunk_CheckTempMemoryClear() {}
-void Hunk_CheckTempMemoryHighClear() {}
-HunkUser *Hunk_UserCreate(int /*maxSize*/, const char * /*name*/, bool /*fixed*/,
-                          bool /*tempMem*/, int /*type*/) { return nullptr; }
-void Hunk_UserDestroy(HunkUser * /*user*/) {}
+// char *TempMalloc(unsigned int len) { return static_cast<char *>(std::malloc(len)); }
+// void TempMemoryReset(HunkUser * /*user*/) {}
+// unsigned char *Hunk_AllocXAnimPrecache(unsigned int size)
+// {
+//     return static_cast<unsigned char *>(std::calloc(1, size));
+// }
+// void Hunk_CheckTempMemoryClear() {}
+// void Hunk_CheckTempMemoryHighClear() {}
+// HunkUser *Hunk_UserCreate(int /*maxSize*/, const char * /*name*/, bool /*fixed*/,
+//                           bool /*tempMem*/, int /*type*/) { return nullptr; }
+// void Hunk_UserDestroy(HunkUser * /*user*/) {}
 
 // --- XAnim now provided by xanim/xanim.cpp -------------------------------
 // (XAnimBlend, XAnimCreate, XAnimCreateAnims, XAnimPrecache,
@@ -1471,11 +1460,11 @@ void SND_DeactivateEnvironmentEffects(int, int) {}
 const FxEffectDef *FX_Register(const char *) { return nullptr; }
 // compare_impact_files provided by src/ui/ui_expressions_logicfunctions.cpp now.
 // Com_SurfaceTypeFromName provided by src/universal/surfaceflags.cpp now.
-unsigned int *Hunk_AllocateTempMemory(int size, const char * /*name*/)
-{
-    return static_cast<unsigned int *>(std::calloc((size + sizeof(unsigned int) - 1) / sizeof(unsigned int), sizeof(unsigned int)));
-}
-unsigned int Hunk_AllocateTempMemoryHigh(int /*size*/, const char * /*name*/) { return 0u; }
+// unsigned int *Hunk_AllocateTempMemory(int size, const char * /*name*/)
+// {
+//     return static_cast<unsigned int *>(std::calloc((size + sizeof(unsigned int) - 1) / sizeof(unsigned int), sizeof(unsigned int)));
+// }
+// unsigned int Hunk_AllocateTempMemoryHigh(int /*size*/, const char * /*name*/) { return 0u; }
 
 // === cg_draw_indicators satellites ===============================================
 
@@ -1653,7 +1642,7 @@ void Material_PreventOverrideTechniqueGeneration() {}
 
 // r_dobj_skin satellite hooks.
 enum WorkerCmdType : int;
-void Z_VirtualCommit(void * /*addr*/, int /*size*/) {}
+// void Z_VirtualCommit(void * /*addr*/, int /*size*/) {}
 void R_AddWorkerCmd(WorkerCmdType /*type*/, unsigned char * /*data*/) {}
 struct GfxSceneEntity;
 // R_UpdateSceneEntBounds — provided by r_model_pose.cpp now.
@@ -1669,8 +1658,12 @@ thread_local unsigned char *g_surfaceVisData;
 // r_model satellite stubs.
 struct IDirect3DVertexBuffer9;
 void *R_LockVertexBuffer(IDirect3DVertexBuffer9 * /*vb*/, int /*offset*/, int /*size*/, int /*flags*/) { return nullptr; }
-unsigned char *Hunk_AllocXModelPrecache(unsigned int /*size*/) { return nullptr; }
-unsigned char *Hunk_AllocXModelPrecacheColl(unsigned int /*size*/) { return nullptr; }
+// unsigned char *Hunk_AllocXModelPrecache(unsigned int /*size*/) { return nullptr; }
+// unsigned char *Hunk_AllocXModelPrecacheColl(unsigned int /*size*/) { return nullptr; }
+void PMem_DumpMemStats() {}
+void Sys_OutOfMemErrorInternal(const char * /*file*/, int /*line*/) {}
+struct FileDataHashEntry;
+FileDataHashEntry *com_fileDataHashTable[8192]{};
 #include <gfx_d3d/r_init.h>
 GfxConfiguration gfxCfg{};
 GfxMetrics gfxMetrics{};
@@ -1975,7 +1968,7 @@ snd_alias_t *Com_PickSoundAliasFromList(snd_alias_list_t *) { return nullptr; }
 int SND_PlaySoundAliasAsMaster(const snd_alias_t *, SndEntHandle, const float *, int, snd_alias_system_t) { return 0; }
 // void CG_AmmoCounterRegisterDvars() {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // void BG_LoadPenetrationDepthTable() {}  // provided by bg_weapons.cpp now
-uint8_t *Hunk_AllocPhysPresetPrecache(unsigned int size) { return static_cast<uint8_t *>(std::calloc(size > 0 ? size : 1, 1)); }
+// uint8_t *Hunk_AllocPhysPresetPrecache(unsigned int size) { return static_cast<uint8_t *>(std::calloc(size > 0 ? size : 1, 1)); }
 
 // unsigned int bg_lastParsedWeaponIndex = 0;  // provided by bg_weapons.cpp now
 // clientConnections provided by src/client_mp/cl_main_mp.cpp now.
@@ -2142,7 +2135,7 @@ void UI_Component::MouseEvent(int, int) {}
 // char *FS_LoadedIwdNames() { return const_cast<char *>(""); }  // provided by com_files.cpp now
 // SV_SendDisconnect provided by src/server_mp/sv_client_mp.cpp now.
 void DB_UpdateDebugZone() {}
-void Hunk_FreeTempMemory(char *) {}
+// void Hunk_FreeTempMemory(char *) {}
 // SV_EndClientSnapshot provided by src/server_mp/sv_snapshot_mp.cpp now.
 // void FS_ClearIwdReferences() {}  // provided by com_files.cpp now
 // char *FS_LoadedIwdChecksums() { return const_cast<char *>(""); }  // provided by com_files.cpp now
@@ -2454,7 +2447,7 @@ void Scr_IncTime() {}
 // void G_RunMissile(gentity_s *) {}  // provided by g_missile.cpp now
 // void SV_SightTrace(int *hit, const float *, const float *, const float *, const float *, int, int, int) { if (hit) *hit = 0; }  // provided by sv_world.cpp now
 // Scr_LoadLevel provided by src/game_mp/g_scr_main_mp.cpp now.
-void Z_VirtualFree(void *) {}
+// void Z_VirtualFree(void *) {}
 // G_VehiclesInit provided by src/game_mp/g_vehicles_mp.cpp now.
 // int  SV_TracePassed(const float *, const float *, const float *, const float *, int, int, int, int, uint8_t *, int) { return 0; }  // provided by sv_world.cpp now
 void Scr_InitSystem(int) {}
@@ -2467,10 +2460,10 @@ void Scr_InitSystem(int) {}
 // void HudElem_DestroyAll() {}  // provided by game/ batch now
 // void Scr_FreeEntityList() {}  // provided by scr_variable/scr_stringlist now
 void Scr_ShutdownSystem(uint8_t, int) {}
-void Hunk_ClearToMarkLow(int) {}
+// void Hunk_ClearToMarkLow(int) {}
 // void SaveRegisteredItems() {}  // provided by game/ batch now
 // Scr_StartupGameType provided by src/game_mp/g_scr_main_mp.cpp now.
-uint8_t *Hunk_AllocXAnimServer(unsigned int size) { return static_cast<uint8_t *>(std::calloc(size > 0 ? size : 1, 1)); }
+// uint8_t *Hunk_AllocXAnimServer(unsigned int size) { return static_cast<uint8_t *>(std::calloc(size > 0 ? size : 1, 1)); }
 // void SaveRegisteredWeapons() {}  // provided by game/ batch now
 // void Scr_AllocGameVariable() {}  // provided by scr_variable/scr_stringlist now
 void Scr_RunCurrentThreads() {}
@@ -2552,7 +2545,7 @@ void Sys_NormalExit() {}
 // void UI_CloseMenu_f() {}  // provided by ui_main_mp.cpp now
 // void UI_ListMenus_f() {}  // provided by ui_main_mp.cpp now
 void Voice_Playback() {}
-char *Z_VirtualAlloc(int size, const char *, int) { return static_cast<char *>(std::calloc(size > 0 ? size : 1, 1)); }
+// char *Z_VirtualAlloc(int size, const char *, int) { return static_cast<char *>(std::calloc(size > 0 ? size : 1, 1)); }
 // CL_CreateDevGui provided by src/client/cl_devgui.cpp now.
 // void DevGui_OpenMenu(const char *) {}
 // void DevGui_Shutdown() {}
@@ -2565,8 +2558,8 @@ void SND_PlayFXSounds() {}
 void SCR_StopCinematic(int) {}
 void SND_SaveListeners(snd_listener *) {}
 void CL_PlayCinematic_f() {}
-int  Hunk_HideTempMemory() { return 0; }
-void Hunk_ShowTempMemory(int) {}
+// int  Hunk_HideTempMemory() { return 0; }
+// void Hunk_ShowTempMemory(int) {}
 void R_BeginRegistration(vidConfig_t *) {}
 void R_ConfigureRenderer(const GfxConfiguration *) {}
 // void Con_InitClientAssets() {}  // provided by cl_console.cpp now
@@ -2595,7 +2588,7 @@ void Com_ProcessSoundAliasFileLocalization(char *, char *) {}
 // void Con_Init() {}  // provided by cl_console.cpp now
 void SND_Save(MemoryFile *) {}
 // void FS_Remove(const char *) {}  // provided by com_files.cpp now
-int  Hunk_Used() { return 0; }
+// int  Hunk_Used() { return 0; }
 // b64_encode provided by src/client_mp/cl_main_mp.cpp now.
 
 // int fs_checksumFeed = 0;  // provided by com_files.cpp now
@@ -2803,7 +2796,7 @@ void Com_InitSoundDevGuiGraphs() {}
 // const char *Con_TokenizeInput() { return ""; }  // provided by cl_console.cpp now
 // void  Con_Top() {}  // provided by cl_console.cpp now
 // bool  DevGui_KeyPressed(int) { return false; }
-void  ReplaceString(const char **, const char *) {}
+// void  ReplaceString(const char **, const char *) {}
 void  Scr_AddDebugText(char *) {}
 void  Scr_KeyEvent(int) {}
 // int   SEH_GetCurrentLanguage() { return 0; }  // provided by stringed_hooks.cpp now
@@ -2908,15 +2901,15 @@ void R_GetActiveWorldMatrix(GfxCmdBufSourceState *) {}
 // === com_files satellites ==========================================================
 
 // Com_GetExtensionSubString provided by src/universal/q_shared.cpp now.
-char *Hunk_CopyString(HunkUser *, const char *s) {
-    if (!s) return nullptr;
-    char *r = static_cast<char *>(std::malloc(std::strlen(s) + 1));
-    if (r) std::strcpy(r, s);
-    return r;
-}
-void *Hunk_UserAlloc(HunkUser *, unsigned int size, int /*align*/) {
-    return std::calloc(size > 0 ? size : 1, 1);
-}
+// char *Hunk_CopyString(HunkUser *, const char *s) {
+//     if (!s) return nullptr;
+//     char *r = static_cast<char *>(std::malloc(std::strlen(s) + 1));
+//     if (r) std::strcpy(r, s);
+//     return r;
+// }
+// void *Hunk_UserAlloc(HunkUser *, unsigned int size, int /*align*/) {
+//     return std::calloc(size > 0 ? size : 1, 1);
+// }
 // bool I_islower(int c) { return c >= 'a' && c <= 'z'; }  // provided by q_shared.cpp now
 // int  SEH_GetLanguageIndexForName(const char *, int *out) { if (out) *out = 0; return 0; }  // provided by stringed_hooks.cpp now
 // const char *SEH_GetLanguageName(unsigned int) { return "english"; }  // provided by stringed_hooks.cpp now
@@ -2960,9 +2953,9 @@ char SetEntityFieldValue(unsigned int, int, int, VariableValue *) { return 0; }
 // unsigned int SL_GetStringForInt(int) { return 0; }  // provided by scr_variable/scr_stringlist now
 // unsigned int SL_GetStringForVector(const float *) { return 0; }  // provided by scr_variable/scr_stringlist now
 // int SL_GetStringLen(unsigned int) { return 0; }  // provided by scr_variable/scr_stringlist now
-void TempMemorySetPos(char *) {}
+// void TempMemorySetPos(char *) {}
 void VM_CancelNotify(unsigned int, unsigned int) {}
-char *Z_TryVirtualAlloc(int size, const char *, int) { return static_cast<char *>(std::calloc(size > 0 ? size : 1, 1)); }
+// char *Z_TryVirtualAlloc(int size, const char *, int) { return static_cast<char *>(std::calloc(size > 0 ? size : 1, 1)); }
 
 // === g_mover satellites ============================================================
 

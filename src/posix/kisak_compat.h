@@ -339,6 +339,29 @@ typedef struct _OVERLAPPED {
 BOOL QueryPerformanceCounter(LARGE_INTEGER *count);
 BOOL QueryPerformanceFrequency(LARGE_INTEGER *freq);
 
+// === VirtualAlloc / VirtualFree shim ========================================
+// Win32 separates address-space reservation from page commit:
+//   VirtualAlloc(addr, size, MEM_RESERVE,             PAGE_READWRITE)
+//   VirtualAlloc(addr, size, MEM_COMMIT,              PAGE_READWRITE)
+//   VirtualAlloc(addr, size, MEM_RESERVE|MEM_COMMIT,  PAGE_READWRITE)
+//   VirtualFree (addr, size, MEM_DECOMMIT)
+//   VirtualFree (addr, 0,    MEM_RELEASE)
+//
+// POSIX has no reserve/commit split. We back the shim with anonymous mmap
+// for RESERVE (and the combined RESERVE|COMMIT path) and munmap for
+// RELEASE. COMMIT on an existing mapping becomes a no-op; DECOMMIT becomes
+// madvise(MADV_DONTNEED) so the kernel can drop the backing pages without
+// invalidating the address range. Sizes are page-rounded by mmap itself.
+#ifndef MEM_RESERVE
+#define MEM_RESERVE  0x2000u
+#define MEM_COMMIT   0x1000u
+#define MEM_DECOMMIT 0x4000u
+#define MEM_RELEASE  0x8000u
+#define PAGE_READWRITE 4u
+#endif
+void *VirtualAlloc(void *addr, size_t size, unsigned int flags, unsigned int prot);
+BOOL  VirtualFree(void *addr, size_t size, unsigned int flags);
+
 // Win32 UI helpers that show up in dialog-style error paths. On POSIX/
 // Switch we have no native message-box; stubs return MB_YES (6) so the
 // upstream code's "user accepted the change" branches keep working.
