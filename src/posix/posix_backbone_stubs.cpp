@@ -839,7 +839,7 @@ bool DObjSkelIsBoneUpToDate(DObj_s * /*obj*/, int /*boneIndex*/) { return false;
 // G_GetFogOpaqueDistSqrd provided by src/game_mp/g_main_mp.cpp now.
 // G_GetSavePersist provided by src/game_mp/g_main_mp.cpp now.
 // G_InitGame provided by src/game_mp/g_main_mp.cpp now.
-void G_ResetEntityParsePoint() {}
+// void G_ResetEntityParsePoint() {}  // provided by game/ batch now
 // G_ShutdownGame provided by src/game_mp/g_main_mp.cpp now.
 
 // MatrixTransformVector43 provided by src/universal/com_math.cpp now.
@@ -1149,8 +1149,8 @@ int  FS_GetFileList(const char * /*path*/, const char * /*ext*/, FsListBehavior_
     if (listbuf) listbuf[0] = 0;
     return 0;
 }
-void G_AntiLag_RestoreClientPos(AntilagClientStore * /*store*/) {}
-void G_AntiLagRewindClientPos(int /*clientNum*/, AntilagClientStore * /*store*/) {}
+// void G_AntiLag_RestoreClientPos(AntilagClientStore * /*store*/) {}  // provided by game/ batch now
+// void G_AntiLagRewindClientPos(int /*clientNum*/, AntilagClientStore * /*store*/) {}  // provided by game/ batch now
 // G_CheckHitTriggerDamage provided by src/game_mp/g_trigger_mp.cpp now.
 // G_Damage provided by src/game_mp/g_combat_mp.cpp now.
 // G_LocationalTraceAllowChildren provided by src/game_mp/g_main_mp.cpp now.
@@ -2073,7 +2073,7 @@ void R_PushRemoteScreenUpdate(int) {}
 // G_TraceCapsule provided by src/game_mp/g_main_mp.cpp now.
 // void SV_UnlinkEntity(gentity_s *) {}  // provided by sv_world.cpp now
 // G_PlaySoundAlias provided by src/game_mp/g_utils_mp.cpp now.
-int32_t IsItemRegistered(uint32_t) { return 0; }
+// int32_t IsItemRegistered(uint32_t) { return 0; }  // provided by game/ batch now
 // G_LocationalTrace provided by src/game_mp/g_main_mp.cpp now.
 // G_SoundAliasIndex provided by src/game_mp/g_utils_mp.cpp now.
 // SetClientViewAngle provided by src/game_mp/g_client_mp.cpp now.
@@ -2081,9 +2081,9 @@ int32_t IsItemRegistered(uint32_t) { return 0; }
 void DObjSetControlTagAngles(DObj_s *, int *, unsigned int, float *) {}
 // G_DObjGetLocalTagMatrix provided by src/game_mp/g_utils_mp.cpp now.
 // G_DObjGetWorldTagMatrix provided by src/game_mp/g_utils_mp.cpp now.
-uint32_t G_GetWeaponIndexForName(const char *) { return 0u; }
+// uint32_t G_GetWeaponIndexForName(const char *) { return 0u; }  // provided by game/ batch now
 // BG_GetPlayerViewDirection provided by src/bgame/bg_misc.cpp now.
-gentity_s *Weapon_RocketLauncher_Fire(gentity_s *, uint32_t, float, struct weaponParms *, const float *, gentity_s *, const float *) { return nullptr; }
+// gentity_s *Weapon_RocketLauncher_Fire(gentity_s *, uint32_t, float, struct weaponParms *, const float *, gentity_s *, const float *) { return nullptr; }  // provided by game/ batch now
 
 // === g_utils_mp satellites =======================================================
 
@@ -2095,19 +2095,19 @@ void DB_ReplaceModel(const char *, const char *) {}
 // G_VehFreeEntity provided by src/game_mp/g_vehicles_mp.cpp now.
 // Helicopter_Pain provided by src/game_mp/g_scr_helicopter.cpp now.
 // MatrixTranspose provided by src/universal/com_math.cpp now.
-void Touch_Item_Auto(gentity_s *, gentity_s *, int) {}
+// void Touch_Item_Auto(gentity_s *, gentity_s *, int) {}  // provided by game/ batch now
 // void G_ExplodeMissile(gentity_s *) {}  // provided by g_missile.cpp now
 // Helicopter_Think provided by src/game_mp/g_scr_helicopter.cpp now.
 // G_VehUnlinkPlayer provided by src/game_mp/g_vehicles_mp.cpp now.
 // PlayerCorpse_Free provided by src/game_mp/g_player_corpse_mp.cpp now.
 // Scr_ExecEntThread provided by src/game_mp/g_spawn_mp.cpp now.
-void FinishSpawningItem(gentity_s *) {}
+// void FinishSpawningItem(gentity_s *) {}  // provided by game/ batch now
 // G_PlayerController provided by src/game_mp/g_active_mp.cpp now.
 // void G_TimedObjectThink(gentity_s *) {}  // provided by g_missile.cpp now
 // G_VehEntHandler_Die provided by src/game_mp/g_vehicles_mp.cpp now.
 // G_VehEntHandler_Use provided by src/game_mp/g_vehicles_mp.cpp now.
 DObj_s *Com_ServerDObjCreate(DObjModel_s *, unsigned short, XAnimTree_s *, unsigned int) { return nullptr; }
-void DroppedItemClearOwner(gentity_s *) {}
+// void DroppedItemClearOwner(gentity_s *) {}  // provided by game/ batch now
 // G_VehEntHandler_Think provided by src/game_mp/g_vehicles_mp.cpp now.
 // G_VehEntHandler_Touch provided by src/game_mp/g_vehicles_mp.cpp now.
 // Helicopter_Controller provided by src/game_mp/g_scr_helicopter.cpp now.
@@ -2338,19 +2338,19 @@ int FS_SV_FOpenFileRead(const char *, int *fp) { if (fp) *fp = 0; return 0; }
 // G_SetClientContents provided by src/game_mp/g_active_mp.cpp now.
 // Scr_PlayerDisconnect provided by src/game_mp/g_scr_main_mp.cpp now.
 // void BG_GetPlayerViewOrigin(const playerState_s *, float *o, int32_t) { if (o) { o[0] = o[1] = o[2] = 0; } }  // provided by bg_misc.cpp now
-void HudElem_ClientDisconnect(gentity_s *) {}
+// void HudElem_ClientDisconnect(gentity_s *) {}  // provided by game/ batch now
 
 // const dvar_t *bg_prone_yawcap = nullptr;  // provided by bg_misc.cpp now
 // g_inactivity provided by src/game_mp/g_main_mp.cpp now.
 // g_password provided by src/game_mp/g_main_mp.cpp now.
 // === g_spawn_mp satellites =======================================================
 
-unsigned int G_NewString(const char *) { return 0u; }
-void G_SpawnItem(gentity_s *, const gitem_s *) {}
+// unsigned int G_NewString(const char *) { return 0u; }  // provided by game/ batch now
+// void G_SpawnItem(gentity_s *, const gitem_s *) {}  // provided by game/ batch now
 int Scr_GetType(unsigned int) { return 0; }
-void trigger_use(gentity_s *) {}
+// void trigger_use(gentity_s *) {}  // provided by game/ batch now
 // G_VehSpawner provided by src/game_mp/g_vehicles_mp.cpp now.
-int32_t G_SpawnString(const SpawnVar *, const char *, const char *def, const char **out) { if (out) *out = def; return 0; }
+// int32_t G_SpawnString(const SpawnVar *, const char *, const char *def, const char **out) { if (out) *out = def; return 0; }  // provided by game/ batch now
 void Scr_AddFields(const char *, const char *) {}
 void Scr_AddObject(unsigned int) {}
 unsigned int Scr_FindField(const char *, int *type) { if (type) *type = 0; return 0u; }
@@ -2361,25 +2361,25 @@ void Scr_MakeArray() {}
 // Scr_SetHealth provided by src/game_mp/g_scr_main_mp.cpp now.
 // Scr_SetOrigin provided by src/game_mp/g_scr_main_mp.cpp now.
 uint16_t Scr_ExecThread(int, unsigned int) { return 0; }
-int32_t G_ParseSpawnVars(SpawnVar *) { return 0; }
+// int32_t G_ParseSpawnVars(SpawnVar *) { return 0; }  // provided by game/ batch now
 void Scr_AddEntityNum(unsigned int, unsigned int) {}
 scr_entref_t Scr_GetEntityRef(unsigned int) { return {}; }
 void Scr_AddExecThread(int, unsigned int) {}
 void Scr_FreeEntityNum(unsigned int, unsigned int) {}
 void Scr_SetStructField(unsigned int, unsigned int) {}
 // G_VehCollmapSpawner provided by src/game_mp/g_vehicles_mp.cpp now.
-void Scr_GetHudElemField(uint32_t, uint32_t) {}
-void Scr_SetHudElemField(uint32_t, uint32_t) {}
+// void Scr_GetHudElemField(uint32_t, uint32_t) {}  // provided by game/ batch now
+// void Scr_SetHudElemField(uint32_t, uint32_t) {}  // provided by game/ batch now
 // const gitem_s *BG_FindItemForWeapon(uint32_t, int32_t) { return nullptr; }  // provided by bg_misc.cpp now
 uint16_t Scr_ExecEntThreadNum(unsigned int, unsigned int, int, unsigned int) { return 0; }
 bool Com_IsLegacyXModelName(const char *) { return false; }
 void Scr_SetDynamicEntityField(unsigned int, unsigned int, unsigned int) {}
-void Scr_FreeHudElemConstStrings(game_hudelem_s *) {}
+// void Scr_FreeHudElemConstStrings(game_hudelem_s *) {}  // provided by game/ batch now
 unsigned int Scr_GetConstStringIncludeNull(unsigned int) { return 0u; }
 
 // g_gravity provided by src/game_mp/g_main_mp.cpp now.
 // g_motd provided by src/game_mp/g_main_mp.cpp now.
-game_hudelem_s g_hudelems[1024]{};
+// g_hudelems storage provided by src/game/g_hudelem.cpp now.
 void Scr_NotifyNum(unsigned int, unsigned int, unsigned int, unsigned int) {}
 
 // === player_use_mp satellites ====================================================
@@ -2398,7 +2398,7 @@ void Scr_NotifyNum(unsigned int, unsigned int, unsigned int, unsigned int) {}
 // Cmd_Score_f provided by src/game_mp/g_cmds_mp.cpp now.
 // void BG_StringCopy(uint8_t *m, const char *k) { if (m && k) std::strcpy(reinterpret_cast<char *>(m), k); }  // provided by bg_weapons.cpp now
 // gentity_s *G_FireGrenade(gentity_s *, float *, float *, uint32_t, uint8_t, int32_t, int32_t) { return nullptr; }  // provided by g_missile.cpp now
-bool LogAccuracyHit(gentity_s *, gentity_s *) { return false; }
+// bool LogAccuracyHit(gentity_s *, gentity_s *) { return false; }  // provided by game/ batch now
 unsigned int Scr_AllocString(char *, int) { return 0u; }
 void Scr_AddUndefined() {}
 // Scr_PlayerDamage provided by src/game_mp/g_scr_main_mp.cpp now.
@@ -2453,14 +2453,14 @@ vehicle_info_t s_vehicleInfos[32]{};
 
 // === g_active_mp satellites ======================================================
 
-void FireWeapon(gentity_s *, int32_t) {}
-void G_UseOffHand(gentity_s *) {}
-void FireWeaponMelee(gentity_s *, int32_t) {}
+// void FireWeapon(gentity_s *, int32_t) {}  // provided by game/ batch now
+// void G_UseOffHand(gentity_s *) {}  // provided by game/ batch now
+// void FireWeaponMelee(gentity_s *, int32_t) {}  // provided by game/ batch now
 // Cmd_FollowCycle_f provided by src/game_mp/g_cmds_mp.cpp now.
 // void BG_WeaponFireRecoil(const playerState_s *, float *, float *) {}  // provided by bg_weapons.cpp now
 // void ExpandBoundsToWidth(float *, float *) {}  // provided by com_math.cpp now
 // G_VehPlayerRideSlot provided by src/game_mp/g_vehicles_mp.cpp now.
-void HudElem_UpdateClient(gclient_s *, int32_t, hudelem_update_t) {}
+// void HudElem_UpdateClient(gclient_s *, int32_t, hudelem_update_t) {}  // provided by game/ batch now
 // void BG_Player_DoControllers(const CEntPlayerInfo *, const DObj_s *, int32_t *) {}  // provided by bg_pmove.cpp now
 // void BG_CalculateWeaponAngles(weaponState_t *, float *) {}  // provided by bg_weapons.cpp now
 // void BG_CalculateWeaponPosition_Sway(const playerState_s *, float *, float *, float *, float, int32_t) {}  // provided by bg_weapons.cpp now
@@ -2473,7 +2473,7 @@ void HudElem_UpdateClient(gclient_s *, int32_t, hudelem_update_t) {}
 // g_synchronousClients provided by src/game_mp/g_main_mp.cpp now.
 // === g_main_mp satellites ========================================================
 
-void G_RunMover(gentity_s *) {}
+// void G_RunMover(gentity_s *) {}  // provided by game/ batch now
 // G_RunCorpse provided by src/game_mp/g_player_corpse_mp.cpp now.
 void Scr_IncTime() {}
 // void G_RunMissile(gentity_s *) {}  // provided by g_missile.cpp now
@@ -2487,16 +2487,16 @@ void Scr_InitSystem(int) {}
 // GScr_FreeScripts provided by src/game_mp/g_scr_main_mp.cpp now.
 // GScr_LoadScripts provided by src/game_mp/g_scr_main_mp.cpp now.
 // G_InitObjectives provided by src/game_mp/g_scr_main_mp.cpp now.
-void G_SetupWeaponDef() {}
+// void G_SetupWeaponDef() {}  // provided by game/ batch now
 // Scr_LoadGameType provided by src/game_mp/g_scr_main_mp.cpp now.
-void HudElem_DestroyAll() {}
+// void HudElem_DestroyAll() {}  // provided by game/ batch now
 void Scr_FreeEntityList() {}
 void Scr_ShutdownSystem(uint8_t, int) {}
 void Hunk_ClearToMarkLow(int) {}
-void SaveRegisteredItems() {}
+// void SaveRegisteredItems() {}  // provided by game/ batch now
 // Scr_StartupGameType provided by src/game_mp/g_scr_main_mp.cpp now.
 uint8_t *Hunk_AllocXAnimServer(unsigned int size) { return static_cast<uint8_t *>(std::calloc(size > 0 ? size : 1, 1)); }
-void SaveRegisteredWeapons() {}
+// void SaveRegisteredWeapons() {}  // provided by game/ batch now
 void Scr_AllocGameVariable() {}
 void Scr_RunCurrentThreads() {}
 // void G_RegisterMissileDvars() {}  // provided by g_missile.cpp now
@@ -2506,7 +2506,7 @@ void Scr_RunCurrentThreads() {}
 // void G_RegisterMissileDebugDvars() {}  // provided by g_missile.cpp now
 // G_setfog provided by src/game_mp/g_cmds_mp.cpp now.
 // SV_Trace provided by src/server/sv_world.cpp now.
-void G_RunItem(gentity_s *) {}
+// void G_RunItem(gentity_s *) {}  // provided by game/ batch now
 // void Rand_Init(int) {}  // provided by com_math.cpp now
 // G_VehRegisterDvars provided by src/game_mp/g_vehicles_mp.cpp now.
 // int SV_PointContents(float *, int, int) { return 0; }  // provided by sv_world.cpp now
@@ -2514,17 +2514,17 @@ void G_RunItem(gentity_s *) {}
 // === g_cmds_mp satellites ========================================================
 
 // const gitem_s *G_FindItem(const char *, int32_t) { return nullptr; }  // provided by bg_misc.cpp now
-void Touch_Item(gentity_s *, gentity_s *, int32_t) {}
+// void Touch_Item(gentity_s *, gentity_s *, int32_t) {}  // provided by game/ batch now
 // Scr_PlayerVote provided by src/game_mp/g_scr_main_mp.cpp now.
 // Scr_VoteCalled provided by src/game_mp/g_scr_main_mp.cpp now.
-void G_GetItemClassname(const gitem_s *, uint16_t *out) { if (out) *out = 0; }
-int32_t G_GivePlayerWeapon(playerState_s *, int32_t, uint8_t) { return 0; }
+// void G_GetItemClassname(const gitem_s *, uint16_t *out) { if (out) *out = 0; }  // provided by game/ batch now
+// int32_t G_GivePlayerWeapon(playerState_s *, int32_t, uint8_t) { return 0; }  // provided by game/ batch now
 // int32_t BG_TakePlayerWeapon(playerState_s *, uint32_t, int32_t) { return 0; }  // provided by bg_weapons.cpp now
-void G_SelectWeaponIndex(int32_t, int32_t) {}
+// void G_SelectWeaponIndex(int32_t, int32_t) {}  // provided by game/ batch now
 // bool BG_CanPlayerHaveWeapon(uint32_t) { return false; }  // provided by bg_weapons.cpp now
 // Scr_GetGameTypeNameForScript provided by src/game_mp/g_scr_main_mp.cpp now.
-char *vtos(const float *) { static char buf[64] = ""; return buf; }
-int32_t Add_Ammo(gentity_s *, uint32_t, uint8_t, int32_t, int32_t) { return 0; }
+// char *vtos(const float *) { static char buf[64] = ""; return buf; }  // provided by game/ batch now
+// int32_t Add_Ammo(gentity_s *, uint32_t, uint8_t, int32_t, int32_t) { return 0; }  // provided by game/ batch now
 
 // === g_vehicles_mp satellites ====================================================
 
@@ -2532,14 +2532,14 @@ int32_t Add_Ammo(gentity_s *, uint32_t, uint8_t, int32_t, int32_t) { return 0; }
 // void AnglesSubtract(float *, float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }  // provided by com_math.cpp now
 // float DiffTrackAngle(float, float, float, float) { return 0.f; }  // provided by com_math.cpp now
 void VEH_ClipVelocity(float *in, float *, float *out) { if (in && out) { out[0] = in[0]; out[1] = in[1]; out[2] = in[2]; } }
-int32_t G_TryPushingEntity(gentity_s *, gentity_s *, float *, float *) { return 0; }
+// int32_t G_TryPushingEntity(gentity_s *, gentity_s *, float *, float *) { return 0; }  // provided by game/ batch now
 int32_t VEH_CorrectAllSolid(gentity_s *, trace_t *) { return 0; }
 VehicleLocalPhysics s_phys_0{};
 VehiclePhysicsBackup s_backup_0{};
 
 // === g_client_script_cmd_mp satellites ===========================================
 
-gentity_s *Drop_Weapon(gentity_s *, int, unsigned char, unsigned int) { return nullptr; }
+// gentity_s *Drop_Weapon(gentity_s *, int, unsigned char, unsigned int) { return nullptr; }  // provided by game/ batch now
 void Scr_AddBool(unsigned int) {}
 // int  BG_WeaponAmmo(const playerState_s *, unsigned int) { return 0; }  // provided by bg_weapons.cpp now
 // GScr_AddEntity provided by src/game_mp/g_scr_main_mp.cpp now.
@@ -2548,13 +2548,13 @@ unsigned int Scr_GetPointerType(unsigned int) { return 0u; }
 // void PM_ExitAimDownSight(playerState_s *) {}  // provided by bg_weapons.cpp now
 // Scr_MakeGameMessage provided by src/game_mp/g_scr_main_mp.cpp now.
 // Scr_PlayerLastStand provided by src/game_mp/g_scr_main_mp.cpp now.
-void G_SetEquippedOffHand(int, unsigned int) {}
+// void G_SetEquippedOffHand(int, unsigned int) {}  // provided by game/ batch now
 // Scr_VerifyWeaponIndex provided by src/game_mp/g_scr_main_mp.cpp now.
 // GScr_GetScriptMenuIndex provided by src/game_mp/g_scr_main_mp.cpp now.
 // Scr_ConstructMessageString provided by src/game_mp/g_scr_main_mp.cpp now.
 unsigned int Scr_GetConstLowercaseString(unsigned int) { return 0u; }
-gentity_s *Drop_Item(gentity_s *, const gitem_s *, float, int) { return nullptr; }
-void Fill_Clip(playerState_s *, unsigned int) {}
+// gentity_s *Drop_Item(gentity_s *, const gitem_s *, float, int) { return nullptr; }  // provided by game/ batch now
+// void Fill_Clip(playerState_s *, unsigned int) {}  // provided by game/ batch now
 // const dvar_t *player_dmgtimer_maxTime      = nullptr;  // provided by bg_misc.cpp now
 // const dvar_t *player_dmgtimer_timePerPoint = nullptr;  // provided by bg_misc.cpp now
 
@@ -2640,20 +2640,20 @@ void Scr_AddStruct() {}
 void GScr_AddVector(const float *) {}
 void Scr_AddIString(const char *) {}
 const char *Scr_GetIString(unsigned int) { return ""; }
-void GScr_NewHudElem() {}
+// void GScr_NewHudElem() {}  // provided by game/ batch now
 const char *Scr_GetTypeName(unsigned int) { return ""; }
 void Scr_SetClassMap(unsigned int) {}
 void Scr_AddArrayKeys(unsigned int) {}
 void Scr_ResetTimeout() {}
-void (*HudElem_GetMethod(const char **))(scr_entref_t) { return nullptr; }
+// void (*HudElem_GetMethod(const char **))(scr_entref_t) { return nullptr; }  // provided by game/ batch now
 const char *Scr_GetDebugString(unsigned int) { return ""; }
 void Scr_RemoveClassMap(unsigned int) {}
-void GScr_NewTeamHudElem() {}
+// void GScr_NewTeamHudElem() {}  // provided by game/ batch now
 int  DObjGetModelBoneIndex(const DObj_s *, const char *, unsigned int, unsigned char *out) { if (out) *out = 0; return 0; }
-void GScr_NewClientHudElem() {}
+// void GScr_NewClientHudElem() {}  // provided by game/ batch now
 int  Scr_GetFunctionHandle(const char *, const char *) { return 0; }
 void Scr_NeverTerminalError(const char *) {}
-void GScr_AddFieldsForHudElems() {}
+// void GScr_AddFieldsForHudElems() {}  // provided by game/ batch now
 void Scr_AddArrayStringIndexed(unsigned int) {}
 // void Scr_MissileDeleteAttractor() {}  // provided by g_missile.cpp now
 // void Scr_MissileCreateRepulsorEnt() {}  // provided by g_missile.cpp now
@@ -2880,6 +2880,11 @@ bool Sys_StringToAdr(const char *, netadr_t *out) { if (out) std::memset(out, 0,
 // === ui_expressions satellites =====================================================
 
 int LiveStorage_GetStat(int, int) { return 0; }
+
+// === g_mover satellites ============================================================
+
+void VEH_ClearGround() {}
+bool VEH_SlideMove(gentity_s *, int) { return false; }
 
 // === ui_shared satellites ==========================================================
 

@@ -73,10 +73,12 @@ gentity_s *__cdecl G_TestEntityPosition(gentity_s *ent, float *vOrigin)
 
 void __cdecl G_CreateRotationMatrix(const float *angles, float (*matrix)[3])
 {
-    AngleVectors(angles, (float *)matrix, &(*matrix)[3], &(*matrix)[6]);
-    (*matrix)[3] = -(*matrix)[3];
-    (*matrix)[4] = -(*matrix)[4];
-    (*matrix)[5] = -(*matrix)[5];
+    // matrix is `float (*)[3]` but underlying storage is mat3x3 (9 floats).
+    float *m = reinterpret_cast<float *>(matrix);
+    AngleVectors(angles, m, m + 3, m + 6);
+    m[3] = -m[3];
+    m[4] = -m[4];
+    m[5] = -m[5];
 }
 
 void __cdecl G_TransposeMatrix(float (*matrix)[3], float (*transpose)[3])
@@ -242,7 +244,7 @@ void __cdecl G_MoverTeam(gentity_s *ent)
     float *v5; // [esp+18h] [ebp-54h]
     float *currentOrigin; // [esp+1Ch] [ebp-50h]
     float *v7; // [esp+20h] [ebp-4Ch]
-    trajectory_t *p_pos; // [esp+24h] [ebp-48h]
+    [[maybe_unused]] trajectory_t *p_pos; // [esp+24h] [ebp-48h]
     float move[3]; // [esp+28h] [ebp-44h] BYREF
     float origin[3]; // [esp+34h] [ebp-38h] BYREF
     float amove[3]; // [esp+40h] [ebp-2Ch] BYREF
@@ -411,13 +413,13 @@ char __cdecl G_MoverPush(gentity_s *pusher, float *move, float *amove, gentity_s
         ent = &g_entities[entityList[j]];
         if ((ent->s.eType == ET_MISSILE || ent->s.eType == ET_ITEM || ent->s.eType == ET_PLAYER || ent->physicsObject)
             && (ent->s.groundEntityNum == pusher->s.number
-                || maxBound[0] > (double)ent->r.absmin[0]
-                && maxBound[1] > (double)ent->r.absmin[1]
-                && maxBound[2] > (double)ent->r.absmin[2]
-                && minBound[0] < (double)ent->r.absmax[0]
-                && minBound[1] < (double)ent->r.absmax[1]
-                && minBound[2] < (double)ent->r.absmax[2]
-                && G_TestEntityPosition(ent, ent->r.currentOrigin) == pusher))
+                || (maxBound[0] > (double)ent->r.absmin[0]
+                    && maxBound[1] > (double)ent->r.absmin[1]
+                    && maxBound[2] > (double)ent->r.absmin[2]
+                    && minBound[0] < (double)ent->r.absmax[0]
+                    && minBound[1] < (double)ent->r.absmax[1]
+                    && minBound[2] < (double)ent->r.absmax[2]
+                    && G_TestEntityPosition(ent, ent->r.currentOrigin) == pusher)))
         {
             v23[v10++] = entityList[j];
         }
@@ -667,8 +669,9 @@ void __cdecl G_RotatePoint(float *point, float (*matrix)[3])
     tvec[0] = *point;
     tvec[1] = point[1];
     tvec[2] = point[2];
-    *point = Vec3Dot((const float *)matrix, tvec);
-    point[1] = Vec3Dot(&(*matrix)[3], tvec);
-    point[2] = Vec3Dot(&(*matrix)[6], tvec);
+    const float *m = reinterpret_cast<const float *>(matrix);
+    *point = Vec3Dot(m, tvec);
+    point[1] = Vec3Dot(m + 3, tvec);
+    point[2] = Vec3Dot(m + 6, tvec);
 }
 

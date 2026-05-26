@@ -181,24 +181,7 @@ enum MapProfileTrackedValue : int;
 // MatrixTransformVector, MatrixTransposeTransformVector all provided by
 // src/universal/com_math.cpp now.
 
-// In-place transpose of a 3x3 matrix (out = in^T).
-void G_TransposeMatrix(float (*in)[3], float (*out)[3])
-{
-    for (int i = 0; i < 3; ++i) {
-        for (int j = 0; j < 3; ++j) {
-            out[i][j] = in[j][i];
-        }
-    }
-}
-
-// G_RotatePoint: rotates `pt` (vec3) in-place by a 3x3 matrix.
-void G_RotatePoint(float *pt, float (*m)[3])
-{
-    float tmp[3] = { pt[0], pt[1], pt[2] };
-    pt[0] = tmp[0]*m[0][0] + tmp[1]*m[1][0] + tmp[2]*m[2][0];
-    pt[1] = tmp[0]*m[0][1] + tmp[1]*m[1][1] + tmp[2]*m[2][1];
-    pt[2] = tmp[0]*m[0][2] + tmp[1]*m[1][2] + tmp[2]*m[2][2];
-}
+// G_TransposeMatrix, G_RotatePoint provided by src/game/g_mover.cpp now.
 
 // PlaneFromPoints, IntersectPlanes, SnapPointToIntersectingPlanes provided
 // by src/universal/com_math.cpp now.
