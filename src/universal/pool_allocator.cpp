@@ -16,7 +16,7 @@ void __cdecl Pool_Init(char *pool, pooldata_t *pooldata, unsigned int itemSize, 
     pooldata->firstFree = pool;
 
     for (itemIndex = 0; itemIndex < itemCount - 1; ++itemIndex)
-        *(unsigned int *)&pool[itemSize * itemIndex] = (unsigned int)&pool[itemSize * (itemIndex + 1)];
+        *(unsigned int *)&pool[itemSize * itemIndex] = (unsigned int)(uintptr_t)&pool[itemSize * (itemIndex + 1)];
 
     *(unsigned int *)&pool[itemSize * itemIndex] = 0;
     pooldata->activeCount = 0;
