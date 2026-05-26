@@ -452,7 +452,7 @@ void LiveStorage_Init() {}
 // XAnimInit/Shutdown now provided by xanim/xanim.cpp.
 void Swap_Init() {}
 void SL_Init() {}
-void BG_ShutdownWeaponDefFiles() {}
+// void BG_ShutdownWeaponDefFiles() {}  // provided by bg_weapons.cpp now
 // int  BG_AnimScriptEvent(playerState_s * /*ps*/, scriptAnimEventTypes_t /*event*/, int /*isContinue*/, int /*force*/) { return 0; }  // provided by bg_animation_mp.cpp now
 void BG_AddPredictableEventToPlayerstate(unsigned int /*event*/, unsigned int /*eventParm*/, playerState_s * /*ps*/) {}
 // int  PM_GetEffectiveStance(const playerState_s * /*ps*/) { return 0; }  // provided by bg_pmove.cpp now
@@ -651,7 +651,7 @@ XModel *XModelPrecache_LoadObj(char * /*name*/, void *(*)(int) /*Alloc*/, void *
 void XAnim_CalcDeltaForTime(const XAnimParts * /*part*/, float /*time*/, float * /*deltaTrans*/, float4 * /*deltaQuat*/) {}
 
 // Globals
-int surfaceTypeSoundListCount = 0;
+// int surfaceTypeSoundListCount = 0;  // provided by bg_weapons.cpp now
 
 // =========================================================================
 // qcommon batch — com_bsp_load_obj / com_playerprofile / mem_track /
@@ -1243,8 +1243,8 @@ const dvar_t *bg_viewKickScale = nullptr;
 
 struct MemoryFile;
 
-unsigned int BG_GetViewmodelWeaponIndex(const playerState_s * /*ps*/) { return 0; }
-WeaponDef *BG_GetWeaponDef(unsigned int /*weaponIndex*/) { return nullptr; }
+// unsigned int BG_GetViewmodelWeaponIndex(const playerState_s * /*ps*/) { return 0; }  // provided by bg_weapons.cpp now
+// WeaponDef *BG_GetWeaponDef(unsigned int /*weaponIndex*/) { return nullptr; }  // provided by bg_weapons.cpp now
 
 // CG_ArchiveState provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 // CG_Init provided by src/cgame_mp/cg_main_mp.cpp now.
@@ -1332,9 +1332,9 @@ struct BulletFireParams;
 struct BulletTraceResults;
 struct AntilagClientStore;
 
-char BG_AdvanceTrace(BulletFireParams * /*p*/, BulletTraceResults * /*r*/, float /*dist*/) { return 0; }
-double BG_GetSurfacePenetrationDepth(const WeaponDef * /*w*/, unsigned int /*surfType*/) { return 0; }
-unsigned int BG_GetWeaponIndex(const WeaponDef * /*w*/) { return 0; }
+// char BG_AdvanceTrace(BulletFireParams * /*p*/, BulletTraceResults * /*r*/, float /*dist*/) { return 0; }  // provided by bg_weapons.cpp now
+// double BG_GetSurfacePenetrationDepth(const WeaponDef * /*w*/, unsigned int /*surfType*/) { return 0; }  // provided by bg_weapons.cpp now
+// unsigned int BG_GetWeaponIndex(const WeaponDef * /*w*/) { return 0; }  // provided by bg_weapons.cpp now
 unsigned char DirToByte(const float * /*dir*/) { return 0; }
 int  FS_GetFileList(const char * /*path*/, const char * /*ext*/, FsListBehavior_e /*behavior*/, char *listbuf, int /*size*/)
 {
@@ -1359,7 +1359,7 @@ const dvar_t *bullet_penetrationMinFxDist = nullptr;
 struct FxEffectDef;
 struct snd_alias_list_t;
 
-int  BG_WeaponIsClipOnly(unsigned int /*weaponIndex*/) { return 0; }
+// int  BG_WeaponIsClipOnly(unsigned int /*weaponIndex*/) { return 0; }  // provided by bg_weapons.cpp now
 void ByteToDir(unsigned int /*b*/, float *dir)
 { if (dir) { dir[0] = 1; dir[1] = 0; dir[2] = 0; } }
 void CG_BulletHitClientEvent(int /*localClientNum*/, int /*ent*/, float * /*start*/, float * /*end*/,
@@ -1815,8 +1815,7 @@ int  Scr_GetStringUsage() { return 0; }
 void Phys_GetPerformance(float *t, int *a, int *b) { if (t) *t = 0.f; if (a) *a = 0; if (b) *b = 0; }
 int  SND_GetSoundOverlay(snd_overlay_type_t, snd_overlay_info_t *, int, int *) { return 0; }
 unsigned int Scr_GetNumScriptVars() { return 0u; }
-void BG_GetSpreadForWeapon(const playerState_s *, const WeaponDef *, float *lo, float *hi)
-{ if (lo) *lo = 0.f; if (hi) *hi = 0.f; }
+// BG_GetSpreadForWeapon provided by src/bgame/bg_weapons.cpp now.
 snd_entchannel_info_t *SND_GetEntChannelName(int) { return nullptr; }
 void CG_UpdateViewModelPose(const DObj_s *, int) {}
 // bool UI_ShouldDrawCrosshair() { return false; }  // provided by ui_main_mp.cpp now
@@ -1824,13 +1823,13 @@ unsigned int Scr_GetNumScriptThreads() { return 0u; }
 int  CG_PlayerTurretWeaponIdx(int) { return 0; }
 void Phys_PerformanceEndFrame() {}
 void AimAssist_DrawDebugOverlay(unsigned int) {}
-int  BG_GetFirstEquippedOffhand(const playerState_s *, int) { return 0; }
-int  BG_GetFirstAvailableOffhand(const playerState_s *, int) { return 0; }
+// int  BG_GetFirstEquippedOffhand(const playerState_s *, int) { return 0; }  // provided by bg_weapons.cpp now
+// int  BG_GetFirstAvailableOffhand(const playerState_s *, int) { return 0; }  // provided by bg_weapons.cpp now
 // CG_Flashbanged provided by src/cgame/cg_shellshock.cpp now.
 void FX_DrawProfile(int, void (*)(char *), float *) {}
 int  R_PickMaterial(int, const float *, const float *, char *, char *, char *, unsigned int) { return 0; }
-uint32_t BG_GetNumWeapons() { return 0u; }
-int32_t  BG_ClipForWeapon(uint32_t) { return 0; }
+// uint32_t BG_GetNumWeapons() { return 0u; }  // provided by bg_weapons.cpp now
+// int32_t  BG_ClipForWeapon(uint32_t) { return 0; }  // provided by bg_weapons.cpp now
 void     FX_Beam_Add(FxBeam *) {}
 void     FX_PostLight_Add(FxPostLight *) {}
 // CG_DObjGetWorldBoneMatrix provided by src/cgame_mp/cg_ents_mp.cpp now.
@@ -2002,7 +2001,7 @@ void   AimAssist_ClearEntityReference(int, int) {}
 void  FX_RewindTo(int, int) {}
 void  R_ClearScene(unsigned int) {}
 // CG_DrawActive provided by src/cgame_mp/cg_draw_mp.cpp now.
-float BG_GetBobCycle(const playerState_s *) { return 0.f; }
+// float BG_GetBobCycle(const playerState_s *) { return 0.f; }  // provided by bg_weapons.cpp now
 void  FX_BeginUpdate(int) {}
 void  Key_AddCatcher(int, int) {}
 void  R_SetLodOrigin(const refdef_s *) {}
@@ -2024,10 +2023,10 @@ bool  Key_IsCatcherActive(int, int) { return false; }
 // CL_GetMenuBlurRadius provided by src/client_mp/cl_scrn_mp.cpp now.
 void  FX_SetNextUpdateTime(int, int) {}
 // CL_ResetSkeletonCache provided by src/client_mp/cl_main_mp.cpp now.
-void  BG_CalculateViewAngles(viewState_t *, float *) {}
+// void  BG_CalculateViewAngles(viewState_t *, float *) {}  // provided by bg_weapons.cpp now
 void  FX_SetNextUpdateCamera(int, const refdef_s *, float) {}
-float BG_GetVerticalBobFactor(const playerState_s *, float, float, float) { return 0.f; }
-int32_t BG_IsAimDownSightWeapon(uint32_t) { return 0; }
+// float BG_GetVerticalBobFactor(const playerState_s *, float, float, float) { return 0.f; }  // provided by bg_weapons.cpp now
+// int32_t BG_IsAimDownSightWeapon(uint32_t) { return 0; }  // provided by bg_weapons.cpp now
 void  CG_UpdateViewWeaponAnim(int) {}
 void  CG_VehSphereCoordsToPos(float, float, float, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
 // G_ExitAfterConnectPaths provided by src/game_mp/g_main_mp.cpp now.
@@ -2036,7 +2035,7 @@ void  R_UpdateSpotLightEffect(FxCmd *) {}
 // CG_DObjGetWorldTagMatrix provided by src/cgame_mp/cg_ents_mp.cpp now.
 bool  CG_VehLocalClientDriving(int) { return false; }
 void  R_UpdateRemainingEffects(FxCmd *) {}
-float BG_GetHorizontalBobFactor(const playerState_s *, float, float, float) { return 0.f; }
+// float BG_GetHorizontalBobFactor(const playerState_s *, float, float, float) { return 0.f; }  // provided by bg_weapons.cpp now
 // CG_ProcessClientNoteTracks provided by src/cgame_mp/cg_ents_mp.cpp now.
 void  R_UpdateNonDependentEffects(FxCmd *) {}
 int32_t CG_VehLocalClientVehicleSlot(int) { return -1; }
@@ -2143,7 +2142,7 @@ int32_t BG_GetMaxSprintTime(const playerState_s *) { return 0; }
 void Con_DrawMiniConsole(int, int, int, float) {}
 // const char *UI_GetTopActiveMenuName(int) { return ""; }  // provided by ui_main_mp.cpp now
 // CG_CheckPlayerForLowAmmo / CG_CheckPlayerForLowClip provided by src/cgame_mp/cg_newDraw_mp.cpp now.
-void BG_AssertOffhandIndexOrNone(uint32_t) {}
+// void BG_AssertOffhandIndexOrNone(uint32_t) {}  // provided by bg_weapons.cpp now
 void Vec4Mul(const float *a, const float *b, float *p)
 {
     if (a && b && p) { p[0] = a[0]*b[0]; p[1] = a[1]*b[1]; p[2] = a[2]*b[2]; p[3] = a[3]*b[3]; }
@@ -2220,13 +2219,13 @@ void  Vec3Avg(const float *a, const float *b, float *out)
 
 uint32_t GetWeaponIndex(const cg_s *) { return 0u; }
 // bool     PM_IsSprinting(const playerState_s *) { return false; }  // provided by bg_pmove.cpp now
-int32_t  BG_AmmoForWeapon(uint32_t) { return 0; }
+// int32_t  BG_AmmoForWeapon(uint32_t) { return 0; }  // provided by bg_weapons.cpp now
 bool     Key_IsCommandBound(int, const char *) { return false; }
-int32_t  BG_GetAmmoPlayerMax(const playerState_s *, uint32_t, uint32_t) { return 0; }
+// int32_t  BG_GetAmmoPlayerMax(const playerState_s *, uint32_t, uint32_t) { return 0; }  // provided by bg_weapons.cpp now
 // CL_ShouldDisplayHud provided by src/client_mp/cl_main_mp.cpp now.
-bool     BG_WeaponBlocksProne(uint32_t) { return false; }
+// bool     BG_WeaponBlocksProne(uint32_t) { return false; }  // provided by bg_weapons.cpp now
 // int      UI_GetTalkerClientNum(int, int) { return -1; }  // provided by ui_main_mp.cpp now
-int32_t  BG_GetTotalAmmoReserve(const playerState_s *, uint32_t) { return 0; }
+// int32_t  BG_GetTotalAmmoReserve(const playerState_s *, uint32_t) { return 0; }  // provided by bg_weapons.cpp now
 void     CG_DrawPlayerActionSlot(int, const rectDef_s *, uint32_t, float *, Font_s *, float, int) {}
 void     CG_DrawPlayerWeaponIcon(int, const rectDef_s *, const float *) {}
 // int32_t  PM_GetSprintLeftLastTime(const playerState_s *) { return 0; }  // provided by bg_pmove.cpp now
@@ -2234,7 +2233,7 @@ void     CG_DrawPlayerWeaponIcon(int, const rectDef_s *, const float *) {}
 void     CG_DrawPlayerActionSlotDpad(int, const rectDef_s *, const float *, Material *) {}
 void     CG_DrawPlayerWeaponAmmoStock(int, const rectDef_s *, Font_s *, float, float *, Material *, int) {}
 void     CG_DrawPlayerWeaponBackground(int, const rectDef_s *, const float *, Material *) {}
-int32_t  BG_PlayerWeaponCountPrimaryTypes(const playerState_s *) { return 0; }
+// int32_t  BG_PlayerWeaponCountPrimaryTypes(const playerState_s *) { return 0; }  // provided by bg_weapons.cpp now
 void     CG_DrawPlayerWeaponLowAmmoWarning(int, const rectDef_s *, Font_s *, float, int, float, float, char, Material *) {}
 void     CG_DrawPlayerWeaponAmmoClipGraphic(int, const rectDef_s *, const float *) {}
 
@@ -2263,7 +2262,7 @@ void BG_RegisterDvars() {}
 void FX_KillEffectDef(int, const FxEffectDef *) {}
 XModel *FX_RegisterModel(const char *) { return nullptr; }
 menuDef_t *Menus_FindByName(const UiContext *, const char *) { return nullptr; }
-void BG_ClearWeaponDef() {}
+// void BG_ClearWeaponDef() {}  // provided by bg_weapons.cpp now
 void Com_StripExtension(char *in, char *out)
 {
     if (!in || !out) return;
@@ -2296,10 +2295,10 @@ snd_alias_list_t *Com_FindSoundAliasNoErrors(const char *) { return nullptr; }
 snd_alias_t *Com_PickSoundAliasFromList(snd_alias_list_t *) { return nullptr; }
 int SND_PlaySoundAliasAsMaster(const snd_alias_t *, SndEntHandle, const float *, int, snd_alias_system_t) { return 0; }
 void CG_AmmoCounterRegisterDvars() {}
-void BG_LoadPenetrationDepthTable() {}
+// void BG_LoadPenetrationDepthTable() {}  // provided by bg_weapons.cpp now
 uint8_t *Hunk_AllocPhysPresetPrecache(unsigned int size) { return static_cast<uint8_t *>(std::calloc(size > 0 ? size : 1, 1)); }
 
-unsigned int bg_lastParsedWeaponIndex = 0;
+// unsigned int bg_lastParsedWeaponIndex = 0;  // provided by bg_weapons.cpp now
 // clientConnections provided by src/client_mp/cl_main_mp.cpp now.
 // g_compassShowEnemies provided by src/game_mp/g_main_mp.cpp now.
 // === sv_voice_mp satellites ======================================================
@@ -2594,7 +2593,7 @@ int  FS_WriteFile(char *, char *, unsigned int) { return 0; }
 void Netchan_Setup(netsrc_t, netchan_t *, netadr_t, int, char *, int, char *, int) {}
 bool NET_CompareAdr(netadr_t, netadr_t) { return false; }
 void MSG_WriteEntity(SnapshotInfo_s *, msg_t *, int, entityState_s *, const entityState_s *, int) {}
-bool BG_IsWeaponValid(const playerState_s *, uint32_t) { return false; }
+// bool BG_IsWeaponValid(const playerState_s *, uint32_t) { return false; }  // provided by bg_weapons.cpp now
 // ClientDisconnect provided by src/game_mp/g_client_mp.cpp now.
 // G_SetLastServerTime provided by src/game_mp/g_active_mp.cpp now.
 // SV_PacketDataIsHeader provided by src/server_mp/sv_snapshot_profile_mp.cpp now.
@@ -2602,7 +2601,7 @@ bool Steam_CheckClientTicket(unsigned char *, unsigned int, unsigned long long) 
 void Steam_OnClientDropped(unsigned long long) {}
 // SV_BuildClientSnapshot provided by src/server_mp/sv_snapshot_mp.cpp now.
 // SV_SendMessageToClient provided by src/server_mp/sv_snapshot_mp.cpp now.
-bool BG_ValidateWeaponNumber(uint32_t) { return true; }
+// bool BG_ValidateWeaponNumber(uint32_t) { return true; }  // provided by bg_weapons.cpp now
 bool Sys_IsLANAddress_IgnoreSubnet(netadr_t) { return false; }
 // SV_UpdateServerCommandsToClient provided by src/server_mp/sv_snapshot_mp.cpp now.
 
@@ -2712,7 +2711,7 @@ void Scr_NotifyNum(unsigned int, unsigned int, unsigned int, unsigned int) {}
 // === player_use_mp satellites ====================================================
 // G_VehUsable provided by src/game_mp/g_vehicles_mp.cpp now.
 // G_GetHintStringIndex provided by src/game_mp/g_scr_main_mp.cpp now.
-bool BG_ThrowingBackGrenade(const playerState_s *) { return false; }
+// bool BG_ThrowingBackGrenade(const playerState_s *) { return false; }  // provided by bg_weapons.cpp now
 // G_TraceCapsuleComplete provided by src/game_mp/g_main_mp.cpp now.
 
 // g_useholdspawndelay provided by src/game_mp/g_main_mp.cpp now.
@@ -2723,7 +2722,7 @@ bool BG_ThrowingBackGrenade(const playerState_s *) { return false; }
 // === g_combat_mp satellites ======================================================
 
 // Cmd_Score_f provided by src/game_mp/g_cmds_mp.cpp now.
-void BG_StringCopy(uint8_t *m, const char *k) { if (m && k) std::strcpy(reinterpret_cast<char *>(m), k); }
+// void BG_StringCopy(uint8_t *m, const char *k) { if (m && k) std::strcpy(reinterpret_cast<char *>(m), k); }  // provided by bg_weapons.cpp now
 gentity_s *G_FireGrenade(gentity_s *, float *, float *, uint32_t, uint8_t, int32_t, int32_t) { return nullptr; }
 bool LogAccuracyHit(gentity_s *, gentity_s *) { return false; }
 unsigned int Scr_AllocString(char *, int) { return 0u; }
@@ -2739,7 +2738,7 @@ void DObjPhysicsGetBounds(const DObj_s *, float *mins, float *maxs)
     if (maxs) { maxs[0] = maxs[1] = maxs[2] = 0; }
 }
 // G_LocationalTracePassed provided by src/game_mp/g_main_mp.cpp now.
-uint32_t BG_FindWeaponIndexForName(const char *) { return 0u; }
+// uint32_t BG_FindWeaponIndexForName(const char *) { return 0u; }  // provided by bg_weapons.cpp now
 
 // g_debugDamage provided by src/game_mp/g_main_mp.cpp now.
 // radius_damage_debug provided by src/game_mp/g_main_mp.cpp now.
@@ -2784,13 +2783,13 @@ void FireWeapon(gentity_s *, int32_t) {}
 void G_UseOffHand(gentity_s *) {}
 void FireWeaponMelee(gentity_s *, int32_t) {}
 // Cmd_FollowCycle_f provided by src/game_mp/g_cmds_mp.cpp now.
-void BG_WeaponFireRecoil(const playerState_s *, float *, float *) {}
+// void BG_WeaponFireRecoil(const playerState_s *, float *, float *) {}  // provided by bg_weapons.cpp now
 void ExpandBoundsToWidth(float *, float *) {}
 // G_VehPlayerRideSlot provided by src/game_mp/g_vehicles_mp.cpp now.
 void HudElem_UpdateClient(gclient_s *, int32_t, hudelem_update_t) {}
 // void BG_Player_DoControllers(const CEntPlayerInfo *, const DObj_s *, int32_t *) {}  // provided by bg_pmove.cpp now
-void BG_CalculateWeaponAngles(weaponState_t *, float *) {}
-void BG_CalculateWeaponPosition_Sway(const playerState_s *, float *, float *, float *, float, int32_t) {}
+// void BG_CalculateWeaponAngles(weaponState_t *, float *) {}  // provided by bg_weapons.cpp now
+// void BG_CalculateWeaponPosition_Sway(const playerState_s *, float *, float *, float *, float, int32_t) {}  // provided by bg_weapons.cpp now
 
 // g_antilag provided by src/game_mp/g_main_mp.cpp now.
 // g_mantleBlockTimeBuffer provided by src/game_mp/g_main_mp.cpp now.
@@ -2847,9 +2846,9 @@ void Touch_Item(gentity_s *, gentity_s *, int32_t) {}
 // Scr_VoteCalled provided by src/game_mp/g_scr_main_mp.cpp now.
 void G_GetItemClassname(const gitem_s *, uint16_t *out) { if (out) *out = 0; }
 int32_t G_GivePlayerWeapon(playerState_s *, int32_t, uint8_t) { return 0; }
-int32_t BG_TakePlayerWeapon(playerState_s *, uint32_t, int32_t) { return 0; }
+// int32_t BG_TakePlayerWeapon(playerState_s *, uint32_t, int32_t) { return 0; }  // provided by bg_weapons.cpp now
 void G_SelectWeaponIndex(int32_t, int32_t) {}
-bool BG_CanPlayerHaveWeapon(uint32_t) { return false; }
+// bool BG_CanPlayerHaveWeapon(uint32_t) { return false; }  // provided by bg_weapons.cpp now
 // Scr_GetGameTypeNameForScript provided by src/game_mp/g_scr_main_mp.cpp now.
 char *vtos(const float *) { static char buf[64] = ""; return buf; }
 int32_t Add_Ammo(gentity_s *, uint32_t, uint8_t, int32_t, int32_t) { return 0; }
@@ -2869,11 +2868,11 @@ VehiclePhysicsBackup s_backup_0{};
 
 gentity_s *Drop_Weapon(gentity_s *, int, unsigned char, unsigned int) { return nullptr; }
 void Scr_AddBool(unsigned int) {}
-int  BG_WeaponAmmo(const playerState_s *, unsigned int) { return 0; }
+// int  BG_WeaponAmmo(const playerState_s *, unsigned int) { return 0; }  // provided by bg_weapons.cpp now
 // GScr_AddEntity provided by src/game_mp/g_scr_main_mp.cpp now.
 unsigned int Scr_GetPointerType(unsigned int) { return 0u; }
 // GScr_GetLocSelIndex provided by src/game_mp/g_scr_main_mp.cpp now.
-void PM_ExitAimDownSight(playerState_s *) {}
+// void PM_ExitAimDownSight(playerState_s *) {}  // provided by bg_weapons.cpp now
 // Scr_MakeGameMessage provided by src/game_mp/g_scr_main_mp.cpp now.
 // Scr_PlayerLastStand provided by src/game_mp/g_scr_main_mp.cpp now.
 void G_SetEquippedOffHand(int, unsigned int) {}
@@ -3072,20 +3071,40 @@ const dvar_t *player_view_pitch_down        = nullptr;
 const dvar_t *player_view_pitch_up          = nullptr;
 const dvar_t *stopspeed                     = nullptr;
 
-bool   BG_UsingSniperScope(playerState_s *) { return false; }
+// bool   BG_UsingSniperScope(playerState_s *) { return false; }  // provided by bg_weapons.cpp now
 void   DObjSetLocalTag(DObj_s *, int *, unsigned int, const float *, const float *) {}
 float  PitchForYawOnNormal(float, const float *) { return 0.f; }
-void   PM_AdjustAimSpreadScale(pmove_t *, pml_t *) {}
-int    PM_InteruptWeaponWithProneMove(playerState_s *) { return 0; }
-void   PM_ResetWeaponState(playerState_s *) {}
-void   PM_UpdateAimDownSightFlag(pmove_t *, pml_t *) {}
-void   PM_UpdateAimDownSightLerp(pmove_t *, pml_t *) {}
-void   PM_Weapon(pmove_t *, pml_t *) {}
-int    PM_WeaponAmmoAvailable(playerState_s *) { return 0; }
+// void   PM_AdjustAimSpreadScale(pmove_t *, pml_t *) {}  // provided by bg_weapons.cpp now
+// int    PM_InteruptWeaponWithProneMove(playerState_s *) { return 0; }  // provided by bg_weapons.cpp now
+// void   PM_ResetWeaponState(playerState_s *) {}  // provided by bg_weapons.cpp now
+// void   PM_UpdateAimDownSightFlag(pmove_t *, pml_t *) {}  // provided by bg_weapons.cpp now
+// void   PM_UpdateAimDownSightLerp(pmove_t *, pml_t *) {}  // provided by bg_weapons.cpp now
+// void   PM_Weapon(pmove_t *, pml_t *) {}  // provided by bg_weapons.cpp now
+// int    PM_WeaponAmmoAvailable(playerState_s *) { return 0; }  // provided by bg_weapons.cpp now
 void   ProjectPointOnPlane(const float *, const float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0.f; } }
 void   Sys_SnapVector(float *) {}
 double UnGetLeanFraction(float v) { return (double)v; }
 float  Vec2LengthSq(const float *v) { return v ? v[0] * v[0] + v[1] * v[1] : 0.f; }
+
+// === bg_weapons satellites =========================================================
+
+const dvar_t *bg_aimSpreadMoveSpeedThreshold = nullptr;
+const dvar_t *bg_bobAmplitudeDucked          = nullptr;
+const dvar_t *bg_bobAmplitudeProne           = nullptr;
+const dvar_t *bg_bobAmplitudeSprinting       = nullptr;
+const dvar_t *bg_bobAmplitudeStanding        = nullptr;
+const dvar_t *player_adsExitDelay            = nullptr;
+const dvar_t *player_breath_fire_delay       = nullptr;
+const dvar_t *player_breath_gasp_lerp        = nullptr;
+const dvar_t *player_breath_gasp_scale       = nullptr;
+const dvar_t *player_breath_gasp_time        = nullptr;
+const dvar_t *player_breath_hold_lerp        = nullptr;
+const dvar_t *player_breath_hold_time        = nullptr;
+const dvar_t *player_burstFireCooldown       = nullptr;
+const dvar_t *player_scopeExitOnDamage       = nullptr;
+const dvar_t *player_sustainAmmo             = nullptr;
+
+float DiffTrack(float current, float target, float /*rate*/, float /*frametime*/) { return target - current; }
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
