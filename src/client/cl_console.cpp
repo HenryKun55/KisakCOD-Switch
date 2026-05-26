@@ -72,7 +72,7 @@ ConDrawInputGlob conDrawInputGlob;
 bool con_ignoreMatchPrefixOnly;
 
 const float con_versionColor[4] = { 1.0f, 1.0f, 0.0f, 1.0f };
-const float con_screenPadding = 4.0f;
+[[maybe_unused]] const float con_screenPadding = 4.0f;
 const float con_inputCommandMatchColor[4] = { 0.8f, 0.8f, 1.0f, 1.0f };
 const float con_inputDvarMatchColor[4] = { 1.0f, 1.0f, 0.8f, 1.0f };
 const float con_inputDvarValueColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -80,10 +80,10 @@ const float con_inputDvarInactiveValueColor[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
 const float con_inputDvarInfoColor[4] = { 0.8f, 0.8f, 1.0f, 1.0f };
 const float con_inputDvarDescriptionColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-const float con_inputBoxPad = 6.0f;
-const float con_outputVertStart = 32.0f;
-const float con_outputTextPad = 6.0f;
-const float con_outputBarSize = 10.0f;
+[[maybe_unused]] const float con_inputBoxPad = 6.0f;
+[[maybe_unused]] const float con_outputVertStart = 32.0f;
+[[maybe_unused]] const float con_outputTextPad = 6.0f;
+[[maybe_unused]] const float con_outputBarSize = 10.0f;
 
 void __cdecl TRACK_cl_console()
 {
@@ -1219,9 +1219,9 @@ void __cdecl Con_UpdateNotifyMessageWindow(
 
 int32_t __cdecl Con_GetDefaultMsgDuration(print_msg_dest_t dest)
 {
-    float v2; // [esp+8h] [ebp-38h]
-    float v3; // [esp+1Ch] [ebp-24h]
-    float v4; // [esp+30h] [ebp-10h]
+    [[maybe_unused]] float v2; // [esp+8h] [ebp-38h]
+    [[maybe_unused]] float v3; // [esp+1Ch] [ebp-24h]
+    [[maybe_unused]] float v4; // [esp+30h] [ebp-10h]
 
     if (dest == CON_DEST_MINICON)
     {
@@ -1279,6 +1279,12 @@ MessageWindow *__cdecl Con_GetDestWindow(int32_t localClientNum, print_msg_dest_
         return (MessageWindow *)&con.color[4630 * localClientNum - 1122];
     case CON_DEST_ERROR:
         return (MessageWindow *)&con.color[4630 * localClientNum - 53];
+    case CON_DEST_GAME_FIRST:
+    case CON_DEST_GAME2:
+    case CON_DEST_GAME3:
+    case CON_DEST_GAME4:
+    case CON_DEST_COUNT:
+        break;
     }
     if (dest < CON_DEST_GAME_FIRST || dest > CON_DEST_GAME4)
         MyAssertHandler(
@@ -1522,11 +1528,10 @@ int32_t __cdecl PrintableCharsCount(const MessageWindow *msgwnd, MessageLine *li
         if (letter == 94)
         {
             c[0] = msgwnd->circularTextBuffer[(msgwnd->textBufSize - 1) & (idx + line->textBufPos)];
-            if (c)
-            {
-                if (c[0] != 94 && c[0] >= 48 && c[0] <= 57)
-                    ++idx;
-            }
+            // c is a fixed-size array on the stack, always non-null; the
+            // upstream `if (c)` guard is dead. Drop it.
+            if (c[0] != 94 && c[0] >= 48 && c[0] <= 57)
+                ++idx;
         }
     }
     return printedCnt;
@@ -1610,15 +1615,17 @@ void __cdecl CL_DeathMessagePrint(
     uint32_t deathMsgLeng; // [esp+10h] [ebp-410h]
     uint32_t deathMsgLenh; // [esp+10h] [ebp-410h]
     char deathMsg[1024]; // [esp+18h] [ebp-408h] BYREF
-    int32_t color; // [esp+41Ch] [ebp-4h]
+    [[maybe_unused]] int32_t color; // [esp+41Ch] [ebp-4h]
 
     if (!attackerName)
         MyAssertHandler(".\\client\\cl_console.cpp", 1468, 0, "%s", "attackerName != NULL");
     if (!victimName)
         MyAssertHandler(".\\client\\cl_console.cpp", 1469, 0, "%s", "victimName != NULL");
-    if (!&victimColorIndex || victimColorIndex == 94 || victimColorIndex < 48 || victimColorIndex > 57)
+    // victimColorIndex / attackerColorIndex are by-value chars; the upstream
+    // `!&x` null-check on their addresses is dead. Keep only the value test.
+    if (victimColorIndex == 94 || victimColorIndex < 48 || victimColorIndex > 57)
         MyAssertHandler(".\\client\\cl_console.cpp", 1470, 0, "%s", "I_IsColorIndex( &victimColorIndex )");
-    if (!&attackerColorIndex || attackerColorIndex == 94 || attackerColorIndex < 48 || attackerColorIndex > 57)
+    if (attackerColorIndex == 94 || attackerColorIndex < 48 || attackerColorIndex > 57)
         MyAssertHandler(".\\client\\cl_console.cpp", 1471, 0, "%s", "I_IsColorIndex( &attackerColorIndex )");
     if (!cl_noprint || !cl_noprint->current.enabled)
     {
@@ -1755,8 +1762,7 @@ uint32_t __cdecl CL_AddDeathMessageIcon(
         MyAssertHandler(".\\client\\cl_console.cpp", 1404, 0, "%s", "deathMsgLen + 1 <= deathMsgMaxLen");
     deathMsg[deathMsgLen] = 94;
     deathMsgLena = deathMsgLen + 1;
-    if (horzFlipIcon == -1)
-        MyAssertHandler(".\\client\\cl_console.cpp", 1403, 0, "%s", "c != '\\0'");
+    // horzFlipIcon is bool; the hex-rays `== -1` sentinel check below is dead.
     if (deathMsgLena + 1 > deathMsgMaxLen)
         MyAssertHandler(".\\client\\cl_console.cpp", 1404, 0, "%s", "deathMsgLen + 1 <= deathMsgMaxLen");
     deathMsg[deathMsgLena] = horzFlipIcon + 1;
@@ -1777,7 +1783,7 @@ uint32_t __cdecl CL_AddDeathMessageIcon(
     deathMsgLend = deathMsgLenc + 1;
     if (deathMsgLend + 4 > deathMsgMaxLen)
         MyAssertHandler(".\\client\\cl_console.cpp", 1449, 0, "%s", "deathMsgLen + sizeof( iconShader ) <= deathMsgMaxLen");
-    *(uint32_t *)&deathMsg[deathMsgLend] = (uint32_t)iconShader;
+    *(uint32_t *)&deathMsg[deathMsgLend] = (uint32_t)(uintptr_t)iconShader;
     deathMsgLene = deathMsgLend + 4;
     if (deathMsgLene - deathMsgLen != 8)
         MyAssertHandler(
@@ -1793,7 +1799,7 @@ int32_t __cdecl CL_DeathMessageIconDimension(float size)
 {
     int32_t v2; // [esp+0h] [ebp-1Ch]
     int32_t v3; // [esp+4h] [ebp-18h]
-    float v4; // [esp+Ch] [ebp-10h]
+    [[maybe_unused]] float v4; // [esp+Ch] [ebp-10h]
 
     if (SnapFloatToInt(size * 32.0f) < 127)
         v3 = SnapFloatToInt(size * 32.0f);
@@ -1928,7 +1934,7 @@ char __cdecl Con_CycleAutoComplete(int32_t step)
     if (!conDrawInputGlob.mayAutoComplete
         || conDrawInputGlob.matchCount <= 1
         || conDrawInputGlob.matchCount >= con_inputMaxMatchesShown
-        || conDrawInputGlob.hasExactMatch && Con_AnySpaceAfterCommand())
+        || (conDrawInputGlob.hasExactMatch && Con_AnySpaceAfterCommand()))
     {
         return 0;
     }
@@ -2013,7 +2019,7 @@ void __cdecl Con_DrawGameMessageWindow(
     char textAlignMode,
     msgwnd_mode_t mode)
 {
-    float v12; // [esp+Ch] [ebp-18h]
+    [[maybe_unused]] float v12; // [esp+Ch] [ebp-18h]
 
     if (!cg_paused->current.integer)
     {
@@ -2122,8 +2128,8 @@ void __cdecl Con_DrawMessageWindowNewToOld(
     float v13; // [esp+8h] [ebp-68h]
     float v14; // [esp+Ch] [ebp-64h]
     float v15; // [esp+10h] [ebp-60h]
-    float v16; // [esp+18h] [ebp-58h]
-    float v17; // [esp+2Ch] [ebp-44h]
+    [[maybe_unused]] float v16; // [esp+18h] [ebp-58h]
+    [[maybe_unused]] float v17; // [esp+2Ch] [ebp-44h]
     float v18; // [esp+3Ch] [ebp-34h]
     float finalColor[4]; // [esp+40h] [ebp-30h] BYREF
     Message *message; // [esp+50h] [ebp-20h]
@@ -2518,8 +2524,8 @@ void __cdecl Con_DrawMessageWindowOldToNew(
     float msgwndScale,
     char textAlignMode)
 {
-    float v13; // [esp+Ch] [ebp-58h]
-    float v14; // [esp+20h] [ebp-44h]
+    [[maybe_unused]] float v13; // [esp+Ch] [ebp-58h]
+    [[maybe_unused]] float v14; // [esp+20h] [ebp-44h]
     clientActive_t *LocalClientGlobals; // [esp+30h] [ebp-34h]
     float finalColor[4]; // [esp+34h] [ebp-30h] BYREF
     Message *message; // [esp+44h] [ebp-20h]
@@ -2528,7 +2534,7 @@ void __cdecl Con_DrawMessageWindowOldToNew(
     int32_t time; // [esp+50h] [ebp-14h]
     MessageLine *line; // [esp+54h] [ebp-10h]
     int32_t v; // [esp+58h] [ebp-Ch]
-    int32_t groupsize; // [esp+5Ch] [ebp-8h]
+    [[maybe_unused]] int32_t groupsize; // [esp+5Ch] [ebp-8h]
     int32_t serverTime; // [esp+60h] [ebp-4h]
 
     if (!msgwnd)
@@ -2896,7 +2902,7 @@ void __cdecl Con_DrawInput(int32_t localClientNum)
                 conDrawInputGlob.x = conDrawInputGlob.leftX;
                 if (matchCount <= con_inputMaxMatchesShown)
                 {
-                    if (matchCount == 1 || conDrawInputGlob.hasExactMatch && Con_AnySpaceAfterCommand())
+                    if (matchCount == 1 || (conDrawInputGlob.hasExactMatch && Con_AnySpaceAfterCommand()))
                     {
                         Dvar_ForEachName((void(__cdecl *)(const char *))ConDrawInput_DetailedDvarMatch);
                         if (!v1)
@@ -3035,7 +3041,7 @@ void __cdecl ConDrawInput_DetailedDvarMatch(char *str)
     char *v1; // eax
     char *v2; // eax
     char *v3; // eax
-    __int64 v4; // [esp-Ch] [ebp-428h]
+    [[maybe_unused]] __int64 v4; // [esp-Ch] [ebp-428h]
     bool hasLatchedValue; // [esp+7h] [ebp-415h]
     int32_t infoLineCount; // [esp+8h] [ebp-414h] BYREF
     char dvarInfo[1024]; // [esp+Ch] [ebp-410h] BYREF
@@ -3281,7 +3287,7 @@ uint32_t __cdecl Con_GetAutoCompleteColorCodedString(
     uint32_t prefixLen; // [esp+0h] [ebp-4h]
 
     if (isDvarCommand)
-        prefixLen = sprintf(colorCoded, "^2%s ", originalCommand);
+        prefixLen = snprintf(colorCoded, 1024, "^2%s ", originalCommand);
     else
         prefixLen = 0;
     if (con_matchPrefixOnly->current.enabled)

@@ -217,6 +217,7 @@ set(CGAME_PORTABLE_SOURCES
 )
 
 set(CLIENT_PORTABLE_SOURCES
+    "${SRC_DIR}/client/cl_console.cpp"
     "${SRC_DIR}/client/cl_debugdata.cpp"
     "${SRC_DIR}/client/cl_devgui.cpp"
     "${SRC_DIR}/client/cl_keys.cpp"

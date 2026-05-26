@@ -342,11 +342,8 @@ void DB_Update() {}
 // =========================================================================
 
 // void CL_CharEvent(int /*localClientNum*/, int /*ch*/) {}  // provided by cl_keys.cpp now
-void CL_ConsoleFixPosition() {}
-void CL_ConsolePrint(int /*localClientNum*/, int /*channel*/, const char *msg, int /*r*/, int /*g*/, int /*b*/)
-{
-    if (msg) std::fputs(msg, stdout);
-}
+// void CL_ConsoleFixPosition() {}  // provided by cl_console.cpp now
+// CL_ConsolePrint provided by src/client/cl_console.cpp now.
 // CL_ControllerIndexFromClientNum provided by src/client_mp/cl_main_mp.cpp now.
 // CL_Disconnect provided by src/client_mp/cl_main_mp.cpp now.
 // CL_FlushDebugServerData now in client/cl_debugdata.cpp.
@@ -715,7 +712,7 @@ char *Z_MallocGarbage(int size, const char * /*name*/, int /*type*/)
 // TRACK_* mem-tracking thunks. Each TRACK_<subsystem>() declares its
 // statically-allocated buffers to the mem_track system; with mem-tracking
 // off (or stubbed) these are all no-ops.
-void TRACK_cl_console() {}
+// void TRACK_cl_console() {}  // provided by cl_console.cpp now
 // TRACK_cl_input provided by src/client_mp/cl_input.cpp now.
 // void TRACK_cl_keys() {}  // provided by cl_keys.cpp now
 // TRACK_cl_main provided by src/client_mp/cl_main_mp.cpp now.
@@ -1254,11 +1251,11 @@ unsigned char ColorIndex(unsigned char /*c*/) { return 7; }
 snd_alias_t *Com_PickSoundAlias(const char * /*name*/) { return nullptr; }
 void Com_TouchMemory() {}
 
-void Con_ClearNotify(int /*localClientNum*/) {}
-void Con_Close(int /*localClientNum*/) {}
-void Con_InitMessageBuffer() {}
-void Con_TimeJumped(int /*localClientNum*/, int /*time*/) {}
-void Con_TimeNudged(int /*localClientNum*/, int /*delta*/) {}
+// void Con_ClearNotify(int /*localClientNum*/) {}  // provided by cl_console.cpp now
+// void Con_Close(int /*localClientNum*/) {}  // provided by cl_console.cpp now
+// void Con_InitMessageBuffer() {}  // provided by cl_console.cpp now
+// void Con_TimeJumped(int /*localClientNum*/, int /*time*/) {}  // provided by cl_console.cpp now
+// void Con_TimeNudged(int /*localClientNum*/, int /*delta*/) {}  // provided by cl_console.cpp now
 
 void DB_EnumXAssets(XAssetType /*type*/, void (*)(XAssetHeader, void*) /*cb*/, void * /*ctx*/, bool /*loaded*/) {}
 void DevGui_AddCommand(const char * /*name*/, char * /*menu*/) {}
@@ -1377,9 +1374,7 @@ void ByteToDir(unsigned int /*b*/, float *dir)
 // CG_StopSoundsOnEnt provided by src/cgame_mp/cg_main_mp.cpp now.
 // CG_SwitchOffHandCmd / CG_UseOffHand provided by src/cgame/offhandweapons.cpp now.
 
-void CL_DeathMessagePrint(int /*localClientNum*/, char * /*killerName*/, char /*killerColor*/,
-                          char * /*victimName*/, char /*victimColor*/, Material * /*icon*/,
-                          float /*duration*/, float /*scale*/, bool /*friendlyFire*/) {}
+// CL_DeathMessagePrint provided by src/client/cl_console.cpp now.
 // CL_GetClientName provided by src/client_mp/cl_ui_mp.cpp now.
 
 void DynEntCl_ExplosionEvent(int /*localClientNum*/, bool /*ent*/, float * /*org*/, float /*r*/, float /*rs*/,
@@ -1907,7 +1902,7 @@ int   compare_hudelems(const void *, const void *) { return 0; }
 // bool  UI_AnyMenuVisible(int) { return false; }  // provided by ui_main_mp.cpp now
 // CG_ServerMaterialName provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 double R_NormalizedTextScale(Font_s *, float scale) { return scale; }
-void  CL_PlayTextFXPulseSounds(uint32_t, int, int, int, int, int, int *) {}
+// void  CL_PlayTextFXPulseSounds(uint32_t, int, int, int, int, int, int *) {}  // provided by cl_console.cpp now
 // CG_GetViewAxisProjections provided by src/cgame_mp/cg_draw_mp.cpp now.
 // CL_DrawTextPhysicalWithEffects provided by src/client_mp/cl_main_mp.cpp now.
 int   UI_GetKeyBindingLocalizedString(int, const char *, char *out)
@@ -2118,16 +2113,16 @@ void Phys_Init() {}
 // cg_teamChatsOnly provided by src/cgame_mp/cg_main_mp.cpp now.
 // === cg_draw_mp satellites =======================================================
 
-void Con_DrawSay(int, int, int) {}
+// void Con_DrawSay(int, int, int) {}  // provided by cl_console.cpp now
 void Menu_PaintAll(UiContext *) {}
-void Con_DrawErrors(int, int, int, float) {}
+// void Con_DrawErrors(int, int, int, float) {}  // provided by cl_console.cpp now
 void Menus_HideByName(const UiContext *, const char *) {}
 // int32_t PM_GetSprintLeft(const playerState_s *, int32_t) { return 0; }  // provided by bg_pmove.cpp now
 void Menus_CloseByName(UiContext *, const char *) {}
 // int32_t BG_GetMaxSprintTime(const playerState_s *) { return 0; }  // provided by bg_misc.cpp now
 // CG_CalcPlayerHealth provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 // CL_DrawTextPhysical provided by src/client_mp/cl_main_mp.cpp now.
-void Con_DrawMiniConsole(int, int, int, float) {}
+// void Con_DrawMiniConsole(int, int, int, float) {}  // provided by cl_console.cpp now
 // const char *UI_GetTopActiveMenuName(int) { return ""; }  // provided by ui_main_mp.cpp now
 // CG_CheckPlayerForLowAmmo / CG_CheckPlayerForLowClip provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 // void BG_AssertOffhandIndexOrNone(uint32_t) {}  // provided by bg_weapons.cpp now
@@ -2320,7 +2315,7 @@ void   R_EndFrame() {}
 void   DevGui_Draw(int) {}
 void   R_BeginFrame() {}
 // void   UI_UpdateTime(int, int) {}  // provided by ui_main_mp.cpp now
-void   Con_DrawConsole(int) {}
+// void   Con_DrawConsole(int) {}  // provided by cl_console.cpp now
 void   R_EndCubemapShot(CubemapShot) {}
 void   SND_InitFXSounds() {}
 // double UI_GetBlurRadius(int) { return 0.0; }  // provided by ui_main_mp.cpp now
@@ -2904,7 +2899,7 @@ int  Hunk_HideTempMemory() { return 0; }
 void Hunk_ShowTempMemory(int) {}
 void R_BeginRegistration(vidConfig_t *) {}
 void R_ConfigureRenderer(const GfxConfiguration *) {}
-void Con_InitClientAssets() {}
+// void Con_InitClientAssets() {}  // provided by cl_console.cpp now
 void SND_RestoreListeners(snd_listener *) {}
 void Sys_HideSplashWindow() {}
 int  FS_ConditionalRestart(int, int) { return 0; }
@@ -2927,7 +2922,7 @@ void CL_PlayUnskippableCinematic_f() {}
 char *FS_ReferencedIwdPureChecksums() { return const_cast<char *>(""); }
 // void CL_SelectStringTableEntryInDvar_f() {}  // provided by ui_main_mp.cpp now
 void Com_ProcessSoundAliasFileLocalization(char *, char *) {}
-void Con_Init() {}
+// void Con_Init() {}  // provided by cl_console.cpp now
 void SND_Save(MemoryFile *) {}
 void FS_Remove(const char *) {}
 int  Hunk_Used() { return 0; }
@@ -2937,8 +2932,8 @@ int fs_checksumFeed = 0;
 char fs_gamedir[256]{};
 const dvar_t *fs_homepath = nullptr;
 // g_consoleField storage provided by src/client/cl_keys.cpp now.
-float g_console_char_height = 0.f;
-int32_t g_console_field_width = 0;
+// float g_console_char_height = 0.f;  // provided by cl_console.cpp now
+// int32_t g_console_field_width = 0;  // provided by cl_console.cpp now
 const dvar_t *showpackets = nullptr;
 // const dvar_t *vehDriverViewHeightMin = nullptr;  // provided by ui_main_mp.cpp now
 
@@ -3122,28 +3117,28 @@ void Com_InitSoundDevGuiGraphs() {}
 
 // === cl_keys satellites ============================================================
 
-bool con_ignoreMatchPrefixOnly = false;
-int32_t con_inputMaxMatchesShown = 0;
-const dvar_t *con_matchPrefixOnly = nullptr;
-const dvar_t *con_restricted      = nullptr;
+// bool con_ignoreMatchPrefixOnly = false;  // provided by cl_console.cpp now
+// int32_t con_inputMaxMatchesShown = 0;  // provided by cl_console.cpp now
+// const dvar_t *con_matchPrefixOnly = nullptr;  // provided by cl_console.cpp now
+// const dvar_t *con_restricted      = nullptr;  // provided by cl_console.cpp now
 
-void  Con_AllowAutoCompleteCycling(bool) {}
-char  Con_AnySpaceAfterCommand() { return 0; }
-void  Con_AutoCompleteFromList(const char **, unsigned int, const char *, char *, unsigned int) {}
-void  Con_Bottom() {}
-char  Con_CancelAutoComplete() { return 0; }
-char  Con_CommitToAutoComplete() { return 0; }
-char  Con_CycleAutoComplete(int) { return 0; }
-bool  Con_HasTooManyMatchesToShow() { return false; }
-bool  Con_IsActive(int) { return false; }
-bool  Con_IsAutoCompleteMatch(const char *, const char *, int) { return false; }
-bool  Con_IsDvarCommand(const char *) { return false; }
-void  Con_PageDown() {}
-void  Con_PageUp() {}
-void  Con_ToggleConsole() {}
-void  Con_ToggleConsoleOutput() {}
-const char *Con_TokenizeInput() { return ""; }
-void  Con_Top() {}
+// void  Con_AllowAutoCompleteCycling(bool) {}  // provided by cl_console.cpp now
+// char  Con_AnySpaceAfterCommand() { return 0; }  // provided by cl_console.cpp now
+// void  Con_AutoCompleteFromList(const char **, unsigned int, const char *, char *, unsigned int) {}  // provided by cl_console.cpp now
+// void  Con_Bottom() {}  // provided by cl_console.cpp now
+// char  Con_CancelAutoComplete() { return 0; }  // provided by cl_console.cpp now
+// char  Con_CommitToAutoComplete() { return 0; }  // provided by cl_console.cpp now
+// char  Con_CycleAutoComplete(int) { return 0; }  // provided by cl_console.cpp now
+// bool  Con_HasTooManyMatchesToShow() { return false; }  // provided by cl_console.cpp now
+// bool  Con_IsActive(int) { return false; }  // provided by cl_console.cpp now
+// bool  Con_IsAutoCompleteMatch(const char *, const char *, int) { return false; }  // provided by cl_console.cpp now
+// bool  Con_IsDvarCommand(const char *) { return false; }  // provided by cl_console.cpp now
+// void  Con_PageDown() {}  // provided by cl_console.cpp now
+// void  Con_PageUp() {}  // provided by cl_console.cpp now
+// void  Con_ToggleConsole() {}  // provided by cl_console.cpp now
+// void  Con_ToggleConsoleOutput() {}  // provided by cl_console.cpp now
+// const char *Con_TokenizeInput() { return ""; }  // provided by cl_console.cpp now
+// void  Con_Top() {}  // provided by cl_console.cpp now
 bool  DevGui_KeyPressed(int) { return false; }
 void  ReplaceString(const char **, const char *) {}
 void  Scr_AddDebugText(char *) {}
@@ -3151,6 +3146,27 @@ void  Scr_KeyEvent(int) {}
 int   SEH_GetCurrentLanguage() { return 0; }
 const char *Sys_GetClipboardData() { return nullptr; }
 bool I_isdigit(int c) { return c >= '0' && c <= '9'; }
+
+// === cl_console satellites =========================================================
+
+bool IsValidMaterialHandle(Material *m) { return m != nullptr; }
+void R_AddCmdDrawConsoleText(char *, int, int, int, Font_s *, float, float, float, float, const float *, int) {}
+void R_AddCmdDrawConsoleTextPulseFX(char *, int, int, int, Font_s *, float, float, float, float, const float *, int, const float *, int, int, int, int, Material *, Material *) {}
+void R_AddCmdDrawConsoleTextSubtitle(char *, int, int, int, Font_s *, float, float, float, float, const float *, int, const float *) {}
+int  R_ConsoleTextWidth(const char *, int, int, int, Font_s *) { return 0; }
+const char *R_TextLineWrapPosition(const char *s, int, int, Font_s *, float) { return s; }
+unsigned int SEH_DecodeLetter(unsigned int c0, unsigned int /*c1*/, int *used, int * /*flags*/) { if (used) *used = 1; return c0; }
+unsigned int SEH_ReadCharFromString(const char **p, int *consumed) {
+    if (!p || !*p) { if (consumed) *consumed = 0; return 0; }
+    unsigned int c = static_cast<unsigned char>(**p);
+    if (consumed) *consumed = c ? 1 : 0;
+    if (c) ++(*p);
+    return c;
+}
+int SND_PlayLocalSoundAliasByName(unsigned int, const char *, snd_alias_system_t) { return 0; }
+void Vec4Scale(const float *in, float s, float *out) {
+    if (in && out) { out[0]=in[0]*s; out[1]=in[1]*s; out[2]=in[2]*s; out[3]=in[3]*s; }
+}
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
