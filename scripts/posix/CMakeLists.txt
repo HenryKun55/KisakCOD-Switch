@@ -218,6 +218,7 @@ set(CGAME_PORTABLE_SOURCES
 
 set(CLIENT_PORTABLE_SOURCES
     "${SRC_DIR}/client/cl_debugdata.cpp"
+    "${SRC_DIR}/client/cl_devgui.cpp"
     "${SRC_DIR}/client/con_channels.cpp"
     "${SRC_DIR}/client/screen_placement.cpp"
     "${SRC_DIR}/client_mp/cl_cgame_mp.cpp"

@@ -2880,7 +2880,7 @@ void FS_FileClose(FILE *) {}
 void SND_Shutdown() {}
 int  FS_FileExists(char *) { return 0; }
 // void UI_OpenMenu_f() {}  // provided by ui_main_mp.cpp now
-void CL_DevGuiFrame(int) {}
+// CL_DevGuiFrame provided by src/client/cl_devgui.cpp now.
 void DevGui_AddDvar(const char *, const dvar_s *) {}
 Font_s *R_RegisterFont(const char *, int) { return nullptr; }
 void Sys_NormalExit() {}
@@ -2888,12 +2888,12 @@ void Sys_NormalExit() {}
 // void UI_ListMenus_f() {}  // provided by ui_main_mp.cpp now
 void Voice_Playback() {}
 char *Z_VirtualAlloc(int size, const char *, int) { return static_cast<char *>(std::calloc(size > 0 ? size : 1, 1)); }
-void CL_CreateDevGui() {}
+// CL_CreateDevGui provided by src/client/cl_devgui.cpp now.
 void DevGui_OpenMenu(const char *) {}
 void DevGui_Shutdown() {}
 void R_MakeDedicated(const GfxConfiguration *) {}
 void Sys_ShowConsole() {}
-void CL_DestroyDevGui() {}
+// CL_DestroyDevGui provided by src/client/cl_devgui.cpp now.
 int  DB_ModFileExists() { return 0; }
 void SND_PlayFXSounds() {}
 bool NET_OutOfBandData(netsrc_t, netadr_t, const unsigned char *, int) { return false; }
@@ -3113,6 +3113,12 @@ void RotatePointAroundVector(float *out, const float * /*dir*/, const float *p, 
 char SND_GetKnownLength(int, int *out) { if (out) *out = 0; return 0; }
 void UI_DrawWrappedText(const ScreenPlacement *, const char *, const rectDef_s *, Font_s *,
                         float, float, float, const float *, int, char, rectDef_s *) {}
+
+// === cl_devgui satellites ==========================================================
+
+void R_CreateDevGui() {}
+void DevGui_RemoveMenu(const char *) {}
+void Com_InitSoundDevGuiGraphs() {}
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
