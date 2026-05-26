@@ -79,6 +79,7 @@ set(QCOMMON_PORTABLE_SOURCES
     "${SRC_DIR}/qcommon/net_chan_mp.cpp"
     "${SRC_DIR}/qcommon/statmonitor.cpp"
     "${SRC_DIR}/qcommon/sv_msg_write_mp.cpp"
+    "${SRC_DIR}/qcommon/unzip.cpp"
     # qcommon/threads.cpp deliberately skipped: it's a 934-line Win32-only
     # threading implementation (CreateThread / CreateEvent / WaitForSingleObject
     # everywhere). The single-threaded port uses pthread-backed Sys_* stubs

@@ -2891,21 +2891,10 @@ void Sys_Mkdir(const char *) {}
 
 // unzip API: not yet ported. Stubs return null/0 so iwd file enumeration
 // gracefully skips zip-backed bundles at startup.
-struct unz_file_info_s;
-struct unz_global_info_s;
-int  unzClose(unsigned char *) { return 0; }
-int  unzCloseCurrentFile(unsigned char *) { return 0; }
-int  unzGetCurrentFileInfo(unsigned char *, unz_file_info_s *, char *, unsigned long, void *, unsigned long, char *, unsigned long) { return 0; }
-int  unzGetCurrentFileInfoPosition(unsigned char *, unsigned long *out) { if (out) *out = 0; return 0; }
-int  unzGetGlobalInfo(unsigned char *, unz_global_info_s *) { return 0; }
-int  unzGoToFirstFile(unsigned char *) { return 0; }
-int  unzGoToNextFile(unsigned char *) { return -100; }  // UNZ_END_OF_LIST_OF_FILE
-unsigned char *unzOpen(const char *) { return nullptr; }
-int  unzOpenCurrentFile(unsigned char *) { return 0; }
-int  unzReadCurrentFile(unsigned char *, void *, unsigned int) { return 0; }
-unsigned char *unzReOpen(const char *, unsigned char *) { return nullptr; }
-int  unzSetCurrentFileInfoPosition(unsigned char *, unsigned long) { return 0; }
-long unztell(unsigned char *) { return 0; }
+// unzClose / unzCloseCurrentFile / unzGetCurrentFileInfo[Position] /
+// unzGetGlobalInfo / unzGoToFirstFile / unzGoToNextFile / unzOpen /
+// unzOpenCurrentFile / unzReadCurrentFile / unzReOpen /
+// unzSetCurrentFileInfoPosition / unztell — provided by unzip.cpp now.
 
 // === scr_variable satellites =======================================================
 
