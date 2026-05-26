@@ -508,7 +508,7 @@ void TRACK_phys() {}
 void TRACK_r_buffers() {}
 // void TRACK_r_debug() {}
 void TRACK_r_dpvs() {}
-void TRACK_r_font() {}
+// void TRACK_r_font() {}
 void TRACK_r_image_wavelet() {}
 void TRACK_r_image() {}
 void TRACK_r_init() {}
@@ -589,8 +589,8 @@ void R_AddCmdDrawStretchPicRotateXY(float /*x*/, float /*y*/, float /*w*/, float
                                     float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/,
                                     float /*rotation*/, const float * /*color*/, Material * /*material*/) {}
 void R_AddCmdDrawQuadPic(const float (* /*quad*/)[2], const float * /*color*/, Material * /*material*/) {}
-int   R_TextHeight(Font_s * /*font*/) { return 0; }
-int   R_TextWidth(const char * /*text*/, int /*max*/, Font_s * /*font*/) { return 0; }
+// int   R_TextHeight(Font_s * /*font*/) { return 0; }
+// int   R_TextWidth(const char * /*text*/, int /*max*/, Font_s * /*font*/) { return 0; }
 void *R_AllocStaticIndexBuffer(IDirect3DIndexBuffer9 ** /*ib*/, int /*size*/) { return nullptr; }
 void *R_AllocStaticVertexBuffer(IDirect3DVertexBuffer9 ** /*vb*/, int /*size*/) { return nullptr; }
 void  R_FinishStaticIndexBuffer(IDirect3DIndexBuffer9 * /*ib*/) {}
@@ -1509,7 +1509,7 @@ void  FX_SpriteAdd(FxSprite *) {}
 // compare_hudelems provided by src/ui/ui_expressions_logicfunctions.cpp now.
 // bool  UI_AnyMenuVisible(int) { return false; }  // provided by ui_main_mp.cpp now
 // CG_ServerMaterialName provided by src/cgame_mp/cg_newDraw_mp.cpp now.
-double R_NormalizedTextScale(Font_s *, float scale) { return scale; }
+// double R_NormalizedTextScale(Font_s *, float scale) { return scale; }
 // void  CL_PlayTextFXPulseSounds(uint32_t, int, int, int, int, int, int *) {}  // provided by cl_console.cpp now
 // CG_GetViewAxisProjections provided by src/cgame_mp/cg_draw_mp.cpp now.
 // CL_DrawTextPhysicalWithEffects provided by src/client_mp/cl_main_mp.cpp now.
@@ -2499,7 +2499,7 @@ void SND_Shutdown() {}
 // void UI_OpenMenu_f() {}  // provided by ui_main_mp.cpp now
 // CL_DevGuiFrame provided by src/client/cl_devgui.cpp now.
 // void DevGui_AddDvar(const char *, const dvar_s *) {}
-Font_s *R_RegisterFont(const char *, int) { return nullptr; }
+// Font_s *R_RegisterFont(const char *, int) { return nullptr; }
 void Sys_NormalExit() {}
 // void UI_CloseMenu_f() {}  // provided by ui_main_mp.cpp now
 // void UI_ListMenus_f() {}  // provided by ui_main_mp.cpp now
@@ -2768,8 +2768,8 @@ bool IsValidMaterialHandle(Material *m) { return m != nullptr; }
 void R_AddCmdDrawConsoleText(char *, int, int, int, Font_s *, float, float, float, float, const float *, int) {}
 void R_AddCmdDrawConsoleTextPulseFX(char *, int, int, int, Font_s *, float, float, float, float, const float *, int, const float *, int, int, int, int, Material *, Material *) {}
 void R_AddCmdDrawConsoleTextSubtitle(char *, int, int, int, Font_s *, float, float, float, float, const float *, int, const float *) {}
-int  R_ConsoleTextWidth(const char *, int, int, int, Font_s *) { return 0; }
-const char *R_TextLineWrapPosition(const char *s, int, int, Font_s *, float) { return s; }
+// int  R_ConsoleTextWidth(const char *, int, int, int, Font_s *) { return 0; }
+// const char *R_TextLineWrapPosition(const char *s, int, int, Font_s *, float) { return s; }
 // unsigned int SEH_DecodeLetter(unsigned int c0, unsigned int /*c1*/, int *used, int * /*flags*/) { if (used) *used = 1; return c0; }  // provided by stringed_hooks.cpp now
 // SEH_ReadCharFromString provided by src/stringed/stringed_hooks.cpp now.
 int SND_PlayLocalSoundAliasByName(unsigned int, const char *, snd_alias_system_t) { return 0; }
