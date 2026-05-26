@@ -587,7 +587,7 @@ void TRACK_dobj_management() {}
 void TRACK_fx_marks() {}
 void TRACK_fx_random() {}
 void TRACK_fx_system() {}
-void TRACK_missile_attractors() {}
+// void TRACK_missile_attractors() {}  // provided by g_missile.cpp now
 // void TRACK_msg() {}  // provided by sv_msg_write_mp.cpp now
 void TRACK_phys() {}
 void TRACK_q_shared() {}
@@ -2096,14 +2096,14 @@ void DB_ReplaceModel(const char *, const char *) {}
 // Helicopter_Pain provided by src/game_mp/g_scr_helicopter.cpp now.
 // MatrixTranspose provided by src/universal/com_math.cpp now.
 void Touch_Item_Auto(gentity_s *, gentity_s *, int) {}
-void G_ExplodeMissile(gentity_s *) {}
+// void G_ExplodeMissile(gentity_s *) {}  // provided by g_missile.cpp now
 // Helicopter_Think provided by src/game_mp/g_scr_helicopter.cpp now.
 // G_VehUnlinkPlayer provided by src/game_mp/g_vehicles_mp.cpp now.
 // PlayerCorpse_Free provided by src/game_mp/g_player_corpse_mp.cpp now.
 // Scr_ExecEntThread provided by src/game_mp/g_spawn_mp.cpp now.
 void FinishSpawningItem(gentity_s *) {}
 // G_PlayerController provided by src/game_mp/g_active_mp.cpp now.
-void G_TimedObjectThink(gentity_s *) {}
+// void G_TimedObjectThink(gentity_s *) {}  // provided by g_missile.cpp now
 // G_VehEntHandler_Die provided by src/game_mp/g_vehicles_mp.cpp now.
 // G_VehEntHandler_Use provided by src/game_mp/g_vehicles_mp.cpp now.
 DObj_s *Com_ServerDObjCreate(DObjModel_s *, unsigned short, XAnimTree_s *, unsigned int) { return nullptr; }
@@ -2116,7 +2116,7 @@ unsigned int SL_FindLowercaseString(const char *) { return 0u; }
 // SV_GetConfigstringConst provided by src/server_mp/sv_init_mp.cpp now.
 void Hunk_OverrideDataForFile(int, const char *, void *) {}
 // MatrixInverseOrthogonal43 provided by src/universal/com_math.cpp now.
-void Missile_FreeAttractorRefs(gentity_s *) {}
+// void Missile_FreeAttractorRefs(gentity_s *) {}  // provided by g_missile.cpp now
 // G_VehEntHandler_Controller provided by src/game_mp/g_vehicles_mp.cpp now.
 // BodyEnd provided by src/game_mp/g_client_script_cmd_mp.cpp now.
 // AxisClear provided by src/universal/com_math.cpp now.
@@ -2397,7 +2397,7 @@ void Scr_NotifyNum(unsigned int, unsigned int, unsigned int, unsigned int) {}
 
 // Cmd_Score_f provided by src/game_mp/g_cmds_mp.cpp now.
 // void BG_StringCopy(uint8_t *m, const char *k) { if (m && k) std::strcpy(reinterpret_cast<char *>(m), k); }  // provided by bg_weapons.cpp now
-gentity_s *G_FireGrenade(gentity_s *, float *, float *, uint32_t, uint8_t, int32_t, int32_t) { return nullptr; }
+// gentity_s *G_FireGrenade(gentity_s *, float *, float *, uint32_t, uint8_t, int32_t, int32_t) { return nullptr; }  // provided by g_missile.cpp now
 bool LogAccuracyHit(gentity_s *, gentity_s *) { return false; }
 unsigned int Scr_AllocString(char *, int) { return 0u; }
 void Scr_AddUndefined() {}
@@ -2476,7 +2476,7 @@ void HudElem_UpdateClient(gclient_s *, int32_t, hudelem_update_t) {}
 void G_RunMover(gentity_s *) {}
 // G_RunCorpse provided by src/game_mp/g_player_corpse_mp.cpp now.
 void Scr_IncTime() {}
-void G_RunMissile(gentity_s *) {}
+// void G_RunMissile(gentity_s *) {}  // provided by g_missile.cpp now
 // void SV_SightTrace(int *hit, const float *, const float *, const float *, const float *, int, int, int) { if (hit) *hit = 0; }  // provided by sv_world.cpp now
 // Scr_LoadLevel provided by src/game_mp/g_scr_main_mp.cpp now.
 void Z_VirtualFree(void *) {}
@@ -2499,11 +2499,11 @@ uint8_t *Hunk_AllocXAnimServer(unsigned int size) { return static_cast<uint8_t *
 void SaveRegisteredWeapons() {}
 void Scr_AllocGameVariable() {}
 void Scr_RunCurrentThreads() {}
-void G_RegisterMissileDvars() {}
-void Missile_InitAttractors() {}
+// void G_RegisterMissileDvars() {}  // provided by g_missile.cpp now
+// void Missile_InitAttractors() {}  // provided by g_missile.cpp now
 // void SV_SetupIgnoreEntParams(IgnoreEntParams *, int) {}  // provided by sv_world.cpp now
 // G_VehiclesSetupSpawnedEnts provided by src/game_mp/g_vehicles_mp.cpp now.
-void G_RegisterMissileDebugDvars() {}
+// void G_RegisterMissileDebugDvars() {}  // provided by g_missile.cpp now
 // G_setfog provided by src/game_mp/g_cmds_mp.cpp now.
 // SV_Trace provided by src/server/sv_world.cpp now.
 void G_RunItem(gentity_s *) {}
@@ -2655,11 +2655,11 @@ int  Scr_GetFunctionHandle(const char *, const char *) { return 0; }
 void Scr_NeverTerminalError(const char *) {}
 void GScr_AddFieldsForHudElems() {}
 void Scr_AddArrayStringIndexed(unsigned int) {}
-void Scr_MissileDeleteAttractor() {}
-void Scr_MissileCreateRepulsorEnt() {}
-void Scr_MissileCreateAttractorEnt() {}
-void Scr_MissileCreateRepulsorOrigin() {}
-void Scr_MissileCreateAttractorOrigin() {}
+// void Scr_MissileDeleteAttractor() {}  // provided by g_missile.cpp now
+// void Scr_MissileCreateRepulsorEnt() {}  // provided by g_missile.cpp now
+// void Scr_MissileCreateAttractorEnt() {}  // provided by g_missile.cpp now
+// void Scr_MissileCreateRepulsorOrigin() {}  // provided by g_missile.cpp now
+// void Scr_MissileCreateAttractorOrigin() {}  // provided by g_missile.cpp now
 snd_alias_list_t *Com_TryFindSoundAlias(const char *) { return nullptr; }
 
 // === ui_main_mp satellites =======================================================

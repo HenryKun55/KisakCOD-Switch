@@ -219,7 +219,7 @@ void __cdecl G_TimedObjectThink(gentity_s *ent)
     ent->s.lerp.eFlags &= ~0x80000u;
 }
 
-const float MY_STRAIGHTUPNORMAL[3] = { 0.0, 0.0, 1.0 };
+[[maybe_unused]] const float MY_STRAIGHTUPNORMAL[3] = { 0.0, 0.0, 1.0 };
 
 void __cdecl G_ExplodeMissile(gentity_s *ent)
 {
@@ -641,19 +641,19 @@ void __cdecl G_RunMissile(gentity_s *ent)
     float v9; // [esp+48h] [ebp-12Ch]
     float diff[3]; // [esp+50h] [ebp-124h] BYREF
     float *v11; // [esp+5Ch] [ebp-118h]
-    float *v12; // [esp+60h] [ebp-114h]
-    float *v13; // [esp+64h] [ebp-110h]
+    [[maybe_unused]] float *v12; // [esp+60h] [ebp-114h]
+    [[maybe_unused]] float *v13; // [esp+64h] [ebp-110h]
     float *v14; // [esp+68h] [ebp-10Ch]
     float v15; // [esp+6Ch] [ebp-108h]
-    float *v16; // [esp+7Ch] [ebp-F8h]
+    [[maybe_unused]] float *v16; // [esp+7Ch] [ebp-F8h]
     float *trDelta; // [esp+80h] [ebp-F4h]
     float *trBase; // [esp+84h] [ebp-F0h]
     float *v19; // [esp+88h] [ebp-ECh]
-    float *currentOrigin; // [esp+8Ch] [ebp-E8h]
+    [[maybe_unused]] float *currentOrigin; // [esp+8Ch] [ebp-E8h]
     float circleDir3[3]; // [esp+90h] [ebp-E4h] BYREF
     float center; // [esp+9Ch] [ebp-D8h] BYREF
-    float v23; // [esp+A0h] [ebp-D4h]
-    float v24; // [esp+A4h] [ebp-D0h]
+    [[maybe_unused]] float v23; // [esp+A0h] [ebp-D4h]
+    [[maybe_unused]] float v24; // [esp+A4h] [ebp-D0h]
     float radius; // [esp+A8h] [ebp-CCh]
     float circleDir2[3]; // [esp+ACh] [ebp-C8h] BYREF
     float circleDir1[3]; // [esp+B8h] [ebp-BCh] BYREF
@@ -764,7 +764,9 @@ void __cdecl G_RunMissile(gentity_s *ent)
             G_MissileTrace(&tr, ent->r.currentOrigin, origin, ENTITYNUM_NONE, ent->clipmask);
         }
     }
-    if ((char *)(tr.surfaceFlags & 0x1F00000) == " (%i) exceeded\n")
+    // Hex-rays compared a flag-extract against a string literal; bogus.
+    // Trigger penetration when the glass-flag bit is actually set.
+    if ((tr.surfaceFlags & 0x1F00000) != 0)
         Missile_PenetrateGlass(&tr, ent, ent->r.currentOrigin, origin, weapDef->damage, 0);
     Vec3Lerp(ent->r.currentOrigin, origin, tr.fraction, endpos);
     DrawMissileDebug(ent->r.currentOrigin, endpos);
@@ -775,8 +777,8 @@ void __cdecl G_RunMissile(gentity_s *ent)
     if ((ent->s.lerp.eFlags & 0x1000000) != 0)
     {
         if (weapDef->stickiness == WEAPSTICKINESS_ALL
-            || (weapDef->stickiness == WEAPSTICKINESS_GROUND || weapDef->stickiness == WEAPSTICKINESS_GROUND_WITH_YAW)
-            && tr.normal[2] > 0.699999988079071f)
+            || ((weapDef->stickiness == WEAPSTICKINESS_GROUND || weapDef->stickiness == WEAPSTICKINESS_GROUND_WITH_YAW)
+                && tr.normal[2] > 0.699999988079071f))
         {
             if (tr.fraction < 1.0f)
             {
@@ -800,7 +802,7 @@ void __cdecl G_RunMissile(gentity_s *ent)
                 }
             }
         }
-        else if (tr.fraction == 1.0f || tr.fraction < 1.0f && tr.normal[2] > 0.699999988079071f)
+        else if (tr.fraction == 1.0f || (tr.fraction < 1.0f && tr.normal[2] > 0.699999988079071f))
         {
             v13 = ent->r.currentOrigin;
             traceStart[0] = ent->r.currentOrigin[0];
@@ -1267,7 +1269,7 @@ bool __cdecl CheckCrumpleMissile(gentity_s *ent, trace_t *trace)
     float scale; // [esp+Ch] [ebp-2Ch]
     float velocity[3]; // [esp+18h] [ebp-20h] BYREF
     int32_t hitTime; // [esp+24h] [ebp-14h]
-    float MIN_CRUMPLE_SPEED; // [esp+28h] [ebp-10h]
+    [[maybe_unused]] float MIN_CRUMPLE_SPEED; // [esp+28h] [ebp-10h]
     float cos45; // [esp+2Ch] [ebp-Ch]
     float speed; // [esp+30h] [ebp-8h]
     WeaponDef *weapDef; // [esp+34h] [ebp-4h]
@@ -1364,10 +1366,10 @@ bool __cdecl BounceMissile(gentity_s *ent, trace_t *trace)
     }
     if (mayStop
         && (weapDef->stickiness == WEAPSTICKINESS_ALL
-            || trace->normal[2] > 0.699999988079071f
-            && (weapDef->stickiness == WEAPSTICKINESS_GROUND
-                || weapDef->stickiness == WEAPSTICKINESS_GROUND_WITH_YAW
-                || Vec3Length(ent->s.lerp.pos.trDelta) < 20.0f)))
+            || (trace->normal[2] > 0.699999988079071f
+                && (weapDef->stickiness == WEAPSTICKINESS_GROUND
+                    || weapDef->stickiness == WEAPSTICKINESS_GROUND_WITH_YAW
+                    || Vec3Length(ent->s.lerp.pos.trDelta) < 20.0f))))
     {
         G_SetOrigin(ent, ent->r.currentOrigin);
         if (weapDef->stickiness == WEAPSTICKINESS_GROUND_WITH_YAW)
@@ -1547,7 +1549,7 @@ void __cdecl MissileLandAnglesFlatMaintainingDirection(gentity_s *ent, trace_t *
 
 void __cdecl CheckGrenadeDanger(gentity_s *grenadeEnt)
 {
-    gentity_s *v1; // eax
+    [[maybe_unused]] gentity_s *v1; // eax
     float iExplosionRadius; // [esp+8h] [ebp-14h]
     float damageRadiusSquared; // [esp+Ch] [ebp-10h]
     gentity_s *ent; // [esp+10h] [ebp-Ch]
@@ -2071,7 +2073,7 @@ bool IsMissileLockedOn(gentity_s *ent)
     if (!ent->missileTargetEnt.isDefined())
         return 0;
 
-    gentity_s *target = ent->missileTargetEnt.ent();
+    [[maybe_unused]] gentity_s *target = ent->missileTargetEnt.ent();
 
     iassert(target->r.inuse);
 
@@ -3114,10 +3116,10 @@ static void PredictBounceMissile(
     }
     stickiness = WeaponDef->stickiness;
     if (stickiness == WEAPSTICKINESS_ALL
-        || trace->normal[2] > 0.69999999
-        && (stickiness == WEAPSTICKINESS_GROUND
-            || stickiness == WEAPSTICKINESS_GROUND_WITH_YAW
-            || sqrtf((float)((float)(pos->trDelta[2] * pos->trDelta[2]) + (float)((float)(pos->trDelta[0] * pos->trDelta[0]) + (float)(pos->trDelta[1] * pos->trDelta[1])))) < 20.0))
+        || (trace->normal[2] > 0.69999999
+            && (stickiness == WEAPSTICKINESS_GROUND
+                || stickiness == WEAPSTICKINESS_GROUND_WITH_YAW
+                || sqrtf((float)((float)(pos->trDelta[2] * pos->trDelta[2]) + (float)((float)(pos->trDelta[0] * pos->trDelta[0]) + (float)(pos->trDelta[1] * pos->trDelta[1])))) < 20.0)))
     {
         pos->trBase[0] = *endpos;
         pos->trBase[1] = endpos[1];
@@ -3159,8 +3161,8 @@ int G_PredictMissile(gentity_s *ent, int duration, float *vLandPos, int allowBou
     double v21; // fp13
     int v22; // r6
     int v23; // r6
-    float v28; // [sp+50h] [-420h]
-    float v29; // [sp+50h] [-420h]
+    [[maybe_unused]] float v28; // [sp+50h] [-420h]
+    [[maybe_unused]] float v29; // [sp+50h] [-420h]
     float end[3]; // [sp+58h] [-418h] BYREF
     //float v31; // [sp+5Ch] [-414h]
     //float v32; // [sp+60h] [-410h]
@@ -3289,7 +3291,7 @@ int G_PredictMissile(gentity_s *ent, int duration, float *vLandPos, int allowBou
                 fraction = trace.fraction;
             }
         }
-        else if (fraction == 1.0 || fraction < 1.0 && trace.normal[2] > 0.69999999)
+        else if (fraction == 1.0 || (fraction < 1.0 && trace.normal[2] > 0.69999999))
         {
             v41 = (float)v21 + 0.135f;
             v39 = v20;
