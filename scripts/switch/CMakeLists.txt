@@ -106,6 +106,8 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_debug.cpp"
     "${SRC_DIR}/gfx_d3d/r_dobj_skin.cpp"
     "${SRC_DIR}/gfx_d3d/r_dpvs_dynmodel.cpp"
+    "${SRC_DIR}/gfx_d3d/r_dpvs_entity.cpp"
+    "${SRC_DIR}/gfx_d3d/r_dpvs_sceneent.cpp"
     "${SRC_DIR}/gfx_d3d/r_dvars.cpp"
     "${SRC_DIR}/gfx_d3d/r_draw_pixelshader.cpp"
     "${SRC_DIR}/gfx_d3d/r_fog.cpp"

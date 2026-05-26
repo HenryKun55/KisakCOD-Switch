@@ -1659,6 +1659,12 @@ struct GfxSceneEntity;
 const float (*R_UpdateSceneEntBounds(GfxSceneEntity * /*sceneEnt*/, GfxSceneEntity ** /*outLocal*/, const DObj_s ** /*outObj*/, int /*flag*/))[3] { return nullptr; }
 void R_XModelDebug(const DObj_s * /*obj*/, int * /*partBits*/) {}
 
+// r_dpvs satellite stubs.
+struct DpvsPlane;
+float R_DpvsPlaneMaxSignedDistToBox(const DpvsPlane * /*plane*/, const float * /*minmax*/) { return 0.0f; }
+#include <gfx_d3d/r_init.h>
+GfxConfiguration gfxCfg{};
+
 // Code-mesh stubs (provided once r_drawsurf.cpp lands).
 struct Material;
 struct r_double_index_t;
