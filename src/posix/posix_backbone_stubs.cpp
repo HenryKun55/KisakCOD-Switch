@@ -2853,6 +2853,9 @@ int LiveStorage_GetStat(int, int) { return 0; }
 
 DxGlobals dx{};
 r_globals_t rg{};
+r_global_permanent_t rgp{};
+const dvar_t *r_drawDynEnts = nullptr;
+DynEntityPose *DynEnt_GetClientModelPoseList() { return nullptr; }
 
 struct GfxCmdBufSourceState;
 void R_WarnOncePerFrame(GfxWarningType, ...) {}

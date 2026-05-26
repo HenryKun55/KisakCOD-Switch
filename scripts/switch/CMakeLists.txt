@@ -95,6 +95,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_cmdbuf.cpp"
     "${SRC_DIR}/gfx_d3d/r_debug_alloc.cpp"
     "${SRC_DIR}/gfx_d3d/r_devgui.cpp"
+    "${SRC_DIR}/gfx_d3d/r_dpvs_dynmodel.cpp"
     "${SRC_DIR}/gfx_d3d/r_draw_pixelshader.cpp"
     "${SRC_DIR}/gfx_d3d/r_fog.cpp"
     "${SRC_DIR}/gfx_d3d/r_image_utils.cpp"
