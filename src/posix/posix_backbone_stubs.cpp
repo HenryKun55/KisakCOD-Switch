@@ -341,7 +341,7 @@ void DB_Update() {}
 // CL_* — client subsystem. All stubs for now (we don't have a real client).
 // =========================================================================
 
-void CL_CharEvent(int /*localClientNum*/, int /*ch*/) {}
+// void CL_CharEvent(int /*localClientNum*/, int /*ch*/) {}  // provided by cl_keys.cpp now
 void CL_ConsoleFixPosition() {}
 void CL_ConsolePrint(int /*localClientNum*/, int /*channel*/, const char *msg, int /*r*/, int /*g*/, int /*b*/)
 {
@@ -357,10 +357,10 @@ struct clientConnection_t;
 // CL_GetUsernameForLocalClient provided by src/client_mp/cl_main_mp.cpp now.
 // CL_Init provided by src/client_mp/cl_main_mp.cpp now.
 // CL_InitDedicated provided by src/client_mp/cl_main_mp.cpp now.
-void CL_InitKeyCommands() {}
+// void CL_InitKeyCommands() {}  // provided by cl_keys.cpp now
 // CL_InitOnceForAllClients provided by src/client_mp/cl_main_mp.cpp now.
 // CL_InitRenderer provided by src/client_mp/cl_main_mp.cpp now.
-void CL_KeyEvent(int /*localClientNum*/, int /*key*/, int /*down*/, unsigned int /*time*/) {}
+// void CL_KeyEvent(int /*localClientNum*/, int /*key*/, int /*down*/, unsigned int /*time*/) {}  // provided by cl_keys.cpp now
 // CL_PacketEvent provided by src/client_mp/cl_main_mp.cpp now.
 // CL_RunOncePerClientFrame provided by src/client_mp/cl_main_mp.cpp now.
 // CL_Shutdown provided by src/client_mp/cl_main_mp.cpp now.
@@ -717,7 +717,7 @@ char *Z_MallocGarbage(int size, const char * /*name*/, int /*type*/)
 // off (or stubbed) these are all no-ops.
 void TRACK_cl_console() {}
 // TRACK_cl_input provided by src/client_mp/cl_input.cpp now.
-void TRACK_cl_keys() {}
+// void TRACK_cl_keys() {}  // provided by cl_keys.cpp now
 // TRACK_cl_main provided by src/client_mp/cl_main_mp.cpp now.
 // TRACK_cl_parse provided by src/client_mp/cl_parse_mp.cpp now.
 void TRACK_cm_world() {}
@@ -792,7 +792,7 @@ struct XZoneMemory;
 
 // CL/CG/Key
 // CL_ClearKeys provided by src/client_mp/cl_input.cpp now.
-int  Key_IsDown(int /*localClientNum*/, int /*key*/) { return 0; }
+// int  Key_IsDown(int /*localClientNum*/, int /*key*/) { return 0; }  // provided by cl_keys.cpp now
 // CG_TraceCapsule provided by src/cgame/cg_world.cpp now.
 // CG_DObjGetWorldTagPos provided by src/cgame_mp/cg_ents_mp.cpp now.
 
@@ -1402,7 +1402,7 @@ void Scr_SetString(unsigned short * /*ptr*/, unsigned int /*stringValue*/) {}
 // Con_InitChannels now in client/con_channels.cpp.
 // Con_IsChannelVisible now in client/con_channels.cpp.
 // Con_WriteFilterConfigString now in client/con_channels.cpp.
-void Key_WriteBindings(int /*localClientNum*/, int /*f*/) {}
+// void Key_WriteBindings(int /*localClientNum*/, int /*f*/) {}  // provided by cl_keys.cpp now
 char *SEH_LocalizeTextMessage(const char *src, const char * /*context*/, msgLocErrType_t /*err*/) { return const_cast<char *>(src); }
 void SEH_UpdateLanguageInfo() {}
 const char *StringTable_GetColumnValueForRow(const StringTable * /*table*/, int /*row*/, int /*col*/) { return ""; }
@@ -1991,7 +1991,7 @@ void  R_ClearScene(unsigned int) {}
 // CG_DrawActive provided by src/cgame_mp/cg_draw_mp.cpp now.
 // float BG_GetBobCycle(const playerState_s *) { return 0.f; }  // provided by bg_weapons.cpp now
 void  FX_BeginUpdate(int) {}
-void  Key_AddCatcher(int, int) {}
+// void  Key_AddCatcher(int, int) {}  // provided by cl_keys.cpp now
 void  R_SetLodOrigin(const refdef_s *) {}
 void  CG_VehGunnerPOV(int, float *o, float *a)
 {
@@ -2003,10 +2003,10 @@ void  CG_VehGunnerPOV(int, float *o, float *a)
 void  FX_FillUpdateCmd(int, FxCmd *) {}
 void  AddLeanToPosition(float *, float, float, float, float) {}
 // CG_DObjUpdateInfo provided by src/cgame_mp/cg_ents_mp.cpp now.
-void  Key_RemoveCatcher(int, int) {}
+// void  Key_RemoveCatcher(int, int) {}  // provided by cl_keys.cpp now
 double R_GetFarPlaneDist() { return 0.0; }
 // CG_AddPacketEntity provided by src/cgame_mp/cg_ents_mp.cpp now.
-bool  Key_IsCatcherActive(int, int) { return false; }
+// bool  Key_IsCatcherActive(int, int) { return false; }  // provided by cl_keys.cpp now
 // CG_AddPacketEntities provided by src/cgame_mp/cg_ents_mp.cpp now.
 // CL_GetMenuBlurRadius provided by src/client_mp/cl_scrn_mp.cpp now.
 void  FX_SetNextUpdateTime(int, int) {}
@@ -2208,7 +2208,7 @@ void  Vec3Avg(const float *a, const float *b, float *out)
 // uint32_t GetWeaponIndex(const cg_s *) { return 0u; }  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // bool     PM_IsSprinting(const playerState_s *) { return false; }  // provided by bg_pmove.cpp now
 // int32_t  BG_AmmoForWeapon(uint32_t) { return 0; }  // provided by bg_weapons.cpp now
-bool     Key_IsCommandBound(int, const char *) { return false; }
+// bool     Key_IsCommandBound(int, const char *) { return false; }  // provided by cl_keys.cpp now
 // int32_t  BG_GetAmmoPlayerMax(const playerState_s *, uint32_t, uint32_t) { return 0; }  // provided by bg_weapons.cpp now
 // CL_ShouldDisplayHud provided by src/client_mp/cl_main_mp.cpp now.
 // bool     BG_WeaponBlocksProne(uint32_t) { return false; }  // provided by bg_weapons.cpp now
@@ -2348,7 +2348,7 @@ const dvar_t *r_reflectionProbeGenerate = nullptr;
 
 // void UI_Shutdown(int) {}  // provided by ui_main_mp.cpp now
 void UI_Component_Init() {}
-const char *Key_KeynumToString(int32_t, int32_t) { return ""; }
+// const char *Key_KeynumToString(int32_t, int32_t) { return ""; }  // provided by cl_keys.cpp now
 // CL_UpdateDirtyPings provided by src/client_mp/cl_main_mp.cpp now.
 // char *UI_GetMapDisplayName(const char *) { return const_cast<char *>(""); }  // provided by ui_main_mp.cpp now
 void R_PushRemoteScreenUpdate(int) {}
@@ -2456,7 +2456,7 @@ void UI_Component::MouseEvent(int, int) {}
 // m_pitch provided by src/client_mp/cl_main_mp.cpp now.
 // m_side provided by src/client_mp/cl_main_mp.cpp now.
 // m_yaw provided by src/client_mp/cl_main_mp.cpp now.
-PlayerKeyState playerKeys[1]{};
+// playerKeys storage provided by src/client/cl_keys.cpp now.
 
 // === sv_init_mp satellites =======================================================
 
@@ -2936,7 +2936,7 @@ int  Hunk_Used() { return 0; }
 int fs_checksumFeed = 0;
 char fs_gamedir[256]{};
 const dvar_t *fs_homepath = nullptr;
-field_t g_consoleField{};
+// g_consoleField storage provided by src/client/cl_keys.cpp now.
 float g_console_char_height = 0.f;
 int32_t g_console_field_width = 0;
 const dvar_t *showpackets = nullptr;
@@ -2978,12 +2978,12 @@ int  Menu_Count(UiContext *) { return 0; }
 char Menu_Paint(UiContext *, menuDef_t *) { return 0; }
 void Menus_Open(UiContext *, menuDef_t *) {}
 MenuList *UI_LoadMenu(char *, int) { return nullptr; }
-void Key_SetCatcher(int, int) {}
+// void Key_SetCatcher(int, int) {}  // provided by cl_keys.cpp now
 void Menu_HandleKey(UiContext *, menuDef_t *, int, int) {}
 char Menu_IsVisible(UiContext *, menuDef_t *) { return 0; }
 void Menus_CloseAll(UiContext *) {}
 void IN_SetCursorPos(tagPOINT) {}
-void Key_ClearStates(int) {}
+// void Key_ClearStates(int) {}  // provided by cl_keys.cpp now
 menuDef_t *Menu_GetFocused(UiContext *) { return nullptr; }
 int  Menus_OpenByName(UiContext *, const char *) { return 0; }
 int  Display_MouseMove(UiContext *) { return 0; }
@@ -3119,6 +3119,38 @@ void UI_DrawWrappedText(const ScreenPlacement *, const char *, const rectDef_s *
 void R_CreateDevGui() {}
 void DevGui_RemoveMenu(const char *) {}
 void Com_InitSoundDevGuiGraphs() {}
+
+// === cl_keys satellites ============================================================
+
+bool con_ignoreMatchPrefixOnly = false;
+int32_t con_inputMaxMatchesShown = 0;
+const dvar_t *con_matchPrefixOnly = nullptr;
+const dvar_t *con_restricted      = nullptr;
+
+void  Con_AllowAutoCompleteCycling(bool) {}
+char  Con_AnySpaceAfterCommand() { return 0; }
+void  Con_AutoCompleteFromList(const char **, unsigned int, const char *, char *, unsigned int) {}
+void  Con_Bottom() {}
+char  Con_CancelAutoComplete() { return 0; }
+char  Con_CommitToAutoComplete() { return 0; }
+char  Con_CycleAutoComplete(int) { return 0; }
+bool  Con_HasTooManyMatchesToShow() { return false; }
+bool  Con_IsActive(int) { return false; }
+bool  Con_IsAutoCompleteMatch(const char *, const char *, int) { return false; }
+bool  Con_IsDvarCommand(const char *) { return false; }
+void  Con_PageDown() {}
+void  Con_PageUp() {}
+void  Con_ToggleConsole() {}
+void  Con_ToggleConsoleOutput() {}
+const char *Con_TokenizeInput() { return ""; }
+void  Con_Top() {}
+bool  DevGui_KeyPressed(int) { return false; }
+void  ReplaceString(const char **, const char *) {}
+void  Scr_AddDebugText(char *) {}
+void  Scr_KeyEvent(int) {}
+int   SEH_GetCurrentLanguage() { return 0; }
+const char *Sys_GetClipboardData() { return nullptr; }
+bool I_isdigit(int c) { return c >= '0' && c <= '9'; }
 
 // === CGAME dvars and storage referenced by the new sources =========================
 

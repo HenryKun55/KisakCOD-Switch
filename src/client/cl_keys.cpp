@@ -524,7 +524,7 @@ void __cdecl Console_Key(int32_t localClientNum, int32_t key)
         }
         else
         {
-            v3 = key == 154 || key == 183 || tolower(key) == 112 && isCtrlDown;
+            v3 = key == 154 || key == 183 || (tolower(key) == 112 && isCtrlDown);
             v5 = v3;
         }
         if (v5)
@@ -543,7 +543,7 @@ void __cdecl Console_Key(int32_t localClientNum, int32_t key)
             }
             else
             {
-                v2 = key == 155 || key == 189 || tolower(key) == 110 && isCtrlDown;
+                v2 = key == 155 || key == 189 || (tolower(key) == 110 && isCtrlDown);
                 v4 = v2;
             }
             if (v4)
@@ -600,7 +600,7 @@ void __cdecl Console_Key(int32_t localClientNum, int32_t key)
                         || key == 187
                         || key == 156
                         || key == 185
-                        || key != 127 && !isCtrlDown && !isAltDown && !isShiftDown)
+                        || (key != 127 && !isCtrlDown && !isAltDown && !isShiftDown))
                     {
                         Con_CommitToAutoComplete();
                     }
@@ -669,11 +669,11 @@ char __cdecl Field_KeyDownEvent(int32_t localClientNum, const ScreenPlacement *s
                 edit->scroll = edit->cursor;
             break;
         default:
-            if (key == 165 || tolower(key) == 97 && isCtrlDown)
+            if (key == 165 || (tolower(key) == 97 && isCtrlDown))
             {
                 edit->cursor = 0;
             }
-            else if (key == 166 || tolower(key) == 101 && isCtrlDown)
+            else if (key == 166 || (tolower(key) == 101 && isCtrlDown))
             {
                 edit->cursor = len;
             }
@@ -774,10 +774,10 @@ void CompleteCommand()
     bool v1; // [esp+2Ch] [ebp-264h]
     bool v2; // [esp+40h] [ebp-250h]
     int32_t matchLenAfterCmds; // [esp+44h] [ebp-24Ch] BYREF
-    char pbbuf[272]; // [esp+48h] [ebp-248h] BYREF
+    [[maybe_unused]] char pbbuf[272]; // [esp+48h] [ebp-248h] BYREF
     field_t savedField; // [esp+158h] [ebp-138h] BYREF
     bool isDvarCommand; // [esp+27Bh] [ebp-15h]
-    int32_t offset; // [esp+27Ch] [ebp-14h]
+    [[maybe_unused]] int32_t offset; // [esp+27Ch] [ebp-14h]
     const char *originalCommand; // [esp+280h] [ebp-10h]
     int32_t matchLenAfterDvars; // [esp+284h] [ebp-Ch] BYREF
     bool useExactMatch; // [esp+28Bh] [ebp-5h]
@@ -837,7 +837,7 @@ void CompleteCommand()
             {
                 edit = &g_consoleField;
                 memcpy(&savedField, &g_consoleField, sizeof(savedField));
-                v0 = isDvarCommand || s_matchCount == 1 || s_hasExactMatch && Con_AnySpaceAfterCommand();
+                v0 = isDvarCommand || s_matchCount == 1 || (s_hasExactMatch && Con_AnySpaceAfterCommand());
                 useExactMatch = v0;
                 if (isDvarCommand)
                     Com_sprintf(edit->buffer, 0x100u, "\\%s %s", originalCommand, s_shortestMatch);
@@ -886,7 +886,7 @@ void CompleteCommand()
 
 void __cdecl PrintMatches(const char *s)
 {
-    if (con_ignoreMatchPrefixOnly && con_matchPrefixOnly->current.enabled
+    if ((con_ignoreMatchPrefixOnly && con_matchPrefixOnly->current.enabled)
         || !I_strnicmp(s, s_shortestMatch, strlen(s_shortestMatch)))
     {
         if (I_stristr(s, s_shortestMatch))
@@ -1044,10 +1044,10 @@ void __cdecl FindMatches(char *s)
     v4 = strlen(s_completionString);
     if (Con_IsAutoCompleteMatch(s, s_completionString, v4))
     {
-        v3 = !con_ignoreMatchPrefixOnly && con_matchPrefixOnly->current.enabled || !I_strnicmp(s, s_completionString, v4);
+        v3 = (!con_ignoreMatchPrefixOnly && con_matchPrefixOnly->current.enabled) || !I_strnicmp(s, s_completionString, v4);
         if (v3)
             ++s_prefixMatchCount;
-        if (++s_matchCount == 1 || v3 && s_prefixMatchCount == 1)
+        if (++s_matchCount == 1 || (v3 && s_prefixMatchCount == 1))
         {
             I_strncpyz(s_shortestMatch, s, 1024);
             s_hasExactMatch = 1;
@@ -1062,7 +1062,7 @@ void __cdecl FindMatches(char *s)
                     if (v1 != tolower(s[i]))
                         break;
                 }
-                v2 = !s[i] || s_hasExactMatch && !s_shortestMatch[i];
+                v2 = !s[i] || (s_hasExactMatch && !s_shortestMatch[i]);
                 s_hasExactMatch = v2;
                 s_shortestMatch[i] = 0;
             }
@@ -1319,7 +1319,7 @@ void __cdecl Key_Bind_f()
     const char *v2; // eax
     const char *v3; // eax
     uint8_t *v4; // eax
-    int32_t v5; // eax
+    [[maybe_unused]] int32_t v5; // eax
     char *v6; // eax
     bool v7; // [esp+0h] [ebp-424h]
     int32_t keynum; // [esp+4h] [ebp-420h]
@@ -2167,7 +2167,7 @@ int32_t __cdecl CL_GetKeyBindingInternal(int32_t localClientNum, const char *com
     int32_t keys[2]; // [esp+0h] [ebp-Ch] BYREF
     int32_t bindCount; // [esp+8h] [ebp-4h]
 
-    (*keyNames)[128] = 0;
+    (*keyNames)[0] = 0;
     bindCount = Key_GetCommandAssignmentInternal(localClientNum, command, keys);
     if ((uint32_t)bindCount > 2)
         MyAssertHandler(".\\client\\cl_keys.cpp", 2347, 0, "bindCount not in [0, 2]\n\t%i not in [%i, %i]", bindCount, 0, 2);
@@ -2273,7 +2273,7 @@ int CL_IsKeyPressed(int localClientNum, const char *keyName)
 
 bool Key_IsValidGamePadChar(const char key)
 {
-    return key >= 1 && key <= 6 || key >= 14 && key <= 23 || key >= 28 && key <= 31;
+    return (key >= 1 && key <= 6) || (key >= 14 && key <= 23) || (key >= 28 && key <= 31);
 }
 
 const char *CL_GetCommandFromKey(const char *keyName)
