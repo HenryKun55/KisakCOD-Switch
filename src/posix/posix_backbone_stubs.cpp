@@ -533,7 +533,7 @@ void TRACK_scr_parser() {}
 void TRACK_scr_vm() {}
 void TRACK_snd_driver() {}
 void TRACK_snd() {}
-void TRACK_stringed_hooks() {}
+// void TRACK_stringed_hooks() {}  // provided by stringed_hooks.cpp now
 // TRACK_sv_game now in server/sv_game.cpp.
 // TRACK_sv_main provided by src/server_mp/sv_main_mp.cpp now.
 // void TRACK_ui_main() {}  // provided by ui_main_mp.cpp now
@@ -1016,8 +1016,8 @@ void R_LoadWorld(char * /*name*/, int * /*checksum*/, int /*flag*/) {}
 void R_RenderScene(const refdef_s * /*refdef*/) {}
 void R_UpdateTeamColors(int /*localClientNum*/, const float * /*color1*/, const float * /*color2*/) {}
 
-char *SEH_SafeTranslateString(char *str) { return str ? str : (char*)""; }
-const char *SEH_StringEd_GetString(const char *str) { return str ? str : ""; }
+// char *SEH_SafeTranslateString(char *str) { return str ? str : (char*)""; }  // provided by stringed_hooks.cpp now
+// const char *SEH_StringEd_GetString(const char *str) { return str ? str : ""; }  // provided by stringed_hooks.cpp now
 
 // void UI_CloseAll(int /*localClientNum*/) {}  // provided by ui_main_mp.cpp now
 // char *UI_ReplaceConversionString(char *src, const char * /*replace*/) { return src; }  // provided by ui_main_mp.cpp now
@@ -1027,8 +1027,8 @@ const char *SEH_StringEd_GetString(const char *str) { return str ? str : ""; }
 // cl_serverLoadingMap provided by src/client_mp/cl_main_mp.cpp now.
 // cl_showServerCommands provided by src/client_mp/cl_main_mp.cpp now.
 // cl_showTimeDelta provided by src/client_mp/cl_main_mp.cpp now.
-const dvar_t *loc_warnings = nullptr;
-const dvar_t *loc_warningsAsErrors = nullptr;
+// const dvar_t *loc_warnings = nullptr;  // provided by stringed_hooks.cpp now
+// const dvar_t *loc_warningsAsErrors = nullptr;  // provided by stringed_hooks.cpp now
 // nextdemo provided by src/client_mp/cl_main_mp.cpp now.
 // sv_archive_mp cascade.
 struct SnapshotInfo_s;
@@ -1121,8 +1121,8 @@ void FX_PlayOrientedEffect(int /*localClientNum*/, const FxEffectDef * /*effect*
 // Con_IsChannelVisible now in client/con_channels.cpp.
 // Con_WriteFilterConfigString now in client/con_channels.cpp.
 // void Key_WriteBindings(int /*localClientNum*/, int /*f*/) {}  // provided by cl_keys.cpp now
-char *SEH_LocalizeTextMessage(const char *src, const char * /*context*/, msgLocErrType_t /*err*/) { return const_cast<char *>(src); }
-void SEH_UpdateLanguageInfo() {}
+// char *SEH_LocalizeTextMessage(const char *src, const char * /*context*/, msgLocErrType_t /*err*/) { return const_cast<char *>(src); }  // provided by stringed_hooks.cpp now
+// void SEH_UpdateLanguageInfo() {}  // provided by stringed_hooks.cpp now
 const char *StringTable_GetColumnValueForRow(const StringTable * /*table*/, int /*row*/, int /*col*/) { return ""; }
 // ProfLoad_Init now in qcommon/com_profilemapload.cpp.
 // ProfLoad_IsActive now in qcommon/com_profilemapload.cpp.
@@ -1184,7 +1184,7 @@ int getBuildNumberAsInt() { return 0; }
 // searchpath_s *fs_searchpaths = nullptr;  // provided by com_files.cpp now
 // const char *fs_serverIwdNames[1024]{};  // provided by com_files.cpp now
 // int fs_serverIwds[1024]{};  // provided by com_files.cpp now
-const dvar_t *loc_language = nullptr;
+// const dvar_t *loc_language = nullptr;  // provided by stringed_hooks.cpp now
 // sv provided by src/server_mp/sv_main_mp.cpp now.
 // updateScreenCalled provided by src/client_mp/cl_scrn_mp.cpp now.
 
@@ -1532,7 +1532,7 @@ unsigned int Hunk_AllocateTempMemoryHigh(int /*size*/, const char * /*name*/) { 
 
 void  FX_SpriteAdd(FxSprite *) {}
 // Vec2Distance provided by src/universal/com_math.cpp now.
-int   SEH_PrintStrlen(const char *s) { return s ? static_cast<int>(std::strlen(s)) : 0; }
+// int   SEH_PrintStrlen(const char *s) { return s ? static_cast<int>(std::strlen(s)) : 0; }  // provided by stringed_hooks.cpp now
 // void  BG_LerpHudColors(const hudelem_s *, int, hudelem_color_t *) {}  // provided by bg_misc.cpp now
 // compare_hudelems provided by src/ui/ui_expressions_logicfunctions.cpp now.
 // bool  UI_AnyMenuVisible(int) { return false; }  // provided by ui_main_mp.cpp now
@@ -2575,7 +2575,7 @@ float Voice_GetVoiceLevel() { return 0.f; }
 void R_AddCmdDrawTextSubtitle(const char *, int, Font_s *, float, float, float, float, float, const float *, int, const float *, bool) {}
 // void Menus_PrintAllLoadedMenus(UiContext *) {}  // provided by ui_shared.cpp now
 // int  Menus_AnyFullScreenVisible(UiContext *) { return 0; }  // provided by ui_shared.cpp now
-int  SEH_VerifyLanguageSelection(int) { return 0; }
+// int  SEH_VerifyLanguageSelection(int) { return 0; }  // provided by stringed_hooks.cpp now
 // void LerpColor(float *, float *, float *out, float) { if (out) { out[0] = out[1] = out[2] = out[3] = 1.f; } }  // provided by ui_shared.cpp now
 
 // field_t *g_editingField = nullptr;  // provided by ui_shared.cpp now
@@ -2720,7 +2720,7 @@ bool  DevGui_KeyPressed(int) { return false; }
 void  ReplaceString(const char **, const char *) {}
 void  Scr_AddDebugText(char *) {}
 void  Scr_KeyEvent(int) {}
-int   SEH_GetCurrentLanguage() { return 0; }
+// int   SEH_GetCurrentLanguage() { return 0; }  // provided by stringed_hooks.cpp now
 const char *Sys_GetClipboardData() { return nullptr; }
 // bool I_isdigit(int c) { return c >= '0' && c <= '9'; }  // provided by q_shared.cpp now
 
@@ -2732,14 +2732,8 @@ void R_AddCmdDrawConsoleTextPulseFX(char *, int, int, int, Font_s *, float, floa
 void R_AddCmdDrawConsoleTextSubtitle(char *, int, int, int, Font_s *, float, float, float, float, const float *, int, const float *) {}
 int  R_ConsoleTextWidth(const char *, int, int, int, Font_s *) { return 0; }
 const char *R_TextLineWrapPosition(const char *s, int, int, Font_s *, float) { return s; }
-unsigned int SEH_DecodeLetter(unsigned int c0, unsigned int /*c1*/, int *used, int * /*flags*/) { if (used) *used = 1; return c0; }
-unsigned int SEH_ReadCharFromString(const char **p, int *consumed) {
-    if (!p || !*p) { if (consumed) *consumed = 0; return 0; }
-    unsigned int c = static_cast<unsigned char>(**p);
-    if (consumed) *consumed = c ? 1 : 0;
-    if (c) ++(*p);
-    return c;
-}
+// unsigned int SEH_DecodeLetter(unsigned int c0, unsigned int /*c1*/, int *used, int * /*flags*/) { if (used) *used = 1; return c0; }  // provided by stringed_hooks.cpp now
+// SEH_ReadCharFromString provided by src/stringed/stringed_hooks.cpp now.
 int SND_PlayLocalSoundAliasByName(unsigned int, const char *, snd_alias_system_t) { return 0; }
 // Vec4Scale provided by src/universal/com_math.cpp now.
 
@@ -2838,11 +2832,11 @@ void *Hunk_UserAlloc(HunkUser *, unsigned int size, int /*align*/) {
     return std::calloc(size > 0 ? size : 1, 1);
 }
 // bool I_islower(int c) { return c >= 'a' && c <= 'z'; }  // provided by q_shared.cpp now
-int  SEH_GetLanguageIndexForName(const char *, int *out) { if (out) *out = 0; return 0; }
-const char *SEH_GetLanguageName(unsigned int) { return "english"; }
-void SEH_Init_StringEd() {}
-void SEH_InitLanguage() {}
-void SEH_Shutdown_StringEd() {}
+// int  SEH_GetLanguageIndexForName(const char *, int *out) { if (out) *out = 0; return 0; }  // provided by stringed_hooks.cpp now
+// const char *SEH_GetLanguageName(unsigned int) { return "english"; }  // provided by stringed_hooks.cpp now
+// void SEH_Init_StringEd() {}  // provided by stringed_hooks.cpp now
+// void SEH_InitLanguage() {}  // provided by stringed_hooks.cpp now
+// void SEH_Shutdown_StringEd() {}  // provided by stringed_hooks.cpp now
 int  Sys_CountFileList(char **list) {
     if (!list) return 0;
     int n = 0;

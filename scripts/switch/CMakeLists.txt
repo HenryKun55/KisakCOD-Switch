@@ -167,6 +167,7 @@ set(PHYSICS_PORTABLE_SOURCES
 )
 
 set(STRINGED_PORTABLE_SOURCES
+    "${SRC_DIR}/stringed/stringed_hooks.cpp"
     "${SRC_DIR}/stringed/stringed_ingame.cpp"
 )
 

@@ -340,15 +340,15 @@ int __cdecl SEH_GetLocalizedTokenReference(
 
 bool __cdecl Taiwanese_ValidBig5Code(__int16 uiCode)
 {
-    return (HIBYTE(uiCode) >= 0xA1u && HIBYTE(uiCode) <= 0xC6u || HIBYTE(uiCode) >= 0xC9u && HIBYTE(uiCode) <= 0xF9u)
-        && ((unsigned __int8)uiCode >= 0x40u && (unsigned __int8)uiCode <= 0x7Eu
-            || (unsigned __int8)uiCode >= 0xA1u && (unsigned __int8)uiCode != 255);
+    return ((HIBYTE(uiCode) >= 0xA1u && HIBYTE(uiCode) <= 0xC6u) || (HIBYTE(uiCode) >= 0xC9u && HIBYTE(uiCode) <= 0xF9u))
+        && (((unsigned __int8)uiCode >= 0x40u && (unsigned __int8)uiCode <= 0x7Eu)
+            || ((unsigned __int8)uiCode >= 0xA1u && (unsigned __int8)uiCode != 255));
 }
 
 bool __cdecl Japanese_ValidShiftJISCode(unsigned int _iHi, unsigned int _iLo)
 {
-    return (_iHi >= 0x81 && _iHi <= 0x9F || _iHi >= 0xE0 && _iHi <= 0xEF)
-        && (_iLo >= 0x40 && _iLo <= 0x7E || _iLo >= 0x80 && _iLo <= 0xFC);
+    return ((_iHi >= 0x81 && _iHi <= 0x9F) || (_iHi >= 0xE0 && _iHi <= 0xEF))
+        && ((_iLo >= 0x40 && _iLo <= 0x7E) || (_iLo >= 0x80 && _iLo <= 0xFC));
 }
 
 bool __cdecl Chinese_ValidGBCode(unsigned __int8 _iHi, unsigned __int8 _iLo)
