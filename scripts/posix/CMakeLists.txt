@@ -127,6 +127,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_dvars.cpp"
     "${SRC_DIR}/gfx_d3d/r_add_cmdbuf.cpp"
     "${SRC_DIR}/gfx_d3d/r_marks.cpp"
+    "${SRC_DIR}/gfx_d3d/r_model_pose.cpp"
     # r_meshdata.cpp needs ~15 R_Setup* / R_Draw* / R_BeginMaterial /
     # R_LockVertexBuffer satellites; land with the D3D draw batch.
     "${SRC_DIR}/gfx_d3d/r_pretess.cpp"

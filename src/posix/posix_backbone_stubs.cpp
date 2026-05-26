@@ -1656,7 +1656,7 @@ enum WorkerCmdType : int;
 void Z_VirtualCommit(void * /*addr*/, int /*size*/) {}
 void R_AddWorkerCmd(WorkerCmdType /*type*/, unsigned char * /*data*/) {}
 struct GfxSceneEntity;
-const float (*R_UpdateSceneEntBounds(GfxSceneEntity * /*sceneEnt*/, GfxSceneEntity ** /*outLocal*/, const DObj_s ** /*outObj*/, int /*flag*/))[3] { return nullptr; }
+// R_UpdateSceneEntBounds — provided by r_model_pose.cpp now.
 // void R_XModelDebug(const DObj_s * /*obj*/, int * /*partBits*/) {}
 
 // r_dpvs satellite stubs.
