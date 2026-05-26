@@ -177,9 +177,14 @@ set(AIMASSIST_PORTABLE_SOURCES
 )
 
 set(PHYSICS_PORTABLE_SOURCES
+    # phys_coll_boxbrush.cpp has ~30 hex-rays issues (past-end float[3]
+    # array access on flat normals, _isnan vs isnan, precedence parens,
+    # KISAKHACK casts). Land with focused pass.
     "${SRC_DIR}/physics/phys_coll_capsulebrush.cpp"
     "${SRC_DIR}/physics/phys_coll_cylinderbrush.cpp"
     "${SRC_DIR}/physics/phys_contacts.cpp"
+    # phys_world_collision.cpp depends on phys_coll_boxbrush and 15
+    # ODE collide helpers — land alongside the broader physics batch.
     "${SRC_DIR}/physics/physpreset_load_obj.cpp"
 )
 
@@ -310,6 +315,7 @@ set(GAME_PORTABLE_SOURCES
     "${SRC_DIR}/game/g_hudelem.cpp"
     "${SRC_DIR}/game/g_items.cpp"
     "${SRC_DIR}/game/g_load_utils.cpp"
+    # pathnode + pathnode_load_obj are SP-only (AI navigation).
     "${SRC_DIR}/game/g_missile.cpp"
     "${SRC_DIR}/game/g_scr_vehicle.cpp"
     "${SRC_DIR}/game/g_mover.cpp"
