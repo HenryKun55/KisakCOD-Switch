@@ -1677,6 +1677,11 @@ GfxMetrics gfxMetrics{};
 
 void R_AddSpotShadowsForLight(GfxViewInfo * /*viewInfo*/, GfxLight * /*light*/, unsigned int /*idx*/, float /*scale*/) {}
 
+// r_outdoor satellite stubs.
+struct GfxImage;
+GfxImage *Image_Register(const char * /*name*/, unsigned char /*flags*/, int /*format*/) { return nullptr; }
+void Image_Generate2D(GfxImage * /*img*/, unsigned char * /*data*/, int /*w*/, int /*h*/, int /*format*/) {}
+
 // Code-mesh stubs (provided once r_drawsurf.cpp lands).
 struct Material;
 struct r_double_index_t;

@@ -115,7 +115,7 @@ unsigned __int8 *Outdoor_ComputeTexels()
         yWorld = outdoorGlob.invScale[1] * ((double)y + 0.5 - outdoorGlob.add[1]);
         for (x = 0; ; ++x)
         {
-            result = (unsigned __int8 *)x;
+            result = (unsigned __int8 *)(uintptr_t)x;
             if (x == outdoorMapSize[0])
                 break;
             xWorld = outdoorGlob.invScale[0] * ((double)x + 0.5 - outdoorGlob.add[0]);

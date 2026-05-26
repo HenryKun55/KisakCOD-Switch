@@ -108,6 +108,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_dpvs_dynmodel.cpp"
     "${SRC_DIR}/gfx_d3d/r_model_pose.cpp"
     "${SRC_DIR}/gfx_d3d/r_model_skin.cpp"
+    "${SRC_DIR}/gfx_d3d/r_outdoor.cpp"
     "${SRC_DIR}/gfx_d3d/r_dpvs_entity.cpp"
     "${SRC_DIR}/gfx_d3d/r_dpvs_sceneent.cpp"
     "${SRC_DIR}/gfx_d3d/r_dpvs_static.cpp"

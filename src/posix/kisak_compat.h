@@ -311,6 +311,19 @@ typedef union {
 // OVERLAPPED: Win32 async I/O state. Only stored in upstream structs
 // (database file-loader, etc.); never actually used on POSIX. Placeholder
 // definition matches Win32's nominal size.
+// D3DFORMAT subset upstream codes use. Defined as an enum so they're usable
+// as switch labels and direct integer constants. Values match the Win32 DX9
+// FOURCC encoding so persisted data and hex-rays artifacts stay valid.
+#ifndef D3DFMT_L8
+enum D3DFormatShim : unsigned int {
+    D3DFMT_UNKNOWN  = 0,
+    D3DFMT_A8       = 28,
+    D3DFMT_L8       = 50,
+    D3DFMT_A8L8     = 51,
+    D3DFMT_R32F     = 114,
+};
+#endif
+
 typedef struct _OVERLAPPED {
     unsigned long long Internal;
     unsigned long long InternalHigh;
