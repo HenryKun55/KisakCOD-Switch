@@ -1648,7 +1648,7 @@ const dvar_t *vid_xpos;
 const dvar_t *vid_ypos;
 
 // r_dvars satellite hooks (r_init.cpp's registration routines).
-void R_RegisterSunDvars() {}
+// void R_RegisterSunDvars() {}  // provided by r_sky.cpp now
 void Material_PreventOverrideTechniqueGeneration() {}
 
 // r_dobj_skin satellite hooks.
@@ -1674,6 +1674,8 @@ unsigned char *Hunk_AllocXModelPrecacheColl(unsigned int /*size*/) { return null
 #include <gfx_d3d/r_init.h>
 GfxConfiguration gfxCfg{};
 GfxMetrics gfxMetrics{};
+#include <gfx_d3d/r_sky.h>
+SunFlareDynamic sunFlareArray[4]{};
 
 void R_AddSpotShadowsForLight(GfxViewInfo * /*viewInfo*/, GfxLight * /*light*/, unsigned int /*idx*/, float /*scale*/) {}
 
@@ -2850,9 +2852,9 @@ r_globals_load_t rgl{};
 // DynEntityPose *DynEnt_GetClientModelPoseList() { return nullptr; }
 
 void Material_UpdatePicmipAll() {}
-void R_Cmd_LoadSun() {}
+// void R_Cmd_LoadSun() {}  // provided by r_sky.cpp now
 void R_Cmd_ReloadMaterialTextures() {}
-void R_Cmd_SaveSun() {}
+// void R_Cmd_SaveSun() {}  // provided by r_sky.cpp now
 void R_ImageList_f() {}
 void R_MaterialList_f() {}
 // void R_ModelList_f() {}
