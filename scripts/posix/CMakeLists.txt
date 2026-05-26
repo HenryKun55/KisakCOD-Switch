@@ -258,6 +258,7 @@ set(GAME_PORTABLE_SOURCES
     "${SRC_DIR}/game/g_items.cpp"
     "${SRC_DIR}/game/g_load_utils.cpp"
     "${SRC_DIR}/game/g_missile.cpp"
+    "${SRC_DIR}/game/g_scr_vehicle.cpp"
     "${SRC_DIR}/game/g_mover.cpp"
     "${SRC_DIR}/game/g_scr_mover.cpp"
     "${SRC_DIR}/game/g_weapon.cpp"

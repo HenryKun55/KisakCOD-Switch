@@ -2419,37 +2419,37 @@ void DObjPhysicsGetBounds(const DObj_s *, float *mins, float *maxs)
 // === g_scr_helicopter satellites =================================================
 // SpawnVehicle provided by src/game_mp/g_vehicles_mp.cpp now.
 // VEH_JoltBody provided by src/game_mp/g_vehicles_mp.cpp now.
-void VEH_InitEntity(gentity_s *, scr_vehicle_s *, int) {}
-gentity_s *GScr_GetVehicle(scr_entref_t) { return nullptr; }
-void VEH_InitVehicle(gentity_s *, scr_vehicle_s *, short) {}
+// void VEH_InitEntity(gentity_s *, scr_vehicle_s *, int) {}  // provided by g_scr_vehicle.cpp now
+// gentity_s *GScr_GetVehicle(scr_entref_t) { return nullptr; }  // provided by g_scr_vehicle.cpp now
+// void VEH_InitVehicle(gentity_s *, scr_vehicle_s *, short) {}  // provided by g_scr_vehicle.cpp now
 // VEH_SetPosition provided by src/game_mp/g_vehicles_mp.cpp now.
-void CMD_VEH_GetSpeed(scr_entref_t) {}
-void CMD_VEH_SetSpeed(scr_entref_t) {}
-void CMD_VEH_SetWeapon(scr_entref_t) {}
-void Scr_Vehicle_Think(gentity_s *) {}
-void CMD_VEH_FireWeapon(scr_entref_t) {}
-void CMD_VEH_SetGoalPos(scr_entref_t) {}
-void CMD_VEH_SetGoalYaw(scr_entref_t) {}
-void CMD_VEH_GetSpeedMPH(scr_entref_t) {}
-void CMD_VEH_ResumeSpeed(scr_entref_t) {}
-void CMD_VEH_SetYawSpeed(scr_entref_t) {}
-void CMD_VEH_ClearGoalYaw(scr_entref_t) {}
-void CMD_VEH_SetLookAtEnt(scr_entref_t) {}
-void CMD_VEH_SetTargetYaw(scr_entref_t) {}
+// void CMD_VEH_GetSpeed(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_SetSpeed(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_SetWeapon(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void Scr_Vehicle_Think(gentity_s *) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_FireWeapon(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_SetGoalPos(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_SetGoalYaw(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_GetSpeedMPH(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_ResumeSpeed(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_SetYawSpeed(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_ClearGoalYaw(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_SetLookAtEnt(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_SetTargetYaw(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
 int DObjSetLocalBoneIndex(DObj_s *, int *, int, const float *, const float *) { return 0; }
-void CMD_VEH_ClearLookAtEnt(scr_entref_t) {}
-void CMD_VEH_ClearTargetYaw(scr_entref_t) {}
-void CMD_VEH_SetHoverParams(scr_entref_t) {}
-void CMD_VEH_SetVehicleTeam(scr_entref_t) {}
-void CMD_VEH_SetAirResitance(scr_entref_t) {}
-void CMD_VEH_SetMaxPitchRoll(scr_entref_t) {}
-void CMD_VEH_SetTurningAbility(scr_entref_t) {}
-void CMD_VEH_NearGoalNotifyDist(scr_entref_t) {}
-void CMD_VEH_SetTurretTargetEnt(scr_entref_t) {}
-void CMD_VEH_SetTurretTargetVec(scr_entref_t) {}
-void CMD_VEH_ClearTurretTargetEnt(scr_entref_t) {}
+// void CMD_VEH_ClearLookAtEnt(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_ClearTargetYaw(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_SetHoverParams(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_SetVehicleTeam(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_SetAirResitance(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_SetMaxPitchRoll(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_SetTurningAbility(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_NearGoalNotifyDist(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_SetTurretTargetEnt(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_SetTurretTargetVec(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
+// void CMD_VEH_ClearTurretTargetEnt(scr_entref_t) {}  // provided by g_scr_vehicle.cpp now
 
-vehicle_info_t s_vehicleInfos[32]{};
+// vehicle_info_t s_vehicleInfos[32]{};  // provided by g_scr_vehicle.cpp now
 
 // === g_active_mp satellites ======================================================
 
@@ -2531,11 +2531,11 @@ void Scr_RunCurrentThreads() {}
 // void ExtendBounds(float *, float *, const float *) {}  // provided by com_math.cpp now
 // void AnglesSubtract(float *, float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }  // provided by com_math.cpp now
 // float DiffTrackAngle(float, float, float, float) { return 0.f; }  // provided by com_math.cpp now
-void VEH_ClipVelocity(float *in, float *, float *out) { if (in && out) { out[0] = in[0]; out[1] = in[1]; out[2] = in[2]; } }
+// void VEH_ClipVelocity(float *in, float *, float *out) { if (in && out) { out[0] = in[0]; out[1] = in[1]; out[2] = in[2]; } }  // provided by g_scr_vehicle.cpp now
 // int32_t G_TryPushingEntity(gentity_s *, gentity_s *, float *, float *) { return 0; }  // provided by game/ batch now
-int32_t VEH_CorrectAllSolid(gentity_s *, trace_t *) { return 0; }
-VehicleLocalPhysics s_phys_0{};
-VehiclePhysicsBackup s_backup_0{};
+// int32_t VEH_CorrectAllSolid(gentity_s *, trace_t *) { return 0; }  // provided by g_scr_vehicle.cpp now
+// VehicleLocalPhysics s_phys_0{};  // provided by g_scr_vehicle.cpp now
+// VehiclePhysicsBackup s_backup_0{};  // provided by g_scr_vehicle.cpp now
 
 // === g_client_script_cmd_mp satellites ===========================================
 
@@ -2883,8 +2883,8 @@ int LiveStorage_GetStat(int, int) { return 0; }
 
 // === g_mover satellites ============================================================
 
-void VEH_ClearGround() {}
-bool VEH_SlideMove(gentity_s *, int) { return false; }
+// void VEH_ClearGround() {}  // provided by g_scr_vehicle.cpp now
+// bool VEH_SlideMove(gentity_s *, int) { return false; }  // provided by g_scr_vehicle.cpp now
 
 // === ui_shared satellites ==========================================================
 

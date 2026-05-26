@@ -908,7 +908,7 @@ void __cdecl VEH_UpdateAim(gentity_s *ent)
             ent->s.lerp.u.vehicle.gunYaw = v1;
             stopAngles[0] = AngleDelta(stopAngles[0], ent->s.lerp.u.vehicle.gunPitch);
             stopAngles[1] = AngleDelta(stopAngles[1], ent->s.lerp.u.vehicle.gunYaw);
-            if (deltaAngles[0] >= 2.0f && stopAngles[0] == 0.0f || deltaAngles[1] >= 2.0f && stopAngles[1] == 0.0f)
+            if ((deltaAngles[0] >= 2.0f && stopAngles[0] == 0.0f) || (deltaAngles[1] >= 2.0f && stopAngles[1] == 0.0f))
             {
                 veh->turret.turretState = VEH_TURRET_MOVING;
             }
@@ -1814,7 +1814,7 @@ void __cdecl VEH_UpdateHover(gentity_s *ent)
     double v1; // [esp+0h] [ebp-2Ch]
     float diff[3]; // [esp+8h] [ebp-24h] BYREF
     scr_vehicle_s *veh; // [esp+14h] [ebp-18h]
-    float NEW_HOVER_DIST_FACTOR; // [esp+18h] [ebp-14h]
+    [[maybe_unused]] float NEW_HOVER_DIST_FACTOR; // [esp+18h] [ebp-14h]
     float hoverPos[3]; // [esp+1Ch] [ebp-10h] BYREF
     float newHoverDist; // [esp+28h] [ebp-4h]
 
@@ -2256,7 +2256,7 @@ void __cdecl CMD_VEH_FireWeapon(scr_entref_t entref)
     float bulletAngles[3]; // [esp+F8h] [ebp-78h] BYREF
     int32_t i; // [esp+104h] [ebp-6Ch]
     float barrelMtx[4][3]; // [esp+108h] [ebp-68h] BYREF
-    int32_t barrel; // [esp+138h] [ebp-38h]
+    [[maybe_unused]] int32_t barrel; // [esp+138h] [ebp-38h]
     gentity_s *player; // [esp+13Ch] [ebp-34h]
     float flashMtx[4][3]; // [esp+140h] [ebp-30h] BYREF
 
