@@ -1662,6 +1662,9 @@ void R_XModelDebug(const DObj_s * /*obj*/, int * /*partBits*/) {}
 // r_dpvs satellite stubs.
 struct DpvsPlane;
 float R_DpvsPlaneMaxSignedDistToBox(const DpvsPlane * /*plane*/, const float * /*minmax*/) { return 0.0f; }
+void R_CopyClipPlane(const DpvsPlane * /*in*/, DpvsPlane * /*out*/) {}
+thread_local unsigned char *g_smodelVisData;
+thread_local unsigned char *g_surfaceVisData;
 #include <gfx_d3d/r_init.h>
 GfxConfiguration gfxCfg{};
 
