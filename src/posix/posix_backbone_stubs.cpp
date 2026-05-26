@@ -1688,6 +1688,19 @@ void Image_GenerateCube(GfxImage * /*img*/, const unsigned char *(* /*faces*/)[1
 struct DiskGfxReflectionProbe;
 void R_CreateReflectionRawDataFromCubemapShot(DiskGfxReflectionProbe * /*probe*/, int /*downRes*/) {}
 
+// r_add_staticmodel satellite stubs.
+union GfxDrawSurf;
+enum MaterialTechniqueType : int;
+struct XModelLodInfo;
+struct GfxStaticModelDrawInst;
+void R_SortDrawSurfs(GfxDrawSurf * /*surfs*/, int /*count*/) {}
+struct MaterialTechnique;
+const MaterialTechnique *Material_GetTechnique(const Material * /*m*/, MaterialTechniqueType /*t*/) { return nullptr; }
+void *R_GetCachedSModelSurf(unsigned int /*idx*/) { return nullptr; }
+void R_AddXModelDebugString(const float * /*origin*/, char * /*text*/) {}
+void R_CacheStaticModelSurface(unsigned int /*idx*/, unsigned int /*surfIdx*/, const XModelLodInfo * /*lod*/) {}
+void *R_AllocStaticModelLighting(GfxStaticModelDrawInst * /*inst*/, unsigned int /*size*/) { return nullptr; }
+
 // Code-mesh stubs (provided once r_drawsurf.cpp lands).
 struct Material;
 struct r_double_index_t;
