@@ -1855,7 +1855,7 @@ void SND_DeactivateEnvironmentEffects(int, int) {}
 // === cg_effects_load_obj satellites ==============================================
 
 const FxEffectDef *FX_Register(const char *) { return nullptr; }
-int  compare_impact_files(const char **, const char **) { return 0; }
+// compare_impact_files provided by src/ui/ui_expressions_logicfunctions.cpp now.
 int  Com_SurfaceTypeFromName(const char *) { return 0; }
 unsigned int *Hunk_AllocateTempMemory(int size, const char * /*name*/)
 {
@@ -1896,7 +1896,7 @@ float Vec2Distance(const float *a, const float *b)
 }
 int   SEH_PrintStrlen(const char *s) { return s ? static_cast<int>(std::strlen(s)) : 0; }
 // void  BG_LerpHudColors(const hudelem_s *, int, hudelem_color_t *) {}  // provided by bg_misc.cpp now
-int   compare_hudelems(const void *, const void *) { return 0; }
+// compare_hudelems provided by src/ui/ui_expressions_logicfunctions.cpp now.
 // bool  UI_AnyMenuVisible(int) { return false; }  // provided by ui_main_mp.cpp now
 // CG_ServerMaterialName provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 double R_NormalizedTextScale(Font_s *, float scale) { return scale; }
@@ -3188,6 +3188,14 @@ float RadiusFromBounds2D(const float *mins, const float *maxs) {
 bool Sys_GetPacket(netadr_t *, msg_t *) { return false; }
 bool Sys_SendPacket(int, unsigned char *, netadr_t) { return false; }
 bool Sys_StringToAdr(const char *, netadr_t *out) { if (out) std::memset(out, 0, sizeof(*out)); return false; }
+
+// === ui_expressions_logicfunctions satellites ======================================
+
+operandInternalDataUnion GetSourceInt(Operand *op) {
+    operandInternalDataUnion r{};
+    if (op) r.intVal = op->internals.intVal;
+    return r;
+}
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
