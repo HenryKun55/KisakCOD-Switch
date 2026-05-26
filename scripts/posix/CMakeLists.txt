@@ -126,6 +126,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_font.cpp"
     "${SRC_DIR}/gfx_d3d/r_image_utils.cpp"
     "${SRC_DIR}/gfx_d3d/r_imagedecode.cpp"
+    "${SRC_DIR}/gfx_d3d/r_light_load_obj.cpp"
     # r_light.cpp has ~12 past-end float[4] array indices, six `&`-in-`|`
     # precedence sites, and several uint32 truncations. Focused pass.
     "${SRC_DIR}/gfx_d3d/r_model.cpp"
@@ -172,6 +173,9 @@ set(GFX_PORTABLE_SOURCES
     # Material_GetTechnique / R_SetupViewProjectionMatrices —
     # land with renderer-mid-frame batch.
     "${SRC_DIR}/gfx_d3d/r_staticmodel.cpp"
+    # r_staticmodelcache.cpp has a layout static_assert that fails on
+    # 64-bit (smodel leaf grows beyond 256 bytes), 6 past-end int[3]
+    # array accesses, and a hex-rays self-compare. Focused pass.
     "${SRC_DIR}/gfx_d3d/r_xsurface.cpp"
 )
 

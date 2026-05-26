@@ -12,7 +12,7 @@ const float s_lightGridRotAxis[3][3] =
   { -0.23570226f, 0.40824828f, 0.33333334f },
   { -0.23570226f, -0.40824828f, 0.33333334f }
 }; // idb
-const float standardFrustumSidePlanes[4][4] =
+[[maybe_unused]] const float standardFrustumSidePlanes[4][4] =
 {
   { -1.0f, 0.0f, 0.0f, 1.0f },
   { 1.0f, 0.0f, 0.0f, 1.0f },
@@ -345,7 +345,7 @@ void R_LoadLightGridHeader()
     const uint32* header_u32 = (uint32*)header;
 
     const uint32 header3 = header_u32[3];
-    const uint32 header_off = header3 * 2;
+    [[maybe_unused]] const uint32 header_off = header3 * 2;
 
 #if 0
     rowCount = *(uint16*)&header[header_off + 6]
@@ -720,12 +720,12 @@ void __cdecl R_LoadLightGridPoints_Version15(unsigned int bspVersion)
                     : 0;
                 points[dstEntryIndex].entry.primaryLightIndex = v1;
                 points[dstEntryIndex].entry.needsTrace = diskEntries[entryIndex].needsTrace;
-                points[dstEntryIndex].pos[0] = (diskEntries[entryIndex].xyzLowBitsAndPrimaryVis >> 6) & 3
-                    | (diskEntries[entryIndex].xyzHighBits >> 19) & 0x1FFC;
-                points[dstEntryIndex].pos[1] = (diskEntries[entryIndex].xyzLowBitsAndPrimaryVis >> 4) & 3
-                    | (diskEntries[entryIndex].xyzHighBits >> 8) & 0x1FFC;
-                points[dstEntryIndex].pos[2] = (diskEntries[entryIndex].xyzLowBitsAndPrimaryVis >> 2) & 3
-                    | (4 * diskEntries[entryIndex].xyzHighBits) & 0xFFC;
+                points[dstEntryIndex].pos[0] = ((diskEntries[entryIndex].xyzLowBitsAndPrimaryVis >> 6) & 3)
+                    | ((diskEntries[entryIndex].xyzHighBits >> 19) & 0x1FFC);
+                points[dstEntryIndex].pos[1] = ((diskEntries[entryIndex].xyzLowBitsAndPrimaryVis >> 4) & 3)
+                    | ((diskEntries[entryIndex].xyzHighBits >> 8) & 0x1FFC);
+                points[dstEntryIndex].pos[2] = ((diskEntries[entryIndex].xyzLowBitsAndPrimaryVis >> 2) & 3)
+                    | ((4 * diskEntries[entryIndex].xyzHighBits) & 0xFFC);
                 worldPos[0] = (32 * points[dstEntryIndex].pos[0] - 0x20000);
                 worldPos[1] = (32 * points[dstEntryIndex].pos[1] - 0x20000);
                 worldPos[2] = ((points[dstEntryIndex].pos[2] << 6) - 0x20000);
@@ -887,7 +887,7 @@ GfxLightDef *__cdecl R_LoadLightDef(const char *name)
     GfxLightDef *def; // [esp+24h] [ebp-10h]
     unsigned __int8 *file; // [esp+28h] [ebp-Ch] BYREF
     int fileSize; // [esp+2Ch] [ebp-8h]
-    const unsigned __int8 *readPos; // [esp+30h] [ebp-4h]
+    [[maybe_unused]] const unsigned __int8 *readPos; // [esp+30h] [ebp-4h]
 
     iassert( name );
     filename = va("lights/%s", name);
