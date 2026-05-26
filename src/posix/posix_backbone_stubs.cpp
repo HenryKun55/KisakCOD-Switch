@@ -1690,6 +1690,18 @@ void Image_SetupFromFile(GfxImage * /*img*/, const GfxImageFileHeader * /*hdr*/,
 void Image_FreeTempMemory(unsigned char * /*p*/, int /*size*/) {}
 unsigned char *Image_AllocTempMemory(int /*size*/) { return nullptr; }
 unsigned int Image_CountMipmapsForFile(const GfxImageFileHeader * /*hdr*/) { return 0; }
+
+// r_meshdata satellite stubs.
+struct GfxMeshData;
+void *R_GetMeshVerts(GfxMeshData * /*mesh*/, unsigned short /*baseVertex*/) { return nullptr; }
+void R_BeginMeshVerts(GfxMeshData * /*mesh*/) {}
+char R_ReserveMeshVerts(GfxMeshData * /*mesh*/, int /*count*/, unsigned short * /*out*/) { return 0; }
+char R_ReserveMeshIndices(GfxMeshData * /*mesh*/, int /*count*/, r_double_index_t ** /*out*/) { return 0; }
+
+// r_light satellite stubs.
+struct GfxSurface;
+void R_AddShadowSurfaceToPrimaryLight(GfxWorld * /*world*/, unsigned int /*surfIndex*/, unsigned int /*lightIndex*/) {}
+void R_ForEachPrimaryLightAffectingSurface(GfxWorld * /*world*/, const GfxSurface * /*surf*/, unsigned int /*surfIndex*/, void (*)(GfxWorld *, unsigned int, unsigned int)) {}
 struct DiskGfxReflectionProbe;
 void R_CreateReflectionRawDataFromCubemapShot(DiskGfxReflectionProbe * /*probe*/, int /*downRes*/) {}
 
@@ -1698,7 +1710,7 @@ union GfxDrawSurf;
 enum MaterialTechniqueType : int;
 struct XModelLodInfo;
 struct GfxStaticModelDrawInst;
-void R_SortDrawSurfs(GfxDrawSurf * /*surfs*/, int /*count*/) {}
+// void R_SortDrawSurfs(GfxDrawSurf * /*surfs*/, int /*count*/) {}
 struct MaterialTechnique;
 const MaterialTechnique *Material_GetTechnique(const Material * /*m*/, MaterialTechniqueType /*t*/) { return nullptr; }
 void *R_GetCachedSModelSurf(unsigned int /*idx*/) { return nullptr; }
@@ -1710,13 +1722,13 @@ void *R_AllocStaticModelLighting(GfxStaticModelDrawInst * /*inst*/, unsigned int
 struct Material;
 struct r_double_index_t;
 struct GfxPackedVertex;
-char R_ReserveCodeMeshIndices(int /*indexCount*/, r_double_index_t ** /*out*/) { return 0; }
-char R_ReserveCodeMeshVerts(int /*vertCount*/, unsigned short * /*out*/) { return 0; }
-char R_ReserveCodeMeshArgs(int /*argCount*/, unsigned int * /*out*/) { return 0; }
-void R_AddCodeMeshDrawSurf(Material * /*m*/, r_double_index_t * /*idx*/, unsigned int /*iCount*/,
-                            unsigned int /*argOffset*/, unsigned int /*argCount*/, const char * /*fxName*/) {}
-float (*R_GetCodeMeshArgs(unsigned int /*argOffset*/))[4] { return nullptr; }
-GfxPackedVertex *R_GetCodeMeshVerts(unsigned short /*baseVertex*/) { return nullptr; }
+// char R_ReserveCodeMeshIndices(int /*indexCount*/, r_double_index_t ** /*out*/) { return 0; }
+// char R_ReserveCodeMeshVerts(int /*vertCount*/, unsigned short * /*out*/) { return 0; }
+// char R_ReserveCodeMeshArgs(int /*argCount*/, unsigned int * /*out*/) { return 0; }
+// void R_AddCodeMeshDrawSurf(Material * /*m*/, r_double_index_t * /*idx*/, unsigned int /*iCount*/,
+//                             unsigned int /*argOffset*/, unsigned int /*argCount*/, const char * /*fxName*/) {}
+// float (*R_GetCodeMeshArgs(unsigned int /*argOffset*/))[4] { return nullptr; }
+// GfxPackedVertex *R_GetCodeMeshVerts(unsigned short /*baseVertex*/) { return nullptr; }
 // CG_AddPacketEntity provided by src/cgame_mp/cg_ents_mp.cpp now.
 // bool  Key_IsCatcherActive(int, int) { return false; }  // provided by cl_keys.cpp now
 // CG_AddPacketEntities provided by src/cgame_mp/cg_ents_mp.cpp now.
