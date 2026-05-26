@@ -151,6 +151,7 @@ set(DEVGUI_PORTABLE_SOURCES
 )
 
 set(AIMASSIST_PORTABLE_SOURCES
+    "${SRC_DIR}/aim_assist/aim_assist.cpp"
     "${SRC_DIR}/aim_assist/aim_target_mp.cpp"
 )
 

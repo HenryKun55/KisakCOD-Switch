@@ -19,8 +19,8 @@
 //float const *const vec3_origin        82000d80     aim_assist.obj
 //float const *const vec4_origin        82000d8c     aim_assist.obj
 
-AimAssistGlobals aaGlobArray[1] = { 0 };
-GraphFloat aaInputGraph[4] = { 0 };
+AimAssistGlobals aaGlobArray[1] = {};
+GraphFloat aaInputGraph[4] = {};
 
 const dvar_t* aim_input_graph_enabled = nullptr;
 const dvar_t *aim_input_graph_debug = nullptr;
@@ -500,7 +500,7 @@ char __cdecl AimAssist_ConvertToClipBounds(
     iassert(mtx);
     iassert(clipBounds);
 
-    ClearBounds((float *)clipBounds, &(*clipBounds)[3]);
+    ClearBounds((float *)clipBounds, &reinterpret_cast<float*>(clipBounds)[3]);
     for (ptIndex = 0; ptIndex < 8; ++ptIndex)
     {
         worldCorner[0] = (*bounds)[3 * (ptIndex & 1)];
@@ -508,17 +508,17 @@ char __cdecl AimAssist_ConvertToClipBounds(
         worldCorner[2] = (*bounds)[3 * ((ptIndex >> 2) & 1) + 2];
         MatrixTransformVector43(worldCorner, mtx, worldCornerRotated);
         if (AimAssist_XfmWorldPointToClipSpace(aaGlob, worldCornerRotated, clipCorner))
-            AddPointToBounds(clipCorner, (float *)clipBounds, &(*clipBounds)[3]);
+            AddPointToBounds(clipCorner, (float *)clipBounds, &reinterpret_cast<float*>(clipBounds)[3]);
     }
-    if ((*clipBounds)[3] <= (double)(*clipBounds)[0]
-        || (*clipBounds)[4] <= (double)(*clipBounds)[1]
-        || (*clipBounds)[5] <= (double)(*clipBounds)[2])
+    if (reinterpret_cast<float*>(clipBounds)[3] <= (double)(*clipBounds)[0]
+        || reinterpret_cast<float*>(clipBounds)[4] <= (double)(*clipBounds)[1]
+        || reinterpret_cast<float*>(clipBounds)[5] <= (double)(*clipBounds)[2])
     {
         return 0;
     }
     if ((*clipBounds)[0] > 1.0 || (*clipBounds)[1] > 1.0 || (*clipBounds)[2] > 1.0)
         return 0;
-    if ((*clipBounds)[3] < -1.0 || (*clipBounds)[4] < -1.0 || (*clipBounds)[5] < 0.0)
+    if (reinterpret_cast<float*>(clipBounds)[3] < -1.0 || reinterpret_cast<float*>(clipBounds)[4] < -1.0 || reinterpret_cast<float*>(clipBounds)[5] < 0.0)
         return 0;
     v33 = (*clipBounds)[0];
     v22 = v33 - 1.0;
@@ -556,7 +556,7 @@ char __cdecl AimAssist_ConvertToClipBounds(
     else
         v14 = 0.0;
     (*clipBounds)[2] = v14;
-    v27 = (*clipBounds)[3];
+    v27 = reinterpret_cast<float*>(clipBounds)[3];
     v13 = v27 - 1.0;
     if (v13 < 0.0)
         v28 = v27;
@@ -567,8 +567,8 @@ char __cdecl AimAssist_ConvertToClipBounds(
         v11 = v28;
     else
         v11 = -1.0;
-    (*clipBounds)[3] = v11;
-    v25 = (*clipBounds)[4];
+    reinterpret_cast<float*>(clipBounds)[3] = v11;
+    v25 = reinterpret_cast<float*>(clipBounds)[4];
     v10 = v25 - 1.0;
     if (v10 < 0.0)
         v26 = v25;
@@ -579,8 +579,8 @@ char __cdecl AimAssist_ConvertToClipBounds(
         v8 = v26;
     else
         v8 = -1.0;
-    (*clipBounds)[4] = v8;
-    v23 = (*clipBounds)[5];
+    reinterpret_cast<float*>(clipBounds)[4] = v8;
+    v23 = reinterpret_cast<float*>(clipBounds)[5];
     v7 = v23 - 1.0;
     if (v7 < 0.0)
         v24 = v23;
@@ -591,7 +591,7 @@ char __cdecl AimAssist_ConvertToClipBounds(
         v5 = v24;
     else
         v5 = 0.0;
-    (*clipBounds)[5] = v5;
+    reinterpret_cast<float*>(clipBounds)[5] = v5;
     return 1;
 }
 
@@ -814,7 +814,7 @@ void __cdecl AimAssist_UpdateAdsLerp(const AimInput *input)
 
 uint32_t __cdecl AimAssist_GetWeaponIndex(int32_t localClientNum, const playerState_s *ps)
 {
-    uint32_t NumWeapons = 0; // eax
+    [[maybe_unused]] uint32_t NumWeapons = 0; // eax
     uint32_t weapIndex = 0; // [esp+0h] [ebp-8h]
 
     if ((ps->eFlags & 0x300) != 0)
@@ -1056,7 +1056,7 @@ void __cdecl AimAssist_DrawDebugOverlay(uint32_t localClientNum)
     if (aaGlob->initialized)
     {
         const AimTweakables* tweaks = &aaGlob->tweakables; // [esp+34h] [ebp-4h]
-        const playerState_s* ps = &CG_GetLocalClientGlobals(localClientNum)->predictedPlayerState; // [esp+30h] [ebp-8h]
+        [[maybe_unused]] const playerState_s* ps = &CG_GetLocalClientGlobals(localClientNum)->predictedPlayerState; // [esp+30h] [ebp-8h]
 
         if (aim_slowdown_debug->current.enabled)
         {
@@ -1136,7 +1136,7 @@ void __cdecl AimAssist_DrawTargets(int64_t localClientNum, const float *color)
     iassert(HIDWORD(localClientNum));
     iassert(color);
 
-    int32_t weapIndex = AimAssist_GetWeaponIndex(localClientNum, (const playerState_s *)HIDWORD(localClientNum)); // [esp+78h] [ebp-1Ch]
+    int32_t weapIndex = AimAssist_GetWeaponIndex(localClientNum, (const playerState_s *)(uintptr_t)HIDWORD(localClientNum)); // [esp+78h] [ebp-1Ch]
     if (weapIndex)
     {
         weapDef = BG_GetWeaponDef(weapIndex);

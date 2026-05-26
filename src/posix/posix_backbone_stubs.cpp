@@ -1456,7 +1456,7 @@ snd_entchannel_info_t *SND_GetEntChannelName(int) { return nullptr; }
 unsigned int Scr_GetNumScriptThreads() { return 0u; }
 // int  CG_PlayerTurretWeaponIdx(int) { return 0; }  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 void Phys_PerformanceEndFrame() {}
-void AimAssist_DrawDebugOverlay(unsigned int) {}
+// void AimAssist_DrawDebugOverlay(unsigned int) {}  // provided by aim_assist.cpp now
 // int  BG_GetFirstEquippedOffhand(const playerState_s *, int) { return 0; }  // provided by bg_weapons.cpp now
 // int  BG_GetFirstAvailableOffhand(const playerState_s *, int) { return 0; }  // provided by bg_weapons.cpp now
 // CG_Flashbanged provided by src/cgame/cg_shellshock.cpp now.
@@ -1588,7 +1588,7 @@ FxEffect *FX_SpawnOrientedEffect(int, const FxEffectDef *, int, const float *, c
 // CG_ClearUnion provided by src/cgame_mp/cg_ents_mp.cpp now.
 // CG_GameMessage provided by src/cgame_mp/cg_main_mp.cpp now.
 void   R_UnlinkEntity(unsigned int, unsigned int) {}
-void   AimAssist_Setup(int) {}
+// void   AimAssist_Setup(int) {}  // provided by aim_assist.cpp now
 void   R_InitSceneData(int) {}
 XModel *R_RegisterModel(const char *) { return nullptr; }
 void   SND_SetListener(int, int, const float *, const float (*)[3]) {}
@@ -1606,7 +1606,7 @@ void   FX_ThroughWithEffect(int, FxEffect *) {}
 // CG_UpdateBModelWorldBounds provided by src/cgame_mp/cg_ents_mp.cpp now.
 // CG_ExecuteNewServerCommands provided by src/cgame_mp/cg_servercmds_mp.cpp now.
 // CG_CheckOpenWaitingScriptMenu provided by src/cgame_mp/cg_servercmds_mp.cpp now.
-void   AimAssist_ClearEntityReference(int, int) {}
+// void   AimAssist_ClearEntityReference(int, int) {}  // provided by aim_assist.cpp now
 
 // cg_entityOriginArray provided by src/cgame_mp/cg_main_mp.cpp now.
 // cg_fs_debug provided by src/cgame_mp/cg_main_mp.cpp now.
@@ -1654,11 +1654,11 @@ void  R_UpdateRemainingEffects(FxCmd *) {}
 // CG_ProcessClientNoteTracks provided by src/cgame_mp/cg_ents_mp.cpp now.
 void  R_UpdateNonDependentEffects(FxCmd *) {}
 int32_t CG_VehLocalClientVehicleSlot(int) { return -1; }
-void  AimAssist_UpdateScreenTargets(int, const float *, const float *, float, float) {}
+// void  AimAssist_UpdateScreenTargets(int, const float *, const float *, float, float) {}  // provided by aim_assist.cpp now
 bool  CG_VehLocalClientUsingVehicle(int) { return false; }
-int32_t AimAssist_GetScreenTargetCount(int) { return 0; }
+// int32_t AimAssist_GetScreenTargetCount(int) { return 0; }  // provided by aim_assist.cpp now
 void  CG_VehSeatOriginForLocalClient(int, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
-int32_t AimAssist_GetScreenTargetEntity(int, uint32_t) { return -1; }
+// int32_t AimAssist_GetScreenTargetEntity(int, uint32_t) { return -1; }  // provided by aim_assist.cpp now
 // CL_LocalActiveIndexFromClientNum provided by src/client_mp/cl_main_mp.cpp now.
 // CL_Input provided by src/client_mp/cl_input.cpp now.
 // CG_Draw2D provided by src/cgame_mp/cg_draw_mp.cpp now.
@@ -1858,7 +1858,7 @@ void  DObjPhysicsSetCollisionFromXModel(const DObj_s *, PhysWorld, dxBody *) {}
 // void BG_LoadAnim() {}  // provided by bg_animation_mp.cpp now
 void CG_Veh_Init() {}
 // MenuList *UI_LoadMenus(char *, int) { return nullptr; }  // provided by ui_shared.cpp now
-void AimAssist_Init(int) {}
+// void AimAssist_Init(int) {}  // provided by aim_assist.cpp now
 // void UI_AddMenuList(UiContext *, MenuList *) {}  // provided by ui_shared.cpp now
 // CL_RegisterFont provided by src/client_mp/cl_main_mp.cpp now.
 void SND_StopAmbient(int, int) {}
@@ -2022,7 +2022,7 @@ void Hunk_OverrideDataForFile(int, const char *, void *) {}
 bool DevGui_IsActive() { return false; }
 bool Sys_IsLANAddress(netadr_t) { return false; }
 void IN_ShowSystemCursor(BOOL) {}
-void AimAssist_UpdateMouseInput(const AimInput *, AimOutput *) {}
+// void AimAssist_UpdateMouseInput(const AimInput *, AimOutput *) {}  // provided by aim_assist.cpp now
 // CL_SavePredictedOriginForServerTime provided by src/client_mp/cl_parse_mp.cpp now.
 // char ClampChar(int v) { if (v < -128) return -128; if (v > 127) return 127; return static_cast<char>(v); }  // provided by com_math.cpp now
 void UI_Component::MouseEvent(int, int) {}
