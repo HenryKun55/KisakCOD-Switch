@@ -87,13 +87,7 @@ void FreeString(const char *str)
     std::free(const_cast<char *>(str));
 }
 
-bool CanKeepStringPointer(const char * /*string*/)
-{
-    // Upstream: tells dvar whether the caller-provided string pointer is
-    // backed by a stable storage region (constant pool, hunk, etc.). When
-    // false, the dvar has to copy. Returning false is always safe.
-    return false;
-}
+// CanKeepStringPointer provided by src/universal/q_shared.cpp now.
 
 void *Z_Malloc(int size, const char * /*name*/, int /*type*/)
 {
@@ -115,39 +109,10 @@ void Z_Free(void *ptr, int /*type*/)
 // across runs at a given seed).
 void FX_RandomDir(int seed, float *dir);  // forward decl, defined after fx_randomTable.
 
-// Com_sprintf: real impl over vsnprintf.
-int Com_sprintf(char *dest, unsigned int size, const char *fmt, ...)
-{
-    va_list ap;
-    va_start(ap, fmt);
-    int n = std::vsnprintf(dest, size, fmt, ap);
-    va_end(ap);
-    if (n < 0) {
-        if (size) dest[0] = 0;
-        return 0;
-    }
-    if (static_cast<unsigned int>(n) >= size && size) dest[size - 1] = 0;
-    return n;
-}
+// Com_sprintf provided by src/universal/q_shared.cpp now.
 
-void Com_DefaultExtension(char *path, unsigned int maxSize, const char *extension)
-{
-    if (!path || !extension) return;
-    const char *dot = std::strrchr(path, '.');
-    const char *slash = std::strrchr(path, '/');
-    if (dot && (!slash || dot > slash)) return;
-    size_t len = std::strlen(path);
-    size_t extlen = std::strlen(extension);
-    if (len + extlen + 1 > maxSize) return;
-    std::memcpy(path + len, extension, extlen + 1);
-}
-
-const char *Com_GetFilenameSubString(const char *pathname)
-{
-    if (!pathname) return "";
-    const char *slash = std::strrchr(pathname, '/');
-    return slash ? slash + 1 : pathname;
-}
+// Com_DefaultExtension, Com_GetFilenameSubString provided by
+// src/universal/q_shared.cpp now.
 
 // Com_BuildPlayerProfilePath now provided by qcommon/com_playerprofile.cpp.
 // Com_HasPlayerProfile now provided by qcommon/com_playerprofile.cpp.
@@ -167,25 +132,7 @@ void Com_GetSoundFileName(const snd_alias_t * /*alias*/, char *out, int outSize)
 // I_str* — case-insensitive libc-ish helpers.
 // =========================================================================
 
-char *I_strlwr(char *s)
-{
-    for (char *p = s; *p; ++p) *p = static_cast<char>(std::tolower(static_cast<unsigned char>(*p)));
-    return s;
-}
-
-void I_strncat(char *dest, int size, const char *src)
-{
-    if (size <= 0 || !dest || !src) return;
-    size_t dl = std::strlen(dest);
-    if (static_cast<int>(dl) >= size) return;
-    size_t avail = static_cast<size_t>(size) - dl - 1;
-    std::strncat(dest, src, avail);
-}
-
-int I_strncmp(const char *s0, const char *s1, int n)
-{
-    return std::strncmp(s0, s1, static_cast<size_t>(n));
-}
+// I_strlwr, I_strncat, I_strncmp provided by src/universal/q_shared.cpp now.
 
 // =========================================================================
 // Info_* — userinfo/serverinfo key/value strings. Upstream impl is in a
@@ -193,8 +140,8 @@ int I_strncmp(const char *s0, const char *s1, int n)
 // build up a config string just get an empty result.
 // =========================================================================
 
-void Info_SetValueForKey(char * /*s*/, const char * /*key*/, const char * /*value*/) {}
-void Info_SetValueForKey_Big(char * /*s*/, const char * /*key*/, const char * /*value*/) {}
+// void Info_SetValueForKey(char * /*s*/, const char * /*key*/, const char * /*value*/) {}  // provided by q_shared.cpp now
+// void Info_SetValueForKey_Big(char * /*s*/, const char * /*key*/, const char * /*value*/) {}  // provided by q_shared.cpp now
 
 // =========================================================================
 // Sys_* — threading + system entry points not already in posix_stubs.cpp.
@@ -373,7 +320,7 @@ void DevGui_Update(int /*localClientNum*/, float /*frameTime*/) {}
 void LargeLocalReset() {}
 void LiveStorage_Init() {}
 // XAnimInit/Shutdown now provided by xanim/xanim.cpp.
-void Swap_Init() {}
+// void Swap_Init() {}  // provided by q_shared.cpp now
 // void SL_Init() {}  // provided by scr_variable/scr_stringlist now
 // void BG_ShutdownWeaponDefFiles() {}  // provided by bg_weapons.cpp now
 // int  BG_AnimScriptEvent(playerState_s * /*ps*/, scriptAnimEventTypes_t /*event*/, int /*isContinue*/, int /*force*/) { return 0; }  // provided by bg_animation_mp.cpp now
@@ -427,24 +374,14 @@ snd_alias_list_t *Com_FindSoundAlias(const char * /*name*/) { return nullptr; }
 char *Com_LoadRawTextFile(const char * /*filename*/) { return nullptr; }
 void Com_UnloadRawTextFile(char * /*buffer*/) {}
 // Com_SurfaceTypeToName provided by src/universal/surfaceflags.cpp now.
-int Com_sprintfPos(char *dest, int destSize, int *destPos, const char *fmt, ...)
-{
-    if (!dest || !destPos) return 0;
-    va_list ap;
-    va_start(ap, fmt);
-    int n = std::vsnprintf(dest + *destPos, destSize - *destPos, fmt, ap);
-    va_end(ap);
-    if (n < 0) return 0;
-    *destPos += n;
-    return n;
-}
-bool Info_Validate(const char * /*s*/) { return true; }
-int  I_strcmp(const char *a, const char *b) { return std::strcmp(a, b); }
-bool ParseConfigStringToStructCustomSize(unsigned char * /*pStruct*/, const cspField_t * /*pFieldList*/,
-                                         int /*iNumFields*/, char * /*pszBuffer*/, int /*iMaxFieldTypes*/,
-                                         int  (*)(unsigned char *, const char *, const int) /*parseSpecial*/,
-                                         void (*)(unsigned char *, const char *) /*parseStrcpy*/)
-{ return false; }
+// Com_sprintfPos provided by src/universal/q_shared.cpp now.
+// bool Info_Validate(const char * /*s*/) { return true; }  // provided by q_shared.cpp now
+// int  I_strcmp(const char *a, const char *b) { return std::strcmp(a, b); }  // provided by q_shared.cpp now
+// bool ParseConfigStringToStructCustomSize(unsigned char * /*pStruct*/, const cspField_t * /*pFieldList*/,  // provided by q_shared.cpp now
+                                         // int /*iNumFields*/, char * /*pszBuffer*/, int /*iMaxFieldTypes*/,
+                                         // int  (*)(unsigned char *, const char *, const int) /*parseSpecial*/,
+                                         // void (*)(unsigned char *, const char *) /*parseStrcpy*/)
+// { return false; }
 
 // FS - the read API path
 // unsigned int FS_FOpenFileByMode(char * /*qpath*/, int *file, fsMode_t /*mode*/) { if (file) *file = 0; return 0; }  // provided by com_files.cpp now
@@ -524,7 +461,7 @@ void DevGui_AddGraph(const char * /*name*/, DevGraph * /*graph*/) {}
 // int  FS_WriteFileToDir(const char * /*qpath*/, const char * /*dir*/, char * /*buffer*/, unsigned int /*size*/) { return 0; }  // provided by com_files.cpp now
 
 // I_str
-unsigned char I_CleanChar(unsigned char c) { return c; }
+// unsigned char I_CleanChar(unsigned char c) { return c; }  // provided by q_shared.cpp now
 
 // LiveStorage
 void LiveStorage_NewUser() {}
@@ -567,7 +504,7 @@ void TRACK_fx_system() {}
 // void TRACK_missile_attractors() {}  // provided by g_missile.cpp now
 // void TRACK_msg() {}  // provided by sv_msg_write_mp.cpp now
 void TRACK_phys() {}
-void TRACK_q_shared() {}
+// void TRACK_q_shared() {}  // provided by q_shared.cpp now
 void TRACK_r_buffers() {}
 void TRACK_r_debug() {}
 void TRACK_r_dpvs() {}
@@ -709,7 +646,7 @@ void Com_SafeClientDObjFree(unsigned int /*handle*/, int /*localClientNum*/) {}
 // char *FS_LoadedIwdPureChecksums() { static char empty[1] = {0}; return empty; }  // provided by com_files.cpp now
 // GScr_GetHeadIconIndex provided by src/game_mp/g_scr_main_mp.cpp now.
 // GScr_GetStatusIconIndex provided by src/game_mp/g_scr_main_mp.cpp now.
-int  I_stricmpwild(const char *s0, const char *s1) { return strcasecmp(s0 ? s0 : "", s1 ? s1 : ""); }
+// int  I_stricmpwild(const char *s0, const char *s1) { return strcasecmp(s0 ? s0 : "", s1 ? s1 : ""); }  // provided by q_shared.cpp now
 // IN_IsTalkKeyHeld provided by src/client_mp/cl_input.cpp now.
 bool Material_IsDefault(const Material * /*material*/) { return true; }
 // bool NET_OutOfBandVoiceData(netsrc_t /*sock*/, netadr_t /*adr*/, unsigned char * /*data*/, unsigned int /*len*/) { return false; }  // provided by net_chan_mp.cpp now
@@ -902,18 +839,14 @@ void dNormalize3(dVector3 /*v*/) {}
 // void ClosestApproachOfTwoLines(const float * /*p1*/, const float * /*d1*/, const float * /*p2*/, const float * /*d2*/, float *t1, float *t2)  // provided by com_math.cpp now
 // { if (t1) *t1 = 0; if (t2) *t2 = 0; }
 
-char *I_strupr(char *s)
-{
-    for (char *p = s; *p; ++p) *p = static_cast<char>(std::toupper(static_cast<unsigned char>(*p)));
-    return s;
-}
+// I_strupr provided by src/universal/q_shared.cpp now.
 
 // float kisak_random() { return std::rand() / float(RAND_MAX); }  // provided by com_math.cpp now
 
-bool ParseConfigStringToStruct(unsigned char * /*pStruct*/, const cspField_t * /*pFieldList*/,
-                               int /*iNumFields*/, char * /*pszBuffer*/, int /*iMaxFieldTypes*/,
-                               int  (*)(unsigned char *, const char *, const int) /*parseSpecial*/,
-                               void (*)(unsigned char *, const char *) /*parseStrcpy*/) { return false; }
+// bool ParseConfigStringToStruct(unsigned char * /*pStruct*/, const cspField_t * /*pFieldList*/,  // provided by q_shared.cpp now
+                               // int /*iNumFields*/, char * /*pszBuffer*/, int /*iMaxFieldTypes*/,
+                               // int  (*)(unsigned char *, const char *, const int) /*parseSpecial*/,
+                               // void (*)(unsigned char *, const char *) /*parseStrcpy*/) { return false; }
 
 // Phys collision helpers — stubs.
 bool Phys_AddContactData(Results * /*results*/, float /*depth*/, float * /*normal*/, float * /*pos*/, int /*type*/) { return false; }
@@ -1041,7 +974,7 @@ struct MemoryFile;
 // CL_WasMapAlreadyLoaded provided by src/client_mp/cl_main_mp.cpp now.
 
 void CM_LinkWorld() {}
-unsigned char ColorIndex(unsigned char /*c*/) { return 7; }
+// unsigned char ColorIndex(unsigned char /*c*/) { return 7; }  // provided by q_shared.cpp now
 snd_alias_t *Com_PickSoundAlias(const char * /*name*/) { return nullptr; }
 void Com_TouchMemory() {}
 
@@ -1055,7 +988,7 @@ void DB_EnumXAssets(XAssetType /*type*/, void (*)(XAssetHeader, void*) /*cb*/, v
 void DevGui_AddCommand(const char * /*name*/, char * /*menu*/) {}
 void FX_Archive(int /*localClientNum*/, MemoryFile * /*memFile*/) {}
 
-const char *Info_ValueForKey(const char * /*s*/, const char * /*key*/) { return ""; }
+// const char *Info_ValueForKey(const char * /*s*/, const char * /*key*/) { return ""; }  // provided by q_shared.cpp now
 
 // LargeLocal: real definition in universal/com_memory.h; provide impls.
 // Upstream is a per-frame scratch area; use plain malloc/free.
@@ -1461,7 +1394,7 @@ void Hunk_UserDestroy(HunkUser * /*user*/) {}
 //  XAnimSetupSyncNodes, XAnimInit, XAnimShutdown)
 
 // --- Misc -----------------------------------------------------------------
-bool I_iscsym(int c) { return std::isalnum(c) || c == '_'; }
+// bool I_iscsym(int c) { return std::isalnum(c) || c == '_'; }  // provided by q_shared.cpp now
 // ProfLoad_Begin now in qcommon/com_profilemapload.cpp.
 // ProfLoad_End now in qcommon/com_profilemapload.cpp.
 
@@ -1695,7 +1628,7 @@ void  CG_VehGunnerPOV(int, float *o, float *a)
 // void  CG_AddViewWeapon(int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // CG_ProcessEntity provided by src/cgame_mp/cg_ents_mp.cpp now.
 void  FX_FillUpdateCmd(int, FxCmd *) {}
-void  AddLeanToPosition(float *, float, float, float, float) {}
+// void  AddLeanToPosition(float *, float, float, float, float) {}  // provided by q_shared.cpp now
 // CG_DObjUpdateInfo provided by src/cgame_mp/cg_ents_mp.cpp now.
 // void  Key_RemoveCatcher(int, int) {}  // provided by cl_keys.cpp now
 double R_GetFarPlaneDist() { return 0.0; }
@@ -1934,14 +1867,7 @@ void FX_KillEffectDef(int, const FxEffectDef *) {}
 XModel *FX_RegisterModel(const char *) { return nullptr; }
 // menuDef_t *Menus_FindByName(const UiContext *, const char *) { return nullptr; }  // provided by ui_shared.cpp now
 // void BG_ClearWeaponDef() {}  // provided by bg_weapons.cpp now
-void Com_StripExtension(char *in, char *out)
-{
-    if (!in || !out) return;
-    const char *dot = nullptr;
-    for (const char *p = in; *p; ++p) { if (*p == '.') dot = p; }
-    if (dot) { size_t n = static_cast<size_t>(dot - in); std::memcpy(out, in, n); out[n] = '\0'; }
-    else     { std::strcpy(out, in); }
-}
+// Com_StripExtension provided by src/universal/q_shared.cpp now.
 // void UI_LoadIngameMenus(int) {}  // provided by ui_main_mp.cpp now
 void CG_VehRegisterDvars() {}
 // int32_t CG_WeaponDObjHandle(int32_t) { return 0; }  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
@@ -2186,8 +2112,8 @@ void Sys_BeginLoadThreadPriorities() {}
 // === sv_ccmds_mp satellites ======================================================
 
 // BG_SetPerk provided by src/game_mp/g_client_script_cmd_mp.cpp now.
-char *I_CleanStr(char *s) { return s; }
-int I_DrawStrlen(const char *s) { return s ? static_cast<int>(std::strlen(s)) : 0; }
+// char *I_CleanStr(char *s) { return s; }  // provided by q_shared.cpp now
+// int I_DrawStrlen(const char *s) { return s ? static_cast<int>(std::strlen(s)) : 0; }  // provided by q_shared.cpp now
 // SV_BanClient provided by src/server_mp/sv_client_mp.cpp now.
 void Scr_DoProfile(float) {}
 // void FS_ConvertPath(char *) {}  // provided by com_files.cpp now
@@ -2271,12 +2197,7 @@ void Steam_RequestAuthTicket() {}
 void  Sys_OpenURL(const char *, int) {}
 // void  FS_SV_Rename(char *, char *) {}  // provided by com_files.cpp now
 // CL_ClearState provided by src/client_mp/cl_main_mp.cpp now.
-void  Info_NextPair(const char **head, char *key, char *value)
-{
-    if (key) key[0] = '\0';
-    if (value) value[0] = '\0';
-    if (head) *head = nullptr;
-}
+// Info_NextPair provided by src/universal/q_shared.cpp now.
 // bool  FS_NeedRestart(int) { return false; }  // provided by com_files.cpp now
 // CL_DownloadsComplete provided by src/client_mp/cl_main_mp.cpp now.
 // int   FS_SV_FOpenFileWrite(const char *) { return 0; }  // provided by com_files.cpp now
@@ -2340,7 +2261,7 @@ void Scr_SetStructField(unsigned int, unsigned int) {}
 // void Scr_SetHudElemField(uint32_t, uint32_t) {}  // provided by game/ batch now
 // const gitem_s *BG_FindItemForWeapon(uint32_t, int32_t) { return nullptr; }  // provided by bg_misc.cpp now
 uint16_t Scr_ExecEntThreadNum(unsigned int, unsigned int, int, unsigned int) { return 0; }
-bool Com_IsLegacyXModelName(const char *) { return false; }
+// bool Com_IsLegacyXModelName(const char *) { return false; }  // provided by q_shared.cpp now
 void Scr_SetDynamicEntityField(unsigned int, unsigned int, unsigned int) {}
 // void Scr_FreeHudElemConstStrings(game_hudelem_s *) {}  // provided by game/ batch now
 unsigned int Scr_GetConstStringIncludeNull(unsigned int) { return 0u; }
@@ -2678,7 +2599,7 @@ int  SEH_VerifyLanguageSelection(int) { return 0; }
 // const dvar_t *xanim_debug                     = nullptr;  // provided by bg_misc.cpp now
 
 // void BG_CheckThread() {}  // provided by bg_misc.cpp now
-double GetLeanFraction(float v) { return (double)v; }
+// double GetLeanFraction(float v) { return (double)v; }  // provided by q_shared.cpp now
 
 // === bg_pmove satellites ===========================================================
 
@@ -2724,7 +2645,7 @@ void   DObjSetLocalTag(DObj_s *, int *, unsigned int, const float *, const float
 // int    PM_WeaponAmmoAvailable(playerState_s *) { return 0; }  // provided by bg_weapons.cpp now
 // void   ProjectPointOnPlane(const float *, const float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0.f; } }  // provided by com_math.cpp now
 void   Sys_SnapVector(float *) {}
-double UnGetLeanFraction(float v) { return (double)v; }
+// double UnGetLeanFraction(float v) { return (double)v; }  // provided by q_shared.cpp now
 // float  Vec2LengthSq(const float *v) { return v ? v[0] * v[0] + v[1] * v[1] : 0.f; }  // provided by com_math.cpp now
 
 // === bg_weapons satellites =========================================================
@@ -2801,7 +2722,7 @@ void  Scr_AddDebugText(char *) {}
 void  Scr_KeyEvent(int) {}
 int   SEH_GetCurrentLanguage() { return 0; }
 const char *Sys_GetClipboardData() { return nullptr; }
-bool I_isdigit(int c) { return c >= '0' && c <= '9'; }
+// bool I_isdigit(int c) { return c >= '0' && c <= '9'; }  // provided by q_shared.cpp now
 
 // === cl_console satellites =========================================================
 
@@ -2906,11 +2827,7 @@ void R_GetActiveWorldMatrix(GfxCmdBufSourceState *) {}
 
 // === com_files satellites ==========================================================
 
-const char *Com_GetExtensionSubString(const char *s) {
-    if (!s) return "";
-    const char *dot = std::strrchr(s, '.');
-    return dot ? dot : "";
-}
+// Com_GetExtensionSubString provided by src/universal/q_shared.cpp now.
 char *Hunk_CopyString(HunkUser *, const char *s) {
     if (!s) return nullptr;
     char *r = static_cast<char *>(std::malloc(std::strlen(s) + 1));
@@ -2920,7 +2837,7 @@ char *Hunk_CopyString(HunkUser *, const char *s) {
 void *Hunk_UserAlloc(HunkUser *, unsigned int size, int /*align*/) {
     return std::calloc(size > 0 ? size : 1, 1);
 }
-bool I_islower(int c) { return c >= 'a' && c <= 'z'; }
+// bool I_islower(int c) { return c >= 'a' && c <= 'z'; }  // provided by q_shared.cpp now
 int  SEH_GetLanguageIndexForName(const char *, int *out) { if (out) *out = 0; return 0; }
 const char *SEH_GetLanguageName(unsigned int) { return "english"; }
 void SEH_Init_StringEd() {}
@@ -2986,7 +2903,7 @@ char *Z_TryVirtualAlloc(int size, const char *, int) { return static_cast<char *
 // === ui_shared satellites ==========================================================
 
 // free_expression provided by src/ui/ui_shared_obj.cpp now.
-bool I_isforfilename(int c) { return (c > ' ' && c < 127); }
+// bool I_isforfilename(int c) { return (c > ' ' && c < 127); }  // provided by q_shared.cpp now
 // Item_SetupKeywordHash provided by src/ui/ui_shared_obj.cpp now.
 void LiveStorage_ValidateCaCStat(int, int, int) {}
 // Menu_FreeItemMemory provided by src/ui/ui_shared_obj.cpp now.

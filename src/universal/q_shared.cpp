@@ -106,7 +106,7 @@ bool I_isupper(int c)
 }
 bool I_isalpha(int c)
 {
-    return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z';
+    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
 }
 bool I_iscsym(int c)
 {
@@ -138,7 +138,7 @@ char* QDECL va(const char* format, ...) {
     index++;
 
     va_start(argptr, format);
-    vsprintf(buf, format, argptr);
+    vsnprintf(buf, sizeof(string[0]), format, argptr);
     va_end(argptr);
 
     return buf;
@@ -540,7 +540,7 @@ int Com_sprintfPos(char *dest, int destSize, int *destPos, const char *fmt, ...)
 bool __cdecl CanKeepStringPointer(const char *string)
 {
     va_info_t *info; // [esp+0h] [ebp-8h]
-    char stackArray[4]; // [esp+4h] [ebp-4h] BYREF
+    [[maybe_unused]] char stackArray[4]; // [esp+4h] [ebp-4h] BYREF
 
     // KISAKTODO: re-eval
     //if (string >= stackArray && string < (char *)&STACK[0x2004])
@@ -763,12 +763,12 @@ bool __cdecl Info_Validate(const char *s)
     int v1; // eax
     int v3; // eax
 
-    v1 = (int)strchr(s, 0x22u);
+    v1 = (int)(uintptr_t)strchr(s, 0x22u);
 
     if (v1)
         return 0;
 
-    v3 = (int)strchr(s, 0x3Bu);
+    v3 = (int)(uintptr_t)strchr(s, 0x3Bu);
 
     return v3 == 0;
 }
@@ -805,21 +805,21 @@ void __cdecl Info_SetValueForKey(char *s, const char *key, const char *value)
         if (j >= 1024)
             MyAssertHandler(".\\universal\\q_shared.cpp", 1275, 0, "%s", "j < MAX_INFO_STRING");
         cleanValue[j] = 0;
-        v3 = (int)strchr(key, 0x5Cu);
+        v3 = (int)(uintptr_t)strchr(key, 0x5Cu);
         if (v3)
         {
             Com_Printf(16, "Can't use keys with a \\ key: %s value: %s", key, value);
         }
         else
         {
-            v4 = (int)strchr(key, 0x3Bu);
+            v4 = (int)(uintptr_t)strchr(key, 0x3Bu);
             if (v4)
             {
                 Com_Printf(16, "Can't use keys with a semicolon. key: %s value: %s", key, value);
             }
             else
             {
-                v5 = (int)strchr(key, 0x22u);
+                v5 = (int)(uintptr_t)strchr(key, 0x22u);
                 if (v5)
                 {
                     Com_Printf(16, "Can't use keys with a \". key: %s value: %s", key, value);
@@ -885,21 +885,21 @@ void __cdecl Info_SetValueForKey_Big(char *s, const char *key, const char *value
         if (v6 >= 0x2000)
             MyAssertHandler(".\\universal\\q_shared.cpp", 1355, 0, "%s", "j < BIG_INFO_STRING");
         v8[v6] = 0;
-        v3 = (int)strchr(key, 0x5Cu);
+        v3 = (int)(uintptr_t)strchr(key, 0x5Cu);
         if (v3)
         {
             Com_Printf(16, "Can't use keys with a \\ key: %s value: %s", key, value);
         }
         else
         {
-            v4 = (int)strchr(key, 0x3Bu);
+            v4 = (int)(uintptr_t)strchr(key, 0x3Bu);
             if (v4)
             {
                 Com_Printf(16, "Can't use keys with a semicolon. key: %s value: %s", key, value);
             }
             else
             {
-                v5 = (int)strchr(key, 0x22u);
+                v5 = (int)(uintptr_t)strchr(key, 0x22u);
                 if (v5)
                 {
                     Com_Printf(16, "Can't use keys with a \". key: %s value: %s", key, value);
@@ -1041,13 +1041,13 @@ bool __cdecl ParseConfigStringToStructCustomSize(
 #endif
                     {
                         v9 = FX_Register(src);
-                        *(unsigned int *)&pStruct[v20->iOffset] = (unsigned int)v9;
+                        *(unsigned int *)&pStruct[v20->iOffset] = (unsigned int)(uintptr_t)v9;
                     }
                     break;
                 case 9:
                     I_strncpyz(dest, src, 0x2000);
                     v22 = R_RegisterModel(dest);
-                    *(unsigned int *)&pStruct[v20->iOffset] = (unsigned int)v22;
+                    *(unsigned int *)&pStruct[v20->iOffset] = (unsigned int)(uintptr_t)v22;
                     if (!v22)
                         v18 = 1;
                     break;
@@ -1057,12 +1057,12 @@ bool __cdecl ParseConfigStringToStructCustomSize(
 #endif
                     {
                         v10 = Material_RegisterHandle(src, 0);
-                        *(unsigned int *)&pStruct[v20->iOffset] = (unsigned int)v10;
+                        *(unsigned int *)&pStruct[v20->iOffset] = (unsigned int)(uintptr_t)v10;
                     }
                     break;
                 case 0xB:
                     SoundAlias = Com_FindSoundAlias(src);
-                    *(unsigned int *)&pStruct[v20->iOffset] = (unsigned int)SoundAlias;
+                    *(unsigned int *)&pStruct[v20->iOffset] = (unsigned int)(uintptr_t)SoundAlias;
                     break;
                 default:
                     if (v20->iFieldType >= 0)

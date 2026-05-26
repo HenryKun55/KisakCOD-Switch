@@ -34,6 +34,7 @@ set(UNIVERSAL_PORTABLE_SOURCES
     "${SRC_DIR}/universal/com_math_anglevectors.cpp"
     "${SRC_DIR}/universal/com_shared.cpp"
     "${SRC_DIR}/universal/pool_allocator.cpp"
+    "${SRC_DIR}/universal/q_shared.cpp"
     "${SRC_DIR}/universal/surfaceflags.cpp"
     "${SRC_DIR}/universal/dvar.cpp"
     "${SRC_DIR}/universal/dvar_cmds.cpp"

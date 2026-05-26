@@ -20,29 +20,7 @@ enum errorParm_t : int;
 
 // I_stricmp: declared in universal/q_shared.h, defined in q_shared.cpp.
 // Direct POSIX equivalent.
-int I_stricmp(const char *s0, const char *s1)
-{
-    return ::strcasecmp(s0 ? s0 : "", s1 ? s1 : "");
-}
-
-int I_strnicmp(const char *s0, const char *s1, int n)
-{
-    if (n <= 0) return 0;
-    return ::strncasecmp(s0 ? s0 : "", s1 ? s1 : "", (size_t)n);
-}
-
-// I_strncpyz: Quake3 "safe strncpy" — copies up to destsize-1 bytes and
-// always null-terminates. Defined in q_shared.cpp upstream.
-void I_strncpyz(char *dest, const char *src, int destsize)
-{
-    if (!dest || destsize <= 0) return;
-    if (!src) { dest[0] = '\0'; return; }
-    int i = 0;
-    for (; i < destsize - 1 && src[i]; ++i) {
-        dest[i] = src[i];
-    }
-    dest[i] = '\0';
-}
+// I_stricmp, I_strnicmp, I_strncpyz provided by src/universal/q_shared.cpp now.
 
 // AxisToQuat: build a quaternion (x, y, z, w) from a 3x3 rotation matrix
 // `mat` stored as row-major. Declared in universal/com_math.h; full
@@ -110,20 +88,7 @@ void Sys_SetValue(int valueIndex, void *value)
 // "rotating buffer" count so call chains like
 //   Com_Printf("%s %s %s", va("..."), va("..."), va("..."))
 // never overwrite an earlier slot before it's consumed.
-char *va(const char *format, ...)
-{
-    constexpr int VA_SLOTS = 32;
-    constexpr int VA_SLOT_SIZE = 1024;
-    static char buffers[VA_SLOTS][VA_SLOT_SIZE];
-    static int  slot = 0;
-    char *out = buffers[slot];
-    slot = (slot + 1) & (VA_SLOTS - 1);
-    va_list ap;
-    va_start(ap, format);
-    std::vsnprintf(out, VA_SLOT_SIZE, format ? format : "", ap);
-    va_end(ap);
-    return out;
-}
+// va provided by src/universal/q_shared.cpp now.
 
 // _copyDWord now lives in qcommon/common.cpp.
 
@@ -252,16 +217,12 @@ void CM_LoadMapData_LoadObj(const char * /*name*/) {}
 // covers its size (~16 KB per slot). The collision code only writes to
 // thread-local copies, never reads the array directly in the cm_* set we
 // link today, so the storage is effectively dead.
-#include <qcommon/thread_context.h>
-struct TraceThreadInfo;
-alignas(16) static unsigned char g_traceThreadInfo_storage[THREAD_CONTEXT_COUNT * 16384];
+// g_traceThreadInfo storage provided by src/universal/q_shared.cpp now.
 // `g_traceThreadInfo` is declared `extern TraceThreadInfo array[N]` in
 // upstream — we define the storage as an array via reinterpret_cast so
 // the linker resolves both decl forms. Use `extern` linkage explicitly
 // to avoid the const-pointer-treated-as-internal warning.
-extern TraceThreadInfo * const g_traceThreadInfo;
-TraceThreadInfo * const g_traceThreadInfo =
-    reinterpret_cast<TraceThreadInfo *>(g_traceThreadInfo_storage);
+// g_traceThreadInfo provided by src/universal/q_shared.cpp now.
 
 // useFastFile is now defined in qcommon/common.cpp (real upstream).
 
@@ -331,23 +292,4 @@ Material *Material_RegisterHandle(const char * /*name*/, int /*imageTrack*/)
 // I_stristr: case-insensitive substring search. Manual implementation
 // because strcasestr is a non-standard extension (BSD/GNU) and may not be
 // in Switch newlib.
-const char *I_stristr(const char *haystack, const char *needle)
-{
-    if (!haystack || !needle || !*needle) {
-        return haystack;
-    }
-    for (; *haystack; ++haystack) {
-        const char *h = haystack;
-        const char *n = needle;
-        while (*h && *n &&
-               std::tolower(static_cast<unsigned char>(*h)) ==
-                   std::tolower(static_cast<unsigned char>(*n))) {
-            ++h;
-            ++n;
-        }
-        if (!*n) {
-            return haystack;
-        }
-    }
-    return nullptr;
-}
+// I_stristr provided by src/universal/q_shared.cpp now.
