@@ -155,6 +155,7 @@ set(DATABASE_PORTABLE_SOURCES
 )
 
 set(DEVGUI_PORTABLE_SOURCES
+    "${SRC_DIR}/devgui/devgui.cpp"
     "${SRC_DIR}/devgui/devgui_input.cpp"
     "${SRC_DIR}/devgui/devgui_util.cpp"
 )
@@ -207,10 +208,13 @@ set(SERVER_PORTABLE_SOURCES
 )
 
 set(SOUND_PORTABLE_SOURCES
+    # snd_driver.cpp pulls Miles Sound System (MSS.H) — Win32-only — and
+    # Bink. Bring back behind an audio abstraction layer.
     "${SRC_DIR}/sound/snd_utils.cpp"
 )
 
 set(CGAME_PORTABLE_SOURCES
+    # cg_actors.cpp is SP-only (AI subsystem)
     "${SRC_DIR}/cgame/cg_camerashake.cpp"
     "${SRC_DIR}/cgame/cg_colltree.cpp"
     "${SRC_DIR}/cgame/cg_compass.cpp"

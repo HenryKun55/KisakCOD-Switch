@@ -314,7 +314,7 @@ int  Scr_UpdateDebugSocket() { return 0; }
 // void FakeLag_Shutdown() {}  // provided by net_chan_mp.cpp now
 void FX_UnregisterAll() {}
 void IN_Frame() {}
-void DevGui_Update(int /*localClientNum*/, float /*frameTime*/) {}
+// void DevGui_Update(int /*localClientNum*/, float /*frameTime*/) {}
 // Ragdoll_Update now provided by ragdoll/ragdoll_update.cpp.
 // SetAnimCheck now provided by script/scr_animtree.cpp.
 void LargeLocalReset() {}
@@ -449,7 +449,7 @@ struct NetField;
 char *Com_LoadInfoString(char * /*filename*/, const char * /*fileDesc*/, const char * /*ident*/, char * /*loadBuffer*/) { return nullptr; }
 
 // DevGui
-void DevGui_AddGraph(const char * /*name*/, DevGraph * /*graph*/) {}
+// void DevGui_AddGraph(const char * /*name*/, DevGraph * /*graph*/) {}
 
 // FS_
 // void FS_BuildOSPath(const char * /*base*/, const char * /*game*/, const char * /*qpath*/, char *ospath)  // provided by com_files.cpp now
@@ -496,7 +496,7 @@ char *Z_MallocGarbage(int size, const char * /*name*/, int /*type*/)
 void TRACK_cm_world() {}
 // void TRACK_com_math() {}  // provided by com_math.cpp now
 void TRACK_db_registry() {}
-void TRACK_devgui() {}
+// void TRACK_devgui() {}
 void TRACK_dobj_management() {}
 void TRACK_fx_marks() {}
 // void TRACK_fx_random() {}  // provided by fx_random.cpp now
@@ -576,7 +576,7 @@ double FX_GetClientVisibility(int /*localClientNum*/, const float * /*origin*/, 
 // BG_EvaluateTrajectory provided by src/bgame/bg_misc.cpp now.
 
 // DevGui
-void DevGui_Toggle() {}
+// void DevGui_Toggle() {}
 
 // R_ (renderer cmds — these just queue commands; no-op in stub mode)
 void R_AddCmdDrawText(const char * /*text*/, int /*max*/, Font_s * /*font*/,
@@ -985,7 +985,7 @@ void Com_TouchMemory() {}
 // void Con_TimeNudged(int /*localClientNum*/, int /*delta*/) {}  // provided by cl_console.cpp now
 
 void DB_EnumXAssets(XAssetType /*type*/, void (*)(XAssetHeader, void*) /*cb*/, void * /*ctx*/, bool /*loaded*/) {}
-void DevGui_AddCommand(const char * /*name*/, char * /*menu*/) {}
+// void DevGui_AddCommand(const char * /*name*/, char * /*menu*/) {}
 // void FX_Archive(int, MemoryFile*) {}  // provided by fx_archive.cpp now
 
 // const char *Info_ValueForKey(const char * /*s*/, const char * /*key*/) { return ""; }  // provided by q_shared.cpp now
@@ -1927,7 +1927,7 @@ BOOL    Scr_IsSystemActive() { return 0; }
 void   R_EndFrame() {}
 // void   UI_Refresh(int) {}  // provided by ui_main_mp.cpp now
 // CL_DrawLogo provided by src/client_mp/cl_main_mp.cpp now.
-void   DevGui_Draw(int) {}
+// void   DevGui_Draw(int) {}
 void   R_BeginFrame() {}
 // void   UI_UpdateTime(int, int) {}  // provided by ui_main_mp.cpp now
 // void   Con_DrawConsole(int) {}  // provided by cl_console.cpp now
@@ -2028,7 +2028,7 @@ void Hunk_OverrideDataForFile(int, const char *, void *) {}
 // === cl_input satellites =========================================================
 
 // void UI_MouseEvent(int, int, int) {}  // provided by ui_main_mp.cpp now
-bool DevGui_IsActive() { return false; }
+// bool DevGui_IsActive() { return false; }
 bool Sys_IsLANAddress(netadr_t) { return false; }
 void IN_ShowSystemCursor(BOOL) {}
 // void AimAssist_UpdateMouseInput(const AimInput *, AimOutput *) {}  // provided by aim_assist.cpp now
@@ -2461,7 +2461,7 @@ unsigned int Scr_GetConstLowercaseString(unsigned int) { return 0u; }
 void R_Shutdown(int) {}
 void SND_Update() {}
 void Sys_ShowIP() {}
-void DevGui_Init() {}
+// void DevGui_Init() {}
 // void FS_CopyFile(char *, char *) {}  // provided by com_files.cpp now
 void SND_Restore(MemoryFile *) {}
 // void FS_FileClose(FILE *) {}  // provided by com_files.cpp now
@@ -2469,7 +2469,7 @@ void SND_Shutdown() {}
 // int  FS_FileExists(char *) { return 0; }  // provided by com_files.cpp now
 // void UI_OpenMenu_f() {}  // provided by ui_main_mp.cpp now
 // CL_DevGuiFrame provided by src/client/cl_devgui.cpp now.
-void DevGui_AddDvar(const char *, const dvar_s *) {}
+// void DevGui_AddDvar(const char *, const dvar_s *) {}
 Font_s *R_RegisterFont(const char *, int) { return nullptr; }
 void Sys_NormalExit() {}
 // void UI_CloseMenu_f() {}  // provided by ui_main_mp.cpp now
@@ -2477,8 +2477,8 @@ void Sys_NormalExit() {}
 void Voice_Playback() {}
 char *Z_VirtualAlloc(int size, const char *, int) { return static_cast<char *>(std::calloc(size > 0 ? size : 1, 1)); }
 // CL_CreateDevGui provided by src/client/cl_devgui.cpp now.
-void DevGui_OpenMenu(const char *) {}
-void DevGui_Shutdown() {}
+// void DevGui_OpenMenu(const char *) {}
+// void DevGui_Shutdown() {}
 void R_MakeDedicated(const GfxConfiguration *) {}
 void Sys_ShowConsole() {}
 // CL_DestroyDevGui provided by src/client/cl_devgui.cpp now.
@@ -2698,7 +2698,7 @@ char SND_GetKnownLength(int, int *out) { if (out) *out = 0; return 0; }
 // === cl_devgui satellites ==========================================================
 
 // R_CreateDevGui provided by src/gfx_d3d/r_devgui.cpp now.
-void DevGui_RemoveMenu(const char *) {}
+// void DevGui_RemoveMenu(const char *) {}
 void Com_InitSoundDevGuiGraphs() {}
 
 // === cl_keys satellites ============================================================
@@ -2725,7 +2725,7 @@ void Com_InitSoundDevGuiGraphs() {}
 // void  Con_ToggleConsoleOutput() {}  // provided by cl_console.cpp now
 // const char *Con_TokenizeInput() { return ""; }  // provided by cl_console.cpp now
 // void  Con_Top() {}  // provided by cl_console.cpp now
-bool  DevGui_KeyPressed(int) { return false; }
+// bool  DevGui_KeyPressed(int) { return false; }
 void  ReplaceString(const char **, const char *) {}
 void  Scr_AddDebugText(char *) {}
 void  Scr_KeyEvent(int) {}

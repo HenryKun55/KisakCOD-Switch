@@ -144,6 +144,7 @@ set(DATABASE_PORTABLE_SOURCES
 )
 
 set(DEVGUI_PORTABLE_SOURCES
+    "${SRC_DIR}/devgui/devgui.cpp"
     "${SRC_DIR}/devgui/devgui_input.cpp"
     "${SRC_DIR}/devgui/devgui_util.cpp"
 )

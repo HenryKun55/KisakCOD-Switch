@@ -48,8 +48,8 @@ void __cdecl DevGui_AddDvar(const char *path, const dvar_s *dvar)
         menu = DevGui_GetMenu(handle);
         if (!menu)
             MyAssertHandler(".\\devgui\\devgui.cpp", 451, 0, "%s", "menu");
-        if (!menu->menus[0].childType && !menu->menus[0].child.menu
-            || menu->menus[0].childType == 1 && menu->menus[0].child.dvar == dvar)
+        if ((!menu->menus[0].childType && !menu->menus[0].child.menu)
+            || ( menu->menus[0].childType == 1 && menu->menus[0].child.dvar == dvar))
         {
             menu->menus[0].childType = 1;
             menu->menus[0].child.command = (const char *)dvar;
@@ -334,8 +334,8 @@ void __cdecl DevGui_AddCommand(const char *path, char *command)
         menu = DevGui_GetMenu(handle);
         if (!menu)
             MyAssertHandler(".\\devgui\\devgui.cpp", 476, 0, "%s", "menu");
-        if (!menu->menus[0].childType && !menu->menus[0].child.menu
-            || menu->menus[0].childType == 2 && menu->menus[0].child.command == command)
+        if ((!menu->menus[0].childType && !menu->menus[0].child.menu)
+            || (menu->menus[0].childType == 2 && menu->menus[0].child.command == command))
         {
             menu->menus[0].childType = 2;
             menu->menus[0].child.command = CopyString(command);
@@ -380,8 +380,8 @@ void __cdecl DevGui_AddGraph(const char *path, DevGraph *graph)
 
         iassert(menu);
 
-        if (!menu->menus[0].childType && !menu->menus[0].child.menu
-            || menu->menus[0].childType == 3 && menu->menus[0].child.graph == graph)
+        if ((!menu->menus[0].childType && !menu->menus[0].child.menu)
+            || (menu->menus[0].childType == 3 && menu->menus[0].child.graph == graph))
         {
             menu->menus[0].childType = 3;
             menu->menus[0].child.command = (const char *)graph;
@@ -478,7 +478,7 @@ void __cdecl DevGui_FreeMenu_r(uint16_t handle)
             DevGui_FreeMenu_r(menu->menus[0].child.menu);
         }
         DevGui_FreeMenu_r(menu->menus[0].nextSibling);
-        *(uint32_t*)menu->menus[0].label = (uint32_t)devguiGlob.nextFreeMenu;
+        *(uintptr_t *)menu->menus[0].label = (uintptr_t)devguiGlob.nextFreeMenu;
         devguiGlob.nextFreeMenu = (DevMenuItem *)menu;
     }
 }
@@ -1183,8 +1183,8 @@ void __cdecl DevGui_Init()
     screen_xPad = RETURN_ZERO32();
     screen_yPad = RETURN_ZERO32();
     for (menuIndex = 0; menuIndex < 0x257; ++menuIndex)
-        *(uint32_t *)devguiGlob.menus[menuIndex].label = (uint32_t)&devguiGlob.menus[menuIndex + 1];
-    *(uint32_t *)devguiGlob.menus[menuIndex].label = 0;
+        *(uintptr_t *)devguiGlob.menus[menuIndex].label = (uintptr_t)&devguiGlob.menus[menuIndex + 1];
+    *(uintptr_t *)devguiGlob.menus[menuIndex].label = 0;
     devguiGlob.nextFreeMenu = (DevMenuItem *)&devguiGlob;
     devguiGlob.topmostMenu.childType = 0;
     devguiGlob.topmostMenu.childMenuMemory = 0;
@@ -1356,7 +1356,7 @@ void __cdecl DevGui_KeyPressed(int32_t key)
                 menu = (DevMenuItem *)DevGui_GetMenu(handle);
                 if (!menu)
                     MyAssertHandler(".\\devgui\\devgui.cpp", 2037, 0, "%s", "menu");
-                if (menu->parent && (!menu->childType || menu->childType == 1 && !devguiGlob.editingMenuItem))
+                if (menu->parent && (!menu->childType || (menu->childType == 1 && !devguiGlob.editingMenuItem)))
                     handle = menu->parent;
                 DevGui_GetSliderPath(handle, path, 0);
                 v1 = va("devgui_open \"%s\"", path);
