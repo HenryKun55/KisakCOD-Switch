@@ -29,6 +29,7 @@ set(UNIVERSAL_PORTABLE_SOURCES
     "${SRC_DIR}/universal/base64.cpp"
     "${SRC_DIR}/universal/com_constantconfigstrings.cpp"
     "${SRC_DIR}/universal/com_convexhull.cpp"
+    "${SRC_DIR}/universal/com_math.cpp"
     "${SRC_DIR}/universal/com_math_anglevectors.cpp"
     "${SRC_DIR}/universal/com_shared.cpp"
     "${SRC_DIR}/universal/dvar.cpp"

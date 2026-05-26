@@ -935,8 +935,8 @@ void __cdecl Vec2NormalizeFast(float *v)
 
 void __cdecl PerpendicularVector(const float* src, float* dst)
 {
-    const char* v2; // eax
-    float scale; // [esp+18h] [ebp-34h]
+    [[maybe_unused]] const char* v2; // eax
+    [[maybe_unused]] float scale; // [esp+18h] [ebp-34h]
     int pos; // [esp+38h] [ebp-14h]
     float d; // [esp+3Ch] [ebp-10h]
     float srcSq[3]; // [esp+40h] [ebp-Ch]
@@ -994,13 +994,13 @@ void __cdecl ClosestApproachOfTwoLines(
     float diff[3]; // [esp+Ch] [ebp-30h] BYREF
     float invDet; // [esp+18h] [ebp-24h]
     float dir2LenSq; // [esp+1Ch] [ebp-20h]
-    float diffDiff; // [esp+20h] [ebp-1Ch]
+    [[maybe_unused]] float diffDiff; // [esp+20h] [ebp-1Ch]
     float dir1dir2; // [esp+24h] [ebp-18h]
     float dir1LenSq; // [esp+28h] [ebp-14h]
     float det; // [esp+2Ch] [ebp-10h]
     float dir1Diff; // [esp+30h] [ebp-Ch]
     float dir2Diff; // [esp+34h] [ebp-8h]
-    float EPSILON; // [esp+38h] [ebp-4h]
+    [[maybe_unused]] float EPSILON; // [esp+38h] [ebp-4h]
 
     Vec3Sub(p1, p2, diff);
     dir1LenSq = Vec3LengthSq(dir1);
@@ -2155,8 +2155,8 @@ LABEL_7:
 
 void __cdecl ProjectPointOnPlane(const float *const f1, const float *const normal, float *const result)
 {
-    const char *v3; // eax
-    double v4; // [esp+18h] [ebp-14h]
+    [[maybe_unused]] const char *v3; // eax
+    [[maybe_unused]] double v4; // [esp+18h] [ebp-14h]
     float d; // [esp+28h] [ebp-4h]
 
     iassert(Vec3IsNormalized(normal));
@@ -2336,19 +2336,22 @@ void __cdecl ConvertQuatToInverseMat(const DObjAnimMat *mat, float (*axis)[3])
     float zz = scaledQuat[2] * mat->quat[2];
     float zw = scaledQuat[2] * mat->quat[3];
 
-    (*axis)[0] = 1.0 - (yy + zz);
-    (*axis)[1] = xy - zw;
-    (*axis)[2] = xz + yw;
-    (*axis)[3] = xy + zw;
-    (*axis)[4] = 1.0 - (xx + zz);
-    (*axis)[5] = yz - xw;
-    (*axis)[6] = xz - yw;
-    (*axis)[7] = yz + xw;
-    (*axis)[8] = 1.0 - (xx + yy);
+    // axis is declared as `float (*)[3]` but the actual storage is mat3x4
+    // (12 floats); the upstream code indexes flatly into it.
+    float *a = reinterpret_cast<float *>(axis);
+    a[0] = 1.0 - (yy + zz);
+    a[1] = xy - zw;
+    a[2] = xz + yw;
+    a[3] = xy + zw;
+    a[4] = 1.0 - (xx + zz);
+    a[5] = yz - xw;
+    a[6] = xz - yw;
+    a[7] = yz + xw;
+    a[8] = 1.0 - (xx + yy);
 
-    (*axis)[9] =  -(mat->trans[0] * (*axis)[0] + mat->trans[1] * (*axis)[3] + mat->trans[2] * (*axis)[6]);
-    (*axis)[10] = -(mat->trans[0] * (*axis)[1] + mat->trans[1] * (*axis)[4] + mat->trans[2] * (*axis)[7]);
-    (*axis)[11] = -(mat->trans[0] * (*axis)[2] + mat->trans[1] * (*axis)[5] + mat->trans[2] * (*axis)[8]);
+    a[9]  = -(mat->trans[0] * a[0] + mat->trans[1] * a[3] + mat->trans[2] * a[6]);
+    a[10] = -(mat->trans[0] * a[1] + mat->trans[1] * a[4] + mat->trans[2] * a[7]);
+    a[11] = -(mat->trans[0] * a[2] + mat->trans[1] * a[5] + mat->trans[2] * a[8]);
 }
 
 void __cdecl ConvertQuatToMat(const DObjAnimMat *mat, float (*axis)[3])
@@ -2382,15 +2385,17 @@ void __cdecl ConvertQuatToMat(const DObjAnimMat *mat, float (*axis)[3])
     yw = scaledQuat[1] * mat->quat[3];
     zz = scaledQuat[2] * mat->quat[2];
     zw = scaledQuat[2] * mat->quat[3];
-    (*axis)[0] = 1.0 - (float)(yy + zz);
-    (*axis)[1] = xy + zw;
-    (*axis)[2] = xz - yw;
-    (*axis)[3] = xy - zw;
-    (*axis)[4] = 1.0 - (float)(xx + zz);
-    (*axis)[5] = yz + xw;
-    (*axis)[6] = xz + yw;
-    (*axis)[7] = yz - xw;
-    (*axis)[8] = 1.0 - (float)(xx + yy);
+    // axis declared as `float (*)[3]`, underlying storage is mat3x3 (9 floats).
+    float *a = reinterpret_cast<float *>(axis);
+    a[0] = 1.0 - (float)(yy + zz);
+    a[1] = xy + zw;
+    a[2] = xz - yw;
+    a[3] = xy - zw;
+    a[4] = 1.0 - (float)(xx + zz);
+    a[5] = yz + xw;
+    a[6] = xz + yw;
+    a[7] = yz - xw;
+    a[8] = 1.0 - (float)(xx + yy);
 }
 
 void __cdecl MatrixTransformVectorQuatTrans(const vec3r in, const DObjAnimMat *mat, vec3r out)
@@ -2482,9 +2487,10 @@ void __cdecl AxisToSignedAngles(const float (*axis)[3], float *angles)
     float fSin; // [esp+34h] [ebp-4h]
 
     vectosignedangles((const float *)axis, angles);
-    right[0] = (*axis)[3];
-    right[1] = (*axis)[4];
-    right[2] = (*axis)[5];
+    const float *axisFlat = reinterpret_cast<const float *>(axis);
+    right[0] = axisFlat[3];
+    right[1] = axisFlat[4];
+    right[2] = axisFlat[5];
     //rad = COERCE_FLOAT(*((_DWORD *)angles + 1) ^ _mask__NegFloat_) * 0.017453292;
     rad = (float)((float)-angles[1] * (float)0.017453292);
     fCos = cos(rad);
@@ -3066,13 +3072,15 @@ void __cdecl InfinitePerspectiveMatrix(float (*mtx)[4], float tanHalfFovX, float
     iassert(mtx);
     iassert(zNear > 0);
 
-    memset((unsigned __int8 *)mtx, 0, sizeof(mat4x4));
+    std::memset((void *)mtx, 0, sizeof(mat4x4));
 
-    (*mtx)[0] = MAX_11BIT_FLT / tanHalfFovX;
-    (*mtx)[5] = MAX_11BIT_FLT / tanHalfFovY;
-    (*mtx)[10] = MAX_11BIT_FLT;
-    (*mtx)[11] = 1.0f;
-    (*mtx)[14] = -zNear * MAX_11BIT_FLT;
+    // mtx declared as `float (*)[4]`, underlying storage is mat4x4 (16 floats).
+    float *m = reinterpret_cast<float *>(mtx);
+    m[0]  = MAX_11BIT_FLT / tanHalfFovX;
+    m[5]  = MAX_11BIT_FLT / tanHalfFovY;
+    m[10] = MAX_11BIT_FLT;
+    m[11] = 1.0f;
+    m[14] = -zNear * MAX_11BIT_FLT;
 }
 
 void __cdecl ClearBounds(float *mins, float *maxs)
@@ -3304,13 +3312,15 @@ void __cdecl FinitePerspectiveMatrix(float (*mtx)[4], float tanHalfFovX, float t
     iassert(zNear > 0.0f);
     iassert(zFar > zNear);
 
-    memset((unsigned __int8 *)mtx, 0, 0x40u);
+    std::memset((void *)mtx, 0, 0x40u);
 
-    (*mtx)[0] = 1.0 / tanHalfFovX;
-    (*mtx)[5] = 1.0 / tanHalfFovY;
-    (*mtx)[10] = -zFar / (zNear - zFar);
-    (*mtx)[11] = 1.0;
-    (*mtx)[14] = zNear * zFar / (zNear - zFar);
+    // mtx declared as `float (*)[4]`, underlying storage is mat4x4 (16 floats).
+    float *m = reinterpret_cast<float *>(mtx);
+    m[0]  = 1.0 / tanHalfFovX;
+    m[5]  = 1.0 / tanHalfFovY;
+    m[10] = -zFar / (zNear - zFar);
+    m[11] = 1.0;
+    m[14] = zNear * zFar / (zNear - zFar);
 }
 
 // KISAKTODO: double check this function's logic

@@ -105,59 +105,8 @@ void Z_Free(void *ptr, int /*type*/)
     std::free(ptr);
 }
 
-bool Vec4Compare(const float *a, const float *b)
-{
-    return a[0] == b[0] && a[1] == b[1] && a[2] == b[2] && a[3] == b[3];
-}
-
-bool Vec4IsNormalized(const float *v)
-{
-    float ls = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-    return ls > 0.99f && ls < 1.01f;
-}
-
-// Right-handed orthonormal basis from a forward vector. CoD convention:
-// `forward` is the input direction, `left` and `up` are the two basis
-// vectors completing the frame (forward × up = left).
-void Vec3Basis_RightHanded(const float *forward, float *left, float *up)
-{
-    float ax = std::fabs(forward[0]);
-    float ay = std::fabs(forward[1]);
-    float az = std::fabs(forward[2]);
-    float seed[3];
-    if (ax <= ay && ax <= az)      { seed[0] = 1; seed[1] = 0; seed[2] = 0; }
-    else if (ay <= ax && ay <= az) { seed[0] = 0; seed[1] = 1; seed[2] = 0; }
-    else                           { seed[0] = 0; seed[1] = 0; seed[2] = 1; }
-    // up = normalize(seed - dot(seed,forward) * forward)
-    float d = seed[0] * forward[0] + seed[1] * forward[1] + seed[2] * forward[2];
-    up[0] = seed[0] - d * forward[0];
-    up[1] = seed[1] - d * forward[1];
-    up[2] = seed[2] - d * forward[2];
-    float ul = std::sqrt(up[0] * up[0] + up[1] * up[1] + up[2] * up[2]);
-    if (ul > 0) { up[0] /= ul; up[1] /= ul; up[2] /= ul; }
-    // left = forward × up
-    left[0] = forward[1] * up[2] - forward[2] * up[1];
-    left[1] = forward[2] * up[0] - forward[0] * up[2];
-    left[2] = forward[0] * up[1] - forward[1] * up[0];
-}
-
-// Quaternion (x, y, z, w) → 3x3 rotation. CoD stores axes row-major.
-void UnitQuatToAxis(const float *quat, float (&axis)[3][3])
-{
-    const float x = quat[0], y = quat[1], z = quat[2], w = quat[3];
-    const float xx = x * x, yy = y * y, zz = z * z;
-    const float xy = x * y, xz = x * z, yz = y * z;
-    const float wx = w * x, wy = w * y, wz = w * z;
-    axis[0][0] = 1 - 2 * (yy + zz);
-    axis[0][1] = 2 * (xy + wz);
-    axis[0][2] = 2 * (xz - wy);
-    axis[1][0] = 2 * (xy - wz);
-    axis[1][1] = 1 - 2 * (xx + zz);
-    axis[1][2] = 2 * (yz + wx);
-    axis[2][0] = 2 * (xz + wy);
-    axis[2][1] = 2 * (yz - wx);
-    axis[2][2] = 1 - 2 * (xx + yy);
-}
+// Vec4Compare, Vec4IsNormalized, Vec3Basis_RightHanded, UnitQuatToAxis
+// provided by src/universal/com_math.cpp now.
 
 // Seeded random unit-sphere direction. Marsaglia's method:
 // pick two uniforms in [-1, 1] with s = x²+y² < 1, then map to a
@@ -460,101 +409,15 @@ void SL_Init() {}
 // helpers get real implementations; subsystem hooks stay stubbed.
 // =========================================================================
 
-void Vec3Clear(float *v) { v[0] = v[1] = v[2] = 0; }
-void Vec3Copy(const float *in, float *out) { out[0] = in[0]; out[1] = in[1]; out[2] = in[2]; }
-void Vec3Mul(const float *a, const float *b, float *out) { out[0] = a[0] * b[0]; out[1] = a[1] * b[1]; out[2] = a[2] * b[2]; }
-float Vec2Length(const float *v) { return std::sqrt(v[0] * v[0] + v[1] * v[1]); }
+// void Vec3Clear(float *v) { v[0] = v[1] = v[2] = 0; }  // provided by com_math.cpp now
+// void Vec3Copy(const float *in, float *out) { out[0] = in[0]; out[1] = in[1]; out[2] = in[2]; }  // provided by com_math.cpp now
+// void Vec3Mul(const float *a, const float *b, float *out) { out[0] = a[0] * b[0]; out[1] = a[1] * b[1]; out[2] = a[2] * b[2]; }  // provided by com_math.cpp now
+// float Vec2Length(const float *v) { return std::sqrt(v[0] * v[0] + v[1] * v[1]); }  // provided by com_math.cpp now
 
-float AngleNormalize360(float angle)
-{
-    float r = std::fmod(angle, 360.0f);
-    if (r < 0) r += 360.0f;
-    return r;
-}
-
-float AngleDelta(float a, float b)
-{
-    float d = AngleNormalize360(a - b);
-    if (d > 180.0f) d -= 360.0f;
-    return d;
-}
-
-float Q_rint(float v) { return std::rintf(v); }
-
-void vectoangles(const float *value1, float *angles)
-{
-    float forward, yaw, pitch;
-    if (value1[1] == 0 && value1[0] == 0) {
-        yaw = 0;
-        pitch = (value1[2] > 0) ? 90 : 270;
-    } else {
-        yaw = std::atan2(value1[1], value1[0]) * (180.0f / 3.14159265358979323846f);
-        if (yaw < 0) yaw += 360;
-        forward = std::sqrt(value1[0] * value1[0] + value1[1] * value1[1]);
-        pitch = std::atan2(value1[2], forward) * (180.0f / 3.14159265358979323846f);
-        if (pitch < 0) pitch += 360;
-    }
-    angles[0] = -pitch;
-    angles[1] = yaw;
-    angles[2] = 0;
-}
-
-float vectoyaw(const float *vec)
-{
-    if (vec[1] == 0 && vec[0] == 0) return 0;
-    float yaw = std::atan2(vec[1], vec[0]) * (180.0f / 3.14159265358979323846f);
-    if (yaw < 0) yaw += 360;
-    return yaw;
-}
-
-void VectorAngleMultiply(float *vec, float scale)
-{
-    vec[0] = AngleNormalize360(vec[0] * scale);
-    vec[1] = AngleNormalize360(vec[1] * scale);
-    vec[2] = AngleNormalize360(vec[2] * scale);
-}
-
-// Quaternion algebra helpers. Quaternions stored as (x, y, z, w).
-static inline void quat_mul(const float *a, const float *b, float *r)
-{
-    r[0] = a[3] * b[0] + a[0] * b[3] + a[1] * b[2] - a[2] * b[1];
-    r[1] = a[3] * b[1] - a[0] * b[2] + a[1] * b[3] + a[2] * b[0];
-    r[2] = a[3] * b[2] + a[0] * b[1] - a[1] * b[0] + a[2] * b[3];
-    r[3] = a[3] * b[3] - a[0] * b[0] - a[1] * b[1] - a[2] * b[2];
-}
-
-void QuatMultiplyEquals(const float *q, float *acc)
-{
-    float r[4];
-    quat_mul(acc, q, r);
-    acc[0] = r[0]; acc[1] = r[1]; acc[2] = r[2]; acc[3] = r[3];
-}
-
-void QuatMultiplyReverseEquals(const float *q, float *acc)
-{
-    float r[4];
-    quat_mul(q, acc, r);
-    acc[0] = r[0]; acc[1] = r[1]; acc[2] = r[2]; acc[3] = r[3];
-}
-
-void QuatMultiplyReverseInverse(const float *a, const float *b, float *out)
-{
-    float binv[4] = { -b[0], -b[1], -b[2], b[3] };
-    quat_mul(a, binv, out);
-}
-
-// DObjAnimMat → rotation matrix (3x3). DObjAnimMat is a quaternion + scale.
-// Forward-decl DObjAnimMat as opaque is enough since we only take a
-// pointer; layout doesn't matter — these are stubs anyway.
-void ConvertQuatToMat(const DObjAnimMat * /*mat*/, float (*out)[3])
-{
-    for (int i = 0; i < 3; ++i) for (int j = 0; j < 3; ++j) out[i][j] = (i == j) ? 1.0f : 0;
-}
-void ConvertQuatToInverseMat(const DObjAnimMat * /*mat*/, float (*out)[3])
-{
-    for (int i = 0; i < 3; ++i) for (int j = 0; j < 3; ++j) out[i][j] = (i == j) ? 1.0f : 0;
-}
-void MatrixTransformVectorQuatTransEquals(const DObjAnimMat * /*mat*/, float * /*v*/) {}
+// AngleNormalize360, AngleDelta, Q_rint, vectoangles, vectoyaw,
+// VectorAngleMultiply, QuatMultiplyEquals/ReverseEquals/ReverseInverse,
+// ConvertQuatToMat / ConvertQuatToInverseMat, MatrixTransformVectorQuatTransEquals
+// all provided by src/universal/com_math.cpp now.
 
 // DObj
 void DObjCalcAnim(const DObj_s * /*obj*/, int * /*partBits*/) {}
@@ -717,7 +580,7 @@ char *Z_MallocGarbage(int size, const char * /*name*/, int /*type*/)
 // TRACK_cl_main provided by src/client_mp/cl_main_mp.cpp now.
 // TRACK_cl_parse provided by src/client_mp/cl_parse_mp.cpp now.
 void TRACK_cm_world() {}
-void TRACK_com_math() {}
+// void TRACK_com_math() {}  // provided by com_math.cpp now
 void TRACK_db_registry() {}
 void TRACK_devgui() {}
 void TRACK_dobj_management() {}
@@ -838,13 +701,7 @@ unsigned int SL_GetString(const char * /*str*/, unsigned int /*user*/) { return 
 void SL_AddUser(unsigned int /*stringValue*/, unsigned int /*user*/) {}
 
 // Math
-float RadiusFromBounds(const float *mins, const float *maxs)
-{
-    float dx = std::fmax(std::fabs(mins[0]), std::fabs(maxs[0]));
-    float dy = std::fmax(std::fabs(mins[1]), std::fabs(maxs[1]));
-    float dz = std::fmax(std::fabs(mins[2]), std::fabs(maxs[2]));
-    return std::sqrt(dx * dx + dy * dy + dz * dz);
-}
+// RadiusFromBounds provided by src/universal/com_math.cpp now.
 
 // Globals
 alignas(16) static unsigned char g_assetNames_storage[8192];
@@ -886,21 +743,7 @@ bool Material_IsDefault(const Material * /*material*/) { return true; }
 // void NetProf_PrepProfiling(netProfileInfo_t * /*info*/) {}  // provided by net_chan_mp.cpp now
 // void NetProf_UpdateStatistics(netProfileStream_t * /*stream*/) {}  // provided by net_chan_mp.cpp now
 
-void PerpendicularVector(const float *src, float *dst)
-{
-    int pos = 0;
-    float minelem = std::fabs(src[0]);
-    if (std::fabs(src[1]) < minelem) { pos = 1; minelem = std::fabs(src[1]); }
-    if (std::fabs(src[2]) < minelem) { pos = 2; }
-    float tempvec[3] = {0,0,0};
-    tempvec[pos] = 1.0f;
-    float d = src[0] * tempvec[0] + src[1] * tempvec[1] + src[2] * tempvec[2];
-    dst[0] = tempvec[0] - d * src[0];
-    dst[1] = tempvec[1] - d * src[1];
-    dst[2] = tempvec[2] - d * src[2];
-    float l = std::sqrt(dst[0] * dst[0] + dst[1] * dst[1] + dst[2] * dst[2]);
-    if (l > 0) { dst[0] /= l; dst[1] /= l; dst[2] /= l; }
-}
+// PerpendicularVector provided by src/universal/com_math.cpp now.
 
 void R_CopyDebugLines(trDebugLine_t * /*dst*/, int /*dstCap*/, trDebugLine_t * /*src*/, int /*count*/, int /*offset*/) {}
 void R_CopyDebugStrings(trDebugString_t * /*dst*/, int /*dstCap*/, trDebugString_t * /*src*/, int /*count*/, int /*offset*/) {}
@@ -957,7 +800,7 @@ struct XBoneInfo;
 // int  BG_SaveShellShockDvars(const char * /*name*/) { return 0; }  // provided by bg_misc.cpp now
 // void BG_SetShellShockParmsFromDvars(shellshock_parms_t * /*parms*/) {}  // provided by bg_misc.cpp now
 
-bool BoxDistSqrdExceeds(const float * /*center*/, const float * /*mins*/, const float * /*maxs*/, float /*distSqrd*/) { return true; }
+// bool BoxDistSqrdExceeds(const float * /*center*/, const float * /*mins*/, const float * /*maxs*/, float /*distSqrd*/) { return true; }  // provided by com_math.cpp now
 
 // void CG_ActionSlotDown_f() {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // void CG_ActionSlotUp_f() {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
@@ -999,12 +842,7 @@ bool DObjSkelIsBoneUpToDate(DObj_s * /*obj*/, int /*boneIndex*/) { return false;
 void G_ResetEntityParsePoint() {}
 // G_ShutdownGame provided by src/game_mp/g_main_mp.cpp now.
 
-void MatrixTransformVector43(const float *in, const float (&m)[4][3], float *out)
-{
-    out[0] = in[0] * m[0][0] + in[1] * m[1][0] + in[2] * m[2][0] + m[3][0];
-    out[1] = in[0] * m[0][1] + in[1] * m[1][1] + in[2] * m[2][1] + m[3][1];
-    out[2] = in[0] * m[0][2] + in[1] * m[1][2] + in[2] * m[2][2] + m[3][2];
-}
+// MatrixTransformVector43 provided by src/universal/com_math.cpp now.
 
 // bool NET_IsLocalAddress(netadr_t /*adr*/) { return false; }  // provided by net_chan_mp.cpp now
 // Scr_IsValidGameType provided by src/game_mp/g_scr_main_mp.cpp now.
@@ -1021,11 +859,7 @@ unsigned int Sys_MillisecondsRaw() { return Sys_Milliseconds(); }
 // int  UI_Popup(int /*localClientNum*/, const char * /*ref*/) { return 0; }  // provided by ui_main_mp.cpp now
 // char *UI_SafeTranslateString(const char *str) { return const_cast<char *>(str ? str : ""); }  // provided by ui_main_mp.cpp now
 
-float Vec2DistanceSq(const float *a, const float *b)
-{
-    float dx = a[0] - b[0], dy = a[1] - b[1];
-    return dx * dx + dy * dy;
-}
+// Vec2DistanceSq provided by src/universal/com_math.cpp now.
 
 // g_banIPs provided by src/game_mp/g_main_mp.cpp now.
 // g_dedicated provided by src/game_mp/g_main_mp.cpp now.
@@ -1034,10 +868,7 @@ float Vec2DistanceSq(const float *a, const float *b)
 // Small batch — cl_net_chan_mp / cl_pose_mp / sv_main_pc_mp / g_scr_mover.
 // =========================================================================
 
-void AxisToAngles(const float (& /*axis*/)[3][3], float *angles)
-{
-    angles[0] = angles[1] = angles[2] = 0;
-}
+// AxisToAngles provided by src/universal/com_math.cpp now.
 
 
 // G_DObjUpdate provided by src/game_mp/g_utils_mp.cpp now.
@@ -1091,8 +922,8 @@ void dNormalize3(dVector3 /*v*/) {}
 // CG_DebugBox now in cgame/cg_drawtools.cpp.
 // CG_DebugLine now in cgame/cg_drawtools.cpp.
 
-void ClosestApproachOfTwoLines(const float * /*p1*/, const float * /*d1*/, const float * /*p2*/, const float * /*d2*/, float *t1, float *t2)
-{ if (t1) *t1 = 0; if (t2) *t2 = 0; }
+// void ClosestApproachOfTwoLines(const float * /*p1*/, const float * /*d1*/, const float * /*p2*/, const float * /*d2*/, float *t1, float *t2)  // provided by com_math.cpp now
+// { if (t1) *t1 = 0; if (t2) *t2 = 0; }
 
 char *I_strupr(char *s)
 {
@@ -1100,7 +931,7 @@ char *I_strupr(char *s)
     return s;
 }
 
-float kisak_random() { return std::rand() / float(RAND_MAX); }
+// float kisak_random() { return std::rand() / float(RAND_MAX); }  // provided by com_math.cpp now
 
 bool ParseConfigStringToStruct(unsigned char * /*pStruct*/, const cspField_t * /*pFieldList*/,
                                int /*iNumFields*/, char * /*pszBuffer*/, int /*iMaxFieldTypes*/,
@@ -1118,8 +949,8 @@ int  Phys_GetSurfaceFlagsFromBrush(const cbrush_t * /*brush*/, unsigned int /*fa
 void Phys_GetWindingForBrushFace2(const cbrush_t * /*brush*/, unsigned int /*faceIndex*/, Poly * /*polyOut*/, int /*flag*/, const float (* /*axialPlanes*/)[4]) {}
 void Phys_ProjectFaceOntoFaceAndClip(const float * /*planeA*/, const Poly * /*polyA*/, const Poly * /*polyB*/, int /*type*/, Results * /*results*/, float * /*extra*/) {}
 
-void Vec3Negate(const float *in, float *out) { out[0] = -in[0]; out[1] = -in[1]; out[2] = -in[2]; }
-void Vec4Copy(const float *in, float *out) { out[0] = in[0]; out[1] = in[1]; out[2] = in[2]; out[3] = in[3]; }
+// void Vec3Negate(const float *in, float *out) { out[0] = -in[0]; out[1] = -in[1]; out[2] = -in[2]; }  // provided by com_math.cpp now
+// void Vec4Copy(const float *in, float *out) { out[0] = in[0]; out[1] = in[1]; out[2] = in[2]; out[3] = in[3]; }  // provided by com_math.cpp now
 
 // Globals
 const dvar_t *phys_contact_cfm = nullptr;
@@ -1192,7 +1023,7 @@ float DB_GetLoadedFraction() { return 1.0f; }
 // IsExpressionTrue provided by src/ui/ui_expressions.cpp now.
 // const rectDef_s *Item_GetTextRect(int /*localClientNum*/, const itemDef_s * /*item*/) { return nullptr; }  // provided by ui_shared.cpp now
 
-float kisak_crandom() { return (std::rand() / float(RAND_MAX)) * 2.0f - 1.0f; }
+// float kisak_crandom() { return (std::rand() / float(RAND_MAX)) * 2.0f - 1.0f; }  // provided by com_math.cpp now
 
 // SCR_UpdateLoadScreen provided by src/client_mp/cl_scrn_mp.cpp now.
 // int  String_Parse(const char ** /*p*/, char * /*out*/, int /*outSize*/) { return 0; }  // provided by ui_shared.cpp now
@@ -1200,23 +1031,11 @@ float kisak_crandom() { return (std::rand() / float(RAND_MAX)) * 2.0f - 1.0f; }
 // void UI_DrawMapLevelshot(int /*localClientNum*/) {}  // provided by ui_main_mp.cpp now
 // UI_DrawTextNoSnap provided by src/ui_mp/ui_main_mp.cpp now.
 
-float Vec2NormalizeTo(const float *in, float *out)
-{
-    float l = std::sqrt(in[0] * in[0] + in[1] * in[1]);
-    if (l > 0) { out[0] = in[0] / l; out[1] = in[1] / l; }
-    else       { out[0] = 0; out[1] = 0; }
-    return l;
-}
+// Vec2NormalizeTo provided by src/universal/com_math.cpp now.
 
 // bool Window_IsVisible(int /*localClientNum*/, const windowDef_t * /*window*/) { return false; }  // provided by ui_shared.cpp now
 
-void YawVectors2D(float yaw, float *forward, float *right)
-{
-    float rad = yaw * (3.14159265358979323846f / 180.0f);
-    float c = std::cos(rad), s = std::sin(rad);
-    if (forward) { forward[0] = c; forward[1] = s; }
-    if (right)   { right[0]   = s; right[1]   = -c; }
-}
+// YawVectors2D provided by src/universal/com_math.cpp now.
 
 // const dvar_t *bg_viewKickMax = nullptr;  // provided by bg_misc.cpp now
 // const dvar_t *bg_viewKickMin = nullptr;  // provided by bg_misc.cpp now
@@ -1324,7 +1143,7 @@ struct AntilagClientStore;
 // char BG_AdvanceTrace(BulletFireParams * /*p*/, BulletTraceResults * /*r*/, float /*dist*/) { return 0; }  // provided by bg_weapons.cpp now
 // double BG_GetSurfacePenetrationDepth(const WeaponDef * /*w*/, unsigned int /*surfType*/) { return 0; }  // provided by bg_weapons.cpp now
 // unsigned int BG_GetWeaponIndex(const WeaponDef * /*w*/) { return 0; }  // provided by bg_weapons.cpp now
-unsigned char DirToByte(const float * /*dir*/) { return 0; }
+// unsigned char DirToByte(const float * /*dir*/) { return 0; }  // provided by com_math.cpp now
 int  FS_GetFileList(const char * /*path*/, const char * /*ext*/, FsListBehavior_e /*behavior*/, char *listbuf, int /*size*/)
 {
     if (listbuf) listbuf[0] = 0;
@@ -1349,8 +1168,8 @@ struct FxEffectDef;
 struct snd_alias_list_t;
 
 // int  BG_WeaponIsClipOnly(unsigned int /*weaponIndex*/) { return 0; }  // provided by bg_weapons.cpp now
-void ByteToDir(unsigned int /*b*/, float *dir)
-{ if (dir) { dir[0] = 1; dir[1] = 0; dir[2] = 0; } }
+// void ByteToDir(unsigned int /*b*/, float *dir)  // provided by com_math.cpp now
+// { if (dir) { dir[0] = 1; dir[1] = 0; dir[2] = 0; } }
 // CG_BulletHitClientEvent provided by src/cgame/cg_weapons.cpp now.
 // CG_BulletHitEvent provided by src/cgame/cg_weapons.cpp now.
 // CG_CalcEntityLerpPositions provided by src/cgame_mp/cg_ents_mp.cpp now.
@@ -1478,84 +1297,13 @@ int fx_serverVisClient = -1;
 // =========================================================================
 
 // --- Math helpers — real impls -------------------------------------------
-void AxisTranspose(const float (&in)[3][3], float (&out)[3][3])
-{
-    for (int i = 0; i < 3; ++i)
-        for (int j = 0; j < 3; ++j)
-            out[i][j] = in[j][i];
-}
+// AxisTranspose, MatrixMultiply43, MatrixTransposeTransformVector43,
+// QuatToAxis, Q_acos, Vec3AddScalar provided by src/universal/com_math.cpp now.
 
-void MatrixMultiply43(const float (&a)[4][3], const float (&b)[4][3], float (&out)[4][3])
-{
-    // 4x3 affine matrix multiply (row 3 is translation, rows 0-2 the rotation).
-    for (int i = 0; i < 3; ++i) {
-        out[0][i] = a[0][0] * b[0][i] + a[0][1] * b[1][i] + a[0][2] * b[2][i];
-        out[1][i] = a[1][0] * b[0][i] + a[1][1] * b[1][i] + a[1][2] * b[2][i];
-        out[2][i] = a[2][0] * b[0][i] + a[2][1] * b[1][i] + a[2][2] * b[2][i];
-        out[3][i] = a[3][0] * b[0][i] + a[3][1] * b[1][i] + a[3][2] * b[2][i] + b[3][i];
-    }
-}
+// Vec3Rotate, Vec4Dot, Vec4LengthSq, Vec4Lerp provided by
+// src/universal/com_math.cpp now.
 
-void MatrixTransposeTransformVector43(const float *in, const float (&m)[4][3], float *out)
-{
-    float t[3] = { in[0] - m[3][0], in[1] - m[3][1], in[2] - m[3][2] };
-    out[0] = t[0] * m[0][0] + t[1] * m[0][1] + t[2] * m[0][2];
-    out[1] = t[0] * m[1][0] + t[1] * m[1][1] + t[2] * m[1][2];
-    out[2] = t[0] * m[2][0] + t[1] * m[2][1] + t[2] * m[2][2];
-}
-
-void QuatToAxis(const float *quat, float (&axis)[3][3])
-{
-    UnitQuatToAxis(quat, axis);
-}
-
-float Q_acos(float c)
-{
-    if (c > 1.0f) c = 1.0f;
-    if (c < -1.0f) c = -1.0f;
-    return std::acos(c);
-}
-
-void Vec3AddScalar(const float *a, float s, float *sum)
-{
-    sum[0] = a[0] + s;
-    sum[1] = a[1] + s;
-    sum[2] = a[2] + s;
-}
-
-void Vec3Rotate(const float *in, const float (&m)[3][3], float *out)
-{
-    out[0] = in[0] * m[0][0] + in[1] * m[1][0] + in[2] * m[2][0];
-    out[1] = in[0] * m[0][1] + in[1] * m[1][1] + in[2] * m[2][1];
-    out[2] = in[0] * m[0][2] + in[1] * m[1][2] + in[2] * m[2][2];
-}
-
-float Vec4Dot(const float *a, const float *b)
-{
-    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3];
-}
-
-float Vec4LengthSq(const float *v)
-{
-    return v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-}
-
-void Vec4Lerp(const float *from, const float *to, float frac, float *result)
-{
-    result[0] = from[0] + frac * (to[0] - from[0]);
-    result[1] = from[1] + frac * (to[1] - from[1]);
-    result[2] = from[2] + frac * (to[2] - from[2]);
-    result[3] = from[3] + frac * (to[3] - from[3]);
-}
-
-float flrand(float fmin, float fmax)
-{
-    // Float in [min, max). Same deterministic seed pattern as fx_randomTable.
-    static unsigned int s = 0xDEADBEEFu;
-    s = s * 1103515245u + 12345u;
-    float r = ((s >> 8) & 0xFFFFFF) / float(0x1000000);
-    return fmin + r * (fmax - fmin);
-}
+// flrand provided by src/universal/com_math.cpp now.
 
 // --- Opaque subsystem stubs ---------------------------------------------
 // All of these return zero/null. As the matching subsystems land, each
@@ -1827,18 +1575,7 @@ void     FX_PostLight_Add(FxPostLight *) {}
 // cg_laserRangePlayer provided by src/cgame_mp/cg_main_mp.cpp now.
 // === cg_shellshock satellites ====================================================
 
-void MatrixMultiply(const mat3x3 & /*a*/, const mat3x3 & /*b*/, mat3x3 &out)
-{
-    out[0][0] = 1.f; out[0][1] = 0.f; out[0][2] = 0.f;
-    out[1][0] = 0.f; out[1][1] = 1.f; out[1][2] = 0.f;
-    out[2][0] = 0.f; out[2][1] = 0.f; out[2][2] = 1.f;
-}
-void AxisCopy(const mat3x3 &in, mat3x3 &out)
-{
-    out[0][0] = in[0][0]; out[0][1] = in[0][1]; out[0][2] = in[0][2];
-    out[1][0] = in[1][0]; out[1][1] = in[1][1]; out[1][2] = in[1][2];
-    out[2][0] = in[2][0]; out[2][1] = in[2][1]; out[2][2] = in[2][2];
-}
+// MatrixMultiply, AxisCopy provided by src/universal/com_math.cpp now.
 void R_AddCmdSaveScreen(unsigned int) {}
 void R_AddCmdSaveScreenSection(float, float, float, float, unsigned int) {}
 void R_AddCmdBlendSavedScreenShockBlurred(int, float, float, float, float, unsigned int) {}
@@ -1889,11 +1626,7 @@ unsigned int Hunk_AllocateTempMemoryHigh(int /*size*/, const char * /*name*/) { 
 // === cg_hudelem satellites =======================================================
 
 void  FX_SpriteAdd(FxSprite *) {}
-float Vec2Distance(const float *a, const float *b)
-{
-    float dx = a[0] - b[0], dy = a[1] - b[1];
-    return std::sqrt(dx * dx + dy * dy);
-}
+// Vec2Distance provided by src/universal/com_math.cpp now.
 int   SEH_PrintStrlen(const char *s) { return s ? static_cast<int>(std::strlen(s)) : 0; }
 // void  BG_LerpHudColors(const hudelem_s *, int, hudelem_color_t *) {}  // provided by bg_misc.cpp now
 // compare_hudelems provided by src/ui/ui_expressions_logicfunctions.cpp now.
@@ -2043,14 +1776,9 @@ const dvar_t *vehDriverViewFocusRange = nullptr;
 
 // === cg_players_mp satellites ====================================================
 
-float RotationToYaw(const float *) { return 0.f; }
-float vectosignedyaw(const float *) { return 0.f; }
-void  YawToAxis(float, mat3x3 &axis)
-{
-    axis[0][0] = 1.f; axis[0][1] = 0.f; axis[0][2] = 0.f;
-    axis[1][0] = 0.f; axis[1][1] = 1.f; axis[1][2] = 0.f;
-    axis[2][0] = 0.f; axis[2][1] = 0.f; axis[2][2] = 1.f;
-}
+// float RotationToYaw(const float *) { return 0.f; }  // provided by com_math.cpp now
+// float vectosignedyaw(const float *) { return 0.f; }  // provided by com_math.cpp now
+// YawToAxis provided by src/universal/com_math.cpp now.
 void  R_AddDObjToScene(const DObj_s *, const cpose_t *, unsigned int, unsigned int, float *, float) {}
 // void  BG_PlayerAnimation(int, const entityState_s *, clientInfo_t *) {}  // provided by bg_animation_mp.cpp now
 // void  CG_AddPlayerWeapon(int, const GfxScaledPlacement *, const playerState_s *, centity_s *, int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
@@ -2120,10 +1848,7 @@ void Phys_Init() {}
 // const char *UI_GetTopActiveMenuName(int) { return ""; }  // provided by ui_main_mp.cpp now
 // CG_CheckPlayerForLowAmmo / CG_CheckPlayerForLowClip provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 // void BG_AssertOffhandIndexOrNone(uint32_t) {}  // provided by bg_weapons.cpp now
-void Vec4Mul(const float *a, const float *b, float *p)
-{
-    if (a && b && p) { p[0] = a[0]*b[0]; p[1] = a[1]*b[1]; p[2] = a[2]*b[2]; p[3] = a[3]*b[3]; }
-}
+// Vec4Mul provided by src/universal/com_math.cpp now.
 
 // cg_centertime provided by src/cgame_mp/cg_main_mp.cpp now.
 // cg_descriptiveText provided by src/cgame_mp/cg_main_mp.cpp now.
@@ -2155,11 +1880,11 @@ void Vec4Mul(const float *a, const float *b, float *p)
 // === cg_ents_mp satellites =======================================================
 
 const char *DObjGetName(const DObj_s *) { return ""; }
-void  Vec3ScaleMad(float, const float *, float, const float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
+// void  Vec3ScaleMad(float, const float *, float, const float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }  // provided by com_math.cpp now
 GfxBrushModel *R_GetBrushModel(unsigned int) { return nullptr; }
 void  CG_DoControllers(const cpose_t *, const DObj_s *, int *) {}
 void  R_LinkDObjEntity(unsigned int, unsigned int, float *, float) {}
-void  UnitQuatToAngles(const float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
+// void  UnitQuatToAngles(const float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }  // provided by com_math.cpp now
 PhysPreset *DObjGetPhysPreset(const DObj_s *) { return nullptr; }
 void  FX_RetriggerEffect(int, FxEffect *, int) {}
 void  R_LinkBModelEntity(unsigned int, unsigned int, GfxBrushModel *) {}
@@ -2184,10 +1909,7 @@ void  CG_VehSeatTransformForPlayer(int, uint32_t, float *o, float *a)
 void  FX_MarkEntUpdateHidePartBits(const uint32_t *, const uint32_t *, int, int) {}
 void  R_AddBrushModelToSceneFromAngles(const GfxBrushModel *, const float *, const float *, uint16_t) {}
 void  DObjPhysicsSetCollisionFromXModel(const DObj_s *, PhysWorld, dxBody *) {}
-void  Vec3Avg(const float *a, const float *b, float *out)
-{
-    if (a && b && out) { out[0] = (a[0]+b[0])*0.5f; out[1] = (a[1]+b[1])*0.5f; out[2] = (a[2]+b[2])*0.5f; }
-}
+// Vec3Avg provided by src/universal/com_math.cpp now.
 
 // controller_names provided by src/game_mp/g_active_mp.cpp now.
 // Hunk_AllocXAnimClient provided by src/cgame_mp/cg_main_mp.cpp now.
@@ -2291,11 +2013,7 @@ uint8_t *Hunk_AllocPhysPresetPrecache(unsigned int size) { return static_cast<ui
 // Scr_AddEntity provided by src/game_mp/g_spawn_mp.cpp now.
 void    Scr_AddVector(const float *) {}
 int     CM_AreaEntities(const float *, const float *, int *, int, int) { return 0; }
-void    AddPointToBounds(const float *v, float *mins, float *maxs)
-{
-    if (!v || !mins || !maxs) return;
-    for (int i = 0; i < 3; ++i) { if (v[i] < mins[i]) mins[i] = v[i]; if (v[i] > maxs[i]) maxs[i] = v[i]; }
-}
+// AddPointToBounds provided by src/universal/com_math.cpp now.
 // G_FreeEntityDelay provided by src/game_mp/g_utils_mp.cpp now.
 // G_LevelSpawnString provided by src/game_mp/g_spawn_mp.cpp now.
 BOOL    Scr_IsSystemActive() { return 0; }
@@ -2348,10 +2066,10 @@ void R_PushRemoteScreenUpdate(int) {}
 
 // G_AddEvent provided by src/game_mp/g_utils_mp.cpp now.
 // G_SetAngle provided by src/game_mp/g_utils_mp.cpp now.
-void YawVectors(float, float *f, float *r) { if (f) { f[0] = 1; f[1] = 0; f[2] = 0; } if (r) { r[0] = 0; r[1] = 1; r[2] = 0; } }
+// void YawVectors(float, float *f, float *r) { if (f) { f[0] = 1; f[1] = 0; f[2] = 0; } if (r) { r[0] = 0; r[1] = 1; r[2] = 0; } }  // provided by com_math.cpp now
 // G_SetOrigin provided by src/game_mp/g_utils_mp.cpp now.
 // G_GeneralLink provided by src/game_mp/g_utils_mp.cpp now.
-float ColorNormalize(const float *, float *out) { if (out) { out[0] = 1; out[1] = 1; out[2] = 1; out[3] = 1; } return 1.f; }
+// float ColorNormalize(const float *, float *out) { if (out) { out[0] = 1; out[1] = 1; out[2] = 1; out[3] = 1; } return 1.f; }  // provided by com_math.cpp now
 // G_TraceCapsule provided by src/game_mp/g_main_mp.cpp now.
 // void SV_UnlinkEntity(gentity_s *) {}  // provided by sv_world.cpp now
 // G_PlaySoundAlias provided by src/game_mp/g_utils_mp.cpp now.
@@ -2376,12 +2094,7 @@ void Scr_FreeThread(uint16_t) {}
 void DB_ReplaceModel(const char *, const char *) {}
 // G_VehFreeEntity provided by src/game_mp/g_vehicles_mp.cpp now.
 // Helicopter_Pain provided by src/game_mp/g_scr_helicopter.cpp now.
-void MatrixTranspose(const mat3x3 &in, mat3x3 &out)
-{
-    out[0][0] = in[0][0]; out[0][1] = in[1][0]; out[0][2] = in[2][0];
-    out[1][0] = in[0][1]; out[1][1] = in[1][1]; out[1][2] = in[2][1];
-    out[2][0] = in[0][2]; out[2][1] = in[1][2]; out[2][2] = in[2][2];
-}
+// MatrixTranspose provided by src/universal/com_math.cpp now.
 void Touch_Item_Auto(gentity_s *, gentity_s *, int) {}
 void G_ExplodeMissile(gentity_s *) {}
 // Helicopter_Think provided by src/game_mp/g_scr_helicopter.cpp now.
@@ -2402,22 +2115,11 @@ void Com_SafeServerDObjFree(unsigned int) {}
 unsigned int SL_FindLowercaseString(const char *) { return 0u; }
 // SV_GetConfigstringConst provided by src/server_mp/sv_init_mp.cpp now.
 void Hunk_OverrideDataForFile(int, const char *, void *) {}
-void MatrixInverseOrthogonal43(const mat4x3 &in, mat4x3 &out)
-{
-    out[0][0] = in[0][0]; out[0][1] = in[1][0]; out[0][2] = in[2][0];
-    out[1][0] = in[0][1]; out[1][1] = in[1][1]; out[1][2] = in[2][1];
-    out[2][0] = in[0][2]; out[2][1] = in[1][2]; out[2][2] = in[2][2];
-    out[3][0] = -in[3][0]; out[3][1] = -in[3][1]; out[3][2] = -in[3][2];
-}
+// MatrixInverseOrthogonal43 provided by src/universal/com_math.cpp now.
 void Missile_FreeAttractorRefs(gentity_s *) {}
 // G_VehEntHandler_Controller provided by src/game_mp/g_vehicles_mp.cpp now.
 // BodyEnd provided by src/game_mp/g_client_script_cmd_mp.cpp now.
-void AxisClear(mat3x3 &axis)
-{
-    axis[0][0] = 1; axis[0][1] = 0; axis[0][2] = 0;
-    axis[1][0] = 0; axis[1][1] = 1; axis[1][2] = 0;
-    axis[2][0] = 0; axis[2][1] = 0; axis[2][2] = 1;
-}
+// AxisClear provided by src/universal/com_math.cpp now.
 // g_scr_data provided by src/game_mp/g_scr_main_mp.cpp now.
 
 // === cl_input satellites =========================================================
@@ -2428,7 +2130,7 @@ bool Sys_IsLANAddress(netadr_t) { return false; }
 void IN_ShowSystemCursor(BOOL) {}
 void AimAssist_UpdateMouseInput(const AimInput *, AimOutput *) {}
 // CL_SavePredictedOriginForServerTime provided by src/client_mp/cl_parse_mp.cpp now.
-char ClampChar(int v) { if (v < -128) return -128; if (v > 127) return 127; return static_cast<char>(v); }
+// char ClampChar(int v) { if (v < -128) return -128; if (v > 127) return 127; return static_cast<char>(v); }  // provided by com_math.cpp now
 void UI_Component::MouseEvent(int, int) {}
 
 // cl_debugMessageKey provided by src/client_mp/cl_main_mp.cpp now.
@@ -2625,7 +2327,7 @@ int   FS_SV_FOpenFileWrite(const char *) { return 0; }
 int FS_SV_FOpenFileRead(const char *, int *fp) { if (fp) *fp = 0; return 0; }
 // GetFollowPlayerState provided by src/game_mp/g_active_mp.cpp now.
 // G_SetClientArchiveTime provided by src/game_mp/g_main_mp.cpp now.
-int irand(int min, int /*max*/) { return min; }
+// int irand(int min, int /*max*/) { return min; }  // provided by com_math.cpp now
 
 // === g_client_mp satellites ======================================================
 
@@ -2701,7 +2403,7 @@ unsigned int Scr_AllocString(char *, int) { return 0u; }
 void Scr_AddUndefined() {}
 // Scr_PlayerDamage provided by src/game_mp/g_scr_main_mp.cpp now.
 // Scr_PlayerKilled provided by src/game_mp/g_scr_main_mp.cpp now.
-void Vec3NormalizeFast(float *v) { if (v) { float l = std::sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]); if (l > 0) { v[0]/=l; v[1]/=l; v[2]/=l; } } }
+// void Vec3NormalizeFast(float *v) { if (v) { float l = std::sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]); if (l > 0) { v[0]/=l; v[1]/=l; v[2]/=l; } } }  // provided by com_math.cpp now
 // G_VehImmuneToDamage provided by src/game_mp/g_vehicles_mp.cpp now.
 // void BG_SetConditionValue(uint32_t, uint32_t, uint64_t) {}  // provided by bg_animation_mp.cpp now
 void DObjPhysicsGetBounds(const DObj_s *, float *mins, float *maxs)
@@ -2756,7 +2458,7 @@ void G_UseOffHand(gentity_s *) {}
 void FireWeaponMelee(gentity_s *, int32_t) {}
 // Cmd_FollowCycle_f provided by src/game_mp/g_cmds_mp.cpp now.
 // void BG_WeaponFireRecoil(const playerState_s *, float *, float *) {}  // provided by bg_weapons.cpp now
-void ExpandBoundsToWidth(float *, float *) {}
+// void ExpandBoundsToWidth(float *, float *) {}  // provided by com_math.cpp now
 // G_VehPlayerRideSlot provided by src/game_mp/g_vehicles_mp.cpp now.
 void HudElem_UpdateClient(gclient_s *, int32_t, hudelem_update_t) {}
 // void BG_Player_DoControllers(const CEntPlayerInfo *, const DObj_s *, int32_t *) {}  // provided by bg_pmove.cpp now
@@ -2805,7 +2507,7 @@ void G_RegisterMissileDebugDvars() {}
 // G_setfog provided by src/game_mp/g_cmds_mp.cpp now.
 // SV_Trace provided by src/server/sv_world.cpp now.
 void G_RunItem(gentity_s *) {}
-void Rand_Init(int) {}
+// void Rand_Init(int) {}  // provided by com_math.cpp now
 // G_VehRegisterDvars provided by src/game_mp/g_vehicles_mp.cpp now.
 // int SV_PointContents(float *, int, int) { return 0; }  // provided by sv_world.cpp now
 
@@ -2826,9 +2528,9 @@ int32_t Add_Ammo(gentity_s *, uint32_t, uint8_t, int32_t, int32_t) { return 0; }
 
 // === g_vehicles_mp satellites ====================================================
 
-void ExtendBounds(float *, float *, const float *) {}
-void AnglesSubtract(float *, float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
-float DiffTrackAngle(float, float, float, float) { return 0.f; }
+// void ExtendBounds(float *, float *, const float *) {}  // provided by com_math.cpp now
+// void AnglesSubtract(float *, float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }  // provided by com_math.cpp now
+// float DiffTrackAngle(float, float, float, float) { return 0.f; }  // provided by com_math.cpp now
 void VEH_ClipVelocity(float *in, float *, float *out) { if (in && out) { out[0] = in[0]; out[1] = in[1]; out[2] = in[2]; } }
 int32_t G_TryPushingEntity(gentity_s *, gentity_s *, float *, float *) { return 0; }
 int32_t VEH_CorrectAllSolid(gentity_s *, trace_t *) { return 0; }
@@ -3044,7 +2746,7 @@ double GetLeanFraction(float v) { return (double)v; }
 
 // bool   BG_UsingSniperScope(playerState_s *) { return false; }  // provided by bg_weapons.cpp now
 void   DObjSetLocalTag(DObj_s *, int *, unsigned int, const float *, const float *) {}
-float  PitchForYawOnNormal(float, const float *) { return 0.f; }
+// float  PitchForYawOnNormal(float, const float *) { return 0.f; }  // provided by com_math.cpp now
 // void   PM_AdjustAimSpreadScale(pmove_t *, pml_t *) {}  // provided by bg_weapons.cpp now
 // int    PM_InteruptWeaponWithProneMove(playerState_s *) { return 0; }  // provided by bg_weapons.cpp now
 // void   PM_ResetWeaponState(playerState_s *) {}  // provided by bg_weapons.cpp now
@@ -3052,10 +2754,10 @@ float  PitchForYawOnNormal(float, const float *) { return 0.f; }
 // void   PM_UpdateAimDownSightLerp(pmove_t *, pml_t *) {}  // provided by bg_weapons.cpp now
 // void   PM_Weapon(pmove_t *, pml_t *) {}  // provided by bg_weapons.cpp now
 // int    PM_WeaponAmmoAvailable(playerState_s *) { return 0; }  // provided by bg_weapons.cpp now
-void   ProjectPointOnPlane(const float *, const float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0.f; } }
+// void   ProjectPointOnPlane(const float *, const float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0.f; } }  // provided by com_math.cpp now
 void   Sys_SnapVector(float *) {}
 double UnGetLeanFraction(float v) { return (double)v; }
-float  Vec2LengthSq(const float *v) { return v ? v[0] * v[0] + v[1] * v[1] : 0.f; }
+// float  Vec2LengthSq(const float *v) { return v ? v[0] * v[0] + v[1] * v[1] : 0.f; }  // provided by com_math.cpp now
 
 // === bg_weapons satellites =========================================================
 
@@ -3075,16 +2777,12 @@ float  Vec2LengthSq(const float *v) { return v ? v[0] * v[0] + v[1] * v[1] : 0.f
 // const dvar_t *player_scopeExitOnDamage       = nullptr;  // provided by bg_misc.cpp now
 // const dvar_t *player_sustainAmmo             = nullptr;  // provided by bg_misc.cpp now
 
-float DiffTrack(float current, float target, float /*rate*/, float /*frametime*/) { return target - current; }
+// float DiffTrack(float current, float target, float /*rate*/, float /*frametime*/) { return target - current; }  // provided by com_math.cpp now
 
 // === bg_misc satellites ============================================================
 
 int SND_GetEntChannelCount() { return 0; }
-float vectopitch(const float *v) {
-    if (!v || (v[0] == 0.f && v[1] == 0.f && v[2] == 0.f)) return 0.f;
-    float forward = std::sqrt(v[0]*v[0] + v[1]*v[1]);
-    return std::atan2(-v[2], forward) * 180.f / 3.14159265f;
-}
+// vectopitch provided by src/universal/com_math.cpp now.
 
 // === cg_weapons satellites =========================================================
 
@@ -3095,9 +2793,7 @@ char DynEntCl_DynEntImpactEvent(int, int, float *, float *, int, bool) { return 
 void DynEntCl_EntityImpactEvent(const trace_t *, int, int, const float *, const float *, bool) {}
 char FX_GetBoneOrientation(int, unsigned int, int, orientation_t *) { return 0; }
 void FX_PlayOrientedEffectWithMarkEntity(int, const FxEffectDef *, int, const float *, const float (*)[3], unsigned int) {}
-void RotatePointAroundVector(float *out, const float * /*dir*/, const float *p, float /*deg*/) {
-    if (out && p) { out[0] = p[0]; out[1] = p[1]; out[2] = p[2]; }
-}
+// RotatePointAroundVector provided by src/universal/com_math.cpp now.
 char SND_GetKnownLength(int, int *out) { if (out) *out = 0; return 0; }
 // UI_DrawWrappedText provided by src/ui/ui_shared.cpp now.
 
@@ -3156,9 +2852,7 @@ unsigned int SEH_ReadCharFromString(const char **p, int *consumed) {
     return c;
 }
 int SND_PlayLocalSoundAliasByName(unsigned int, const char *, snd_alias_system_t) { return 0; }
-void Vec4Scale(const float *in, float s, float *out) {
-    if (in && out) { out[0]=in[0]*s; out[1]=in[1]*s; out[2]=in[2]*s; out[3]=in[3]*s; }
-}
+// Vec4Scale provided by src/universal/com_math.cpp now.
 
 // === sv_world satellites ===========================================================
 
@@ -3171,12 +2865,7 @@ void CM_PointTraceToEntities(pointtrace_t *, trace_t *) {}
 void CM_UnlinkEntity(svEntity_s *) {}
 void DObjTraceline(DObj_s *, float *, float *, unsigned char *, DObjTrace_s *) {}
 void DObjTracelinePartBits(DObj_s *, int *) {}
-float RadiusFromBounds2D(const float *mins, const float *maxs) {
-    if (!mins || !maxs) return 0.f;
-    float dx = (maxs[0] - mins[0]) * 0.5f;
-    float dy = (maxs[1] - mins[1]) * 0.5f;
-    return std::sqrt(dx*dx + dy*dy);
-}
+// RadiusFromBounds2D provided by src/universal/com_math.cpp now.
 
 // === net_chan_mp satellites ========================================================
 

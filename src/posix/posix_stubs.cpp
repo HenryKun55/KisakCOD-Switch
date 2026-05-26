@@ -53,52 +53,13 @@ void I_strncpyz(char *dest, const char *src, int destsize)
 // When com_math.cpp is brought into the build this definition collides
 // with upstream's; remove it then.
 #include <cmath>
-void AxisToQuat(const float (*mat)[3], float *out)
-{
-    const float trace = mat[0][0] + mat[1][1] + mat[2][2];
-    if (trace > 0.0f) {
-        const float s = std::sqrt(trace + 1.0f) * 2.0f; // s = 4*qw
-        out[3] = 0.25f * s;
-        out[0] = (mat[2][1] - mat[1][2]) / s;
-        out[1] = (mat[0][2] - mat[2][0]) / s;
-        out[2] = (mat[1][0] - mat[0][1]) / s;
-    } else if (mat[0][0] > mat[1][1] && mat[0][0] > mat[2][2]) {
-        const float s = std::sqrt(1.0f + mat[0][0] - mat[1][1] - mat[2][2]) * 2.0f;
-        out[3] = (mat[2][1] - mat[1][2]) / s;
-        out[0] = 0.25f * s;
-        out[1] = (mat[0][1] + mat[1][0]) / s;
-        out[2] = (mat[0][2] + mat[2][0]) / s;
-    } else if (mat[1][1] > mat[2][2]) {
-        const float s = std::sqrt(1.0f + mat[1][1] - mat[0][0] - mat[2][2]) * 2.0f;
-        out[3] = (mat[0][2] - mat[2][0]) / s;
-        out[0] = (mat[0][1] + mat[1][0]) / s;
-        out[1] = 0.25f * s;
-        out[2] = (mat[1][2] + mat[2][1]) / s;
-    } else {
-        const float s = std::sqrt(1.0f + mat[2][2] - mat[0][0] - mat[1][1]) * 2.0f;
-        out[3] = (mat[1][0] - mat[0][1]) / s;
-        out[0] = (mat[0][2] + mat[2][0]) / s;
-        out[1] = (mat[1][2] + mat[2][1]) / s;
-        out[2] = 0.25f * s;
-    }
-}
+// AxisToQuat provided by src/universal/com_math.cpp now.
 
 // Vec2Normalize: declared in universal/com_math.h (line 230), defined in
 // com_math.cpp line 559. Stub computes the normalize manually (without
 // using vec2r to avoid dragging in the whole header) — should be correct
 // enough that removing it when com_math.cpp ports causes no behavior diff.
-float Vec2Normalize(float *v)
-{
-    const float lensq = v[0] * v[0] + v[1] * v[1];
-    if (lensq <= 0.0f) {
-        return 0.0f;
-    }
-    const float len = std::sqrt(lensq);
-    const float inv = 1.0f / len;
-    v[0] *= inv;
-    v[1] *= inv;
-    return len;
-}
+// Vec2Normalize provided by src/universal/com_math.cpp now.
 
 // Com_Printf / Com_PrintError / Com_Error now live in qcommon/common.cpp
 // (the real implementations from upstream) once it joined the build.
@@ -199,53 +160,10 @@ int  MessageBoxA(HWND /*hWnd*/, const char *text, const char *caption,
               // for config-change confirmation dialogs that block on Windows.
 }
 
-// Vec3 helpers: declared in com_math.h, defined in com_math.cpp. Standard
-// vector math we can implement portably; collide with com_math.cpp's
-// versions when that file ports, at which point these get removed.
-float Vec3Dot(const float *a, const float *b)
-{
-    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-}
+// Vec3Dot, Vec3NormalizeTo, Vec3Normalize, Vec3LengthSq provided by
+// src/universal/com_math.cpp now.
 
-float Vec3NormalizeTo(const float *in, float *out)
-{
-    const float lensq = in[0]*in[0] + in[1]*in[1] + in[2]*in[2];
-    if (lensq <= 0.0f) {
-        out[0] = out[1] = out[2] = 0.0f;
-        return 0.0f;
-    }
-    const float len = std::sqrt(lensq);
-    const float inv = 1.0f / len;
-    out[0] = in[0] * inv;
-    out[1] = in[1] * inv;
-    out[2] = in[2] * inv;
-    return len;
-}
-
-float Vec3Normalize(float *v)
-{
-    return Vec3NormalizeTo(v, v);
-}
-
-float Vec3LengthSq(const float *v)
-{
-    return v[0]*v[0] + v[1]*v[1] + v[2]*v[2];
-}
-
-void Vec3Sub(const float *a, const float *b, float *out)
-{
-    out[0] = a[0] - b[0];
-    out[1] = a[1] - b[1];
-    out[2] = a[2] - b[2];
-}
-
-// Vec3Mad: out = a + scale * b (multiply-add). Standard q3 helper.
-void Vec3Mad(const float *a, float scale, const float *b, float *out)
-{
-    out[0] = a[0] + scale * b[0];
-    out[1] = a[1] + scale * b[1];
-    out[2] = a[2] + scale * b[2];
-}
+// Vec3Sub, Vec3Mad provided by src/universal/com_math.cpp now.
 
 // ProfLoad tracking: map-profile timing instrumentation. Stub no-ops
 // until the profile-load subsystem is properly wired up. Forward-decl
@@ -258,93 +176,10 @@ enum MapProfileTrackedValue : int;
 // All real implementations (not placeholder stubs). When com_math.cpp
 // finally ports, these collide with upstream's versions — remove then.
 
-float Q_fabs(float v) { return std::fabs(v); }
-
-float Vec3Length(const float *v)
-{
-    return std::sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);
-}
-
-float Vec3DistanceSq(const float *a, const float *b)
-{
-    const float dx = a[0]-b[0], dy = a[1]-b[1], dz = a[2]-b[2];
-    return dx*dx + dy*dy + dz*dz;
-}
-
-float Vec3Distance(const float *a, const float *b)
-{
-    return std::sqrt(Vec3DistanceSq(a, b));
-}
-
-bool Vec3IsNormalized(const float *v)
-{
-    const float lensq = v[0]*v[0] + v[1]*v[1] + v[2]*v[2];
-    return std::fabs(lensq - 1.0f) < 0.0001f;
-}
-
-void Vec3Add(const float *a, const float *b, float *out)
-{
-    out[0] = a[0] + b[0];
-    out[1] = a[1] + b[1];
-    out[2] = a[2] + b[2];
-}
-
-void Vec3Cross(const float *a, const float *b, float *out)
-{
-    out[0] = a[1]*b[2] - a[2]*b[1];
-    out[1] = a[2]*b[0] - a[0]*b[2];
-    out[2] = a[0]*b[1] - a[1]*b[0];
-}
-
-void Vec3Scale(const float *a, float s, float *out)
-{
-    out[0] = a[0] * s;
-    out[1] = a[1] * s;
-    out[2] = a[2] * s;
-}
-
-void Vec3Lerp(const float *a, const float *b, float t, float *out)
-{
-    out[0] = a[0] + t * (b[0] - a[0]);
-    out[1] = a[1] + t * (b[1] - a[1]);
-    out[2] = a[2] + t * (b[2] - a[2]);
-}
-
-// out = a + s1*b + s2*c (multiply-add-multiply-add).
-void Vec3MadMad(const float *a, float s1, const float *b,
-                float s2, const float *c, float *out)
-{
-    out[0] = a[0] + s1 * b[0] + s2 * c[0];
-    out[1] = a[1] + s1 * b[1] + s2 * c[1];
-    out[2] = a[2] + s1 * b[2] + s2 * c[2];
-}
-
-// Returns 1 if every component of `a` differs from `b` by at most
-// `epsilon`, 0 otherwise. `n` is the component count (3 for vec3).
-int VecNCompareCustomEpsilon(const float *a, const float *b, float epsilon, int n)
-{
-    for (int i = 0; i < n; ++i) {
-        if (std::fabs(a[i] - b[i]) > epsilon) return 0;
-    }
-    return 1;
-}
-
-// 3x3 matrix * vec3.
-void MatrixTransformVector(const float *in, const float (&m)[3][3], float *out)
-{
-    out[0] = in[0]*m[0][0] + in[1]*m[1][0] + in[2]*m[2][0];
-    out[1] = in[0]*m[0][1] + in[1]*m[1][1] + in[2]*m[2][1];
-    out[2] = in[0]*m[0][2] + in[1]*m[1][2] + in[2]*m[2][2];
-}
-
-// 3x3 transposed matrix * vec3 (used to take a vector from world into a
-// local frame whose basis is the rows of m).
-void MatrixTransposeTransformVector(const float *in, const float (&m)[3][3], float *out)
-{
-    out[0] = in[0]*m[0][0] + in[1]*m[0][1] + in[2]*m[0][2];
-    out[1] = in[0]*m[1][0] + in[1]*m[1][1] + in[2]*m[1][2];
-    out[2] = in[0]*m[2][0] + in[1]*m[2][1] + in[2]*m[2][2];
-}
+// Q_fabs, Vec3Length, Vec3DistanceSq, Vec3Distance, Vec3IsNormalized, Vec3Add,
+// Vec3Cross, Vec3Scale, Vec3Lerp, Vec3MadMad, VecNCompareCustomEpsilon,
+// MatrixTransformVector, MatrixTransposeTransformVector all provided by
+// src/universal/com_math.cpp now.
 
 // In-place transpose of a 3x3 matrix (out = in^T).
 void G_TransposeMatrix(float (*in)[3], float (*out)[3])
@@ -365,59 +200,8 @@ void G_RotatePoint(float *pt, float (*m)[3])
     pt[2] = tmp[0]*m[0][2] + tmp[1]*m[1][2] + tmp[2]*m[2][2];
 }
 
-// Plane equation from 3 points: plane[0..2] = normal, plane[3] = distance.
-void PlaneFromPoints(float *plane, const float *a, const float *b, const float *c)
-{
-    const float ab[3] = { b[0]-a[0], b[1]-a[1], b[2]-a[2] };
-    const float ac[3] = { c[0]-a[0], c[1]-a[1], c[2]-a[2] };
-    plane[0] = ab[1]*ac[2] - ab[2]*ac[1];
-    plane[1] = ab[2]*ac[0] - ab[0]*ac[2];
-    plane[2] = ab[0]*ac[1] - ab[1]*ac[0];
-    const float lensq = plane[0]*plane[0] + plane[1]*plane[1] + plane[2]*plane[2];
-    if (lensq > 0.0f) {
-        const float inv = 1.0f / std::sqrt(lensq);
-        plane[0] *= inv;
-        plane[1] *= inv;
-        plane[2] *= inv;
-    }
-    plane[3] = plane[0]*a[0] + plane[1]*a[1] + plane[2]*a[2];
-}
-
-// Intersect 3 planes (each plane is 4 floats: nx ny nz d). `planes` is an
-// array of 3 const float* (one per plane). Result in `out` (vec3).
-// Solves planes[i] · p = planes[i][3] via Cramer's rule. Returns the
-// intersection unchanged on near-singular configurations (callers handle
-// the no-intersection case via separate validity checks upstream).
-void IntersectPlanes(const float **planes, float *out)
-{
-    const float a = planes[0][0], b = planes[0][1], c = planes[0][2];
-    const float d = planes[1][0], e = planes[1][1], f = planes[1][2];
-    const float g = planes[2][0], h = planes[2][1], i = planes[2][2];
-    const float det = a*(e*i - f*h) - b*(d*i - f*g) + c*(d*h - e*g);
-    if (std::fabs(det) < 1e-9f) {
-        out[0] = out[1] = out[2] = 0.0f;
-        return;
-    }
-    const float pa = planes[0][3], pb = planes[1][3], pc = planes[2][3];
-    const float invDet = 1.0f / det;
-    out[0] = invDet * (pa*(e*i - f*h) - b*(pb*i - f*pc) + c*(pb*h - e*pc));
-    out[1] = invDet * (a*(pb*i - f*pc) - pa*(d*i - f*g) + c*(d*pc - pb*g));
-    out[2] = invDet * (a*(e*pc - pb*h) - b*(d*pc - pb*g) + pa*(d*h - e*g));
-}
-
-// SnapPointToIntersectingPlanes: snap `pt` so it lies as close as possible
-// to all 3 planes' intersection within the given tolerances. Stub uses the
-// raw 3-plane intersection — upstream's algorithm refines along a tolerance
-// disc but the snap is rarely on the hot path for our build.
-void SnapPointToIntersectingPlanes(const float **planes, float *pt,
-                                   float /*tolerance*/, float /*step*/)
-{
-    IntersectPlanes(planes, pt);
-}
-
-// === Engine stubs required by cm_* collision files ========================
-// These are subsystems we have not yet ported. Stubs accept the calls and
-// either no-op or return sentinel values so the collision module links.
+// PlaneFromPoints, IntersectPlanes, SnapPointToIntersectingPlanes provided
+// by src/universal/com_math.cpp now.
 
 #include <new>
 
@@ -559,20 +343,7 @@ Material *Material_RegisterHandle(const char * /*name*/, int /*imageTrack*/)
 // com_math.cpp's versions when that file ports, at which point these stubs
 // get removed.
 #include <cfloat>
-void ClearBounds(float *mins, float *maxs)
-{
-    mins[0] = mins[1] = mins[2] = FLT_MAX;
-    maxs[0] = maxs[1] = maxs[2] = -FLT_MAX;
-}
-
-void ExpandBounds(const float *amins, const float *amaxs,
-                  float *omins, float *omaxs)
-{
-    for (int i = 0; i < 3; ++i) {
-        if (amins[i] < omins[i]) omins[i] = amins[i];
-        if (amaxs[i] > omaxs[i]) omaxs[i] = amaxs[i];
-    }
-}
+// ClearBounds, ExpandBounds provided by src/universal/com_math.cpp now.
 
 // I_stristr: case-insensitive substring search. Manual implementation
 // because strcasestr is a non-standard extension (BSD/GNU) and may not be
