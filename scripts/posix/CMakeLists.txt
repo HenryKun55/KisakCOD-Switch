@@ -140,6 +140,7 @@ set(STRINGED_PORTABLE_SOURCES
 
 set(UI_PORTABLE_SOURCES
     "${SRC_DIR}/ui/ui_atoms.cpp"
+    "${SRC_DIR}/ui/ui_expressions.cpp"
     "${SRC_DIR}/ui/ui_expressions_logicfunctions.cpp"
     "${SRC_DIR}/ui/ui_localvars.cpp"
     "${SRC_DIR}/ui/ui_utils.cpp"

@@ -1189,7 +1189,7 @@ struct rectDef_s_fwd;
 
 float DB_GetLoadedFraction() { return 1.0f; }
 
-bool IsExpressionTrue(int /*localClientNum*/, const statement_s * /*expr*/) { return false; }
+// IsExpressionTrue provided by src/ui/ui_expressions.cpp now.
 const rectDef_s *Item_GetTextRect(int /*localClientNum*/, const itemDef_s * /*item*/) { return nullptr; }
 
 float kisak_crandom() { return (std::rand() / float(RAND_MAX)) * 2.0f - 1.0f; }
@@ -3191,11 +3191,11 @@ bool Sys_StringToAdr(const char *, netadr_t *out) { if (out) std::memset(out, 0,
 
 // === ui_expressions_logicfunctions satellites ======================================
 
-operandInternalDataUnion GetSourceInt(Operand *op) {
-    operandInternalDataUnion r{};
-    if (op) r.intVal = op->internals.intVal;
-    return r;
-}
+// GetSourceInt provided by src/ui/ui_expressions.cpp now.
+
+// === ui_expressions satellites =====================================================
+
+int LiveStorage_GetStat(int, int) { return 0; }
 
 // === CGAME dvars and storage referenced by the new sources =========================
 
