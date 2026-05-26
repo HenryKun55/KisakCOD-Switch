@@ -158,10 +158,17 @@ set(GFX_PORTABLE_SOURCES
     # R_LockVertexBuffer satellites; land with the D3D draw batch.
     "${SRC_DIR}/gfx_d3d/r_pretess.cpp"
     "${SRC_DIR}/gfx_d3d/r_reflection_probe.cpp"
+    # r_rendertarget.cpp pulls IDirect3D9 + D3DRTYPE_SURFACE +
+    # D3DMULTISAMPLE_NONE — D3D9 swap chain / multisample setup.
+    # Land behind graphics abstraction.
     # r_screenshot.cpp uses tagMONITORINFO/HMONITOR/ClientToScreen
     # (Win32) and IDirect3DSurface9/IDirect3DSwapChain9 (D3D9). Land
     # behind a screen-capture abstraction.
+    # r_shade.cpp pulls D3DLOCK_NOOVERWRITE / DISCARD plus
+    # IDirect3DDevice9 member access. Land behind graphics
+    # abstraction.
     "${SRC_DIR}/gfx_d3d/r_sky.cpp"
+    "${SRC_DIR}/gfx_d3d/r_sunshadow.cpp"
     # r_spotshadow.cpp drags R_DrawCall / R_DrawSurfs / R_ClearScreen /
     # R_AddSceneDObj / R_DrawQuadMesh / R_SetRenderTarget / Image_Alloc.
     # Land with renderer-frame batch.

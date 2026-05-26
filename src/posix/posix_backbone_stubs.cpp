@@ -1702,6 +1702,16 @@ char R_ReserveMeshIndices(GfxMeshData * /*mesh*/, int /*count*/, r_double_index_
 struct GfxSurface;
 void R_AddShadowSurfaceToPrimaryLight(GfxWorld * /*world*/, unsigned int /*surfIndex*/, unsigned int /*lightIndex*/) {}
 void R_ForEachPrimaryLightAffectingSurface(GfxWorld * /*world*/, const GfxSurface * /*surf*/, unsigned int /*surfIndex*/, void (*)(GfxWorld *, unsigned int, unsigned int)) {}
+
+// r_sunshadow satellite stubs (live in r_dpvs / r_scene / r_view).
+void R_SetVisData(unsigned int /*cellIndex*/) {}
+void R_SetDpvsPlaneSides(DpvsPlane * /*plane*/) {}
+struct GfxViewParms;
+void R_SetupShadowSurfacesDpvs(const GfxViewParms * /*viewParms*/, const float (* /*planes*/)[4], unsigned int /*planeCount*/, int /*flags*/) {}
+void R_AddWorldSurfacesFrustumOnly() {}
+float R_DpvsPlaneMinSignedDistToBox(const DpvsPlane * /*plane*/, const float * /*minmax*/) { return 0.0f; }
+void R_SetupViewProjectionMatrices(GfxViewParms * /*viewParms*/) {}
+
 struct DiskGfxReflectionProbe;
 void R_CreateReflectionRawDataFromCubemapShot(DiskGfxReflectionProbe * /*probe*/, int /*downRes*/) {}
 
