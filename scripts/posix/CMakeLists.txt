@@ -107,6 +107,10 @@ set(SCRIPT_PORTABLE_SOURCES
     # scr_evaluate.cpp depends on scr_debugger / scr_compiler / scr_parser
     # batch (debugger_node*, Scr_CompileStatement, Scr_ClearDebugExpr,
     # scrCompileGlob, scrVmDebugPub). Land together.
+    # scr_debugger.cpp stores Scr_WatchElement_s* in 32-bit elementList
+    # slots (`elementList[i] = (uint32_t)&newElements[i]`) and uses
+    # `*(uint32_t *)(slot + offset)` to re-dereference. Land after
+    # 32→64-bit element-list widening.
     "${SRC_DIR}/script/scr_main.cpp"
     "${SRC_DIR}/script/scr_memorytree.cpp"
     "${SRC_DIR}/script/scr_parser.cpp"
