@@ -497,12 +497,30 @@ struct IDirect3DDevice9 {
     long SetVertexDeclaration(IDirect3DVertexDeclaration9 *) { return 0; }
     long SetPixelShader(IDirect3DPixelShader9 *) { return 0; }
     long SetVertexShader(IDirect3DVertexShader9 *) { return 0; }
+    long CreateOffscreenPlainSurface(unsigned int, unsigned int, int, unsigned long, IDirect3DSurface9 **out, void *) { if (out) *out = nullptr; return 0; }
+    void SetGammaRamp(unsigned int, unsigned long, const void *) {}
+    long StretchRect(IDirect3DSurface9 *, const tagRECT *, IDirect3DSurface9 *, const tagRECT *, int) { return 0; }
 };
 #ifndef D3DRS_SCISSORTESTENABLE
 #define D3DRS_SCISSORTESTENABLE 174
 #endif
 #ifndef D3DPT_TRIANGLELIST
 #define D3DPT_TRIANGLELIST 4
+#endif
+#ifndef D3DPOOL_DEFAULT
+#define D3DPOOL_DEFAULT 0
+#endif
+#ifndef D3DPOOL_SCRATCH
+#define D3DPOOL_SCRATCH 2
+#endif
+#ifndef D3DPOOL_SYSTEMMEM
+#define D3DPOOL_SYSTEMMEM 3
+#endif
+#ifndef D3DTEXF_LINEAR
+#define D3DTEXF_LINEAR 2
+#endif
+#ifndef D3DTEXF_POINT
+#define D3DTEXF_POINT 1
 #endif
 typedef int  _D3DFORMAT;  // enum in DX9 SDK; opaque int here
 typedef int  D3DFORMAT;
