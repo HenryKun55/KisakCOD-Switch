@@ -306,6 +306,10 @@ set(PHYSICS_ODE_SOURCES
     "${SRC_DIR}/physics/ode/fastldlt.c"
     "${SRC_DIR}/physics/ode/fastlsolve.c"
     "${SRC_DIR}/physics/ode/fastltsolve.c"
+    # collision_kernel.cpp dispatches to dCollide*Box / dCollide*Plane
+    # / dCollideRay* implementations in collision_std.cpp /
+    # collision_transform.cpp / collision_trimesh*.cpp (all held back
+    # behind dArrayBase). Land alongside those.
     "${SRC_DIR}/physics/ode/lcp.cpp"
     # memory.cpp needs the gated dAlloc*Function typedefs from
     # deps/ode/memory.h (currently #if 0). Land after un-gating.
