@@ -36,6 +36,10 @@ set(UNIVERSAL_PORTABLE_SOURCES
     "${SRC_DIR}/universal/com_math.cpp"
     "${SRC_DIR}/universal/com_math_anglevectors.cpp"
     "${SRC_DIR}/universal/com_shared.cpp"
+    # com_sndalias.cpp / com_sndalias_load_obj.cpp use hex-rays
+    # negative-index struct walking (`g_sa.soundFileInfo[-4]`) plus
+    # 32-bit pointer-as-int storage. Land after typed soundalias
+    # struct refactor.
     "${SRC_DIR}/universal/pool_allocator.cpp"
     "${SRC_DIR}/universal/q_shared.cpp"
     "${SRC_DIR}/universal/surfaceflags.cpp"
