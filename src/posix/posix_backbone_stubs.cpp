@@ -1717,6 +1717,12 @@ double FX_InterpolateSize(const FxElemVisStateSample * /*samples*/, int /*count*
 void FX_SetupVisualState(const FxElemDef * /*def*/, const FxEffect * /*effect*/, int /*frame*/, float /*t*/, FxElemPreVisualState * /*state*/) {}
 void FX_EvaluateVisualState(FxElemPreVisualState * /*pre*/, float /*t*/, FxElemVisualState * /*state*/) {}
 
+// fx_convert satellite stubs.
+struct MaterialInfo;
+void Material_GetInfo(Material * /*m*/, MaterialInfo * /*out*/) {}
+struct PhysPreset;
+PhysPreset *FX_RegisterPhysPreset(const char * /*name*/) { return nullptr; }
+
 struct DiskGfxReflectionProbe;
 void R_CreateReflectionRawDataFromCubemapShot(DiskGfxReflectionProbe * /*probe*/, int /*downRes*/) {}
 

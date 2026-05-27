@@ -7,7 +7,7 @@ bool __cdecl FX_ElemUsesMaterial(const FxEditorElemDef *edElemDef)
     uint8_t elemType; // [esp+0h] [ebp-4h]
 
     elemType = edElemDef->elemType;
-    return elemType < 5u || elemType > 8u && elemType != 10;
+    return elemType < 5u || (elemType > 8u && elemType != 10);
 }
 
 char __cdecl FX_ValidateFlags(const FxEditorEffectDef *editorEffect, const FxEditorElemDef *edElemDef)
@@ -794,7 +794,7 @@ void __cdecl FX_SampleVelocityInFrame(
     if (useVelocity[0])
         velEpsilonSq = Vec3LengthSq((const float *)velScale) + velEpsilonSq;
     if (useVelocity[1])
-        velEpsilonSq = Vec3LengthSq(&(*velScale)[3]) + velEpsilonSq;
+        velEpsilonSq = Vec3LengthSq(&reinterpret_cast<const float *>(velScale)[3]) + velEpsilonSq;
     velEpsilonSqa = velEpsilonSq * 0.00000100000011116208;
     anyNonZero = 0;
     velStatePrev = 0;
@@ -818,9 +818,9 @@ void __cdecl FX_SampleVelocityInFrame(
         }
         if (useVelocity[1])
         {
-            velocitySample[0] = FX_SampleCurve1D(edElemDef->velShape[1][0][0], (*velScale)[3], sampleTime);
-            velocitySample[1] = FX_SampleCurve1D(edElemDef->velShape[1][1][0], (*velScale)[4], sampleTime);
-            velocitySample[2] = FX_SampleCurve1D(edElemDef->velShape[1][2][0], (*velScale)[5], sampleTime);
+            velocitySample[0] = FX_SampleCurve1D(edElemDef->velShape[1][0][0], reinterpret_cast<const float *>(velScale)[3], sampleTime);
+            velocitySample[1] = FX_SampleCurve1D(edElemDef->velShape[1][1][0], reinterpret_cast<const float *>(velScale)[4], sampleTime);
+            velocitySample[2] = FX_SampleCurve1D(edElemDef->velShape[1][2][0], reinterpret_cast<const float *>(velScale)[5], sampleTime);
             Vec3Add(velState->velocity.base, velocitySample, velState->velocity.base);
             if (useVelocityRand[!brokenCompatibilityMode])
                 Vec3Sub(velState->velocity.amplitude, velocitySample, velState->velocity.amplitude);
@@ -849,11 +849,11 @@ void __cdecl FX_SampleVelocityInFrame(
         }
         if (useVelocityRand[1])
         {
-            velState->velocity.amplitude[0] = FX_SampleCurve1D(edElemDef->velShape[1][0][1], (*velScale)[3], sampleTime)
+            velState->velocity.amplitude[0] = FX_SampleCurve1D(edElemDef->velShape[1][0][1], reinterpret_cast<const float *>(velScale)[3], sampleTime)
                 + velState->velocity.amplitude[0];
-            velState->velocity.amplitude[1] = FX_SampleCurve1D(edElemDef->velShape[1][1][1], (*velScale)[4], sampleTime)
+            velState->velocity.amplitude[1] = FX_SampleCurve1D(edElemDef->velShape[1][1][1], reinterpret_cast<const float *>(velScale)[4], sampleTime)
                 + velState->velocity.amplitude[1];
-            velState->velocity.amplitude[2] = FX_SampleCurve1D(edElemDef->velShape[1][2][1], (*velScale)[5], sampleTime)
+            velState->velocity.amplitude[2] = FX_SampleCurve1D(edElemDef->velShape[1][2][1], reinterpret_cast<const float *>(velScale)[5], sampleTime)
                 + velState->velocity.amplitude[2];
         }
         if (velStatePrev)
@@ -1617,7 +1617,7 @@ const FxEffectDef *__cdecl FX_Convert(const FxEditorEffectDef *editorEffect, voi
                     if (!*((_DWORD *)elemVisual->anonymous + 53))
                     {
                         v2 = FX_RegisterPhysPreset("default");
-                        *((_DWORD *)elemVisual->anonymous + 53) = (_DWORD)v2;
+                        *((_DWORD *)elemVisual->anonymous + 53) = (_DWORD)(uintptr_t)v2;
                         Com_PrintError(
                             20,
                             "ERROR: no physics preset specified for the FX model [%s]\n",
