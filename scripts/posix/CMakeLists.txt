@@ -201,6 +201,7 @@ set(GFX_PORTABLE_SOURCES
     # r_shade.cpp pulls D3DLOCK_NOOVERWRITE / DISCARD plus
     # IDirect3DDevice9 member access. Land behind graphics
     # abstraction.
+    "${SRC_DIR}/gfx_d3d/r_setstate_d3d.cpp"
     "${SRC_DIR}/gfx_d3d/r_sky.cpp"
     # r_state.cpp uses _D3DVIEWPORT9 (incomplete) and dozens of
     # D3DRS_* constants; needs full D3D9 enum coverage and
