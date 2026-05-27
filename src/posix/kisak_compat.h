@@ -441,7 +441,20 @@ typedef struct _RTL_CRITICAL_SECTION {
 // On POSIX/Switch those interfaces have no implementation — the renderer
 // is replaced by gfx_gl/. We forward-declare the types as opaque structs
 // so headers parse; functions that take them are never called off Windows.
-struct IDirect3D9;
+struct IDirect3DDevice9;
+struct IDirect3D9 {
+    long CheckDeviceFormat(unsigned int, int, int, unsigned long, int, int) { return 0; }
+    long CheckDepthStencilMatch(unsigned int, int, int, int, int) { return 0; }
+    long CreateDevice(unsigned int, int, void *, unsigned long, void *, IDirect3DDevice9 **out) { if (out) *out = nullptr; return 0; }
+    long EnumAdapterModes(unsigned int, int, unsigned int, void *) { return 0; }
+    long GetAdapterDisplayMode(unsigned int, void *) { return 0; }
+    long GetAdapterIdentifier(unsigned int, unsigned long, void *) { return 0; }
+    unsigned int GetAdapterModeCount(unsigned int, int) { return 0; }
+    long GetDeviceCaps(unsigned int, int, void *) { return 0; }
+    long CheckDeviceMultiSampleType(unsigned int, int, int, int, int, unsigned long *) { return 0; }
+    unsigned int GetAdapterCount() { return 0; }
+    void *GetAdapterMonitor(unsigned int) { return nullptr; }
+};
 struct IDirect3DVertexBuffer9 {
     long Lock(unsigned int, unsigned int, void **out, unsigned long) { if (out) *out = nullptr; return 0; }
     long Unlock() { return 0; }
@@ -459,7 +472,8 @@ struct IDirect3DBaseTexture9 {
 struct IDirect3DTexture9;
 struct IDirect3DVolumeTexture9;
 struct IDirect3DCubeTexture9;
-struct IDirect3DSurface9;
+struct IDirect3DSurface9;  // defined after _D3DSURFACE_DESC below
+
 struct IDirect3DStateBlock9;
 struct IDirect3DVertexDeclaration9;
 struct IDirect3DVertexShader9;
@@ -546,6 +560,14 @@ struct IDirect3DTexture9 : IDirect3DBaseTexture9 {
     long GetLevelDesc(unsigned int, _D3DSURFACE_DESC *out) { if (out) *out = {}; return 0; }
     long GetSurfaceLevel(unsigned int, IDirect3DSurface9 **out) { if (out) *out = nullptr; return 0; }
 };
+struct IDirect3DSurface9_Defined {
+    long GetDesc(_D3DSURFACE_DESC *out) { if (out) *out = {}; return 0; }
+    long LockRect(_D3DLOCKED_RECT *out, const tagRECT *, unsigned long) { if (out) *out = {}; return 0; }
+    long UnlockRect() { return 0; }
+    unsigned long AddRef() { return 1; }
+    unsigned long Release() { return 0; }
+};
+struct IDirect3DSurface9 : IDirect3DSurface9_Defined {};
 struct IDirect3DCubeTexture9 : IDirect3DBaseTexture9 {
     long LockRect(unsigned int, unsigned int, _D3DLOCKED_RECT *out, const tagRECT *, unsigned long) { if (out) *out = {}; return 0; }
     long UnlockRect(unsigned int, unsigned int) { return 0; }
@@ -657,6 +679,30 @@ typedef int _D3DPOOL;
 #ifndef D3DSAMP_ADDRESSW
 #define D3DSAMP_ADDRESSW 3
 #endif
+#ifndef D3DDEVTYPE_HAL
+#define D3DDEVTYPE_HAL 1
+#endif
+#ifndef D3DRTYPE_SURFACE
+#define D3DRTYPE_SURFACE 1
+#endif
+#ifndef D3DRTYPE_TEXTURE
+#define D3DRTYPE_TEXTURE 3
+#endif
+#ifndef D3DFMT_D24FS8
+#define D3DFMT_D24FS8 82
+#endif
+#ifndef D3DMULTISAMPLE_NONE
+#define D3DMULTISAMPLE_NONE 0
+#endif
+#ifndef D3DBACKBUFFER_TYPE_MONO
+#define D3DBACKBUFFER_TYPE_MONO 0
+#endif
+#ifndef D3DQUERYTYPE_EVENT
+#define D3DQUERYTYPE_EVENT 8
+#endif
+#ifndef D3DQUERYTYPE_OCCLUSION
+#define D3DQUERYTYPE_OCCLUSION 9
+#endif
 #ifndef D3DTEXF_NONE
 #define D3DTEXF_NONE 0
 #endif
@@ -758,6 +804,27 @@ typedef long HRESULT;
 #endif
 #ifndef D3DFMT_INDEX32
 #define D3DFMT_INDEX32 102
+#endif
+#ifndef D3DFMT_A8B8G8R8
+#define D3DFMT_A8B8G8R8 32
+#endif
+#ifndef D3DFMT_R5G6B5
+#define D3DFMT_R5G6B5 23
+#endif
+#ifndef D3DFMT_A1R5G5B5
+#define D3DFMT_A1R5G5B5 25
+#endif
+#ifndef D3DFMT_D16_LOCKABLE
+#define D3DFMT_D16_LOCKABLE 70
+#endif
+#ifndef D3DFMT_D15S1
+#define D3DFMT_D15S1 73
+#endif
+#ifndef D3DFMT_D32
+#define D3DFMT_D32 71
+#endif
+#ifndef D3DFMT_D32F_LOCKABLE
+#define D3DFMT_D32F_LOCKABLE 84
 #endif
 
 #ifndef TRUE

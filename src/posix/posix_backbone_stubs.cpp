@@ -1794,6 +1794,9 @@ bool Scr_IgnoreErrors() { return false; }
 // R_AddBModelSurfaces provided by src/gfx_d3d/r_scene.cpp now.
 // R_AddXModelSurfaces provided by src/gfx_d3d/r_scene.cpp now.
 
+// r_rendertarget satellite stubs.
+void Image_TrackFullscreenTexture(GfxImage * /*img*/, int, int, int, int) {}
+
 // r_scene satellite stubs.
 bool R_Cinematic_IsStarted() { return false; }
 bool R_Cinematic_IsUnderrun() { return false; }

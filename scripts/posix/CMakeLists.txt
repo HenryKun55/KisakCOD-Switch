@@ -207,9 +207,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_reflection_probe.cpp"
     "${SRC_DIR}/gfx_d3d/r_rendercmds.cpp"
     "${SRC_DIR}/gfx_d3d/r_scene.cpp"
-    # r_rendertarget.cpp pulls IDirect3D9 + D3DRTYPE_SURFACE +
-    # D3DMULTISAMPLE_NONE — D3D9 swap chain / multisample setup.
-    # Land behind graphics abstraction.
+    "${SRC_DIR}/gfx_d3d/r_rendertarget.cpp"
     # r_scene.cpp pulls r_cinematic.h (Bink BINKTEXTURESET / BINKREALTIME)
     # and IDirect3DQuery9 member access. Land alongside r_cinematic /
     # graphics abstraction.
