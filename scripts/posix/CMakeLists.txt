@@ -325,6 +325,9 @@ set(DATABASE_PORTABLE_SOURCES
     # font/menu/sound/water/clipmap). Land alongside the rest of the asset
     # subsystem batch.
     "${SRC_DIR}/database/db_memory.cpp"
+    # db_registry.cpp calls CreateFileA / CloseHandle / DeleteFileA
+    # directly and packs pointers into int slots. Re-port through
+    # Sys_FS abstraction.
     "${SRC_DIR}/database/db_stream.cpp"
     "${SRC_DIR}/database/db_stream_load.cpp"
     "${SRC_DIR}/database/db_stringtable_load.cpp"
