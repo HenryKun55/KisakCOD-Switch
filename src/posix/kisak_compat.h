@@ -477,6 +477,13 @@ struct IDirect3DQuery9 {
 // IDirect3DDevice9 stub: provides the most-called methods so renderer
 // files compile against the abstraction. None of these run on POSIX —
 // the real renderer lives in gfx_gl/ once it lands.
+struct tagRECT {
+    long left;
+    long top;
+    long right;
+    long bottom;
+};
+typedef tagRECT RECT;
 struct IDirect3DDevice9 {
     long BeginScene() { return 0; }
     long EndScene() { return 0; }
@@ -484,7 +491,12 @@ struct IDirect3DDevice9 {
     long TestCooperativeLevel() { return 0; }
     unsigned long Release() { return 0; }
     long Reset(void *) { return 0; }
+    long SetRenderState(unsigned long, unsigned long) { return 0; }
+    long SetScissorRect(const tagRECT *) { return 0; }
 };
+#ifndef D3DRS_SCISSORTESTENABLE
+#define D3DRS_SCISSORTESTENABLE 174
+#endif
 typedef int  _D3DFORMAT;  // enum in DX9 SDK; opaque int here
 typedef int  D3DFORMAT;
 typedef int  _D3DCUBEMAP_FACES;

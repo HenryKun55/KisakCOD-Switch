@@ -150,6 +150,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_staticmodel.cpp"
     "${SRC_DIR}/gfx_d3d/r_xsurface.cpp"
     "${SRC_DIR}/gfx_d3d/rb_debug.cpp"
+    "${SRC_DIR}/gfx_d3d/rb_depthprepass.cpp"
     "${SRC_DIR}/gfx_d3d/rb_fog.cpp"
     "${SRC_DIR}/gfx_d3d/rb_imagetouch.cpp"
     "${SRC_DIR}/gfx_d3d/rb_showcollision.cpp"

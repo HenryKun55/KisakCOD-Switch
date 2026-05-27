@@ -1680,7 +1680,7 @@ unsigned int Image_CountMipmapsForFile(const GfxImageFileHeader * /*hdr*/) { ret
 
 // r_meshdata satellite stubs.
 struct GfxMeshData;
-void *R_GetMeshVerts(GfxMeshData * /*mesh*/, unsigned short /*baseVertex*/) { return nullptr; }
+unsigned char *R_GetMeshVerts(GfxMeshData * /*mesh*/, unsigned short /*baseVertex*/) { return nullptr; }
 void R_BeginMeshVerts(GfxMeshData * /*mesh*/) {}
 char R_ReserveMeshVerts(GfxMeshData * /*mesh*/, int /*count*/, unsigned short * /*out*/) { return 0; }
 char R_ReserveMeshIndices(GfxMeshData * /*mesh*/, int /*count*/, r_double_index_t ** /*out*/) { return 0; }
@@ -1814,6 +1814,11 @@ bool Scr_IgnoreErrors() { return false; }
 GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
+
+// rb_depthprepass satellite stubs.
+#include <gfx_d3d/r_meshdata.h>
+void R_DrawCall(void (*)(const void *, GfxCmdBufContext, GfxCmdBufContext), const void *, GfxCmdBufSourceState *, const GfxViewInfo *, const GfxDrawSurfListInfo *, const GfxViewParms *, GfxCmdBuf *, GfxCmdBuf *) {}
+void R_DrawQuadMesh(GfxCmdBufContext /*ctx*/, const Material * /*m*/, GfxMeshData * /*mesh*/) {}
 
 // rb_sky satellite stubs.
 #include <gfx_d3d/rb_backend.h>
