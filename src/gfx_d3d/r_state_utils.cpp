@@ -47,11 +47,11 @@ void __cdecl R_DeriveNearPlaneConstantsForView(GfxCmdBufSourceState *source)
 
 void __cdecl R_SetGameTime(GfxCmdBufSourceState *source, float gameTime)
 {
-    float v2; // [esp+8h] [ebp-30h]
-    float v3; // [esp+28h] [ebp-10h]
-    float cosOfFracPartOfGameTime; // [esp+2Ch] [ebp-Ch]
-    float sinOfFracPartOfGameTime; // [esp+30h] [ebp-8h]
-    float fracPartOfGameTime; // [esp+34h] [ebp-4h]
+    [[maybe_unused]] float v2; // [esp+8h] [ebp-30h]
+    [[maybe_unused]] float v3; // [esp+28h] [ebp-10h]
+    [[maybe_unused]] float cosOfFracPartOfGameTime; // [esp+2Ch] [ebp-Ch]
+    [[maybe_unused]] float sinOfFracPartOfGameTime; // [esp+30h] [ebp-8h]
+    [[maybe_unused]] float fracPartOfGameTime; // [esp+34h] [ebp-4h]
 
     v2 = floor(gameTime);
     fracPartOfGameTime = gameTime - v2;
@@ -89,14 +89,14 @@ int __cdecl R_PickMaterial(
     unsigned int charLimit)
 {
     int v8; // ecx
-    char v9; // [esp+4Fh] [ebp-55h]
-    const char *material; // [esp+58h] [ebp-4Ch]
+    [[maybe_unused]] char v9; // [esp+4Fh] [ebp-55h]
+    [[maybe_unused]] const char *material; // [esp+58h] [ebp-4Ch]
     float end[3]; // [esp+5Ch] [ebp-48h] BYREF
     trace_t trace; // [esp+68h] [ebp-3Ch] BYREF
-    int contentsLen; // [esp+94h] [ebp-10h]
-    int index; // [esp+98h] [ebp-Ch]
-    int surfaceFlagsLen; // [esp+9Ch] [ebp-8h]
-    int i; // [esp+A0h] [ebp-4h]
+    [[maybe_unused]] int contentsLen; // [esp+94h] [ebp-10h]
+    [[maybe_unused]] int index; // [esp+98h] [ebp-Ch]
+    [[maybe_unused]] int surfaceFlagsLen; // [esp+9Ch] [ebp-8h]
+    [[maybe_unused]] int i; // [esp+A0h] [ebp-4h]
 
     Vec3Mad(org, 262144.0, dir, end);
     CM_BoxTrace(&trace, org, end, vec3_origin, vec3_origin, 0, traceMask);
@@ -180,15 +180,15 @@ void __cdecl R_Set2D(GfxCmdBufSourceState *source)
 
 void __cdecl R_CmdBufSet2D(GfxCmdBufSourceState* source, GfxViewport* viewport)
 {
-    GfxViewParms* v2; // ebp
+    [[maybe_unused]] GfxViewParms* v2; // ebp
     float v3[16]; // [esp-8h] [ebp-9Ch] BYREF
     GfxMatrix identity_52; // [esp+38h] [ebp-5Ch] BYREF
-    GfxViewParms* transform_56; // [esp+7Ch] [ebp-18h]
-    float transform_60; // [esp+80h] [ebp-14h]
-    float v7; // [esp+84h] [ebp-10h]
-    GfxViewParms* viewParms; // [esp+88h] [ebp-Ch]
-    float invHeight; // [esp+8Ch] [ebp-8h]
-    float retaddr; // [esp+94h] [ebp+0h]
+    [[maybe_unused]] GfxViewParms* transform_56; // [esp+7Ch] [ebp-18h]
+    [[maybe_unused]] float transform_60; // [esp+80h] [ebp-14h]
+    [[maybe_unused]] float v7; // [esp+84h] [ebp-10h]
+    [[maybe_unused]] GfxViewParms* viewParms; // [esp+88h] [ebp-Ch]
+    [[maybe_unused]] float invHeight; // [esp+8Ch] [ebp-8h]
+    [[maybe_unused]] float retaddr; // [esp+94h] [ebp+0h]
 
     //viewParms = v2;
     //invHeight = retaddr;
@@ -286,7 +286,7 @@ void __cdecl R_Set3D(GfxCmdBufSourceState *source)
 
 void __cdecl R_InitCmdBufSourceState(GfxCmdBufSourceState *source, const GfxCmdBufInput *input, int cameraView)
 {
-    float *v3; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] float *v3; // [esp+8h] [ebp-8h]
 
     iassert(source);
     iassert(input);
@@ -320,8 +320,8 @@ void __cdecl R_InitCmdBufSourceState(GfxCmdBufSourceState *source, const GfxCmdB
 void __cdecl R_SetDefaultAlphaTestFunction(GfxCmdBufState *state)
 {
     const char *v1; // eax
-    int hr; // [esp+0h] [ebp-8h]
-    IDirect3DDevice9 *device; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] IDirect3DDevice9 *device; // [esp+4h] [ebp-4h]
 
     device = state->prim.device;
     iassert( device );
@@ -370,14 +370,14 @@ void __cdecl R_HW_ForceSamplerState(IDirect3DDevice9 *device, unsigned int sampl
     const char *v8; // eax
     const char *v9; // eax
     const char *v10; // eax
-    int v11; // [esp+0h] [ebp-34h]
-    int v12; // [esp+4h] [ebp-30h]
-    int v13; // [esp+8h] [ebp-2Ch]
-    int v14; // [esp+Ch] [ebp-28h]
-    int v15; // [esp+10h] [ebp-24h]
-    int v16; // [esp+14h] [ebp-20h]
-    int v17; // [esp+18h] [ebp-1Ch]
-    int hr; // [esp+1Ch] [ebp-18h]
+    [[maybe_unused]] int v11; // [esp+0h] [ebp-34h]
+    [[maybe_unused]] int v12; // [esp+4h] [ebp-30h]
+    [[maybe_unused]] int v13; // [esp+8h] [ebp-2Ch]
+    [[maybe_unused]] int v14; // [esp+Ch] [ebp-28h]
+    [[maybe_unused]] int v15; // [esp+10h] [ebp-24h]
+    [[maybe_unused]] int v16; // [esp+14h] [ebp-20h]
+    [[maybe_unused]] int v17; // [esp+18h] [ebp-1Ch]
+    [[maybe_unused]] int hr; // [esp+1Ch] [ebp-18h]
 
     do
     {
@@ -552,9 +552,9 @@ void __cdecl R_HW_ForceSamplerState(IDirect3DDevice9 *device, unsigned int sampl
 
 void __cdecl R_InitCmdBufState(GfxCmdBufState *state)
 {
-    unsigned int samplerIndex; // [esp+10h] [ebp-Ch]
-    IDirect3DDevice9 *device; // [esp+14h] [ebp-8h]
-    unsigned int forceSamplerState; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] unsigned int samplerIndex; // [esp+10h] [ebp-Ch]
+    [[maybe_unused]] IDirect3DDevice9 *device; // [esp+14h] [ebp-8h]
+    [[maybe_unused]] unsigned int forceSamplerState; // [esp+18h] [ebp-4h]
 
     iassert( state );
     device = state->prim.device;

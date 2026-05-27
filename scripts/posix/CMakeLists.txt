@@ -218,6 +218,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_setstate_d3d.cpp"
     "${SRC_DIR}/gfx_d3d/r_shade.cpp"
     "${SRC_DIR}/gfx_d3d/r_shadowcookie.cpp"
+    "${SRC_DIR}/gfx_d3d/r_state_utils.cpp"
     "${SRC_DIR}/gfx_d3d/r_sky.cpp"
     "${SRC_DIR}/gfx_d3d/r_spotshadow.cpp"
     # r_state.cpp uses _D3DVIEWPORT9 (incomplete) and dozens of

@@ -1408,7 +1408,7 @@ void Phys_PerformanceEndFrame() {}
 // int  BG_GetFirstAvailableOffhand(const playerState_s *, int) { return 0; }  // provided by bg_weapons.cpp now
 // CG_Flashbanged provided by src/cgame/cg_shellshock.cpp now.
 // void FX_DrawProfile(int, void (*)(char *), float *) {}  // provided by fx_profile.cpp now
-int  R_PickMaterial(int, const float *, const float *, char *, char *, char *, unsigned int) { return 0; }
+// R_PickMaterial provided by src/gfx_d3d/r_state_utils.cpp now.
 // uint32_t BG_GetNumWeapons() { return 0u; }  // provided by bg_weapons.cpp now
 // int32_t  BG_ClipForWeapon(uint32_t) { return 0; }  // provided by bg_weapons.cpp now
 // void     FX_Beam_Add(FxBeam *) {}  // provided by fx_beam.cpp now
@@ -1575,9 +1575,9 @@ void  R_SetLodOrigin(const refdef_s *) {}
 // CG_DObjUpdateInfo provided by src/cgame_mp/cg_ents_mp.cpp now.
 // void  Key_RemoveCatcher(int, int) {}  // provided by cl_keys.cpp now
 // R_GetFarPlaneDist provided by src/gfx_d3d/r_dpvs.cpp now.
-double R_GetBaseLodDist(const float * /*origin*/) { return 0.0; }
+// R_GetBaseLodDist provided by src/gfx_d3d/r_state_utils.cpp now.
 enum XModelLodRampType : int;
-double R_GetAdjustedLodDist(float dist, XModelLodRampType /*lodRampType*/) { return dist; }
+// R_GetAdjustedLodDist provided by src/gfx_d3d/r_state_utils.cpp now.
 
 // FX_ family — stubs until fx_system / fx_marks / fx_update land.
 struct FxSystem;
@@ -1738,7 +1738,7 @@ void RB_DrawTextInSpace(const char * /*text*/, Font_s * /*font*/, const float * 
 void RB_CheckTessOverflow(int /*a*/, int /*b*/) {}
 #include <gfx_d3d/rb_backend.h>
 #include <gfx_d3d/rb_state.h>
-void R_Set3D(GfxCmdBufSourceState * /*source*/) {}
+// R_Set3D provided by src/gfx_d3d/r_state_utils.cpp now.
 
 // r_workercmds satellite stubs.
 void Sys_SetUpdateSpotLightEffectEvent() {}
@@ -1807,6 +1807,11 @@ bool Scr_IgnoreErrors() { return false; }
 GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
+
+// r_state_utils satellite stubs.
+void R_SetCodeConstant(GfxCmdBufSourceState * /*src*/, CodeConstant /*c*/, float, float, float, float) {}
+void R_SetCompleteState(IDirect3DDevice9 * /*d*/, unsigned int * /*bits*/) {}
+unsigned int R_DecodeSamplerState(unsigned char /*s*/) { return 0; }
 
 // r_shade satellite stubs.
 void R_ChangeState_0(GfxCmdBufState * /*s*/, unsigned int /*bits*/) {}
@@ -1881,7 +1886,7 @@ void R_ShutdownDynamicMesh(GfxMeshData * /*mesh*/) {}
 // gfxMeshGlob provided by src/gfx_d3d/r_meshdata.cpp now.
 
 // r_draw_material / r_draw_shadowable_light / r_draw_sunshadow satellite stubs.
-void R_SetGameTime(GfxCmdBufSourceState * /*src*/, float /*t*/) {}
+// R_SetGameTime provided by src/gfx_d3d/r_state_utils.cpp now.
 
 // r_bsp satellite stubs.
 #include <gfx_d3d/r_bsp.h>
@@ -1912,7 +1917,7 @@ GfxAssets gfxAssets{};
 // rb_state satellite stubs.
 void R_SetTexFilter() {}
 void RB_InitCodeImages() {}
-void R_InitCmdBufState(GfxCmdBufState * /*state*/) {}
+// R_InitCmdBufState provided by src/gfx_d3d/r_state_utils.cpp now.
 void RB_BindDefaultImages() {}
 void R_SetInitialContextState(IDirect3DDevice9 * /*d*/) {}
 bool g_allocateMinimalResources = false;
@@ -1976,7 +1981,7 @@ void Material_CollateTechniqueSets(XAssetHeader /*h*/, TechniqueSetList * /*l*/)
 #include <gfx_d3d/r_utils.h>
 #include <gfx_d3d/rb_imagefilter.h>
 // gfxCmdBufContext provided by src/gfx_d3d/rb_state.cpp now.
-void R_BeginView(GfxCmdBufSourceState * /*source*/, const GfxSceneDef * /*sceneDef*/, const GfxViewParms * /*viewParms*/) {}
+// R_BeginView provided by src/gfx_d3d/r_state_utils.cpp now.
 void R_DrawSurfs(GfxCmdBufContext /*ctx*/, GfxCmdBufState * /*prepassState*/, const GfxDrawSurfListInfo * /*info*/) {}
 void R_ClearScreen(IDirect3DDevice9 * /*device*/, unsigned char /*whichToClear*/, const float * /*color*/, float /*depth*/, unsigned char /*stencil*/, const GfxViewport * /*viewport*/) {}
 void R_SetRenderTarget(GfxCmdBufContext /*ctx*/, GfxRenderTargetId /*newTargetId*/) {}
@@ -1988,11 +1993,11 @@ void R_SetViewportValues(GfxCmdBufSourceState * /*source*/, int /*x*/, int /*y*/
 void RB_SplitScreenFilter(const Material * /*material*/, const GfxViewInfo * /*viewInfo*/) {}
 void R_SetRenderTargetSize(GfxCmdBufSourceState * /*source*/, GfxRenderTargetId /*newTargetId*/) {}
 // RB_GaussianFilterImage provided by src/gfx_d3d/rb_imagefilter.cpp now.
-void R_InitCmdBufSourceState(GfxCmdBufSourceState * /*source*/, const GfxCmdBufInput * /*input*/, int /*cameraView*/) {}
-void R_SetShadowLookupMatrix(GfxCmdBufSourceState * /*source*/, const GfxMatrix * /*matrix*/) {}
+// R_InitCmdBufSourceState provided by src/gfx_d3d/r_state_utils.cpp now.
+// R_SetShadowLookupMatrix provided by src/gfx_d3d/r_state_utils.cpp now.
 void R_SetCodeConstantFromVec4(GfxCmdBufSourceState * /*source*/, CodeConstant /*constant*/, float * /*value*/) {}
 void RB_FullScreenColoredFilter(const Material * /*material*/, unsigned int /*color*/) {}
-void R_Set2D(GfxCmdBufSourceState * /*source*/) {}
+// R_Set2D provided by src/gfx_d3d/r_state_utils.cpp now.
 void R_Resolve(GfxCmdBufContext /*ctx*/, GfxImage * /*image*/) {}
 
 r_backEndGlobals_t backEnd{};
@@ -3197,16 +3202,8 @@ struct DiskGfxReflectionProbe;
 
 struct GfxCmdBufSourceState;
 void R_WarnOncePerFrame(GfxWarningType, ...) {}
-void R_MatrixIdentity44(float (*m)[4]) {
-    if (!m) return;
-    for (int i = 0; i < 4; ++i) {
-        m[i][0] = (i == 0) ? 1.0f : 0.0f;
-        m[i][1] = (i == 1) ? 1.0f : 0.0f;
-        m[i][2] = (i == 2) ? 1.0f : 0.0f;
-        m[i][3] = (i == 3) ? 1.0f : 0.0f;
-    }
-}
-GfxCmdBufSourceState *R_GetActiveWorldMatrix(GfxCmdBufSourceState *source) { return source; }
+// R_MatrixIdentity44 provided by src/gfx_d3d/r_state_utils.cpp now.
+// R_GetActiveWorldMatrix provided by src/gfx_d3d/r_state_utils.cpp now.
 
 // === com_files satellites ==========================================================
 
