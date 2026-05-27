@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #include "com_sndalias.h"
 #include "q_parse.h"
 #include "com_files.h"
@@ -190,11 +192,11 @@ int __cdecl Com_IsValidAliasName(const char *pszName)
 
     if (!pszName)
         MyAssertHandler(".\\universal\\com_sndalias_load_obj.cpp", 359, 0, "%s", "pszName");
-    if (*pszName < 32 || !isalnum(*pszName) && *pszName != 95)
+    if (*pszName < 32 || (!isalnum(*pszName) && *pszName != 95))
         return 0;
     for (pszNamea = pszName + 1; *pszNamea; ++pszNamea)
     {
-        if (*pszNamea < 32 || !isalnum(*pszNamea) && *pszNamea != 95)
+        if (*pszNamea < 32 || (!isalnum(*pszNamea) && *pszNamea != 95))
             return 0;
     }
     return 1;
@@ -932,7 +934,7 @@ void __cdecl Com_LoadSoundAliasFile(const char *loadspec, const char *loadspecCu
                                 loadspecCurGame,
                                 sourceFile,
                                 (char *)token,
-                                (snd_alias_members_t)(int)ptr[i + 1],
+                                (snd_alias_members_t)(uintptr_t)ptr[i + 1],
                                 isFieldSet,
                                 &alias);
                         if (++i == iColCount)
@@ -977,7 +979,7 @@ void __cdecl Com_LoadSoundAliasFile(const char *loadspec, const char *loadspecCu
                         {
                             if (!I_stricmp(g_pszSndAliasKeyNames[i], token))
                             {
-                                ptr[iColCount + 1] = (const char *)i;
+                                ptr[iColCount + 1] = (const char *)(uintptr_t)i;
                                 if (i == 1)
                                 {
                                     bHasName = 1;
@@ -1355,8 +1357,8 @@ void __cdecl Com_AddSoundAlias(
     alias->pitchMax = build->pitchMax;
     alias->distMin = build->distMin;
     alias->distMax = build->distMax;
-    alias->flags = (build->iChannel << 8) | alias->flags & 0xFFFFC0FF;
-    alias->flags = (build->eType << 6) | alias->flags & 0xFFFFFF3F;
+    alias->flags = (build->iChannel << 8) | (alias->flags & 0xFFFFC0FF);
+    alias->flags = (build->eType << 6) | (alias->flags & 0xFFFFFF3F);
     alias->volumeFalloffCurve = build->volumeFalloffCurve;
     alias->speakerMap = build->speakerMap;
     if (build->bLooping)
@@ -1447,7 +1449,7 @@ void __cdecl Com_MakeSoundAliasesPermanent(snd_alias_list_t *aliasInfo, SoundFil
     bool v13; // [esp+88h] [ebp-60h]
     snd_alias_type_t eType; // [esp+9Ch] [ebp-4Ch]
     char *fileName; // [esp+A0h] [ebp-48h]
-    int savedBytesCount; // [esp+A4h] [ebp-44h]
+    [[maybe_unused]] int savedBytesCount; // [esp+A4h] [ebp-44h]
     char *strings; // [esp+B0h] [ebp-38h]
     SoundFile *currentSound; // [esp+B4h] [ebp-34h]
     char *currentName; // [esp+B8h] [ebp-30h]
@@ -1677,9 +1679,9 @@ int __cdecl Com_LoadSoundAliasSounds(SoundFileInfo *soundFileInfo)
 
 void __cdecl Com_ParseEntChannelFile(const char *buffer)
 {
-    char v1; // [esp+3h] [ebp-25h]
-    char *v2; // [esp+8h] [ebp-20h]
-    parseInfo_t *v3; // [esp+Ch] [ebp-1Ch]
+    [[maybe_unused]] char v1; // [esp+3h] [ebp-25h]
+    [[maybe_unused]] char *v2; // [esp+8h] [ebp-20h]
+    [[maybe_unused]] parseInfo_t *v3; // [esp+Ch] [ebp-1Ch]
     int i; // [esp+20h] [ebp-8h]
     parseInfo_t *value; // [esp+24h] [ebp-4h]
 
@@ -1777,7 +1779,7 @@ void Com_InitSoundDevGuiGraphs_LoadObj()
             g_sa.curveDevGraphs[i].knots = g_sa.volumeFalloffCurves[i].knots;
             g_sa.curveDevGraphs[i].knotCount = &g_sa.volumeFalloffCurves[i].knotCount;
             g_sa.curveDevGraphs[i].eventCallback = Com_VolumeFalloffCurveGraphEventCallback;
-            g_sa.curveDevGraphs[i].data = (void*)i;
+            g_sa.curveDevGraphs[i].data = (void*)(uintptr_t)i;
             g_sa.curveDevGraphs[i].disableEditingEndPoints = 1;
             DevGui_AddGraph(devguiPath, &g_sa.curveDevGraphs[i]);
         }
@@ -2074,3 +2076,4 @@ void __cdecl Com_InitSoundAlias()
     saLoadObjGlob.tempAliases = 0;
     saLoadObjGlob.tempAliasCount = 0;
 }
+#pragma clang diagnostic pop

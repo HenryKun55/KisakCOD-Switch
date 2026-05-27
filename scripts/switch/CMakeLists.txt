@@ -36,6 +36,7 @@ set(UNIVERSAL_PORTABLE_SOURCES
     "${SRC_DIR}/universal/com_math.cpp"
     "${SRC_DIR}/universal/com_math_anglevectors.cpp"
     "${SRC_DIR}/universal/com_shared.cpp"
+    "${SRC_DIR}/universal/com_sndalias_load_obj.cpp"
     "${SRC_DIR}/universal/physicalmemory.cpp"
     "${SRC_DIR}/universal/pool_allocator.cpp"
     "${SRC_DIR}/universal/q_shared.cpp"

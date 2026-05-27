@@ -1883,6 +1883,16 @@ void R_GetXModelBounds(XModel * /*m*/, const float (* /*axes*/)[3], float * /*mi
 struct PhysGeomList;
 PhysGeomList *XModel_LoadPhysicsCollMap(const char * /*name*/, void *(* /*alloc*/)(int)) { return nullptr; }
 
+// com_sndalias_load_obj satellite stubs.
+#include <universal/com_sndalias.h>
+char Com_AddAliasList(const char * /*name*/, snd_alias_list_t * /*list*/) { return 0; }
+LoadedSound *SND_LoadSoundFile(const char * /*name*/) { return nullptr; }
+void Com_InitSoundAliasHash(unsigned int /*count*/) {}
+void Com_InitDefaultSoundAliasSpeakerMap(SpeakerMapInfo * /*info*/) {}
+void Com_VolumeFalloffCurveGraphEventCallback(const DevGraph * /*g*/, DevEventType /*e*/, int /*i*/) {}
+SoundAliasGlobals g_sa{};
+const dvar_t *snd_touchStreamFilesOnLoad = nullptr;
+
 // db_load satellite stubs (Load_* / Mark_* asset hooks).
 void Load_ClipMapAsset(XAssetHeader * /*h*/) {}
 void Mark_ClipMapAsset(clipMap_t * /*a*/) {}
