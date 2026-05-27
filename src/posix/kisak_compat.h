@@ -500,6 +500,14 @@ struct IDirect3DDevice9 {
     long CreateOffscreenPlainSurface(unsigned int, unsigned int, int, unsigned long, IDirect3DSurface9 **out, void *) { if (out) *out = nullptr; return 0; }
     void SetGammaRamp(unsigned int, unsigned long, const void *) {}
     long StretchRect(IDirect3DSurface9 *, const tagRECT *, IDirect3DSurface9 *, const tagRECT *, int) { return 0; }
+    long DrawIndexedPrimitive(unsigned long, int, unsigned int, unsigned int, unsigned int, unsigned int) { return 0; }
+    long SetDepthStencilSurface(IDirect3DSurface9 *) { return 0; }
+    long SetIndices(IDirect3DIndexBuffer9 *) { return 0; }
+    long SetRenderTarget(unsigned long, IDirect3DSurface9 *) { return 0; }
+    long SetSamplerState(unsigned long, unsigned long, unsigned long) { return 0; }
+    long SetStreamSource(unsigned int, IDirect3DVertexBuffer9 *, unsigned int, unsigned int) { return 0; }
+    long SetTexture(unsigned long, IDirect3DBaseTexture9 *) { return 0; }
+    long SetViewport(const void *) { return 0; }
 };
 #ifndef D3DRS_SCISSORTESTENABLE
 #define D3DRS_SCISSORTESTENABLE 174
@@ -516,11 +524,23 @@ struct IDirect3DDevice9 {
 #ifndef D3DPOOL_SYSTEMMEM
 #define D3DPOOL_SYSTEMMEM 3
 #endif
-#ifndef D3DTEXF_LINEAR
-#define D3DTEXF_LINEAR 2
+#ifndef D3DTEXF_NONE
+#define D3DTEXF_NONE 0
 #endif
 #ifndef D3DTEXF_POINT
 #define D3DTEXF_POINT 1
+#endif
+#ifndef D3DTEXF_LINEAR
+#define D3DTEXF_LINEAR 2
+#endif
+#ifndef D3DRS_ZENABLE
+#define D3DRS_ZENABLE 7
+#endif
+#ifndef D3DRS_SEPARATEALPHABLENDENABLE
+#define D3DRS_SEPARATEALPHABLENDENABLE 206
+#endif
+#ifndef D3DRS_TWOSIDEDSTENCILMODE
+#define D3DRS_TWOSIDEDSTENCILMODE 185
 #endif
 typedef int  _D3DFORMAT;  // enum in DX9 SDK; opaque int here
 typedef int  D3DFORMAT;

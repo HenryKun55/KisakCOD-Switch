@@ -202,6 +202,10 @@ set(GFX_PORTABLE_SOURCES
     # IDirect3DDevice9 member access. Land behind graphics
     # abstraction.
     "${SRC_DIR}/gfx_d3d/r_sky.cpp"
+    # r_state.cpp uses _D3DVIEWPORT9 (incomplete) and dozens of
+    # D3DRS_* constants; needs full D3D9 enum coverage and
+    # `&`-in-`|` precedence + past-end matrix indexing pass. Land
+    # behind D3D9 abstraction expansion.
     "${SRC_DIR}/gfx_d3d/r_sunshadow.cpp"
     # r_texturemem.cpp uses DirectDraw7 (ddraw.h) for VRAM queries.
     # Land behind a video-memory abstraction.

@@ -34,8 +34,8 @@ const unsigned int s_stencilFuncTable_30[8] = { 1, 2, 3, 4, 5, 6, 7, 8 };
 void __cdecl R_ChangeIndices(GfxCmdBufPrimState *state, IDirect3DIndexBuffer9 *ib)
 {
     const char *v2; // eax
-    int hr; // [esp+0h] [ebp-8h]
-    IDirect3DDevice9 *device; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] IDirect3DDevice9 *device; // [esp+4h] [ebp-4h]
 
     iassert( ib != state->indexBuffer );
     state->indexBuffer = ib;
@@ -74,8 +74,8 @@ void __cdecl R_ChangeStreamSource(
     unsigned int vertexStride)
 {
     const char *v5; // eax
-    int hr; // [esp+0h] [ebp-8h]
-    IDirect3DDevice9 *device; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] IDirect3DDevice9 *device; // [esp+4h] [ebp-4h]
 
     iassert(state->streams[streamIndex].vb != vb || state->streams[streamIndex].offset != vertexOffset || state->streams[streamIndex].stride != vertexStride);
 
@@ -108,26 +108,26 @@ void __cdecl R_ChangeStreamSource(
 
 void __cdecl R_SetTexFilter()
 {
-    int v0; // [esp+0h] [ebp-60h]
-    int v1; // [esp+4h] [ebp-5Ch]
-    int v2; // [esp+8h] [ebp-58h]
-    int v3; // [esp+Ch] [ebp-54h]
-    int v4; // [esp+10h] [ebp-50h]
-    int v5; // [esp+14h] [ebp-4Ch]
-    int v6; // [esp+1Ch] [ebp-44h]
-    int integer; // [esp+24h] [ebp-3Ch]
-    unsigned int entryIndex; // [esp+30h] [ebp-30h]
-    int maxAniso; // [esp+34h] [ebp-2Ch]
-    unsigned int mipFilterMode; // [esp+38h] [ebp-28h]
-    int linearMippedAnisotropy; // [esp+3Ch] [ebp-24h]
-    int linearNonMippedFilter; // [esp+40h] [ebp-20h]
-    int linearMippedFilter; // [esp+44h] [ebp-1Ch]
-    int texFilter; // [esp+48h] [ebp-18h]
-    int anisotropicFilter; // [esp+50h] [ebp-10h]
-    int anisotropyFor4x; // [esp+54h] [ebp-Ch]
-    _D3DTEXTUREFILTERTYPE decoded; // [esp+58h] [ebp-8h]
-    unsigned int decodeda; // [esp+58h] [ebp-8h]
-    int anisotropyFor2x; // [esp+5Ch] [ebp-4h]
+    [[maybe_unused]] int v0; // [esp+0h] [ebp-60h]
+    [[maybe_unused]] int v1; // [esp+4h] [ebp-5Ch]
+    [[maybe_unused]] int v2; // [esp+8h] [ebp-58h]
+    [[maybe_unused]] int v3; // [esp+Ch] [ebp-54h]
+    [[maybe_unused]] int v4; // [esp+10h] [ebp-50h]
+    [[maybe_unused]] int v5; // [esp+14h] [ebp-4Ch]
+    [[maybe_unused]] int v6; // [esp+1Ch] [ebp-44h]
+    [[maybe_unused]] int integer; // [esp+24h] [ebp-3Ch]
+    [[maybe_unused]] unsigned int entryIndex; // [esp+30h] [ebp-30h]
+    [[maybe_unused]] int maxAniso; // [esp+34h] [ebp-2Ch]
+    [[maybe_unused]] unsigned int mipFilterMode; // [esp+38h] [ebp-28h]
+    [[maybe_unused]] int linearMippedAnisotropy; // [esp+3Ch] [ebp-24h]
+    [[maybe_unused]] int linearNonMippedFilter; // [esp+40h] [ebp-20h]
+    [[maybe_unused]] int linearMippedFilter; // [esp+44h] [ebp-1Ch]
+    [[maybe_unused]] int texFilter; // [esp+48h] [ebp-18h]
+    [[maybe_unused]] int anisotropicFilter; // [esp+50h] [ebp-10h]
+    [[maybe_unused]] int anisotropyFor4x; // [esp+54h] [ebp-Ch]
+    [[maybe_unused]] _D3DTEXTUREFILTERTYPE decoded; // [esp+58h] [ebp-8h]
+    [[maybe_unused]] unsigned int decodeda; // [esp+58h] [ebp-8h]
+    [[maybe_unused]] int anisotropyFor2x; // [esp+5Ch] [ebp-4h]
 
     maxAniso = r_texFilterAnisoMax->current.integer;
     if (maxAniso > gfxMetrics.maxAnisotropy)
@@ -250,9 +250,9 @@ void __cdecl R_SetInitialContextState(IDirect3DDevice9 *device)
     const char *v1; // eax
     const char *v2; // eax
     const char *v3; // eax
-    int v4; // [esp+0h] [ebp-Ch]
-    int v5; // [esp+4h] [ebp-8h]
-    int hr; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int v4; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] int v5; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] int hr; // [esp+8h] [ebp-4h]
 
     do
     {
@@ -339,11 +339,11 @@ GfxCmdBufSourceState *__cdecl R_GetCodeMatrix(
     unsigned int sourceIndex,
     unsigned int firstRow)
 {
-    unsigned int baseIndex; // [esp+ECh] [ebp-18h]
-    unsigned int transposeIndex; // [esp+F0h] [ebp-14h]
-    unsigned int matrixIndex; // [esp+F8h] [ebp-Ch]
-    unsigned int inverseIndex; // [esp+FCh] [ebp-8h]
-    unsigned int matrixVersion; // [esp+100h] [ebp-4h]
+    [[maybe_unused]] unsigned int baseIndex; // [esp+ECh] [ebp-18h]
+    [[maybe_unused]] unsigned int transposeIndex; // [esp+F0h] [ebp-14h]
+    [[maybe_unused]] unsigned int matrixIndex; // [esp+F8h] [ebp-Ch]
+    [[maybe_unused]] unsigned int inverseIndex; // [esp+FCh] [ebp-8h]
+    [[maybe_unused]] unsigned int matrixVersion; // [esp+100h] [ebp-4h]
 
     iassert((source->matrixVersions[(((sourceIndex)-CONST_SRC_FIRST_CODE_MATRIX) >> 2)]));
     iassert(firstRow >= 0 && firstRow <= 3);
@@ -442,9 +442,9 @@ void __cdecl R_DeriveViewMatrix(GfxCmdBufSourceState *source)
 void  R_DeriveWorldViewMatrix(GfxCmdBufSourceState *source)
 {
     GfxMatrix world;
-    GfxViewParms *p_viewParms; // [esp+44h] [ebp-10h]
-    GfxCodeMatrices *activeMatrices; // [esp+4Ch] [ebp-8h]
-    GfxCodeMatrices *retaddr; // [esp+54h] [ebp+0h]
+    [[maybe_unused]] GfxViewParms *p_viewParms; // [esp+44h] [ebp-10h]
+    [[maybe_unused]] GfxCodeMatrices *activeMatrices; // [esp+4Ch] [ebp-8h]
+    [[maybe_unused]] GfxCodeMatrices *retaddr; // [esp+54h] [ebp+0h]
 
     //activeMatrices = retaddr;
     p_viewParms = &source->viewParms;
@@ -465,7 +465,7 @@ void __cdecl R_DeriveProjectionMatrix(GfxCmdBufSourceState *source)
 
 void __cdecl R_DeriveViewProjectionMatrix(GfxCmdBufSourceState *source)
 {
-    GfxMatrix *viewProj; // [esp+14h] [ebp-10h]
+    [[maybe_unused]] GfxMatrix *viewProj; // [esp+14h] [ebp-10h]
 
     viewProj = &source->matrices.matrix[16];
     if (source->depthHackFlags == 2)
@@ -484,12 +484,12 @@ void __cdecl R_DeriveViewProjectionMatrix(GfxCmdBufSourceState *source)
 
 void  R_DeriveWorldViewProjectionMatrix(GfxCmdBufSourceState *source)
 {
-    float *mat20; // [esp-8h] [ebp-60h]
+    [[maybe_unused]] float *mat20; // [esp-8h] [ebp-60h]
     GfxMatrix mat;
-    GfxViewParms *p_viewParms; // [esp+48h] [ebp-10h]
-    int v6; // [esp+4Ch] [ebp-Ch]
-    GfxCodeMatrices *activeMatrices; // [esp+50h] [ebp-8h]
-    GfxCodeMatrices *retaddr; // [esp+58h] [ebp+0h]
+    [[maybe_unused]] GfxViewParms *p_viewParms; // [esp+48h] [ebp-10h]
+    [[maybe_unused]] int v6; // [esp+4Ch] [ebp-Ch]
+    [[maybe_unused]] GfxCodeMatrices *activeMatrices; // [esp+50h] [ebp-8h]
+    [[maybe_unused]] GfxCodeMatrices *retaddr; // [esp+58h] [ebp+0h]
 
     //activeMatrices = retaddr;
     p_viewParms = &source->viewParms;
@@ -528,7 +528,7 @@ void  R_GenerateWorldOutdoorLookupMatrix(
     float worldOffset[4]; // [esp+34h] [ebp-4Ch] BYREF
     float zInTimesInvViewTimesOutdoorLookup[4]; // [esp+44h] [ebp-3Ch] BYREF
     float zInTimesInvView[4]; // [esp+54h] [ebp-2Ch] BYREF
-    GfxCodeMatrices *activeMatrices; // [esp+74h] [ebp-Ch]
+    [[maybe_unused]] GfxCodeMatrices *activeMatrices; // [esp+74h] [ebp-Ch]
 
     const float awayBias = r_outdoorAwayBias->current.value;
     const float downBias = r_outdoorDownBias->current.value;
@@ -608,8 +608,8 @@ const GfxImage *__cdecl R_OverrideGrayscaleImage(const dvar_s *dvar)
 
 void __cdecl R_SetLightmap(GfxCmdBufContext context, unsigned int lmapIndex)
 {
-    const MaterialPass *pass; // [esp+0h] [ebp-8h]
-    const GfxImage *overrideImage; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] const MaterialPass *pass; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] const GfxImage *overrideImage; // [esp+4h] [ebp-4h]
 
     iassert( rgp.world );
     pass = context.state->pass;
@@ -675,9 +675,9 @@ void __cdecl R_SetReflectionProbe(GfxCmdBufContext context, unsigned int reflect
 
 void __cdecl R_ChangeDepthRange(GfxCmdBufState *state, GfxDepthRangeType depthRangeType)
 {
-    float v2; // [esp+8h] [ebp-28h]
-    float v3; // [esp+Ch] [ebp-24h]
-    IDirect3DDevice9 *device; // [esp+2Ch] [ebp-4h]
+    [[maybe_unused]] float v2; // [esp+8h] [ebp-28h]
+    [[maybe_unused]] float v3; // [esp+Ch] [ebp-24h]
+    [[maybe_unused]] IDirect3DDevice9 *device; // [esp+2Ch] [ebp-4h]
 
     if (state->depthRangeType == depthRangeType)
         MyAssertHandler(
@@ -706,7 +706,7 @@ void __cdecl R_ChangeDepthRange(GfxCmdBufState *state, GfxDepthRangeType depthRa
 void __cdecl R_HW_SetViewport(IDirect3DDevice9 *device, const GfxViewport *viewport, float nearValue, float farValue)
 {
     const char *v4; // eax
-    int hr; // [esp+10h] [ebp-1Ch]
+    [[maybe_unused]] int hr; // [esp+10h] [ebp-1Ch]
     _D3DVIEWPORT9 d3dViewport; // [esp+14h] [ebp-18h] BYREF
 
     d3dViewport.X = viewport->x;
@@ -748,7 +748,7 @@ int __cdecl R_BeginMaterial(GfxCmdBufState *state, const Material *material, Mat
 {
     const char *v4; // eax
     const char *v5; // eax
-    const MaterialTechnique *technique; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] const MaterialTechnique *technique; // [esp+8h] [ebp-4h]
 
     iassert( material );
     technique = Material_GetTechnique(material, techType);
@@ -777,9 +777,9 @@ void __cdecl R_ClearAllStreamSources(GfxCmdBufPrimState *state)
 void __cdecl R_DrawIndexedPrimitive(GfxCmdBufPrimState *state, const GfxDrawPrimArgs *args)
 {
     const char *v2; // eax
-    int hr; // [esp+0h] [ebp-Ch]
-    int triCount; // [esp+4h] [ebp-8h]
-    IDirect3DDevice9 *device; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] int triCount; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] IDirect3DDevice9 *device; // [esp+8h] [ebp-4h]
 
     triCount = args->triCount;
     if (triCount >= r_drawPrimFloor->current.integer
@@ -815,9 +815,9 @@ void __cdecl R_DrawIndexedPrimitive(GfxCmdBufPrimState *state, const GfxDrawPrim
 
 void __cdecl R_ChangeState_0(GfxCmdBufState *state, unsigned int stateBits0)
 {
-    bool blendOpRgbWasEnabled; // [esp+2Fh] [ebp-Dh]
-    int changedBits; // [esp+30h] [ebp-Ch]
-    IDirect3DDevice9 *device; // [esp+38h] [ebp-4h]
+    [[maybe_unused]] bool blendOpRgbWasEnabled; // [esp+2Fh] [ebp-Dh]
+    [[maybe_unused]] int changedBits; // [esp+30h] [ebp-Ch]
+    [[maybe_unused]] IDirect3DDevice9 *device; // [esp+38h] [ebp-4h]
 
     changedBits = state->activeStateBits[0] ^ stateBits0;
     if (changedBits || ((state->refStateBits[0] ^ stateBits0) & 0x7000700) != 0)
@@ -879,7 +879,7 @@ void __cdecl R_ChangeState_0(GfxCmdBufState *state, unsigned int stateBits0)
 void __cdecl R_HW_SetAlphaTestEnable(IDirect3DDevice9 *device, __int16 stateBits0)
 {
     const char *v2; // eax
-    int hr; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-4h]
 
     do
     {
@@ -908,7 +908,7 @@ void __cdecl R_HW_SetAlphaTestEnable(IDirect3DDevice9 *device, __int16 stateBits
 void __cdecl R_HW_SetColorMask(IDirect3DDevice9 *device, unsigned int stateBits0)
 {
     const char *v2; // eax
-    int hr; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-8h]
 
     do
     {
@@ -936,7 +936,7 @@ void __cdecl R_HW_SetColorMask(IDirect3DDevice9 *device, unsigned int stateBits0
 void __cdecl R_HW_SetCullFace(IDirect3DDevice9 *device, __int16 stateBits0)
 {
     const char *v2; // eax
-    int hr; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-4h]
 
     if ((stateBits0 & 0xC000) != 0x4000 && (stateBits0 & 0xC000) != 0xC000 && (stateBits0 & 0xC000) != 0x8000)
         MyAssertHandler(
@@ -971,7 +971,7 @@ void __cdecl R_HW_SetCullFace(IDirect3DDevice9 *device, __int16 stateBits0)
 void __cdecl R_HW_SetPolygonMode(IDirect3DDevice9 *device, signed int stateBits0)
 {
     const char *v2; // eax
-    int hr; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-4h]
 
     do
     {
@@ -1001,7 +1001,7 @@ void __cdecl R_HW_SetPolygonMode(IDirect3DDevice9 *device, signed int stateBits0
 void __cdecl R_HW_DisableBlend(IDirect3DDevice9 *device)
 {
     const char *v1; // eax
-    int hr; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-4h]
 
     do
     {
@@ -1037,13 +1037,13 @@ void __cdecl R_HW_SetBlend(
     const char *v8; // eax
     const char *v9; // eax
     const char *v10; // eax
-    int v11; // [esp+0h] [ebp-1Ch]
-    int v12; // [esp+4h] [ebp-18h]
-    int v13; // [esp+8h] [ebp-14h]
-    int v14; // [esp+Ch] [ebp-10h]
-    int v15; // [esp+10h] [ebp-Ch]
-    int v16; // [esp+14h] [ebp-8h]
-    int hr; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] int v11; // [esp+0h] [ebp-1Ch]
+    [[maybe_unused]] int v12; // [esp+4h] [ebp-18h]
+    [[maybe_unused]] int v13; // [esp+8h] [ebp-14h]
+    [[maybe_unused]] int v14; // [esp+Ch] [ebp-10h]
+    [[maybe_unused]] int v15; // [esp+10h] [ebp-Ch]
+    [[maybe_unused]] int v16; // [esp+14h] [ebp-8h]
+    [[maybe_unused]] int hr; // [esp+18h] [ebp-4h]
 
     if (!blendWasEnabled)
     {
@@ -1223,11 +1223,11 @@ void __cdecl R_SetAlphaTestFunction(GfxCmdBufState *state, __int16 stateBits0)
 {
     const char *v2; // eax
     const char *v3; // eax
-    int v4; // [esp+0h] [ebp-14h]
-    int hr; // [esp+4h] [ebp-10h]
-    unsigned __int8 ref; // [esp+Bh] [ebp-9h]
-    IDirect3DDevice9 *device; // [esp+Ch] [ebp-8h]
-    unsigned int function; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] int v4; // [esp+0h] [ebp-14h]
+    [[maybe_unused]] int hr; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] unsigned __int8 ref; // [esp+Bh] [ebp-9h]
+    [[maybe_unused]] IDirect3DDevice9 *device; // [esp+Ch] [ebp-8h]
+    [[maybe_unused]] unsigned int function; // [esp+10h] [ebp-4h]
 
     if ((stateBits0 & 0x3000) == 0x1000)
     {
@@ -1299,8 +1299,8 @@ void __cdecl R_SetAlphaTestFunction(GfxCmdBufState *state, __int16 stateBits0)
 
 void __cdecl R_ChangeState_1(GfxCmdBufState *state, unsigned int stateBits1)
 {
-    int changedBits; // [esp+30h] [ebp-Ch]
-    IDirect3DDevice9 *device; // [esp+38h] [ebp-4h]
+    [[maybe_unused]] int changedBits; // [esp+30h] [ebp-Ch]
+    [[maybe_unused]] IDirect3DDevice9 *device; // [esp+38h] [ebp-4h]
 
     changedBits = state->activeStateBits[1] ^ stateBits1;
     if (changedBits)
@@ -1364,7 +1364,7 @@ void __cdecl R_ChangeState_1(GfxCmdBufState *state, unsigned int stateBits1)
 void __cdecl R_HW_SetDepthWriteEnable(IDirect3DDevice9 *device, char stateBits1)
 {
     const char *v2; // eax
-    int hr; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-4h]
 
     do
     {
@@ -1393,7 +1393,7 @@ void __cdecl R_HW_SetDepthWriteEnable(IDirect3DDevice9 *device, char stateBits1)
 void __cdecl R_HW_SetDepthTestEnable(IDirect3DDevice9 *device, char stateBits1)
 {
     const char *v2; // eax
-    int hr; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-4h]
 
     do
     {
@@ -1422,7 +1422,7 @@ void __cdecl R_HW_SetDepthTestEnable(IDirect3DDevice9 *device, char stateBits1)
 void __cdecl R_HW_SetDepthTestFunction(IDirect3DDevice9 *device, char stateBits1)
 {
     const char *v2; // eax
-    int hr; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-4h]
 
     do
     {
@@ -1450,7 +1450,7 @@ void __cdecl R_HW_SetDepthTestFunction(IDirect3DDevice9 *device, char stateBits1
 void __cdecl R_HW_EnableStencil(IDirect3DDevice9 *device)
 {
     const char *v1; // eax
-    int hr; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-4h]
 
     do
     {
@@ -1476,7 +1476,7 @@ void __cdecl R_HW_EnableStencil(IDirect3DDevice9 *device)
 void __cdecl R_HW_DisableStencil(IDirect3DDevice9 *device)
 {
     const char *v1; // eax
-    int hr; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-4h]
 
     do
     {
@@ -1508,9 +1508,9 @@ void __cdecl R_HW_SetFrontStencilOp(
     const char *v4; // eax
     const char *v5; // eax
     const char *v6; // eax
-    int v7; // [esp+0h] [ebp-Ch]
-    int v8; // [esp+4h] [ebp-8h]
-    int hr; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int v7; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] int v8; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] int hr; // [esp+8h] [ebp-4h]
 
     do
     {
@@ -1583,9 +1583,9 @@ void __cdecl R_HW_SetBackStencilOp(
     const char *v4; // eax
     const char *v5; // eax
     const char *v6; // eax
-    int v7; // [esp+0h] [ebp-Ch]
-    int v8; // [esp+4h] [ebp-8h]
-    int hr; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int v7; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] int v8; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] int hr; // [esp+8h] [ebp-4h]
 
     do
     {
@@ -1652,7 +1652,7 @@ void __cdecl R_HW_SetBackStencilOp(
 void __cdecl R_HW_SetFrontStencilFunc(IDirect3DDevice9 *device, unsigned int stencilFunc)
 {
     const char *v2; // eax
-    int hr; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-4h]
 
     do
     {
@@ -1679,7 +1679,7 @@ void __cdecl R_HW_SetFrontStencilFunc(IDirect3DDevice9 *device, unsigned int ste
 void __cdecl R_HW_SetBackStencilFunc(IDirect3DDevice9 *device, unsigned int stencilFunc)
 {
     const char *v2; // eax
-    int hr; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-4h]
 
     do
     {
@@ -1709,7 +1709,7 @@ void __cdecl R_SetSampler(
     unsigned __int8 samplerState,
     const GfxImage *image)
 {
-    unsigned int decodedSamplerState; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] unsigned int decodedSamplerState; // [esp+Ch] [ebp-4h]
 
     iassert(image);
     if (context.state->samplerTexture[samplerIndex] != &image->texture)
@@ -1748,15 +1748,15 @@ unsigned int __cdecl R_HW_SetSamplerState(
     const char *v8; // eax
     const char *v9; // eax
     const char *v10; // eax
-    int v12; // [esp+0h] [ebp-38h]
-    int v13; // [esp+4h] [ebp-34h]
-    int v14; // [esp+8h] [ebp-30h]
-    int v15; // [esp+Ch] [ebp-2Ch]
-    int v16; // [esp+10h] [ebp-28h]
-    int v17; // [esp+14h] [ebp-24h]
-    int hr; // [esp+18h] [ebp-20h]
-    unsigned int finalSamplerState; // [esp+1Ch] [ebp-1Ch]
-    unsigned int diffSamplerState; // [esp+2Ch] [ebp-Ch]
+    [[maybe_unused]] int v12; // [esp+0h] [ebp-38h]
+    [[maybe_unused]] int v13; // [esp+4h] [ebp-34h]
+    [[maybe_unused]] int v14; // [esp+8h] [ebp-30h]
+    [[maybe_unused]] int v15; // [esp+Ch] [ebp-2Ch]
+    [[maybe_unused]] int v16; // [esp+10h] [ebp-28h]
+    [[maybe_unused]] int v17; // [esp+14h] [ebp-24h]
+    [[maybe_unused]] int hr; // [esp+18h] [ebp-20h]
+    [[maybe_unused]] unsigned int finalSamplerState; // [esp+1Ch] [ebp-1Ch]
+    [[maybe_unused]] unsigned int diffSamplerState; // [esp+2Ch] [ebp-Ch]
 
     finalSamplerState = samplerState;
     diffSamplerState = oldSamplerState ^ samplerState;
@@ -1943,7 +1943,7 @@ unsigned int __cdecl R_HW_SetSamplerState(
 
 unsigned int __cdecl R_DecodeSamplerState(unsigned __int8 samplerState)
 {
-    unsigned int tableIndex; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] unsigned int tableIndex; // [esp+0h] [ebp-8h]
 
     tableIndex = samplerState & 0x1F;
     bcassert(tableIndex, ARRAY_COUNT(s_decodeSamplerFilterState));
@@ -1957,7 +1957,7 @@ unsigned int __cdecl R_DecodeSamplerState(unsigned __int8 samplerState)
 
 void __cdecl R_SetSamplerState(GfxCmdBufState *state, unsigned int samplerIndex, unsigned __int8 samplerState)
 {
-    unsigned int decodedSamplerState; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] unsigned int decodedSamplerState; // [esp+8h] [ebp-4h]
 
     state->samplerTexture[samplerIndex] = 0;
     if ((samplerState & 0x1F) == 0)
@@ -2009,8 +2009,8 @@ void __cdecl R_ForceSetStencilState(IDirect3DDevice9 *device, unsigned int state
 
 void __cdecl R_GetViewport(GfxCmdBufSourceState *source, GfxViewport *outViewport)
 {
-    int v2; // [esp+0h] [ebp-10h]
-    int v3; // [esp+4h] [ebp-Ch]
+    [[maybe_unused]] int v2; // [esp+0h] [ebp-10h]
+    [[maybe_unused]] int v3; // [esp+4h] [ebp-Ch]
 
     iassert( source );
     if (source->viewportBehavior == GFX_USE_VIEWPORT_FULL)
@@ -2144,9 +2144,9 @@ void __cdecl R_SetViewportValues(GfxCmdBufSourceState *source, int x, int y, int
 void __cdecl R_UpdateViewport(GfxCmdBufSourceState *source, GfxViewport *viewport)
 {
     float lookupScale[2]; // v7, v8 [esp+34h] [ebp-28h]
-    float invWidth; // [esp+3Ch] [ebp-20h]
-    float invHeight; // [esp+40h] [ebp-1Ch]
-    float lookupOffset[2]; // [esp+54h] [ebp-8h]
+    [[maybe_unused]] float invWidth; // [esp+3Ch] [ebp-20h]
+    [[maybe_unused]] float invHeight; // [esp+40h] [ebp-1Ch]
+    [[maybe_unused]] float lookupOffset[2]; // [esp+54h] [ebp-8h]
 
     iassert( source );
     iassert( source->viewMode != VIEW_MODE_NONE );
@@ -2200,7 +2200,7 @@ void __cdecl R_DisableSampler(GfxCmdBufState *state, unsigned int samplerIndex)
 void __cdecl R_HW_DisableSampler(IDirect3DDevice9 *device, unsigned int samplerIndex)
 {
     const char *v2; // eax
-    int hr; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-4h]
 
     do
     {
@@ -2227,7 +2227,7 @@ void __cdecl R_HW_DisableSampler(IDirect3DDevice9 *device, unsigned int samplerI
 
 void __cdecl R_UnbindImage(GfxCmdBufState *state, const GfxImage *image)
 {
-    unsigned int samplerIndex; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] unsigned int samplerIndex; // [esp+0h] [ebp-4h]
 
     for (samplerIndex = 0; samplerIndex < vidConfig.maxTextureMaps; ++samplerIndex)
     {
@@ -2239,7 +2239,7 @@ void __cdecl R_UnbindImage(GfxCmdBufState *state, const GfxImage *image)
 bool g_renderTargetIsOverridden;
 void __cdecl R_SetRenderTargetSize(GfxCmdBufSourceState *source, GfxRenderTargetId newTargetId)
 {
-    GfxRenderTargetId actualTargetId; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] GfxRenderTargetId actualTargetId; // [esp+0h] [ebp-4h]
 
     iassert(source);
     iassert(gfxRenderTargets);
@@ -2319,8 +2319,8 @@ void __cdecl R_SetRenderTarget(GfxCmdBufContext context, GfxRenderTargetId newTa
 
 void __cdecl R_HW_SetRenderTarget(GfxCmdBufState *state, GfxRenderTargetId newTargetId)
 {
-    int hr; // [esp+4h] [ebp-8h]
-    IDirect3DDevice9 *device; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] IDirect3DDevice9 *device; // [esp+8h] [ebp-4h]
 
     device = state->prim.device;
     iassert(device);
@@ -2401,7 +2401,7 @@ void __cdecl R_ClearScreenInternal(
     const char *v7; // eax
     const char *v8; // eax
     const char *v9; // eax
-    int hr; // [esp+9Ch] [ebp-8h]
+    [[maybe_unused]] int hr; // [esp+9Ch] [ebp-8h]
     GfxColor nativeColor; // [esp+A0h] [ebp-4h] BYREF
 
     iassert( device );
@@ -2480,10 +2480,10 @@ void __cdecl R_ClearScreen(
 
 void __cdecl R_ForceSetPolygonOffset(IDirect3DDevice9 *device, char stateBits1)
 {
-    __int64 v2; // [esp+10h] [ebp-24h]
-    unsigned int offset; // [esp+28h] [ebp-Ch]
-    float bias; // [esp+2Ch] [ebp-8h]
-    float scale; // [esp+30h] [ebp-4h]
+    [[maybe_unused]] __int64 v2; // [esp+10h] [ebp-24h]
+    [[maybe_unused]] unsigned int offset; // [esp+28h] [ebp-Ch]
+    [[maybe_unused]] float bias; // [esp+2Ch] [ebp-8h]
+    [[maybe_unused]] float scale; // [esp+30h] [ebp-4h]
 
     offset = stateBits1 & 0x30;
     if (offset == 48)
@@ -2504,8 +2504,8 @@ void __cdecl R_HW_SetPolygonOffset(IDirect3DDevice9 *device, float scale, float 
 {
     const char *v3; // eax
     const char *v4; // eax
-    int v5; // [esp+8h] [ebp-8h]
-    int hr; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] int v5; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] int hr; // [esp+Ch] [ebp-4h]
 
     if (gfxMetrics.slopeScaleDepthBias)
     {
@@ -2639,7 +2639,7 @@ void __cdecl R_SetCodeConstant(GfxCmdBufSourceState *source, CodeConstant consta
 
 void __cdecl R_SetCodeConstantFromVec4(GfxCmdBufSourceState *source, CodeConstant constant, float *value)
 {
-    float *v3; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] float *v3; // [esp+0h] [ebp-4h]
 
     iassert(constant < CONST_SRC_CODE_COUNT_FLOAT4);
 
@@ -2666,7 +2666,7 @@ void __cdecl R_UpdateCodeConstant(
     float z,
     float w)
 {
-    float *v6; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] float *v6; // [esp+0h] [ebp-8h]
 
     if (x != source->input.consts[constant][0]
         || y != source->input.consts[constant][1]
@@ -2694,8 +2694,8 @@ void __cdecl R_UpdateCodeConstant(
 void __cdecl R_SetAlphaAntiAliasingState(IDirect3DDevice9 *device, __int16 stateBits0)
 {
     const char *v2; // eax
-    int hr; // [esp+0h] [ebp-Ch]
-    _D3DFORMAT aaAlphaFormat; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] _D3DFORMAT aaAlphaFormat; // [esp+4h] [ebp-8h]
 
     if ((stateBits0 & 0xF00) != 0)
     {
