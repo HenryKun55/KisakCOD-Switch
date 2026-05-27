@@ -416,6 +416,10 @@ set(CGAME_PORTABLE_SOURCES
     "${SRC_DIR}/cgame_mp/cg_main_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_newDraw_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_players_mp.cpp"
+    # cg_pose_mp.cpp uses unions to store pointer-as-uint32 (vehicle
+    # wheel pose math) and past-end float[6] axis indexing. Land after
+    # 32→64-bit pointer-in-union pass.
+    "${SRC_DIR}/cgame_mp/cg_vehicles_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_predict_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_scoreboard_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_servercmds_mp.cpp"

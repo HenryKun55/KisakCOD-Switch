@@ -31,11 +31,11 @@ uint16_t *wheelTags[4] =
 
 void __cdecl CG_VehRegisterDvars()
 {
-    DvarLimits min; // [esp+4h] [ebp-10h]
-    DvarLimits mina; // [esp+4h] [ebp-10h]
-    DvarLimits minb; // [esp+4h] [ebp-10h]
-    DvarLimits minc; // [esp+4h] [ebp-10h]
-    DvarLimits mind; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] DvarLimits min; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] DvarLimits mina; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] DvarLimits minb; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] DvarLimits minc; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] DvarLimits mind; // [esp+4h] [ebp-10h]
 
     vehDebugClient = Dvar_RegisterBool("vehDebugClient", 0, DVAR_CHEAT, "Turn on debug information for vehicles");
     min.value.max = 1000.0;
@@ -87,7 +87,7 @@ DObj_s *__cdecl GetVehicleEntDObj(int32_t localClientNum, centity_s *centVeh)
 
 void __cdecl CG_VehGunnerPOV(int32_t localClientNum, float *resultOrigin, float *resultAngles)
 {
-    clientInfo_t *ci; // [esp+4h] [ebp-28h]
+    [[maybe_unused]] clientInfo_t *ci; // [esp+4h] [ebp-28h]
     float tagMtx[3][3]; // [esp+8h] [ebp-24h] BYREF
 
     ci = ClientInfoForLocalClient(localClientNum);
@@ -107,8 +107,8 @@ void __cdecl GetTagMatrix(
     mat3x3& resultTagMat,
     float *resultOrigin)
 {
-    centity_s *centVeh; // [esp+0h] [ebp-8h]
-    DObj_s *objVeh; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] centity_s *centVeh; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] DObj_s *objVeh; // [esp+4h] [ebp-4h]
 
     centVeh = CG_GetEntity(localClientNum, vehEntNum);
     if (centVeh->nextValid)
@@ -139,7 +139,7 @@ void __cdecl GetTagMatrix(
 
 bool __cdecl CG_VehLocalClientUsingVehicle(int32_t localClientNum)
 {
-    clientInfo_t *ci; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] clientInfo_t *ci; // [esp+0h] [ebp-4h]
 
     ci = ClientInfoForLocalClient(localClientNum);
     
@@ -150,7 +150,7 @@ bool __cdecl CG_VehLocalClientUsingVehicle(int32_t localClientNum)
 
 bool __cdecl CG_VehLocalClientDriving(int32_t localClientNum)
 {
-    clientInfo_t *ci; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] clientInfo_t *ci; // [esp+0h] [ebp-4h]
 
     ci = ClientInfoForLocalClient(localClientNum);
     
@@ -161,7 +161,7 @@ bool __cdecl CG_VehLocalClientDriving(int32_t localClientNum)
 
 bool __cdecl CG_VehEntityUsingVehicle(int32_t localClientNum, uint32_t entNum)
 {
-    clientInfo_t *ci; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] clientInfo_t *ci; // [esp+0h] [ebp-4h]
 
     ci = ClientInfoForEntity(localClientNum, entNum);
 
@@ -170,7 +170,7 @@ bool __cdecl CG_VehEntityUsingVehicle(int32_t localClientNum, uint32_t entNum)
 
 clientInfo_t *__cdecl ClientInfoForEntity(int32_t localClientNum, uint32_t entNum)
 {
-    centity_s *cent; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] centity_s *cent; // [esp+0h] [ebp-4h]
 
     cent = CG_GetEntity(localClientNum, entNum);
     if (cent->nextState.eType != ET_PLAYER)
@@ -190,7 +190,7 @@ clientInfo_t *__cdecl ClientInfoForEntity(int32_t localClientNum, uint32_t entNu
 
 int32_t __cdecl CG_VehLocalClientVehicleSlot(int32_t localClientNum)
 {
-    clientInfo_t *ci; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] clientInfo_t *ci; // [esp+0h] [ebp-4h]
 
     ci = ClientInfoForLocalClient(localClientNum);
     
@@ -202,7 +202,7 @@ int32_t __cdecl CG_VehLocalClientVehicleSlot(int32_t localClientNum)
 
 int32_t __cdecl CG_VehPlayerVehicleSlot(int32_t localClientNum, uint32_t entNum)
 {
-    clientInfo_t *ci; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] clientInfo_t *ci; // [esp+0h] [ebp-4h]
 
     ci = ClientInfoForEntity(localClientNum, entNum);
 
@@ -218,8 +218,8 @@ void __cdecl CG_VehSeatTransformForPlayer(
     float *resultOrigin,
     float *resultAngles)
 {
-    clientInfo_t *ci; // [esp+0h] [ebp-8h]
-    centity_s *centPlayer; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] clientInfo_t *ci; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] centity_s *centPlayer; // [esp+4h] [ebp-4h]
 
     ci = ClientInfoForEntity(localClientNum, entNum);
     centPlayer = CG_GetEntity(localClientNum, entNum);
@@ -245,7 +245,7 @@ void __cdecl SeatTransformForSlot(
     float *resultOrigin,
     float *resultAngles)
 {
-    uint16_t tagName; // [esp+0h] [ebp-34h]
+    [[maybe_unused]] uint16_t tagName; // [esp+0h] [ebp-34h]
     float tagOrigin[3]; // [esp+4h] [ebp-30h] BYREF
     //float tagMtx[3][3]; // [esp+10h] [ebp-24h] BYREF
     mat3x3 tagMtx;
@@ -266,7 +266,7 @@ void __cdecl SeatTransformForSlot(
 
 void __cdecl CG_VehSeatOriginForLocalClient(int32_t localClientNum, float *result)
 {
-    clientInfo_t *ci; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] clientInfo_t *ci; // [esp+0h] [ebp-4h]
 
     if (!result)
         MyAssertHandler(".\\cgame_mp\\cg_vehicles_mp.cpp", 297, 0, "%s", "result");
@@ -276,9 +276,9 @@ void __cdecl CG_VehSeatOriginForLocalClient(int32_t localClientNum, float *resul
 
 double __cdecl Veh_GetTurretBarrelRoll(int32_t localClientNum, centity_s *cent)
 {
-    int32_t entityNum; // [esp+0h] [ebp-10h]
-    vehicleEffects *vehFx; // [esp+8h] [ebp-8h]
-    int32_t msecs; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] int32_t entityNum; // [esp+0h] [ebp-10h]
+    [[maybe_unused]] vehicleEffects *vehFx; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] int32_t msecs; // [esp+Ch] [ebp-4h]
     cg_s *cgameGlob;
 
     entityNum = CG_GetEntityIndex(localClientNum, cent);
@@ -322,14 +322,14 @@ int32_t __cdecl CG_GetEntityIndex(int32_t localClientNum, const centity_s *cent)
 
 void __cdecl CG_VehProcessEntity(int32_t localClientNum, centity_s *cent)
 {
-    DObj_s *obj; // [esp+10h] [ebp-78h]
+    [[maybe_unused]] DObj_s *obj; // [esp+10h] [ebp-78h]
     vehfx_t fxInfo; // [esp+18h] [ebp-70h] BYREF
-    const cgs_t *cgs; // [esp+68h] [ebp-20h]
-    int32_t time; // [esp+6Ch] [ebp-1Ch]
-    LerpEntityState *p_currentState; // [esp+70h] [ebp-18h]
+    [[maybe_unused]] const cgs_t *cgs; // [esp+68h] [ebp-20h]
+    [[maybe_unused]] int32_t time; // [esp+6Ch] [ebp-1Ch]
+    [[maybe_unused]] LerpEntityState *p_currentState; // [esp+70h] [ebp-18h]
     float lightingOrigin[3]; // [esp+74h] [ebp-14h] BYREF
-    float materialTime; // [esp+80h] [ebp-8h]
-    entityState_s *ns; // [esp+84h] [ebp-4h]
+    [[maybe_unused]] float materialTime; // [esp+80h] [ebp-8h]
+    [[maybe_unused]] entityState_s *ns; // [esp+84h] [ebp-4h]
     cg_s *cgameGlob;
 
     p_currentState = &cent->currentState;
@@ -368,65 +368,65 @@ void __cdecl SetupPoseControllers(int32_t localClientNum, DObj_s *obj, centity_s
 {
     const XModel *Model; // eax
     uint16_t v5; // ax
-    float scale; // [esp+0h] [ebp-1E8h]
-    float v7; // [esp+Ch] [ebp-1DCh]
-    float v8; // [esp+10h] [ebp-1D8h]
-    float v9; // [esp+14h] [ebp-1D4h]
-    float v10; // [esp+18h] [ebp-1D0h]
-    double v11; // [esp+1Ch] [ebp-1CCh]
-    float v12; // [esp+24h] [ebp-1C4h]
-    float v13; // [esp+28h] [ebp-1C0h]
-    float v14; // [esp+2Ch] [ebp-1BCh]
-    float v15; // [esp+30h] [ebp-1B8h]
-    float v16; // [esp+34h] [ebp-1B4h]
-    float v17; // [esp+38h] [ebp-1B0h]
-    double v18; // [esp+3Ch] [ebp-1ACh]
-    float v19; // [esp+44h] [ebp-1A4h]
-    float v20; // [esp+48h] [ebp-1A0h]
-    float v21; // [esp+4Ch] [ebp-19Ch]
-    float v22; // [esp+50h] [ebp-198h]
-    float v23; // [esp+54h] [ebp-194h]
-    float v24; // [esp+58h] [ebp-190h]
-    double v25; // [esp+5Ch] [ebp-18Ch]
-    float v26; // [esp+64h] [ebp-184h]
-    float v27; // [esp+68h] [ebp-180h]
-    float v28; // [esp+6Ch] [ebp-17Ch]
-    float v29; // [esp+70h] [ebp-178h]
-    float v30; // [esp+74h] [ebp-174h]
-    float v31; // [esp+78h] [ebp-170h]
-    double v32; // [esp+7Ch] [ebp-16Ch]
-    float v33; // [esp+84h] [ebp-164h]
-    float v34; // [esp+88h] [ebp-160h]
-    float v35; // [esp+8Ch] [ebp-15Ch]
-    float v36; // [esp+90h] [ebp-158h]
-    float v37; // [esp+94h] [ebp-154h]
-    float v38; // [esp+98h] [ebp-150h]
-    double frameInterpolation; // [esp+9Ch] [ebp-14Ch]
-    float v40; // [esp+A4h] [ebp-144h]
-    float v41; // [esp+A8h] [ebp-140h]
-    float v42; // [esp+B4h] [ebp-134h]
-    float v43; // [esp+B8h] [ebp-130h]
-    float v44; // [esp+C4h] [ebp-124h]
-    float v45; // [esp+C8h] [ebp-120h]
-    float gunYaw; // [esp+CCh] [ebp-11Ch]
-    float v47; // [esp+D8h] [ebp-110h]
-    float v48; // [esp+DCh] [ebp-10Ch]
-    float gunPitch; // [esp+E0h] [ebp-108h]
-    float v50; // [esp+ECh] [ebp-FCh]
-    float v51; // [esp+F0h] [ebp-F8h]
-    float v52; // [esp+F4h] [ebp-F4h]
-    float v53; // [esp+100h] [ebp-E8h]
-    float v54; // [esp+104h] [ebp-E4h]
-    float v55; // [esp+108h] [ebp-E0h]
-    float v56; // [esp+114h] [ebp-D4h]
-    float suspTravel; // [esp+124h] [ebp-C4h]
+    [[maybe_unused]] float scale; // [esp+0h] [ebp-1E8h]
+    [[maybe_unused]] float v7; // [esp+Ch] [ebp-1DCh]
+    [[maybe_unused]] float v8; // [esp+10h] [ebp-1D8h]
+    [[maybe_unused]] float v9; // [esp+14h] [ebp-1D4h]
+    [[maybe_unused]] float v10; // [esp+18h] [ebp-1D0h]
+    [[maybe_unused]] double v11; // [esp+1Ch] [ebp-1CCh]
+    [[maybe_unused]] float v12; // [esp+24h] [ebp-1C4h]
+    [[maybe_unused]] float v13; // [esp+28h] [ebp-1C0h]
+    [[maybe_unused]] float v14; // [esp+2Ch] [ebp-1BCh]
+    [[maybe_unused]] float v15; // [esp+30h] [ebp-1B8h]
+    [[maybe_unused]] float v16; // [esp+34h] [ebp-1B4h]
+    [[maybe_unused]] float v17; // [esp+38h] [ebp-1B0h]
+    [[maybe_unused]] double v18; // [esp+3Ch] [ebp-1ACh]
+    [[maybe_unused]] float v19; // [esp+44h] [ebp-1A4h]
+    [[maybe_unused]] float v20; // [esp+48h] [ebp-1A0h]
+    [[maybe_unused]] float v21; // [esp+4Ch] [ebp-19Ch]
+    [[maybe_unused]] float v22; // [esp+50h] [ebp-198h]
+    [[maybe_unused]] float v23; // [esp+54h] [ebp-194h]
+    [[maybe_unused]] float v24; // [esp+58h] [ebp-190h]
+    [[maybe_unused]] double v25; // [esp+5Ch] [ebp-18Ch]
+    [[maybe_unused]] float v26; // [esp+64h] [ebp-184h]
+    [[maybe_unused]] float v27; // [esp+68h] [ebp-180h]
+    [[maybe_unused]] float v28; // [esp+6Ch] [ebp-17Ch]
+    [[maybe_unused]] float v29; // [esp+70h] [ebp-178h]
+    [[maybe_unused]] float v30; // [esp+74h] [ebp-174h]
+    [[maybe_unused]] float v31; // [esp+78h] [ebp-170h]
+    [[maybe_unused]] double v32; // [esp+7Ch] [ebp-16Ch]
+    [[maybe_unused]] float v33; // [esp+84h] [ebp-164h]
+    [[maybe_unused]] float v34; // [esp+88h] [ebp-160h]
+    [[maybe_unused]] float v35; // [esp+8Ch] [ebp-15Ch]
+    [[maybe_unused]] float v36; // [esp+90h] [ebp-158h]
+    [[maybe_unused]] float v37; // [esp+94h] [ebp-154h]
+    [[maybe_unused]] float v38; // [esp+98h] [ebp-150h]
+    [[maybe_unused]] double frameInterpolation; // [esp+9Ch] [ebp-14Ch]
+    [[maybe_unused]] float v40; // [esp+A4h] [ebp-144h]
+    [[maybe_unused]] float v41; // [esp+A8h] [ebp-140h]
+    [[maybe_unused]] float v42; // [esp+B4h] [ebp-134h]
+    [[maybe_unused]] float v43; // [esp+B8h] [ebp-130h]
+    [[maybe_unused]] float v44; // [esp+C4h] [ebp-124h]
+    [[maybe_unused]] float v45; // [esp+C8h] [ebp-120h]
+    [[maybe_unused]] float gunYaw; // [esp+CCh] [ebp-11Ch]
+    [[maybe_unused]] float v47; // [esp+D8h] [ebp-110h]
+    [[maybe_unused]] float v48; // [esp+DCh] [ebp-10Ch]
+    [[maybe_unused]] float gunPitch; // [esp+E0h] [ebp-108h]
+    [[maybe_unused]] float v50; // [esp+ECh] [ebp-FCh]
+    [[maybe_unused]] float v51; // [esp+F0h] [ebp-F8h]
+    [[maybe_unused]] float v52; // [esp+F4h] [ebp-F4h]
+    [[maybe_unused]] float v53; // [esp+100h] [ebp-E8h]
+    [[maybe_unused]] float v54; // [esp+104h] [ebp-E4h]
+    [[maybe_unused]] float v55; // [esp+108h] [ebp-E0h]
+    [[maybe_unused]] float v56; // [esp+114h] [ebp-D4h]
+    [[maybe_unused]] float suspTravel; // [esp+124h] [ebp-C4h]
     trace_t trace; // [esp+128h] [ebp-C0h] BYREF
-    int32_t tireIdx; // [esp+154h] [ebp-94h]
-    LerpEntityState *p_currentState; // [esp+158h] [ebp-90h]
-    const DObjAnimMat *boneMtxList; // [esp+15Ch] [ebp-8Ch]
+    [[maybe_unused]] int32_t tireIdx; // [esp+154h] [ebp-94h]
+    [[maybe_unused]] LerpEntityState *p_currentState; // [esp+158h] [ebp-90h]
+    [[maybe_unused]] const DObjAnimMat *boneMtxList; // [esp+15Ch] [ebp-8Ch]
     float wheelPos[3]; // [esp+160h] [ebp-88h] BYREF
     float axis[8][3]; // [esp+16Ch] [ebp-7Ch] BYREF
-    const entityState_s *ns; // [esp+1CCh] [ebp-1Ch]
+    [[maybe_unused]] const entityState_s *ns; // [esp+1CCh] [ebp-1Ch]
     float traceStart[3]; // [esp+1D0h] [ebp-18h] BYREF
     float traceEnd[3]; // [esp+1DCh] [ebp-Ch] BYREF
     cg_s *cgameGlob;
@@ -555,44 +555,44 @@ void __cdecl SetupPoseControllers(int32_t localClientNum, DObj_s *obj, centity_s
 
 void __cdecl VehicleFXTest(int32_t localClientNum, const DObj_s *obj, centity_s *cent, vehfx_t *fxInfo)
 {
-    char *v4; // eax
-    const char *v5; // eax
-    entityState_s_un1 v6; // [esp+18h] [ebp-10Ch]
-    float v7; // [esp+1Ch] [ebp-108h]
-    float lerp; // [esp+20h] [ebp-104h]
-    float v9; // [esp+24h] [ebp-100h]
-    float v10; // [esp+28h] [ebp-FCh]
-    float v11; // [esp+2Ch] [ebp-F8h]
+    [[maybe_unused]] char *v4; // eax
+    [[maybe_unused]] const char *v5; // eax
+    [[maybe_unused]] entityState_s_un1 v6; // [esp+18h] [ebp-10Ch]
+    [[maybe_unused]] float v7; // [esp+1Ch] [ebp-108h]
+    [[maybe_unused]] float lerp; // [esp+20h] [ebp-104h]
+    [[maybe_unused]] float v9; // [esp+24h] [ebp-100h]
+    [[maybe_unused]] float v10; // [esp+28h] [ebp-FCh]
+    [[maybe_unused]] float v11; // [esp+2Ch] [ebp-F8h]
     float diff[3]; // [esp+3Ch] [ebp-E8h] BYREF
-    float v13; // [esp+48h] [ebp-DCh]
-    float v14; // [esp+4Ch] [ebp-D8h]
-    float v15; // [esp+50h] [ebp-D4h]
-    int32_t v16; // [esp+54h] [ebp-D0h]
-    int32_t startMsec; // [esp+58h] [ebp-CCh]
-    const snd_alias_t *idleAlias0; // [esp+60h] [ebp-C4h]
-    SndEntHandle sndEnt; // [esp+64h] [ebp-C0h]
-    float sndLerp; // [esp+68h] [ebp-BCh]
-    const snd_alias_t *idleAlias1; // [esp+6Ch] [ebp-B8h]
-    const snd_alias_t *engineAlias1; // [esp+70h] [ebp-B4h]
-    const snd_alias_t *engineAlias0; // [esp+74h] [ebp-B0h]
-    bool result; // [esp+7Ah] [ebp-AAh]
-    uint8_t boneIndex; // [esp+7Bh] [ebp-A9h]
-    int32_t entityNum; // [esp+7Ch] [ebp-A8h]
-    const cg_s *cgameGlob; // [esp+80h] [ebp-A4h]
+    [[maybe_unused]] float v13; // [esp+48h] [ebp-DCh]
+    [[maybe_unused]] float v14; // [esp+4Ch] [ebp-D8h]
+    [[maybe_unused]] float v15; // [esp+50h] [ebp-D4h]
+    [[maybe_unused]] int32_t v16; // [esp+54h] [ebp-D0h]
+    [[maybe_unused]] int32_t startMsec; // [esp+58h] [ebp-CCh]
+    [[maybe_unused]] const snd_alias_t *idleAlias0; // [esp+60h] [ebp-C4h]
+    [[maybe_unused]] SndEntHandle sndEnt; // [esp+64h] [ebp-C0h]
+    [[maybe_unused]] float sndLerp; // [esp+68h] [ebp-BCh]
+    [[maybe_unused]] const snd_alias_t *idleAlias1; // [esp+6Ch] [ebp-B8h]
+    [[maybe_unused]] const snd_alias_t *engineAlias1; // [esp+70h] [ebp-B4h]
+    [[maybe_unused]] const snd_alias_t *engineAlias0; // [esp+74h] [ebp-B0h]
+    [[maybe_unused]] bool result; // [esp+7Ah] [ebp-AAh]
+    [[maybe_unused]] uint8_t boneIndex; // [esp+7Bh] [ebp-A9h]
+    [[maybe_unused]] int32_t entityNum; // [esp+7Ch] [ebp-A8h]
+    [[maybe_unused]] const cg_s *cgameGlob; // [esp+80h] [ebp-A4h]
     float mins[3]; // [esp+84h] [ebp-A0h] BYREF
-    float dist; // [esp+90h] [ebp-94h]
+    [[maybe_unused]] float dist; // [esp+90h] [ebp-94h]
     float end[3]; // [esp+94h] [ebp-90h] BYREF
     trace_t trace; // [esp+A0h] [ebp-84h] BYREF
     float maxs[3]; // [esp+CCh] [ebp-58h] BYREF
-    int32_t tireIdx; // [esp+D8h] [ebp-4Ch]
-    vehicleEffects *vehFx; // [esp+DCh] [ebp-48h]
-    float speed; // [esp+E0h] [ebp-44h]
+    [[maybe_unused]] int32_t tireIdx; // [esp+D8h] [ebp-4Ch]
+    [[maybe_unused]] vehicleEffects *vehFx; // [esp+DCh] [ebp-48h]
+    [[maybe_unused]] float speed; // [esp+E0h] [ebp-44h]
     float groundpos[3]; // [esp+E4h] [ebp-40h] BYREF
-    int32_t nextDustInc; // [esp+F0h] [ebp-34h]
-    const FxEffectDef *fx; // [esp+F4h] [ebp-30h]
+    [[maybe_unused]] int32_t nextDustInc; // [esp+F0h] [ebp-34h]
+    [[maybe_unused]] const FxEffectDef *fx; // [esp+F4h] [ebp-30h]
     float axis[3][3]; // [esp+F8h] [ebp-2Ch] BYREF
-    int32_t tag; // [esp+11Ch] [ebp-8h]
-    const entityState_s *ns; // [esp+120h] [ebp-4h]
+    [[maybe_unused]] int32_t tag; // [esp+11Ch] [ebp-8h]
+    [[maybe_unused]] const entityState_s *ns; // [esp+120h] [ebp-4h]
 
     iassert(fxInfo);
     ns = &cent->nextState;
@@ -705,7 +705,7 @@ void __cdecl VehicleFXTest(int32_t localClientNum, const DObj_s *obj, centity_s 
                     axis[0][1] = 0.0;
                     axis[0][2] = 1.0;
                     Vec3Basis_RightHanded(axis[0], axis[1], axis[2]);
-                    if ((FxMarksSystem *)(trace.surfaceFlags & 0x1F00000) == (FxMarksSystem *)&fx_marksSystemPool[0].pointGroups[930].pointGroup.points[0].xyz[2])
+                    if ((FxMarksSystem *)(uintptr_t)(trace.surfaceFlags & 0x1F00000) == (FxMarksSystem *)&fx_marksSystemPool[0].pointGroups[930].pointGroup.points[0].xyz[2])
                         fx = cgMedia.heliWaterEffect;
                     else
                         fx = cgMedia.heliDustEffect;
@@ -751,12 +751,12 @@ void __cdecl VehicleFXTest(int32_t localClientNum, const DObj_s *obj, centity_s 
 
 void __cdecl CG_VehSphereCoordsToPos(float sphereDistance, float sphereYaw, float sphereAltitude, float *result)
 {
-    float v4; // [esp+8h] [ebp-20h]
-    float v5; // [esp+14h] [ebp-14h]
-    float altitudeSin; // [esp+18h] [ebp-10h]
-    float altitudeCos; // [esp+1Ch] [ebp-Ch]
-    float yawSin; // [esp+20h] [ebp-8h]
-    float yawCos; // [esp+24h] [ebp-4h]
+    [[maybe_unused]] float v4; // [esp+8h] [ebp-20h]
+    [[maybe_unused]] float v5; // [esp+14h] [ebp-14h]
+    [[maybe_unused]] float altitudeSin; // [esp+18h] [ebp-10h]
+    [[maybe_unused]] float altitudeCos; // [esp+1Ch] [ebp-Ch]
+    [[maybe_unused]] float yawSin; // [esp+20h] [ebp-8h]
+    [[maybe_unused]] float yawCos; // [esp+24h] [ebp-4h]
 
     v5 = (90.0 - sphereAltitude) * 0.01745329238474369;
     altitudeCos = cos(v5);

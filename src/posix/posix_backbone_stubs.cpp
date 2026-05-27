@@ -1575,11 +1575,7 @@ void  R_ClearScene(unsigned int) {}
 // void  FX_BeginUpdate(int) {}
 // void  Key_AddCatcher(int, int) {}  // provided by cl_keys.cpp now
 void  R_SetLodOrigin(const refdef_s *) {}
-void  CG_VehGunnerPOV(int, float *o, float *a)
-{
-    if (o) { o[0] = o[1] = o[2] = 0; }
-    if (a) { a[0] = a[1] = a[2] = 0; }
-}
+// CG_VehGunnerPOV provided by src/cgame_mp/cg_vehicles_mp.cpp now.
 // void  CG_AddViewWeapon(int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // CG_ProcessEntity provided by src/cgame_mp/cg_ents_mp.cpp now.
 // void  FX_FillUpdateCmd(int, FxCmd *) {}
@@ -1887,21 +1883,21 @@ struct GfxPackedVertex;
 // float BG_GetVerticalBobFactor(const playerState_s *, float, float, float) { return 0.f; }  // provided by bg_weapons.cpp now
 // int32_t BG_IsAimDownSightWeapon(uint32_t) { return 0; }  // provided by bg_weapons.cpp now
 // void  CG_UpdateViewWeaponAnim(int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
-void  CG_VehSphereCoordsToPos(float, float, float, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
+// CG_VehSphereCoordsToPos provided by src/cgame_mp/cg_vehicles_mp.cpp now.
 // G_ExitAfterConnectPaths provided by src/game_mp/g_main_mp.cpp now.
 void  R_AddCmdProjectionSet2D() {}
 // void  R_UpdateSpotLightEffect(FxCmd *) {}
 // CG_DObjGetWorldTagMatrix provided by src/cgame_mp/cg_ents_mp.cpp now.
-bool  CG_VehLocalClientDriving(int) { return false; }
+// CG_VehLocalClientDriving provided by src/cgame_mp/cg_vehicles_mp.cpp now.
 // void  R_UpdateRemainingEffects(FxCmd *) {}
 // float BG_GetHorizontalBobFactor(const playerState_s *, float, float, float) { return 0.f; }  // provided by bg_weapons.cpp now
 // CG_ProcessClientNoteTracks provided by src/cgame_mp/cg_ents_mp.cpp now.
 // void  R_UpdateNonDependentEffects(FxCmd *) {}
-int32_t CG_VehLocalClientVehicleSlot(int) { return -1; }
+// CG_VehLocalClientVehicleSlot provided by src/cgame_mp/cg_vehicles_mp.cpp now.
 // void  AimAssist_UpdateScreenTargets(int, const float *, const float *, float, float) {}  // provided by aim_assist.cpp now
-bool  CG_VehLocalClientUsingVehicle(int) { return false; }
+// CG_VehLocalClientUsingVehicle provided by src/cgame_mp/cg_vehicles_mp.cpp now.
 // int32_t AimAssist_GetScreenTargetCount(int) { return 0; }  // provided by aim_assist.cpp now
-void  CG_VehSeatOriginForLocalClient(int, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
+// CG_VehSeatOriginForLocalClient provided by src/cgame_mp/cg_vehicles_mp.cpp now.
 // int32_t AimAssist_GetScreenTargetEntity(int, uint32_t) { return -1; }  // provided by aim_assist.cpp now
 // CL_LocalActiveIndexFromClientNum provided by src/client_mp/cl_main_mp.cpp now.
 // CL_Input provided by src/client_mp/cl_input.cpp now.
@@ -1918,9 +1914,8 @@ void  R_SyncGpu(int (*)(unsigned long long)) {}
 // cg_thirdPerson provided by src/cgame_mp/cg_main_mp.cpp now.
 // cg_thirdPersonAngle provided by src/cgame_mp/cg_main_mp.cpp now.
 // cg_thirdPersonRange provided by src/cgame_mp/cg_main_mp.cpp now.
-const dvar_t *vehDebugClient        = nullptr;
-const dvar_t *vehDriverViewDist     = nullptr;
-const dvar_t *vehDriverViewFocusRange = nullptr;
+// vehDebugClient / vehDriverViewDist / vehDriverViewFocusRange provided
+// by src/cgame_mp/cg_vehicles_mp.cpp now.
 // const dvar_t *vehDriverViewHeightMax  = nullptr;  // provided by ui_main_mp.cpp now
 
 // === cg_players_mp satellites ====================================================
@@ -2037,24 +2032,20 @@ void  R_LinkDObjEntity(unsigned int, unsigned int, float *, float) {}
 // PhysPreset *DObjGetPhysPreset(const DObj_s *) { return nullptr; }
 // void  FX_RetriggerEffect(int, FxEffect *, int) {}
 void  R_LinkBModelEntity(unsigned int, unsigned int, GfxBrushModel *) {}
-void  CG_VehProcessEntity(int, centity_s *) {}
+// CG_VehProcessEntity provided by src/cgame_mp/cg_vehicles_mp.cpp now.
 // void  DObjSetHidePartBits(DObj_s *, const unsigned int *) {}
 // DObj_s *Com_ClientDObjCreate(DObjModel_s *, unsigned short, XAnimTree_s *, unsigned int, int) { return nullptr; }
 // void  DObjGetHierarchyBits(const DObj_s *, int, int *) {}
 void  Phys_ObjBulletImpact(PhysWorld, dxBody *, const float *, const float *, float, float) {}
 // CG_IsRagdollTrajectory provided by src/cgame_mp/cg_main_mp.cpp now.
 // void  R_SkinGfxEntityDelayed(GfxSceneEntity *) {}
-int32_t CG_VehPlayerVehicleSlot(int, uint32_t) { return -1; }
-bool  CG_VehEntityUsingVehicle(int, uint32_t) { return false; }
+// CG_VehPlayerVehicleSlot provided by src/cgame_mp/cg_vehicles_mp.cpp now.
+// CG_VehEntityUsingVehicle provided by src/cgame_mp/cg_vehicles_mp.cpp now.
 // void  FX_AssertAllocatedEffect(int, FxEffect *) {}
 // bool  CG_PlayerUsingScopedTurret(int) { return false; }  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // void  R_UpdateXModelBoundsDelayed(GfxSceneEntity *) {}
 // void  BG_Player_DoControllersSetup(const entityState_s *, clientInfo_t *, int) {}  // provided by bg_animation_mp.cpp now
-void  CG_VehSeatTransformForPlayer(int, uint32_t, float *o, float *a)
-{
-    if (o) { o[0] = o[1] = o[2] = 0; }
-    if (a) { a[0] = a[1] = a[2] = 0; }
-}
+// CG_VehSeatTransformForPlayer provided by src/cgame_mp/cg_vehicles_mp.cpp now.
 // void  FX_MarkEntUpdateHidePartBits(const uint32_t *, const uint32_t *, int, int) {}
 void  R_AddBrushModelToSceneFromAngles(const GfxBrushModel *, const float *, const float *, uint16_t) {}
 // void  DObjPhysicsSetCollisionFromXModel(const DObj_s *, PhysWorld, dxBody *) {}
@@ -2100,7 +2091,7 @@ void  R_AddBrushModelToSceneFromAngles(const GfxBrushModel *, const float *, con
 
 // void Menu_Setup(UiContext *) {}  // provided by ui_shared.cpp now
 // void BG_LoadAnim() {}  // provided by bg_animation_mp.cpp now
-void CG_Veh_Init() {}
+// CG_Veh_Init provided by src/cgame_mp/cg_vehicles_mp.cpp now.
 // MenuList *UI_LoadMenus(char *, int) { return nullptr; }  // provided by ui_shared.cpp now
 // void AimAssist_Init(int) {}  // provided by aim_assist.cpp now
 // void UI_AddMenuList(UiContext *, MenuList *) {}  // provided by ui_shared.cpp now
@@ -2113,7 +2104,7 @@ void SND_StopAmbient(int, int) {}
 // void BG_ClearWeaponDef() {}  // provided by bg_weapons.cpp now
 // Com_StripExtension provided by src/universal/q_shared.cpp now.
 // void UI_LoadIngameMenus(int) {}  // provided by ui_main_mp.cpp now
-void CG_VehRegisterDvars() {}
+// CG_VehRegisterDvars provided by src/cgame_mp/cg_vehicles_mp.cpp now.
 // int32_t CG_WeaponDObjHandle(int32_t) { return 0; }  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // void Menus_FreeAllMemory(UiContext *) {}  // provided by ui_shared.cpp now
 char SND_AddLengthNotify(int, const snd_alias_t *, SndLengthId) { return 0; }
@@ -2919,7 +2910,7 @@ int SND_GetEntChannelCount() { return 0; }
 
 // === cg_weapons satellites =========================================================
 
-const dvar_t *heli_barrelRotation = nullptr;
+// heli_barrelRotation provided by src/cgame_mp/cg_vehicles_mp.cpp now.
 
 // void DObjClearSkel(const DObj_s *) {}
 // char DynEntCl_DynEntImpactEvent(int, int, float *, float *, int, bool) { return 0; }
