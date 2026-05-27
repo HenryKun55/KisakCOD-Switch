@@ -280,7 +280,7 @@ int  R_PopRemoteScreenUpdate() { return 0; }
 void R_SetEndTime(int /*endTime*/) {}
 void R_SyncRenderThread() {}
 void R_WaitEndTime() {}
-void R_WaitWorkerCmds() {}
+// void R_WaitWorkerCmds() {}
 
 // =========================================================================
 // UI_* — UI shell. Stubs.
@@ -519,7 +519,7 @@ void TRACK_r_scene() {}
 void TRACK_r_screenshot() {}
 void TRACK_r_staticmodelcache() {}
 // void TRACK_r_water() {}
-void TRACK_r_workercmds() {}
+// void TRACK_r_workercmds() {}
 void TRACK_rb_backend() {}
 // void TRACK_rb_drawprofile() {}
 void TRACK_rb_showcollision() {}
@@ -1636,7 +1636,7 @@ void Material_PreventOverrideTechniqueGeneration() {}
 // r_dobj_skin satellite hooks.
 enum WorkerCmdType : int;
 // void Z_VirtualCommit(void * /*addr*/, int /*size*/) {}
-void R_AddWorkerCmd(WorkerCmdType /*type*/, unsigned char * /*data*/) {}
+// void R_AddWorkerCmd(WorkerCmdType /*type*/, unsigned char * /*data*/) {}
 struct GfxSceneEntity;
 // R_UpdateSceneEntBounds — provided by r_model_pose.cpp now.
 // void R_XModelDebug(const DObj_s * /*obj*/, int * /*partBits*/) {}
@@ -1760,6 +1760,27 @@ void Sys_ResetUpdateSpotLightEffectEvent() {}
 void Sys_SetUpdateNonDependentEffectsEvent() {}
 void Sys_ResetUpdateNonDependentEffectsEvent() {}
 void Sys_WaitUpdateNonDependentEffectsCompleted() {}
+
+// r_workercmds satellite stubs (Sys_ thread/event helpers).
+enum ThreadContext_t : int;
+void Sys_ResumeThread(ThreadContext_t /*ctx*/) {}
+void Sys_SuspendThread(ThreadContext_t /*ctx*/) {}
+void Sys_WaitForWorkerCmd() {}
+void Sys_SetWorkerCmdEvent() {}
+void Sys_ResetWorkerCmdEvent() {}
+bool Sys_SpawnWorkerThread(void (*)(unsigned int), unsigned int /*idx*/) { return false; }
+bool R_EndFencePending() { return false; }
+struct GfxSpotShadowEntCmd;
+void R_AddSpotShadowEntCmd(const GfxSpotShadowEntCmd * /*cmd*/) {}
+void R_ReleaseThreadOwnership() {}
+struct ShadowCookieCmd;
+struct SkinCachedStaticModelCmd;
+struct GfxViewInfo;
+struct DpvsDynamicCellCmd;
+void R_GenerateShadowCookiesCmd(ShadowCookieCmd * /*cmd*/) {}
+void R_SkinCachedStaticModelCmd(SkinCachedStaticModelCmd * /*cmd*/) {}
+void R_AddAllSceneEntSurfacesCamera(const GfxViewInfo * /*viewInfo*/) {}
+void R_AddCellDynBrushSurfacesInFrustumCmd(const DpvsDynamicCellCmd * /*cmd*/) {}
 
 r_backEndGlobals_t backEnd{};
 materialCommands_t tess{};

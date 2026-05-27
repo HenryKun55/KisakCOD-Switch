@@ -188,6 +188,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_warn.cpp"
     "${SRC_DIR}/gfx_d3d/r_water.cpp"
     "${SRC_DIR}/gfx_d3d/r_water_load_obj.cpp"
+    "${SRC_DIR}/gfx_d3d/r_workercmds.cpp"
     "${SRC_DIR}/gfx_d3d/r_workercmds_common.cpp"
     "${SRC_DIR}/gfx_d3d/r_pixelcost_load_obj.cpp"
     "${SRC_DIR}/gfx_d3d/r_primarylights.cpp"
