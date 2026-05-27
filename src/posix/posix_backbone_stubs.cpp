@@ -1815,6 +1815,12 @@ GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 
+// rb_imagetouch satellite stubs.
+#include <gfx_d3d/r_image.h>
+void R_GetImageList(ImageList *list) { if (list) list->count = 0; }
+const char *R_ErrorDescription(long /*hr*/) { return ""; }
+int g_disableRendering = 0;
+
 // r_material_override satellite stubs.
 #include <gfx_d3d/r_material.h>
 #include <gfx_d3d/rb_uploadshaders.h>

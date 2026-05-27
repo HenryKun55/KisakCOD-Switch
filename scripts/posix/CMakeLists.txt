@@ -232,8 +232,7 @@ set(GFX_PORTABLE_SOURCES
     # rb_depthprepass.cpp uses tagRECT + IDirect3DDevice9 +
     # D3DRS_SCISSORTESTENABLE. Land behind graphics abstraction.
     "${SRC_DIR}/gfx_d3d/rb_fog.cpp"
-    # rb_imagetouch.cpp pulls IDirect3DDevice9 for sampler swizzle.
-    # Land behind graphics abstraction.
+    "${SRC_DIR}/gfx_d3d/rb_imagetouch.cpp"
     "${SRC_DIR}/gfx_d3d/rb_showcollision.cpp"
     # rb_sky.cpp pulls IDirect3DDevice9/IDirect3DQuery9 +
     # D3DISSUE_BEGIN + Sleep(). Land behind graphics abstraction.

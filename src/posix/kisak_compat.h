@@ -442,7 +442,6 @@ typedef struct _RTL_CRITICAL_SECTION {
 // is replaced by gfx_gl/. We forward-declare the types as opaque structs
 // so headers parse; functions that take them are never called off Windows.
 struct IDirect3D9;
-struct IDirect3DDevice9;
 struct IDirect3DVertexBuffer9;
 struct IDirect3DIndexBuffer9;
 struct IDirect3DBaseTexture9;
@@ -456,6 +455,18 @@ struct IDirect3DVertexShader9;
 struct IDirect3DPixelShader9;
 struct IDirect3DSwapChain9;
 struct IDirect3DQuery9;
+
+// IDirect3DDevice9 stub: provides the most-called methods so renderer
+// files compile against the abstraction. None of these run on POSIX —
+// the real renderer lives in gfx_gl/ once it lands.
+struct IDirect3DDevice9 {
+    long BeginScene() { return 0; }
+    long EndScene() { return 0; }
+    long Clear(unsigned long, const void *, unsigned long, unsigned long, float, unsigned long) { return 0; }
+    long TestCooperativeLevel() { return 0; }
+    unsigned long Release() { return 0; }
+    long Reset(void *) { return 0; }
+};
 typedef int  _D3DFORMAT;  // enum in DX9 SDK; opaque int here
 typedef int  D3DFORMAT;
 typedef int  _D3DCUBEMAP_FACES;

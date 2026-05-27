@@ -12,15 +12,15 @@ int __cdecl RB_CompareTouchImages(int *e0, int *e1)
 
     image = *e0;
     image_4 = *e1;
-    if (!*(_BYTE *)(*e1 + 11))
+    if (!*(_BYTE *)(uintptr_t)(*e1 + 11))
         return -1;
-    if (!*(_BYTE *)(image + 11))
+    if (!*(_BYTE *)(uintptr_t)(image + 11))
         return 1;
-    if (*(_DWORD *)(image_4 + 16) != *(_DWORD *)(image + 16))
-        return *(_DWORD *)(image_4 + 16) - *(_DWORD *)(image + 16);
-    if (*(unsigned __int8 *)(image + 11) == *(unsigned __int8 *)(image_4 + 11))
+    if (*(_DWORD *)(uintptr_t)(image_4 + 16) != *(_DWORD *)(uintptr_t)(image + 16))
+        return *(_DWORD *)(uintptr_t)(image_4 + 16) - *(_DWORD *)(uintptr_t)(image + 16);
+    if (*(unsigned __int8 *)(uintptr_t)(image + 11) == *(unsigned __int8 *)(uintptr_t)(image_4 + 11))
         return 0;
-    return *(unsigned __int8 *)(image + 11) - *(unsigned __int8 *)(image_4 + 11);
+    return *(unsigned __int8 *)(uintptr_t)(image + 11) - *(unsigned __int8 *)(uintptr_t)(image_4 + 11);
 }
 
 void __cdecl RB_TouchImage(GfxImage *image)
@@ -53,7 +53,7 @@ void __cdecl RB_TouchAllImages()
     int hr; // [esp+4h] [ebp-2018h]
     bool inScene; // [esp+Bh] [ebp-2011h]
     unsigned int i; // [esp+Ch] [ebp-2010h]
-    int v6; // [esp+10h] [ebp-200Ch]
+    [[maybe_unused]] int v6; // [esp+10h] [ebp-200Ch]
     ImageList imageList; // [esp+14h] [ebp-2008h] BYREF
 
     inScene = dx.inScene;
