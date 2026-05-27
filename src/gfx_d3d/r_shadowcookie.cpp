@@ -27,10 +27,12 @@ struct ShadowCookieGlob // sizeof=0x8
 
 ShadowCookieGlob shadowCookieGlob;
 
-bool __cdecl R_SortBspShadowReceiverSurfaces(GfxSurface *surface0, GfxSurface *surface1)
+namespace {
+bool R_SortBspShadowReceiverSurfaces_shadowcookie(GfxSurface *surface0, GfxSurface *surface1)
 {
     return surface0 < surface1;
 }
+}  // namespace
 
 void __cdecl R_EmitShadowCookieSurfs(GfxViewInfo *viewInfo)
 {
@@ -355,7 +357,7 @@ void __cdecl R_AddShadowCookie(
     int casterDrawSurfCount; // [esp+A4h] [ebp-Ch]
     GfxDrawSurf *casterDrawSurfs; // [esp+A8h] [ebp-8h]
     GfxDrawSurf *lastDrawSurf; // [esp+ACh] [ebp-4h]
-    int savedregs; // [esp+B0h] [ebp+0h] BYREF
+    [[maybe_unused]] int savedregs; // [esp+B0h] [ebp+0h] BYREF
 
     PROF_SCOPED("SC_DrawCaster");
 
@@ -427,7 +429,7 @@ void __cdecl R_AddShadowCookie(
     }
 }
 
-static void __cdecl R_GetSunAxes(float (*sunAxis)[3][3])
+static void __cdecl R_GetSunAxesLocal(float (*sunAxis)[3][3])
 {
     float v1; // [esp+0h] [ebp-1Ch]
     float *dir; // [esp+18h] [ebp-4h]
@@ -484,7 +486,7 @@ void __cdecl R_GenerateShadowCookieViewParms(float *modelMin, float *modelMax, G
     iassert( modelMin );
     iassert( modelMax );
     iassert( shadowViewParms );
-    R_GetSunAxes(&sunAxes);
+    R_GetSunAxesLocal(&sunAxes);
     sunAxes[1][0] = -sunAxes[1][0];
     sunAxes[1][1] = -sunAxes[1][1];
     sunAxes[1][2] = -sunAxes[1][2];
@@ -583,7 +585,7 @@ void __cdecl R_GenerateBspShadowReceivers(ShadowCookieList *shadowCookieList)
     unsigned int listSurfIndex; // [esp+E4h] [ebp-20h]
     unsigned int cookieDrawSurfCount; // [esp+E8h] [ebp-1Ch]
     GfxBspDrawSurfData surfData; // [esp+ECh] [ebp-18h] BYREF
-    int savedregs; // [esp+104h] [ebp+0h] BYREF
+    [[maybe_unused]] int savedregs; // [esp+104h] [ebp+0h] BYREF
 
     iassert( rgp.world );
     cookieCount = shadowCookieList->cookieCount;
@@ -624,7 +626,7 @@ void __cdecl R_GenerateBspShadowReceivers(ShadowCookieList *shadowCookieList)
             //    (const GfxStaticModelDrawInst **)&surfaces[cookieDrawSurfCount],
             //    (int)(4 * cookieDrawSurfCount) >> 2,
             //    (bool(__cdecl *)(const GfxStaticModelDrawInst *, const GfxStaticModelDrawInst *))R_SortBspShadowReceiverSurfaces);
-            std::sort(surfaces, surfaces + cookieDrawSurfCount, R_SortBspShadowReceiverSurfaces);
+            std::sort(surfaces, surfaces + cookieDrawSurfCount, R_SortBspShadowReceiverSurfaces_shadowcookie);
             for (listSurfIndex = 0; listSurfIndex < cookieDrawSurfCount; ++listSurfIndex)
             {
                 if (listSurfIndex >= rgp.world->surfaceCount)
@@ -647,7 +649,7 @@ void __cdecl R_GenerateBspShadowReceivers(ShadowCookieList *shadowCookieList)
 
 bool __cdecl R_AllowBspShadowReceiver(int surfIndex, unsigned int *shadowReceiverCallbackAsVoid)
 {
-    return *(_BYTE *)(*shadowReceiverCallbackAsVoid + surfIndex)
+    return *(_BYTE *)(uintptr_t)(*shadowReceiverCallbackAsVoid + surfIndex)
         && Material_GetTechnique(rgp.world->dpvs.surfaces[surfIndex].material, TECHNIQUE_SHADOWCOOKIE_RECEIVER) != 0;
 }
 

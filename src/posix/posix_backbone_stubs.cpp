@@ -1651,7 +1651,7 @@ GfxMetrics gfxMetrics{};
 #include <gfx_d3d/r_sky.h>
 // sunFlareArray provided by src/gfx_d3d/rb_sky.cpp now.
 
-void R_AddSpotShadowsForLight(GfxViewInfo * /*viewInfo*/, GfxLight * /*light*/, unsigned int /*idx*/, float /*scale*/) {}
+// R_AddSpotShadowsForLight provided by src/gfx_d3d/r_spotshadow.cpp now.
 
 // r_outdoor satellite stubs.
 struct GfxImage;
@@ -1759,13 +1759,13 @@ void Sys_ResetWorkerCmdEvent() {}
 bool Sys_SpawnWorkerThread(void (*)(unsigned int), unsigned int /*idx*/) { return false; }
 bool R_EndFencePending() { return false; }
 struct GfxSpotShadowEntCmd;
-void R_AddSpotShadowEntCmd(const GfxSpotShadowEntCmd * /*cmd*/) {}
+// R_AddSpotShadowEntCmd provided by src/gfx_d3d/r_spotshadow.cpp now.
 void R_ReleaseThreadOwnership() {}
 struct ShadowCookieCmd;
 struct SkinCachedStaticModelCmd;
 struct GfxViewInfo;
 struct DpvsDynamicCellCmd;
-void R_GenerateShadowCookiesCmd(ShadowCookieCmd * /*cmd*/) {}
+// R_GenerateShadowCookiesCmd provided by src/gfx_d3d/r_shadowcookie.cpp now.
 void R_SkinCachedStaticModelCmd(SkinCachedStaticModelCmd * /*cmd*/) {}
 void R_AddAllSceneEntSurfacesCamera(const GfxViewInfo * /*viewInfo*/) {}
 void R_AddCellDynBrushSurfacesInFrustumCmd(const DpvsDynamicCellCmd * /*cmd*/) {}
@@ -1810,6 +1810,16 @@ GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 
+// r_shadowcookie / r_spotshadow satellite stubs.
+#include <gfx_d3d/r_meshdata.h>
+void R_AddSceneDObj(unsigned int /*entnum*/, unsigned int /*viewIndex*/) {}
+GfxViewParms *R_AllocViewParms() { return nullptr; }
+void R_InitDynamicMesh(GfxMeshData * /*mesh*/, unsigned int, unsigned int, unsigned int) {}
+void R_SetQuadMeshData(GfxMeshData * /*mesh*/, float, float, float, float, float, float, float, float, unsigned int) {}
+void R_ShutdownDynamicMesh(GfxMeshData * /*mesh*/) {}
+void R_AddAllSceneEntSurfacesSpotShadow(const GfxViewInfo * /*v*/, unsigned int /*a*/, unsigned int /*b*/) {}
+GfxMeshGlobals gfxMeshGlob{};
+
 // r_draw_material / r_draw_shadowable_light / r_draw_sunshadow satellite stubs.
 void R_SetGameTime(GfxCmdBufSourceState * /*src*/, float /*t*/) {}
 
@@ -1822,7 +1832,7 @@ void R_GenerateShadowMapCasterCells() {}
 void R_FlushStaticModelCache() {}
 void R_ResetModelLighting() {}
 void R_InitStaticModelLighting() {}
-void R_ResetShadowCookies() {}
+// R_ResetShadowCookies provided by src/gfx_d3d/r_shadowcookie.cpp now.
 void RB_SetBspImages() {}
 
 // r_buffers satellite stubs.
