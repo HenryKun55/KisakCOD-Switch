@@ -518,7 +518,7 @@ void TRACK_r_rendercmds() {}
 void TRACK_r_scene() {}
 void TRACK_r_screenshot() {}
 void TRACK_r_staticmodelcache() {}
-void TRACK_r_water() {}
+// void TRACK_r_water() {}
 void TRACK_r_workercmds() {}
 void TRACK_rb_backend() {}
 // void TRACK_rb_drawprofile() {}
@@ -1753,6 +1753,14 @@ void RB_CheckTessOverflow(int /*a*/, int /*b*/) {}
 #include <gfx_d3d/rb_backend.h>
 #include <gfx_d3d/rb_state.h>
 void R_Set3D(GfxCmdBufSourceState * /*source*/) {}
+
+// r_workercmds satellite stubs.
+void Sys_SetUpdateSpotLightEffectEvent() {}
+void Sys_ResetUpdateSpotLightEffectEvent() {}
+void Sys_SetUpdateNonDependentEffectsEvent() {}
+void Sys_ResetUpdateNonDependentEffectsEvent() {}
+void Sys_WaitUpdateNonDependentEffectsCompleted() {}
+
 r_backEndGlobals_t backEnd{};
 materialCommands_t tess{};
 GfxBackEndData *backEndData;
@@ -1800,13 +1808,13 @@ struct GfxPackedVertex;
 void  CG_VehSphereCoordsToPos(float, float, float, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }
 // G_ExitAfterConnectPaths provided by src/game_mp/g_main_mp.cpp now.
 void  R_AddCmdProjectionSet2D() {}
-void  R_UpdateSpotLightEffect(FxCmd *) {}
+// void  R_UpdateSpotLightEffect(FxCmd *) {}
 // CG_DObjGetWorldTagMatrix provided by src/cgame_mp/cg_ents_mp.cpp now.
 bool  CG_VehLocalClientDriving(int) { return false; }
-void  R_UpdateRemainingEffects(FxCmd *) {}
+// void  R_UpdateRemainingEffects(FxCmd *) {}
 // float BG_GetHorizontalBobFactor(const playerState_s *, float, float, float) { return 0.f; }  // provided by bg_weapons.cpp now
 // CG_ProcessClientNoteTracks provided by src/cgame_mp/cg_ents_mp.cpp now.
-void  R_UpdateNonDependentEffects(FxCmd *) {}
+// void  R_UpdateNonDependentEffects(FxCmd *) {}
 int32_t CG_VehLocalClientVehicleSlot(int) { return -1; }
 // void  AimAssist_UpdateScreenTargets(int, const float *, const float *, float, float) {}  // provided by aim_assist.cpp now
 bool  CG_VehLocalClientUsingVehicle(int) { return false; }
@@ -1953,12 +1961,12 @@ void  CG_VehProcessEntity(int, centity_s *) {}
 // void  DObjGetHierarchyBits(const DObj_s *, int, int *) {}
 void  Phys_ObjBulletImpact(PhysWorld, dxBody *, const float *, const float *, float, float) {}
 // CG_IsRagdollTrajectory provided by src/cgame_mp/cg_main_mp.cpp now.
-void  R_SkinGfxEntityDelayed(GfxSceneEntity *) {}
+// void  R_SkinGfxEntityDelayed(GfxSceneEntity *) {}
 int32_t CG_VehPlayerVehicleSlot(int, uint32_t) { return -1; }
 bool  CG_VehEntityUsingVehicle(int, uint32_t) { return false; }
 // void  FX_AssertAllocatedEffect(int, FxEffect *) {}
 // bool  CG_PlayerUsingScopedTurret(int) { return false; }  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
-void  R_UpdateXModelBoundsDelayed(GfxSceneEntity *) {}
+// void  R_UpdateXModelBoundsDelayed(GfxSceneEntity *) {}
 // void  BG_Player_DoControllersSetup(const entityState_s *, clientInfo_t *, int) {}  // provided by bg_animation_mp.cpp now
 void  CG_VehSeatTransformForPlayer(int, uint32_t, float *o, float *a)
 {

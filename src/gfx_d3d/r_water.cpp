@@ -44,7 +44,7 @@ void __cdecl R_UploadWaterTextureInternal(water_t **data)
         GenerateMipMaps(D3DFMT_L8, waterGlob.pixels, water);
     }
 
-    InterlockedExchangeAdd(&g_waterLock, -1);
+    InterlockedExchangeAdd(&g_waterLock, static_cast<long>(-1));
 }
 
 void __cdecl WaterFrequenciesAtTime(complex_s *H, const water_t *water, float t)
