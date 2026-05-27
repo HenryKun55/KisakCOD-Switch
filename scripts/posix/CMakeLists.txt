@@ -309,6 +309,9 @@ set(PHYSICS_ODE_SOURCES
     "${SRC_DIR}/physics/ode/matrix.cpp"
     "${SRC_DIR}/physics/ode/odemath.cpp"
     "${SRC_DIR}/physics/ode/odemisc.cpp"
+    # obstack.cpp / stack.cpp: dObStack and dStack class definitions
+    # are wrapped in `#if 0 // REM` in their headers. Land after
+    # un-REM-ing the storage classes.
     "${SRC_DIR}/physics/ode/rotation.cpp"
     # stack.cpp pulls dStack (gated in stack.h). Land with broader
     # ODE gated set.
