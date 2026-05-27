@@ -277,6 +277,7 @@ set(PHYSICS_PORTABLE_SOURCES
     "${SRC_DIR}/physics/ode/fastldlt.c"
     "${SRC_DIR}/physics/ode/fastlsolve.c"
     "${SRC_DIR}/physics/ode/fastltsolve.c"
+    "${SRC_DIR}/physics/ode/mass.cpp"
     "${SRC_DIR}/physics/ode/matrix.cpp"
     "${SRC_DIR}/physics/ode/odemath.cpp"
     "${SRC_DIR}/physics/ode/odemisc.cpp"

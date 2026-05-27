@@ -308,6 +308,7 @@ set(PHYSICS_ODE_SOURCES
     "${SRC_DIR}/physics/ode/lcp.cpp"
     # memory.cpp needs the gated dAlloc*Function typedefs from
     # deps/ode/memory.h (currently #if 0). Land after un-gating.
+    "${SRC_DIR}/physics/ode/mass.cpp"
     "${SRC_DIR}/physics/ode/matrix.cpp"
     "${SRC_DIR}/physics/ode/odemath.cpp"
     "${SRC_DIR}/physics/ode/odemisc.cpp"
