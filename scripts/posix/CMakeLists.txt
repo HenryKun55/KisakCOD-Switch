@@ -559,7 +559,7 @@ set(XANIM_PORTABLE_SOURCES
     "${SRC_DIR}/xanim/xanim_load_obj.cpp"
     # xanim_readwrite.cpp is SP-only (pulls server.h saves)
     "${SRC_DIR}/xanim/xmodel.cpp"
-    # xmodel_load_obj.cpp pending until xanim_load_obj refactor.
+    "${SRC_DIR}/xanim/xmodel_load_obj.cpp"
     "${SRC_DIR}/xanim/xmodel_utils.cpp"
     # xmodel_load_phys_collmap.cpp compiles clean but pulls ODE
     # (dMass*). Brings back once ODE physics is in the build.

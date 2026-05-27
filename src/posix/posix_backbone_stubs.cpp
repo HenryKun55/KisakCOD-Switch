@@ -418,7 +418,7 @@ void Scr_AddFloat(float /*value*/) {}
 
 // XAnim/XModel load
 // XAnimLoadFile provided by src/xanim/xanim_load_obj.cpp now.
-XModel *XModelPrecache_LoadObj(char * /*name*/, void *(*)(int) /*Alloc*/, void *(*)(int) /*AllocColl*/) { return nullptr; }
+// XModelPrecache_LoadObj provided by src/xanim/xmodel_load_obj.cpp now.
 // void XAnim_CalcDeltaForTime(const XAnimParts * /*part*/, float /*time*/, float * /*deltaTrans*/, float4 * /*deltaQuat*/) {}
 
 // Globals
@@ -540,7 +540,7 @@ void TRACK_snd() {}
 // void TRACK_ui_shared() {}  // provided by ui_shared.cpp now
 // TRACK_ui_utils now in ui/ui_utils.cpp.
 void TRACK_win_net() {}
-void TRACK_xmodel() {}
+// TRACK_xmodel provided by src/xanim/xmodel_load_obj.cpp now.
 
 // Globals for the new batch.
 // cl_shownet provided by src/client_mp/cl_main_mp.cpp now.
@@ -1880,6 +1880,11 @@ MaterialTechniqueSet *Material_FindTechniqueSet_LoadObj(const char * /*name*/, M
 // R_GetCodeMatrix provided by src/gfx_d3d/r_state.cpp now.
 // R_GetTextureFromCode provided by src/gfx_d3d/r_state.cpp now.
 // R_TextureFromCodeError provided by src/gfx_d3d/r_state.cpp now.
+
+// xmodel_load_obj satellite stubs.
+void R_GetXModelBounds(XModel * /*m*/, const float (* /*axes*/)[3], float * /*mins*/, float * /*maxs*/) {}
+struct PhysGeomList;
+PhysGeomList *XModel_LoadPhysicsCollMap(const char * /*name*/, void *(* /*alloc*/)(int)) { return nullptr; }
 
 // db_load satellite stubs (Load_* / Mark_* asset hooks).
 void Load_ClipMapAsset(XAssetHeader * /*h*/) {}

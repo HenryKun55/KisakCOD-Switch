@@ -28,55 +28,55 @@ void __cdecl XModelReadSurface_BuildCollisionTree(
     void *(__cdecl *Alloc)(int))
 {
     unsigned __int8 *v3; // eax
-    int v4; // [esp+60h] [ebp-138h]
-    int v5; // [esp+64h] [ebp-134h]
-    int v6; // [esp+68h] [ebp-130h]
-    int v7; // [esp+6Ch] [ebp-12Ch]
-    int v8; // [esp+70h] [ebp-128h]
-    int v9; // [esp+74h] [ebp-124h]
-    int v10; // [esp+78h] [ebp-120h]
-    int v11; // [esp+7Ch] [ebp-11Ch]
-    short v12; // [esp+80h] [ebp-118h]
-    int v13; // [esp+84h] [ebp-114h]
-    short v14; // [esp+88h] [ebp-110h]
-    int v15; // [esp+8Ch] [ebp-10Ch]
-    float *v16; // [esp+90h] [ebp-108h]
-    float *v17; // [esp+94h] [ebp-104h]
-    float *v18; // [esp+98h] [ebp-100h]
-    float *v19; // [esp+9Ch] [ebp-FCh]
-    GenericAabbTree *builtNode; // [esp+A0h] [ebp-F8h]
-    unsigned int leafIndex; // [esp+A4h] [ebp-F4h]
+    [[maybe_unused]] int v4; // [esp+60h] [ebp-138h]
+    [[maybe_unused]] int v5; // [esp+64h] [ebp-134h]
+    [[maybe_unused]] int v6; // [esp+68h] [ebp-130h]
+    [[maybe_unused]] int v7; // [esp+6Ch] [ebp-12Ch]
+    [[maybe_unused]] int v8; // [esp+70h] [ebp-128h]
+    [[maybe_unused]] int v9; // [esp+74h] [ebp-124h]
+    [[maybe_unused]] int v10; // [esp+78h] [ebp-120h]
+    [[maybe_unused]] int v11; // [esp+7Ch] [ebp-11Ch]
+    [[maybe_unused]] short v12; // [esp+80h] [ebp-118h]
+    [[maybe_unused]] int v13; // [esp+84h] [ebp-114h]
+    [[maybe_unused]] short v14; // [esp+88h] [ebp-110h]
+    [[maybe_unused]] int v15; // [esp+8Ch] [ebp-10Ch]
+    [[maybe_unused]] float *v16; // [esp+90h] [ebp-108h]
+    [[maybe_unused]] float *v17; // [esp+94h] [ebp-104h]
+    [[maybe_unused]] float *v18; // [esp+98h] [ebp-100h]
+    [[maybe_unused]] float *v19; // [esp+9Ch] [ebp-FCh]
+    [[maybe_unused]] GenericAabbTree *builtNode; // [esp+A0h] [ebp-F8h]
+    [[maybe_unused]] unsigned int leafIndex; // [esp+A4h] [ebp-F4h]
     float nodeMins[3]; // [esp+A8h] [ebp-F0h] BYREF
-    XSurfaceCollisionNode *outNode; // [esp+B4h] [ebp-E4h]
-    unsigned int leafEnd; // [esp+B8h] [ebp-E0h]
+    [[maybe_unused]] XSurfaceCollisionNode *outNode; // [esp+B4h] [ebp-E4h]
+    [[maybe_unused]] unsigned int leafEnd; // [esp+B8h] [ebp-E0h]
     float nodeMaxs[3]; // [esp+BCh] [ebp-DCh] BYREF
-    unsigned int allocSize; // [esp+C8h] [ebp-D0h]
-    unsigned int alignedAddr; // [esp+CCh] [ebp-CCh]
-    unsigned __int8 *alloced; // [esp+D0h] [ebp-C8h]
-    float combinedVolume; // [esp+D4h] [ebp-C4h]
-    float thisVolume; // [esp+D8h] [ebp-C0h]
+    [[maybe_unused]] unsigned int allocSize; // [esp+C8h] [ebp-D0h]
+    [[maybe_unused]] uintptr_t alignedAddr; // [esp+CCh] [ebp-CCh]
+    [[maybe_unused]] unsigned __int8 *alloced; // [esp+D0h] [ebp-C8h]
+    [[maybe_unused]] float combinedVolume; // [esp+D4h] [ebp-C4h]
+    [[maybe_unused]] float thisVolume; // [esp+D8h] [ebp-C0h]
     float tmp[3]; // [esp+DCh] [ebp-BCh] BYREF
-    float prevVolume; // [esp+E8h] [ebp-B0h]
-    bool merge; // [esp+EFh] [ebp-A9h]
+    [[maybe_unused]] float prevVolume; // [esp+E8h] [ebp-B0h]
+    [[maybe_unused]] bool merge; // [esp+EFh] [ebp-A9h]
     float triMins[3]; // [esp+F0h] [ebp-A8h] BYREF
     float triMaxs[3]; // [esp+FCh] [ebp-9Ch] BYREF
-    XSurfaceCollisionTree *tree; // [esp+108h] [ebp-90h]
-    bool generateLeafsPass; // [esp+10Fh] [ebp-89h]
-    unsigned int nodeIndex; // [esp+110h] [ebp-88h]
-    unsigned int triEndIndex; // [esp+114h] [ebp-84h]
+    [[maybe_unused]] XSurfaceCollisionTree *tree; // [esp+108h] [ebp-90h]
+    [[maybe_unused]] bool generateLeafsPass; // [esp+10Fh] [ebp-89h]
+    [[maybe_unused]] unsigned int nodeIndex; // [esp+110h] [ebp-88h]
+    [[maybe_unused]] unsigned int triEndIndex; // [esp+114h] [ebp-84h]
     float prevMins[3]; // [esp+118h] [ebp-80h] BYREF
-    unsigned int leafCount; // [esp+124h] [ebp-74h]
+    [[maybe_unused]] unsigned int leafCount; // [esp+124h] [ebp-74h]
     GenericAabbTreeOptions options; // [esp+128h] [ebp-70h] BYREF
-    unsigned int nodeCount; // [esp+150h] [ebp-48h]
+    [[maybe_unused]] unsigned int nodeCount; // [esp+150h] [ebp-48h]
     float globalMaxs[3]; // [esp+154h] [ebp-44h] BYREF
-    unsigned int triIndex; // [esp+160h] [ebp-38h]
+    [[maybe_unused]] unsigned int triIndex; // [esp+160h] [ebp-38h]
     float prevMaxs[3]; // [esp+164h] [ebp-34h] BYREF
-    bool lastMergeable; // [esp+173h] [ebp-25h]
+    [[maybe_unused]] bool lastMergeable; // [esp+173h] [ebp-25h]
     float globalMins[3]; // [esp+174h] [ebp-24h] BYREF
     float globalDelta[3]; // [esp+180h] [ebp-18h] BYREF
-    unsigned int triBeginIndex; // [esp+18Ch] [ebp-Ch]
-    XRigidVertList *vertList; // [esp+190h] [ebp-8h]
-    unsigned int allocedLeafCount; // [esp+194h] [ebp-4h]
+    [[maybe_unused]] unsigned int triBeginIndex; // [esp+18Ch] [ebp-Ch]
+    [[maybe_unused]] XRigidVertList *vertList; // [esp+190h] [ebp-8h]
+    [[maybe_unused]] unsigned int allocedLeafCount; // [esp+194h] [ebp-4h]
 
     iassert(!surface->deformed);
     iassert(vertListIndex >= 0 && vertListIndex < surface->vertListCount);
@@ -223,7 +223,7 @@ void __cdecl XModelReadSurface_BuildCollisionTree(
     allocSize = 16 * nodeCount + 15;
     v3 = (unsigned char*)Alloc(allocSize);
     alloced = v3;
-    alignedAddr = (uintptr_t)(v3 + 15) & 0xFFFFFFF0;
+    alignedAddr = (uintptr_t)(v3 + 15) & ~(uintptr_t)0xF;
     tree->nodes = (XSurfaceCollisionNode*)alignedAddr;
     if (((uintptr_t)tree->nodes & 0xF) != 0)
         MyAssertHandler(".\\r_xsurface_load_obj.cpp", 352, 0, "%s", "!(reinterpret_cast< uint32_t >( tree->nodes ) & 0x0F)");
@@ -337,8 +337,8 @@ void __cdecl XModelReadSurface_BuildCollisionTree(
 
 static void __cdecl XSurfaceTransferGetTexCoordRange(const XVertexInfo_s *v, int vertCount, float *texCoordAv)
 {
-    int vertIndex; // [esp+1Ch] [ebp-8h]
-    char texCoordUnitRange[2]; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] int vertIndex; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] char texCoordUnitRange[2]; // [esp+20h] [ebp-4h]
 
     texCoordAv[0] = 0.0f;
     texCoordAv[1] = 0.0f;
@@ -455,44 +455,44 @@ static void ReadBlend(XSurface *surface, int *partBits, XBlendLoadInfo *blend, u
 void __cdecl XModelReadSurface(XModel *model, unsigned char **pos, void *(__cdecl *Alloc)(int), XSurface *surface)
 {
     int vertCount; // edx
-    __int16 v32; // [esp+84h] [ebp-6BCh]
+    [[maybe_unused]] __int16 v32; // [esp+84h] [ebp-6BCh]
     float check[3]; // [esp+88h] [ebp-6B8h] BYREF
-    int j; // [esp+94h] [ebp-6ACh]
-    unsigned __int8 numWeights; // [esp+9Bh] [ebp-6A5h]
+    [[maybe_unused]] int j; // [esp+94h] [ebp-6ACh]
+    [[maybe_unused]] unsigned __int8 numWeights; // [esp+9Bh] [ebp-6A5h]
     int weightCount[4]; // [esp+9Ch] [ebp-6A4h] BYREF
-    XVertexInfo0 *vert0Out; // [esp+ACh] [ebp-694h]
-    XVertexInfo2 *vert2Out; // [esp+B0h] [ebp-690h]
-    int boneIndex; // [esp+B4h] [ebp-68Ch]
-    int numblends; // [esp+B8h] [ebp-688h]
-    XBlendLoadInfo *blendOut; // [esp+BCh] [ebp-684h]
-    int allocCount; // [esp+C0h] [ebp-680h]
-    int blendBoneOffset; // [esp+C4h] [ebp-67Ch]
-    XRigidVertList *rigidVertList; // [esp+C8h] [ebp-678h]
-    int rigidVertCount; // [esp+CCh] [ebp-674h]
-    int vertexBytes; // [esp+D0h] [ebp-670h]
-    int size; // [esp+D4h] [ebp-66Ch]
-    bool deformed; // [esp+DBh] [ebp-665h]
-    XVertexInfo0 *verts0; // [esp+708h] [ebp-38h]
-    XVertexInfo1 *verts1; // [esp+F0h] [ebp-650h]
-    XVertexInfo2 *verts2; // [esp+DCh] [ebp-664h]
-    XVertexInfo3 *verts3; // [esp+E0h] [ebp-660h]
-    int startTriIndex; // [esp+E4h] [ebp-65Ch]
-    unsigned int vertListIter; // [esp+E8h] [ebp-658h]
-    int localBoneIndex; // [esp+ECh] [ebp-654h]
-    int vertListCount; // [esp+F4h] [ebp-64Ch]
+    [[maybe_unused]] XVertexInfo0 *vert0Out; // [esp+ACh] [ebp-694h]
+    [[maybe_unused]] XVertexInfo2 *vert2Out; // [esp+B0h] [ebp-690h]
+    [[maybe_unused]] int boneIndex; // [esp+B4h] [ebp-68Ch]
+    [[maybe_unused]] int numblends; // [esp+B8h] [ebp-688h]
+    [[maybe_unused]] XBlendLoadInfo *blendOut; // [esp+BCh] [ebp-684h]
+    [[maybe_unused]] int allocCount; // [esp+C0h] [ebp-680h]
+    [[maybe_unused]] int blendBoneOffset; // [esp+C4h] [ebp-67Ch]
+    [[maybe_unused]] XRigidVertList *rigidVertList; // [esp+C8h] [ebp-678h]
+    [[maybe_unused]] int rigidVertCount; // [esp+CCh] [ebp-674h]
+    [[maybe_unused]] int vertexBytes; // [esp+D0h] [ebp-670h]
+    [[maybe_unused]] int size; // [esp+D4h] [ebp-66Ch]
+    [[maybe_unused]] bool deformed; // [esp+DBh] [ebp-665h]
+    [[maybe_unused]] XVertexInfo0 *verts0; // [esp+708h] [ebp-38h]
+    [[maybe_unused]] XVertexInfo1 *verts1; // [esp+F0h] [ebp-650h]
+    [[maybe_unused]] XVertexInfo2 *verts2; // [esp+DCh] [ebp-664h]
+    [[maybe_unused]] XVertexInfo3 *verts3; // [esp+E0h] [ebp-660h]
+    [[maybe_unused]] int startTriIndex; // [esp+E4h] [ebp-65Ch]
+    [[maybe_unused]] unsigned int vertListIter; // [esp+E8h] [ebp-658h]
+    [[maybe_unused]] int localBoneIndex; // [esp+ECh] [ebp-654h]
+    [[maybe_unused]] int vertListCount; // [esp+F4h] [ebp-64Ch]
     XRigidVertList rigidVertListArray[129]; // [esp+F8h] [ebp-648h] BYREF
-    XVertexInfo_s *verts; // [esp+710h] [ebp-30h]
-    int blendBoneIndex; // [esp+714h] [ebp-2Ch]
-    XVertexInfo1 *vert1Out; // [esp+718h] [ebp-28h]
-    int endIndex; // [esp+71Ch] [ebp-24h]
-    int i; // [esp+720h] [ebp-20h]
-    unsigned __int16 *vertsBlendOut; // [esp+724h] [ebp-1Ch]
-    int triIndex; // [esp+728h] [ebp-18h]
-    int vertIndex; // [esp+72Ch] [ebp-14h]
-    XVertexInfo0 *vertOut; // [esp+730h] [ebp-10h]
-    int sizeInBytes; // [esp+734h] [ebp-Ch]
-    XVertexBuffer *surfVerts; // [esp+738h] [ebp-8h]
-    XVertexInfo3 *vert3Out; // [esp+73Ch] [ebp-4h]
+    [[maybe_unused]] XVertexInfo_s *verts; // [esp+710h] [ebp-30h]
+    [[maybe_unused]] int blendBoneIndex; // [esp+714h] [ebp-2Ch]
+    [[maybe_unused]] XVertexInfo1 *vert1Out; // [esp+718h] [ebp-28h]
+    [[maybe_unused]] int endIndex; // [esp+71Ch] [ebp-24h]
+    [[maybe_unused]] int i; // [esp+720h] [ebp-20h]
+    [[maybe_unused]] unsigned __int16 *vertsBlendOut; // [esp+724h] [ebp-1Ch]
+    [[maybe_unused]] int triIndex; // [esp+728h] [ebp-18h]
+    [[maybe_unused]] int vertIndex; // [esp+72Ch] [ebp-14h]
+    [[maybe_unused]] XVertexInfo0 *vertOut; // [esp+730h] [ebp-10h]
+    [[maybe_unused]] int sizeInBytes; // [esp+734h] [ebp-Ch]
+    [[maybe_unused]] XVertexBuffer *surfVerts; // [esp+738h] [ebp-8h]
+    [[maybe_unused]] XVertexInfo3 *vert3Out; // [esp+73Ch] [ebp-4h]
 
     memset(weightCount, 0, sizeof(weightCount));
     
@@ -860,12 +860,12 @@ void __cdecl XModelReadSurfaces(
     unsigned char **pos,
     void *(__cdecl *AllocMesh)(int))
 {
-    int j; // [esp+4h] [ebp-18h]
-    int surfIndex; // [esp+8h] [ebp-14h]
-    XSurface *surfs; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] int j; // [esp+4h] [ebp-18h]
+    [[maybe_unused]] int surfIndex; // [esp+8h] [ebp-14h]
+    [[maybe_unused]] XSurface *surfs; // [esp+18h] [ebp-4h]
 
-    int baseTriIndex; // [esp+14h] [ebp-8h]
-    int baseVertIndex; // [esp+Ch] [ebp-10h]
+    [[maybe_unused]] int baseTriIndex; // [esp+14h] [ebp-8h]
+    [[maybe_unused]] int baseVertIndex; // [esp+Ch] [ebp-10h]
 
     surfs = modelSurfs->surfs;
 
@@ -903,10 +903,10 @@ XModelSurfs *__cdecl R_XModelSurfsLoadFile(
     unsigned __int8 *pos; // [esp+8h] [ebp-64h] BYREF
     char filename[68]; // [esp+Ch] [ebp-60h] BYREF
     unsigned __int8 *buf = NULL; // [esp+54h] [ebp-18h] BYREF
-    XModelSurfs *modelSurfs; // [esp+5Ch] [ebp-10h]
-    int size; // [esp+60h] [ebp-Ch]
-    int fileSize; // [esp+64h] [ebp-8h]
-    __int16 numsurfs; // [esp+68h] [ebp-4h]
+    [[maybe_unused]] XModelSurfs *modelSurfs; // [esp+5Ch] [ebp-10h]
+    [[maybe_unused]] int size; // [esp+60h] [ebp-Ch]
+    [[maybe_unused]] int fileSize; // [esp+64h] [ebp-8h]
+    [[maybe_unused]] __int16 numsurfs; // [esp+68h] [ebp-4h]
 
     if (Com_sprintf(filename, 0x40u, "xmodelsurfs/%s", name) < 0)
     {
@@ -984,8 +984,8 @@ int __cdecl XModelSurfsPrecache(
     const char *modelName,
     XModelSurfs *outModelSurfs)
 {
-    XModelSurfs *modelSurfs; // [esp+0h] [ebp-4h]
-    XModelSurfs *modelSurfsa; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] XModelSurfs *modelSurfs; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] XModelSurfs *modelSurfsa; // [esp+0h] [ebp-4h]
 
     modelSurfs = XModelSurfsFindData(name);
     if (modelSurfs)
@@ -1168,7 +1168,7 @@ XModelPartsLoad *__cdecl XModelPartsLoadFile(XModel *model, const char *name, vo
 
 XModelPartsLoad *__cdecl XModelPartsPrecache(XModel *model, const char *name, void *(__cdecl *Alloc)(int))
 {
-    XModelPartsLoad *modelParts; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] XModelPartsLoad *modelParts; // [esp+0h] [ebp-4h]
 
     modelParts = XModelPartsFindData(name);
     if (modelParts)
@@ -1201,41 +1201,41 @@ void __cdecl XModelCopyXModelParts(const XModelPartsLoad *modelParts, XModel *mo
 
 XModel *__cdecl XModelLoadFile(char *name, void *(__cdecl *Alloc)(int), void *(__cdecl *AllocColl)(int))
 {
-    double v4; // st7
+    [[maybe_unused]] double v4; // st7
     int *partBits; // edx
     Material *v6; // eax
     PhysPreset *v7; // eax
     PhysGeomList *PhysicsCollMap; // eax
-    float v9; // [esp+2Ch] [ebp-1648h]
-    float v10; // [esp+4Ch] [ebp-1628h]
-    float v11; // [esp+50h] [ebp-1624h]
-    float v12; // [esp+54h] [ebp-1620h]
-    float v13; // [esp+58h] [ebp-161Ch]
-    float v14; // [esp+5Ch] [ebp-1618h]
-    float v15; // [esp+60h] [ebp-1614h]
-    unsigned __int16 v16; // [esp+64h] [ebp-1610h]
+    [[maybe_unused]] float v9; // [esp+2Ch] [ebp-1648h]
+    [[maybe_unused]] float v10; // [esp+4Ch] [ebp-1628h]
+    [[maybe_unused]] float v11; // [esp+50h] [ebp-1624h]
+    [[maybe_unused]] float v12; // [esp+54h] [ebp-1620h]
+    [[maybe_unused]] float v13; // [esp+58h] [ebp-161Ch]
+    [[maybe_unused]] float v14; // [esp+5Ch] [ebp-1618h]
+    [[maybe_unused]] float v15; // [esp+60h] [ebp-1614h]
+    [[maybe_unused]] unsigned __int16 v16; // [esp+64h] [ebp-1610h]
     unsigned __int8 *pos; // [esp+68h] [ebp-160Ch] BYREF
-    int j; // [esp+6Ch] [ebp-1608h]
-    int numBones; // [esp+70h] [ebp-1604h]
+    [[maybe_unused]] int j; // [esp+6Ch] [ebp-1608h]
+    [[maybe_unused]] int numBones; // [esp+70h] [ebp-1604h]
     char dest[68]; // [esp+74h] [ebp-1600h] BYREF
     float diff[12]; // [esp+B8h] [ebp-15BCh] BYREF
-    int surfIndex; // [esp+E8h] [ebp-158Ch]
-    XModel *model; // [esp+ECh] [ebp-1588h]
-    float *a; // [esp+F0h] [ebp-1584h]
+    [[maybe_unused]] int surfIndex; // [esp+E8h] [ebp-158Ch]
+    [[maybe_unused]] XModel *model; // [esp+ECh] [ebp-1588h]
+    [[maybe_unused]] float *a; // [esp+F0h] [ebp-1584h]
     void *buf = NULL; // [esp+F4h] [ebp-1580h] BYREF
-    XModelLodInfo *modelLodInfo; // [esp+F8h] [ebp-157Ch]
-    float *sum; // [esp+FCh] [ebp-1578h]
-    const char *v29; // [esp+104h] [ebp-1570h]
-    int filelen; // [esp+108h] [ebp-156Ch]
+    [[maybe_unused]] XModelLodInfo *modelLodInfo; // [esp+F8h] [ebp-157Ch]
+    [[maybe_unused]] float *sum; // [esp+FCh] [ebp-1578h]
+    [[maybe_unused]] const char *v29; // [esp+104h] [ebp-1570h]
+    [[maybe_unused]] int filelen; // [esp+108h] [ebp-156Ch]
     char v31[256]; // [esp+10Ch] [ebp-1568h] BYREF
-    float *b; // [esp+20Ch] [ebp-1468h]
+    [[maybe_unused]] float *b; // [esp+20Ch] [ebp-1468h]
     XModelSurfs outModelSurfs; // [esp+210h] [ebp-1464h] BYREF
-    XBoneInfo *boneInfos; // [esp+224h] [ebp-1450h]
-    int i; // [esp+228h] [ebp-144Ch]
-    int numsurfs; // [esp+230h] [ebp-1444h]
+    [[maybe_unused]] XBoneInfo *boneInfos; // [esp+224h] [ebp-1450h]
+    [[maybe_unused]] int i; // [esp+228h] [ebp-144Ch]
+    [[maybe_unused]] int numsurfs; // [esp+230h] [ebp-1444h]
     XModelConfig config; // [esp+234h] [ebp-1440h] BYREF
-    XModelPartsLoad *modelParts; // [esp+166Ch] [ebp-8h]
-    const char *v40; // [esp+1670h] [ebp-4h]
+    [[maybe_unused]] XModelPartsLoad *modelParts; // [esp+166Ch] [ebp-8h]
+    [[maybe_unused]] const char *v40; // [esp+1670h] [ebp-4h]
     unsigned __int8 *v36;
 
     if (Com_IsLegacyXModelName(name))
@@ -1364,7 +1364,7 @@ XModel *__cdecl XModelLoadFile(char *name, void *(__cdecl *Alloc)(int), void *(_
                         model->materialHandles[surfIndex] = v6;
                         if (outModelSurfs.surfs[j].deformed)
                             model->lodRampType = 1;
-                        qmemcpy(&model->surfs[surfIndex++], &outModelSurfs.surfs[j], sizeof(model->surfs[surfIndex++]));
+                        qmemcpy(&model->surfs[surfIndex++], &outModelSurfs.surfs[j], sizeof(*model->surfs));
                     }
                 }
             }
@@ -1409,15 +1409,15 @@ XModel *__cdecl XModelLoadFile(char *name, void *(__cdecl *Alloc)(int), void *(_
 
 void __cdecl XModelCalcBasePose(XModelPartsLoad *modelParts)
 {
-    float result[3]; // [esp+44h] [ebp-74h] BYREF
-    float len; // [esp+88h] [ebp-30h]
-    int numBones; // [esp+90h] [ebp-28h]
-    float *trans; // [esp+94h] [ebp-24h]
-    __int16 *quats; // [esp+98h] [ebp-20h]
-    unsigned __int8 *parentList; // [esp+9Ch] [ebp-1Ch]
-    int i; // [esp+A0h] [ebp-18h]
+    [[maybe_unused]] float result[3]; // [esp+44h] [ebp-74h] BYREF
+    [[maybe_unused]] float len; // [esp+88h] [ebp-30h]
+    [[maybe_unused]] int numBones; // [esp+90h] [ebp-28h]
+    [[maybe_unused]] float *trans; // [esp+94h] [ebp-24h]
+    [[maybe_unused]] __int16 *quats; // [esp+98h] [ebp-20h]
+    [[maybe_unused]] unsigned __int8 *parentList; // [esp+9Ch] [ebp-1Ch]
+    [[maybe_unused]] int i; // [esp+A0h] [ebp-18h]
     float tempQuat[4]; // [esp+A4h] [ebp-14h] BYREF
-    DObjAnimMat *quatTrans; // [esp+B4h] [ebp-4h]
+    [[maybe_unused]] DObjAnimMat *quatTrans; // [esp+B4h] [ebp-4h]
 
     parentList = modelParts->parentList;
     numBones = modelParts->numBones;
@@ -1472,23 +1472,23 @@ XModelPartsLoad *__cdecl XModelPartsLoadFile(XModel *model, const char *name, vo
 {
     unsigned __int16 prev; // ax
     unsigned __int8 *pos; // [esp+30h] [ebp-88h] BYREF
-    int numBones; // [esp+34h] [ebp-84h]
+    [[maybe_unused]] int numBones; // [esp+34h] [ebp-84h]
     char filename[64]; // [esp+38h] [ebp-80h] BYREF
-    int numRootBones; // [esp+7Ch] [ebp-3Ch]
-    __int16 numChildBones; // [esp+80h] [ebp-38h]
+    [[maybe_unused]] int numRootBones; // [esp+7Ch] [ebp-3Ch]
+    [[maybe_unused]] __int16 numChildBones; // [esp+80h] [ebp-38h]
     unsigned __int8 *buf = NULL; // [esp+84h] [ebp-34h] BYREF
-    float *trans; // [esp+88h] [ebp-30h]
-    __int16 version; // [esp+8Ch] [ebp-2Ch]
-    int len; // [esp+90h] [ebp-28h]
-    int size; // [esp+94h] [ebp-24h]
-    __int16 *quats; // [esp+98h] [ebp-20h]
-    int fileSize; // [esp+9Ch] [ebp-1Ch]
-    unsigned __int8 *parentList; // [esp+A0h] [ebp-18h]
-    int index; // [esp+A4h] [ebp-14h]
-    int i; // [esp+A8h] [ebp-10h]
-    XModelPartsLoad *modelParts; // [esp+ACh] [ebp-Ch]
-    bool useBones; // [esp+B3h] [ebp-5h]
-    unsigned __int16 *boneNames; // [esp+B4h] [ebp-4h]
+    [[maybe_unused]] float *trans; // [esp+88h] [ebp-30h]
+    [[maybe_unused]] __int16 version; // [esp+8Ch] [ebp-2Ch]
+    [[maybe_unused]] int len; // [esp+90h] [ebp-28h]
+    [[maybe_unused]] int size; // [esp+94h] [ebp-24h]
+    [[maybe_unused]] __int16 *quats; // [esp+98h] [ebp-20h]
+    [[maybe_unused]] int fileSize; // [esp+9Ch] [ebp-1Ch]
+    [[maybe_unused]] unsigned __int8 *parentList; // [esp+A0h] [ebp-18h]
+    [[maybe_unused]] int index; // [esp+A4h] [ebp-14h]
+    [[maybe_unused]] int i; // [esp+A8h] [ebp-10h]
+    [[maybe_unused]] XModelPartsLoad *modelParts; // [esp+ACh] [ebp-Ch]
+    [[maybe_unused]] bool useBones; // [esp+B3h] [ebp-5h]
+    [[maybe_unused]] unsigned __int16 *boneNames; // [esp+B4h] [ebp-4h]
 
     if (Com_sprintf(filename, 0x40u, "xmodelparts/%s", name) < 0)
     {
@@ -1613,7 +1613,7 @@ XModelPartsLoad *__cdecl XModelPartsLoadFile(XModel *model, const char *name, vo
 
 XModel *__cdecl XModelLoad(char *name, void *(__cdecl *Alloc)(int), void *(__cdecl *AllocColl)(int))
 {
-    XModel *model; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] XModel *model; // [esp+0h] [ebp-4h]
 
     model = XModelLoadFile(name, Alloc, AllocColl);
     if (model)
@@ -1661,7 +1661,7 @@ static void __cdecl XModelMakeDefault(XModel *model)
 
 static XModel *__cdecl XModelCreateDefault(void *(__cdecl *Alloc)(int))
 {
-    XModel *model; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] XModel *model; // [esp+0h] [ebp-4h]
 
     model = (XModel *)Alloc(332);
     XModelMakeDefault(model);
@@ -1670,7 +1670,7 @@ static XModel *__cdecl XModelCreateDefault(void *(__cdecl *Alloc)(int))
 
 static XModel *__cdecl XModelDefaultModel(const char *name, void *(__cdecl *Alloc)(int))
 {
-    XModel *model; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] XModel *model; // [esp+0h] [ebp-4h]
 
     model = XModelCreateDefault(Alloc);
     Hunk_SetDataForFile(5, name, model, Alloc);
@@ -1679,8 +1679,8 @@ static XModel *__cdecl XModelDefaultModel(const char *name, void *(__cdecl *Allo
 
 XModel *__cdecl XModelPrecache_LoadObj(char *name, void *(__cdecl *Alloc)(int), void *(__cdecl *AllocColl)(int))
 {
-    XModel *model; // [esp+0h] [ebp-4h]
-    XModel *modela; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] XModel *model; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] XModel *modela; // [esp+0h] [ebp-4h]
 
     model = (XModel *)Hunk_FindDataForFile(5, name);
     if (model)
