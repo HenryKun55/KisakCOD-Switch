@@ -526,7 +526,7 @@ void TRACK_rb_backend() {}
 void TRACK_rb_sky() {}
 void TRACK_rb_state() {}
 // void TRACK_rb_stats() {}
-void TRACK_rb_sunshadow() {}
+// void TRACK_rb_sunshadow() {}  // provided by rb_sunshadow.cpp now
 void TRACK_scr_debugger() {}
 void TRACK_scr_evaluate() {}
 void TRACK_scr_parser() {}
@@ -1789,6 +1789,21 @@ struct GfxCmdBufInput;
 enum CodeConstant : int;
 void R_SetInputCodeConstant(GfxCmdBufInput * /*input*/, CodeConstant /*c*/, float /*x*/, float /*y*/, float /*z*/, float /*w*/) {}
 void R_SetInputCodeConstantFromVec4(GfxCmdBufInput * /*input*/, CodeConstant /*c*/, const float * /*v*/) {}
+
+// rb_spotshadow / rb_sunshadow satellite stubs.
+void RB_DrawLines2D(int /*count*/, int /*colorCount*/, const GfxPointVertex * /*verts*/) {}
+struct GfxCmdBuf;
+void R_DrawSunShadowMap(const GfxViewInfo * /*viewInfo*/, unsigned int /*cascade*/, GfxCmdBuf * /*cmd*/) {}
+void R_UpdateCodeConstant(GfxCmdBufSourceState * /*src*/, CodeConstant /*c*/, float /*x*/, float /*y*/, float /*z*/, float /*w*/) {}
+enum MaterialTextureSource : unsigned int;
+struct GfxImage;
+void R_SetCodeImageTexture(GfxCmdBufSourceState * /*src*/, MaterialTextureSource /*slot*/, const GfxImage * /*image*/) {}
+// gfxRenderTargets / pixelCostMode / vidConfig — declared extern in
+// r_init.h with concrete types; provide storage here.
+#include <gfx_d3d/r_state.h>
+GfxRenderTarget gfxRenderTargets[17]{};
+int pixelCostMode = 0;
+vidConfig_t vidConfig{};
 
 
 r_backEndGlobals_t backEnd{};

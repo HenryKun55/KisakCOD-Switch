@@ -209,6 +209,15 @@ set(GFX_PORTABLE_SOURCES
     # rb_imagetouch.cpp pulls IDirect3DDevice9 for sampler swizzle.
     # Land behind graphics abstraction.
     "${SRC_DIR}/gfx_d3d/rb_showcollision.cpp"
+    # rb_sky.cpp pulls IDirect3DDevice9/IDirect3DQuery9 +
+    # D3DISSUE_BEGIN + Sleep(). Land behind graphics abstraction.
+    "${SRC_DIR}/gfx_d3d/rb_spotshadow.cpp"
+    "${SRC_DIR}/gfx_d3d/rb_sunshadow.cpp"
+    # rb_state.cpp drags R_SetTexFilter / R_InitCmdBuf* /
+    # RB_InitCodeImages / R_SetRenderTarget. Land alongside the
+    # renderer-frame batch.
+    # rb_uploadshaders.cpp pulls IDirect3DDevice9 + D3DPT_TRIANGLELIST.
+    # Land behind graphics abstraction.
     "${SRC_DIR}/gfx_d3d/rb_drawprofile.cpp"
     "${SRC_DIR}/gfx_d3d/rb_logfile.cpp"
     # rb_pixelcost.cpp uses IDirect3DQuery9 / D3DISSUE_END. Land
