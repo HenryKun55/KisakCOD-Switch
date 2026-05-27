@@ -498,7 +498,7 @@ const char *Win_LocalizeRef(const char *str) { return str; }
 void TRACK_db_registry() {}
 // void TRACK_devgui() {}
 // void TRACK_dobj_management() {}
-void TRACK_fx_marks() {}
+// void TRACK_fx_marks() {}
 // void TRACK_fx_random() {}  // provided by fx_random.cpp now
 void TRACK_fx_system() {}
 // void TRACK_missile_attractors() {}  // provided by g_missile.cpp now
@@ -1550,7 +1550,7 @@ void   SND_SetListener(int, int, const float *, const float (*)[3]) {}
 void   SND_FadeAllSounds(float, int) {}
 // CG_UpdatePlayerDObj provided by src/cgame_mp/cg_players_mp.cpp now.
 // CG_UpdateViewOffset provided by src/cgame_mp/cg_view_mp.cpp now.
-void   FX_MarkEntDetachAll(int, int) {}
+// void   FX_MarkEntDetachAll(int, int) {}
 // CG_ResetPlayerEntity provided by src/cgame_mp/cg_players_mp.cpp now.
 void   FX_ThroughWithEffect(int, FxEffect *) {}
 // CG_mg42_PreControllers provided by src/cgame_mp/cg_ents_mp.cpp now.
@@ -1605,8 +1605,8 @@ void FX_RelocateSystem(FxSystem * /*system*/, int /*delta*/) {}
 void FX_RunGarbageCollection(FxSystem * /*system*/) {}
 void FX_BeginIteratingOverEffects_Cooperative(FxSystem * /*system*/) {}
 void FX_ForEachEffectDef(void (* /*cb*/)(const FxEffectDef *, void *), void * /*data*/) {}
-unsigned short FX_MarkToHandle(FxMarksSystem * /*sys*/, FxMark * /*mark*/) { return 0; }
-FxMark *FX_MarkFromHandle(FxMarksSystem * /*sys*/, unsigned short /*handle*/) { return nullptr; }
+// unsigned short FX_MarkToHandle(FxMarksSystem * /*sys*/, FxMark * /*mark*/) { return 0; }
+// FxMark *FX_MarkFromHandle(FxMarksSystem * /*sys*/, unsigned short /*handle*/) { return nullptr; }
 #include <gfx_d3d/fxprimitives.h>
 FxMarksSystem fx_marksSystemPool[1] = {};
 
@@ -1706,6 +1706,17 @@ void R_AddWorldSurfacesFrustumOnly() {}
 float R_DpvsPlaneMinSignedDistToBox(const DpvsPlane * /*plane*/, const float * /*minmax*/) { return 0.0f; }
 void R_SetupViewProjectionMatrices(GfxViewParms * /*viewParms*/) {}
 
+// fx_marks satellite stubs (live in fx_update / fx_system).
+struct FxElemVisStateSample;
+enum FxRandKey : int32_t;
+struct FxElemDef;
+struct FxEffect;
+struct FxElemPreVisualState;
+struct FxElemVisualState;
+double FX_InterpolateSize(const FxElemVisStateSample * /*samples*/, int /*count*/, FxRandKey /*key*/, float /*t*/, float /*scale*/, int /*flags*/) { return 0.0; }
+void FX_SetupVisualState(const FxElemDef * /*def*/, const FxEffect * /*effect*/, int /*frame*/, float /*t*/, FxElemPreVisualState * /*state*/) {}
+void FX_EvaluateVisualState(FxElemPreVisualState * /*pre*/, float /*t*/, FxElemVisualState * /*state*/) {}
+
 struct DiskGfxReflectionProbe;
 void R_CreateReflectionRawDataFromCubemapShot(DiskGfxReflectionProbe * /*probe*/, int /*downRes*/) {}
 
@@ -1790,8 +1801,8 @@ void  R_AddDObjToScene(const DObj_s *, const cpose_t *, unsigned int, unsigned i
 // void  CG_AddPlayerWeapon(int, const GfxScaledPlacement *, const playerState_s *, centity_s *, int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // bool  BG_IsKnifeMeleeAnim(const clientInfo_t *, int) { return false; }  // provided by bg_animation_mp.cpp now
 // void  BG_UpdatePlayerDObj(int, DObj_s *, entityState_s *, clientInfo_t *, int) {}  // provided by bg_animation_mp.cpp now
-void  FX_MarkEntUpdateBegin(FxMarkDObjUpdateContext *, DObj_s *, bool, uint16_t) {}
-void  FX_MarkEntUpdateEnd(FxMarkDObjUpdateContext *, int, int, DObj_s *, bool, uint16_t) {}
+// void  FX_MarkEntUpdateBegin(FxMarkDObjUpdateContext *, DObj_s *, bool, uint16_t) {}
+// void  FX_MarkEntUpdateEnd(FxMarkDObjUpdateContext *, int, int, DObj_s *, bool, uint16_t) {}
 // CG_GetWeaponAttachBone provided by src/cgame_mp/cg_main_mp.cpp now.
 
 // cg_connectionIconSize provided by src/cgame_mp/cg_main_mp.cpp now.
@@ -1912,7 +1923,7 @@ void  CG_VehSeatTransformForPlayer(int, uint32_t, float *o, float *a)
     if (o) { o[0] = o[1] = o[2] = 0; }
     if (a) { a[0] = a[1] = a[2] = 0; }
 }
-void  FX_MarkEntUpdateHidePartBits(const uint32_t *, const uint32_t *, int, int) {}
+// void  FX_MarkEntUpdateHidePartBits(const uint32_t *, const uint32_t *, int, int) {}
 void  R_AddBrushModelToSceneFromAngles(const GfxBrushModel *, const float *, const float *, uint16_t) {}
 // void  DObjPhysicsSetCollisionFromXModel(const DObj_s *, PhysWorld, dxBody *) {}
 // Vec3Avg provided by src/universal/com_math.cpp now.

@@ -222,6 +222,7 @@ set(EFFECTSCORE_PORTABLE_SOURCES
     "${SRC_DIR}/EffectsCore/fx_beam.cpp"
     "${SRC_DIR}/EffectsCore/fx_dvars.cpp"
     "${SRC_DIR}/EffectsCore/fx_graph.cpp"
+    "${SRC_DIR}/EffectsCore/fx_marks.cpp"
     # fx_load_obj.cpp has hex-rays 32-bit pointer arithmetic baked into
     # byte-buffer offsets (FX_LoadDefault); land after typed struct refactor.
     "${SRC_DIR}/EffectsCore/fx_postlight.cpp"

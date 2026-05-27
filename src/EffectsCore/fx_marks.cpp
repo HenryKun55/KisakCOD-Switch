@@ -34,10 +34,10 @@ void __cdecl TRACK_fx_marks()
 
 void __cdecl FX_InitMarksSystem(FxMarksSystem *marksSystem)
 {
-    int32_t pointIndex; // [esp+8h] [ebp-10h]
-    uint32_t markIndex; // [esp+Ch] [ebp-Ch]
-    int32_t triIndex; // [esp+10h] [ebp-8h]
-    uint32_t markHandleIndex; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] int32_t pointIndex; // [esp+8h] [ebp-10h]
+    [[maybe_unused]] uint32_t markIndex; // [esp+Ch] [ebp-Ch]
+    [[maybe_unused]] int32_t triIndex; // [esp+10h] [ebp-8h]
+    [[maybe_unused]] uint32_t markHandleIndex; // [esp+14h] [ebp-4h]
 
     for (markHandleIndex = 0; markHandleIndex != 1024; ++markHandleIndex)
         marksSystem->entFirstMarkHandles[markHandleIndex] = -1;
@@ -66,7 +66,7 @@ void __cdecl FX_InitMarksSystem(FxMarksSystem *marksSystem)
 
 uint16_t __cdecl FX_MarkToHandle(FxMarksSystem *marksSystem, FxMark *mark)
 {
-    uint16_t handle; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] uint16_t handle; // [esp+0h] [ebp-4h]
 
     if (!marksSystem)
         MyAssertHandler("c:\\trees\\cod3\\src\\effectscore\\fx_marks.h", 152, 0, "%s", "marksSystem");
@@ -107,7 +107,7 @@ void __cdecl FX_CreateImpactMark(
 {
     FxElemVisualState visState; // [esp+50h] [ebp-3Ch] BYREF
     FxElemPreVisualState preVisState; // [esp+6Ch] [ebp-20h] BYREF
-    FxElemMarkVisuals *markVisuals; // [esp+88h] [ebp-4h]
+    [[maybe_unused]] FxElemMarkVisuals *markVisuals; // [esp+88h] [ebp-4h]
 
     PROF_SCOPED("FX_CreateImpactMark");
 
@@ -144,7 +144,7 @@ void __cdecl FX_ImpactMark(
     float radius,
     uint32_t markEntnum)
 {
-    float degrees; // [esp+10h] [ebp-70h]
+    [[maybe_unused]] float degrees; // [esp+10h] [ebp-70h]
     float axis[3][3]; // [esp+5Ch] [ebp-24h] BYREF
 
     if (localClientNum)
@@ -217,7 +217,7 @@ void __cdecl FX_ImpactMark_Generate(
 {
     FxMarkTri tris[256]; // [esp+230h] [ebp-1058h] BYREF
     MarkInfo markInfo; // [esp+E28h] [ebp-460h] BYREF
-    FxSystem *System; // [esp+1274h] [ebp-14h]
+    [[maybe_unused]] FxSystem *System; // [esp+1274h] [ebp-14h]
 
     struct FX_ImpactMark_Generate_CB callbackContext
     {
@@ -255,33 +255,33 @@ void __cdecl FX_ImpactMark_Generate_AddEntityBrush(
     const float* origin,
     float radius)
 {
-    int32_t v6; // [esp+8h] [ebp-254h]
-    int32_t v7; // [esp+Ch] [ebp-250h]
-    int32_t v8; // [esp+10h] [ebp-24Ch]
-    int32_t v9; // [esp+14h] [ebp-248h]
-    int32_t v10; // [esp+18h] [ebp-244h]
-    int32_t v11; // [esp+1Ch] [ebp-240h]
-    int32_t v12; // [esp+20h] [ebp-23Ch]
-    int32_t v13; // [esp+24h] [ebp-238h]
-    int32_t v14; // [esp+28h] [ebp-234h]
-    int32_t v15; // [esp+2Ch] [ebp-230h]
-    int32_t v16; // [esp+30h] [ebp-22Ch]
-    int32_t v17; // [esp+34h] [ebp-228h]
-    float v18; // [esp+D0h] [ebp-18Ch]
-    float v19; // [esp+120h] [ebp-13Ch]
-    float v20; // [esp+130h] [ebp-12Ch]
-    float v21; // [esp+174h] [ebp-E8h]
-    float v22; // [esp+178h] [ebp-E4h]
-    float v23; // [esp+17Ch] [ebp-E0h]
-    float v24; // [esp+180h] [ebp-DCh]
+    [[maybe_unused]] int32_t v6; // [esp+8h] [ebp-254h]
+    [[maybe_unused]] int32_t v7; // [esp+Ch] [ebp-250h]
+    [[maybe_unused]] int32_t v8; // [esp+10h] [ebp-24Ch]
+    [[maybe_unused]] int32_t v9; // [esp+14h] [ebp-248h]
+    [[maybe_unused]] int32_t v10; // [esp+18h] [ebp-244h]
+    [[maybe_unused]] int32_t v11; // [esp+1Ch] [ebp-240h]
+    [[maybe_unused]] int32_t v12; // [esp+20h] [ebp-23Ch]
+    [[maybe_unused]] int32_t v13; // [esp+24h] [ebp-238h]
+    [[maybe_unused]] int32_t v14; // [esp+28h] [ebp-234h]
+    [[maybe_unused]] int32_t v15; // [esp+2Ch] [ebp-230h]
+    [[maybe_unused]] int32_t v16; // [esp+30h] [ebp-22Ch]
+    [[maybe_unused]] int32_t v17; // [esp+34h] [ebp-228h]
+    [[maybe_unused]] float v18; // [esp+D0h] [ebp-18Ch]
+    [[maybe_unused]] float v19; // [esp+120h] [ebp-13Ch]
+    [[maybe_unused]] float v20; // [esp+130h] [ebp-12Ch]
+    [[maybe_unused]] float v21; // [esp+174h] [ebp-E8h]
+    [[maybe_unused]] float v22; // [esp+178h] [ebp-E4h]
+    [[maybe_unused]] float v23; // [esp+17Ch] [ebp-E0h]
+    [[maybe_unused]] float v24; // [esp+180h] [ebp-DCh]
     float entAxis[3][3]; // [esp+1B8h] [ebp-A4h] BYREF
-    uint16_t entityIndexAsUnsignedShort; // [esp+1DCh] [ebp-80h]
-    float4 worldModelBoundsFloat4[2]; // [esp+1E0h] [ebp-7Ch]
+    [[maybe_unused]] uint16_t entityIndexAsUnsignedShort; // [esp+1DCh] [ebp-80h]
+    [[maybe_unused]] float4 worldModelBoundsFloat4[2]; // [esp+1E0h] [ebp-7Ch]
     float markMins[3]; // [esp+200h] [ebp-5Ch] BYREF
     float markMaxs[3]; // [esp+20Ch] [ebp-50h] BYREF
-    float4 modelBounds[2]; // [esp+218h] [ebp-44h]
-    GfxBrushModel* brushModel; // [esp+23Ch] [ebp-20h]
-    centity_s* ent; // [esp+240h] [ebp-1Ch]
+    [[maybe_unused]] float4 modelBounds[2]; // [esp+218h] [ebp-44h]
+    [[maybe_unused]] GfxBrushModel* brushModel; // [esp+23Ch] [ebp-20h]
+    [[maybe_unused]] centity_s* ent; // [esp+240h] [ebp-1Ch]
     float worldModelBoundsVec3[2][3]; // [esp+244h] [ebp-18h] BYREF
 
     if (entityIndex == ENTITYNUM_NONE)
@@ -370,69 +370,69 @@ void __cdecl FX_ImpactMark_Generate_AddEntityBrush(
             v6 = -1;
 
 
-        worldModelBoundsFloat4[0].v[0] = COERCE_FLOAT(modelBounds[1].u[0] & v17 | modelBounds[0].u[0] & ~v17)
+        worldModelBoundsFloat4[0].v[0] = COERCE_FLOAT((modelBounds[1].u[0] & v17) | (modelBounds[0].u[0] & ~v17))
             * entAxis[0][0]
             + v21;
-        worldModelBoundsFloat4[0].v[1] = COERCE_FLOAT(modelBounds[1].u[0] & v16 | modelBounds[0].u[0] & ~v16)
+        worldModelBoundsFloat4[0].v[1] = COERCE_FLOAT((modelBounds[1].u[0] & v16) | (modelBounds[0].u[0] & ~v16))
             * entAxis[0][1]
             + v22;
-        worldModelBoundsFloat4[0].v[2] = COERCE_FLOAT(modelBounds[1].u[0] & v15 | modelBounds[0].u[0] & ~v15)
+        worldModelBoundsFloat4[0].v[2] = COERCE_FLOAT((modelBounds[1].u[0] & v15) | (modelBounds[0].u[0] & ~v15))
             * entAxis[0][2]
             + v23;
-        worldModelBoundsFloat4[0].v[3] = COERCE_FLOAT(modelBounds[1].u[0] & v14 | modelBounds[0].u[0] & ~v14) * v19 + v24;
-        worldModelBoundsFloat4[0].v[0] = COERCE_FLOAT(modelBounds[1].u[1] & v13 | modelBounds[0].u[1] & ~v13)
+        worldModelBoundsFloat4[0].v[3] = COERCE_FLOAT((modelBounds[1].u[0] & v14) | (modelBounds[0].u[0] & ~v14)) * v19 + v24;
+        worldModelBoundsFloat4[0].v[0] = COERCE_FLOAT((modelBounds[1].u[1] & v13) | (modelBounds[0].u[1] & ~v13))
             * entAxis[1][0]
             + worldModelBoundsFloat4[0].v[0];
-        worldModelBoundsFloat4[0].v[1] = COERCE_FLOAT(modelBounds[1].u[1] & v12 | modelBounds[0].u[1] & ~v12)
+        worldModelBoundsFloat4[0].v[1] = COERCE_FLOAT((modelBounds[1].u[1] & v12) | (modelBounds[0].u[1] & ~v12))
             * entAxis[1][1]
             + worldModelBoundsFloat4[0].v[1];
-        worldModelBoundsFloat4[0].v[2] = COERCE_FLOAT(modelBounds[1].u[1] & v11 | modelBounds[0].u[1] & ~v11)
+        worldModelBoundsFloat4[0].v[2] = COERCE_FLOAT((modelBounds[1].u[1] & v11) | (modelBounds[0].u[1] & ~v11))
             * entAxis[1][2]
             + worldModelBoundsFloat4[0].v[2];
-        worldModelBoundsFloat4[0].v[3] = COERCE_FLOAT(modelBounds[1].u[1] & v10 | modelBounds[0].u[1] & ~v10) * v18
+        worldModelBoundsFloat4[0].v[3] = COERCE_FLOAT((modelBounds[1].u[1] & v10) | (modelBounds[0].u[1] & ~v10)) * v18
             + worldModelBoundsFloat4[0].v[3];
-        worldModelBoundsFloat4[0].v[0] = COERCE_FLOAT(modelBounds[1].u[2] & v9 | modelBounds[0].u[2] & ~v9)
+        worldModelBoundsFloat4[0].v[0] = COERCE_FLOAT((modelBounds[1].u[2] & v9) | (modelBounds[0].u[2] & ~v9))
             * entAxis[2][0]
             + worldModelBoundsFloat4[0].v[0];
-        worldModelBoundsFloat4[0].v[1] = COERCE_FLOAT(modelBounds[1].u[2] & v8 | modelBounds[0].u[2] & ~v8)
+        worldModelBoundsFloat4[0].v[1] = COERCE_FLOAT((modelBounds[1].u[2] & v8) | (modelBounds[0].u[2] & ~v8))
             * entAxis[2][1]
             + worldModelBoundsFloat4[0].v[1];
-        worldModelBoundsFloat4[0].v[2] = COERCE_FLOAT(modelBounds[1].u[2] & v7 | modelBounds[0].u[2] & ~v7)
+        worldModelBoundsFloat4[0].v[2] = COERCE_FLOAT((modelBounds[1].u[2] & v7) | (modelBounds[0].u[2] & ~v7))
             * entAxis[2][2]
             + worldModelBoundsFloat4[0].v[2];
-        worldModelBoundsFloat4[0].v[3] = COERCE_FLOAT(modelBounds[1].u[2] & v6 | modelBounds[0].u[2] & ~v6) * v20
+        worldModelBoundsFloat4[0].v[3] = COERCE_FLOAT((modelBounds[1].u[2] & v6) | (modelBounds[0].u[2] & ~v6)) * v20
             + worldModelBoundsFloat4[0].v[3];
-        worldModelBoundsFloat4[1].v[0] = COERCE_FLOAT(modelBounds[0].u[0] & v17 | modelBounds[1].u[0] & ~v17)
+        worldModelBoundsFloat4[1].v[0] = COERCE_FLOAT((modelBounds[0].u[0] & v17) | (modelBounds[1].u[0] & ~v17))
             * entAxis[0][0]
             + v21;
-        worldModelBoundsFloat4[1].v[1] = COERCE_FLOAT(modelBounds[0].u[0] & v16 | modelBounds[1].u[0] & ~v16)
+        worldModelBoundsFloat4[1].v[1] = COERCE_FLOAT((modelBounds[0].u[0] & v16) | (modelBounds[1].u[0] & ~v16))
             * entAxis[0][1]
             + v22;
-        worldModelBoundsFloat4[1].v[2] = COERCE_FLOAT(modelBounds[0].u[0] & v15 | modelBounds[1].u[0] & ~v15)
+        worldModelBoundsFloat4[1].v[2] = COERCE_FLOAT((modelBounds[0].u[0] & v15) | (modelBounds[1].u[0] & ~v15))
             * entAxis[0][2]
             + v23;
-        worldModelBoundsFloat4[1].v[3] = COERCE_FLOAT(modelBounds[0].u[0] & v14 | modelBounds[1].u[0] & ~v14) * v19 + v24;
-        worldModelBoundsFloat4[1].v[0] = COERCE_FLOAT(modelBounds[0].u[1] & v13 | modelBounds[1].u[1] & ~v13)
+        worldModelBoundsFloat4[1].v[3] = COERCE_FLOAT((modelBounds[0].u[0] & v14) | (modelBounds[1].u[0] & ~v14)) * v19 + v24;
+        worldModelBoundsFloat4[1].v[0] = COERCE_FLOAT((modelBounds[0].u[1] & v13) | (modelBounds[1].u[1] & ~v13))
             * entAxis[1][0]
             + worldModelBoundsFloat4[1].v[0];
-        worldModelBoundsFloat4[1].v[1] = COERCE_FLOAT(modelBounds[0].u[1] & v12 | modelBounds[1].u[1] & ~v12)
+        worldModelBoundsFloat4[1].v[1] = COERCE_FLOAT((modelBounds[0].u[1] & v12) | (modelBounds[1].u[1] & ~v12))
             * entAxis[1][1]
             + worldModelBoundsFloat4[1].v[1];
-        worldModelBoundsFloat4[1].v[2] = COERCE_FLOAT(modelBounds[0].u[1] & v11 | modelBounds[1].u[1] & ~v11)
+        worldModelBoundsFloat4[1].v[2] = COERCE_FLOAT((modelBounds[0].u[1] & v11) | (modelBounds[1].u[1] & ~v11))
             * entAxis[1][2]
             + worldModelBoundsFloat4[1].v[2];
-        worldModelBoundsFloat4[1].v[3] = COERCE_FLOAT(modelBounds[0].u[1] & v10 | modelBounds[1].u[1] & ~v10) * v18
+        worldModelBoundsFloat4[1].v[3] = COERCE_FLOAT((modelBounds[0].u[1] & v10) | (modelBounds[1].u[1] & ~v10)) * v18
             + worldModelBoundsFloat4[1].v[3];
-        worldModelBoundsFloat4[1].v[0] = COERCE_FLOAT(modelBounds[0].u[2] & v9 | modelBounds[1].u[2] & ~v9)
+        worldModelBoundsFloat4[1].v[0] = COERCE_FLOAT((modelBounds[0].u[2] & v9) | (modelBounds[1].u[2] & ~v9))
             * entAxis[2][0]
             + worldModelBoundsFloat4[1].v[0];
-        worldModelBoundsFloat4[1].v[1] = COERCE_FLOAT(modelBounds[0].u[2] & v8 | modelBounds[1].u[2] & ~v8)
+        worldModelBoundsFloat4[1].v[1] = COERCE_FLOAT((modelBounds[0].u[2] & v8) | (modelBounds[1].u[2] & ~v8))
             * entAxis[2][1]
             + worldModelBoundsFloat4[1].v[1];
-        worldModelBoundsFloat4[1].v[2] = COERCE_FLOAT(modelBounds[0].u[2] & v7 | modelBounds[1].u[2] & ~v7)
+        worldModelBoundsFloat4[1].v[2] = COERCE_FLOAT((modelBounds[0].u[2] & v7) | (modelBounds[1].u[2] & ~v7))
             * entAxis[2][2]
             + worldModelBoundsFloat4[1].v[2];
-        worldModelBoundsFloat4[1].v[3] = COERCE_FLOAT(modelBounds[0].u[2] & v6 | modelBounds[1].u[2] & ~v6) * v20
+        worldModelBoundsFloat4[1].v[3] = COERCE_FLOAT((modelBounds[0].u[2] & v6) | (modelBounds[1].u[2] & ~v6)) * v20
             + worldModelBoundsFloat4[1].v[3];
         worldModelBoundsVec3[0][0] = worldModelBoundsFloat4[0].v[0];
         worldModelBoundsVec3[0][1] = worldModelBoundsFloat4[0].v[1];
@@ -460,12 +460,12 @@ void __cdecl FX_ImpactMark_Generate_AddEntityModel(
 {
     double v5; // st7
     float diff[8]; // [esp+38h] [ebp-38h] BYREF
-    uint16_t entityIndexAsUnsignedShort; // [esp+58h] [ebp-18h]
-    float dObjRadius; // [esp+5Ch] [ebp-14h]
-    float summedRadiusSquared; // [esp+60h] [ebp-10h]
-    centity_s *ent; // [esp+64h] [ebp-Ch]
-    float summedRadius; // [esp+68h] [ebp-8h]
-    DObj_s *dObj; // [esp+6Ch] [ebp-4h]
+    [[maybe_unused]] uint16_t entityIndexAsUnsignedShort; // [esp+58h] [ebp-18h]
+    [[maybe_unused]] float dObjRadius; // [esp+5Ch] [ebp-14h]
+    [[maybe_unused]] float summedRadiusSquared; // [esp+60h] [ebp-10h]
+    [[maybe_unused]] centity_s *ent; // [esp+64h] [ebp-Ch]
+    [[maybe_unused]] float summedRadius; // [esp+68h] [ebp-8h]
+    [[maybe_unused]] DObj_s *dObj; // [esp+6Ch] [ebp-4h]
 
     if (entityIndex != ENTITYNUM_NONE)
     {
@@ -531,15 +531,15 @@ void __cdecl FX_AllocAndConstructMark(
     const float *texCoordAxis,
     const uint8_t *nativeColor)
 {
-    float *v10; // [esp+0h] [ebp-38h]
-    float *v11; // [esp+4h] [ebp-34h]
+    [[maybe_unused]] float *v10; // [esp+0h] [ebp-38h]
+    [[maybe_unused]] float *v11; // [esp+4h] [ebp-34h]
     uint16_t staticModelMarkHead; // [esp+1Ch] [ebp-1Ch] BYREF
-    uint16_t newMarkHandle; // [esp+20h] [ebp-18h]
-    FxMarksSystem *marksSystem; // [esp+24h] [ebp-14h]
-    int32_t points; // [esp+28h] [ebp-10h]
-    int32_t modelType; // [esp+2Ch] [ebp-Ch]
-    FxMark *newMark; // [esp+30h] [ebp-8h]
-    int32_t tris; // [esp+34h] [ebp-4h]
+    [[maybe_unused]] uint16_t newMarkHandle; // [esp+20h] [ebp-18h]
+    [[maybe_unused]] FxMarksSystem *marksSystem; // [esp+24h] [ebp-14h]
+    [[maybe_unused]] int32_t points; // [esp+28h] [ebp-10h]
+    [[maybe_unused]] int32_t modelType; // [esp+2Ch] [ebp-Ch]
+    [[maybe_unused]] FxMark *newMark; // [esp+30h] [ebp-8h]
+    [[maybe_unused]] int32_t tris; // [esp+34h] [ebp-4h]
 
     std::sort(markTris, &markTris[triCount], FX_CompareMarkTris);
 
@@ -676,8 +676,8 @@ FxMark *__cdecl FX_MarkFromHandle(FxMarksSystem *marksSystem, uint16_t handle)
 
 void __cdecl FX_FreeLruMark(FxMarksSystem *marksSystem)
 {
-    FxMark *lruMark; // [esp+34h] [ebp-Ch]
-    FxMark *mark; // [esp+38h] [ebp-8h]
+    [[maybe_unused]] FxMark *lruMark; // [esp+34h] [ebp-Ch]
+    [[maybe_unused]] FxMark *mark; // [esp+38h] [ebp-8h]
 
     PROF_SCOPED("FX_FreeLruMark");
     if (!marksSystem)
@@ -688,7 +688,7 @@ void __cdecl FX_FreeLruMark(FxMarksSystem *marksSystem)
         if (mark->frameCountDrawn != -1
             && (!lruMark
                 || mark->frameCountDrawn < lruMark->frameCountDrawn
-                || mark->frameCountDrawn == lruMark->frameCountDrawn && mark->frameCountAlloced < lruMark->frameCountAlloced))
+                || (mark->frameCountDrawn == lruMark->frameCountDrawn && mark->frameCountAlloced < lruMark->frameCountAlloced)))
         {
             lruMark = mark;
         }
@@ -721,7 +721,7 @@ void __cdecl FX_FreeMark(FxMarksSystem *marksSystem, FxMark *mark)
 void __cdecl FX_FreeMarkFromList(FxMarksSystem *marksSystem, FxMark *mark, uint16_t *listHead)
 {
     const char *v3; // eax
-    uint16_t markHandle; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] uint16_t markHandle; // [esp+4h] [ebp-4h]
 
     markHandle = FX_MarkToHandle(marksSystem, mark);
     FX_FreeMarkTriGroups(marksSystem, mark);
@@ -751,8 +751,8 @@ void __cdecl FX_FreeMarkFromList(FxMarksSystem *marksSystem, FxMark *mark, uint1
 
 void __cdecl FX_FreeMarkTriGroups(FxMarksSystem *marksSystem, FxMark *mark)
 {
-    uint32_t groupHandle; // [esp+4h] [ebp-Ch]
-    FxTriGroupPool *group; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] uint32_t groupHandle; // [esp+4h] [ebp-Ch]
+    [[maybe_unused]] FxTriGroupPool *group; // [esp+Ch] [ebp-4h]
 
     groupHandle = mark->tris;
     do
@@ -781,8 +781,8 @@ FxTriGroupPool *__cdecl FX_TriGroupFromHandle(FxMarksSystem *marksSystem, uint32
 
 void __cdecl FX_FreeMarkPointGroups(FxMarksSystem *marksSystem, FxMark *mark)
 {
-    uint32_t groupHandle; // [esp+4h] [ebp-Ch]
-    FxPointGroupPool *group; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] uint32_t groupHandle; // [esp+4h] [ebp-Ch]
+    [[maybe_unused]] FxPointGroupPool *group; // [esp+Ch] [ebp-4h]
 
     groupHandle = mark->points;
     do
@@ -811,9 +811,9 @@ FxPointGroupPool *__cdecl FX_PointGroupFromHandle(FxMarksSystem *marksSystem, ui
 
 int32_t __cdecl FX_AllocMarkTris(FxMarksSystem *marksSystem, const FxMarkTri *markTris, int32_t triCount)
 {
-    int32_t groupHandle; // [esp+14h] [ebp-Ch]
-    int32_t usedCount; // [esp+18h] [ebp-8h]
-    FxTriGroupPool *newGroup; // [esp+1Ch] [ebp-4h]
+    [[maybe_unused]] int32_t groupHandle; // [esp+14h] [ebp-Ch]
+    [[maybe_unused]] int32_t usedCount; // [esp+18h] [ebp-8h]
+    [[maybe_unused]] FxTriGroupPool *newGroup; // [esp+1Ch] [ebp-4h]
 
     groupHandle = 0xFFFF;
     do
@@ -840,7 +840,7 @@ int32_t __cdecl FX_AllocMarkTris(FxMarksSystem *marksSystem, const FxMarkTri *ma
 
 int32_t __cdecl FX_TriGroupToHandle(FxMarksSystem *marksSystem, FxTriGroup *group)
 {
-    uint32_t handle; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] uint32_t handle; // [esp+0h] [ebp-4h]
 
     if (!marksSystem)
         MyAssertHandler("c:\\trees\\cod3\\src\\effectscore\\fx_marks.h", 180, 0, "%s", "marksSystem");
@@ -860,9 +860,9 @@ int32_t __cdecl FX_TriGroupToHandle(FxMarksSystem *marksSystem, FxTriGroup *grou
 
 int32_t __cdecl FX_AllocMarkPoints(FxMarksSystem *marksSystem, int32_t pointCount)
 {
-    int32_t groupHandle; // [esp+4h] [ebp-Ch]
-    FxPointGroupPool *newGroup; // [esp+8h] [ebp-8h]
-    int32_t pointGroupCount; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] int32_t groupHandle; // [esp+4h] [ebp-Ch]
+    [[maybe_unused]] FxPointGroupPool *newGroup; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] int32_t pointGroupCount; // [esp+Ch] [ebp-4h]
 
     groupHandle = 0xFFFF;
     pointGroupCount = (pointCount + 1) / 2;
@@ -893,7 +893,7 @@ int32_t __cdecl FX_AllocMarkPoints(FxMarksSystem *marksSystem, int32_t pointCoun
 
 int32_t __cdecl FX_PointGroupToHandle(FxMarksSystem *marksSystem, FxPointGroup *group)
 {
-    uint32_t handle; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] uint32_t handle; // [esp+0h] [ebp-4h]
 
     if (!marksSystem)
         MyAssertHandler("c:\\trees\\cod3\\src\\effectscore\\fx_marks.h", 205, 0, "%s", "marksSystem");
@@ -914,13 +914,13 @@ int32_t __cdecl FX_PointGroupToHandle(FxMarksSystem *marksSystem, FxPointGroup *
 void __cdecl FX_LinkMarkIntoList(FxMarksSystem *marksSystem, uint16_t *head, FxMark *mark)
 {
     float diff[3]; // [esp+14h] [ebp-28h] BYREF
-    uint16_t iterMarkPrev; // [esp+20h] [ebp-1Ch]
-    float radiusSum; // [esp+24h] [ebp-18h]
-    uint16_t *iterHandlePrev; // [esp+28h] [ebp-14h]
-    FxMark *nextMark; // [esp+2Ch] [ebp-10h]
-    FxMark *iterMark; // [esp+30h] [ebp-Ch]
-    float distSq; // [esp+34h] [ebp-8h]
-    uint16_t markHandle; // [esp+38h] [ebp-4h]
+    [[maybe_unused]] uint16_t iterMarkPrev; // [esp+20h] [ebp-1Ch]
+    [[maybe_unused]] float radiusSum; // [esp+24h] [ebp-18h]
+    [[maybe_unused]] uint16_t *iterHandlePrev; // [esp+28h] [ebp-14h]
+    [[maybe_unused]] FxMark *nextMark; // [esp+2Ch] [ebp-10h]
+    [[maybe_unused]] FxMark *iterMark; // [esp+30h] [ebp-Ch]
+    [[maybe_unused]] float distSq; // [esp+34h] [ebp-8h]
+    [[maybe_unused]] uint16_t markHandle; // [esp+38h] [ebp-4h]
 
     iterMarkPrev = -1;
     for (iterHandlePrev = head; *iterHandlePrev != 0xFFFF; iterHandlePrev = &iterMark->nextMark)
@@ -961,9 +961,9 @@ void __cdecl FX_CopyMarkTris(
     uint32_t dstGroupHandle,
     int32_t triCount)
 {
-    int32_t v4; // [esp+10h] [ebp-14h]
-    int32_t copyIndex; // [esp+1Ch] [ebp-8h]
-    FxTriGroupPool *dstGroup; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] int32_t v4; // [esp+10h] [ebp-14h]
+    [[maybe_unused]] int32_t copyIndex; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] FxTriGroupPool *dstGroup; // [esp+20h] [ebp-4h]
 
     do
     {
@@ -1003,9 +1003,9 @@ void __cdecl FX_CopyMarkPoints(
     uint32_t dstGroupHandle,
     int32_t pointCount)
 {
-    int32_t v4; // [esp+8h] [ebp-14h]
-    int32_t copyIndex; // [esp+14h] [ebp-8h]
-    FxPointGroupPool *dstGroup; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] int32_t v4; // [esp+8h] [ebp-14h]
+    [[maybe_unused]] int32_t copyIndex; // [esp+14h] [ebp-8h]
+    [[maybe_unused]] FxPointGroupPool *dstGroup; // [esp+18h] [ebp-4h]
 
     do
     {
@@ -1038,7 +1038,7 @@ void __cdecl FX_CopyMarkPoints(
 
 uint16_t __cdecl FX_FindModelHead(FxMarksSystem *marksSystem, uint16_t modelIndex, int32_t type)
 {
-    FxMark *mark; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] FxMark *mark; // [esp+4h] [ebp-8h]
 
     for (mark = marksSystem->marks; mark != (FxMark *)marksSystem->triGroups; ++mark)
     {
@@ -1055,7 +1055,7 @@ uint16_t __cdecl FX_FindModelHead(FxMarksSystem *marksSystem, uint16_t modelInde
 
 int32_t __cdecl FX_CompareMarkTris(const FxMarkTri &tri0, const FxMarkTri &tri1)
 {
-    int32_t contextCompareResult; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] int32_t contextCompareResult; // [esp+10h] [ebp-4h]
 
     contextCompareResult = FX_MarkContextsCompare(&tri0.context, &tri1.context);
     if (contextCompareResult)
@@ -1066,8 +1066,8 @@ int32_t __cdecl FX_CompareMarkTris(const FxMarkTri &tri0, const FxMarkTri &tri1)
 
 int32_t __cdecl FX_MarkContextsCompare(const GfxMarkContext *context0, const GfxMarkContext *context1)
 {
-    int32_t type1; // [esp+0h] [ebp-10h]
-    int32_t type0; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] int32_t type1; // [esp+0h] [ebp-10h]
+    [[maybe_unused]] int32_t type0; // [esp+8h] [ebp-8h]
 
     type0 = context0->modelTypeAndSurf & 0xC0;
     type1 = context1->modelTypeAndSurf & 0xC0;
@@ -1111,8 +1111,8 @@ void __cdecl FX_MarkEntUpdateHidePartBits(
 {
     uint32_t v4; // edx
     uint32_t unsetHidePartBits[4]; // [esp+8h] [ebp-18h] BYREF
-    int32_t hidePartIntIndex; // [esp+18h] [ebp-8h]
-    uint32_t oredUnsetHidePartBits; // [esp+1Ch] [ebp-4h]
+    [[maybe_unused]] int32_t hidePartIntIndex; // [esp+18h] [ebp-8h]
+    [[maybe_unused]] uint32_t oredUnsetHidePartBits; // [esp+1Ch] [ebp-4h]
 
     if (localClientNum)
         MyAssertHandler(
@@ -1138,9 +1138,9 @@ void __cdecl FX_MarkEntDetachMatchingBones(
     int32_t entnum,
     const uint32_t *unsetHidePartBits)
 {
-    uint16_t handle; // [esp+18h] [ebp-Ch]
-    FxMark *mark; // [esp+1Ch] [ebp-8h]
-    int32_t markBoneIndex; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] uint16_t handle; // [esp+18h] [ebp-Ch]
+    [[maybe_unused]] FxMark *mark; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] int32_t markBoneIndex; // [esp+20h] [ebp-4h]
 
     handle = marksSystem->entFirstMarkHandles[entnum];
     while (handle != 0xFFFF)
@@ -1178,8 +1178,8 @@ void __cdecl FX_MarkEntUpdateBegin(
     bool isBrush,
     uint16_t brushIndex)
 {
-    int32_t modelCount; // [esp+0h] [ebp-8h]
-    int32_t modelIndex; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int32_t modelCount; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] int32_t modelIndex; // [esp+4h] [ebp-4h]
 
     if (obj)
     {
@@ -1220,8 +1220,8 @@ void __cdecl FX_MarkEntUpdateEnd(
 
 void __cdecl FX_MarkEntDetachAllOfType(int32_t localClientNum, int32_t entnum, int32_t markType)
 {
-    uint16_t handle; // [esp+1Ch] [ebp-8h]
-    FxMark *mark; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] uint16_t handle; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] FxMark *mark; // [esp+20h] [ebp-4h]
 
     if (localClientNum)
         MyAssertHandler(
@@ -1243,11 +1243,11 @@ void __cdecl FX_MarkEntDetachAllOfType(int32_t localClientNum, int32_t entnum, i
 
 void __cdecl FX_MarkEntUpdateEndDObj(FxMarkDObjUpdateContext *context, int32_t localClientNum, int32_t entnum, DObj_s *obj)
 {
-    int32_t oldModelCount; // [esp+4h] [ebp-14h]
-    int32_t removedModelCount; // [esp+8h] [ebp-10h]
-    int32_t oldModelIndex; // [esp+Ch] [ebp-Ch]
-    int32_t modelCount; // [esp+10h] [ebp-8h]
-    int32_t modelIndex; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] int32_t oldModelCount; // [esp+4h] [ebp-14h]
+    [[maybe_unused]] int32_t removedModelCount; // [esp+8h] [ebp-10h]
+    [[maybe_unused]] int32_t oldModelIndex; // [esp+Ch] [ebp-Ch]
+    [[maybe_unused]] int32_t modelCount; // [esp+10h] [ebp-8h]
+    [[maybe_unused]] int32_t modelIndex; // [esp+14h] [ebp-4h]
 
     if (localClientNum)
         MyAssertHandler(
@@ -1286,9 +1286,9 @@ void __cdecl FX_MarkEntUpdateEndDObj(FxMarkDObjUpdateContext *context, int32_t l
 
 void __cdecl FX_MarkEntDetachModel(FxMarksSystem *marksSystem, int32_t entnum, int32_t oldModelIndex)
 {
-    uint16_t handle; // [esp+18h] [ebp-Ch]
-    FxMark *mark; // [esp+1Ch] [ebp-8h]
-    int32_t markModelIndex; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] uint16_t handle; // [esp+18h] [ebp-Ch]
+    [[maybe_unused]] FxMark *mark; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] int32_t markModelIndex; // [esp+20h] [ebp-4h]
 
     handle = marksSystem->entFirstMarkHandles[entnum];
     while (handle != 0xFFFF)
@@ -1352,8 +1352,8 @@ void __cdecl FX_GenerateMarkVertsForEntXModel(
     uint8_t reflectionProbeIndex,
     const GfxScaledPlacement *placement)
 {
-    FxSystem *camera; // [esp+94h] [ebp-Ch]
-    uint16_t entMarkListHead; // [esp+9Ch] [ebp-4h]
+    [[maybe_unused]] FxSystem *camera; // [esp+94h] [ebp-Ch]
+    [[maybe_unused]] uint16_t entMarkListHead; // [esp+9Ch] [ebp-4h]
 
     if (localClientNum)
         MyAssertHandler(
@@ -1388,10 +1388,10 @@ char __cdecl FX_GenerateMarkVertsForList_EntXModel(
     uint8_t reflectionProbeIndexOverride,
     const GfxScaledPlacement *placement)
 {
-    __int64 v8; // [esp-8h] [ebp-14Ch]
-    FxMark *mark; // [esp+F4h] [ebp-50h]
+    [[maybe_unused]] __int64 v8; // [esp-8h] [ebp-14Ch]
+    [[maybe_unused]] FxMark *mark; // [esp+F4h] [ebp-50h]
     FxActiveMarkSurf drawSurf; // [esp+F8h] [ebp-4Ch] BYREF
-    uint16_t markHandle; // [esp+10Ch] [ebp-38h]
+    [[maybe_unused]] uint16_t markHandle; // [esp+10Ch] [ebp-38h]
     uint16_t baseVertex; // [esp+110h] [ebp-34h] BYREF
     float transformMatrix[4][3]; // [esp+114h] [ebp-30h] BYREF
 
@@ -1418,9 +1418,9 @@ char __cdecl FX_GenerateMarkVertsForMark_Begin(
     uint16_t *outBaseVertex,
     FxActiveMarkSurf *outDrawSurf)
 {
-    uint32_t newIndexCount; // [esp+18h] [ebp-10h]
-    uint32_t reserveIndexCount; // [esp+1Ch] [ebp-Ch]
-    uint16_t *indices; // [esp+20h] [ebp-8h]
+    [[maybe_unused]] uint32_t newIndexCount; // [esp+18h] [ebp-10h]
+    [[maybe_unused]] uint32_t reserveIndexCount; // [esp+1Ch] [ebp-Ch]
+    [[maybe_unused]] uint16_t *indices; // [esp+20h] [ebp-8h]
     r_double_index_t *doubleIndices; // [esp+24h] [ebp-4h] BYREF
 
     newIndexCount = *indexCount + 3 * mark->triCount;
@@ -1449,10 +1449,10 @@ void __cdecl FX_DrawMarkTris(
     uint16_t *indices,
     FxActiveMarkSurf *outSurf)
 {
-    uint32_t groupHandle; // [esp+Ch] [ebp-10h]
-    int32_t triCount; // [esp+10h] [ebp-Ch]
-    FxTriGroupPool *group; // [esp+14h] [ebp-8h]
-    int32_t triIndex; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] uint32_t groupHandle; // [esp+Ch] [ebp-10h]
+    [[maybe_unused]] int32_t triCount; // [esp+10h] [ebp-Ch]
+    [[maybe_unused]] FxTriGroupPool *group; // [esp+14h] [ebp-8h]
+    [[maybe_unused]] int32_t triIndex; // [esp+18h] [ebp-4h]
 
     iassert(mark);
     groupHandle = mark->tris;
@@ -1497,12 +1497,12 @@ void __cdecl FX_EmitMarkTri(
     uint16_t baseVertex,
     FxActiveMarkSurf *outSurf)
 {
-    r_double_index_t *pIndex; // [esp+10h] [ebp-8h]
-    r_double_index_t *pIndexa; // [esp+10h] [ebp-8h]
-    r_double_index_t *pIndexb; // [esp+10h] [ebp-8h]
-    r_double_index_t index; // [esp+14h] [ebp-4h]
-    r_double_index_t indexa; // [esp+14h] [ebp-4h]
-    r_double_index_t indexb; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] r_double_index_t *pIndex; // [esp+10h] [ebp-8h]
+    [[maybe_unused]] r_double_index_t *pIndexa; // [esp+10h] [ebp-8h]
+    [[maybe_unused]] r_double_index_t *pIndexb; // [esp+10h] [ebp-8h]
+    [[maybe_unused]] r_double_index_t index; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] r_double_index_t indexa; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] r_double_index_t indexb; // [esp+14h] [ebp-4h]
 
     if (memcmp((const char *)&outSurf->context, (const char *)markContext, 6))
     {
@@ -1521,13 +1521,13 @@ void __cdecl FX_EmitMarkTri(
         indexa.value[0] = marksSystem->carryIndex;
         indexa.value[1] = *indices + baseVertex;
         pIndexa = (r_double_index_t *)&outSurf->indices[outSurf->indexCount - 1];
-        if (((uint8_t)pIndexa & 3) != 0)
+        if (((uintptr_t)pIndexa & 3) != 0)
             MyAssertHandler(".\\EffectsCore\\fx_marks.cpp", 1267, 0, "%s", "!((uint)pIndex & 3)");
         *pIndexa = indexa;
         indexb.value[0] = indices[1] + baseVertex;
         indexb.value[1] = indices[2] + baseVertex;
         pIndexb = pIndexa + 1;
-        if (((uint8_t)pIndexb & 3) != 0)
+        if (((uintptr_t)pIndexb & 3) != 0)
             MyAssertHandler(".\\EffectsCore\\fx_marks.cpp", 1274, 0, "%s", "!((uint)pIndex & 3)");
         *pIndexb = indexb;
         marksSystem->hasCarryIndex = 0;
@@ -1537,7 +1537,7 @@ void __cdecl FX_EmitMarkTri(
         index.value[0] = *indices + baseVertex;
         index.value[1] = indices[1] + baseVertex;
         pIndex = (r_double_index_t *)&outSurf->indices[outSurf->indexCount];
-        if (((uint8_t)pIndex & 3) != 0)
+        if (((uintptr_t)pIndex & 3) != 0)
             MyAssertHandler(".\\EffectsCore\\fx_marks.cpp", 1255, 0, "%s", "!((uint)pIndex & 3)");
         *pIndex = index;
         marksSystem->hasCarryIndex = 1;
@@ -1595,26 +1595,26 @@ void __cdecl FX_ExpandMarkVerts_Transform_GfxWorldVertex_(
 {
     double v4; // st7
     double v5; // st7
-    int32_t v6; // [esp+50h] [ebp-C0h]
-    PackedUnitVec v7; // [esp+54h] [ebp-BCh]
-    PackedUnitVec v8; // [esp+74h] [ebp-9Ch]
-    float *lmapCoord; // [esp+94h] [ebp-7Ch]
-    GfxWorldVertex *castOutVert; // [esp+A8h] [ebp-68h]
-    uint32_t groupHandle; // [esp+ACh] [ebp-64h]
+    [[maybe_unused]] int32_t v6; // [esp+50h] [ebp-C0h]
+    [[maybe_unused]] PackedUnitVec v7; // [esp+54h] [ebp-BCh]
+    [[maybe_unused]] PackedUnitVec v8; // [esp+74h] [ebp-9Ch]
+    [[maybe_unused]] float *lmapCoord; // [esp+94h] [ebp-7Ch]
+    [[maybe_unused]] GfxWorldVertex *castOutVert; // [esp+A8h] [ebp-68h]
+    [[maybe_unused]] uint32_t groupHandle; // [esp+ACh] [ebp-64h]
     float delta[3]; // [esp+B0h] [ebp-60h] BYREF
     float transformedNormal[3]; // [esp+BCh] [ebp-54h] BYREF
-    float texCoordScale; // [esp+C8h] [ebp-48h]
+    [[maybe_unused]] float texCoordScale; // [esp+C8h] [ebp-48h]
     float binormal[3]; // [esp+CCh] [ebp-44h] BYREF
-    const FxMarkPoint *markPoint; // [esp+D8h] [ebp-38h]
-    GfxWorldVertex *verts; // [esp+DCh] [ebp-34h]
+    [[maybe_unused]] const FxMarkPoint *markPoint; // [esp+D8h] [ebp-38h]
+    [[maybe_unused]] GfxWorldVertex *verts; // [esp+DCh] [ebp-34h]
     float transformedDelta[3]; // [esp+E0h] [ebp-30h] BYREF
     //__int64 texCoord; // [esp+ECh] [ebp-24h]
     float texCoord[2];
-    int32_t pointCount; // [esp+F4h] [ebp-1Ch]
-    int32_t loopCount; // [esp+F8h] [ebp-18h]
+    [[maybe_unused]] int32_t pointCount; // [esp+F4h] [ebp-1Ch]
+    [[maybe_unused]] int32_t loopCount; // [esp+F8h] [ebp-18h]
     float transformedTexCoordAxis[3]; // [esp+FCh] [ebp-14h] BYREF
-    const FxPointGroup *group; // [esp+108h] [ebp-8h]
-    GfxWorldVertex *outVert; // [esp+10Ch] [ebp-4h]
+    [[maybe_unused]] const FxPointGroup *group; // [esp+108h] [ebp-8h]
+    [[maybe_unused]] GfxWorldVertex *outVert; // [esp+10Ch] [ebp-4h]
 
     if (!mark)
         MyAssertHandler(".\\EffectsCore\\fx_marks.cpp", 1163, 0, "%s", "mark");
@@ -1706,24 +1706,24 @@ void __cdecl FX_ExpandMarkVerts_Transform_GfxPackedVertex_(
 {
     double v4; // st7
     double v5; // st7
-    int32_t v6; // [esp+50h] [ebp-F0h]
-    PackedUnitVec v7; // [esp+54h] [ebp-ECh]
-    PackedUnitVec v8; // [esp+74h] [ebp-CCh]
-    GfxPackedVertex *castOutVert; // [esp+D8h] [ebp-68h]
-    uint32_t groupHandle; // [esp+DCh] [ebp-64h]
+    [[maybe_unused]] int32_t v6; // [esp+50h] [ebp-F0h]
+    [[maybe_unused]] PackedUnitVec v7; // [esp+54h] [ebp-ECh]
+    [[maybe_unused]] PackedUnitVec v8; // [esp+74h] [ebp-CCh]
+    [[maybe_unused]] GfxPackedVertex *castOutVert; // [esp+D8h] [ebp-68h]
+    [[maybe_unused]] uint32_t groupHandle; // [esp+DCh] [ebp-64h]
     float delta[3]; // [esp+E0h] [ebp-60h] BYREF
     float transformedNormal[3]; // [esp+ECh] [ebp-54h] BYREF
-    float texCoordScale; // [esp+F8h] [ebp-48h]
+    [[maybe_unused]] float texCoordScale; // [esp+F8h] [ebp-48h]
     float binormal[3]; // [esp+FCh] [ebp-44h] BYREF
-    const FxMarkPoint *markPoint; // [esp+108h] [ebp-38h]
-    GfxWorldVertex *verts; // [esp+10Ch] [ebp-34h]
+    [[maybe_unused]] const FxMarkPoint *markPoint; // [esp+108h] [ebp-38h]
+    [[maybe_unused]] GfxWorldVertex *verts; // [esp+10Ch] [ebp-34h]
     float transformedDelta[3]; // [esp+110h] [ebp-30h] BYREF
     float texCoord[2]; // [esp+11Ch] [ebp-24h] BYREF
-    int32_t pointCount; // [esp+124h] [ebp-1Ch]
-    int32_t loopCount; // [esp+128h] [ebp-18h]
+    [[maybe_unused]] int32_t pointCount; // [esp+124h] [ebp-1Ch]
+    [[maybe_unused]] int32_t loopCount; // [esp+128h] [ebp-18h]
     float transformedTexCoordAxis[3]; // [esp+12Ch] [ebp-14h] BYREF
-    const FxPointGroup *group; // [esp+138h] [ebp-8h]
-    GfxWorldVertex *outVert; // [esp+13Ch] [ebp-4h]
+    [[maybe_unused]] const FxPointGroup *group; // [esp+138h] [ebp-8h]
+    [[maybe_unused]] GfxWorldVertex *outVert; // [esp+13Ch] [ebp-4h]
 
     if (!mark)
         MyAssertHandler(".\\EffectsCore\\fx_marks.cpp", 1163, 0, "%s", "mark");
@@ -1803,7 +1803,7 @@ void __cdecl FX_GenerateMarkVertsForMark_FinishAnimated(
     FxActiveMarkSurf *drawSurf,
     const float (*transform)[3])
 {
-    uint32_t type; // [esp+19Ch] [ebp-4h]
+    [[maybe_unused]] uint32_t type; // [esp+19Ch] [ebp-4h]
 
     type = drawSurf->context.modelTypeAndSurf & 0xC0;
     if (type != 128 && type != 192)
@@ -1857,9 +1857,9 @@ void FX_GenerateMarkVertsForMark_MatrixFromPlacement(
     v5.trans[2] = placement->origin[2];
     ConvertQuatToSkelMat(&v5, &v6);
     DObjSkelMatToMatrix43(&v6, outTransform);
-    (*outTransform)[9] = (*outTransform)[9] + *viewOffset;
-    (*outTransform)[10] = (*outTransform)[10] + viewOffset[1];
-    (*outTransform)[11] = (*outTransform)[11] + viewOffset[2];
+    reinterpret_cast<float *>(outTransform)[9] = reinterpret_cast<float *>(outTransform)[9] + *viewOffset;
+    reinterpret_cast<float *>(outTransform)[10] = reinterpret_cast<float *>(outTransform)[10] + viewOffset[1];
+    reinterpret_cast<float *>(outTransform)[11] = reinterpret_cast<float *>(outTransform)[11] + viewOffset[2];
 }
 
 void __cdecl FX_GenerateMarkVertsForEntDObj(
@@ -1871,11 +1871,11 @@ void __cdecl FX_GenerateMarkVertsForEntDObj(
     const DObj_s *dobj,
     const cpose_t *pose)
 {
-    FxSystem *camera; // [esp+94h] [ebp-20h]
+    [[maybe_unused]] FxSystem *camera; // [esp+94h] [ebp-20h]
     uint32_t hidePartBits[4]; // [esp+98h] [ebp-1Ch] BYREF
-    FxSystem *system; // [esp+A8h] [ebp-Ch]
+    [[maybe_unused]] FxSystem *system; // [esp+A8h] [ebp-Ch]
     const DObjAnimMat *boneMtxList; // [esp+ACh] [ebp-8h] BYREF
-    uint16_t entMarkListHead; // [esp+B0h] [ebp-4h]
+    [[maybe_unused]] uint16_t entMarkListHead; // [esp+B0h] [ebp-4h]
 
     if (!dobj)
         MyAssertHandler(".\\EffectsCore\\fx_marks.cpp", 1679, 0, "%s", "dobj");
@@ -1918,12 +1918,12 @@ char __cdecl FX_GenerateMarkVertsForList_EntDObj(
     const DObj_s *dobj,
     const DObjAnimMat *boneMtxList)
 {
-    FxMark *mark; // [esp+214h] [ebp-50h]
+    [[maybe_unused]] FxMark *mark; // [esp+214h] [ebp-50h]
     FxActiveMarkSurf drawSurf; // [esp+218h] [ebp-4Ch] BYREF
-    uint16_t markHandle; // [esp+22Ch] [ebp-38h]
+    [[maybe_unused]] uint16_t markHandle; // [esp+22Ch] [ebp-38h]
     uint16_t baseVertex; // [esp+230h] [ebp-34h] BYREF
     float transformMatrix[4][3]; // [esp+234h] [ebp-30h] BYREF
-    int32_t savedregs; // [esp+264h] [ebp+0h] BYREF
+    [[maybe_unused]] int32_t savedregs; // [esp+264h] [ebp+0h] BYREF
 
     for (markHandle = head; markHandle != 0xFFFF; markHandle = mark->nextMark)
     {
@@ -2025,8 +2025,8 @@ void __cdecl FX_GenerateMarkVertsForEntBrush(
     uint8_t reflectionProbeIndex,
     const GfxPlacement *placement)
 {
-    FxSystem *camera; // [esp+164h] [ebp-Ch]
-    uint16_t entMarkListHead; // [esp+16Ch] [ebp-4h]
+    [[maybe_unused]] FxSystem *camera; // [esp+164h] [ebp-Ch]
+    [[maybe_unused]] uint16_t entMarkListHead; // [esp+16Ch] [ebp-4h]
 
     if (!placement)
         MyAssertHandler(".\\EffectsCore\\fx_marks.cpp", 1707, 0, "%s", "placement");
@@ -2061,12 +2061,12 @@ char __cdecl FX_GenerateMarkVertsForList_EntBrush(
     const GfxPlacement *placement,
     uint8_t reflectionProbeIndex)
 {
-    FxMark *mark; // [esp+F4h] [ebp-50h]
+    [[maybe_unused]] FxMark *mark; // [esp+F4h] [ebp-50h]
     FxActiveMarkSurf drawSurf; // [esp+F8h] [ebp-4Ch] BYREF
-    uint16_t markHandle; // [esp+10Ch] [ebp-38h]
+    [[maybe_unused]] uint16_t markHandle; // [esp+10Ch] [ebp-38h]
     uint16_t baseVertex; // [esp+110h] [ebp-34h] BYREF
     float transformMatrix[4][3]; // [esp+114h] [ebp-30h] BYREF
-    int32_t savedregs; // [esp+144h] [ebp+0h] BYREF
+    [[maybe_unused]] int32_t savedregs; // [esp+144h] [ebp+0h] BYREF
 
     FX_GenerateMarkVertsForMark_MatrixFromPlacement(placement, vec3_origin, (float(*)[3])transformMatrix);
     for (markHandle = head; markHandle != 0xFFFF; markHandle = mark->nextMark)
@@ -2123,11 +2123,11 @@ void __cdecl FX_GenerateMarkVertsForStaticModels(
     const uint8_t *smodelVisLods)
 {
     uint16_t v3; // ax
-    FxMark *mark; // [esp+64h] [ebp-14h]
-    FxSystem *camera; // [esp+68h] [ebp-10h]
+    [[maybe_unused]] FxMark *mark; // [esp+64h] [ebp-14h]
+    [[maybe_unused]] FxSystem *camera; // [esp+68h] [ebp-10h]
     uint32_t indexCount; // [esp+6Ch] [ebp-Ch] BYREF
-    FxSystem *system; // [esp+70h] [ebp-8h]
-    FxMark *markEnd; // [esp+74h] [ebp-4h]
+    [[maybe_unused]] FxSystem *system; // [esp+70h] [ebp-8h]
+    [[maybe_unused]] FxMark *markEnd; // [esp+74h] [ebp-4h]
 
     if (!fx_marks->current.enabled || !fx_marks_smodels->current.enabled)
         MyAssertHandler(
@@ -2187,21 +2187,21 @@ void __cdecl FX_ExpandMarkVerts_NoTransform_GfxPackedVertex_(
 {
     double v3; // st7
     double v4; // st7
-    int32_t v5; // [esp+50h] [ebp-D4h]
-    PackedUnitVec v6; // [esp+58h] [ebp-CCh]
-    PackedUnitVec v7; // [esp+7Ch] [ebp-A8h]
-    GfxPackedVertex *castOutVert; // [esp+E0h] [ebp-44h]
-    uint32_t groupHandle; // [esp+E4h] [ebp-40h]
+    [[maybe_unused]] int32_t v5; // [esp+50h] [ebp-D4h]
+    [[maybe_unused]] PackedUnitVec v6; // [esp+58h] [ebp-CCh]
+    [[maybe_unused]] PackedUnitVec v7; // [esp+7Ch] [ebp-A8h]
+    [[maybe_unused]] GfxPackedVertex *castOutVert; // [esp+E0h] [ebp-44h]
+    [[maybe_unused]] uint32_t groupHandle; // [esp+E4h] [ebp-40h]
     float delta[3]; // [esp+E8h] [ebp-3Ch] BYREF
-    float texCoordScale; // [esp+F4h] [ebp-30h]
+    [[maybe_unused]] float texCoordScale; // [esp+F4h] [ebp-30h]
     float binormal[3]; // [esp+F8h] [ebp-2Ch] BYREF
-    const FxMarkPoint *markPoint; // [esp+104h] [ebp-20h]
-    GfxWorldVertex *verts; // [esp+108h] [ebp-1Ch]
+    [[maybe_unused]] const FxMarkPoint *markPoint; // [esp+104h] [ebp-20h]
+    [[maybe_unused]] GfxWorldVertex *verts; // [esp+108h] [ebp-1Ch]
     float texCoord[2]; // [esp+10Ch] [ebp-18h] BYREF
-    int32_t pointCount; // [esp+114h] [ebp-10h]
-    int32_t loopCount; // [esp+118h] [ebp-Ch]
-    const FxPointGroup *group; // [esp+11Ch] [ebp-8h]
-    GfxWorldVertex *outVert; // [esp+120h] [ebp-4h]
+    [[maybe_unused]] int32_t pointCount; // [esp+114h] [ebp-10h]
+    [[maybe_unused]] int32_t loopCount; // [esp+118h] [ebp-Ch]
+    [[maybe_unused]] const FxPointGroup *group; // [esp+11Ch] [ebp-8h]
+    [[maybe_unused]] GfxWorldVertex *outVert; // [esp+120h] [ebp-4h]
 
     if (!mark)
         MyAssertHandler(".\\EffectsCore\\fx_marks.cpp", 1082, 0, "%s", "mark");
@@ -2279,9 +2279,9 @@ char __cdecl FX_GenerateMarkVertsForList_WorldXModel(
     const FxCamera *camera,
     uint32_t *indexCount)
 {
-    FxMark *mark; // [esp+B0h] [ebp-20h]
+    [[maybe_unused]] FxMark *mark; // [esp+B0h] [ebp-20h]
     FxActiveMarkSurf drawSurf; // [esp+B4h] [ebp-1Ch] BYREF
-    uint16_t markHandle; // [esp+C8h] [ebp-8h]
+    [[maybe_unused]] uint16_t markHandle; // [esp+C8h] [ebp-8h]
     uint16_t baseVertex; // [esp+CCh] [ebp-4h] BYREF
 
     for (markHandle = head; markHandle != 0xFFFF; markHandle = mark->nextMark)
@@ -2301,22 +2301,22 @@ void __cdecl FX_ExpandMarkVerts_NoTransform_GfxWorldVertex_(
 {
     double v3; // st7
     double v4; // st7
-    int32_t v5; // [esp+50h] [ebp-A4h]
-    PackedUnitVec v6; // [esp+58h] [ebp-9Ch]
-    PackedUnitVec v7; // [esp+7Ch] [ebp-78h]
-    float *lmapCoord; // [esp+9Ch] [ebp-58h]
-    GfxWorldVertex *castOutVert; // [esp+B0h] [ebp-44h]
-    uint32_t groupHandle; // [esp+B4h] [ebp-40h]
+    [[maybe_unused]] int32_t v5; // [esp+50h] [ebp-A4h]
+    [[maybe_unused]] PackedUnitVec v6; // [esp+58h] [ebp-9Ch]
+    [[maybe_unused]] PackedUnitVec v7; // [esp+7Ch] [ebp-78h]
+    [[maybe_unused]] float *lmapCoord; // [esp+9Ch] [ebp-58h]
+    [[maybe_unused]] GfxWorldVertex *castOutVert; // [esp+B0h] [ebp-44h]
+    [[maybe_unused]] uint32_t groupHandle; // [esp+B4h] [ebp-40h]
     float delta[3]; // [esp+B8h] [ebp-3Ch] BYREF
-    float texCoordScale; // [esp+C4h] [ebp-30h]
+    [[maybe_unused]] float texCoordScale; // [esp+C4h] [ebp-30h]
     float binormal[3]; // [esp+C8h] [ebp-2Ch] BYREF
-    const FxMarkPoint *markPoint; // [esp+D4h] [ebp-20h]
-    GfxWorldVertex *verts; // [esp+D8h] [ebp-1Ch]
-    __int64 texCoord; // [esp+DCh] [ebp-18h]
-    int32_t pointCount; // [esp+E4h] [ebp-10h]
-    int32_t loopCount; // [esp+E8h] [ebp-Ch]
-    const FxPointGroup *group; // [esp+ECh] [ebp-8h]
-    GfxWorldVertex *outVert; // [esp+F0h] [ebp-4h]
+    [[maybe_unused]] const FxMarkPoint *markPoint; // [esp+D4h] [ebp-20h]
+    [[maybe_unused]] GfxWorldVertex *verts; // [esp+D8h] [ebp-1Ch]
+    [[maybe_unused]] __int64 texCoord; // [esp+DCh] [ebp-18h]
+    [[maybe_unused]] int32_t pointCount; // [esp+E4h] [ebp-10h]
+    [[maybe_unused]] int32_t loopCount; // [esp+E8h] [ebp-Ch]
+    [[maybe_unused]] const FxPointGroup *group; // [esp+ECh] [ebp-8h]
+    [[maybe_unused]] GfxWorldVertex *outVert; // [esp+F0h] [ebp-4h]
 
     if (!mark)
         MyAssertHandler(".\\EffectsCore\\fx_marks.cpp", 1082, 0, "%s", "mark");
@@ -2396,7 +2396,7 @@ void __cdecl FX_GenerateMarkVertsForMark_FinishNonAnimated(
     uint16_t baseVertex,
     FxActiveMarkSurf *drawSurf)
 {
-    uint32_t type; // [esp+168h] [ebp-4h]
+    [[maybe_unused]] uint32_t type; // [esp+168h] [ebp-4h]
 
     type = drawSurf->context.modelTypeAndSurf & 0xC0;
     if ((drawSurf->context.modelTypeAndSurf & 0xC0) != 0 && type != 64)
@@ -2439,7 +2439,7 @@ void __cdecl FX_GenerateMarkVertsForWorld(int32_t localClientNum)
                 "(clientIndex == 0)",
                 localClientNum);
         System = FX_GetSystem(localClientNum);
-        indexCount[1] = (uint32_t)System;
+        indexCount[1] = (uint32_t)(uintptr_t)System;
         fx_marksSystemPool[0].hasCarryIndex = 0;
         indexCount[0] = 0;
         FX_GenerateMarkVertsForList_WorldBrush(
@@ -2465,9 +2465,9 @@ char __cdecl FX_GenerateMarkVertsForList_WorldBrush(
     const FxCamera *camera,
     uint32_t *indexCount)
 {
-    FxMark *mark; // [esp+B4h] [ebp-20h]
+    [[maybe_unused]] FxMark *mark; // [esp+B4h] [ebp-20h]
     FxActiveMarkSurf drawSurf; // [esp+B8h] [ebp-1Ch] BYREF
-    uint16_t markHandle; // [esp+CCh] [ebp-8h]
+    [[maybe_unused]] uint16_t markHandle; // [esp+CCh] [ebp-8h]
     uint16_t baseVertex; // [esp+D0h] [ebp-4h] BYREF
 
     for (markHandle = head; markHandle != 0xFFFF; markHandle = mark->nextMark)
