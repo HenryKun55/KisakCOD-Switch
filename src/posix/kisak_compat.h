@@ -512,6 +512,14 @@ struct _D3DLOCKED_BOX {
     int SlicePitch;
     void *pBits;
 };
+struct _D3DVERTEXELEMENT9 {
+    unsigned short Stream;
+    unsigned short Offset;
+    unsigned char Type;
+    unsigned char Method;
+    unsigned char Usage;
+    unsigned char UsageIndex;
+};
 struct _D3DSURFACE_DESC {
     int Format;
     int Type;

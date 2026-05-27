@@ -316,9 +316,9 @@ void __cdecl Load_CreateMaterialVertexShader(GfxVertexShaderLoadDef *loadDef, Ma
 
 void __cdecl AssertValidVertexDeclOffsets(const stream_source_info_t *streamTable)
 {
-    int thisIndex; // [esp+0h] [ebp-10h]
-    unsigned int stream; // [esp+4h] [ebp-Ch]
-    int lastIndex[2]; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] int thisIndex; // [esp+0h] [ebp-10h]
+    [[maybe_unused]] unsigned int stream; // [esp+4h] [ebp-Ch]
+    [[maybe_unused]] int lastIndex[2]; // [esp+8h] [ebp-8h]
 
     lastIndex[0] = -1;
     lastIndex[1] = -1;
@@ -352,7 +352,7 @@ void __cdecl Load_BuildVertexDecl(MaterialVertexDeclaration **mtlVertDecl)
 {
     IDirect3DVertexDeclaration9 *v1; // eax
     MaterialStreamRouting data[16]; // [esp+8h] [ebp-28h] BYREF
-    int vertDeclType; // [esp+2Ch] [ebp-4h]
+    [[maybe_unused]] int vertDeclType; // [esp+2Ch] [ebp-4h]
 
     memcpy(data, &(*mtlVertDecl)->routing, sizeof(data));
     for (vertDeclType = 0; vertDeclType < 16; ++vertDeclType)
@@ -375,17 +375,17 @@ IDirect3DVertexDeclaration9 *__cdecl Material_BuildVertexDecl(
     int streamCount,
     const stream_source_info_t *sourceTable)
 {
-    int hr; // [esp+0h] [ebp-824h]
-    int elemIndexInsert; // [esp+4h] [ebp-820h]
-    const stream_source_info_t *sourceInfo; // [esp+8h] [ebp-81Ch]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-824h]
+    [[maybe_unused]] int elemIndexInsert; // [esp+4h] [ebp-820h]
+    [[maybe_unused]] const stream_source_info_t *sourceInfo; // [esp+8h] [ebp-81Ch]
     _D3DVERTEXELEMENT9 elemTable[256]; // [esp+14h] [ebp-810h] BYREF
     IDirect3DVertexDeclaration9 *decl; // [esp+818h] [ebp-Ch] BYREF
-    const stream_dest_info_t *destInfo; // [esp+81Ch] [ebp-8h]
-    int elemIndex; // [esp+820h] [ebp-4h]
+    [[maybe_unused]] const stream_dest_info_t *destInfo; // [esp+81Ch] [ebp-8h]
+    [[maybe_unused]] int elemIndex; // [esp+820h] [ebp-4h]
 
     decl = NULL;
 
-    _D3DVERTEXELEMENT9 declEnd; // [esp+Ch] [ebp-818h]
+    [[maybe_unused]] _D3DVERTEXELEMENT9 declEnd; // [esp+Ch] [ebp-818h]
     declEnd.Stream = 255;
     declEnd.Offset = 0;
     declEnd.Type = 17;
@@ -464,7 +464,7 @@ MaterialTechniqueSet *__cdecl Material_FindTechniqueSet_FastFile(
     const char *name,
     MtlTechSetNotFoundBehavior notFoundBehavior)
 {
-    XAssetHeader header; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] XAssetHeader header; // [esp+4h] [ebp-4h]
 
     header.xmodelPieces = DB_FindXAssetHeader(ASSET_TYPE_TECHNIQUE_SET, name).xmodelPieces;
     if (notFoundBehavior || !DB_IsXAssetDefault(ASSET_TYPE_TECHNIQUE_SET, name))
@@ -496,7 +496,7 @@ Material *__cdecl Material_Register_FastFile(const char *name)
 
 void __cdecl Material_GetHashIndex(const char *name, unsigned __int16 *hashIndex, bool *exists)
 {
-    unsigned __int16 beginHashIndex; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] unsigned __int16 beginHashIndex; // [esp+14h] [ebp-4h]
 
     iassert( name );
     iassert( hashIndex );
@@ -532,8 +532,8 @@ Material *__cdecl Material_MakeDefault(char *name)
 
 void __cdecl Material_Add(Material *material, unsigned __int16 hashIndex)
 {
-    unsigned __int64 v2; // rax
-    unsigned int v3; // ecx
+    [[maybe_unused]] unsigned __int64 v2; // rax
+    [[maybe_unused]] unsigned int v3; // ecx
 
     iassert(material);
     rgp.needSortMaterials = 1;
@@ -555,7 +555,7 @@ void __cdecl Material_Add(Material *material, unsigned __int16 hashIndex)
 
 Material *__cdecl Material_Register_LoadObj(char *name, int imageTrack)
 {
-    Material *material; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] Material *material; // [esp+0h] [ebp-Ch]
     bool exists; // [esp+7h] [ebp-5h] BYREF
     unsigned __int16 hashIndex; // [esp+8h] [ebp-4h] BYREF
 
@@ -603,14 +603,14 @@ bool __cdecl R_MaterialCompare(const MaterialMemory &material0, const MaterialMe
 }
 void __cdecl R_MaterialList_f()
 {
-    const char *fmt; // [esp+8h] [ebp-4150h]
-    unsigned int i; // [esp+138h] [ebp-4020h]
-    Material *material; // [esp+13Ch] [ebp-401Ch]
-    int v3; // [esp+140h] [ebp-4018h]
-    MaterialMemory *v4; // [esp+144h] [ebp-4014h]
+    [[maybe_unused]] const char *fmt; // [esp+8h] [ebp-4150h]
+    [[maybe_unused]] unsigned int i; // [esp+138h] [ebp-4020h]
+    [[maybe_unused]] Material *material; // [esp+13Ch] [ebp-401Ch]
+    [[maybe_unused]] int v3; // [esp+140h] [ebp-4018h]
+    [[maybe_unused]] MaterialMemory *v4; // [esp+144h] [ebp-4014h]
     unsigned int inData; // [esp+148h] [ebp-4010h] BYREF
     MaterialMemory v6[2049]; // [esp+14Ch] [ebp-400Ch] BYREF
-    float v7; // [esp+4154h] [ebp-4h]
+    [[maybe_unused]] float v7; // [esp+4154h] [ebp-4h]
 
     v3 = 0;
     Com_Printf(8, "-----------------------\n");
@@ -645,8 +645,8 @@ void __cdecl R_MaterialList_f()
 
 void __cdecl R_GetMaterialList(XAssetHeader header, char *data)
 {
-    int memory; // [esp+0h] [ebp-Ch]
-    XAssetHeader *materialMemory; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] int memory; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] XAssetHeader *materialMemory; // [esp+4h] [ebp-8h]
 
     memory = R_GetMaterialMemory(header.material);
     if (memory)
@@ -654,14 +654,14 @@ void __cdecl R_GetMaterialList(XAssetHeader header, char *data)
         //iassert( materialList->count < ARRAY_COUNT( materialList->sorted ) ); // KISAKTODO
         materialMemory = (XAssetHeader *)&data[8 * *(unsigned int *)data + 4];
         materialMemory->xmodelPieces = header.xmodelPieces;
-        materialMemory[1].xmodelPieces = (XModelPieces *)memory;
+        materialMemory[1].xmodelPieces = (XModelPieces *)(uintptr_t)memory;
         ++*(unsigned int *)data;
     }
 }
 
 int __cdecl R_GetMaterialMemory(Material *material)
 {
-    int i; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+0h] [ebp-4h]
 
     if (!rgp.world)
         return 0;
@@ -681,10 +681,10 @@ const char *__cdecl Material_GetName(Material *handle)
 
 void __cdecl Material_ReleasePassResources(MaterialPass *pass)
 {
-    IDirect3DSurface9 *v1; // [esp+0h] [ebp-10h]
-    IDirect3DSurface9 *var; // [esp+4h] [ebp-Ch]
-    IDirect3DPixelShader9 *varCopy; // [esp+8h] [ebp-8h]
-    int declIndex; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] IDirect3DSurface9 *v1; // [esp+0h] [ebp-10h]
+    [[maybe_unused]] IDirect3DSurface9 *var; // [esp+4h] [ebp-Ch]
+    [[maybe_unused]] IDirect3DPixelShader9 *varCopy; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] int declIndex; // [esp+Ch] [ebp-4h]
 
     iassert( pass->pixelShader );
     if (pass->pixelShader->prog.ps)
@@ -744,9 +744,9 @@ void __cdecl Material_ReleasePassResources(MaterialPass *pass)
 
 void __cdecl Material_ReleaseTechniqueSetResources(MaterialTechniqueSet *techniqueSet)
 {
-    MaterialTechnique *technique; // [esp+10h] [ebp-Ch]
-    int techType; // [esp+14h] [ebp-8h]
-    int passIndex; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] MaterialTechnique *technique; // [esp+10h] [ebp-Ch]
+    [[maybe_unused]] int techType; // [esp+14h] [ebp-8h]
+    [[maybe_unused]] int passIndex; // [esp+18h] [ebp-4h]
 
     for (techType = 0; techType < 34; ++techType)
     {
@@ -777,9 +777,9 @@ void __cdecl Material_ReloadPassResources(MaterialPass *pass)
 
 void __cdecl Material_ReloadTechniqueSetResources(MaterialTechniqueSet *techniqueSet)
 {
-    MaterialTechnique *technique; // [esp+0h] [ebp-Ch]
-    int techType; // [esp+4h] [ebp-8h]
-    int passIndex; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] MaterialTechnique *technique; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] int techType; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] int passIndex; // [esp+8h] [ebp-4h]
 
     for (techType = 0; techType < 34; ++techType)
     {
@@ -842,7 +842,7 @@ void __cdecl Material_Shutdown()
 
 void __cdecl Material_LoadBuiltIn(const BuiltInMaterialTable *mtlTable, int mtlTableCount)
 {
-    int builtInMtlIndex; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int builtInMtlIndex; // [esp+0h] [ebp-4h]
 
     for (builtInMtlIndex = 0; builtInMtlIndex < mtlTableCount; ++builtInMtlIndex)
     {
@@ -892,7 +892,7 @@ void __cdecl Material_UpdatePicmipForTexdef(const MaterialTextureDef *texdef)
 
 void __cdecl Material_UpdatePicmipSingle(XAssetHeader header)
 {
-    int textureIndex; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int textureIndex; // [esp+4h] [ebp-4h]
 
     for (textureIndex = 0; textureIndex < BYTE2(header.xmodelPieces[4].pieces); ++textureIndex)
         Material_UpdatePicmipForTexdef((MaterialTextureDef*)header.xmodelPieces[5].pieces + textureIndex);
@@ -907,7 +907,7 @@ void __cdecl Material_UpdatePicmipAll()
 
 Material *__cdecl Material_Find(const char *name)
 {
-    Material *material; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] Material *material; // [esp+0h] [ebp-Ch]
     unsigned __int16 hashIndex[3]; // [esp+4h] [ebp-8h] BYREF
     bool exists; // [esp+Bh] [ebp-1h] BYREF
 
@@ -921,12 +921,12 @@ Material *__cdecl Material_Find(const char *name)
 
 void __cdecl Material_ReloadTextures(const Material *material)
 {
-    GfxImage *image; // [esp+0h] [ebp-18h]
-    GfxImage *maxConvert; // [esp+4h] [ebp-14h]
-    GfxImage *lastConverted; // [esp+8h] [ebp-10h]
-    int textureIter; // [esp+Ch] [ebp-Ch]
-    int textureCount; // [esp+10h] [ebp-8h]
-    const MaterialTextureDef *texture; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] GfxImage *image; // [esp+0h] [ebp-18h]
+    [[maybe_unused]] GfxImage *maxConvert; // [esp+4h] [ebp-14h]
+    [[maybe_unused]] GfxImage *lastConverted; // [esp+8h] [ebp-10h]
+    [[maybe_unused]] int textureIter; // [esp+Ch] [ebp-Ch]
+    [[maybe_unused]] int textureCount; // [esp+10h] [ebp-8h]
+    [[maybe_unused]] const MaterialTextureDef *texture; // [esp+14h] [ebp-4h]
 
     iassert( material );
     textureCount = material->textureCount;
@@ -954,8 +954,8 @@ void __cdecl Material_ReloadTextures(const Material *material)
 void __cdecl R_Cmd_ReloadMaterialTextures()
 {
     char *v0; // eax
-    Material *material; // [esp+0h] [ebp-8h]
-    const char *name; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] Material *material; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] const char *name; // [esp+4h] [ebp-4h]
 
     if (Cmd_Argc() == 2)
     {

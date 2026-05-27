@@ -185,8 +185,7 @@ set(GFX_PORTABLE_SOURCES
     # after 32→64-bit BSP slot widening.
     "${SRC_DIR}/gfx_d3d/r_add_staticmodel.cpp"
     "${SRC_DIR}/gfx_d3d/r_marks.cpp"
-    # r_material.cpp pulls IDirect3DDevice9 / _D3DVERTEXELEMENT9 D3D9
-    # types. Land behind graphics abstraction.
+    "${SRC_DIR}/gfx_d3d/r_material.cpp"
     # r_model_lighting.cpp pulls IDirect3DVolumeTexture9 / _D3DLOCKED_BOX
     # / _D3DBOX. Land behind graphics abstraction.
     "${SRC_DIR}/gfx_d3d/r_model_lighting.cpp"

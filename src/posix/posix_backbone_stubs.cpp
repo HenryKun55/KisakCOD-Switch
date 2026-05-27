@@ -512,7 +512,7 @@ void TRACK_phys() {}
 // void TRACK_r_image_wavelet() {}  // provided by r_image_wavelet.cpp now
 // TRACK_r_image provided by src/gfx_d3d/r_image.cpp now.
 void TRACK_r_init() {}
-void TRACK_r_material() {}
+// TRACK_r_material provided by src/gfx_d3d/r_material.cpp now.
 // void TRACK_r_model() {}
 void TRACK_r_rendercmds() {}
 void TRACK_r_scene() {}
@@ -642,7 +642,7 @@ struct trDebugString_t;
 // GScr_GetStatusIconIndex provided by src/game_mp/g_scr_main_mp.cpp now.
 // int  I_stricmpwild(const char *s0, const char *s1) { return strcasecmp(s0 ? s0 : "", s1 ? s1 : ""); }  // provided by q_shared.cpp now
 // IN_IsTalkKeyHeld provided by src/client_mp/cl_input.cpp now.
-bool Material_IsDefault(const Material * /*material*/) { return true; }
+// Material_IsDefault provided by src/gfx_d3d/r_material.cpp now.
 // bool NET_OutOfBandVoiceData(netsrc_t /*sock*/, netadr_t /*adr*/, unsigned char * /*data*/, unsigned int /*len*/) { return false; }  // provided by net_chan_mp.cpp now
 // bool Netchan_Transmit(netchan_t * /*chan*/, int /*length*/, char * /*data*/) { return false; }  // provided by net_chan_mp.cpp now
 // bool Netchan_TransmitNextFragment(netchan_t * /*chan*/) { return false; }  // provided by net_chan_mp.cpp now
@@ -1619,7 +1619,7 @@ const dvar_t *vid_ypos;
 
 // r_dvars satellite hooks (r_init.cpp's registration routines).
 // void R_RegisterSunDvars() {}  // provided by r_sky.cpp now
-void Material_PreventOverrideTechniqueGeneration() {}
+// Material_PreventOverrideTechniqueGeneration provided by src/gfx_d3d/r_material.cpp now.
 
 // r_dobj_skin satellite hooks.
 enum WorkerCmdType : int;
@@ -1663,7 +1663,7 @@ struct GfxImageFileHeader;
 // Image_ValidateHeader provided by src/gfx_d3d/r_image.cpp now.
 struct WaveletDecode;
 // void Wavelet_DecompressLevel(unsigned char * /*dst*/, unsigned char * /*src*/, WaveletDecode * /*ctx*/) {}  // provided by r_image_wavelet.cpp now
-unsigned char *Material_Alloc(unsigned int /*size*/) { return nullptr; }
+// Material_Alloc provided by src/gfx_d3d/r_material.cpp now.
 void Image_BuildWaterMap(GfxImage * /*img*/) {}
 // Image_UploadData provided by src/gfx_d3d/r_image.cpp now.
 unsigned int Image_CubemapFace(unsigned int /*faceIndex*/) { return 0; }
@@ -1807,6 +1807,12 @@ bool Scr_IgnoreErrors() { return false; }
 GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
+
+// r_material satellite stubs.
+Material *Material_Load(char * /*name*/, int /*track*/) { return nullptr; }
+void Material_FreeAll() {}
+void Material_PreLoadAllShaderText() {}
+MaterialTechniqueSet *Material_FindTechniqueSet_LoadObj(const char * /*name*/, MtlTechSetNotFoundBehavior /*b*/) { return nullptr; }
 
 // r_state_utils satellite stubs.
 void R_SetCodeConstant(GfxCmdBufSourceState * /*src*/, CodeConstant /*c*/, float, float, float, float) {}
@@ -1973,9 +1979,9 @@ int g_disableRendering = 0;
 #include <gfx_d3d/rb_uploadshaders.h>
 MaterialGlobals materialGlobals{};
 // mtlUploadGlob provided by src/gfx_d3d/rb_uploadshaders.cpp now.
-MaterialTechniqueSet *Material_FindTechniqueSet(const char * /*name*/, MtlTechSetNotFoundBehavior /*b*/) { return nullptr; }
+// Material_FindTechniqueSet provided by src/gfx_d3d/r_material.cpp now.
 struct TechniqueSetList;
-void Material_CollateTechniqueSets(XAssetHeader /*h*/, TechniqueSetList * /*l*/) {}
+// Material_CollateTechniqueSets provided by src/gfx_d3d/r_material.cpp now.
 
 // rb_light / rb_postfx / rb_shadowcookie satellite stubs.
 #include <gfx_d3d/r_utils.h>
@@ -3121,7 +3127,7 @@ const char *Sys_GetClipboardData() { return nullptr; }
 
 // === cl_console satellites =========================================================
 
-bool IsValidMaterialHandle(Material *m) { return m != nullptr; }
+// IsValidMaterialHandle provided by src/gfx_d3d/r_material.cpp now.
 void R_AddCmdDrawConsoleText(char *, int, int, int, Font_s *, float, float, float, float, const float *, int) {}
 void R_AddCmdDrawConsoleTextPulseFX(char *, int, int, int, Font_s *, float, float, float, float, const float *, int, const float *, int, int, int, int, Material *, Material *) {}
 void R_AddCmdDrawConsoleTextSubtitle(char *, int, int, int, Font_s *, float, float, float, float, const float *, int, const float *) {}
@@ -3182,12 +3188,12 @@ GfxWorld s_world{};
 r_globals_load_t rgl{};
 // DynEntityPose *DynEnt_GetClientModelPoseList() { return nullptr; }
 
-void Material_UpdatePicmipAll() {}
+// Material_UpdatePicmipAll provided by src/gfx_d3d/r_material.cpp now.
 // void R_Cmd_LoadSun() {}  // provided by r_sky.cpp now
-void R_Cmd_ReloadMaterialTextures() {}
+// R_Cmd_ReloadMaterialTextures provided by src/gfx_d3d/r_material.cpp now.
 // void R_Cmd_SaveSun() {}  // provided by r_sky.cpp now
 // R_ImageList_f provided by src/gfx_d3d/r_image.cpp now.
-void R_MaterialList_f() {}
+// R_MaterialList_f provided by src/gfx_d3d/r_material.cpp now.
 // void R_ModelList_f() {}
 enum GfxScreenshotType : int;
 void R_ScreenshotCommand(GfxScreenshotType) {}

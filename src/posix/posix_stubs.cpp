@@ -286,14 +286,7 @@ void Sys_LeaveCriticalSection(int slot)
     pthread_mutex_unlock(&g_crit_mutexes[slot]);
 }
 
-// Material_RegisterHandle: looks up a Material by name. Stub returns
-// nullptr — material system isn't ported. Forward-decl the Material
-// struct so the mangled signature matches.
-struct Material;
-Material *Material_RegisterHandle(const char * /*name*/, int /*imageTrack*/)
-{
-    return nullptr;
-}
+// Material_RegisterHandle provided by src/gfx_d3d/r_material.cpp now.
 
 // cls global is now provided by src/client_mp/cl_main_mp.cpp.
 
