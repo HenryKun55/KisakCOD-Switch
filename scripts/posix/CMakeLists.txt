@@ -168,6 +168,10 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_dvars.cpp"
     "${SRC_DIR}/gfx_d3d/r_add_bsp.cpp"
     "${SRC_DIR}/gfx_d3d/r_add_cmdbuf.cpp"
+    # r_bsp_load_obj.cpp packs pointers into uint32_t slots
+    # (anonymousConfig[0] / GfxPortal *, lmap dstPixel pointer math
+    # via int casts) and has ~30 pointer-truncating sites. Land
+    # after 32→64-bit BSP slot widening.
     "${SRC_DIR}/gfx_d3d/r_add_staticmodel.cpp"
     "${SRC_DIR}/gfx_d3d/r_marks.cpp"
     # r_material.cpp pulls IDirect3DDevice9 / _D3DVERTEXELEMENT9 D3D9
