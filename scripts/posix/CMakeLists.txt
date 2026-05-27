@@ -170,6 +170,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_draw_method.cpp"
     "${SRC_DIR}/gfx_d3d/r_drawsurf.cpp"
     "${SRC_DIR}/gfx_d3d/r_dvars.cpp"
+    "${SRC_DIR}/gfx_d3d/r_buffers.cpp"
     "${SRC_DIR}/gfx_d3d/r_add_bsp.cpp"
     "${SRC_DIR}/gfx_d3d/r_add_cmdbuf.cpp"
     # r_bsp_load_obj.cpp packs pointers into uint32_t slots

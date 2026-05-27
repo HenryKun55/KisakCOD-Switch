@@ -505,7 +505,7 @@ void TRACK_db_registry() {}
 // void TRACK_msg() {}  // provided by sv_msg_write_mp.cpp now
 void TRACK_phys() {}
 // void TRACK_q_shared() {}  // provided by q_shared.cpp now
-void TRACK_r_buffers() {}
+// TRACK_r_buffers provided by src/gfx_d3d/r_buffers.cpp now.
 // void TRACK_r_debug() {}
 void TRACK_r_dpvs() {}
 // void TRACK_r_font() {}
@@ -591,14 +591,8 @@ void R_AddCmdDrawStretchPicRotateXY(float /*x*/, float /*y*/, float /*w*/, float
 void R_AddCmdDrawQuadPic(const float (* /*quad*/)[2], const float * /*color*/, Material * /*material*/) {}
 // int   R_TextHeight(Font_s * /*font*/) { return 0; }
 // int   R_TextWidth(const char * /*text*/, int /*max*/, Font_s * /*font*/) { return 0; }
-void *R_AllocStaticIndexBuffer(IDirect3DIndexBuffer9 ** /*ib*/, int /*size*/) { return nullptr; }
-void *R_AllocStaticVertexBuffer(IDirect3DVertexBuffer9 ** /*vb*/, int /*size*/) { return nullptr; }
-void  R_FinishStaticIndexBuffer(IDirect3DIndexBuffer9 * /*ib*/) {}
-void  R_FinishStaticVertexBuffer(IDirect3DVertexBuffer9 * /*vb*/) {}
-void  R_FreeStaticIndexBuffer(IDirect3DIndexBuffer9 * /*ib*/) {}
-void  R_FreeStaticVertexBuffer(IDirect3DVertexBuffer9 * /*vb*/) {}
-void  R_UnlockIndexBuffer(IDirect3DIndexBuffer9 * /*ib*/) {}
-void  R_UnlockVertexBuffer(IDirect3DVertexBuffer9 * /*vb*/) {}
+// R_AllocStatic*Buffer / R_FinishStatic*Buffer / R_FreeStatic*Buffer /
+// R_Unlock*Buffer provided by src/gfx_d3d/r_buffers.cpp now.
 
 // DB
 void DB_LoadXFileData(unsigned char * /*buffer*/, unsigned int /*size*/) {}
@@ -1644,7 +1638,7 @@ thread_local unsigned char *g_surfaceVisData;
 
 // r_model satellite stubs.
 struct IDirect3DVertexBuffer9;
-void *R_LockVertexBuffer(IDirect3DVertexBuffer9 * /*vb*/, int /*offset*/, int /*size*/, int /*flags*/) { return nullptr; }
+// R_LockVertexBuffer provided by src/gfx_d3d/r_buffers.cpp now.
 // unsigned char *Hunk_AllocXModelPrecache(unsigned int /*size*/) { return nullptr; }
 // unsigned char *Hunk_AllocXModelPrecacheColl(unsigned int /*size*/) { return nullptr; }
 void PMem_DumpMemStats() {}
@@ -1815,6 +1809,13 @@ bool Scr_IgnoreErrors() { return false; }
 GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
+
+// r_buffers satellite stubs.
+#include <gfx_d3d/r_rendercmds.h>
+void R_FatalInitError(const char * /*msg*/) {}
+void R_FatalLockError(long /*hr*/) {}
+void R_InitTempSkinBuf() {}
+GfxBackEndData s_backEndData[2]{};
 
 // rb_pixelcost satellite stubs.
 void R_FinishGpuFence() {}
@@ -3079,13 +3080,13 @@ r_global_permanent_t rgp{};
 // const dvar_t *r_clearColor2 = nullptr;    // provided by r_dvars.cpp now
 // const dvar_t *developer = nullptr;        // provided by r_dvars.cpp now
 #include <gfx_d3d/r_scene.h>
-GfxBuffers gfxBuf{};
+// gfxBuf provided by src/gfx_d3d/r_buffers.cpp now.
 GfxBackEndData *frontEndDataOut = nullptr;
 GfxScene scene{};
 
 struct IDirect3DIndexBuffer9;
 struct GfxReadCmdBuf;
-void *R_LockIndexBuffer(IDirect3DIndexBuffer9 *, int, int, int) { return nullptr; }
+// R_LockIndexBuffer provided by src/gfx_d3d/r_buffers.cpp now.
 int  R_ReadPrimDrawSurfData(GfxReadCmdBuf *, unsigned int) { return 0; }
 int  R_ReadPrimDrawSurfInt(GfxReadCmdBuf *) { return 0; }
 GfxWorld s_world{};

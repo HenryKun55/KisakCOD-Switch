@@ -135,6 +135,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_workercmds.cpp"
     "${SRC_DIR}/gfx_d3d/r_workercmds_common.cpp"
     "${SRC_DIR}/gfx_d3d/r_model.cpp"
+    "${SRC_DIR}/gfx_d3d/r_buffers.cpp"
     "${SRC_DIR}/gfx_d3d/r_add_bsp.cpp"
     "${SRC_DIR}/gfx_d3d/r_add_cmdbuf.cpp"
     "${SRC_DIR}/gfx_d3d/r_add_staticmodel.cpp"

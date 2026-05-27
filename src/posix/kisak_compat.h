@@ -442,8 +442,16 @@ typedef struct _RTL_CRITICAL_SECTION {
 // is replaced by gfx_gl/. We forward-declare the types as opaque structs
 // so headers parse; functions that take them are never called off Windows.
 struct IDirect3D9;
-struct IDirect3DVertexBuffer9;
-struct IDirect3DIndexBuffer9;
+struct IDirect3DVertexBuffer9 {
+    long Lock(unsigned int, unsigned int, void **out, unsigned long) { if (out) *out = nullptr; return 0; }
+    long Unlock() { return 0; }
+    unsigned long Release() { return 0; }
+};
+struct IDirect3DIndexBuffer9 {
+    long Lock(unsigned int, unsigned int, void **out, unsigned long) { if (out) *out = nullptr; return 0; }
+    long Unlock() { return 0; }
+    unsigned long Release() { return 0; }
+};
 struct IDirect3DBaseTexture9;
 struct IDirect3DTexture9;
 struct IDirect3DVolumeTexture9;
@@ -508,6 +516,8 @@ struct IDirect3DDevice9 {
     long SetStreamSource(unsigned int, IDirect3DVertexBuffer9 *, unsigned int, unsigned int) { return 0; }
     long SetTexture(unsigned long, IDirect3DBaseTexture9 *) { return 0; }
     long SetViewport(const void *) { return 0; }
+    long CreateVertexBuffer(unsigned int, unsigned long, unsigned long, unsigned long, IDirect3DVertexBuffer9 **out, void *) { if (out) *out = nullptr; return 0; }
+    long CreateIndexBuffer(unsigned int, unsigned long, int, unsigned long, IDirect3DIndexBuffer9 **out, void *) { if (out) *out = nullptr; return 0; }
 };
 #ifndef D3DRS_SCISSORTESTENABLE
 #define D3DRS_SCISSORTESTENABLE 174
@@ -610,6 +620,12 @@ typedef long HRESULT;
 #endif
 #ifndef D3DFMT_DXT5
 #define D3DFMT_DXT5 ((int)(('5' << 24) | ('T' << 16) | ('X' << 8) | 'D'))
+#endif
+#ifndef D3DFMT_INDEX16
+#define D3DFMT_INDEX16 101
+#endif
+#ifndef D3DFMT_INDEX32
+#define D3DFMT_INDEX32 102
 #endif
 
 #ifndef TRUE
