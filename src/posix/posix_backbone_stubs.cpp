@@ -995,7 +995,7 @@ void R_AddCmdDrawStretchPicRotateST(float /*x*/, float /*y*/, float /*w*/, float
                                     const float * /*color*/, Material * /*material*/) {}
 // void R_ArchiveFogState(MemoryFile * /*memFile*/) {}  // provided by gfx_d3d batch now
 void R_EndRegistration() {}
-void R_LoadWorld(char * /*name*/, int * /*checksum*/, int /*flag*/) {}
+// R_LoadWorld provided by src/gfx_d3d/r_bsp.cpp now.
 void R_RenderScene(const refdef_s * /*refdef*/) {}
 void R_UpdateTeamColors(int /*localClientNum*/, const float * /*color1*/, const float * /*color2*/) {}
 
@@ -1809,6 +1809,18 @@ bool Scr_IgnoreErrors() { return false; }
 GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
+
+// r_bsp satellite stubs.
+#include <gfx_d3d/r_bsp.h>
+GfxWorld *R_LoadWorldInternal(const char * /*name*/) { return nullptr; }
+void R_InterpretSunLightParseParamsIntoLights(SunLightParseParams * /*sp*/, GfxLight * /*l*/) {}
+void DynEntCl_InitFilter() {}
+void R_GenerateShadowMapCasterCells() {}
+void R_FlushStaticModelCache() {}
+void R_ResetModelLighting() {}
+void R_InitStaticModelLighting() {}
+void R_ResetShadowCookies() {}
+void RB_SetBspImages() {}
 
 // r_buffers satellite stubs.
 #include <gfx_d3d/r_rendercmds.h>

@@ -173,6 +173,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_buffers.cpp"
     "${SRC_DIR}/gfx_d3d/r_add_bsp.cpp"
     "${SRC_DIR}/gfx_d3d/r_add_cmdbuf.cpp"
+    "${SRC_DIR}/gfx_d3d/r_bsp.cpp"
     # r_bsp_load_obj.cpp packs pointers into uint32_t slots
     # (anonymousConfig[0] / GfxPortal *, lmap dstPixel pointer math
     # via int casts) and has ~30 pointer-truncating sites. Land
