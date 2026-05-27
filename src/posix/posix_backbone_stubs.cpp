@@ -500,7 +500,7 @@ void TRACK_db_registry() {}
 // void TRACK_dobj_management() {}
 // void TRACK_fx_marks() {}
 // void TRACK_fx_random() {}  // provided by fx_random.cpp now
-void TRACK_fx_system() {}
+// void TRACK_fx_system() {}
 // void TRACK_missile_attractors() {}  // provided by g_missile.cpp now
 // void TRACK_msg() {}  // provided by sv_msg_write_mp.cpp now
 void TRACK_phys() {}
@@ -570,7 +570,7 @@ struct XZoneMemory;
 // CG_DObjGetWorldTagPos provided by src/cgame_mp/cg_ents_mp.cpp now.
 
 // FX visibility
-double FX_GetClientVisibility(int /*localClientNum*/, const float * /*origin*/, const float * /*viewOrigin*/) { return 1.0; }
+// double FX_GetClientVisibility(int /*localClientNum*/, const float * /*origin*/, const float * /*viewOrigin*/) { return 1.0; }
 
 // BG
 // BG_EvaluateTrajectory provided by src/bgame/bg_misc.cpp now.
@@ -1094,8 +1094,8 @@ struct snd_alias_list_t;
 // void DynEntCl_JitterEvent(int /*localClientNum*/, float * /*pos*/, float /*radius*/, float /*amp*/, float /*duration*/, float /*frequency*/) {}
 // void DynEntCl_MeleeEvent(int /*localClientNum*/, int /*entityNum*/) {}
 
-void FX_PlayBoltedEffect(int /*localClientNum*/, const FxEffectDef * /*effect*/, int /*time*/, unsigned int /*entityNum*/, unsigned int /*boneIndex*/) {}
-void FX_PlayOrientedEffect(int /*localClientNum*/, const FxEffectDef * /*effect*/, int /*time*/, const float * /*origin*/, const float (* /*axis*/)[3]) {}
+// void FX_PlayBoltedEffect(int /*localClientNum*/, const FxEffectDef * /*effect*/, int /*time*/, unsigned int /*entityNum*/, unsigned int /*boneIndex*/) {}
+// void FX_PlayOrientedEffect(int /*localClientNum*/, const FxEffectDef * /*effect*/, int /*time*/, const float * /*origin*/, const float (* /*axis*/)[3]) {}
 
 // void Scr_SetString(unsigned short * /*ptr*/, unsigned int /*stringValue*/) {}  // provided by scr_variable/scr_stringlist now
 
@@ -1178,7 +1178,7 @@ void PMem_EndAlloc(const char * /*name*/, unsigned int /*allocType*/) {}
 // `extern const float fx_randomTable[507]` in fx_system.h; the static
 // initializer below mutates through a non-const alias.
 // const float fx_randomTable[507] — provided by fx_random.cpp now.
-int fx_serverVisClient = -1;
+// int fx_serverVisClient = -1;  // provided by fx_system.cpp now
 
 // =========================================================================
 // Ragdoll / DynEntity / DObj / Phys / CG cascade — landed with ragdoll +
@@ -1535,7 +1535,7 @@ DObjAnimMat *CG_DObjCalcPose(const cpose_t *, const DObj_s *, int32_t *) { retur
 // cg_viewZSmoothingTime provided by src/cgame_mp/cg_main_mp.cpp now.
 // === cg_client_side_effects_mp satellites ========================================
 
-FxEffect *FX_SpawnOrientedEffect(int, const FxEffectDef *, int, const float *, const float (*)[3], uint32_t) { return nullptr; }
+// FxEffect *FX_SpawnOrientedEffect(int, const FxEffectDef *, int, const float *, const float (*)[3], uint32_t) { return nullptr; }
 
 // === cg_snapshot_mp satellites ===================================================
 
@@ -1552,7 +1552,7 @@ void   SND_FadeAllSounds(float, int) {}
 // CG_UpdateViewOffset provided by src/cgame_mp/cg_view_mp.cpp now.
 // void   FX_MarkEntDetachAll(int, int) {}
 // CG_ResetPlayerEntity provided by src/cgame_mp/cg_players_mp.cpp now.
-void   FX_ThroughWithEffect(int, FxEffect *) {}
+// void   FX_ThroughWithEffect(int, FxEffect *) {}
 // CG_mg42_PreControllers provided by src/cgame_mp/cg_ents_mp.cpp now.
 // void   CG_UpdateHandViewmodels(int, XModel *) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // CG_Player_PreControllers provided by src/cgame_mp/cg_ents_mp.cpp now.
@@ -1598,17 +1598,16 @@ struct FxEffectDef;
 struct FxMarksSystem;
 struct FxMark;
 struct MemoryFile;
-FxSystem *FX_GetSystem(int /*localClientNum*/) { return nullptr; }
-FxSystemBuffers *FX_GetSystemBuffers(int /*localClientNum*/) { return nullptr; }
-void FX_LinkSystemBuffers(FxSystem * /*system*/, FxSystemBuffers * /*buffers*/) {}
-void FX_RelocateSystem(FxSystem * /*system*/, int /*delta*/) {}
-void FX_RunGarbageCollection(FxSystem * /*system*/) {}
+// FxSystem *FX_GetSystem(int /*localClientNum*/) { return nullptr; }
+// FxSystemBuffers *FX_GetSystemBuffers(int /*localClientNum*/) { return nullptr; }
+// void FX_LinkSystemBuffers(FxSystem * /*system*/, FxSystemBuffers * /*buffers*/) {}
+// void FX_RelocateSystem(FxSystem * /*system*/, int /*delta*/) {}
+// void FX_RunGarbageCollection(FxSystem * /*system*/) {}
 // void FX_BeginIteratingOverEffects_Cooperative(FxSystem * /*system*/) {}  // provided by fx_draw.cpp now
 void FX_ForEachEffectDef(void (* /*cb*/)(const FxEffectDef *, void *), void * /*data*/) {}
 // unsigned short FX_MarkToHandle(FxMarksSystem * /*sys*/, FxMark * /*mark*/) { return 0; }
 // FxMark *FX_MarkFromHandle(FxMarksSystem * /*sys*/, unsigned short /*handle*/) { return nullptr; }
-#include <gfx_d3d/fxprimitives.h>
-FxMarksSystem fx_marksSystemPool[1] = {};
+// FxMarksSystem fx_marksSystemPool[1] = {};  // provided by fx_system.cpp now
 
 dxBody *Phys_ObjLoad(PhysWorld /*w*/, MemoryFile * /*memFile*/) { return nullptr; }
 void Phys_ObjSave(dxBody * /*body*/, MemoryFile * /*memFile*/) {}
@@ -1727,6 +1726,18 @@ void R_AddSpotLightToScene(const float * /*origin*/, const float * /*dir*/, floa
 struct GfxParticleCloud;
 GfxParticleCloud *R_AddParticleCloudToScene(Material * /*material*/) { return nullptr; }
 
+// fx_system satellite stubs.
+struct FxSpatialFrame;
+void FX_BeginLooping(FxSystem * /*system*/, FxEffect * /*effect*/, int /*a*/, int /*b*/, FxSpatialFrame * /*p1*/, FxSpatialFrame * /*p2*/, int /*c*/, int /*d*/) {}
+void FX_StartNewEffect(FxSystem * /*system*/, FxEffect * /*effect*/) {}
+void FX_TriggerOneShot(FxSystem * /*system*/, FxEffect * /*effect*/, int /*a*/, int /*b*/, const FxSpatialFrame * /*frame*/, int /*c*/) {}
+bool FX_GetBoltTemporalBits(int /*a*/, int /*b*/) { return false; }
+void FX_UpdateEffectPartial(FxSystem * /*system*/, FxEffect * /*effect*/, int /*a*/, int /*b*/, float /*c*/, float /*d*/, unsigned short * /*e*/, unsigned short * /*f*/, unsigned short * /*g*/, unsigned short * /*h*/) {}
+char SND_AnyActiveListeners() { return 0; }
+void FX_SpawnAllFutureLooping(FxSystem * /*s*/, FxEffect * /*e*/, int /*a*/, int /*b*/, const FxSpatialFrame * /*p1*/, const FxSpatialFrame * /*p2*/, long double /*c*/, long double /*d*/, long double /*f*/) {}
+void FX_TrailElem_CompressBasis(const float (* /*basis*/)[3], char (* /*out*/)[3]) {}
+void R_GetAverageLightingAtPoint(const float * /*point*/, unsigned char * /*out*/) {}
+
 struct DiskGfxReflectionProbe;
 void R_CreateReflectionRawDataFromCubemapShot(DiskGfxReflectionProbe * /*probe*/, int /*downRes*/) {}
 
@@ -1826,7 +1837,7 @@ void  R_AddDObjToScene(const DObj_s *, const cpose_t *, unsigned int, unsigned i
 // === cg_servercmds_mp satellites =================================================
 
 // void R_SwitchFog(unsigned int, int, int) {}  // provided by gfx_d3d batch now
-void FX_InitSystem(int) {}
+// void FX_InitSystem(int) {}
 void Phys_Shutdown() {}
 void SND_StopMusic(int) {}
 // CG_StartAmbient provided by src/cgame_mp/cg_main_mp.cpp now.
@@ -1836,8 +1847,8 @@ void SND_StopMusic(int) {}
 // void CG_SetupWeaponDef(int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // CL_ParseMapCenter provided by src/client_mp/cl_parse_mp.cpp now.
 // void DynEntCl_Shutdown(int) {}
-void FX_KillAllEffects(int) {}
-void FX_ShutdownSystem(int) {}
+// void FX_KillAllEffects(int) {}
+// void FX_ShutdownSystem(int) {}
 // CG_BoldGameMessage provided by src/cgame_mp/cg_main_mp.cpp now.
 // void R_SetFogFromServer(float, unsigned char, unsigned char, unsigned char, float) {}  // provided by gfx_d3d batch now
 void SND_PlayMusicAlias(int, const snd_alias_t *, bool, snd_alias_system_t) {}
@@ -1913,7 +1924,7 @@ void  CG_DoControllers(const cpose_t *, const DObj_s *, int *) {}
 void  R_LinkDObjEntity(unsigned int, unsigned int, float *, float) {}
 // void  UnitQuatToAngles(const float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }  // provided by com_math.cpp now
 // PhysPreset *DObjGetPhysPreset(const DObj_s *) { return nullptr; }
-void  FX_RetriggerEffect(int, FxEffect *, int) {}
+// void  FX_RetriggerEffect(int, FxEffect *, int) {}
 void  R_LinkBModelEntity(unsigned int, unsigned int, GfxBrushModel *) {}
 void  CG_VehProcessEntity(int, centity_s *) {}
 // void  DObjSetHidePartBits(DObj_s *, const unsigned int *) {}
@@ -1924,7 +1935,7 @@ void  Phys_ObjBulletImpact(PhysWorld, dxBody *, const float *, const float *, fl
 void  R_SkinGfxEntityDelayed(GfxSceneEntity *) {}
 int32_t CG_VehPlayerVehicleSlot(int, uint32_t) { return -1; }
 bool  CG_VehEntityUsingVehicle(int, uint32_t) { return false; }
-void  FX_AssertAllocatedEffect(int, FxEffect *) {}
+// void  FX_AssertAllocatedEffect(int, FxEffect *) {}
 // bool  CG_PlayerUsingScopedTurret(int) { return false; }  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 void  R_UpdateXModelBoundsDelayed(GfxSceneEntity *) {}
 // void  BG_Player_DoControllersSetup(const entityState_s *, clientInfo_t *, int) {}  // provided by bg_animation_mp.cpp now
@@ -1985,8 +1996,8 @@ void CG_Veh_Init() {}
 // CL_RegisterFont provided by src/client_mp/cl_main_mp.cpp now.
 void SND_StopAmbient(int, int) {}
 // void BG_RegisterDvars() {}  // provided by bg_misc.cpp now
-void FX_KillEffectDef(int, const FxEffectDef *) {}
-XModel *FX_RegisterModel(const char *) { return nullptr; }
+// void FX_KillEffectDef(int, const FxEffectDef *) {}
+// XModel *FX_RegisterModel(const char *) { return nullptr; }
 // menuDef_t *Menus_FindByName(const UiContext *, const char *) { return nullptr; }  // provided by ui_shared.cpp now
 // void BG_ClearWeaponDef() {}  // provided by bg_weapons.cpp now
 // Com_StripExtension provided by src/universal/q_shared.cpp now.
@@ -2803,7 +2814,7 @@ const dvar_t *heli_barrelRotation = nullptr;
 // char DynEntCl_DynEntImpactEvent(int, int, float *, float *, int, bool) { return 0; }
 // void DynEntCl_EntityImpactEvent(const trace_t *, int, int, const float *, const float *, bool) {}
 char FX_GetBoneOrientation(int, unsigned int, int, orientation_t *) { return 0; }
-void FX_PlayOrientedEffectWithMarkEntity(int, const FxEffectDef *, int, const float *, const float (*)[3], unsigned int) {}
+// void FX_PlayOrientedEffectWithMarkEntity(int, const FxEffectDef *, int, const float *, const float (*)[3], unsigned int) {}
 // RotatePointAroundVector provided by src/universal/com_math.cpp now.
 char SND_GetKnownLength(int, int *out) { if (out) *out = 0; return 0; }
 // UI_DrawWrappedText provided by src/ui/ui_shared.cpp now.
