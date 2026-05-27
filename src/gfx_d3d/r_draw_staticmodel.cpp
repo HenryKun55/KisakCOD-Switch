@@ -79,7 +79,7 @@ int __cdecl R_GetNextStaticModelSurf(GfxStaticModelDrawStream *drawStream, XSurf
         return 0;
     primDrawSurfPos = drawStream->primDrawSurfPos;
     drawStream->primDrawSurfPos += ((drawStream->smodelCount + 1) >> 1) + 1;
-    xsurf = (XSurface *)*primDrawSurfPos;
+    xsurf = (XSurface *)(uintptr_t)*primDrawSurfPos;
     drawStream->smodelList = (const unsigned __int16 *)(primDrawSurfPos + 1);
     drawStream->localSurf = xsurf;
     g_frameStatsCur.geoIndexCount += 3 * drawStream->smodelCount * xsurf->triCount;
@@ -181,7 +181,7 @@ int __cdecl R_GetNextStaticModelCachedSurf(GfxStaticModelDrawStream *drawStream)
     drawStream->smodelCount = *drawStream->primDrawSurfPos++;
     if (!drawStream->smodelCount)
         return 0;
-    xsurf = (XSurface *)*drawStream->primDrawSurfPos++;
+    xsurf = (XSurface *)(uintptr_t)*drawStream->primDrawSurfPos++;
     drawStream->smodelList = (const unsigned short*)drawStream->primDrawSurfPos;
     drawStream->primDrawSurfPos += (drawStream->smodelCount + 1) >> 1;
     smodelDrawInst = &rgp.world->dpvs.smodelDrawInsts[R_GetCachedSModelSurf(*drawStream->smodelList)->smodelIndex];
@@ -218,7 +218,7 @@ void __cdecl R_SetStaticModelCachedBuffer(GfxCmdBufState *state, unsigned int ca
 
 void __cdecl R_DrawStaticModelsCachedDrawSurfLighting(GfxStaticModelDrawStream *drawStream, GfxCmdBufContext context)
 {
-    unsigned int copyBaseIndex; // [esp+0h] [ebp-30h]
+    [[maybe_unused]] unsigned int copyBaseIndex; // [esp+0h] [ebp-30h]
     unsigned int baseIndex; // [esp+4h] [ebp-2Ch]
     unsigned int surfBaseIndex; // [esp+8h] [ebp-28h]
     unsigned int reflectionProbeIndex; // [esp+10h] [ebp-20h] BYREF
@@ -253,7 +253,7 @@ void __cdecl R_DrawStaticModelsCachedDrawSurfLighting(GfxStaticModelDrawStream *
 
 void __cdecl R_DrawStaticModelsCachedDrawSurf(GfxStaticModelDrawStream *drawStream, GfxCmdBufContext context)
 {
-    unsigned int copyBaseIndex; // [esp+0h] [ebp-2Ch]
+    [[maybe_unused]] unsigned int copyBaseIndex; // [esp+0h] [ebp-2Ch]
     unsigned int baseIndex; // [esp+4h] [ebp-28h]
     unsigned int surfBaseIndex; // [esp+8h] [ebp-24h]
     const unsigned __int16 *list; // [esp+10h] [ebp-1Ch]

@@ -174,9 +174,11 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_add_bsp.cpp"
     "${SRC_DIR}/gfx_d3d/r_add_cmdbuf.cpp"
     "${SRC_DIR}/gfx_d3d/r_bsp.cpp"
+    "${SRC_DIR}/gfx_d3d/r_draw_bsp.cpp"
     "${SRC_DIR}/gfx_d3d/r_draw_lit.cpp"
     "${SRC_DIR}/gfx_d3d/r_draw_material.cpp"
     "${SRC_DIR}/gfx_d3d/r_draw_shadowable_light.cpp"
+    "${SRC_DIR}/gfx_d3d/r_draw_staticmodel.cpp"
     "${SRC_DIR}/gfx_d3d/r_draw_sunshadow.cpp"
     "${SRC_DIR}/gfx_d3d/r_draw_xmodel.cpp"
     # r_bsp_load_obj.cpp packs pointers into uint32_t slots

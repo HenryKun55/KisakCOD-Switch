@@ -1810,6 +1810,13 @@ GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 
+// r_draw_bsp / r_draw_staticmodel satellite stubs.
+void R_SetLightmap(GfxCmdBufContext /*ctx*/, unsigned int /*idx*/) {}
+void R_SetSamplerState(GfxCmdBufState * /*state*/, unsigned int /*idx*/, unsigned char /*s*/) {}
+int R_ReserveIndexData(GfxCmdBufPrimState * /*p*/, int /*count*/) { return 0; }
+void R_ChangeStreamSource(GfxCmdBufPrimState * /*p*/, unsigned int /*idx*/, IDirect3DVertexBuffer9 * /*vb*/, unsigned int /*offset*/, unsigned int /*stride*/) {}
+const GfxImage *R_OverrideGrayscaleImage(const dvar_s * /*d*/) { return nullptr; }
+
 // r_draw_xmodel satellite stubs.
 void RB_ShowTess(GfxCmdBufContext /*ctx*/, const float * /*c*/, const char * /*n*/, const float * /*col*/) {}
 void R_ChangeIndices(GfxCmdBufPrimState * /*p*/, IDirect3DIndexBuffer9 * /*ib*/) {}
@@ -1877,7 +1884,7 @@ void R_SetViewport(GfxCmdBufState * /*state*/, const GfxViewport * /*v*/) {}
 void R_UpdateViewport(GfxCmdBufSourceState * /*src*/, GfxViewport * /*v*/) {}
 int R_SetIndexData(GfxCmdBufPrimState * /*p*/, unsigned char * /*data*/, int /*count*/) { return 0; }
 int R_SetVertexData(GfxCmdBufState * /*s*/, const void * /*data*/, int /*size*/, int /*stride*/) { return 0; }
-void R_SetStreamSource(GfxCmdBufPrimState * /*p*/, IDirect3DVertexBuffer9 * /*vb*/, unsigned int /*offset*/, unsigned int /*stride*/) {}
+// R_SetStreamSource provided by src/gfx_d3d/r_draw_staticmodel.cpp now.
 void R_UpdateVertexDecl(GfxCmdBufState * /*s*/) {}
 void R_DrawIndexedPrimitive(GfxCmdBufPrimState * /*p*/, const GfxDrawPrimArgs * /*args*/) {}
 // R_PixelCost_* provided by src/gfx_d3d/rb_pixelcost.cpp now.
@@ -3120,8 +3127,7 @@ GfxScene scene{};
 struct IDirect3DIndexBuffer9;
 struct GfxReadCmdBuf;
 // R_LockIndexBuffer provided by src/gfx_d3d/r_buffers.cpp now.
-int  R_ReadPrimDrawSurfData(GfxReadCmdBuf *, unsigned int) { return 0; }
-int  R_ReadPrimDrawSurfInt(GfxReadCmdBuf *) { return 0; }
+// R_ReadPrimDrawSurfData / R_ReadPrimDrawSurfInt provided by src/gfx_d3d/r_draw_bsp.cpp now.
 GfxWorld s_world{};
 r_globals_load_t rgl{};
 // DynEntityPose *DynEnt_GetClientModelPoseList() { return nullptr; }
