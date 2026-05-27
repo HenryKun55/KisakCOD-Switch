@@ -1,5 +1,8 @@
 #include "assertive.h"
+#ifdef _WIN32
 #include <win32/win_local.h>
+#include <Windows.h>
+#endif
 #include <cstdarg>
 
 enum AssertOccurance : __int32

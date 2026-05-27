@@ -35,6 +35,9 @@ set(UNIVERSAL_PORTABLE_SOURCES
     "${SRC_DIR}/universal/com_files.cpp"
     "${SRC_DIR}/universal/com_math.cpp"
     "${SRC_DIR}/universal/com_math_anglevectors.cpp"
+    # assertive.cpp uses Win32 HGLOBAL clipboard + GetModuleHandleA +
+    # MessageBoxA + ExitProcess + EnumThreadWindows. Land alongside
+    # Win32 shim layer expansion.
     "${SRC_DIR}/universal/com_shared.cpp"
     "${SRC_DIR}/universal/com_sndalias_load_obj.cpp"
     # com_sndalias.cpp uses hex-rays negative-index struct walking
