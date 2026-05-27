@@ -192,6 +192,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/rb_postfx.cpp"
     "${SRC_DIR}/gfx_d3d/rb_shadowcookie.cpp"
     "${SRC_DIR}/gfx_d3d/rb_stats.cpp"
+    "${SRC_DIR}/gfx_d3d/rb_tess.cpp"
 )
 
 set(EFFECTSCORE_PORTABLE_SOURCES

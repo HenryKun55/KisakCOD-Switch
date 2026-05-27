@@ -276,9 +276,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/rb_logfile.cpp"
     "${SRC_DIR}/gfx_d3d/rb_postfx.cpp"
     "${SRC_DIR}/gfx_d3d/rb_shadowcookie.cpp"
-    # rb_tess.cpp drags R_DrawIndexedPrimitive / R_SetStreamSource /
-    # R_ChangeIndices / DB_GetIndexBufferAndBase and the whole BSP draw
-    # pipeline. Land behind D3D9 abstraction.
+    "${SRC_DIR}/gfx_d3d/rb_tess.cpp"
     "${SRC_DIR}/gfx_d3d/rb_pixelcost.cpp"
     "${SRC_DIR}/gfx_d3d/rb_stats.cpp"
 )

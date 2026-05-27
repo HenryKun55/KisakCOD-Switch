@@ -1796,34 +1796,34 @@ bool Scr_IgnoreErrors() { return false; }
 
 // rb_backend satellite stubs.
 #include <gfx_d3d/rb_tess.h>
-unsigned int R_TessBModel(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+// R_TessBModel provided by src/gfx_d3d/rb_tess.cpp now.
 void Sys_StopRenderer() {}
 int Sys_RendererReady() { return 0; }
 void *Sys_RendererSleep() { return nullptr; }
 void Sys_StartRenderer() {}
 void R_ChangeDepthRange(GfxCmdBufState * /*s*/, GfxDepthRangeType /*type*/) {}
 void R_SetColorMappings() {}
-unsigned int R_TessCodeMeshList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
-unsigned int R_TessMarkMeshList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+// R_TessCodeMeshList provided by src/gfx_d3d/rb_tess.cpp now.
+// R_TessMarkMeshList provided by src/gfx_d3d/rb_tess.cpp now.
 bool Sys_FinishRenderer() { return false; }
-unsigned int R_TessTrianglesList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+// R_TessTrianglesList provided by src/gfx_d3d/rb_tess.cpp now.
 void Sys_RenderCompleted() {}
 int Sys_WaitBackendEvent() { return 0; }
 int Sys_IsMainThreadReady() { return 0; }
 void Sys_WaitForMainThread() {}
 void R_ClearAllStreamSources(GfxCmdBufPrimState * /*p*/) {}
-unsigned int R_TessParticleCloudList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+// R_TessParticleCloudList provided by src/gfx_d3d/rb_tess.cpp now.
 void RB_PatchStaticModelCache() {}
 void R_ChangeDepthHackNearClip(GfxCmdBufSourceState * /*src*/, unsigned int /*idx*/) {}
-unsigned int R_TessTrianglesPreTessList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+// R_TessTrianglesPreTessList provided by src/gfx_d3d/rb_tess.cpp now.
 void R_SetAlphaAntiAliasingState(IDirect3DDevice9 * /*d*/, short /*s*/) {}
-unsigned int R_TessStaticModelCachedList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
-unsigned int R_TessStaticModelPreTessList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
-unsigned int R_TessXModelRigidDrawSurfList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
-unsigned int R_TessXModelSkinnedDrawSurfList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
-unsigned int R_TessStaticModelRigidDrawSurfList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
-unsigned int R_TessStaticModelSkinnedDrawSurfList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
-unsigned int R_TessXModelRigidSkinnedDrawSurfList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+// R_TessStaticModelCachedList provided by src/gfx_d3d/rb_tess.cpp now.
+// R_TessStaticModelPreTessList provided by src/gfx_d3d/rb_tess.cpp now.
+// R_TessXModelRigidDrawSurfList provided by src/gfx_d3d/rb_tess.cpp now.
+// R_TessXModelSkinnedDrawSurfList provided by src/gfx_d3d/rb_tess.cpp now.
+// R_TessStaticModelRigidDrawSurfList provided by src/gfx_d3d/rb_tess.cpp now.
+// R_TessStaticModelSkinnedDrawSurfList provided by src/gfx_d3d/rb_tess.cpp now.
+// R_TessXModelRigidSkinnedDrawSurfList provided by src/gfx_d3d/rb_tess.cpp now.
 
 // rb_draw3d satellite stubs.
 // RB_ExecuteRenderCommandsLoop provided by src/gfx_d3d/rb_backend.cpp now.
@@ -1920,7 +1920,7 @@ void R_ChangeStreamSource(GfxCmdBufPrimState * /*p*/, unsigned int /*idx*/, IDir
 const GfxImage *R_OverrideGrayscaleImage(const dvar_s * /*d*/) { return nullptr; }
 
 // r_draw_xmodel satellite stubs.
-void RB_ShowTess(GfxCmdBufContext /*ctx*/, const float * /*c*/, const char * /*n*/, const float * /*col*/) {}
+// RB_ShowTess provided by src/gfx_d3d/rb_tess.cpp now.
 void R_ChangeIndices(GfxCmdBufPrimState * /*p*/, IDirect3DIndexBuffer9 * /*ib*/) {}
 void R_SetReflectionProbe(GfxCmdBufContext /*ctx*/, unsigned int /*idx*/) {}
 void DB_GetIndexBufferAndBase(unsigned char /*zone*/, void * /*indices*/, void **ib, int *baseIndex) { if (ib) *ib = nullptr; if (baseIndex) *baseIndex = 0; }
