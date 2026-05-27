@@ -1603,7 +1603,7 @@ FxSystemBuffers *FX_GetSystemBuffers(int /*localClientNum*/) { return nullptr; }
 void FX_LinkSystemBuffers(FxSystem * /*system*/, FxSystemBuffers * /*buffers*/) {}
 void FX_RelocateSystem(FxSystem * /*system*/, int /*delta*/) {}
 void FX_RunGarbageCollection(FxSystem * /*system*/) {}
-void FX_BeginIteratingOverEffects_Cooperative(FxSystem * /*system*/) {}
+// void FX_BeginIteratingOverEffects_Cooperative(FxSystem * /*system*/) {}  // provided by fx_draw.cpp now
 void FX_ForEachEffectDef(void (* /*cb*/)(const FxEffectDef *, void *), void * /*data*/) {}
 // unsigned short FX_MarkToHandle(FxMarksSystem * /*sys*/, FxMark * /*mark*/) { return 0; }
 // FxMark *FX_MarkFromHandle(FxMarksSystem * /*sys*/, unsigned short /*handle*/) { return nullptr; }
@@ -1713,15 +1713,19 @@ struct FxElemDef;
 struct FxEffect;
 struct FxElemPreVisualState;
 struct FxElemVisualState;
-double FX_InterpolateSize(const FxElemVisStateSample * /*samples*/, int /*count*/, FxRandKey /*key*/, float /*t*/, float /*scale*/, int /*flags*/) { return 0.0; }
-void FX_SetupVisualState(const FxElemDef * /*def*/, const FxEffect * /*effect*/, int /*frame*/, float /*t*/, FxElemPreVisualState * /*state*/) {}
-void FX_EvaluateVisualState(FxElemPreVisualState * /*pre*/, float /*t*/, FxElemVisualState * /*state*/) {}
+// double FX_InterpolateSize(...)    — provided by fx_draw.cpp now.
+// void FX_SetupVisualState(...)     — provided by fx_draw.cpp now.
+// void FX_EvaluateVisualState(...)  — provided by fx_draw.cpp now.
 
 // fx_convert satellite stubs.
 struct MaterialInfo;
 void Material_GetInfo(Material * /*m*/, MaterialInfo * /*out*/) {}
 struct PhysPreset;
 PhysPreset *FX_RegisterPhysPreset(const char * /*name*/) { return nullptr; }
+void R_AddOmniLightToScene(const float * /*origin*/, float /*radius*/, float /*r*/, float /*g*/, float /*b*/) {}
+void R_AddSpotLightToScene(const float * /*origin*/, const float * /*dir*/, float /*radius*/, float /*r*/, float /*g*/, float /*b*/) {}
+struct GfxParticleCloud;
+GfxParticleCloud *R_AddParticleCloudToScene(Material * /*material*/) { return nullptr; }
 
 struct DiskGfxReflectionProbe;
 void R_CreateReflectionRawDataFromCubemapShot(DiskGfxReflectionProbe * /*probe*/, int /*downRes*/) {}

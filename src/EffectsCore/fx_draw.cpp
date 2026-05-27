@@ -393,8 +393,8 @@ void __cdecl FX_GenSpriteVerts(FxDrawState *draw, const float *tangent, const fl
             v11 = v23;
         else
             v11 = -16384;
-        verts->texCoord.packed = (v11 & 0x3FFF | ((int)LODWORD(v22) >> 16) & 0xC000)
-            + ((v12 & 0x3FFF | (s0 >> 16) & 0xC000) << 16);
+        verts->texCoord.packed = ((v11 & 0x3FFF) | (((int)LODWORD(v22) >> 16) & 0xC000))
+            + (((v12 & 0x3FFF) | ((s0 >> 16) & 0xC000)) << 16);
         verts->tangent = packedTangent;
         ++verts;
         Vec3Sub(leftSide, up, verts->xyz);
@@ -417,7 +417,7 @@ void __cdecl FX_GenSpriteVerts(FxDrawState *draw, const float *tangent, const fl
             v9 = v20;
         else
             v9 = -16384;
-        verts->texCoord.packed = (v9 & 0x3FFF | (t0 >> 16) & 0xC000) + ((v10 & 0x3FFF | (s0 >> 16) & 0xC000) << 16);
+        verts->texCoord.packed = ((v9 & 0x3FFF) | ((t0 >> 16) & 0xC000)) + (((v10 & 0x3FFF) | ((s0 >> 16) & 0xC000)) << 16);
         verts->tangent = packedTangent;
         ++verts;
         Vec3Sub(rightSide, up, verts->xyz);
@@ -441,8 +441,8 @@ void __cdecl FX_GenSpriteVerts(FxDrawState *draw, const float *tangent, const fl
             v7 = v17;
         else
             v7 = -16384;
-        verts->texCoord.packed = (v7 & 0x3FFF | (t0 >> 16) & 0xC000)
-            + ((v8 & 0x3FFF | ((int)LODWORD(v18) >> 16) & 0xC000) << 16);
+        verts->texCoord.packed = ((v7 & 0x3FFF) | ((t0 >> 16) & 0xC000))
+            + (((v8 & 0x3FFF) | (((int)LODWORD(v18) >> 16) & 0xC000)) << 16);
         verts->tangent = packedTangent;
         ++verts;
         Vec3Add(rightSide, up, verts->xyz);
@@ -467,8 +467,8 @@ void __cdecl FX_GenSpriteVerts(FxDrawState *draw, const float *tangent, const fl
             v5 = v14;
         else
             v5 = -16384;
-        verts->texCoord.packed = (v5 & 0x3FFF | ((int)LODWORD(v13) >> 16) & 0xC000)
-            + ((v6 & 0x3FFF | ((int)LODWORD(v15) >> 16) & 0xC000) << 16);
+        verts->texCoord.packed = ((v5 & 0x3FFF) | (((int)LODWORD(v13) >> 16) & 0xC000))
+            + (((v6 & 0x3FFF) | (((int)LODWORD(v15) >> 16) & 0xC000)) << 16);
         verts->tangent = packedTangent;
     }
 }
@@ -845,7 +845,7 @@ void __cdecl FX_DrawElem_Model(FxDrawState *draw)
 void __cdecl FX_SetPlacementFromPhysics(const FxDrawState *draw, GfxPlacement *placement)
 {
     Sys_EnterCriticalSection(CRITSECT_PHYSICS);
-    Phys_ObjGetInterpolatedState(PHYS_WORLD_FX, (dxBody *)draw->elem->physObjId, placement->origin, placement->quat);
+    Phys_ObjGetInterpolatedState(PHYS_WORLD_FX, (dxBody *)(uintptr_t)draw->elem->physObjId, placement->origin, placement->quat);
     Sys_LeaveCriticalSection(CRITSECT_PHYSICS);
 }
 
@@ -905,7 +905,7 @@ void __cdecl FX_DrawElem_SpotLight(FxDrawState *draw)
 void __cdecl FX_DrawNonSpriteElems(FxSystem *system)
 {
     FxEffect *effect; // [esp+3Ch] [ebp-8h]
-    volatile int32_t activeIndex; // [esp+40h] [ebp-4h]
+    int32_t activeIndex; // [esp+40h] [ebp-4h]
 
     PROF_SCOPED("FX_DrawElems");
     if (!system)
@@ -934,7 +934,7 @@ void __cdecl FX_BeginIteratingOverEffects_Cooperative(FxSystem *system)
             iteratorCount = 0;
         else
             iteratorCount = system->iteratorCount;
-    } while (InterlockedCompareExchange(&system->iteratorCount, iteratorCount + 1, iteratorCount) != iteratorCount);
+    } while (InterlockedCompareExchange(&system->iteratorCount, static_cast<long>(iteratorCount + 1), static_cast<long>(iteratorCount)) != iteratorCount);
 }
 
 void __cdecl FX_DrawNonSpriteEffect(FxSystem *system, FxEffect *effect, uint32_t elemClass, int32_t drawTime)
@@ -1231,7 +1231,7 @@ void __cdecl FX_DrawTrail(FxSystem *system, FxDrawState *draw, FxTrail *trail)
     float segmentNormTime; // [esp+1B4h] [ebp-4h] BYREF
 
     sprite = &system->sprite;
-    draw->elemDef = &draw->effect->def->elemDefs[trail->defIndex];
+    draw->elemDef = &draw->effect->def->elemDefs[(unsigned int)(unsigned char)trail->defIndex];
     if (draw->elemDef->visualCount)
     {
         trailElemHandle = trail->firstElemHandle;
@@ -1449,9 +1449,9 @@ void __cdecl Fx_GenTrail_PopulateSegmentDrawState(
     outState->basis[0][0] = (*basis)[0];
     outState->basis[0][1] = (*basis)[1];
     outState->basis[0][2] = (*basis)[2];
-    outState->basis[1][0] = (*basis)[3];
-    outState->basis[1][1] = (*basis)[4];
-    outState->basis[1][2] = (*basis)[5];
+    outState->basis[1][0] = reinterpret_cast<const float *>(basis)[3];
+    outState->basis[1][1] = reinterpret_cast<const float *>(basis)[4];
+    outState->basis[1][2] = reinterpret_cast<const float *>(basis)[5];
     outState->rotation = draw->visState.rotationTotal;
     *(double *)outState->size = *(double *)draw->visState.size;
     *(uint32_t *)outState->color = *(uint32_t *)draw->visState.color;
@@ -1536,8 +1536,8 @@ void __cdecl FX_GenTrail_VertsForSegment(const FxTrailSegmentDrawState *segmentD
             v3 = v10;
         else
             v3 = -16384;
-        remoteVerts->texCoord.packed = (v3 & 0x3FFF | ((int)LODWORD(texCoord) >> 16) & 0xC000)
-            + ((v4 & 0x3FFF | (uCoord >> 16) & 0xC000) << 16);
+        remoteVerts->texCoord.packed = ((v3 & 0x3FFF) | (((int)LODWORD(texCoord) >> 16) & 0xC000))
+            + (((v4 & 0x3FFF) | ((uCoord >> 16) & 0xC000)) << 16);
         v9 = trailDef->verts[vertIter].normal[0];
         temp = v9 * leftFloat4;
         temp_4 = v9 * leftFloat4_4;
@@ -1620,8 +1620,8 @@ void __cdecl FX_GenerateVerts(FxGenerateVertsCmd *cmd)
 
 void __cdecl FX_FillGenerateVertsCmd(int32_t localClientNum, FxGenerateVertsCmd* cmd)
 {
-    uint32_t v2; // [esp+0h] [ebp-10h]
-    uint32_t v3; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] uint32_t v2; // [esp+0h] [ebp-10h]
+    [[maybe_unused]] uint32_t v3; // [esp+Ch] [ebp-4h]
     cg_s *cgameGlob;
 
     iassert(cmd);
