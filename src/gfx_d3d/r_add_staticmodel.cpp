@@ -233,7 +233,7 @@ void __cdecl R_AddAllStaticModelSurfacesCamera()
     currentProbeIndex = 255;
     currentLightIndex = 0;
 
-    for (smodelIndex = 0; smodelIndex < smodelCount; ++smodelIndex)
+    for (smodelIndex = 0; static_cast<unsigned int>(smodelIndex) < smodelCount; ++smodelIndex)
     {
         if (!visData[smodelIndex])
         {

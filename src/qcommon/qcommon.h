@@ -1479,7 +1479,10 @@ void CL_CubemapShotUsage();
 
 
 
-#define FloatAsInt(f) (*(int*)&(f))
+// Strict-aliasing-safe float-to-int reinterpretation. Use memcpy so GCC doesn't
+// emit -Wstrict-aliasing on the union punning pattern from upstream.
+#include <cstring>
+static inline int FloatAsInt(float f) { int i; std::memcpy(&i, &f, sizeof(i)); return i; }
 
 /**
  * stristr - Case insensitive strstr()

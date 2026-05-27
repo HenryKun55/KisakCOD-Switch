@@ -269,7 +269,7 @@ void __cdecl Dvar_ForEachName(void(__cdecl *callback)(const char *))
 
 const dvar_s *__cdecl Dvar_GetAtIndex(unsigned int index)
 {
-    if (index >= dvarCount)
+    if (index >= static_cast<unsigned int>(dvarCount))
         MyAssertHandler(
             ".\\universal\\dvar.cpp",
             125,
@@ -605,7 +605,7 @@ const char *__cdecl Dvar_DomainToString_Internal(
         Dvar_VectorDomainToString(4, domain, outBuffer, outBufferLen);
         break;
     case 5u:
-        if (domain.enumeration.stringCount == 0x80000000)
+        if (static_cast<unsigned int>(domain.enumeration.stringCount) == 0x80000000u)
         {
             if (domain.integer.max == 0x7FFFFFFF)
                 _snprintf((char *)outBuffer, outBufferLen, "Domain is any integer");
@@ -2993,7 +2993,7 @@ int __cdecl Com_LoadDvarsFromBuffer(const char **dvarnames, unsigned int numDvar
     unsigned int i; // [esp+4008h] [ebp-10h]
     char *s0; // [esp+400Ch] [ebp-Ch]
     dvar_s *dvar; // [esp+4010h] [ebp-8h]
-    int v10; // [esp+4014h] [ebp-4h]
+    unsigned int v10; // [esp+4014h] [ebp-4h]
 
     if (numDvars >= 0x4000)
         MyAssertHandler(".\\universal\\dvar.cpp", 2486, 0, "%s", "numDvars < ARRAY_COUNT( wasRead )");

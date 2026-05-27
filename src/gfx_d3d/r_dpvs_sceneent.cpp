@@ -21,8 +21,8 @@ static int __cdecl R_CullSphereDpvs(const float *origin, float radius, const Dpv
 void R_AddCellSceneEntSurfacesInFrustumCmd(GfxWorldDpvsPlanes *data)
 {
     bool v2; // zf
-    DWORD v3; // eax
-    DWORD v4; // eax
+    unsigned long v3; // eax
+    unsigned long v4; // eax
     int v5; // [esp+18h] [ebp-C0h]
     const float *mins; // [esp+28h] [ebp-B0h]
     int skipWorkerCmd; // [esp+30h] [ebp-A8h]

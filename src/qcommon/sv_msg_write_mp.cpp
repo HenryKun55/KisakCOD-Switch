@@ -1988,7 +1988,7 @@ void __cdecl MSG_WriteGroundEntityNum(int clientNum, msg_t *msg, int groundEntit
 
 bool __cdecl MSG_CheckWritingEnoughBits(int value, unsigned int bits)
 {
-    DWORD v3; // eax
+    unsigned long v3; // eax
     unsigned int checkBits; // [esp+4h] [ebp-8h]
     unsigned int checkValue; // [esp+8h] [ebp-4h]
 

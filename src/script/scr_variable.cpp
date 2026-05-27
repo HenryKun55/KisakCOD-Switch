@@ -2849,7 +2849,7 @@ void  Scr_EvalArray(VariableValue* value, VariableValue* index)
 			}
 			s = SL_ConvertToString(value->u.stringValue);
 			
-			if (index->u.intValue >= strlen(s))
+			if (static_cast<size_t>(index->u.intValue) >= strlen(s))
 			{
 				Scr_Error(va("string index %d out of range", index->u.intValue));
 				return;
@@ -3269,8 +3269,8 @@ int  ThreadInfoCompare(_DWORD* info1, _DWORD* info2)
 
 	for (i = 0; ; ++i)
 	{
-		if (i >= info1[32] || i >= info2[32])
-			return info1[32] - info2[32];
+		if (static_cast<uint32>(i) >= info1[32] || static_cast<uint32>(i) >= info2[32])
+			return static_cast<int>(info1[32]) - static_cast<int>(info2[32]);
 		pos1 = (const char*)(uintptr_t)info1[i];
 		pos2 = (const char*)(uintptr_t)info2[i];
 		if (pos1 != pos2)

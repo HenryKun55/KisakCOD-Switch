@@ -81,7 +81,7 @@ trStatistics_t rendererStats;
 
 void __cdecl CG_CalculateFPS()
 {
-    DWORD v0; // eax
+    unsigned long v0; // eax
     int32_t frameTime; // [esp+0h] [ebp-8h]
 
     v0 = Sys_Milliseconds();

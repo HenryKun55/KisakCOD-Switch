@@ -781,7 +781,7 @@ int __cdecl R_SetVertexData(GfxCmdBufState *state, const void *data, int vertexC
             "%s\n\t(totalSize) = %i",
             "(totalSize <= gfxBuf.dynamicVertexBuffer->total)",
             totalSize);
-    if (totalSize + gfxBuf.dynamicVertexBuffer->used > gfxBuf.dynamicVertexBuffer->total)
+    if (totalSize + gfxBuf.dynamicVertexBuffer->used > static_cast<unsigned int>(gfxBuf.dynamicVertexBuffer->total))
         MyAssertHandler(
             ".\\r_shade.cpp",
             886,

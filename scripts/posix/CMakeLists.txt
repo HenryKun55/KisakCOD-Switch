@@ -126,9 +126,7 @@ set(SCRIPT_PORTABLE_SOURCES
     "${SRC_DIR}/script/scr_parsetree.cpp"
     "${SRC_DIR}/script/scr_stringlist.cpp"
     "${SRC_DIR}/script/scr_variable.cpp"
-    # scr_vm.cpp packs pointers into 32-bit slots throughout
-    # (VariableStackBuffer * from int, char * from int). Land after
-    # script-VM 64-bit widening pass.
+    "${SRC_DIR}/script/scr_vm.cpp"
     # scr_yacc.cpp uses flex-generated yy_create_buffer (defined in
     # a separate scr_lex.cpp not included), multi-char char literals,
     # HashEntry_unnamed_type_u init mismatch, and StringValue overload

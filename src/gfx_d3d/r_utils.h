@@ -2,7 +2,7 @@
 #include <xanim/xanim.h>
 #include "rb_backend.h"
 
-static _DWORD s_codeConstUpdateFreq[90] =
+[[maybe_unused]] static _DWORD s_codeConstUpdateFreq[90] =
 {
   2,
   2,

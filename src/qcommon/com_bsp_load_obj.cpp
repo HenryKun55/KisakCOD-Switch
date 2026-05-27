@@ -37,7 +37,7 @@ char __cdecl Com_CheckVersionLumpCountError(int version)
 
 bool __cdecl Com_BspError()
 {
-    return comBspGlob.header->ident != 'PSBI'
+    return comBspGlob.header->ident != 0x49425350 /* 'IBSP' little-endian */
         || comBspGlob.header->version < 6
         || comBspGlob.header->version > 0x16
         || Com_CheckVersionLumpCountError(comBspGlob.header->version) != 0;
@@ -77,7 +77,7 @@ char *__cdecl Com_GetBspLump(LumpType type, unsigned int elemSize, unsigned int 
         *count = 0;
         return 0;
     }
-    else if (type < (unsigned int)Com_GetBspLumpCountForVersion(comBspGlob.header->version))
+    else if (static_cast<unsigned int>(type) < static_cast<unsigned int>(Com_GetBspLumpCountForVersion(comBspGlob.header->version)))
     {
         return Com_ValidateBspLumpData(
             type,

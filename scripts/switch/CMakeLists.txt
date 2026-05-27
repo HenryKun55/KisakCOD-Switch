@@ -98,6 +98,7 @@ set(SCRIPT_PORTABLE_SOURCES
     "${SRC_DIR}/script/scr_animtree.cpp"
     "${SRC_DIR}/script/scr_compiler2.cpp"
     "${SRC_DIR}/script/scr_const.cpp"
+    "${SRC_DIR}/script/scr_vm.cpp"
     "${SRC_DIR}/script/scr_evaluate.cpp"
     "${SRC_DIR}/script/scr_main.cpp"
     "${SRC_DIR}/script/scr_memorytree.cpp"
@@ -205,21 +206,21 @@ set(GFX_PORTABLE_SOURCES
 
 set(EFFECTSCORE_PORTABLE_SOURCES
     "${SRC_DIR}/EffectsCore/fx_archive.cpp"
-    "${SRC_DIR}/EffectsCore/fx_beam.cpp"
-    "${SRC_DIR}/EffectsCore/fx_convert.cpp"
-    "${SRC_DIR}/EffectsCore/fx_draw.cpp"
+    # "${SRC_DIR}/EffectsCore/fx_beam.cpp"  # TODO Switch: heavy SIMD QWORD-mask type punning, needs careful float4-union rewrite
+    # "${SRC_DIR}/EffectsCore/fx_convert.cpp"  # TODO Switch: heavy SIMD QWORD-mask type punning, needs careful float4-union rewrite
+    # "${SRC_DIR}/EffectsCore/fx_draw.cpp"  # TODO Switch: heavy SIMD QWORD-mask type punning + nega-array, needs careful rewrite
     "${SRC_DIR}/EffectsCore/fx_dvars.cpp"
     "${SRC_DIR}/EffectsCore/fx_graph.cpp"
     "${SRC_DIR}/EffectsCore/fx_load_obj.cpp"
-    "${SRC_DIR}/EffectsCore/fx_marks.cpp"
+    # "${SRC_DIR}/EffectsCore/fx_marks.cpp"  # TODO Switch: heavy SIMD QWORD-mask type punning, needs careful rewrite
     "${SRC_DIR}/EffectsCore/fx_postlight.cpp"
     "${SRC_DIR}/EffectsCore/fx_profile.cpp"
     "${SRC_DIR}/EffectsCore/fx_random.cpp"
     "${SRC_DIR}/EffectsCore/fx_sort.cpp"
     "${SRC_DIR}/EffectsCore/fx_sprite.cpp"
-    "${SRC_DIR}/EffectsCore/fx_system.cpp"
-    "${SRC_DIR}/EffectsCore/fx_update.cpp"
-    "${SRC_DIR}/EffectsCore/fx_update_util.cpp"
+    # "${SRC_DIR}/EffectsCore/fx_system.cpp"  # TODO Switch: heavy SIMD QWORD-mask type punning + sign-compares, needs careful rewrite
+    # "${SRC_DIR}/EffectsCore/fx_update.cpp"  # TODO Switch: heavy SIMD QWORD-mask type punning, needs careful rewrite
+    # "${SRC_DIR}/EffectsCore/fx_update_util.cpp"  # TODO Switch: SIMD QWORD-mask type punning, needs careful rewrite
     "${SRC_DIR}/EffectsCore/fxcurve.cpp"
 )
 
@@ -413,10 +414,10 @@ set(GAME_PORTABLE_SOURCES
 )
 
 set(XANIM_PORTABLE_SOURCES
-    "${SRC_DIR}/xanim/dobj.cpp"
+    # "${SRC_DIR}/xanim/dobj.cpp"  # TODO Switch: SavedDObj memcpy layout mismatch on 64-bit + class-memaccess warnings
     "${SRC_DIR}/xanim/dobj_skel.cpp"
     "${SRC_DIR}/xanim/dobj_utils.cpp"
-    "${SRC_DIR}/xanim/xanim.cpp"
+    # "${SRC_DIR}/xanim/xanim.cpp"  # TODO Switch: class-memaccess + SIMD QWORD-mask type punning + uninitialized warnings
     "${SRC_DIR}/xanim/xanim_calc.cpp"
     "${SRC_DIR}/xanim/xanim_load_obj.cpp"
     "${SRC_DIR}/xanim/xmodel_load_obj.cpp"

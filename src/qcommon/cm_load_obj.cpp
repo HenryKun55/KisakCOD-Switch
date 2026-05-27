@@ -732,7 +732,7 @@ void CMod_LoadVisibility()
         cm.vised = 1;
         cm.numClusters = *(_DWORD *)buf;
         cm.clusterBytes = *((_DWORD *)buf + 1);
-        if (len != cm.clusterBytes * cm.numClusters + 8)
+        if (len != static_cast<unsigned int>(cm.clusterBytes * cm.numClusters + 8))
         {
             v0 = va("%i != %i == %i * %i + %i", len, cm.clusterBytes * cm.numClusters + 8, cm.numClusters, cm.clusterBytes, 8);
             MyAssertHandler(
@@ -1316,7 +1316,7 @@ void CMod_LoadBrushes()
                 if (materialNum >= cm.numMaterials)
                     Com_Error(ERR_DROP, "CMod_LoadBrushes: bad materialNum: %brushIter", materialNum);
                 outBrush->axialMaterialNum[index][axisIter] = materialNum;
-                if (outBrush->axialMaterialNum[index][axisIter] != materialNum)
+                if (static_cast<unsigned int>(outBrush->axialMaterialNum[index][axisIter]) != materialNum)
                     Com_Error(ERR_DROP, "CMod_LoadBrushes: axialMaterialNum exceeded");
                 outBrush->edgeCount[index][axisIter] = *inEdgeCounts;
                 outBrush->firstAdjacentSideOffsets[index][axisIter] = edgeOffset;

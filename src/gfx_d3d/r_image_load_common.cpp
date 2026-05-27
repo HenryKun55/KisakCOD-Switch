@@ -16,7 +16,7 @@ void __cdecl Image_GetPicmip(const GfxImage *image, Picmip *picmip)
     iassert(picmip);
 
     if (image->noPicmip)
-        *picmip = NULL;
+        *picmip = Picmip{};
     else
         Image_PicmipForSemantic(image->semantic, picmip);
 }
@@ -118,9 +118,9 @@ void __cdecl Image_Upload2D_CopyDataBlock_PC(
     iassert(src);
     iassert(dst);
 
-    if (format <= D3DFMT_A8L8)
+    if (static_cast<unsigned int>(format) <= static_cast<unsigned int>(D3DFMT_A8L8))
     {
-        if (format != D3DFMT_A8L8)
+        if (static_cast<unsigned int>(format) != static_cast<unsigned int>(D3DFMT_A8L8))
         {
             switch (format)
             {

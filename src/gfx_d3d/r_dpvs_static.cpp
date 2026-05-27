@@ -210,7 +210,7 @@ void __cdecl R_AddCellStaticSurfacesInFrustum(DpvsStaticCellCmd *dpvsCell)
         iassert( planes.count <= (10 + 4 + 2) );
         iassert( planes.count );
         planes.planes = dpvsCell->planes;
-        for (planeIndex = 0; planeIndex < planes.count; ++planeIndex)
+        for (planeIndex = 0; planeIndex < static_cast<unsigned int>(planes.count); ++planeIndex)
         {
             R_CopyClipPlane(&planes.planes[planeIndex], &clipPlanePool[planeIndex]);
             clipSet.planes[planeIndex] = &clipPlanePool[planeIndex];

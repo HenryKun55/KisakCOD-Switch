@@ -1,4 +1,10 @@
 #include "scr_evaluate.h"
+#include <setjmp.h>
+#if !defined(_MSC_VER)
+#  ifndef _setjmp
+#    define _setjmp setjmp
+#  endif
+#endif
 #include "scr_animtree.h"
 #include "scr_variable.h"
 #include "scr_main.h"
@@ -122,9 +128,9 @@ const char *__cdecl Scr_GetCanonicalString(unsigned int fieldName)
 {
     if (!fieldName)
         MyAssertHandler(".\\script\\scr_evaluate.cpp", 183, 0, "%s", "fieldName");
-    if (fieldName > scrVarPub.canonicalStrCount)
+    if (fieldName > static_cast<unsigned int>(scrVarPub.canonicalStrCount))
         MyAssertHandler(".\\script\\scr_evaluate.cpp", 184, 0, "%s", "fieldName <= scrVarPub.canonicalStrCount");
-    if (scrEvaluateGlob.canonicalStringLookup[fieldName] >= (unsigned int)scrVarPub.canonicalStrCount)
+    if (static_cast<unsigned int>(scrEvaluateGlob.canonicalStringLookup[fieldName]) >= static_cast<unsigned int>(scrVarPub.canonicalStrCount))
         MyAssertHandler(
             ".\\script\\scr_evaluate.cpp",
             185,
@@ -243,7 +249,7 @@ void __cdecl Scr_GetValueString(unsigned int localId, VariableValue *value, int 
     unsigned int type; // [esp+2Ch] [ebp-8h]
     VariableUnion id; // [esp+30h] [ebp-4h]
 
-    if (value->type >= 0x17u)
+    if (static_cast<unsigned int>(value->type) >= 0x17u)
         MyAssertHandler(".\\script\\scr_evaluate.cpp", 342, 0, "%s", "(unsigned)value->type < VAR_COUNT");
     switch (value->type)
     {
@@ -259,11 +265,11 @@ void __cdecl Scr_GetValueString(unsigned int localId, VariableValue *value, int 
             EntClassId = Scr_GetEntClassId(id.stringValue);
             Com_sprintf(s, len, "$%c%i", EntClassId, EntNum);
         }
-        else if (id.intValue == scrVarPub.levelId)
+        else if (static_cast<unsigned int>(id.intValue) == scrVarPub.levelId)
         {
             I_strncpyz(s, "level", len);
         }
-        else if (id.intValue == scrVarPub.animId)
+        else if (static_cast<unsigned int>(id.intValue) == scrVarPub.animId)
         {
             I_strncpyz(s, "anim", len);
         }
@@ -280,7 +286,7 @@ void __cdecl Scr_GetValueString(unsigned int localId, VariableValue *value, int 
                 Com_sprintf(s, len, "$t%i", id.intValue);
                 break;
             case 0x12u:
-                if (!localId || id.intValue != Scr_GetSelf(localId))
+                if (!localId || static_cast<unsigned int>(id.intValue) != Scr_GetSelf(localId))
                     goto LABEL_26;
                 I_strncpyz(s, "self", len);
                 break;
@@ -540,7 +546,7 @@ void __cdecl Scr_CompileVariableExpression(sval_u *expr)
             idValue.intValue = atoi(s + 1);
             if (!idValue.type)
                 goto LABEL_28;
-            if (idValue.type >= 0x8000u)
+            if (static_cast<unsigned int>(idValue.type) >= 0x8000u)
                 goto LABEL_28;
             if (IsObjectFree(idValue.stringValue))
                 goto LABEL_28;
@@ -1029,8 +1035,8 @@ void __cdecl Scr_EvalPrimitiveExpression(sval_u expr, unsigned int localId, Vari
         Scr_EvalExpression(expr.node[2], localId, &stringValue);
         if (objectValue.type == 1
             && stringValue.type == 2
-            && g_breakonObject == objectValue.u.intValue
-            && g_breakonString == stringValue.u.intValue)
+            && g_breakonObject == static_cast<unsigned int>(objectValue.u.intValue)
+            && g_breakonString == static_cast<unsigned int>(stringValue.u.intValue))
         {
             g_breakonHit = 1;
             ++expr.node[3].intValue;

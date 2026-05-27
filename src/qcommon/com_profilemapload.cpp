@@ -175,7 +175,7 @@ void  ProfLoad_CalculateSelfTicks()
 
 int ProfLoad_PrintTree()
 {
-    int result; // eax
+    int result = 0; // eax
     const MapProfileEntry *entry; // [esp+0h] [ebp-10Ch]
     char rowText[256]; // [esp+4h] [ebp-108h] BYREF
     int profileIndex; // [esp+108h] [ebp-4h]

@@ -3615,7 +3615,7 @@ BOOL __cdecl R_CompareSModels_Model(const GfxStaticModelDrawInst *s0, const GfxS
 
 int __cdecl R_GetSModelCacheAllocBits(const XModel *model, unsigned int lod)
 {
-    DWORD v3; // eax
+    unsigned long v3; // eax
     [[maybe_unused]] int v6; // [esp+4h] [ebp-30h]
     [[maybe_unused]] unsigned int surfCount; // [esp+18h] [ebp-1Ch]
     [[maybe_unused]] unsigned int triCount; // [esp+1Ch] [ebp-18h]

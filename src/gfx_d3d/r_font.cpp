@@ -291,7 +291,6 @@ int __cdecl R_ConsoleTextWidth(const char *textPool, int poolSize, int firstChar
         letter = SEH_DecodeLetter(textPool[parsePos], textPool[indexMask & (parsePos + 1)], &usedCharCount, 0);
         parsePos = indexMask & (usedCharCount + parsePos);
         if (letter == 94
-            && &textPool[parsePos]
             && textPool[parsePos] != 94
                 && textPool[parsePos] >= 48
                 && textPool[parsePos] <= 57)

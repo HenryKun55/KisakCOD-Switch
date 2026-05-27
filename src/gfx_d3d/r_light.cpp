@@ -317,7 +317,7 @@ void __cdecl R_GetBspOmniLightSurfs(const GfxLight *light, int lightIndex, GfxBs
         std::sort(&surfaces[0][0], &surfaces[0][visLightDrawSurfCount], R_SortBspShadowReceiverSurfaces);
         for (listSurfIndex = 0; listSurfIndex < visLightDrawSurfCount; ++listSurfIndex)
         {
-            if (listSurfIndex >= rgp.world->surfaceCount)
+            if (listSurfIndex >= static_cast<unsigned int>(rgp.world->surfaceCount))
                 MyAssertHandler(
                     ".\\r_light.cpp",
                     491,
@@ -395,7 +395,7 @@ void __cdecl R_GetBspSpotLightSurfs(const GfxLight *light, int lightIndex, GfxBs
         std::sort(&surfaces[0][0], &surfaces[0][surfCounts[0]], R_SortBspShadowReceiverSurfaces);
         for (listSurfIndex = 0; listSurfIndex < surfCounts[0]; ++listSurfIndex)
         {
-            if (listSurfIndex >= rgp.world->surfaceCount)
+            if (listSurfIndex >= static_cast<unsigned int>(rgp.world->surfaceCount))
                 MyAssertHandler(
                     ".\\r_light.cpp",
                     557,
@@ -428,7 +428,7 @@ void __cdecl R_GetBspSpotLightSurfs(const GfxLight *light, int lightIndex, GfxBs
         std::sort(&surfaces[1][0], &surfaces[1][surfCounts[1]], R_SortBspShadowReceiverSurfaces);
         for (listSurfIndex = 0; listSurfIndex < surfCounts[1]; ++listSurfIndex)
         {
-            if (listSurfIndex >= rgp.world->surfaceCount)
+            if (listSurfIndex >= static_cast<unsigned int>(rgp.world->surfaceCount))
                 MyAssertHandler(
                     ".\\r_light.cpp",
                     585,
@@ -685,8 +685,11 @@ void __cdecl R_GetStaticModelLightSurfs(const GfxLight **visibleLights, int visi
         maxs[1] = light->origin[1] + light->radius;
         maxs[2] = light->origin[2] + light->radius;
 
-        surfData.drawSurfList.current = &scene.visLight[lightIndex].drawSurfs[scene.visLightShadow[lightIndex - 4].drawSurfCount];
-        surfData.drawSurfList.end = (GfxDrawSurf*)&scene.visLightShadow[lightIndex - 3];
+        // KISAKHACK: hex-rays nega-array. visLightShadow[k-4..k-3] indexes back into visLight[k..k+1].
+        surfData.drawSurfList.current = &scene.visLight[lightIndex].drawSurfs[
+            reinterpret_cast<GfxVisibleLight *>(scene.visLightShadow - 4)[lightIndex].drawSurfCount];
+        surfData.drawSurfList.end = (GfxDrawSurf*)reinterpret_cast<GfxVisibleLight *>(
+            scene.visLightShadow - 3 + lightIndex);
 
         if (light->type == GFX_LIGHT_TYPE_OMNI)
         {
@@ -746,7 +749,8 @@ void __cdecl R_GetStaticModelLightSurfs(const GfxLight **visibleLights, int visi
             }
         }
         R_EndCmdBuf(&surfData.delayedCmdBuf);
-        scene.visLightShadow[lightIndex - 4].drawSurfCount = surfData.drawSurfList.current
+        // KISAKHACK: hex-rays nega-array. visLightShadow[lightIndex-4] = visLight[lightIndex].
+        reinterpret_cast<GfxVisibleLight *>(scene.visLightShadow - 4)[lightIndex].drawSurfCount = surfData.drawSurfList.current
             - scene.visLight[lightIndex].drawSurfs;
         R_EndCmdBuf(&shadowSurfData.delayedCmdBuf);
         scene.visLightShadow[lightIndex].drawSurfCount = shadowSurfData.drawSurfList.current

@@ -368,7 +368,7 @@ void __cdecl Load_Texture(GfxTexture *remoteLoadDef, GfxImage *image)
         }
         else
         {
-            if (image->cardMemory.platform[0] != Image_GetCardMemoryAmount(
+            if (static_cast<unsigned int>(image->cardMemory.platform[0]) != Image_GetCardMemoryAmount(
                 loadDef->flags,
                 loadDef->format,
                 loadDef->dimensions[0],
@@ -859,7 +859,7 @@ void __cdecl R_ImageList_f()
         Com_Printf(8, "%4i x %-4i ", image->width, image->height);
         v1 = R_ImagePixelFormat(image);
         v9 = v1;
-        if (v1 > D3DFMT_A8L8)
+        if (static_cast<unsigned int>(v1) > static_cast<unsigned int>(D3DFMT_A8L8))
         {
             if (v1 > D3DFMT_DXT3)
             {

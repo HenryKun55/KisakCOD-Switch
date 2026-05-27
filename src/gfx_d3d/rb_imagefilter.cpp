@@ -77,7 +77,7 @@ int __cdecl RB_GenerateGaussianFilterChain(
     dstRes[0] = dstWidth;
     dstRes[1] = dstHeight;
     passCount = 0;
-    if (srcWidth != dstWidth || srcHeight != dstHeight)
+    if (srcWidth != static_cast<unsigned int>(dstWidth) || srcHeight != static_cast<unsigned int>(dstHeight))
     {
         v20 = radiusY - radiusX;
         if (v20 < 0.0)
@@ -353,7 +353,7 @@ void __cdecl RB_SetupFilterPass(const GfxImageFilterPass *filterPass)
 {
     [[maybe_unused]] int constIndex; // [esp+4h] [ebp-4h]
 
-    if (filterPass->tapHalfCount >= 9u)
+    if (static_cast<unsigned int>(filterPass->tapHalfCount) >= 9u)
         MyAssertHandler(
             ".\\rb_imagefilter.cpp",
             302,

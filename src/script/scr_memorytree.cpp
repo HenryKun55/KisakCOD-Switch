@@ -81,7 +81,7 @@ unsigned short MT_AllocIndex(int numBytes, int type)
     (void)v2; (void)v3; // hex-rays scratch; unread
     unsigned int nodeNum; // [esp+4Ch] [ebp-Ch]
     unsigned int size; // [esp+50h] [ebp-8h]
-    int newSize; // [esp+54h] [ebp-4h]
+    unsigned int newSize; // [esp+54h] [ebp-4h]
 
     PROF_SCOPED("scriptMemory");
 

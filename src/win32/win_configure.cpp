@@ -47,7 +47,7 @@ unsigned int __cdecl Sys_AddApicIdIfUnique(
 void __cdecl Sys_GetPhysicalCpuCount(SysInfo* sysInfo)
 {
     bool v1; // cf
-    DWORD v8; // eax
+    unsigned long v8; // eax
     _DWORD v14[5]; // [esp+0h] [ebp-E8h] BYREF
     int v15; // [esp+14h] [ebp-D4h]
     unsigned __int8 v16; // [esp+1Ah] [ebp-CEh]

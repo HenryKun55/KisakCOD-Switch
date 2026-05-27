@@ -58,7 +58,7 @@ void __cdecl FX_AddEffectDefTableEntry(FxEffectDefTable *table, uint32_t key, co
 {
     if (!table)
         MyAssertHandler(".\\EffectsCore\\fx_archive.cpp", 47, 0, "%s", "table");
-    if (table->count >= 0x400u)
+    if (static_cast<unsigned int>(table->count) >= 0x400u)
         MyAssertHandler(
             ".\\EffectsCore\\fx_archive.cpp",
             48,

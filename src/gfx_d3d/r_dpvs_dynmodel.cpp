@@ -36,7 +36,7 @@ void __cdecl R_CullDynModelInCell(
     int planeCount,
     unsigned __int8 *dynEntVisData)
 {
-    DWORD v7; // eax
+    unsigned long v7; // eax
     int v8; // [esp+4h] [ebp-28h]
     float radius; // [esp+8h] [ebp-24h]
     const DpvsPlane *a; // [esp+Ch] [ebp-20h]

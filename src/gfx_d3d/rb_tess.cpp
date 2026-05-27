@@ -728,7 +728,7 @@ unsigned int __cdecl R_TessXModelSkinnedDrawSurfList(
                 {
                     if (modelSurf->info.gfxEntIndex)
                     {
-                        if ((data->gfxEnts[gfxEntIndex].renderFxFlags & 2) != depthHackFlags
+                        if ((data->gfxEnts[gfxEntIndex].renderFxFlags & 2) != static_cast<unsigned int>(depthHackFlags)
                             || materialTime != data->gfxEnts[gfxEntIndex].materialTime)
                         {
                             break;
@@ -761,7 +761,7 @@ unsigned int __cdecl R_TessXModelSkinnedDrawSurfList(
                 {
                     if (modelSurf->info.gfxEntIndex)
                     {
-                        if ((data->gfxEnts[gfxEntIndexa].renderFxFlags & 2) != depthHackFlags
+                        if ((data->gfxEnts[gfxEntIndexa].renderFxFlags & 2) != static_cast<unsigned int>(depthHackFlags)
                             || materialTime != data->gfxEnts[gfxEntIndexa].materialTime)
                         {
                             break;
@@ -1289,7 +1289,7 @@ unsigned int __cdecl R_TessXModelRigidSkinnedDrawSurfList(
     setupPixelShader = 1;
     drawSurfSubMask.packed = 0xFFFFFFFFFFFF0000uLL;
     if (baseTechType != TECHNIQUE_LIT_BEGIN)
-        *(_DWORD*)&drawSurfSubMask.packed = 0xE0000000uL; // first 29 bits are zero.
+        drawSurfSubMask.packed_low = 0xE0000000u; // first 29 bits are zero.
     drawSurf.packed = drawSurfList->packed;
     drawSurfKey = drawSurfList->packed & DRAWSURF_KEY_MASK;
     RB_TrackImmediatePrims(GFX_PRIM_STATS_XMODELRIGID);

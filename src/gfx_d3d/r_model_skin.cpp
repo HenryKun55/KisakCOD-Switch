@@ -88,7 +88,7 @@ void R_SkinXModelCmd(_WORD *data)
         if (boneIndex != skinnedSurf->info.boneIndex)
         {
             boneIndex = skinnedSurf->info.boneIndex;
-            const int totalBones = boneIndex + skinnedSurf->info.boneCount;
+            const unsigned int totalBones = static_cast<unsigned int>(boneIndex + skinnedSurf->info.boneCount);
             const DObjAnimMat* baseMats = &skinnedSurf->info.baseMat[-boneIndex];
             for (unsigned int j = boneIndex; j < totalBones; j++)
             {

@@ -94,12 +94,12 @@ void __cdecl RB_Draw3DInternal(const GfxViewInfo *viewInfo)
     }
     else
     {
-        memcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+        // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
         memset((unsigned __int8 *)gfxCmdBufState.vertexShaderConstState, 0, sizeof(gfxCmdBufState.vertexShaderConstState));
         memset((unsigned __int8 *)gfxCmdBufState.pixelShaderConstState, 0, sizeof(gfxCmdBufState.pixelShaderConstState));
         R_SetRenderTargetSize(&gfxCmdBufSourceState, R_RENDERTARGET_FRAME_BUFFER);
         R_SetRenderTarget(gfxCmdBufContext, R_RENDERTARGET_FRAME_BUFFER);
-        memcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+        // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
     }
 }
 
@@ -155,14 +155,14 @@ void __cdecl RB_EndSceneRendering(GfxCmdBufContext context, const GfxCmdBufInput
 
 void __cdecl R_SetAndClearSceneTarget(const GfxViewport *viewport)
 {
-    memcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+    // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
     memset((unsigned __int8 *)gfxCmdBufState.vertexShaderConstState, 0, sizeof(gfxCmdBufState.vertexShaderConstState));
     memset((unsigned __int8 *)gfxCmdBufState.pixelShaderConstState, 0, sizeof(gfxCmdBufState.pixelShaderConstState));
     KISAK_NULLSUB();
     R_SetRenderTargetSize(&gfxCmdBufSourceState, R_RENDERTARGET_SCENE);
     R_SetRenderTarget(gfxCmdBufContext, R_RENDERTARGET_SCENE);
     R_ClearForFrameBuffer(gfxCmdBufState.prim.device, viewport);
-    memcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+    // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
 }
 
 void __cdecl R_ClearForFrameBuffer(IDirect3DDevice9 *device, const GfxViewport *viewport)
@@ -379,13 +379,13 @@ void __cdecl RB_StandardDrawCommands(const GfxViewInfo *viewInfo)
             setupRenderTargetId = R_RENDERTARGET_DYNAMICSHADOWS;
             whichToClearForSetup = 7;
         }
-        memcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+        // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
         memset(gfxCmdBufState.vertexShaderConstState, 0, sizeof(gfxCmdBufState.vertexShaderConstState));
         memset(gfxCmdBufState.pixelShaderConstState, 0, sizeof(gfxCmdBufState.pixelShaderConstState));
         R_SetRenderTargetSize(&gfxCmdBufSourceState, setupRenderTargetId);
         R_SetRenderTarget(gfxCmdBufContext, setupRenderTargetId);
         R_ClearScreen(gfxCmdBufState.prim.device, whichToClearForSetup, colorWhite, 1.0, 0, 0);
-        memcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+        // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
         R_InitContext(data, &cmdBuf);
         R_DepthPrepass(setupRenderTargetId, viewInfo, &cmdBuf);
         if (dynamicShadowType == SHADOW_COOKIE)
@@ -396,14 +396,14 @@ void __cdecl RB_StandardDrawCommands(const GfxViewInfo *viewInfo)
             needsDepthPrepass = 0;
         }
     }
-    memcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+    // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
     memset(gfxCmdBufState.vertexShaderConstState, 0, sizeof(gfxCmdBufState.vertexShaderConstState));
     memset(gfxCmdBufState.pixelShaderConstState, 0, sizeof(gfxCmdBufState.pixelShaderConstState));
     R_SetRenderTargetSize(&gfxCmdBufSourceState, R_RENDERTARGET_SCENE);
     R_SetRenderTarget(gfxCmdBufContext, R_RENDERTARGET_SCENE);
     if (R_GetClearColor(clearColor) || (whichToClearForScene & 0xFE) != 0)
         R_ClearScreen(gfxCmdBufState.prim.device, whichToClearForScene, clearColor, 1.0, 0, 0);
-    memcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+    // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
     if (needsDepthPrepass)
     {
         R_InitContext(data, &cmdBuf);
@@ -417,7 +417,7 @@ void __cdecl RB_StandardDrawCommands(const GfxViewInfo *viewInfo)
     KISAK_NULLSUB();
     iassert(viewInfo->isRenderingFullScreen == isRenderingFullScreen);
     R_InitCmdBufSourceState(&gfxCmdBufSourceState, &viewInfo->input, 0);
-    memcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+    // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
     memset((unsigned __int8 *)gfxCmdBufState.vertexShaderConstState, 0, sizeof(gfxCmdBufState.vertexShaderConstState));
     memset((unsigned __int8 *)gfxCmdBufState.pixelShaderConstState, 0, sizeof(gfxCmdBufState.pixelShaderConstState));
     R_SetRenderTargetSize(&gfxCmdBufSourceState, R_RENDERTARGET_SCENE);
@@ -425,7 +425,7 @@ void __cdecl RB_StandardDrawCommands(const GfxViewInfo *viewInfo)
     R_BeginView(&gfxCmdBufSourceState, &viewInfo->sceneDef, &viewInfo->viewParms);
     R_SetViewportStruct(&gfxCmdBufSourceState, &viewInfo->sceneViewport);
     RB_DrawSun(viewInfo->localClientNum);
-    memcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+    // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
     R_InitContext(data, &cmdBuf);
     KISAK_NULLSUB();
     R_DrawLights(viewInfo, &cmdBuf);
@@ -762,7 +762,7 @@ void RB_StandardDrawCommandsCommon()
             viewInfo = &data->viewInfo[viewInfoIndex];
             viewInfo->input.data = data;
             R_InitCmdBufSourceState(&gfxCmdBufSourceState, &viewInfo->input, 0);
-            memcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+            // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
             memset(gfxCmdBufState.vertexShaderConstState, 0, sizeof(gfxCmdBufState.vertexShaderConstState));
             memset(gfxCmdBufState.pixelShaderConstState, 0, sizeof(gfxCmdBufState.pixelShaderConstState));
             R_SetResolvedScene(gfxCmdBufContext);
@@ -781,10 +781,10 @@ void RB_StandardDrawCommandsCommon()
             R_SetRenderTargetSize(&gfxCmdBufSourceState, R_RENDERTARGET_FRAME_BUFFER);
             R_SetRenderTarget(gfxCmdBufContext, R_RENDERTARGET_FRAME_BUFFER);
             RB_DrawSunPostEffects(viewInfo->localClientNum);
-            memcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+            // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
             R_InitCmdBufSourceState(&gfxCmdBufSourceState, &gfxCmdBufInput, 0);
             gfxCmdBufSourceState.input.data = backEndData;
-            memcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+            // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
             memset(gfxCmdBufState.vertexShaderConstState, 0, sizeof(gfxCmdBufState.vertexShaderConstState));
             memset(gfxCmdBufState.pixelShaderConstState, 0, sizeof(gfxCmdBufState.pixelShaderConstState));
             R_SetRenderTargetSize(&gfxCmdBufSourceState, R_RENDERTARGET_FRAME_BUFFER);
@@ -793,7 +793,7 @@ void RB_StandardDrawCommandsCommon()
             R_SetViewportStruct(&gfxCmdBufSourceState, &viewInfo->displayViewport);
             if (viewInfo->cmds)
                 RB_ExecuteRenderCommandsLoop(viewInfo->cmds);
-            memcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+            // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
         }
         viewInfoa = backEndData->viewInfo;
         R_InitCmdBufSourceState(&gfxCmdBufSourceState, &viewInfoa->input, 0);
@@ -802,7 +802,7 @@ void RB_StandardDrawCommandsCommon()
         R_BeginView(&gfxCmdBufSourceState, &viewInfoa->sceneDef, &viewInfoa->viewParms);
         R_SetViewportStruct(&gfxCmdBufSourceState, &viewInfoa->displayViewport);
         R_Set2D(&gfxCmdBufSourceState);
-        memcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+        // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
         memset(gfxCmdBufState.vertexShaderConstState, 0, sizeof(gfxCmdBufState.vertexShaderConstState));
         memset(gfxCmdBufState.pixelShaderConstState, 0, sizeof(gfxCmdBufState.pixelShaderConstState));
         if (viewInfoa->dynamicShadowType == SHADOW_COOKIE && sc_showOverlay->current.enabled)
@@ -816,7 +816,7 @@ void RB_StandardDrawCommandsCommon()
             else
                 RB_DrawSpotShadowOverlay();
         }
-        memcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+        // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
     }
 }
 

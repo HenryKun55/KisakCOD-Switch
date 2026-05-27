@@ -212,7 +212,7 @@ unsigned int __cdecl R_AllocModelLighting(
     const void *userData,
     GfxLightingInfo *lightingInfoOut)
 {
-    DWORD v7; // eax
+    unsigned long v7; // eax
     int v8; // [esp+4h] [ebp-2Ch]
     float *v9; // [esp+8h] [ebp-28h]
     float *v10; // [esp+10h] [ebp-20h]
@@ -405,7 +405,7 @@ void __cdecl R_BeginAllStaticModelLighting()
 
 void __cdecl R_SetAllStaticModelLighting()
 {
-    DWORD v1; // eax
+    unsigned long v1; // eax
     unsigned int wordCount; // [esp+34h] [ebp-18h]
     unsigned int bits; // [esp+38h] [ebp-14h]
     unsigned int indexLow; // [esp+40h] [ebp-Ch]
@@ -549,7 +549,7 @@ void __cdecl R_ShutdownModelLightingGlobals()
 
 void __cdecl R_InitModelLightingGlobals()
 {
-    DWORD v1; // eax
+    unsigned long v1; // eax
     unsigned int totalBitsNeeded; // [esp+Ch] [ebp-8h]
     unsigned int i; // [esp+10h] [ebp-4h]
 

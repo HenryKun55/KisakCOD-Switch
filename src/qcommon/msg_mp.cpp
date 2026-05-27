@@ -31,15 +31,14 @@ unsigned int huffBytesSeen[256];
 
 int __cdecl GetMinBitCountForNum(unsigned int num)
 {
-    int v2; // eax
+    unsigned long v2 = 0;
 
-    if (!_BitScanReverse((unsigned long*)&v2, num))
+    if (!_BitScanReverse(&v2, num))
     {
-        //v2 = `CountLeadingZeros'::`2': : notFound;
         v2 = 63;
     }
 
-    return 32 - (v2 ^ 0x1F);
+    return 32 - (static_cast<int>(v2) ^ 0x1F);
 }
 
 void __cdecl MSG_Init(msg_t *buf, unsigned __int8 *data, int length)

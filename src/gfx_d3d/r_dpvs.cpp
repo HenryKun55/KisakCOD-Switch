@@ -180,7 +180,7 @@ unsigned int __cdecl R_CalcReflectionProbeIndex(const float *origin)
 
     cellIndex = R_CellForPoint(rgp.world, origin);
 
-    if (cellIndex == -1)
+    if (cellIndex == 0xFFFFFFFFu)
         return R_FindNearestReflectionProbe(rgp.world, origin);
 
     bcassert(cellIndex, rgp.world->dpvsPlanes.cellCount);
@@ -411,13 +411,13 @@ void __cdecl R_AddAllSceneEntSurfacesRangeSunShadow(unsigned int partitionIndex)
     lastDrawSurf = &drawSurf[scene.maxDrawSurfCount[stage]];
     shadowmapBuildTechType = gfxMetrics.shadowmapBuildTechType;
 
-    for (int sceneEntIndex = 0; sceneEntIndex < scene.sceneDObjCount; ++sceneEntIndex)
+    for (unsigned int sceneEntIndex = 0; sceneEntIndex < scene.sceneDObjCount; ++sceneEntIndex)
     {
         if (scene.sceneDObjVisData[partitionIndex + 1][sceneEntIndex] == 1)
             drawSurf = R_AddDObjSurfaces(&scene.sceneDObj[sceneEntIndex], shadowmapBuildTechType, drawSurf, lastDrawSurf);
     }
 
-    for (int sceneEntIndex = 0; sceneEntIndex < scene.sceneModelCount; ++sceneEntIndex)
+    for (unsigned int sceneEntIndex = 0; sceneEntIndex < scene.sceneModelCount; ++sceneEntIndex)
     {
         if (scene.sceneModelVisData[partitionIndex + 1][sceneEntIndex] == 1)
             drawSurf = R_AddXModelSurfaces(
@@ -430,7 +430,7 @@ void __cdecl R_AddAllSceneEntSurfacesRangeSunShadow(unsigned int partitionIndex)
 
 
     sceneEntVisData = rgp.world->dpvsDyn.dynEntVisData[0][partitionIndex + 1];
-    for (int sceneEntIndex = 0; sceneEntIndex < scene.sceneDynModelCount; ++sceneEntIndex)
+    for (unsigned int sceneEntIndex = 0; sceneEntIndex < scene.sceneDynModelCount; ++sceneEntIndex)
     {
         sceneDynModel = &rgp.world->sceneDynModel[sceneEntIndex];
         if (sceneEntVisData[sceneDynModel->dynEntId] == 1)
@@ -446,7 +446,7 @@ void __cdecl R_AddAllSceneEntSurfacesRangeSunShadow(unsigned int partitionIndex)
     }
 
 
-    for (int sceneEntIndex = 0; sceneEntIndex < scene.sceneBrushCount; ++sceneEntIndex)
+    for (unsigned int sceneEntIndex = 0; sceneEntIndex < scene.sceneBrushCount; ++sceneEntIndex)
     {
         if (scene.sceneBrushVisData[partitionIndex + 1][sceneEntIndex] == 1)
             drawSurf = R_AddBModelSurfaces(
@@ -458,7 +458,7 @@ void __cdecl R_AddAllSceneEntSurfacesRangeSunShadow(unsigned int partitionIndex)
     }
 
     sceneEntVisData = rgp.world->dpvsDyn.dynEntVisData[1][partitionIndex + 1];
-    for (int sceneEntIndex = 0; sceneEntIndex < scene.sceneDynBrushCount; ++sceneEntIndex)
+    for (unsigned int sceneEntIndex = 0; sceneEntIndex < scene.sceneDynBrushCount; ++sceneEntIndex)
     {
         sceneDynBrush = &rgp.world->sceneDynBrush[sceneEntIndex];
         if (sceneEntVisData[sceneDynBrush->dynEntId] == 1)
@@ -1480,7 +1480,7 @@ void __cdecl R_FilterEntitiesIntoCells(int cameraCellIndex)
     [[maybe_unused]] GfxSceneModel *sceneModel; // [esp+60h] [ebp-24h]
     [[maybe_unused]] const DpvsView *dpvsView; // [esp+64h] [ebp-20h]
     [[maybe_unused]] const DpvsView *view; // [esp+68h] [ebp-1Ch]
-    [[maybe_unused]] int sceneEntIndex; // [esp+6Ch] [ebp-18h]
+    [[maybe_unused]] unsigned int sceneEntIndex; // [esp+6Ch] [ebp-18h]
     [[maybe_unused]] GfxSceneEntity *sceneEnt; // [esp+70h] [ebp-14h]
     [[maybe_unused]] GfxSceneBrush *sceneBrush; // [esp+74h] [ebp-10h]
     [[maybe_unused]] unsigned int entnum; // [esp+78h] [ebp-Ch]
@@ -1642,7 +1642,7 @@ void __cdecl R_CullDynBrushInCell(unsigned int cellIndex, const DpvsPlane *plane
     [[maybe_unused]] unsigned int wordIndex; // [esp+30h] [ebp-8h]
     [[maybe_unused]] const GfxBrushModel *bmodel; // [esp+34h] [ebp-4h]
 
-    if (cellIndex >= rgp.world->dpvsPlanes.cellCount)
+    if (cellIndex >= static_cast<unsigned int>(rgp.world->dpvsPlanes.cellCount))
         MyAssertHandler(
             ".\\r_dpvs.cpp",
             1289,
@@ -3544,9 +3544,9 @@ unsigned int __cdecl R_CalcReflectionProbeIndex(const GfxWorld *world, const flo
     [[maybe_unused]] unsigned int cellIndex; // [esp+0h] [ebp-4h]
 
     cellIndex = R_CellForPoint(world, origin);
-    if (cellIndex == -1)
+    if (cellIndex == 0xFFFFFFFFu)
         return R_FindNearestReflectionProbe(world, origin);
-    if (cellIndex >= world->dpvsPlanes.cellCount)
+    if (cellIndex >= static_cast<unsigned int>(world->dpvsPlanes.cellCount))
         MyAssertHandler(
             ".\\r_staticmodel_load_obj.cpp",
             552,

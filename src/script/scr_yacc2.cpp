@@ -2039,10 +2039,19 @@ yyabortlab:
 	/*-------------------------------------------------------------.
 	| yyerrlab1 -- common code for both syntax error and YYERROR.  |
 	`-------------------------------------------------------------*/
+#ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-label"
+#elif defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-label"
+#endif
 yyerrlab1:
+#ifdef __clang__
 #pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
 	yyerrorstatus = 3; /* Each real token shifted decrements this.  */
 
 	while (2)

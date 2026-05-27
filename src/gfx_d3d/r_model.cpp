@@ -452,7 +452,7 @@ void R_DObjReplaceMaterial(DObj_s *obj, int lod, int surfaceIndex, Material *mat
             if (SurfCount)
                 break;
         LABEL_13:
-            if (++v10 >= NumModels)
+            if (static_cast<unsigned int>(++v10) >= NumModels)
                 return;
         }
         while (surfaceIndex != v9)

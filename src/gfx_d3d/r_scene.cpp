@@ -98,7 +98,7 @@ unsigned int __cdecl R_AllocSceneBrush()
 GfxBrushModel *__cdecl R_GetBrushModel(unsigned int modelIndex)
 {
     iassert( rgp.world );
-    if (modelIndex >= rgp.world->modelCount)
+    if (modelIndex >= static_cast<unsigned int>(rgp.world->modelCount))
         MyAssertHandler(
             ".\\r_scene.cpp",
             181,
@@ -399,7 +399,7 @@ void __cdecl R_AddBModelSurfacesCamera(
             "reflectionProbeIndex doesn't index 1 << MTL_SORT_ENVMAP_BITS\n\t%i not in [0, %i)",
             reflectionProbeIndex,
             256);
-    if (gfxDrawMethod.emissiveTechType >= (unsigned int)TECHNIQUE_COUNT)
+    if (static_cast<unsigned int>(gfxDrawMethod.emissiveTechType) >= static_cast<unsigned int>(TECHNIQUE_COUNT))
         MyAssertHandler(
             ".\\r_scene.cpp",
             550,
@@ -816,14 +816,14 @@ LABEL_15:
                 ++modelIndex;
                 goto LABEL_15;
             }
-            if (*(unsigned int *)modelSurf == -2)
+            if (*(unsigned int *)modelSurf == 0xFFFFFFFEu)
             {
                 surfType = SF_BEGIN_XMODEL;
                 surfSize = 56;
             }
             else
             {
-                if (*(unsigned int *)modelSurf == -3)
+                if (*(unsigned int *)modelSurf == 0xFFFFFFFDu)
                 {
                     surfSize = 4;
                     goto LABEL_22;
@@ -945,14 +945,14 @@ GfxDrawSurf *__cdecl R_AddDObjSurfaces(
         LABEL_18:
             if (subMatIndex >= numsurfs)
                 continue;
-            if (*(unsigned int *)modelSurf == -2)
+            if (*(unsigned int *)modelSurf == 0xFFFFFFFEu)
             {
                 surfType = 7;
                 surfSize = 56;
             }
             else
             {
-                if (*(unsigned int *)modelSurf == -3)
+                if (*(unsigned int *)modelSurf == 0xFFFFFFFDu)
                 {
                     surfSize = 4;
                 LABEL_17:
@@ -1372,7 +1372,7 @@ void __cdecl R_RenderScene(const refdef_s *refdef)
     iassert( refdef->tanHalfFovY > 0 );
     iassert( refdef->height > 0 );
     iassert( refdef->width > 0 );
-    if (refdef->localClientNum >= gfxCfg.maxClientViews)
+    if (static_cast<unsigned int>(refdef->localClientNum) >= gfxCfg.maxClientViews)
         MyAssertHandler(
             ".\\r_scene.cpp",
             2635,
@@ -2020,7 +2020,7 @@ void R_GenerateMarkVertsForDynamicModels()
     [[maybe_unused]] GfxSceneEntity *sceneEntity; // [esp+24h] [ebp-4h]
 
     FX_BeginGeneratingMarkVertsForEntModels(scene.dpvs.localClientNum, &indexCount);
-    for (dobjIndex = 0; dobjIndex != scene.sceneDObjCount; ++dobjIndex)
+    for (dobjIndex = 0; static_cast<unsigned int>(dobjIndex) != scene.sceneDObjCount; ++dobjIndex)
     {
         sceneEntity = &scene.sceneDObj[dobjIndex];
         entnum = sceneEntity->entnum;
@@ -2037,7 +2037,7 @@ void R_GenerateMarkVertsForDynamicModels()
                 sceneEntity->info.pose);
         }
     }
-    for (modelIndex = 0; modelIndex != scene.sceneModelCount; ++modelIndex)
+    for (modelIndex = 0; static_cast<unsigned int>(modelIndex) != scene.sceneModelCount; ++modelIndex)
     {
         sceneModel = &scene.sceneModel[modelIndex];
         entnum = sceneModel->entnum;
@@ -2055,7 +2055,7 @@ void R_GenerateMarkVertsForDynamicModels()
                     &sceneModel->placement);
         }
     }
-    for (brushModelIndex = 0; brushModelIndex != scene.sceneBrushCount; ++brushModelIndex)
+    for (brushModelIndex = 0; static_cast<unsigned int>(brushModelIndex) != scene.sceneBrushCount; ++brushModelIndex)
     {
         entnum = scene.sceneBrush[brushModelIndex].entnum;
         if (entnum < gfxCfg.entnumOrdinaryEnd && (scene.sceneBrushVisData[0][brushModelIndex] & 1) != 0)

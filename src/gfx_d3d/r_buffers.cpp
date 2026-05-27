@@ -274,7 +274,7 @@ void __cdecl R_CreateParticleCloudBuffer()
                     particleVertsIter->xyz[1] = pos[1];
                     particleVertsIter->xyz[2] = pos[2];
                     v0 = (double *)cornerTexCoords[cornerIter];
-                    *(double *)particleVertsIter->texCoord = *v0;
+                    memcpy(particleVertsIter->texCoord, v0, sizeof(double));
                     ++particleVertsIter;
                 }
                 for (indIter = 0; indIter != 6; ++indIter)

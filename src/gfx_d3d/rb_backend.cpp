@@ -1,4 +1,10 @@
 #include "rb_backend.h"
+#include <setjmp.h>
+#if !defined(_MSC_VER)
+#  ifndef _setjmp
+#    define _setjmp setjmp
+#  endif
+#endif
 #include <qcommon/mem_track.h>
 
 #include "rb_logfile.h"
@@ -926,7 +932,7 @@ void __cdecl RB_BlendSavedScreenBlurredCmd(GfxRenderCommandExecState *execState)
 
     cmd = (const GfxCmdBlendSavedScreenBlurred *)execState->cmd;
     iassert( cmd->fadeMsec > 0 );
-    if (cmd->screenTimerId >= 4u)
+    if (static_cast<unsigned int>(cmd->screenTimerId) >= 4u)
         MyAssertHandler(
             ".\\rb_backend.cpp",
             1280,
@@ -2720,7 +2726,7 @@ void __cdecl RB_CallExecuteRenderCommands()
                 tess.indexCount);
         R_InitCmdBufSourceState(&gfxCmdBufSourceState, &gfxCmdBufInput, 0);
         gfxCmdBufSourceState.input.data = backEndData;
-        memcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+        // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
         memset((unsigned __int8 *)gfxCmdBufState.vertexShaderConstState, 0, sizeof(gfxCmdBufState.vertexShaderConstState));
         memset((unsigned __int8 *)gfxCmdBufState.pixelShaderConstState, 0, sizeof(gfxCmdBufState.pixelShaderConstState));
         R_SetRenderTargetSize(&gfxCmdBufSourceState, R_RENDERTARGET_FRAME_BUFFER);
@@ -2732,7 +2738,7 @@ void __cdecl RB_CallExecuteRenderCommands()
             RB_DrawPrimHistogramOverlay();
         if (tess.indexCount)
             RB_EndTessSurface();
-        memcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+        // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
         if (gfxCmdBufState.prim.indexBuffer)
             R_ChangeIndices(&gfxCmdBufState.prim, 0);
         R_ClearAllStreamSources(&gfxCmdBufState.prim);

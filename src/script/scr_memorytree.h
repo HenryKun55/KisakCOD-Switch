@@ -38,7 +38,7 @@ struct __declspec(align(128)) scrMemTreeGlob_t // sizeof=0xC0380
 static_assert(sizeof(scrMemTreeGlob_t) == 0xC0380);
 #endif
 
-static const char* mt_type_names[22] =
+[[maybe_unused]] static const char* mt_type_names[22] =
 {
     "empty",
     "thread",

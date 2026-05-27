@@ -54,7 +54,7 @@ bool __cdecl R_IsPrimaryLight(unsigned int shadowableLightIndex)
 
 void __cdecl R_ChooseShadowedLights(GfxViewInfo *viewInfo)
 {
-    DWORD v2; // eax
+    unsigned long v2; // eax
     GfxCandidateShadowedLight candidateLights[5]; // [esp+14h] [ebp-74h] BYREF
     unsigned int timeDelta; // [esp+3Ch] [ebp-4Ch]
     unsigned int entryIndex; // [esp+40h] [ebp-48h]
@@ -223,7 +223,7 @@ void __cdecl R_AddShadowedLightToShadowHistory(
             return;
         }
     }
-    if (shadowHistory->entryCount < sm_maxLights->current.integer)
+    if (shadowHistory->entryCount < static_cast<unsigned int>(sm_maxLights->current.integer))
     {
         shadowHistory->entries[shadowHistory->entryCount].shadowableLightIndex = shadowableLightIndex;
         if (shadowHistory->entries[shadowHistory->entryCount].shadowableLightIndex != shadowableLightIndex)

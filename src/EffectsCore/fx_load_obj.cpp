@@ -1098,7 +1098,7 @@ const FxEffectDef *__cdecl FX_LoadFailed(const char *name)
     unsigned int baseBytesNeeded; // [esp+40h] [ebp-18h]
     byte *effectDef; // [esp+48h] [ebp-10h]
     int relocationDistance; // [esp+4Ch] [ebp-Ch]
-    int elemIndex; // [esp+54h] [ebp-4h]
+    unsigned int elemIndex; // [esp+54h] [ebp-4h]
 
     if (!fx_load.defaultEffect)
     {

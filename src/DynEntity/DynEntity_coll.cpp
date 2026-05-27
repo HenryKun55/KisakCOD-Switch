@@ -240,8 +240,8 @@ void __cdecl DynEnt_LinkEntity(
         }
         if (sectorIndex == dynEntColl->sector)
         {
-            *(double *)dynEntColl->linkMins = *(double *)absMins;
-            *(double *)dynEntColl->linkMaxs = *(double *)absMaxs;
+            memcpy(dynEntColl->linkMins, absMins, sizeof(double));
+            memcpy(dynEntColl->linkMaxs, absMaxs, sizeof(double));
             return;
         }
     LABEL_24:
@@ -253,8 +253,8 @@ void __cdecl DynEnt_LinkEntity(
     }
     DynEnt_AddToCollSector(collType, dynEntId, sectorIndex);
 LABEL_29:
-    *(double *)dynEntColl->linkMins = *(double *)absMins;
-    *(double *)dynEntColl->linkMaxs = *(double *)absMaxs;
+    memcpy(dynEntColl->linkMins, absMins, sizeof(double));
+    memcpy(dynEntColl->linkMaxs, absMaxs, sizeof(double));
     DynEnt_SortCollSector(collType, sectorIndex, mins, maxs);
     p_flags = &DynEnt_GetClientEntity(dynEntId, (DynEntityDrawType)(collType & 1))->flags;
     *p_flags |= 4u;

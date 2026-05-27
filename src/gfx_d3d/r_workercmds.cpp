@@ -1,4 +1,10 @@
 #include "r_workercmds.h"
+#include <setjmp.h>
+#if !defined(_MSC_VER)
+#  ifndef _setjmp
+#    define _setjmp setjmp
+#  endif
+#endif
 #include <qcommon/mem_track.h>
 #include <qcommon/threads.h>
 #include "r_scene.h"
@@ -242,7 +248,7 @@ int __cdecl R_ProcessWorkerCmd(WorkerCmdType type)
             if (startPos + 1 == bufCount)
                 newStartPos = 0;
             v2 = InterlockedCompareExchange((LONG*)&workerCmds->startPos, static_cast<long>(newStartPos), static_cast<long>(startPos));
-            if (v2 == startPos)
+            if (static_cast<unsigned int>(v2) == startPos)
                 break;
             if (g_cmdExecFailed[type])
                 g_cmdExecFailed[type]();
@@ -281,7 +287,7 @@ int __cdecl R_ProcessWorkerCmd(WorkerCmdType type)
             }
             memcpy(data, &workerCmds->buf[dataSize * startPos], dataSize * currentCount);
             v3 = InterlockedCompareExchange((LONG*)&workerCmds->startPos, static_cast<long>(newStartPos), static_cast<long>(startPos));
-        } while (v3 != startPos);
+        } while (static_cast<unsigned int>(v3) != startPos);
         KISAK_NULLSUB();
         for (i = 0; i < count; ++i)
             R_ProcessWorkerCmdInternal(type, &data[dataSize * i]);

@@ -74,7 +74,7 @@ void __cdecl RB_ShowCollision(const GfxViewParms *viewParms)
         }
         frustumPlanes[5].type = v3;
         SetPlaneSignbits(&frustumPlanes[5]);
-        if (r_showCollisionGroups->current.integer <= 1u)
+        if (static_cast<unsigned int>(r_showCollisionGroups->current.integer) <= 1u)
             CM_ShowBrushCollision(contentMask, frustumPlanes, 6, RB_DrawCollisionPoly);
         if (tess.indexCount)
             RB_EndTessSurface();
@@ -137,11 +137,18 @@ void __cdecl RB_SetPolyVert(float *xyz, GfxColor color, int tessVertIndex)
     xyzw[1] = xyz[1];
     xyzw[2] = xyz[2];
     // TODO(mrsteyk): fix this abysmal minus offsetting into GfxVertex verts[5450]; @Correctness
-    *(float*)   &tess.indices[16 * tessVertIndex - 87194] = 1.0;
-    *(_DWORD*)  &tess.indices[16 * tessVertIndex - 87186] = 0x3FFE7F7F;
-    *(GfxColor*)&tess.indices[16 * tessVertIndex - 87192] = color;
-    *(float*)   &tess.indices[16 * tessVertIndex - 87190] = 0.0;
-    *(float*)   &tess.indices[16 * tessVertIndex - 87188] = 0.0;
+    // KISAKHACK: hex-rays nega-array — write into preceding verts[] via tess.indices base.
+    {
+        char *base = reinterpret_cast<char *>(&tess.indices[16 * tessVertIndex - 87194]);
+        const float oneF = 1.0f;
+        const _DWORD packed = 0x3FFE7F7F;
+        const float zeroF = 0.0f;
+        memcpy(base, &oneF, sizeof(float));
+        memcpy(base + (87194 - 87186) * sizeof(uint16_t), &packed, sizeof(_DWORD));
+        memcpy(base + (87194 - 87192) * sizeof(uint16_t), &color, sizeof(GfxColor));
+        memcpy(base + (87194 - 87190) * sizeof(uint16_t), &zeroF, sizeof(float));
+        memcpy(base + (87194 - 87188) * sizeof(uint16_t), &zeroF, sizeof(float));
+    }
 }
 
 void __cdecl RB_DrawCollisionPoly(int numPoints, float (*points)[3], const float *colorFloat)
@@ -173,7 +180,7 @@ void __cdecl RB_DrawCollisionPoly(int numPoints, float (*points)[3], const float
         tess.vertexCount += numPoints;
         RB_EndTessSurface();
     }
-    if (r_showCollisionPolyType->current.integer <= 1u)
+    if (static_cast<unsigned int>(r_showCollisionPolyType->current.integer) <= 1u)
     {
         vertCount = 0;
         vertIndexPrev = numPoints - 1;

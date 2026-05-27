@@ -58,7 +58,7 @@ void __cdecl Ragdoll_DebugDraw()
             iassert( body );
             if (body->references > 0)
             {
-                if (body->state >= (unsigned int)RAGDOLL_NUM_STATES)
+                if (static_cast<unsigned int>(body->state) >= static_cast<unsigned int>(RAGDOLL_NUM_STATES))
                     MyAssertHandler(
                         ".\\ragdoll\\ragdoll.cpp",
                         107,
@@ -80,7 +80,7 @@ void __cdecl Ragdoll_DebugDraw()
 RagdollDef *__cdecl Ragdoll_BodyDef(RagdollBody *body)
 {
     iassert( body );
-    if (body->ragdollDef >= 2u)
+    if (static_cast<unsigned int>(body->ragdollDef) >= 2u)
         MyAssertHandler(
             ".\\ragdoll\\ragdoll.cpp",
             183,
@@ -761,7 +761,7 @@ void __cdecl Ragdoll_PinBone_f()
                 {
                     v1 = Cmd_Argv(3);
                     bone->parentBoneIndex = atoi(v1);
-                    if (bone->parentBoneIndex < def->numBones)
+                    if (bone->parentBoneIndex < static_cast<unsigned int>(def->numBones))
                     {
                         bone->lerpTime = 0;
                         ++def->numBaseLerpBones;

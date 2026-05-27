@@ -3,6 +3,7 @@
 #include <universal/assertive.h>
 #include <universal/q_shared.h>
 #include <qcommon/mem_track.h>
+#include <cstring>
 #include <math.h>
 #include <xanim/dobj.h>
 #include <stdlib.h>
@@ -1044,8 +1045,6 @@ mat4x4 identityMatrix44 = {
 
 void __cdecl OrthographicMatrix(mat4x4 &mtx, float width, float height, float depth)
 {
-    if (!mtx)
-        MyAssertHandler(".\\universal\\com_math.cpp", 2281, 0, "%s", "mtx");
     if (width == 0.0)
         MyAssertHandler(".\\universal\\com_math.cpp", 2282, 0, "%s", "width != 0");
     if (height == 0.0)
@@ -1383,7 +1382,7 @@ void __cdecl MatrixInverse44(const mat4x4 &mat, mat4x4& dst)
 
     det = 1.0 / det;
     for (i = 0; i < 16; ++i)
-        (dst)[0][i] = (dst)[0][i] * det;
+        (dst)[i / 4][i % 4] = (dst)[i / 4][i % 4] * det;
 }
 
 void __cdecl MatrixTransformVector44(const vec4r vec, const mat4x4 &mat, vec4r out)
@@ -3446,11 +3445,14 @@ void ProjectPointOntoVector(const float *point, const float *start, const float 
     vProj[2] = start[2] + t * dir[2];
 }
 
-float Q_fabs(float f) 
+float Q_fabs(float f)
 {
-    int tmp = *(int *)&f;
+    int tmp;
+    std::memcpy(&tmp, &f, sizeof(tmp));
     tmp &= 0x7FFFFFFF;
-    return *(float *)&tmp;
+    float out;
+    std::memcpy(&out, &tmp, sizeof(out));
+    return out;
 }
 
 void vectosignedangles(const float *vec, float *angles)

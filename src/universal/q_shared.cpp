@@ -305,7 +305,9 @@ double __cdecl FloatReadSwap(int n)
 
 double __cdecl FloatReadNoSwap(int n)
 {
-    return *(float *)&n;
+    float out;
+    memcpy(&out, &n, sizeof(out));
+    return out;
 }
 
 FloatWriteSwap_union __cdecl FloatWriteSwap(float f)
@@ -530,7 +532,7 @@ int Com_sprintfPos(char *dest, int destSize, int *destPos, const char *fmt, ...)
     destModSize = destSize - *destPos;
     len = _vsnprintf(destMod, destModSize, fmt, va);
     destMod[destModSize - 1] = 0;
-    if (len == destModSize || len == -1)
+    if (static_cast<unsigned int>(len) == destModSize || len == -1)
         *destPos = destSize - 1;
     else
         *destPos += len;

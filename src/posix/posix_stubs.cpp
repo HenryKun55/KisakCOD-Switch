@@ -114,6 +114,25 @@ BOOL QueryPerformanceFrequency(LARGE_INTEGER *freq)
 }
 
 // VirtualAlloc / VirtualFree shim — see kisak_compat.h comment.
+#if defined(__SWITCH__)
+// libnx has no sys/mman.h: fall back to plain malloc/free. Code paths that
+// asked for RESERVE-only mappings will still get a contiguous backed buffer.
+#include <cstdlib>
+void *VirtualAlloc(void *addr, size_t size, unsigned int flags, unsigned int /*prot*/)
+{
+    if ((flags & MEM_RESERVE) == 0 && (flags & MEM_COMMIT) != 0 && addr != nullptr) {
+        return addr;
+    }
+    return std::malloc(size);
+}
+BOOL VirtualFree(void *addr, size_t /*size*/, unsigned int flags)
+{
+    if (!addr) return 0;
+    if (flags & MEM_RELEASE) { std::free(addr); return 1; }
+    if (flags & MEM_DECOMMIT) { return 1; }
+    return 0;
+}
+#else
 #include <sys/mman.h>
 void *VirtualAlloc(void *addr, size_t size, unsigned int flags, unsigned int /*prot*/)
 {
@@ -146,6 +165,7 @@ BOOL VirtualFree(void *addr, size_t size, unsigned int flags)
     }
     return 0;
 }
+#endif
 
 // Win32 UI stubs — see kisak_compat.h comment.
 HWND GetActiveWindow() { return nullptr; }

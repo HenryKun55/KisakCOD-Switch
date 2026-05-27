@@ -222,8 +222,8 @@ void __cdecl CM_LinkEntity(svEntity_s *ent, float *absmin, float *absmax, unsign
             if (nodeIndex == ent->worldSector && (ent->linkcontents & ~linkcontents) == 0)
             {
                 ent->linkcontents = linkcontents;
-                *(double *)ent->linkmin = *(double *)absmin;
-                *(double *)ent->linkmax = *(double *)absmax;
+                memcpy(ent->linkmin, absmin, sizeof(double));
+                memcpy(ent->linkmax, absmax, sizeof(double));
                 return;
             }
         LABEL_17:
@@ -236,8 +236,8 @@ void __cdecl CM_LinkEntity(svEntity_s *ent, float *absmin, float *absmax, unsign
         CM_AddEntityToNode(ent, nodeIndex);
     LABEL_23:
         ent->linkcontents = linkcontents;
-        *(double *)ent->linkmin = *(double *)absmin;
-        *(double *)ent->linkmax = *(double *)absmax;
+        memcpy(ent->linkmin, absmin, sizeof(double));
+        memcpy(ent->linkmax, absmax, sizeof(double));
         CM_SortNode(nodeIndex, mins, maxs);
     }
 }

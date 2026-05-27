@@ -86,7 +86,8 @@ inline void __cdecl R_CheckVertexDataOverflow(int dataSize)
             "%s\n\t(dataSize) = %i",
             "(dataSize > 0 && dataSize <= gfxBuf.dynamicVertexBuffer->total)",
             dataSize);
-    if (dataSize + gfxBuf.dynamicVertexBuffer->used > gfxBuf.dynamicVertexBuffer->total)
+    if (static_cast<unsigned int>(dataSize) + gfxBuf.dynamicVertexBuffer->used
+            > static_cast<unsigned int>(gfxBuf.dynamicVertexBuffer->total))
         gfxBuf.dynamicVertexBuffer->used = 0;
 }
 

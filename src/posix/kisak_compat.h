@@ -48,6 +48,7 @@
 // The MSVC build picks those up transitively from some other MS CRT header;
 // force availability here.
 #include <climits>
+#include <cstdint>
 
 // === MSVC underscore-prefixed CRT functions =================================
 // MSVC CRT prefixes various functions with `_` (_vsnprintf, _snprintf,
@@ -305,7 +306,7 @@ inline ::tm *_localtime64(const long long *in)
 // provide opaque equivalents. HANDLE = void* works as a generic pointer-
 // shaped handle; the linker resolves at the right moment when the owning
 // subsystem is ported.
-typedef unsigned long DWORD;
+typedef uint32_t DWORD;
 typedef long          LONG;
 typedef long long     LONGLONG;
 typedef unsigned long long ULONGLONG;
@@ -713,8 +714,8 @@ struct IDirect3DDevice9 {
     long CreateRenderTarget(unsigned int, unsigned int, int, unsigned long, unsigned long, int, IDirect3DSurface9 **out, void *) { if (out) *out = nullptr; return 0; }
     long CreateDepthStencilSurface(unsigned int, unsigned int, int, unsigned long, unsigned long, int, IDirect3DSurface9 **out, void *) { if (out) *out = nullptr; return 0; }
     long CreateVertexDeclaration(const void *, IDirect3DVertexDeclaration9 **out) { if (out) *out = nullptr; return 0; }
-    long CreateVertexShader(const unsigned long *, IDirect3DVertexShader9 **out) { if (out) *out = nullptr; return 0; }
-    long CreatePixelShader(const unsigned long *, IDirect3DPixelShader9 **out) { if (out) *out = nullptr; return 0; }
+    long CreateVertexShader(const DWORD *, IDirect3DVertexShader9 **out) { if (out) *out = nullptr; return 0; }
+    long CreatePixelShader(const DWORD *, IDirect3DPixelShader9 **out) { if (out) *out = nullptr; return 0; }
     long CreateQuery(unsigned long, IDirect3DQuery9 **out) { if (out) *out = nullptr; return 0; }
     long SetPixelShaderConstantF(unsigned int, const float *, unsigned int) { return 0; }
     long SetVertexShaderConstantF(unsigned int, const float *, unsigned int) { return 0; }

@@ -1358,8 +1358,8 @@ iwd_t *__cdecl FS_LoadZipFile(char *zipfile, char *basename)
         iwd->hashTable[i] = 0;
     I_strncpyz(iwd->iwdFilename, zipfile, 256);
     I_strncpyz(iwd->iwdBasename, basename, 256);
-    if (strlen(iwd->iwdBasename) > 4 && !I_stricmp(&iwd->iwdFilename[strlen(iwd->iwdBasename) + 252], ".iwd"))
-        iwd->iwdFilename[strlen(iwd->iwdBasename) + 252] = 0;
+    if (strlen(iwd->iwdFilename) > 4 && !I_stricmp(&iwd->iwdFilename[strlen(iwd->iwdFilename) - 4], ".iwd"))
+        iwd->iwdFilename[strlen(iwd->iwdFilename) - 4] = 0;
     iwd->handle = uf;
     iwd->numfiles = gi.number_entry;
     iwd->hasOpenFile = 0;
@@ -2014,7 +2014,7 @@ void __cdecl FS_SetRestrictions()
         FS_Startup((char*)"demomain");
         for (path = fs_searchpaths; path; path = path->next)
         {
-            if (FS_UseSearchPath(path) && path->iwd && (path->iwd->checksum ^ 0x2261994) != 0xB3D38C61)
+            if (FS_UseSearchPath(path) && path->iwd && (path->iwd->checksum ^ 0x2261994u) != 0xB3D38C61u)
                 Com_Error(ERR_FATAL, "Corrupted iw0.iwd: %u", path->iwd->checksum);
         }
     }
@@ -2682,7 +2682,7 @@ void __cdecl FS_CopyFile(char *fromOSPath, char *toOSPath)
     {
         len = FS_FileGetFileSize(f);
         buf = (unsigned __int8 *)malloc(len);
-        if (FS_FileRead(buf, len, f) != len)
+        if (FS_FileRead(buf, len, f) != static_cast<unsigned int>(len))
             Com_Error(ERR_FATAL, "Short read in FS_CopyFile()");
         FS_FileClose(f);
         if (FS_CreatePath(toOSPath) || (fa = FS_FileOpenWriteBinary(toOSPath)) == 0)
@@ -2691,7 +2691,7 @@ void __cdecl FS_CopyFile(char *fromOSPath, char *toOSPath)
         }
         else
         {
-            if (FS_FileWrite(buf, len, fa) != len)
+            if (FS_FileWrite(buf, len, fa) != static_cast<unsigned int>(len))
                 Com_Error(ERR_FATAL, "Short write in FS_CopyFile()");
             FS_FileClose(fa);
             free(buf);

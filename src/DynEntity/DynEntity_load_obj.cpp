@@ -382,7 +382,8 @@ void __cdecl DynEnt_LoadEntities()
     cm.dynEntClientList[1] = 0;
     cm.dynEntCollList[0] = 0;
     cm.dynEntCollList[1] = 0;
-    *(uint32_t *)cm.dynEntCount = 0;
+    cm.dynEntCount[0] = 0;
+    cm.dynEntCount[1] = 0;
     v0 = Com_EntityString(0);
     dynEntStringCount = DynEnt_GetEntityCountFromString(v0);
     if (dynEntStringCount >= 4096)

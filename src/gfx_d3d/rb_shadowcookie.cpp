@@ -47,7 +47,7 @@ void __cdecl RB_BlurShadowPass(float st0, float st1)
 
 int RB_BlurShadowCookie()
 {
-    int result; // eax
+    int result = 0; // eax
     [[maybe_unused]] float v1; // [esp+8h] [ebp-1Ch]
     [[maybe_unused]] float v2; // [esp+Ch] [ebp-18h]
     [[maybe_unused]] float v3; // [esp+10h] [ebp-14h]
@@ -84,7 +84,7 @@ void __cdecl RB_DrawShadowCookies(const GfxViewInfo *viewInfo)
 
     KISAK_NULLSUB();
     R_InitCmdBufSourceState(&gfxCmdBufSourceState, &viewInfo->input, 0);
-    qmemcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+    // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
     memset(gfxCmdBufState.vertexShaderConstState, 0, sizeof(gfxCmdBufState.vertexShaderConstState));
     memset(gfxCmdBufState.pixelShaderConstState, 0, sizeof(gfxCmdBufState.pixelShaderConstState));
     needToClearDynamicShadows = 1;
@@ -131,7 +131,7 @@ void __cdecl RB_DrawShadowCookies(const GfxViewInfo *viewInfo)
         if (!viewInfo->needsFloatZ)
             R_ClearScreen(gfxCmdBufState.prim.device, 1u, colorWhite, 0.0, 0, 0);
     }
-    qmemcpy(&gfxCmdBufState, &gfxCmdBufState, sizeof(gfxCmdBufState));
+    // upstream self-copy no-op (hex-rays artefact); skip to avoid -Wrestrict.
 }
 
 void RB_ShadowCookieOverlay()

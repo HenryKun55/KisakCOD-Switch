@@ -438,7 +438,7 @@ char __cdecl R_EmitLightGridBlock_Version15(
                 height * runCount,
                 endBlock - beginBlock);
         pointIndex = beginBlock;
-        for (colOffset = 0; colOffset < runCount; ++colOffset)
+        for (colOffset = 0; colOffset < static_cast<unsigned int>(runCount); ++colOffset)
         {
             for (zOffset = 0; zOffset < height; ++zOffset)
             {

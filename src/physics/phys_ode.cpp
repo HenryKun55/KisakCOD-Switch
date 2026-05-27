@@ -1772,7 +1772,7 @@ void __cdecl Phys_PerformanceEndFrame()
 
 void __cdecl Phys_RunToTime(int localClientNum, PhysWorld worldIndex, int timeNow)
 {
-    DWORD v3; // eax
+    unsigned long v3; // eax
     float seconds; // [esp+20h] [ebp-5Ch]
     unsigned int v5; // [esp+2Ch] [ebp-50h]
     PhysWorldData *data; // [esp+6Ch] [ebp-10h]

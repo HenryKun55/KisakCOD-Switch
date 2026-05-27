@@ -219,8 +219,8 @@ void __cdecl R_AddSpotShadowModelEntities(
     unsigned int primaryLightIndex,
     const GfxLight *light)
 {
-    int sceneEntIndex; // [esp+8h] [ebp-14h]
-    int sceneEntIndexa; // [esp+8h] [ebp-14h]
+    unsigned int sceneEntIndex; // [esp+8h] [ebp-14h]
+    unsigned int sceneEntIndexa; // [esp+8h] [ebp-14h]
     unsigned int entnum; // [esp+10h] [ebp-Ch]
     unsigned int entnuma; // [esp+10h] [ebp-Ch]
     GfxSpotShadowEntCmd cmd; // [esp+14h] [ebp-8h] BYREF
@@ -424,7 +424,7 @@ void __cdecl R_DrawSpotShadowMapArray(const GfxViewInfo *viewInfo, GfxCmdBuf *cm
 
     R_InitCmdBufSourceState(&state, &viewInfo->input, 0);
 
-    for (int i = 0; i < viewInfo->spotShadowCount; i++)
+    for (unsigned int i = 0; i < viewInfo->spotShadowCount; i++)
     {
         const GfxSpotShadow *spotShadow = &viewInfo->spotShadows[i];
 

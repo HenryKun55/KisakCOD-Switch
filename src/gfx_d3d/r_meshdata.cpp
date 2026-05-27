@@ -42,7 +42,7 @@ char __cdecl R_ReserveMeshVerts(GfxMeshData *mesh, int vertCount, unsigned __int
     iassert( baseVertex );
     usedCodeMeshVertBytes = mesh->vb.used;
     mesh->vb.used = mesh->vertSize * vertCount + usedCodeMeshVertBytes;
-    if (mesh->vb.used > mesh->vb.total)
+    if (mesh->vb.used > static_cast<unsigned int>(mesh->vb.total))
         return 0;
     *baseVertex = usedCodeMeshVertBytes / mesh->vertSize;
     return 1;

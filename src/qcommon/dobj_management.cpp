@@ -325,24 +325,28 @@ DObj_s *Com_DObjCloneToBuffer(unsigned int entnum)
     unsigned int v4; // r26
     unsigned int FreeDObjIndex; // r30
 
-    if (entnum >= 0x880)
+    if (entnum >= SERVER_DOBJ_HANDLE_MAX) {
         MyAssertHandler(
             "c:\\trees\\cod3\\cod3src\\src\\qcommon\\dobj_management.cpp",
             325,
             0,
             "%s",
             "(unsigned)entnum < ARRAY_COUNT( serverObjMap )");
+        return nullptr;
+    }
     v2 = entnum;
     serverDobjIndex = serverObjMap[entnum];
     v4 = serverDobjIndex;
     iassert( serverDobjIndex );
-    if (entnum >= 0x900)
+    if (entnum >= CLIENT_DOBJ_HANDLE_MAX) {
         MyAssertHandler(
             "c:\\trees\\cod3\\cod3src\\src\\qcommon\\dobj_management.cpp",
             329,
             0,
             "%s",
             "(unsigned)entnum < ARRAY_COUNT( clientObjMapBuffered )");
+        return nullptr;
+    }
     if (clientObjMapBuffered[v2])
         MyAssertHandler(
             "c:\\trees\\cod3\\cod3src\\src\\qcommon\\dobj_management.cpp",
@@ -351,7 +355,7 @@ DObj_s *Com_DObjCloneToBuffer(unsigned int entnum)
             "%s",
             "!clientObjMapBuffered[entnum]");
     FreeDObjIndex = Com_GetFreeDObjIndex();
-    if (entnum >= 0x900)
+    if (entnum >= CLIENT_DOBJ_HANDLE_MAX)
         MyAssertHandler(
             "c:\\trees\\cod3\\cod3src\\src\\qcommon\\dobj_management.cpp",
             334,
@@ -389,7 +393,7 @@ void Com_DObjCloneFromBuffer(unsigned int entnum)
 {
     unsigned int v2; // r31
 
-    if (entnum >= 0x900)
+    if (entnum >= CLIENT_DOBJ_HANDLE_MAX)
         MyAssertHandler(
             "c:\\trees\\cod3\\cod3src\\src\\qcommon\\dobj_management.cpp",
             356,

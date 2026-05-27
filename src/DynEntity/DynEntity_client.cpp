@@ -356,10 +356,10 @@ double __cdecl DynEntCl_UpdateBModelWorldBounds(const DynEntityDef *dynEntDef, c
     GfxBrushModel *bmodel; // [esp+1C0h] [ebp-4h]
 
     bmodel = R_GetBrushModel(dynEntDef->brushModel);
-    bounds = *(_QWORD *)&bmodel->bounds[0][0];
-    bounds_8 = *(_QWORD *)&bmodel->bounds[0][2];
-    bounds_16 = *(_QWORD *)&bmodel->bounds[1][0];
-    bounds_24 = *(_QWORD *)&bmodel->bounds[1][2];
+    memcpy(&bounds, &bmodel->bounds[0][0], sizeof(__int64));
+    memcpy(&bounds_8, &bmodel->bounds[0][2], sizeof(__int64));
+    memcpy(&bounds_16, &bmodel->bounds[1][0], sizeof(__int64));
+    memcpy(&bounds_24, &bmodel->bounds[1][2], sizeof(__int64));
     UnitQuatToAxis(pose->quat, axis);
     v13 = pose->origin[0];
     v14 = pose->origin[1];
@@ -1527,7 +1527,7 @@ uint32_t __cdecl DynEntCl_GetClosestEntities(
     uint32_t i; // [esp+8138h] [ebp-4h]
 
     hitCount = DynEntCl_AreaEntities(drawType, radiusMins, radiusMaxs, 0x802013, 0x1000u, hitEnts);
-    if (hitCount > dynEnt_explodeMaxEnts->current.integer)
+    if (hitCount > static_cast<unsigned int>(dynEnt_explodeMaxEnts->current.integer))
     {
         for (i = 0; i < hitCount; ++i)
         {
@@ -1547,7 +1547,7 @@ uint32_t __cdecl DynEntCl_GetClosestEntities(
         //    (bool(__cdecl *)(const ShadowCandidate *, const ShadowCandidate *))DynEntCl_CompareDynEntsForExplosion);
         std::sort(v10, v10 + hitCount, DynEntCl_CompareDynEntsForExplosion);
         hitCount = LOWORD(dynEnt_explodeMaxEnts->current.unsignedInt);
-        if (hitCount != dynEnt_explodeMaxEnts->current.integer)
+        if (hitCount != static_cast<unsigned int>(dynEnt_explodeMaxEnts->current.integer))
             MyAssertHandler(
                 ".\\DynEntity\\DynEntity_client.cpp",
                 1213,

@@ -717,7 +717,7 @@ void __cdecl R_GetLightGridSampleEntryQuad(
     rleData = (const unsigned __int8 *)&row[1];
     rleSizeFull = (row->zCount > 255) + 3;
 
-    if (colIndex == -1)
+    if (colIndex == 0xFFFFFFFFu)
     {
         entries[0] = 0;
         entries[1] = 0;

@@ -498,7 +498,7 @@ DebugGlobals *R_ToggleSmpFrame()
     frontEndDataOut->skinnedCacheVb->used = 0;
     s_cmdList = frontEndDataOut->commands;
     KISAK_NULLSUB();
-    if (frontEndDataOut->drawSurfCount > 0x8000u)
+    if (static_cast<unsigned int>(frontEndDataOut->drawSurfCount) > 0x8000u)
         MyAssertHandler(
             ".\\r_rendercmds.cpp",
             1037,
@@ -559,7 +559,7 @@ DebugGlobals *R_ToggleSmpFrame()
 GfxViewParms *__cdecl R_AllocViewParms()
 {
     iassert( frontEndDataOut );
-    if (frontEndDataOut->viewParmCount >= 0x1Cu)
+    if (static_cast<unsigned int>(frontEndDataOut->viewParmCount) >= 0x1Cu)
         MyAssertHandler(
             ".\\r_rendercmds.cpp",
             1129,

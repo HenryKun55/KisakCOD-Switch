@@ -95,7 +95,7 @@ const char* Cmd_Argv(int32_t  arg) {
 	iassert(cmd_args.nesting < 8);
 	iassert(arg >= 0);
 
-	if ((unsigned)arg >= cmd_args.argc[cmd_args.nesting])
+	if ((unsigned)arg >= static_cast<unsigned int>(cmd_args.argc[cmd_args.nesting]))
 	{
 		return (char*)"";
 	}
@@ -104,7 +104,7 @@ const char* Cmd_Argv(int32_t  arg) {
 
 int32_t  __cdecl SV_Cmd_Argc()
 {
-    if (sv_cmd_args.nesting >= 8u)
+    if (static_cast<unsigned int>(sv_cmd_args.nesting) >= 8u)
         MyAssertHandler(
             "c:\\trees\\cod3\\src\\game_mp\\../qcommon/cmd.h",
             167,
@@ -118,7 +118,7 @@ int32_t  __cdecl SV_Cmd_Argc()
 
 const char *__cdecl SV_Cmd_Argv(int32_t  argIndex)
 {
-    if (sv_cmd_args.nesting >= 8u)
+    if (static_cast<unsigned int>(sv_cmd_args.nesting) >= 8u)
         MyAssertHandler(
             "c:\\trees\\cod3\\src\\game_mp\\../qcommon/cmd.h",
             182,
@@ -134,7 +134,7 @@ const char *__cdecl SV_Cmd_Argv(int32_t  argIndex)
             "%s\n\t(argIndex) = %i",
             "(argIndex >= 0)",
             argIndex);
-    if (argIndex >= sv_cmd_args.argc[sv_cmd_args.nesting])
+    if (static_cast<unsigned int>(argIndex) >= static_cast<unsigned int>(sv_cmd_args.argc[sv_cmd_args.nesting]))
         return "";
     else
         return sv_cmd_args.argv[sv_cmd_args.nesting][argIndex];
@@ -719,7 +719,7 @@ void __cdecl Cbuf_ExecuteBuffer(int32_t  localClientNum, int32_t  controllerInde
     while (v4)
     {
         v3 = 0;
-        for (count = 0; (int32_t )count < v4; ++count)
+        for (count = 0; count < static_cast<uint32_t>(v4); ++count)
         {
             if (src[count] == 34)
                 ++v3;
@@ -730,7 +730,7 @@ void __cdecl Cbuf_ExecuteBuffer(int32_t  localClientNum, int32_t  controllerInde
             count = 4095;
         memcpy((uint8_t *)dst, src, count);
         dst[count] = 0;
-        if (count != v4)
+        if (count != static_cast<uint32_t>(v4))
             ++count;
         src += count;
         v4 -= count;
@@ -855,7 +855,7 @@ void __cdecl Cmd_ArgsBuffer(int32_t  start, char *buffer, int32_t  bufLength)
 
     iassert( Sys_IsMainThread() );
     iassert( start >= 0 );
-    if (cmd_args.nesting >= 8u)
+    if (static_cast<unsigned int>(cmd_args.nesting) >= 8u)
         MyAssertHandler(
             ".\\qcommon\\cmd.cpp",
             775,
@@ -910,7 +910,7 @@ void __cdecl Cmd_TokenizeStringKernel(char *text_in, int32_t  max_tokens, CmdArg
             max_tokens,
             512 - argsPriv->totalUsedArgvPool);
     AssertCmdArgsConsistency(args, argsPriv);
-    if (++args->nesting >= 8u)
+    if (static_cast<unsigned int>(++args->nesting) >= 8u)
         MyAssertHandler(
             ".\\qcommon\\cmd.cpp",
             994,
@@ -1103,7 +1103,7 @@ void __cdecl Cmd_EndTokenizedString()
 void __cdecl Cmd_EndTokenizedStringKernel(CmdArgs *args, CmdArgsPrivate *argsPriv)
 {
     AssertCmdArgsConsistency(args, argsPriv);
-    if (args->nesting >= 8u)
+    if (static_cast<unsigned int>(args->nesting) >= 8u)
         MyAssertHandler(
             ".\\qcommon\\cmd.cpp",
             1014,

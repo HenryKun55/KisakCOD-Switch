@@ -551,7 +551,7 @@ void __cdecl FakeLag_Frame()
 
 int __cdecl FakeLag_SendLaggedPackets()
 {
-    DWORD v1; // eax
+    unsigned long v1; // eax
     int startTime; // [esp-8h] [ebp-24h]
     DWORD v3; // [esp-4h] [ebp-20h]
     const char *v4; // [esp+0h] [ebp-1Ch]
@@ -1080,10 +1080,9 @@ int __cdecl NET_GetLoopPacket_Real(netsrc_t sock, netadr_t *net_from, msg_t *net
     memcpy(net_message->data, loop->msgs[i].data, loop->msgs[i].datalen);
     net_message->cursize = loop->msgs[i].datalen;
     net_from->type = NA_BOT;
-    *(unsigned int *)net_from->ip = 0;
-    *(unsigned int *)&net_from->port = 0;
-    *(unsigned int *)&net_from->ipx[2] = 0;
-    *(unsigned int *)&net_from->ipx[6] = 0;
+    memset(net_from->ip, 0, sizeof(net_from->ip));
+    net_from->port = 0;
+    memset(net_from->ipx, 0, sizeof(net_from->ipx));
     net_from->type = NA_LOOPBACK;
     net_from->port = loop->msgs[i].port;
     return 1;
@@ -1127,7 +1126,7 @@ char __cdecl NET_SendPacket(netsrc_t sock, int length, unsigned __int8 *data, ne
 {
     netadr_t v5; // [esp-14h] [ebp-18h]
 
-    if (showpackets->current.integer && *(unsigned int *)data == -1)
+    if (showpackets->current.integer && *(unsigned int *)data == 0xFFFFFFFFu)
         Com_Printf(16, "[%s] send packet %4i\n", netsrcString[sock], length);
     if (to.type == NA_LOOPBACK)
     {
@@ -1257,10 +1256,9 @@ int __cdecl NET_StringToAdr(char *s, netadr_t *a)
     if (!strcmp(s, "localhost"))
     {
         a->type = NA_BOT;
-        *(unsigned int *)a->ip = 0;
-        *(unsigned int *)&a->port = 0;
-        *(unsigned int *)&a->ipx[2] = 0;
-        *(unsigned int *)&a->ipx[6] = 0;
+        memset(a->ip, 0, sizeof(a->ip));
+        a->port = 0;
+        memset(a->ipx, 0, sizeof(a->ipx));
         a->type = NA_LOOPBACK;
         return 1;
     }

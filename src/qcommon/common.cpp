@@ -1,5 +1,12 @@
 #include "qcommon.h"
 
+#include <setjmp.h>
+#if !defined(_MSC_VER)
+#  ifndef _setjmp
+#    define _setjmp setjmp
+#  endif
+#endif
+
 #include "cmd.h"
 #include "threads.h"
 #include "../win32/win_local.h"
@@ -2355,7 +2362,7 @@ void Com_CheckError()
     if (v0)
     {
         void * value = Sys_GetValue(2);
-        longjmp((int*)value, -1);
+        longjmp(*(jmp_buf *)value, -1);
     }
 }
 

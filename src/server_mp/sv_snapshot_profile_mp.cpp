@@ -478,7 +478,7 @@ float s_avgSnapshotSize;
 void __cdecl SV_AnalyzePacketData(int clientNum, const msg_t *msg)
 {
     const char *PacketDataTypeName; // eax
-    DWORD v3; // eax
+    unsigned long v3; // eax
     const char *EntityTypeString; // eax
     int cursize; // [esp-8h] [ebp-2Ch]
     int v6; // [esp-4h] [ebp-28h]

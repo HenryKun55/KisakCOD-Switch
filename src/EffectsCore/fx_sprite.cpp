@@ -16,7 +16,7 @@ static FxSprite g_sprites[96]; // ADDED
 
 void __cdecl FX_SpriteGenerateVerts(FxGenerateVertsCmd *cmd)
 {
-    [[maybe_unused]] int32_t i; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] uint32_t i; // [esp+0h] [ebp-8h]
     [[maybe_unused]] FxSpriteInfo *spriteInfo; // [esp+4h] [ebp-4h]
 
     if (!cmd)
@@ -382,7 +382,7 @@ void __cdecl FX_SpriteBegin()
 
 void __cdecl FX_SpriteAdd(FxSprite *sprite)
 {
-    if ((int)g_spriteInfo.indexCount < arr_cnt(g_sprites))
+    if (g_spriteInfo.indexCount < arr_cnt(g_sprites))
         qmemcpy(&g_sprites[g_spriteInfo.indexCount++], sprite, sizeof(FxSprite));
         //qmemcpy(&g_sprites[(int)g_spriteInfo.indices++], sprite, sizeof(FxSprite));
 }

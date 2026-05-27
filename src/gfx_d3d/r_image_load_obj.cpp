@@ -211,7 +211,7 @@ void __cdecl Image_TrackTexture(GfxImage *image, char imageFlags, _D3DFORMAT for
             CardMemoryAmount = Image_GetCardMemoryAmount(imageFlags, format, v9, v8, v7);
         }
         memory = CardMemoryAmount;
-        if (image->cardMemory.platform[platform] && image->cardMemory.platform[platform] != CardMemoryAmount)
+        if (image->cardMemory.platform[platform] && static_cast<unsigned int>(image->cardMemory.platform[platform]) != CardMemoryAmount)
             MyAssertHandler(
                 ".\\r_image_load_common.cpp",
                 131,
@@ -469,7 +469,7 @@ char __cdecl Image_LoadFromFileWithReader(GfxImage *image, int(__cdecl *OpenFile
                             fileSize);
                     readSize = fileHeader.fileSizeForPicmip[picmip] - 28;
                     imageData = Image_AllocTempMemory(readSize);
-                    if (FS_Read(imageData, readSize, fileHandle) == readSize)
+                    if (FS_Read(imageData, readSize, fileHandle) == static_cast<unsigned int>(readSize))
                     {
                         FS_FCloseFile(fileHandle);
                         Image_LoadFromData(image, &fileHeader, imageData);

@@ -193,11 +193,11 @@ void __cdecl RB_DrawSunQuerySprite(SunFlareDynamic *sunFlare)
         if (sunFlare->sunQueryIssued[queryIndex])
         {
             drawnSampleCount = RB_HW_ReadOcclusionQuery(sunFlare->sunQuery[queryIndex]);
-            if (drawnSampleCount == -1)
+            if (drawnSampleCount == 0xFFFFFFFFu)
                 sunFlare->error = 1;
             sunSpriteSamples = dx.sunSpriteSamples;
             iassert( (sunSpriteSamples > 0) );
-            if (drawnSampleCount > sunSpriteSamples)
+            if (drawnSampleCount > static_cast<unsigned int>(sunSpriteSamples))
                 sunFlare->error = 1;
             lastVisibilitya = (double)drawnSampleCount / (double)sunSpriteSamples;
             v3 = 1.0 - lastVisibilitya;
@@ -240,8 +240,8 @@ void __cdecl RB_HW_BeginOcclusionQuery(IDirect3DQuery9 *query)
 
 unsigned int __cdecl RB_HW_ReadOcclusionQuery(IDirect3DQuery9 *query)
 {
-    HRESULT hr; // [esp+4h] [ebp-8h]
-    unsigned int pixelCount; // [esp+8h] [ebp-4h] BYREF
+    HRESULT hr = 0; // [esp+4h] [ebp-8h]
+    unsigned int pixelCount = 0; // [esp+8h] [ebp-4h] BYREF
 
     while (1)
     {
@@ -253,7 +253,7 @@ unsigned int __cdecl RB_HW_ReadOcclusionQuery(IDirect3DQuery9 *query)
     if (hr >= 0)
         return pixelCount;
     else
-        return -1;
+        return 0xFFFFFFFFu;
 }
 
 void __cdecl RB_TessSunBillboard(float widthInClipSpace, float heightInClipSpace, GfxColor color)

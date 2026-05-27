@@ -3585,7 +3585,7 @@ void __cdecl CL_ServerStatus_f()
 
 void __cdecl CL_InitOnceForAllClients()
 {
-    DWORD v0; // eax
+    unsigned long v0; // eax
     DvarLimits min; // [esp+4h] [ebp-18h]
     DvarLimits mina; // [esp+4h] [ebp-18h]
     DvarLimits minb; // [esp+4h] [ebp-18h]

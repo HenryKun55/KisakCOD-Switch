@@ -1018,9 +1018,10 @@ void __cdecl R_GetMarkFragmentBounds(
 
     for (coord = 0; coord < 3; ++coord)
     {
-        v7 = I_fabs((*axis)[coord]);
-        v6 = I_fabs((*axis)[coord + 3]);
-        v5 = I_fabs((*axis)[coord + 6]);
+        const float *flat = reinterpret_cast<const float *>(axis);
+        v7 = I_fabs(flat[coord]);
+        v6 = I_fabs(flat[coord + 3]);
+        v5 = I_fabs(flat[coord + 6]);
         offset = (v7 + v6 + v5) * radius;
         mins[coord] = origin[coord] - offset;
         maxs[coord] = origin[coord] + offset;
@@ -1039,14 +1040,14 @@ void __cdecl R_GetMarkFragmentClipPlanes(const float *origin, const float (*axis
     planeIndex = 0;
     for (axisIndex = 0; axisIndex < 3; ++axisIndex)
     {
-        v5 = &(*planes)[4 * planeIndex];
-        v6 = (float *)&(*axis)[3 * axisIndex];
+        v5 = reinterpret_cast<float *>(planes) + 4 * planeIndex;
+        v6 = const_cast<float *>(reinterpret_cast<const float *>(axis) + 3 * axisIndex);
         *v5 = *v6;
         v5[1] = v6[1];
         v5[2] = v6[2];
         v5[3] = Vec3Dot(v5, origin) - radius;
         planeIndexa = planeIndex + 1;
-        v4 = &(*planes)[4 * planeIndexa];
+        v4 = reinterpret_cast<float *>(planes) + 4 * planeIndexa;
         *v4 = -*v6;
         v4[1] = -v6[1];
         v4[2] = -v6[2];

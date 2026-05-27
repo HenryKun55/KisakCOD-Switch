@@ -3,7 +3,7 @@
 #include <qcommon/graph.h>
 #include <sound/snd_public.h>
 
-static const char *g_pszSndAliasKeyNames[29] =
+[[maybe_unused]] static const char *g_pszSndAliasKeyNames[29] =
 {
   NULL,
   "name",

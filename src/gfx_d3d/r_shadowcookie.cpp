@@ -224,7 +224,7 @@ void __cdecl R_GenerateShadowCookies(
     if (LODWORD(cookieIndex.weight))
     {
         for (cookieIndex.sceneEntIndex = 0;
-            cookieIndex.sceneEntIndex < LODWORD(cookieIndex.weight);
+            static_cast<unsigned int>(cookieIndex.sceneEntIndex) < LODWORD(cookieIndex.weight);
             ++cookieIndex.sceneEntIndex)
         {
             cookie = &shadowCookieList->cookies[cookieIndex.sceneEntIndex];
@@ -406,7 +406,7 @@ void __cdecl R_AddShadowCookie(
         casterDrawSurfs = &scene.drawSurfs[33][scene.drawSurfCount[33]];
         cookie->casterInfo.drawSurfs = casterDrawSurfs;
         lastDrawSurf = &scene.drawSurfs[33][scene.maxDrawSurfCount[33]];
-        if (cookieList->cookieCount <= sc_debugCasterCount->current.integer)
+        if (cookieList->cookieCount <= static_cast<unsigned int>(sc_debugCasterCount->current.integer))
         {
             rg.debugViewParms = viewParms;
             {
@@ -629,7 +629,7 @@ void __cdecl R_GenerateBspShadowReceivers(ShadowCookieList *shadowCookieList)
             std::sort(surfaces, surfaces + cookieDrawSurfCount, R_SortBspShadowReceiverSurfaces_shadowcookie);
             for (listSurfIndex = 0; listSurfIndex < cookieDrawSurfCount; ++listSurfIndex)
             {
-                if (listSurfIndex >= rgp.world->surfaceCount)
+                if (listSurfIndex >= static_cast<unsigned int>(rgp.world->surfaceCount))
                     MyAssertHandler(
                         ".\\r_shadowcookie.cpp",
                         620,

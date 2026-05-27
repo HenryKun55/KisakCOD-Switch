@@ -114,7 +114,7 @@ void __cdecl R_PixelCost_BeginSurface(GfxCmdBufContext context)
 
     if (pixelCostMode == GFX_PIXEL_COST_MODE_MEASURE_COST)
     {
-        packedKey = R_PixelCost_PackedKeyForMaterial(*(_QWORD *)&context.state->material);
+        { _QWORD tmp; memcpy(&tmp, &context.state->material, sizeof(tmp)); packedKey = R_PixelCost_PackedKeyForMaterial(tmp); }
         if (!RB_PixelCost_DoesPrimMatch(packedKey))
             RB_PixelCost_ResetPrim(packedKey);
         ++pixelCostGlob.expectedCount;
@@ -123,7 +123,7 @@ void __cdecl R_PixelCost_BeginSurface(GfxCmdBufContext context)
     }
     else if (pixelCostMode == GFX_PIXEL_COST_MODE_MEASURE_MSEC)
     {
-        packedKeya = R_PixelCost_PackedKeyForMaterial(*(_QWORD *)&context.state->material);
+        { _QWORD tmp; memcpy(&tmp, &context.state->material, sizeof(tmp)); packedKeya = R_PixelCost_PackedKeyForMaterial(tmp); }
         if (!RB_PixelCost_DoesPrimMatch(packedKeya))
             RB_PixelCost_ResetPrim(packedKeya);
         ++pixelCostGlob.expectedCount;
@@ -244,12 +244,7 @@ void __cdecl RB_PixelCost_ResetPrim(unsigned __int64 packedKey)
 
     record = &pixelCostGlob.records[pixelCostGlob.expectedCount];
     record->key.packed = packedKey;
-    *(unsigned int *)record->costHistory = 0;
-    *(unsigned int *)&record->costHistory[2] = 0;
-    *(unsigned int *)&record->costHistory[4] = 0;
-    *(unsigned int *)&record->costHistory[6] = 0;
-    *(unsigned int *)&record->costHistory[8] = 0;
-    *(unsigned int *)&record->costHistory[10] = 0;
+    memset(record->costHistory, 0, sizeof(record->costHistory));
 }
 
 unsigned __int64 RB_PixelCost_BeginTiming()

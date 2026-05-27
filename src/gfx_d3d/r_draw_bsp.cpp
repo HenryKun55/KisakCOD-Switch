@@ -56,9 +56,9 @@ void __cdecl R_HW_SetSamplerTexture(IDirect3DDevice9 *device, unsigned int sampl
 
 void __cdecl R_SetStreamsForBspSurface(GfxCmdBufPrimState *state, const srfTriangles_t *tris)
 {
-    int vertexLayerData; // [esp+0h] [ebp-2Ch]
+    unsigned int vertexLayerData; // [esp+0h] [ebp-2Ch]
     IDirect3DVertexBuffer9 *layerVb; // [esp+4h] [ebp-28h]
-    int vertexOffset; // [esp+8h] [ebp-24h]
+    unsigned int vertexOffset; // [esp+8h] [ebp-24h]
     IDirect3DVertexBuffer9 *vb; // [esp+Ch] [ebp-20h]
     unsigned int layerDataStride; // [esp+28h] [ebp-4h]
 
@@ -176,7 +176,7 @@ void __cdecl R_DrawTrianglesLit(
         for (index = 0; index < count; ++index)
         {
             surfIndex = list[index];
-            if (surfIndex >= rgp.world->surfaceCount)
+            if (surfIndex >= static_cast<unsigned int>(rgp.world->surfaceCount))
                 MyAssertHandler(
                     ".\\r_draw_bsp.cpp",
                     303,
@@ -429,7 +429,7 @@ void __cdecl R_DrawBspDrawSurfsPreTess(const unsigned int *primDrawSurfPos, GfxC
         for (index = 0; index < count; ++index)
         {
             surfIndex = list[index].baseSurfIndex;
-            if (surfIndex >= rgp.world->surfaceCount)
+            if (surfIndex >= static_cast<unsigned int>(rgp.world->surfaceCount))
                 MyAssertHandler(
                     ".\\r_draw_bsp.cpp",
                     675,
@@ -481,7 +481,7 @@ void __cdecl R_DrawBspDrawSurfsLitPreTess(const unsigned int *primDrawSurfPos, G
         for (index = 0; index < count; ++index)
         {
             surfIndex = list[index].baseSurfIndex;
-            if (surfIndex >= rgp.world->surfaceCount)
+            if (surfIndex >= static_cast<unsigned int>(rgp.world->surfaceCount))
                 MyAssertHandler(
                     ".\\r_draw_bsp.cpp",
                     623,

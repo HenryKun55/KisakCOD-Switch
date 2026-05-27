@@ -73,7 +73,7 @@ void __cdecl R_MergeAndEmitDrawSurfLists(DrawSurfType firstStage, int stageCount
     if (freeDrawSurfCount > 0)
     {
         dstStageIndex = 0;
-        for (srcStageIndex = 0; srcStageIndex < stageCount; ++srcStageIndex)
+        for (srcStageIndex = 0; srcStageIndex < static_cast<unsigned int>(stageCount); ++srcStageIndex)
         {
             stageIndex = srcStageIndex + firstStage;
             if (scene.drawSurfCount[srcStageIndex + firstStage] > freeDrawSurfCount)
@@ -107,7 +107,7 @@ void __cdecl R_MergeAndEmitDrawSurfLists(DrawSurfType firstStage, int stageCount
                 primarySortKey = v3;
             }
             dstStageIndex = 0;
-            for (srcStageIndex = 0; srcStageIndex < stageCount; ++srcStageIndex)
+            for (srcStageIndex = 0; srcStageIndex < static_cast<unsigned int>(stageCount); ++srcStageIndex)
             {
                 v2 = R_EmitDrawSurfListForKey(drawSurfs[srcStageIndex], drawSurfCount[srcStageIndex], primarySortKey); // KISAKTODO: change to blops style
                 drawSurfs[dstStageIndex] = &drawSurfs[srcStageIndex][v2];

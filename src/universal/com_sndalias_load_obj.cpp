@@ -1,5 +1,7 @@
+#ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
 #include "com_sndalias.h"
 #include "q_parse.h"
 #include "com_files.h"
@@ -632,10 +634,10 @@ SndCurve *__cdecl Com_RegisterSoundAliasVolumeFalloffCurve(const char *filename,
         MyAssertHandler(".\\universal\\com_sndalias.cpp", 1173, 0, "%s", "filename");
     for (i = 0; i < 16; ++i)
     {
-        // KISAKTODO: PSYCHO NEGA-ARRAY
-        if (*(_DWORD *)&g_sa.volumeFalloffCurveNames[-18][72 * i] && !I_stricmp(filename, *(const char**)&g_sa.volumeFalloffCurveNames[-18][72 * i]))
+        if (g_sa.volumeFalloffCurves[i].filename
+            && !I_stricmp(filename, g_sa.volumeFalloffCurves[i].filename))
         {
-            return (SndCurve *)&g_sa.volumeFalloffCurveNames[-18][72 * i];
+            return &g_sa.volumeFalloffCurves[i];
         }
     }
     Com_Error(ERR_DROP, "Sound alias file %s: Volume Falloff Curve %s not found.", sourceFile, filename);
@@ -1754,8 +1756,8 @@ void __cdecl Com_SetChannelMapEntry(
             "%s",
             "outputChannel >= 0 && outputChannel <= MSS_MAXDSTCHANNELS");
     speaker = &entry->speakers[outputChannel];
-    if (entry->speakers[outputChannel].numLevels <= inputChannel)
-        entry->speakers[outputChannel].numLevels = inputChannel + 1;
+    if (static_cast<unsigned int>(entry->speakers[outputChannel].numLevels) <= inputChannel)
+        entry->speakers[outputChannel].numLevels = static_cast<int>(inputChannel + 1);
     speaker->levels[inputChannel] = volume;
     speaker->speaker = outputChannel;
 }
@@ -1769,12 +1771,12 @@ void Com_InitSoundDevGuiGraphs_LoadObj()
         MyAssertHandler(".\\universal\\com_sndalias.cpp", 240, 0, "%s", "g_sa.curvesInitialized");
     for (i = 1; i < 16; ++i)
     {
-        if (*(_DWORD *)&g_sa.volumeFalloffCurveNames[-18][72 * i])
+        if (g_sa.volumeFalloffCurves[i].filename)
         {
 #ifndef ARRAYSIZE
 #define ARRAYSIZE(x) (sizeof(x) / sizeof(x[0]))
 #endif
-            snprintf(devguiPath, ARRAYSIZE(devguiPath), "Main/Snd:6/Volume Falloff Curves/%s:%d", *(const char**)&g_sa.volumeFalloffCurveNames[-18][72 * i], i);
+            snprintf(devguiPath, ARRAYSIZE(devguiPath), "Main/Snd:6/Volume Falloff Curves/%s:%d", g_sa.volumeFalloffCurves[i].filename, i);
             g_sa.curveDevGraphs[i].knotCountMax = 8;
             g_sa.curveDevGraphs[i].knots = g_sa.volumeFalloffCurves[i].knots;
             g_sa.curveDevGraphs[i].knotCount = &g_sa.volumeFalloffCurves[i].knotCount;
@@ -2076,4 +2078,6 @@ void __cdecl Com_InitSoundAlias()
     saLoadObjGlob.tempAliases = 0;
     saLoadObjGlob.tempAliasCount = 0;
 }
+#ifdef __clang__
 #pragma clang diagnostic pop
+#endif

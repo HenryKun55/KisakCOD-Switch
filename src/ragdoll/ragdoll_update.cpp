@@ -294,7 +294,7 @@ char __cdecl Ragdoll_CreatePhysJoint(RagdollBody *body, JointDef *jointDef, Join
     iassert( body );
     iassert( jointDef );
     iassert( joint );
-    if ((unsigned int)jointDef->bone >= body->numBones)
+    if ((unsigned int)jointDef->bone >= static_cast<unsigned int>(body->numBones))
         MyAssertHandler(
             ".\\ragdoll\\ragdoll_update.cpp",
             527,
@@ -773,7 +773,7 @@ void __cdecl Ragdoll_GenerateAllSelfCollisionContacts()
 
 void __cdecl Ragdoll_GenBoneCapsuleSegments(RagdollBody *body, unsigned __int8 *bones, float (*s0)[3], float (*s1)[3])
 {
-    if ((unsigned int)*bones >= body->numBones)
+    if ((unsigned int)*bones >= static_cast<unsigned int>(body->numBones))
         MyAssertHandler(
             ".\\ragdoll\\ragdoll_update.cpp",
             957,
@@ -781,7 +781,7 @@ void __cdecl Ragdoll_GenBoneCapsuleSegments(RagdollBody *body, unsigned __int8 *
             "bones[0] doesn't index body->numBones\n\t%i not in [0, %i)",
             *bones,
             body->numBones);
-    if ((unsigned int)bones[1] >= body->numBones)
+    if ((unsigned int)bones[1] >= static_cast<unsigned int>(body->numBones))
         MyAssertHandler(
             ".\\ragdoll\\ragdoll_update.cpp",
             958,
@@ -1412,7 +1412,7 @@ char __cdecl Ragdoll_TunnelTest(RagdollBody *body)
                 for (child = 0; child < numChildren; ++child)
                 {
                     childIdx = childIndices[child];
-                    if ((unsigned int)childIdx >= body->numBones)
+                    if ((unsigned int)childIdx >= static_cast<unsigned int>(body->numBones))
                         MyAssertHandler(
                             ".\\ragdoll\\ragdoll_update.cpp",
                             1377,
@@ -1632,7 +1632,7 @@ bool __cdecl Ragdoll_ExitDObjWait(RagdollBody *body, BodyState_t prevState, Body
         bone->animBones[0] = 0;
         if (!DObjGetBoneIndex(obj, boneDef->animBoneNames[0], bone->animBones) || bone->animBones[0] == 255)
             return 0;
-        if (boneDef->animBoneNames[1] == -1)
+        if (boneDef->animBoneNames[1] == 0xFFFFFFFFu)
         {
             bone->animBones[1] = 0;
         }
@@ -1907,7 +1907,7 @@ void __cdecl Ragdoll_BodyUpdate(int msec, RagdollBody *body)
     BodyState_t prevState; // [esp+4h] [ebp-4h]
 
     iassert( body );
-    if (body->state >= (unsigned int)RAGDOLL_NUM_STATES)
+    if (static_cast<unsigned int>(body->state) >= static_cast<unsigned int>(RAGDOLL_NUM_STATES))
         MyAssertHandler(
             ".\\ragdoll\\ragdoll_update.cpp",
             1871,

@@ -142,7 +142,7 @@ const unsigned __int8 *__cdecl CalcSkelDuplicateBones(
     while (1)
     {
         boneIndex = pos[0] - 1;
-        if (boneIndex >= maxBoneIndex)
+        if (static_cast<unsigned int>(boneIndex) >= maxBoneIndex)
             break;
         parentIndex = pos[1] - 1;
         iassert(parentIndex < boneIndex);
@@ -158,7 +158,7 @@ void __cdecl CalcSkelRootBonesNoParentOrDuplicate(
     int minBoneIndex,
     int *calcPartBits)
 {
-    DWORD v5; // eax
+    unsigned long v5; // eax
     int v6; // [esp+0h] [ebp-50h]
     float *v; // [esp+20h] [ebp-30h]
     float v8; // [esp+24h] [ebp-2Ch]
@@ -191,7 +191,7 @@ void __cdecl CalcSkelRootBonesNoParentOrDuplicate(
             if (!_BitScanReverse(&v5, bits))
                 v5 = 63; // `CountLeadingZeros'::`2': : notFound;
             boneIndexLow = v5 ^ 0x1F;
-            if ((v5 ^ 0x1F) >= v6)
+            if ((v5 ^ 0x1F) >= static_cast<unsigned long>(v6))
                 break;
             boneIndex = boneIndexLow + 32 * boneIndexHigh;
             boneBit = (0x80000000 >> boneIndexLow);
@@ -225,7 +225,7 @@ void __cdecl CalcSkelRootBonesWithParent(
     int *calcPartBits,
     const int *controlPartBits)
 {
-    DWORD v7; // eax
+    unsigned long v7; // eax
     [[maybe_unused]] float *trans; // [esp+18h] [ebp-F4h]
     [[maybe_unused]] float result[3]; // [esp+40h] [ebp-CCh] BYREF
     const DObjAnimMat *parentMat; // [esp+D0h] [ebp-3Ch]
@@ -312,7 +312,7 @@ void __cdecl CalcSkelNonRootBones(
     int *calcPartBits,
     const int *controlPartBits)
 {
-    DWORD v6; // eax
+    unsigned long v6; // eax
     [[maybe_unused]] float result[3]; // [esp+40h] [ebp-ECh] BYREF
     DObjAnimMat *childMat; // [esp+E0h] [ebp-4Ch]
     const DObjAnimMat *parentMat; // [esp+E4h] [ebp-48h]
@@ -350,7 +350,7 @@ void __cdecl CalcSkelNonRootBones(
             if (!_BitScanReverse(&v6, bits))
                 v6 = 63;
             boneIndexLow = v6 ^ 0x1F;
-            if ((v6 ^ 0x1F) >= maxBoneIndexLow)
+            if ((v6 ^ 0x1F) >= static_cast<unsigned long>(maxBoneIndexLow))
                 break;
             boneIndex = boneIndexLow + 32 * boneIndexHigh;
             boneBit = 0x80000000 >> boneIndexLow;

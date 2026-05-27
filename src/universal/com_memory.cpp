@@ -902,7 +902,7 @@ void* Hunk_UserAlloc(HunkUser* user, uint32_t size, int32_t alignment)
     current->pos = size + (~alignment & (alignment + pos));
     pos = ((pos + 4095) & 0xFFFFF000);
 
-    if (pos != ((current->pos + 4095) & 0xFFFFF000))
+    if (static_cast<unsigned int>(pos) != ((current->pos + 4095u) & 0xFFFFF000u))
     {
         iassert(current->pos - pos > 0);
         Z_VirtualCommit((void*)(uintptr_t)pos, current->pos - (uint32_t)pos);

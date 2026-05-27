@@ -628,7 +628,7 @@ void __cdecl R_SetLightmap(GfxCmdBufContext context, unsigned int lmapIndex)
     }
     else
     {
-        if (lmapIndex >= rgp.world->lightmapCount)
+        if (lmapIndex >= static_cast<unsigned int>(rgp.world->lightmapCount))
             MyAssertHandler(
                 ".\\r_state.cpp",
                 651,

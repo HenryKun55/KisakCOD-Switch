@@ -153,13 +153,13 @@ void __cdecl AddOpcodePos(unsigned int sourcePos, int type)
             sourcePosLookupIndex = scrParserGlob.currentSourcePosCount + opcodeLookup->sourcePosIndex;
             sourcePosLookup = &scrParserGlob.sourcePosLookup[sourcePosLookupIndex];
             sourcePosLookup->sourcePos = sourcePos;
-            if (sourcePos == -1)
+            if (sourcePos == 0xFFFFFFFFu)
             {
                 iassert(scrParserGlob.delayedSourceIndex == -1);
                 iassert(type & SOURCE_TYPE_BREAKPOINT);
                 scrParserGlob.delayedSourceIndex = sourcePosLookupIndex;
             }
-            else if (sourcePos == -2)
+            else if (sourcePos == 0xFFFFFFFEu)
             {
                 scrParserGlob.threadStartSourceIndex = sourcePosLookupIndex;
             }
@@ -1340,7 +1340,7 @@ char __cdecl Scr_PrintProfileTimes(float minTime)
             name = profile->profileScriptNames[profileIndexb];
             if (*name)
             {
-                strlen(name);
+                (void)strlen(name);
                 v8 = *((float *)Sys_GetValue(0) + 20782);
                 Com_Printf(23, "%-*s %6.2f\n", maxNameLength, name, (double)profile->write[profileIndexb].totalTime * v8);
             }

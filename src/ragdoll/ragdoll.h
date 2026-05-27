@@ -11,7 +11,7 @@ enum JointType : __int32
     RAGDOLL_JOINT_HINGE = 0x1,
     RAGDOLL_JOINT_SWIVEL = 0x2,
 };
-static const char *jointNames[3] = { "none", "hinge", "swivel" }; // idb
+[[maybe_unused]] static const char *jointNames[3] = { "none", "hinge", "swivel" }; // idb
 
 struct BoneDef // sizeof=0x4C
 {                                       // ...
