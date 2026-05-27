@@ -122,7 +122,10 @@ set(SCRIPT_PORTABLE_SOURCES
     "${SRC_DIR}/script/scr_parsetree.cpp"
     "${SRC_DIR}/script/scr_stringlist.cpp"
     "${SRC_DIR}/script/scr_variable.cpp"
-    # scr_yacc.cpp / scr_yacc2.cpp need OP_bit_or / yyerror / RETURN_ARG1
+    # scr_vm.cpp packs pointers into 32-bit slots throughout
+    # (VariableStackBuffer * from int, char * from int). Land after
+    # script-VM 64-bit widening pass.
+    # scr_yacc.cpp needs OP_bit_or / yyerror / RETURN_ARG1
     # macros from MSVC scr_yacc_pre.h; multi-char chars; HashEntry union
     # init from unsigned int. Land after Bison shim layer.
     "${SRC_DIR}/script/scr_yacc2.cpp"
