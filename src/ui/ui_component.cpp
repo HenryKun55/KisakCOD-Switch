@@ -51,10 +51,10 @@ void __cdecl UI_Component::InitAssets()
 
 void UI_Component::DrawText(float x, float y, float width, int fontEnum, const float *color, char *text)
 {
-    float v6; // [esp+1Ch] [ebp-10h]
-    float v7; // [esp+20h] [ebp-Ch]
-    float v8; // [esp+24h] [ebp-8h]
-    int maxChars; // [esp+28h] [ebp-4h]
+    [[maybe_unused]] float v6; // [esp+1Ch] [ebp-10h]
+    [[maybe_unused]] float v7; // [esp+20h] [ebp-Ch]
+    [[maybe_unused]] float v8; // [esp+24h] [ebp-8h]
+    [[maybe_unused]] int maxChars; // [esp+28h] [ebp-4h]
 
     if (UI_Component::g.charWidth == 0.0)
         MyAssertHandler(".\\ui\\ui_component.cpp", 132, 0, "%s", "g.charWidth");
@@ -125,8 +125,8 @@ char *__cdecl Scr_GetElementArchiveText(Scr_WatchElement_s *element)
 
 void Scr_ScriptWatch::Init()
 {
-    const char *defaultWatchNames[5]; // [esp+4h] [ebp-18h]
-    int i; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] const char *defaultWatchNames[5]; // [esp+4h] [ebp-18h]
+    [[maybe_unused]] int i; // [esp+18h] [ebp-4h]
 
     defaultWatchNames[0] = "<locals>";
     defaultWatchNames[1] = (char *)"self";
@@ -152,9 +152,9 @@ void Scr_ScriptWatch::Init()
 
 void Scr_ScriptWatch::Shutdown()
 {
-    Scr_WatchElement_s *next; // [esp+14h] [ebp-Ch]
-    int f; // [esp+18h] [ebp-8h]
-    char *text; // [esp+1Ch] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *next; // [esp+14h] [ebp-Ch]
+    [[maybe_unused]] int f; // [esp+18h] [ebp-8h]
+    [[maybe_unused]] char *text; // [esp+1Ch] [ebp-4h]
 
     if (!Sys_IsRemoteDebugClient())
     {
@@ -180,7 +180,7 @@ void Scr_ScriptWatch::Shutdown()
 
 void Scr_ScriptWatch::AddText(const char *text)
 {
-    Scr_WatchElement_s *element; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *element; // [esp+Ch] [ebp-4h]
 
     if (UI_Component::g.consoleReason == 2)
     {
@@ -220,10 +220,10 @@ void Scr_ScriptWatch::Draw(
     float compY)
 {
     int currentLine; // [esp+30h] [ebp-14h] BYREF
-    int startLine; // [esp+34h] [ebp-10h]
-    float startLineFrac; // [esp+38h] [ebp-Ch]
+    [[maybe_unused]] int startLine; // [esp+34h] [ebp-10h]
+    [[maybe_unused]] float startLineFrac; // [esp+38h] [ebp-Ch]
     float currentY; // [esp+3Ch] [ebp-8h] BYREF
-    float lastHeight; // [esp+40h] [ebp-4h]
+    [[maybe_unused]] float lastHeight; // [esp+40h] [ebp-4h]
 
     UI_Component::DrawPic(x, y, width, height, 0, cls.consoleMaterial);
     startLineFrac = compY / UI_Component::g.charHeight;
@@ -249,9 +249,9 @@ void Scr_ScriptWatch::Draw(
 
 void Scr_ScriptWatch::CloneSelectedElement()
 {
-    Scr_Breakpoint *breakpoint; // [esp+4h] [ebp-8h]
-    Scr_WatchElement_s *element; // [esp+8h] [ebp-4h]
-    Scr_WatchElement_s *elementa; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] Scr_Breakpoint *breakpoint; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] Scr_WatchElement_s *element; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *elementa; // [esp+8h] [ebp-4h]
 
     element = Scr_ScriptWatch::GetSelectedElement();
 
@@ -281,7 +281,7 @@ Scr_WatchElement_s *__thiscall Scr_ScriptWatch::CloneElement(Scr_WatchElement_s 
 {
     Scr_WatchElement_s *ElementRoot; // eax
     Scr_WatchElement_s **ElementRef; // eax
-    Scr_WatchElement_s *newElement; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *newElement; // [esp+4h] [ebp-4h]
 
     ElementRoot = Scr_GetElementRoot(element);
     ElementRef = Scr_ScriptWatch::GetElementRef(ElementRoot);
@@ -293,12 +293,12 @@ Scr_WatchElement_s *__thiscall Scr_ScriptWatch::CloneElement(Scr_WatchElement_s 
 
 void __cdecl Scr_PrintElementText(Scr_WatchElement_s *element, int bufLen, int depth, char *buf)
 {
-    unsigned __int8 objectType; // [esp+30h] [ebp-10h]
-    int threadIdSize; // [esp+34h] [ebp-Ch]
-    int len; // [esp+38h] [ebp-8h]
-    int lena; // [esp+38h] [ebp-8h]
-    signed int lenb; // [esp+38h] [ebp-8h]
-    int entIdSize; // [esp+3Ch] [ebp-4h]
+    [[maybe_unused]] unsigned __int8 objectType; // [esp+30h] [ebp-10h]
+    [[maybe_unused]] int threadIdSize; // [esp+34h] [ebp-Ch]
+    [[maybe_unused]] int len; // [esp+38h] [ebp-8h]
+    [[maybe_unused]] int lena; // [esp+38h] [ebp-8h]
+    [[maybe_unused]] signed int lenb; // [esp+38h] [ebp-8h]
+    [[maybe_unused]] int entIdSize; // [esp+3Ch] [ebp-4h]
 
     if (element->breakpoint)
     {
@@ -382,36 +382,36 @@ void Scr_ScriptWatch::Draw_r(Scr_WatchElement_s *element,
     float compX,
     float compY)
 {
-    float v13; // [esp+2Ch] [ebp-280h]
-    float v14; // [esp+30h] [ebp-27Ch]
-    float v15; // [esp+44h] [ebp-268h]
-    float v16; // [esp+48h] [ebp-264h]
-    float v17; // [esp+4Ch] [ebp-260h]
-    float v18; // [esp+50h] [ebp-25Ch]
-    float v19; // [esp+54h] [ebp-258h]
-    float v20; // [esp+58h] [ebp-254h]
-    float v21; // [esp+5Ch] [ebp-250h]
-    float v22; // [esp+60h] [ebp-24Ch]
-    float v23; // [esp+64h] [ebp-248h]
-    float v24; // [esp+68h] [ebp-244h]
-    float v25; // [esp+6Ch] [ebp-240h]
-    float v26; // [esp+70h] [ebp-23Ch]
-    float v27; // [esp+74h] [ebp-238h]
-    float height; // [esp+78h] [ebp-234h]
-    float v29; // [esp+80h] [ebp-22Ch]
-    float v30; // [esp+84h] [ebp-228h]
+    [[maybe_unused]] float v13; // [esp+2Ch] [ebp-280h]
+    [[maybe_unused]] float v14; // [esp+30h] [ebp-27Ch]
+    [[maybe_unused]] float v15; // [esp+44h] [ebp-268h]
+    [[maybe_unused]] float v16; // [esp+48h] [ebp-264h]
+    [[maybe_unused]] float v17; // [esp+4Ch] [ebp-260h]
+    [[maybe_unused]] float v18; // [esp+50h] [ebp-25Ch]
+    [[maybe_unused]] float v19; // [esp+54h] [ebp-258h]
+    [[maybe_unused]] float v20; // [esp+58h] [ebp-254h]
+    [[maybe_unused]] float v21; // [esp+5Ch] [ebp-250h]
+    [[maybe_unused]] float v22; // [esp+60h] [ebp-24Ch]
+    [[maybe_unused]] float v23; // [esp+64h] [ebp-248h]
+    [[maybe_unused]] float v24; // [esp+68h] [ebp-244h]
+    [[maybe_unused]] float v25; // [esp+6Ch] [ebp-240h]
+    [[maybe_unused]] float v26; // [esp+70h] [ebp-23Ch]
+    [[maybe_unused]] float v27; // [esp+74h] [ebp-238h]
+    [[maybe_unused]] float height; // [esp+78h] [ebp-234h]
+    [[maybe_unused]] float v29; // [esp+80h] [ebp-22Ch]
+    [[maybe_unused]] float v30; // [esp+84h] [ebp-228h]
     float selectColor[4]; // [esp+9Ch] [ebp-210h] BYREF
     float colorYellow[4]; // [esp+ACh] [ebp-200h] BYREF
     float colorWhite[4]; // [esp+BCh] [ebp-1F0h] BYREF
     float colorBlue[4]; // [esp+CCh] [ebp-1E0h] BYREF
     float colorRed[4]; // [esp+DCh] [ebp-1D0h] BYREF
     char buf[396]; // [esp+ECh] [ebp-1C0h] BYREF
-    float fraction; // [esp+27Ch] [ebp-30h]
-    float innerWidth; // [esp+280h] [ebp-2Ch]
+    [[maybe_unused]] float fraction; // [esp+27Ch] [ebp-30h]
+    [[maybe_unused]] float innerWidth; // [esp+280h] [ebp-2Ch]
     float color[4]; // [esp+284h] [ebp-28h] BYREF
     float colorDelta[4]; // [esp+294h] [ebp-18h] BYREF
-    int deltaTime; // [esp+2A4h] [ebp-8h]
-    unsigned int startCol; // [esp+2A8h] [ebp-4h]
+    [[maybe_unused]] int deltaTime; // [esp+2A4h] [ebp-8h]
+    [[maybe_unused]] unsigned int startCol; // [esp+2A8h] [ebp-4h]
 
     CL_LookupColor(0, 0x37u, colorWhite);
     colorRed[0] = 1.0;
@@ -553,7 +553,7 @@ void Scr_ScriptWatch::Draw_r(Scr_WatchElement_s *element,
 
 Scr_WatchElement_s *Scr_ScriptWatch::GetElementWithId_r(Scr_WatchElement_s *element, int id)
 {
-    Scr_WatchElement_s *childElement; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *childElement; // [esp+4h] [ebp-4h]
 
     while (element)
     {
@@ -572,9 +572,9 @@ Scr_WatchElement_s *Scr_ScriptWatch::GetElementWithId_r(Scr_WatchElement_s *elem
 
 void Scr_ScriptWatch::AddElement(Scr_WatchElement_s *element, char *text)
 {
-    int v3; // [esp+0h] [ebp-18h]
+    [[maybe_unused]] int v3; // [esp+0h] [ebp-18h]
     ScriptExpression_t scriptExpr; // [esp+8h] [ebp-10h] BYREF
-    ScriptExpression_t *expr; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] ScriptExpression_t *expr; // [esp+14h] [ebp-4h]
 
     if (!element)
         MyAssertHandler(".\\script\\scr_debugger.cpp", 6608, 0, "%s", "element");
@@ -624,7 +624,7 @@ void Scr_ScriptWatch::AddElement(Scr_WatchElement_s *element, char *text)
         if (!scrVarPub.evaluate)
             MyAssertHandler(".\\script\\scr_debugger.cpp", 6623, 0, "%s", "scrVarPub.evaluate");
         scrVarPub.evaluate = 0;
-        Scr_ExecCode(*(const char**)(scriptExpr.parseData.type + 4), this->localId);
+        Scr_ExecCode(*(const char**)(uintptr_t)(scriptExpr.parseData.type + 4), this->localId);
         scrVarPub.evaluate = 1;
         SL_ShutdownSystem(2);
         Scr_FreeDebugExpr(&scriptExpr);
@@ -634,7 +634,7 @@ void Scr_ScriptWatch::AddElement(Scr_WatchElement_s *element, char *text)
 
 void Scr_ScriptWatch::DeleteElement()
 {
-    Scr_WatchElement_s *element; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *element; // [esp+4h] [ebp-4h]
 
     element = Scr_ScriptWatch::GetSelectedElement();
     if (element)
@@ -655,7 +655,7 @@ void Scr_ScriptWatch::DeleteElement()
 
 int __cdecl Scr_GetWatchElementSize(Scr_WatchElement_s *element)
 {
-    int size; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int size; // [esp+0h] [ebp-4h]
 
     size = 0;
     while (element)
@@ -686,7 +686,7 @@ void __thiscall Scr_ScriptWatch::ToggleWatchElementBreakpoint(
     unsigned __int8 type)
 {
     Scr_WatchElement_s *ElementRoot; // eax
-    Scr_WatchElement_s *elementa; // [esp+10h] [ebp+8h]
+    [[maybe_unused]] Scr_WatchElement_s *elementa; // [esp+10h] [ebp+8h]
 
     if (element->breakpointType == type)
     {
@@ -730,8 +730,8 @@ void __thiscall Scr_ScriptWatch::ToggleBreakpointInternal(
     Scr_WatchElement_s *element,
     unsigned __int8 type)
 {
-    unsigned __int8 breakpointType; // [esp+0h] [ebp-Ch]
-    Scr_Breakpoint *breakpoint; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] unsigned __int8 breakpointType; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] Scr_Breakpoint *breakpoint; // [esp+8h] [ebp-4h]
 
     if (!element->threadList && !element->endonList)
     {
@@ -817,7 +817,7 @@ void __thiscall Scr_ScriptWatch::ToggleBreakpointInternal(
 
 Scr_WatchElement_s *Scr_ScriptWatch::GetSelectedElement_r(Scr_WatchElement_s *element, int *currentLine)
 {
-    Scr_WatchElement_s *childElement; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *childElement; // [esp+4h] [ebp-4h]
 
     while (element)
     {
@@ -846,7 +846,7 @@ Scr_WatchElement_s *Scr_ScriptWatch::GetSelectedElement()
 
 Scr_WatchElement_s **Scr_ScriptWatch::GetElementRef(Scr_WatchElement_s *element)
 {
-    Scr_WatchElement_s **pElement; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s **pElement; // [esp+4h] [ebp-4h]
 
     for (pElement = &this->elementHead; *pElement != element; pElement = &(*pElement)->next)
     {
@@ -858,7 +858,7 @@ Scr_WatchElement_s **Scr_ScriptWatch::GetElementRef(Scr_WatchElement_s *element)
 
 Scr_WatchElement_s *Scr_ScriptWatch::GetElementPrev(Scr_WatchElement_s *element)
 {
-    Scr_WatchElement_s *prevElement; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *prevElement; // [esp+4h] [ebp-4h]
 
     if (this->elementHead == element)
         return 0;
@@ -874,7 +874,7 @@ Scr_WatchElement_s *Scr_ScriptWatch::GetElementPrev(Scr_WatchElement_s *element)
 
 static int __cdecl Scr_GetElementDepth(Scr_WatchElement_s *element)
 {
-    int depth; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int depth; // [esp+0h] [ebp-4h]
 
     for (depth = 0; ; ++depth)
     {
@@ -887,7 +887,7 @@ static int __cdecl Scr_GetElementDepth(Scr_WatchElement_s *element)
 
 bool Scr_ScriptWatch::LeftMouseEvent(float *point)
 {
-    Scr_WatchElement_s *element; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *element; // [esp+8h] [ebp-4h]
 
     this->SetSelectedLineFocus((int)(point[1] / UI_Component::g.charHeight), 1);
     element = Scr_ScriptWatch::GetSelectedElement();
@@ -905,7 +905,7 @@ bool Scr_ScriptWatch::LeftMouseEvent(float *point)
 
 void Scr_ScriptWatch::BackspaceElement()
 {
-    Scr_WatchElement_s *element; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *element; // [esp+4h] [ebp-4h]
 
     element = Scr_ScriptWatch::GetSelectedElement();
     if (element)
@@ -925,7 +925,7 @@ void Scr_ScriptWatch::BackspaceElement()
 
 void Scr_ScriptWatch::EditElement(Scr_ConsoleOpenMode openMode)
 {
-    Scr_WatchElement_s *element; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *element; // [esp+14h] [ebp-4h]
 
     element = Scr_ScriptWatch::GetSelectedElement();
     if (element)
@@ -942,8 +942,8 @@ void Scr_ScriptWatch::EditElement(Scr_ConsoleOpenMode openMode)
 
 Scr_WatchElement_s *__thiscall Scr_ScriptWatch::BackspaceElementInternal(Scr_WatchElement_s *element)
 {
-    Scr_WatchElement_s **pElement; // [esp+4h] [ebp-8h]
-    Scr_WatchElement_s *prevElement; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s **pElement; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] Scr_WatchElement_s *prevElement; // [esp+8h] [ebp-4h]
 
     if (!element)
         MyAssertHandler(".\\script\\scr_debugger.cpp", 4486, 0, "%s", "element");
@@ -960,7 +960,7 @@ Scr_WatchElement_s *__thiscall Scr_ScriptWatch::BackspaceElementInternal(Scr_Wat
 
 void Scr_ScriptWatch::ExpandElement(Scr_WatchElement_s *element, bool expand)
 {
-    Scr_WatchElement_s *childHead; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] Scr_WatchElement_s *childHead; // [esp+0h] [ebp-Ch]
 
     if (Sys_IsRemoteDebugClient())
         MyAssertHandler((char *)".\\script\\scr_debugger.cpp", 3848, 0, "%s", "!Sys_IsRemoteDebugClient()");
@@ -983,7 +983,7 @@ void Scr_ScriptWatch::ExpandElement(Scr_WatchElement_s *element, bool expand)
 
 void Scr_ScriptWatch::ExpandSelectedElement(bool expand)
 {
-    Scr_WatchElement_s *element; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *element; // [esp+4h] [ebp-4h]
 
     element = Scr_ScriptWatch::GetSelectedElement();
     if (element)
@@ -1045,7 +1045,7 @@ void UI_LinesComponent::ClearFocus()
 
 void __thiscall UI_LinesComponent::IncSelectedLineFocus(bool wrap)
 {
-    if (this->selectedLine < 0 || wrap && this->selectedLine >= this->numLines - 1)
+    if (this->selectedLine < 0 || (wrap && this->selectedLine >= this->numLines - 1))
         this->SetSelectedLineFocus(0, 0);
     else
         this->SetSelectedLineFocus(this->selectedLine + 1, 0);
@@ -1053,7 +1053,7 @@ void __thiscall UI_LinesComponent::IncSelectedLineFocus(bool wrap)
 
 void __thiscall UI_LinesComponent::DecSelectedLineFocus(bool wrap)
 {
-    if (this->selectedLine < 0 || wrap && this->selectedLine <= 0)
+    if (this->selectedLine < 0 || (wrap && this->selectedLine <= 0))
         this->SetSelectedLineFocus(this->numLines - 1, 0);
     else
         this->SetSelectedLineFocus(this->selectedLine - 1, 0);
@@ -1076,7 +1076,7 @@ void Scr_ScriptWatch::SetSelectedElement(Scr_WatchElement_s *selElement, bool us
 
 void Scr_ScriptWatch::FreeWatchElement(Scr_WatchElement_s *element)
 {
-    Scr_Breakpoint *breakpoint; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] Scr_Breakpoint *breakpoint; // [esp+4h] [ebp-8h]
 
     if (element->parent)
         MyAssertHandler(".\\script\\scr_debugger.cpp", 5030, 0, "%s", "!element->parent");
@@ -1188,14 +1188,14 @@ bool UI_LinesComponent::SetSelectedLineFocus(int newSelectedLine, bool user)
 
 void __thiscall Scr_ScriptWatch::DisplayThreadPos(Scr_WatchElement_s *element)
 {
-    unsigned int bufferIndex; // [esp+4h] [ebp-10h]
-    unsigned int lineNum; // [esp+8h] [ebp-Ch]
-    const char *codePos; // [esp+Ch] [ebp-8h]
-    unsigned int sourcePos; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] unsigned int bufferIndex; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] unsigned int lineNum; // [esp+8h] [ebp-Ch]
+    [[maybe_unused]] const char *codePos; // [esp+Ch] [ebp-8h]
+    [[maybe_unused]] unsigned int sourcePos; // [esp+10h] [ebp-4h]
 
     if (Sys_IsRemoteDebugClient())
         MyAssertHandler(".\\script\\scr_debugger.cpp", 7063, 0, "%s", "!Sys_IsRemoteDebugClient()");
-    if (scrVarPub.evaluate && (element->objectType == 22 || element->objectType == 14 && element->directObject))
+    if (scrVarPub.evaluate && (element->objectType == 22 || (element->objectType == 14 && element->directObject)))
     {
         codePos = Scr_GetElementThreadPos(element);
         if (codePos)
@@ -1213,7 +1213,7 @@ Scr_WatchElement_s *__thiscall Scr_ScriptWatch::CreateWatchElement(
     Scr_WatchElement_s **prevElem,
     const char *name)
 {
-    Scr_WatchElement_s *element; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *element; // [esp+4h] [ebp-4h]
 
     element = Scr_CreateWatchElement(text, prevElem, name);
     if (!++this->elementId)
@@ -1231,12 +1231,12 @@ Scr_WatchElement_s *__thiscall Scr_ScriptWatch::CreateBreakpointElement(
     bool user)
 {
     Scr_WatchElement_s **ElementRef; // eax
-    Scr_WatchElement_s *ElementRoot; // [esp+0h] [ebp-1ACh]
-    Scr_WatchElement_s **pElement; // [esp+8h] [ebp-1A4h]
+    [[maybe_unused]] Scr_WatchElement_s *ElementRoot; // [esp+0h] [ebp-1ACh]
+    [[maybe_unused]] Scr_WatchElement_s **pElement; // [esp+8h] [ebp-1A4h]
     char refText[136]; // [esp+Ch] [ebp-1A0h] BYREF
     char valueText[268]; // [esp+94h] [ebp-118h] BYREF
-    Scr_WatchElement_s *newElement; // [esp+1A4h] [ebp-8h]
-    int lineNum; // [esp+1A8h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *newElement; // [esp+1A4h] [ebp-8h]
+    [[maybe_unused]] int lineNum; // [esp+1A8h] [ebp-4h]
 
     if (element)
     {
@@ -1258,8 +1258,8 @@ Scr_WatchElement_s *__thiscall Scr_ScriptWatch::CreateBreakpointElement(
 
 void Scr_ScriptWatch::UpdateBreakpoint(bool add)
 {
-    Scr_WatchElement_s *element; // [esp+8h] [ebp-4h]
-    Scr_WatchElement_s *elementa; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *element; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *elementa; // [esp+8h] [ebp-4h]
 
     if (Sys_IsRemoteDebugClient())
         MyAssertHandler((char *)".\\script\\scr_debugger.cpp", 7357, 0, "%s", "!Sys_IsRemoteDebugClient()");
@@ -1295,10 +1295,10 @@ void Scr_ScriptWatch::UpdateBreakpoint(bool add)
 
 void __thiscall Scr_ScriptWatch::SortHitBreakpointsTop()
 {
-    Scr_WatchElement_s **pElement; // [esp+8h] [ebp-14h]
-    Scr_WatchElement_s **pInsertPoint; // [esp+Ch] [ebp-10h]
-    int hitBreakpoint; // [esp+10h] [ebp-Ch]
-    Scr_WatchElement_s *element; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s **pElement; // [esp+8h] [ebp-14h]
+    [[maybe_unused]] Scr_WatchElement_s **pInsertPoint; // [esp+Ch] [ebp-10h]
+    [[maybe_unused]] int hitBreakpoint; // [esp+10h] [ebp-Ch]
+    [[maybe_unused]] Scr_WatchElement_s *element; // [esp+18h] [ebp-4h]
 
     if (Sys_IsRemoteDebugClient())
     {
@@ -1496,7 +1496,7 @@ bool Scr_ScriptWatch::KeyEvent(float *point, int key)
 
 bool Scr_ScriptWatch::SetSelectedLineFocus(int newSelectedLine, bool user)
 {
-    Scr_WatchElement_s *element; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *element; // [esp+4h] [ebp-4h]
 
     if (!UI_LinesComponent::SetSelectedLineFocus(newSelectedLine, user))
         return 0;
@@ -1538,7 +1538,7 @@ bool Scr_ScriptCallStack::KeyEvent(float *point, int key)
 bool __thiscall Scr_ScriptCallStack::SetSelectedLineFocus(int newSelectedLine, bool user)
 {
     unsigned int LineNum; // eax
-    unsigned int bufferIndex; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] unsigned int bufferIndex; // [esp+4h] [ebp-8h]
 
     if (!UI_LinesComponent::SetSelectedLineFocus(newSelectedLine, user))
         return 0;
@@ -1562,19 +1562,19 @@ void Scr_ScriptCallStack::Draw(
     float compX,
     float compY)
 {
-    float v7; // [esp+18h] [ebp-F8h]
-    float v8; // [esp+2Ch] [ebp-E4h]
-    int currentLine; // [esp+44h] [ebp-CCh]
+    [[maybe_unused]] float v7; // [esp+18h] [ebp-F8h]
+    [[maybe_unused]] float v8; // [esp+2Ch] [ebp-E4h]
+    [[maybe_unused]] int currentLine; // [esp+44h] [ebp-CCh]
     float selectColor[4]; // [esp+48h] [ebp-C8h] BYREF
-    unsigned int bufferIndex; // [esp+58h] [ebp-B8h]
-    int startLine; // [esp+5Ch] [ebp-B4h]
-    float startLineFrac; // [esp+60h] [ebp-B0h]
-    float currentY; // [esp+64h] [ebp-ACh]
-    int index; // [esp+68h] [ebp-A8h]
-    float lastHeight; // [esp+6Ch] [ebp-A4h]
+    [[maybe_unused]] unsigned int bufferIndex; // [esp+58h] [ebp-B8h]
+    [[maybe_unused]] int startLine; // [esp+5Ch] [ebp-B4h]
+    [[maybe_unused]] float startLineFrac; // [esp+60h] [ebp-B0h]
+    [[maybe_unused]] float currentY; // [esp+64h] [ebp-ACh]
+    [[maybe_unused]] int index; // [esp+68h] [ebp-A8h]
+    [[maybe_unused]] float lastHeight; // [esp+6Ch] [ebp-A4h]
     float color[4]; // [esp+70h] [ebp-A0h] BYREF
     char text[136]; // [esp+80h] [ebp-90h] BYREF
-    unsigned int startCol; // [esp+10Ch] [ebp-4h]
+    [[maybe_unused]] unsigned int startCol; // [esp+10Ch] [ebp-4h]
 
     UI_Component::DrawPic(x, y, width, height, 0, cls.consoleMaterial);
     CL_LookupColor(0, 0x37u, color);
@@ -1619,10 +1619,10 @@ void Scr_ScriptCallStack::Draw(
 
 void __thiscall Scr_ScriptCallStack::UpdateStack()
 {
-    Scr_SourcePos2_t *pos; // [esp+4h] [ebp-14h]
-    unsigned int index; // [esp+Ch] [ebp-Ch]
-    int i; // [esp+10h] [ebp-8h]
-    char *codePos; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] Scr_SourcePos2_t *pos; // [esp+4h] [ebp-14h]
+    [[maybe_unused]] unsigned int index; // [esp+Ch] [ebp-Ch]
+    [[maybe_unused]] int i; // [esp+10h] [ebp-8h]
+    [[maybe_unused]] char *codePos; // [esp+14h] [ebp-4h]
 
     if (Sys_IsRemoteDebugClient())
         MyAssertHandler(".\\script\\scr_debugger.cpp", 3193, 0, "%s", "!Sys_IsRemoteDebugClient()");
@@ -1633,7 +1633,7 @@ void __thiscall Scr_ScriptCallStack::UpdateStack()
         {
             if (i)
             {
-                codePos = (char*)scrVmPub.stack[3 * (scrVmPub.function_count - i) - 96].u.intValue;
+                codePos = (char*)(uintptr_t)scrVmPub.stack[3 * (scrVmPub.function_count - i) - 96].u.intValue;
                 index = scrVmPub.function_frame_start[scrVmPub.function_count - i].fs.localId == 0;
             }
             else
@@ -1722,11 +1722,11 @@ void Scr_OpenScriptList::Init()
 
 void Scr_OpenScriptList::Shutdown()
 {
-    Scr_StringNode_s *node; // [esp+34h] [ebp-10h]
-    char *filenamea; // [esp+38h] [ebp-Ch]
-    char *filename; // [esp+38h] [ebp-Ch]
-    int f; // [esp+3Ch] [ebp-8h]
-    int i; // [esp+40h] [ebp-4h]
+    [[maybe_unused]] Scr_StringNode_s *node; // [esp+34h] [ebp-10h]
+    [[maybe_unused]] char *filenamea; // [esp+38h] [ebp-Ch]
+    [[maybe_unused]] char *filename; // [esp+38h] [ebp-Ch]
+    [[maybe_unused]] int f; // [esp+3Ch] [ebp-8h]
+    [[maybe_unused]] int i; // [esp+40h] [ebp-4h]
 
     f = FS_FOpenTextFileWrite("open_scripts.txt");
     if (f)
@@ -1764,17 +1764,17 @@ void Scr_OpenScriptList::Shutdown()
 
 bool Scr_OpenScriptList::ReadFromFile()
 {
-    char v2; // [esp+3h] [ebp-55h]
-    char *v3; // [esp+8h] [ebp-50h]
-    const char *text; // [esp+Ch] [ebp-4Ch]
-    Scr_StringNode_s *node; // [esp+38h] [ebp-20h]
-    Scr_StringNode_s *nodea; // [esp+38h] [ebp-20h]
-    char *newText; // [esp+40h] [ebp-18h]
-    Scr_StringNode_s *head; // [esp+44h] [ebp-14h]
+    [[maybe_unused]] char v2; // [esp+3h] [ebp-55h]
+    [[maybe_unused]] char *v3; // [esp+8h] [ebp-50h]
+    [[maybe_unused]] const char *text; // [esp+Ch] [ebp-4Ch]
+    [[maybe_unused]] Scr_StringNode_s *node; // [esp+38h] [ebp-20h]
+    [[maybe_unused]] Scr_StringNode_s *nodea; // [esp+38h] [ebp-20h]
+    [[maybe_unused]] char *newText; // [esp+40h] [ebp-18h]
+    [[maybe_unused]] Scr_StringNode_s *head; // [esp+44h] [ebp-14h]
     char *buf; // [esp+48h] [ebp-10h] BYREF
-    bool success; // [esp+4Fh] [ebp-9h]
-    int currentScript; // [esp+50h] [ebp-8h]
-    int i; // [esp+54h] [ebp-4h]
+    [[maybe_unused]] bool success; // [esp+4Fh] [ebp-9h]
+    [[maybe_unused]] int currentScript; // [esp+50h] [ebp-8h]
+    [[maybe_unused]] int i; // [esp+54h] [ebp-4h]
 
     head = Scr_GetStringList("open_scripts.txt", &buf);
     success = head != 0;
@@ -1829,8 +1829,8 @@ bool Scr_OpenScriptList::SetSelectedLineFocus(
     int newSelectedLine,
     bool user)
 {
-    unsigned int sortedIndex; // [esp+4h] [ebp-Ch]
-    unsigned int bufferIndex; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] unsigned int sortedIndex; // [esp+4h] [ebp-Ch]
+    [[maybe_unused]] unsigned int bufferIndex; // [esp+8h] [ebp-8h]
 
     if (!UI_LinesComponent::SetSelectedLineFocus(newSelectedLine, user))
         return 0;
@@ -1874,7 +1874,7 @@ bool Scr_OpenScriptList::SetSelectedLineFocus(
 void Scr_ScriptWatch::Evaluate()
 {
     Scr_SelectedLineInfo info; // [esp+4h] [ebp-10h] BYREF
-    Scr_WatchElement_s *element; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *element; // [esp+10h] [ebp-4h]
 
     if (Sys_IsRemoteDebugClient())
         MyAssertHandler(".\\script\\scr_debugger.cpp", 6860, 0, "%s", "!Sys_IsRemoteDebugClient()");
@@ -1903,11 +1903,11 @@ void Scr_ScriptWatch::PasteBreakpointElement(
     unsigned __int8 breakpointType,
     bool user)
 {
-    unsigned int bufferIndex; // [esp+4h] [ebp-14h]
-    int lineNum; // [esp+8h] [ebp-10h]
-    const char *name; // [esp+Ch] [ebp-Ch]
-    SourceBufferInfo *sourceBufData; // [esp+10h] [ebp-8h]
-    Scr_ScriptWindow *scriptWindow; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] unsigned int bufferIndex; // [esp+4h] [ebp-14h]
+    [[maybe_unused]] int lineNum; // [esp+8h] [ebp-10h]
+    [[maybe_unused]] const char *name; // [esp+Ch] [ebp-Ch]
+    [[maybe_unused]] SourceBufferInfo *sourceBufData; // [esp+10h] [ebp-8h]
+    [[maybe_unused]] Scr_ScriptWindow *scriptWindow; // [esp+14h] [ebp-4h]
 
     lineNum = atoi(text);
     for (name = text; *name; ++name)
@@ -1973,8 +1973,8 @@ static unsigned __int8 __cdecl Scr_GetBreakpointType(const char **pText)
 
 void Scr_ScriptWatch::PasteElement()
 {
-    char *cbd; // [esp+4h] [ebp-8h]
-    Scr_WatchElement_s *element; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] char *cbd; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] Scr_WatchElement_s *element; // [esp+8h] [ebp-4h]
 
     cbd = Sys_GetClipboardData();
     if (cbd)
@@ -1987,7 +1987,7 @@ void Scr_ScriptWatch::PasteElement()
 
 void Scr_ScriptWatch::InsertElement()
 {
-    Scr_WatchElement_s *element; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *element; // [esp+4h] [ebp-4h]
 
     element = Scr_ScriptWatch::GetSelectedElement();
     if (Sys_IsRemoteDebugClient())
@@ -2006,7 +2006,7 @@ void Scr_ScriptWatch::InsertElement()
 void Scr_ScriptWatch::CopyElement()
 {
     char *ElementArchiveText; // eax
-    Scr_WatchElement_s *element; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *element; // [esp+4h] [ebp-4h]
 
     element = Scr_ScriptWatch::GetSelectedElement();
     if (element)
@@ -2021,8 +2021,8 @@ void Scr_ScriptWatch::PasteElementInternal(
     char *text,
     bool user)
 {
-    Scr_WatchElement_s *newElement; // [esp+8h] [ebp-8h]
-    unsigned __int8 type; // [esp+Fh] [ebp-1h]
+    [[maybe_unused]] Scr_WatchElement_s *newElement; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] unsigned __int8 type; // [esp+Fh] [ebp-1h]
 
     type = Scr_GetBreakpointType((const char **)&text);
     if (type < 4 || type > 7)
@@ -2057,8 +2057,8 @@ Scr_WatchElement_s *__thiscall Scr_ScriptWatch::PasteNonBreakpointElement(
     bool user)
 {
     Scr_WatchElement_s **ElementRef; // eax
-    Scr_WatchElement_s *ElementRoot; // [esp+0h] [ebp-10h]
-    Scr_WatchElement_s *newElement; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *ElementRoot; // [esp+0h] [ebp-10h]
+    [[maybe_unused]] Scr_WatchElement_s *newElement; // [esp+Ch] [ebp-4h]
 
     if (element)
     {
@@ -2083,8 +2083,8 @@ Scr_WatchElement_s *__thiscall Scr_ScriptWatch::PasteNonBreakpointElement(
 
 void Scr_ScriptWatch::SaveSelectedLine(Scr_SelectedLineInfo *info)
 {
-    int id; // [esp+0h] [ebp-Ch]
-    Scr_WatchElement_s *selectedElement; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int id; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] Scr_WatchElement_s *selectedElement; // [esp+8h] [ebp-4h]
 
     selectedElement = Scr_ScriptWatch::GetSelectedElement();
     if (selectedElement)
@@ -2098,7 +2098,7 @@ void Scr_ScriptWatch::SaveSelectedLine(Scr_SelectedLineInfo *info)
 
 void __thiscall Scr_ScriptWatch::LoadSelectedLine(Scr_SelectedLineInfo *info)
 {
-    Scr_WatchElement_s *selectedElement; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *selectedElement; // [esp+8h] [ebp-4h]
 
     selectedElement = Scr_ScriptWatch::GetElementWithId(info->selectedId);
     if (selectedElement)
@@ -2115,7 +2115,7 @@ bool Scr_ScriptWatch::EvaluateWatchChildElement(
     Scr_WatchElement_s *childElement,
     bool hardcodedField)
 {
-    unsigned __int8 objectType; // [esp+4h] [ebp-18h]
+    [[maybe_unused]] unsigned __int8 objectType; // [esp+4h] [ebp-18h]
     VariableValue value; // [esp+14h] [ebp-8h] BYREF
 
     if (Sys_IsRemoteDebugClient())
@@ -2188,41 +2188,41 @@ void Scr_ScriptWatch::EvaluateWatchChildren(Scr_WatchElement_s *parentElement)
     const char *v3; // eax
     const char *v4; // eax
     const char *CanonicalString; // eax
-    unsigned __int8 v6; // [esp+4h] [ebp-12Ch]
-    bool v7; // [esp+8h] [ebp-128h]
-    int v8; // [esp+Ch] [ebp-124h]
-    bool v9; // [esp+10h] [ebp-120h]
+    [[maybe_unused]] unsigned __int8 v6; // [esp+4h] [ebp-12Ch]
+    [[maybe_unused]] bool v7; // [esp+8h] [ebp-128h]
+    [[maybe_unused]] int v8; // [esp+Ch] [ebp-124h]
+    [[maybe_unused]] bool v9; // [esp+10h] [ebp-120h]
     int(__cdecl * v10)(unsigned int *, unsigned int *); // [esp+14h] [ebp-11Ch]
-    unsigned __int8 v11; // [esp+18h] [ebp-118h]
-    unsigned __int8 objectType; // [esp+1Ch] [ebp-114h]
-    bool oldHardcodedField; // [esp+2Fh] [ebp-101h]
+    [[maybe_unused]] unsigned __int8 v11; // [esp+18h] [ebp-118h]
+    [[maybe_unused]] unsigned __int8 objectType; // [esp+1Ch] [ebp-114h]
+    [[maybe_unused]] bool oldHardcodedField; // [esp+2Fh] [ebp-101h]
     char fieldText[136]; // [esp+30h] [ebp-100h] BYREF
     unsigned int hardcodedNames[5]; // [esp+BCh] [ebp-74h] BYREF
-    Scr_WatchElement_s *childElement; // [esp+D0h] [ebp-60h]
-    unsigned int newIndex; // [esp+D4h] [ebp-5Ch]
-    unsigned int oldChildCount; // [esp+D8h] [ebp-58h]
+    [[maybe_unused]] Scr_WatchElement_s *childElement; // [esp+D0h] [ebp-60h]
+    [[maybe_unused]] unsigned int newIndex; // [esp+D4h] [ebp-5Ch]
+    [[maybe_unused]] unsigned int oldChildCount; // [esp+D8h] [ebp-58h]
     int(__cdecl * compare)(unsigned int*, unsigned int*); // [esp+DCh] [ebp-54h]
-    unsigned __int8 oldObjectType; // [esp+E2h] [ebp-4Eh]
-    bool isArray; // [esp+E3h] [ebp-4Dh]
-    Scr_WatchElement_s *newElements; // [esp+E4h] [ebp-4Ch]
-    Scr_WatchElement_s *oldElements; // [esp+E8h] [ebp-48h]
-    unsigned int hardcodedCount; // [esp+ECh] [ebp-44h]
-    Scr_WatchElement_s *newElement; // [esp+F0h] [ebp-40h]
-    int function_count; // [esp+F4h] [ebp-3Ch]
-    unsigned int objectId; // [esp+F8h] [ebp-38h]
-    Scr_WatchElement_s *oldElement; // [esp+FCh] [ebp-34h]
-    Scr_WatchElement_s **newElementOldRef; // [esp+100h] [ebp-30h]
-    int compareResult; // [esp+104h] [ebp-2Ch]
-    bool elementChanged; // [esp+10Bh] [ebp-25h]
-    unsigned int threadId; // [esp+10Ch] [ebp-24h]
-    unsigned int oldIndex; // [esp+110h] [ebp-20h]
-    unsigned int *names; // [esp+114h] [ebp-1Ch]
-    bool hardcodedField; // [esp+11Bh] [ebp-15h]
-    unsigned int nameIndex; // [esp+11Ch] [ebp-14h]
-    unsigned int count; // [esp+120h] [ebp-10h]
+    [[maybe_unused]] unsigned __int8 oldObjectType; // [esp+E2h] [ebp-4Eh]
+    [[maybe_unused]] bool isArray; // [esp+E3h] [ebp-4Dh]
+    [[maybe_unused]] Scr_WatchElement_s *newElements; // [esp+E4h] [ebp-4Ch]
+    [[maybe_unused]] Scr_WatchElement_s *oldElements; // [esp+E8h] [ebp-48h]
+    [[maybe_unused]] unsigned int hardcodedCount; // [esp+ECh] [ebp-44h]
+    [[maybe_unused]] Scr_WatchElement_s *newElement; // [esp+F0h] [ebp-40h]
+    [[maybe_unused]] int function_count; // [esp+F4h] [ebp-3Ch]
+    [[maybe_unused]] unsigned int objectId; // [esp+F8h] [ebp-38h]
+    [[maybe_unused]] Scr_WatchElement_s *oldElement; // [esp+FCh] [ebp-34h]
+    [[maybe_unused]] Scr_WatchElement_s **newElementOldRef; // [esp+100h] [ebp-30h]
+    [[maybe_unused]] int compareResult; // [esp+104h] [ebp-2Ch]
+    [[maybe_unused]] bool elementChanged; // [esp+10Bh] [ebp-25h]
+    [[maybe_unused]] unsigned int threadId; // [esp+10Ch] [ebp-24h]
+    [[maybe_unused]] unsigned int oldIndex; // [esp+110h] [ebp-20h]
+    [[maybe_unused]] unsigned int *names; // [esp+114h] [ebp-1Ch]
+    [[maybe_unused]] bool hardcodedField; // [esp+11Bh] [ebp-15h]
+    [[maybe_unused]] unsigned int nameIndex; // [esp+11Ch] [ebp-14h]
+    [[maybe_unused]] unsigned int count; // [esp+120h] [ebp-10h]
     VariableValue value; // [esp+124h] [ebp-Ch] BYREF
-    bool setChildCount; // [esp+12Eh] [ebp-2h]
-    bool sameType; // [esp+12Fh] [ebp-1h]
+    [[maybe_unused]] bool setChildCount; // [esp+12Eh] [ebp-2h]
+    [[maybe_unused]] bool sameType; // [esp+12Fh] [ebp-1h]
 
     if (Sys_IsRemoteDebugClient())
         MyAssertHandler(".\\script\\scr_debugger.cpp", 5768, 0, "%s", "!Sys_IsRemoteDebugClient()");
@@ -2330,7 +2330,7 @@ void Scr_ScriptWatch::EvaluateWatchChildren(Scr_WatchElement_s *parentElement)
             oldElements = parentElement->childArrayHead;
             oldChildCount = parentElement->childCount;
             newElements = (Scr_WatchElement_s*)Scr_AllocDebugMem(100 * count, "Scr_ScriptWatch::EvaluateWatchChildren3");
-            memset(newElements, 0, 100 * count);
+            memset(static_cast<void *>(newElements), 0, 100 * count);
             newElementOldRef = (Scr_WatchElement_s**)Scr_AllocDebugMem(4 * count, "Scr_ScriptWatch::EvaluateWatchChildren");
             v9 = oldElements && parentElement->objectType == oldObjectType;
             sameType = v9;
@@ -2500,9 +2500,9 @@ void Scr_ScriptWatch::EvaluateWatchChildren(Scr_WatchElement_s *parentElement)
 
 void Scr_ScriptWatch::EvaluateWatchElement(Scr_WatchElement_s *element)
 {
-    char v2; // [esp+3h] [ebp-129h]
-    char *v3; // [esp+8h] [ebp-124h]
-    const char *valueText; // [esp+Ch] [ebp-120h]
+    [[maybe_unused]] char v2; // [esp+3h] [ebp-129h]
+    [[maybe_unused]] char *v3; // [esp+8h] [ebp-124h]
+    [[maybe_unused]] const char *valueText; // [esp+Ch] [ebp-120h]
     VariableValue value; // [esp+14h] [ebp-118h] BYREF
     char oldValueText[268]; // [esp+1Ch] [ebp-110h] BYREF
 
@@ -2544,7 +2544,7 @@ bool __thiscall Scr_ScriptWatch::PostEvaluateWatchElement(
     VariableValue *value)
 {
     int type; // eax
-    unsigned int intValue; // [esp+0h] [ebp-118h]
+    [[maybe_unused]] unsigned int intValue; // [esp+0h] [ebp-118h]
     char valueText[268]; // [esp+8h] [ebp-110h] BYREF
 
     if (Sys_IsRemoteDebugClient())
@@ -2587,7 +2587,7 @@ bool __thiscall Scr_ScriptWatch::PostEvaluateWatchElement(
 
 void Scr_ScriptWindow::SetScriptFile(const char *name)
 {
-    unsigned int i; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] unsigned int i; // [esp+8h] [ebp-4h]
 
     for (i = 0; i < scrParserPub.sourceBufferLookupLen; ++i)
     {
@@ -2607,7 +2607,7 @@ bool Scr_ScriptList::KeyEvent(float *point, int key)
     if (Key_IsDown(0, K_ALT)
         || Key_IsDown(0, K_CTRL)
         || Key_IsDown(0, K_SHIFT)
-        || key != '\r' && key != K_KP_ENTER && key != K_LAST_KEY)
+        || (key != '\r' && key != K_KP_ENTER && key != K_LAST_KEY))
     {
         return UI_LinesComponent::KeyEvent(point, key);
     }
@@ -2622,8 +2622,8 @@ bool Scr_ScriptList::KeyEvent(float *point, int key)
 
 void Scr_ScriptList::AddFile(const char *filename, Scr_AddFileInfo *info)
 {
-    Scr_ScriptWindow *v3; // [esp+4h] [ebp-18h]
-    Scr_ScriptWindow *v5; // [esp+14h] [ebp-8h]
+    [[maybe_unused]] Scr_ScriptWindow *v3; // [esp+4h] [ebp-18h]
+    [[maybe_unused]] Scr_ScriptWindow *v5; // [esp+14h] [ebp-8h]
 
     //v5 = (Scr_ScriptWindow *)Scr_ScriptWindow::operator new(0x3Cu);
     v5 = new Scr_ScriptWindow();
@@ -2670,11 +2670,11 @@ void Scr_ScriptList::Init()
     const char *v2; // eax
     char filename[64]; // [esp+14h] [ebp-860h] BYREF
     Scr_AddFileInfo info; // [esp+58h] [ebp-81Ch] BYREF
-    int numCols; // [esp+64h] [ebp-810h]
-    int numCurrCols; // [esp+68h] [ebp-80Ch]
+    [[maybe_unused]] int numCols; // [esp+64h] [ebp-810h]
+    [[maybe_unused]] int numCurrCols; // [esp+68h] [ebp-80Ch]
     const char *scriptWindowsNames[512]; // [esp+6Ch] [ebp-808h] BYREF
-    int i; // [esp+86Ch] [ebp-8h]
-    unsigned int id; // [esp+870h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+86Ch] [ebp-8h]
+    [[maybe_unused]] unsigned int id; // [esp+870h] [ebp-4h]
 
     Scr_AbstractScriptList::Init();
 
@@ -2725,13 +2725,13 @@ void Scr_ScriptList::Init()
 
 void Scr_ScriptList::Shutdown()
 {
-    Scr_ScriptWindow *v2; // [esp+2Ch] [ebp-18h]
-    char *filename; // [esp+30h] [ebp-14h]
-    Scr_ScriptWindow *comp; // [esp+34h] [ebp-10h]
-    int f; // [esp+38h] [ebp-Ch]
-    char *lineString; // [esp+3Ch] [ebp-8h]
-    int i; // [esp+40h] [ebp-4h]
-    int ia; // [esp+40h] [ebp-4h]
+    [[maybe_unused]] Scr_ScriptWindow *v2; // [esp+2Ch] [ebp-18h]
+    [[maybe_unused]] char *filename; // [esp+30h] [ebp-14h]
+    [[maybe_unused]] Scr_ScriptWindow *comp; // [esp+34h] [ebp-10h]
+    [[maybe_unused]] int f; // [esp+38h] [ebp-Ch]
+    [[maybe_unused]] char *lineString; // [esp+3Ch] [ebp-8h]
+    [[maybe_unused]] int i; // [esp+40h] [ebp-4h]
+    [[maybe_unused]] int ia; // [esp+40h] [ebp-4h]
 
     f = FS_FOpenTextFileWrite("script_pos.txt");
     if (f)
@@ -2764,15 +2764,15 @@ void Scr_ScriptList::Shutdown()
 
 void Scr_ScriptList::LoadScriptPos()
 {
-    Scr_StringNode_s *node; // [esp+1Ch] [ebp-7Ch]
+    [[maybe_unused]] Scr_StringNode_s *node; // [esp+1Ch] [ebp-7Ch]
     // __int64 pos; // [esp+20h] [ebp-78h] BYREF
     float pos[2];
     char filename[88]; // [esp+28h] [ebp-70h] BYREF
-    Scr_StringNode_s *head; // [esp+84h] [ebp-14h]
+    [[maybe_unused]] Scr_StringNode_s *head; // [esp+84h] [ebp-14h]
     char *buf; // [esp+88h] [ebp-10h] BYREF
-    Scr_ScriptWindow *comp; // [esp+8Ch] [ebp-Ch]
+    [[maybe_unused]] Scr_ScriptWindow *comp; // [esp+8Ch] [ebp-Ch]
     int selectedLine; // [esp+90h] [ebp-8h] BYREF
-    int i; // [esp+94h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+94h] [ebp-4h]
 
     for (head = Scr_GetStringList("script_pos.txt", &buf); head; head = node)
     {
@@ -2809,8 +2809,8 @@ char * Scr_ScriptWindow::GetFilename()
 
 void Scr_ScriptWatch::UpdateBreakpoints(bool add)
 {
-    Scr_WatchElement_s *element; // [esp+8h] [ebp-4h]
-    Scr_WatchElement_s *elementa; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *element; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *elementa; // [esp+8h] [ebp-4h]
 
     if (Sys_IsRemoteDebugClient())
         MyAssertHandler(".\\script\\scr_debugger.cpp", 7357, 0, "%s", "!Sys_IsRemoteDebugClient()");
@@ -2868,18 +2868,18 @@ void Scr_AbstractScriptList::Draw(
     float compX,
     float compY)
 {
-    float v7; // [esp+18h] [ebp-4Ch]
-    float v8; // [esp+1Ch] [ebp-48h]
-    int currentLine; // [esp+24h] [ebp-40h]
+    [[maybe_unused]] float v7; // [esp+18h] [ebp-4Ch]
+    [[maybe_unused]] float v8; // [esp+1Ch] [ebp-48h]
+    [[maybe_unused]] int currentLine; // [esp+24h] [ebp-40h]
     float selectColor[4]; // [esp+28h] [ebp-3Ch] BYREF
-    int startLine; // [esp+38h] [ebp-2Ch]
-    float startLineFrac; // [esp+3Ch] [ebp-28h]
-    float currentY; // [esp+40h] [ebp-24h]
-    const char *s; // [esp+44h] [ebp-20h]
-    float lastHeight; // [esp+48h] [ebp-1Ch]
+    [[maybe_unused]] int startLine; // [esp+38h] [ebp-2Ch]
+    [[maybe_unused]] float startLineFrac; // [esp+3Ch] [ebp-28h]
+    [[maybe_unused]] float currentY; // [esp+40h] [ebp-24h]
+    [[maybe_unused]] const char *s; // [esp+44h] [ebp-20h]
+    [[maybe_unused]] float lastHeight; // [esp+48h] [ebp-1Ch]
     float color[4]; // [esp+4Ch] [ebp-18h] BYREF
-    int startCol; // [esp+5Ch] [ebp-8h]
-    int col; // [esp+60h] [ebp-4h]
+    [[maybe_unused]] int startCol; // [esp+5Ch] [ebp-8h]
+    [[maybe_unused]] int col; // [esp+60h] [ebp-4h]
 
     UI_Component::DrawPic(x, y, width, height, 0, cls.consoleMaterial);
     CL_LookupColor(0, 0x37u, color);
@@ -2922,8 +2922,8 @@ void Scr_AbstractScriptList::Draw(
 bool Scr_AbstractScriptList::AddEntryName(const char *filename, bool select)
 {
     char *v3; // eax
-    Scr_ScriptWindow *scriptWindow; // [esp+4h] [ebp-8h]
-    int i; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] Scr_ScriptWindow *scriptWindow; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] int i; // [esp+8h] [ebp-4h]
 
     for (i = 0; i < scrDebuggerGlob.scriptList.numLines; ++i)
     {
@@ -2955,7 +2955,7 @@ void Scr_AbstractScriptList::DeleteEntryInternal()
 
 void Scr_AbstractScriptList::DeleteEntry()
 {
-    int newSelectedLine; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int newSelectedLine; // [esp+4h] [ebp-4h]
 
     newSelectedLine = this->selectedLine;
     Scr_AbstractScriptList::DeleteEntryInternal();
@@ -2964,7 +2964,7 @@ void Scr_AbstractScriptList::DeleteEntry()
 
 void Scr_AbstractScriptList::BackspaceEntry()
 {
-    int newSelectedLine; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int newSelectedLine; // [esp+4h] [ebp-4h]
 
     newSelectedLine = this->selectedLine - 1;
     Scr_AbstractScriptList::DeleteEntryInternal();
@@ -2984,7 +2984,7 @@ void Scr_AbstractScriptList::CopyEntry()
 
 void Scr_AbstractScriptList::PasteEntry()
 {
-    char *cbd; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] char *cbd; // [esp+4h] [ebp-4h]
 
     cbd = Sys_GetClipboardData();
     if (cbd)
@@ -2999,12 +2999,12 @@ void Scr_AbstractScriptList::PasteEntry()
 
 void Scr_AbstractScriptList::AddEntry(Scr_ScriptWindow *scriptWindow, bool select)
 {
-    int selectedLine; // [esp+1Ch] [ebp-1Ch]
-    int newNumLines; // [esp+24h] [ebp-14h]
-    int newIndex; // [esp+28h] [ebp-10h]
-    float newWidth; // [esp+2Ch] [ebp-Ch]
-    int i; // [esp+30h] [ebp-8h]
-    unsigned __int8 *newScriptWindows; // [esp+34h] [ebp-4h]
+    [[maybe_unused]] int selectedLine; // [esp+1Ch] [ebp-1Ch]
+    [[maybe_unused]] int newNumLines; // [esp+24h] [ebp-14h]
+    [[maybe_unused]] int newIndex; // [esp+28h] [ebp-10h]
+    [[maybe_unused]] float newWidth; // [esp+2Ch] [ebp-Ch]
+    [[maybe_unused]] int i; // [esp+30h] [ebp-8h]
+    [[maybe_unused]] unsigned __int8 *newScriptWindows; // [esp+34h] [ebp-4h]
 
     if (select && this->selectedLine >= 0)
         selectedLine = this->selectedLine;
@@ -3071,9 +3071,9 @@ void UI_VerticalDivider::Draw(
     float compX,
     float compY)
 {
-    float v7; // [esp+28h] [ebp-14h]
-    float v8; // [esp+2Ch] [ebp-10h]
-    float topHeight; // [esp+38h] [ebp-4h]
+    [[maybe_unused]] float v7; // [esp+28h] [ebp-14h]
+    [[maybe_unused]] float v8; // [esp+2Ch] [ebp-10h]
+    [[maybe_unused]] float topHeight; // [esp+38h] [ebp-4h]
 
     if (compX != 0.0)
         MyAssertHandler(".\\ui\\ui_component.cpp", 982, 0, "%s", "!compX");
@@ -3125,9 +3125,9 @@ void UI_VerticalDivider::Draw(
 
 void UI_ScrollPane::SetPos()
 {
-    float maxPos; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] float maxPos; // [esp+4h] [ebp-10h]
     float innerSize[2]; // [esp+8h] [ebp-Ch] BYREF
-    int i; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+10h] [ebp-4h]
 
     if (!this->comp)
         MyAssertHandler(".\\ui\\ui_component.cpp", 496, 0, "%s", "comp");
@@ -3168,26 +3168,26 @@ void UI_ScrollPane::Draw(
     float compY)
 {
     double v7; // st7
-    float v8; // [esp+30h] [ebp-68h]
-    float v9; // [esp+34h] [ebp-64h]
-    int selectedLine; // [esp+38h] [ebp-60h]
-    float scrollbarY; // [esp+40h] [ebp-58h]
-    float scrollbarYb; // [esp+40h] [ebp-58h]
-    float scrollbarYa; // [esp+40h] [ebp-58h]
-    float focusRegionStart2; // [esp+44h] [ebp-54h]
+    [[maybe_unused]] float v8; // [esp+30h] [ebp-68h]
+    [[maybe_unused]] float v9; // [esp+34h] [ebp-64h]
+    [[maybe_unused]] int selectedLine; // [esp+38h] [ebp-60h]
+    [[maybe_unused]] float scrollbarY; // [esp+40h] [ebp-58h]
+    [[maybe_unused]] float scrollbarYb; // [esp+40h] [ebp-58h]
+    [[maybe_unused]] float scrollbarYa; // [esp+40h] [ebp-58h]
+    [[maybe_unused]] float focusRegionStart2; // [esp+44h] [ebp-54h]
     float thumbColor[4]; // [esp+48h] [ebp-50h] BYREF
-    float thumbMaxSize; // [esp+58h] [ebp-40h]
+    [[maybe_unused]] float thumbMaxSize; // [esp+58h] [ebp-40h]
     float thumbSize[2]; // [esp+5Ch] [ebp-3Ch] BYREF
     float thumbPos[2]; // [esp+64h] [ebp-34h] BYREF
-    float thumbEnd; // [esp+6Ch] [ebp-2Ch]
-    float focusRegionEnd; // [esp+70h] [ebp-28h]
+    [[maybe_unused]] float thumbEnd; // [esp+6Ch] [ebp-2Ch]
+    [[maybe_unused]] float focusRegionEnd; // [esp+70h] [ebp-28h]
     float innerSize[3]; // [esp+74h] [ebp-24h] BYREF
-    float scrollbarX; // [esp+80h] [ebp-18h]
-    float scrollBarSize; // [esp+84h] [ebp-14h]
-    float thumbStart; // [esp+88h] [ebp-10h]
-    float focusRegionStart; // [esp+8Ch] [ebp-Ch]
-    float thumbFiller; // [esp+90h] [ebp-8h]
-    bool horScroll; // [esp+97h] [ebp-1h]
+    [[maybe_unused]] float scrollbarX; // [esp+80h] [ebp-18h]
+    [[maybe_unused]] float scrollBarSize; // [esp+84h] [ebp-14h]
+    [[maybe_unused]] float thumbStart; // [esp+88h] [ebp-10h]
+    [[maybe_unused]] float focusRegionStart; // [esp+8Ch] [ebp-Ch]
+    [[maybe_unused]] float thumbFiller; // [esp+90h] [ebp-8h]
+    [[maybe_unused]] bool horScroll; // [esp+97h] [ebp-1h]
 
     if (compX != 0.0)
         MyAssertHandler(".\\ui\\ui_component.cpp", 346, 0, "%s", "!compX");
@@ -3372,7 +3372,7 @@ void UI_ScrollPane::Draw(
 
 char __cdecl InRect(float *point, float *pos, float *size)
 {
-    int i; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+0h] [ebp-4h]
 
     for (i = 0; i < 2; ++i)
     {
@@ -3474,8 +3474,8 @@ void UI_Component::DrawPicRotate(
     const float *color,
     Material *material)
 {
-    float v6; // [esp+8h] [ebp-28h]
-    float v7; // [esp+Ch] [ebp-24h]
+    [[maybe_unused]] float v6; // [esp+8h] [ebp-28h]
+    [[maybe_unused]] float v7; // [esp+Ch] [ebp-24h]
     float verts[4][2]; // [esp+10h] [ebp-20h] BYREF
 
     v7 = floor(x);
@@ -3493,8 +3493,8 @@ void UI_Component::DrawPicRotate(
 
 void UI_Component::DrawPic(float x, float y, float width, float height, const float *color, Material *material)
 {
-    float v6; // [esp+2Ch] [ebp-Ch]
-    float v7; // [esp+30h] [ebp-8h]
+    [[maybe_unused]] float v6; // [esp+2Ch] [ebp-Ch]
+    [[maybe_unused]] float v7; // [esp+30h] [ebp-8h]
 
     v7 = floor(y);
     v6 = floor(x);
@@ -3508,37 +3508,37 @@ void Scr_ScriptWindow::Draw(float x,
     float compX,
     float compY)
 {
-    float v7; // [esp+18h] [ebp-BCh]
-    float v8; // [esp+1Ch] [ebp-B8h]
-    float v9; // [esp+20h] [ebp-B4h]
-    float v10; // [esp+24h] [ebp-B0h]
-    float v11; // [esp+28h] [ebp-ACh]
-    float v12; // [esp+2Ch] [ebp-A8h]
-    float v13; // [esp+30h] [ebp-A4h]
-    float v14; // [esp+34h] [ebp-A0h]
-    float v15; // [esp+38h] [ebp-9Ch]
-    float v16; // [esp+3Ch] [ebp-98h]
+    [[maybe_unused]] float v7; // [esp+18h] [ebp-BCh]
+    [[maybe_unused]] float v8; // [esp+1Ch] [ebp-B8h]
+    [[maybe_unused]] float v9; // [esp+20h] [ebp-B4h]
+    [[maybe_unused]] float v10; // [esp+24h] [ebp-B0h]
+    [[maybe_unused]] float v11; // [esp+28h] [ebp-ACh]
+    [[maybe_unused]] float v12; // [esp+2Ch] [ebp-A8h]
+    [[maybe_unused]] float v13; // [esp+30h] [ebp-A4h]
+    [[maybe_unused]] float v14; // [esp+34h] [ebp-A0h]
+    [[maybe_unused]] float v15; // [esp+38h] [ebp-9Ch]
+    [[maybe_unused]] float v16; // [esp+3Ch] [ebp-98h]
     float colorYellow[4]; // [esp+44h] [ebp-90h] BYREF
     float selectColor[4]; // [esp+54h] [ebp-80h] BYREF
-    int currentLine; // [esp+64h] [ebp-70h]
-    Scr_Breakpoint *breakpoint; // [esp+68h] [ebp-6Ch]
+    [[maybe_unused]] int currentLine; // [esp+64h] [ebp-70h]
+    [[maybe_unused]] Scr_Breakpoint *breakpoint; // [esp+68h] [ebp-6Ch]
     float colorWhite[4]; // [esp+6Ch] [ebp-68h] BYREF
-    int startLine; // [esp+7Ch] [ebp-58h]
-    const char *endPos; // [esp+80h] [ebp-54h]
+    [[maybe_unused]] int startLine; // [esp+7Ch] [ebp-58h]
+    [[maybe_unused]] const char *endPos; // [esp+80h] [ebp-54h]
     float colorBlue[4]; // [esp+84h] [ebp-50h] BYREF
     float colorRed[4]; // [esp+94h] [ebp-40h] BYREF
-    float startLineFrac; // [esp+A4h] [ebp-30h]
-    SourceBufferInfo *sourceBufData; // [esp+A8h] [ebp-2Ch]
-    float currentY; // [esp+ACh] [ebp-28h]
-    float innerWidth; // [esp+B0h] [ebp-24h]
-    const char *s; // [esp+B4h] [ebp-20h]
-    float lastHeight; // [esp+B8h] [ebp-1Ch]
-    char *to; // [esp+BCh] [ebp-18h]
-    int i; // [esp+C0h] [ebp-14h]
-    Scr_WatchElement_s *element; // [esp+C4h] [ebp-10h]
-    int startCol; // [esp+C8h] [ebp-Ch]
-    int col; // [esp+CCh] [ebp-8h]
-    bool existsBreakpoint; // [esp+D3h] [ebp-1h]
+    [[maybe_unused]] float startLineFrac; // [esp+A4h] [ebp-30h]
+    [[maybe_unused]] SourceBufferInfo *sourceBufData; // [esp+A8h] [ebp-2Ch]
+    [[maybe_unused]] float currentY; // [esp+ACh] [ebp-28h]
+    [[maybe_unused]] float innerWidth; // [esp+B0h] [ebp-24h]
+    [[maybe_unused]] const char *s; // [esp+B4h] [ebp-20h]
+    [[maybe_unused]] float lastHeight; // [esp+B8h] [ebp-1Ch]
+    [[maybe_unused]] char *to; // [esp+BCh] [ebp-18h]
+    [[maybe_unused]] int i; // [esp+C0h] [ebp-14h]
+    [[maybe_unused]] Scr_WatchElement_s *element; // [esp+C4h] [ebp-10h]
+    [[maybe_unused]] int startCol; // [esp+C8h] [ebp-Ch]
+    [[maybe_unused]] int col; // [esp+CCh] [ebp-8h]
+    [[maybe_unused]] bool existsBreakpoint; // [esp+D3h] [ebp-1h]
 
     colorBlue[0] = 0.2f;
     colorBlue[1] = 0.2f;
@@ -3728,7 +3728,7 @@ bool UI_ScrollPane::KeyEvent(float *point, int key)
     UI_LinesComponent *comp; // eax
     float innerSize[2]; // [esp+14h] [ebp-1Ch] BYREF
     float innerPoint[2]; // [esp+1Ch] [ebp-14h] BYREF
-    int linesCount; // [esp+24h] [ebp-Ch]
+    [[maybe_unused]] int linesCount; // [esp+24h] [ebp-Ch]
     float vec2_origin[2]; // [esp+28h] [ebp-8h] BYREF
 
     if (!this->comp)
@@ -3876,7 +3876,7 @@ UI_Component *UI_ScrollPane::GetCompAtLocation(float *point)
 
 bool UI_ScrollPane::GetInnerSize(float *innerSize)
 {
-    bool v3; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] bool v3; // [esp+0h] [ebp-Ch]
 
     if (!this->comp)
         MyAssertHandler(".\\ui\\ui_component.cpp", 711, 0, "%s", "comp");
@@ -3900,8 +3900,8 @@ int UI_ScrollPane::GetInnerLinesCount()
 
 int UI_ScrollPane::GetFirstDisplayedLine()
 {
-    float startLineFrac; // [esp+Ch] [ebp-8h]
-    float startY; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] float startLineFrac; // [esp+Ch] [ebp-8h]
+    [[maybe_unused]] float startY; // [esp+10h] [ebp-4h]
 
     startLineFrac = this->comp->pos[1] / UI_Component::g.charHeight;
     startY = startLineFrac - startLineFrac;
@@ -3913,7 +3913,7 @@ int UI_ScrollPane::GetFirstDisplayedLine()
 
 int UI_ScrollPane::GetLastDisplayedLine()
 {
-    int lastLine; // [esp+8h] [ebp-Ch]
+    [[maybe_unused]] int lastLine; // [esp+8h] [ebp-Ch]
     float innerSize[2]; // [esp+Ch] [ebp-8h] BYREF
 
     if (!this->comp)
@@ -3929,8 +3929,8 @@ int UI_ScrollPane::GetLastDisplayedLine()
 
 void UI_ScrollPane::DisplaySelectedLine()
 {
-    int lastLine; // [esp+4h] [ebp-8h]
-    int firstLine; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int lastLine; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] int firstLine; // [esp+8h] [ebp-4h]
 
     if (!this->comp)
         MyAssertHandler(".\\ui\\ui_component.cpp", 571, 0, "%s", "comp");
@@ -3949,7 +3949,7 @@ void UI_ScrollPane::DisplaySelectedLine()
 
 void UI_LinesComponent::AddText(const char *text)
 {
-    int lineIndex; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int lineIndex; // [esp+8h] [ebp-4h]
 
     if (!UI_Component::g.consoleReason)
     {
@@ -4014,10 +4014,10 @@ bool UI_LinesComponent::KeyEvent(float *point, int key)
 
 void Scr_ScriptWindow::CopySelectedText()
 {
-    int currentLine; // [esp+4h] [ebp-10h]
-    const char *endPos; // [esp+8h] [ebp-Ch]
-    SourceBufferInfo *sourceBufData; // [esp+Ch] [ebp-8h]
-    const char *s; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] int currentLine; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] const char *endPos; // [esp+8h] [ebp-Ch]
+    [[maybe_unused]] SourceBufferInfo *sourceBufData; // [esp+Ch] [ebp-8h]
+    [[maybe_unused]] const char *s; // [esp+10h] [ebp-4h]
 
     if (this->bufferIndex != -1 && this->selectedLine >= 0)
     {
@@ -4057,7 +4057,7 @@ void Scr_ScriptWindow::ToggleBreakpoint(
     unsigned __int8 breakpointType,
     bool user)
 {
-    SourceBufferInfo *sourceBufData; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] SourceBufferInfo *sourceBufData; // [esp+4h] [ebp-4h]
 
     if (this->selectedLine >= 0)
     {
@@ -4083,13 +4083,13 @@ void Scr_ScriptWindow::ToggleBreakpoint(
 
 char *__thiscall Scr_ScriptWindow::GetBreakpointCodePos()
 {
-    unsigned int startSourcePos; // [esp+4h] [ebp-1Ch]
-    SourceBufferInfo *sourceBufData; // [esp+8h] [ebp-18h]
-    const char *s; // [esp+Ch] [ebp-14h]
-    int line; // [esp+10h] [ebp-10h]
-    char *codePos; // [esp+14h] [ebp-Ch]
+    [[maybe_unused]] unsigned int startSourcePos; // [esp+4h] [ebp-1Ch]
+    [[maybe_unused]] SourceBufferInfo *sourceBufData; // [esp+8h] [ebp-18h]
+    [[maybe_unused]] const char *s; // [esp+Ch] [ebp-14h]
+    [[maybe_unused]] int line; // [esp+10h] [ebp-10h]
+    [[maybe_unused]] char *codePos; // [esp+14h] [ebp-Ch]
     unsigned int sourcePos; // [esp+18h] [ebp-8h] BYREF
-    unsigned int endSourcePos; // [esp+1Ch] [ebp-4h]
+    [[maybe_unused]] unsigned int endSourcePos; // [esp+1Ch] [ebp-4h]
 
     if (Sys_IsRemoteDebugClient())
         MyAssertHandler(".\\script\\scr_debugger.cpp", 1355, 0, "%s", "!Sys_IsRemoteDebugClient()");
@@ -4132,8 +4132,8 @@ char *__thiscall Scr_ScriptWindow::GetBreakpointCodePos()
 
 void Scr_ScriptWindow::RunToCursor()
 {
-    SourceBufferInfo *sourceBufData; // [esp+4h] [ebp-8h]
-    char *codePos; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] SourceBufferInfo *sourceBufData; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] char *codePos; // [esp+8h] [ebp-4h]
 
     if (Sys_IsRemoteDebugClient())
     {
@@ -4162,10 +4162,10 @@ void Scr_ScriptWindow::RunToCursor()
 
 bool Scr_ScriptWatch::ReadFromFile()
 {
-    Scr_StringNode_s *node; // [esp+4h] [ebp-10h]
-    Scr_StringNode_s *head; // [esp+8h] [ebp-Ch]
+    [[maybe_unused]] Scr_StringNode_s *node; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] Scr_StringNode_s *head; // [esp+8h] [ebp-Ch]
     char *buf; // [esp+Ch] [ebp-8h] BYREF
-    bool success; // [esp+13h] [ebp-1h]
+    [[maybe_unused]] bool success; // [esp+13h] [ebp-1h]
 
     head = Scr_GetStringList("watch_window.txt", &buf);
     success = head != 0;
@@ -4183,7 +4183,7 @@ bool Scr_ScriptWatch::ReadFromFile()
 
 Scr_WatchElement_s *__thiscall Scr_ScriptWatch::GetSelectedNonConditionalElement()
 {
-    Scr_WatchElement_s *element; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] Scr_WatchElement_s *element; // [esp+4h] [ebp-4h]
 
     element = Scr_ScriptWatch::GetSelectedElement();
     if (element)
@@ -4196,14 +4196,14 @@ Scr_WatchElement_s *__thiscall Scr_ScriptWatch::GetSelectedNonConditionalElement
 
 void Scr_ScriptWindow::EnterCallInternal()
 {
-    const char *v2; // [esp+4h] [ebp-30h]
+    [[maybe_unused]] const char *v2; // [esp+4h] [ebp-30h]
     Scr_SourcePos_t pos; // [esp+Ch] [ebp-28h] BYREF
-    Scr_Breakpoint *breakpoint; // [esp+18h] [ebp-1Ch]
+    [[maybe_unused]] Scr_Breakpoint *breakpoint; // [esp+18h] [ebp-1Ch]
     unsigned int startSourcePos; // [esp+1Ch] [ebp-18h] BYREF
-    const char *codePos; // [esp+20h] [ebp-14h]
+    [[maybe_unused]] const char *codePos; // [esp+20h] [ebp-14h]
     unsigned int sourcePos; // [esp+24h] [ebp-10h] BYREF
-    Scr_Breakpoint **pBreakpoint; // [esp+28h] [ebp-Ch]
-    const char *destCodePos; // [esp+2Ch] [ebp-8h]
+    [[maybe_unused]] Scr_Breakpoint **pBreakpoint; // [esp+28h] [ebp-Ch]
+    [[maybe_unused]] const char *destCodePos; // [esp+2Ch] [ebp-8h]
     unsigned int endSourcePos; // [esp+30h] [ebp-4h] BYREF
 
     if (this->selectedLine < 0)
@@ -4234,7 +4234,7 @@ void Scr_ScriptWindow::EnterCallInternal()
             //Scr_ScriptWindow::ToggleBreakpointInternal(this, 0, 0, 0, 4u, 1);
             Scr_ScriptWindow::ToggleBreakpointInternal(0, 0, 0, 4u, 1);
         }
-        v2 = (const char*)*++codePos;
+        v2 = (const char*)(uintptr_t)*++codePos;
         codePos += 4;
         destCodePos = v2;
         Scr_GetSourcePosOfType(v2 - 1, 4, &pos);
@@ -4244,7 +4244,7 @@ void Scr_ScriptWindow::EnterCallInternal()
 
 void Scr_ScriptWindow::EnterCall()
 {
-    SourceBufferInfo *sourceBufData; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] SourceBufferInfo *sourceBufData; // [esp+4h] [ebp-4h]
 
     if (this->selectedLine >= 0)
     {
@@ -4265,11 +4265,11 @@ void Scr_ScriptWindow::EnterCall()
 
 void Scr_ScriptWindow::Init()
 {
-    int v1; // [esp+0h] [ebp-20h]
-    SourceBufferInfo *sourceBufData; // [esp+10h] [ebp-10h]
-    const char *s; // [esp+14h] [ebp-Ch]
-    int i; // [esp+18h] [ebp-8h]
-    int col; // [esp+1Ch] [ebp-4h]
+    [[maybe_unused]] int v1; // [esp+0h] [ebp-20h]
+    [[maybe_unused]] SourceBufferInfo *sourceBufData; // [esp+10h] [ebp-10h]
+    [[maybe_unused]] const char *s; // [esp+14h] [ebp-Ch]
+    [[maybe_unused]] int i; // [esp+18h] [ebp-8h]
+    [[maybe_unused]] int col; // [esp+1Ch] [ebp-4h]
 
     this->breakpointHead = 0;
     this->builtinHead = 0;

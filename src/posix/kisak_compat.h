@@ -624,6 +624,7 @@ static inline IDirect3D9 *Direct3DCreate9(unsigned int /*sdkVersion*/) { return 
 static inline int IsWindow(void * /*hwnd*/) { return 0; }
 static inline int DestroyWindow(void * /*hwnd*/) { return 0; }
 static inline void *ShellExecuteA(void *, const char *, const char *, const char *, const char *, int) { return nullptr; }
+static inline int SetForegroundWindow(void * /*hwnd*/) { return 0; }
 struct _D3DVERTEXELEMENT9 {
     unsigned short Stream;
     unsigned short Offset;

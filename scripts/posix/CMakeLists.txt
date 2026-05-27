@@ -420,8 +420,10 @@ set(STRINGED_PORTABLE_SOURCES
 
 set(UI_PORTABLE_SOURCES
     "${SRC_DIR}/ui/ui_atoms.cpp"
-    # ui_component.cpp uses SetForegroundWindow (Win32) and has pervasive
-    # 32-bit ptr/precedence patterns — land after ifdef pass.
+    # ui_component.cpp drags ~37 scr_debugger functions (Scr_ExecCode /
+    # Scr_AllocDebugMem / Scr_PostSetText etc.) which themselves drag
+    # the script VM. Land alongside scr_debugger.
+    # Has been prepped with maybe_unused + uintptr_t + && parens.
     "${SRC_DIR}/ui/ui_expressions.cpp"
     "${SRC_DIR}/ui/ui_expressions_logicfunctions.cpp"
     "${SRC_DIR}/ui/ui_localvars.cpp"
