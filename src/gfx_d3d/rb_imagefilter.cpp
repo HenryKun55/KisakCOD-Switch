@@ -12,11 +12,11 @@ void __cdecl RB_GaussianFilterImage(
     GfxRenderTargetId dstRenderTargetId)
 {
     float radiusY; // [esp+20h] [ebp-1328h] BYREF
-    int srcWidth; // [esp+24h] [ebp-1324h]
+    [[maybe_unused]] int srcWidth; // [esp+24h] [ebp-1324h]
     float radiusX; // [esp+28h] [ebp-1320h] BYREF
-    int dstWidth; // [esp+2Ch] [ebp-131Ch]
-    int srcHeight; // [esp+30h] [ebp-1318h]
-    int dstHeight; // [esp+34h] [ebp-1314h]
+    [[maybe_unused]] int dstWidth; // [esp+2Ch] [ebp-131Ch]
+    [[maybe_unused]] int srcHeight; // [esp+30h] [ebp-1318h]
+    [[maybe_unused]] int dstHeight; // [esp+34h] [ebp-1314h]
     GfxImageFilter filter; // [esp+38h] [ebp-1310h] BYREF
 
     RB_VirtualToSceneRadius(radius, &radiusX, &radiusY);
@@ -56,23 +56,23 @@ int __cdecl RB_GenerateGaussianFilterChain(
     int passLimit,
     GfxImageFilterPass *filterPass)
 {
-    float v9; // [esp+18h] [ebp-58h]
-    float v10; // [esp+1Ch] [ebp-54h]
-    float v11; // [esp+20h] [ebp-50h]
-    float v12; // [esp+24h] [ebp-4Ch]
-    float v13; // [esp+28h] [ebp-48h]
-    float v14; // [esp+2Ch] [ebp-44h]
-    float v15; // [esp+30h] [ebp-40h]
-    float v16; // [esp+3Ch] [ebp-34h]
-    float v17; // [esp+40h] [ebp-30h]
-    float v18; // [esp+4Ch] [ebp-24h]
-    float v19; // [esp+50h] [ebp-20h]
-    float v20; // [esp+54h] [ebp-1Ch]
+    [[maybe_unused]] float v9; // [esp+18h] [ebp-58h]
+    [[maybe_unused]] float v10; // [esp+1Ch] [ebp-54h]
+    [[maybe_unused]] float v11; // [esp+20h] [ebp-50h]
+    [[maybe_unused]] float v12; // [esp+24h] [ebp-4Ch]
+    [[maybe_unused]] float v13; // [esp+28h] [ebp-48h]
+    [[maybe_unused]] float v14; // [esp+2Ch] [ebp-44h]
+    [[maybe_unused]] float v15; // [esp+30h] [ebp-40h]
+    [[maybe_unused]] float v16; // [esp+3Ch] [ebp-34h]
+    [[maybe_unused]] float v17; // [esp+40h] [ebp-30h]
+    [[maybe_unused]] float v18; // [esp+4Ch] [ebp-24h]
+    [[maybe_unused]] float v19; // [esp+50h] [ebp-20h]
+    [[maybe_unused]] float v20; // [esp+54h] [ebp-1Ch]
     int dstRes[2]; // [esp+58h] [ebp-18h] BYREF
-    float passRadius; // [esp+60h] [ebp-10h]
-    int passRes; // [esp+64h] [ebp-Ch]
-    int passAxis; // [esp+68h] [ebp-8h]
-    int passCount; // [esp+6Ch] [ebp-4h]
+    [[maybe_unused]] float passRadius; // [esp+60h] [ebp-10h]
+    [[maybe_unused]] int passRes; // [esp+64h] [ebp-Ch]
+    [[maybe_unused]] int passAxis; // [esp+68h] [ebp-8h]
+    [[maybe_unused]] int passCount; // [esp+6Ch] [ebp-4h]
 
     dstRes[0] = dstWidth;
     dstRes[1] = dstHeight;
@@ -154,8 +154,8 @@ int __cdecl RB_GenerateGaussianFilterChain(
 void __cdecl RB_GenerateGaussianFilter1D(float radius, int *res, int axis, GfxImageFilterPass *filterPass)
 {
     float tapWeights[8]; // [esp+18h] [ebp-48h] BYREF
-    int tapHalfCount; // [esp+38h] [ebp-28h]
-    int tapIndex; // [esp+3Ch] [ebp-24h]
+    [[maybe_unused]] int tapHalfCount; // [esp+38h] [ebp-28h]
+    [[maybe_unused]] int tapIndex; // [esp+3Ch] [ebp-24h]
     float tapOffsets[8]; // [esp+40h] [ebp-20h] BYREF
 
     tapHalfCount = RB_GaussianFilterPoints1D(radius, res[axis], res[axis], 8, tapOffsets, tapWeights);
@@ -183,7 +183,7 @@ int __cdecl RB_PickSymmetricFilterMaterial(int halfTapCount, const Material **ma
             "%s\n\t(halfTapCount) = %i",
             "(halfTapCount > 0 && halfTapCount <= 8)",
             halfTapCount);
-    *material = (const Material *)*((unsigned int *)&rgp.postFxMaterial + halfTapCount);
+    *material = (const Material *)(uintptr_t)*((unsigned int *)&rgp.postFxMaterial + halfTapCount);
     return halfTapCount;
 }
 
@@ -195,24 +195,24 @@ int __cdecl RB_GaussianFilterPoints1D(
     float *tapOffsets,
     float *tapWeights)
 {
-    const char *v6; // eax
-    double v7; // st7
-    float v9; // [esp+8h] [ebp-58h]
-    float v10; // [esp+Ch] [ebp-54h]
-    float v11; // [esp+10h] [ebp-50h]
-    float v12; // [esp+14h] [ebp-4Ch]
-    float v13; // [esp+20h] [ebp-40h]
-    float v14; // [esp+24h] [ebp-3Ch]
-    int tapHalfCount; // [esp+34h] [ebp-2Ch]
-    int tapIndex; // [esp+38h] [ebp-28h]
-    int tapIndexa; // [esp+38h] [ebp-28h]
-    int resolutionRatio; // [esp+3Ch] [ebp-24h]
-    float totalWeight; // [esp+44h] [ebp-1Ch]
-    float gaussianExponent; // [esp+48h] [ebp-18h]
-    float weight; // [esp+4Ch] [ebp-14h]
-    float weightScale; // [esp+54h] [ebp-Ch]
-    float sample; // [esp+58h] [ebp-8h]
-    float sample_4; // [esp+5Ch] [ebp-4h]
+    [[maybe_unused]] const char *v6; // eax
+    [[maybe_unused]] double v7; // st7
+    [[maybe_unused]] float v9; // [esp+8h] [ebp-58h]
+    [[maybe_unused]] float v10; // [esp+Ch] [ebp-54h]
+    [[maybe_unused]] float v11; // [esp+10h] [ebp-50h]
+    [[maybe_unused]] float v12; // [esp+14h] [ebp-4Ch]
+    [[maybe_unused]] float v13; // [esp+20h] [ebp-40h]
+    [[maybe_unused]] float v14; // [esp+24h] [ebp-3Ch]
+    [[maybe_unused]] int tapHalfCount; // [esp+34h] [ebp-2Ch]
+    [[maybe_unused]] int tapIndex; // [esp+38h] [ebp-28h]
+    [[maybe_unused]] int tapIndexa; // [esp+38h] [ebp-28h]
+    [[maybe_unused]] int resolutionRatio; // [esp+3Ch] [ebp-24h]
+    [[maybe_unused]] float totalWeight; // [esp+44h] [ebp-1Ch]
+    [[maybe_unused]] float gaussianExponent; // [esp+48h] [ebp-18h]
+    [[maybe_unused]] float weight; // [esp+4Ch] [ebp-14h]
+    [[maybe_unused]] float weightScale; // [esp+54h] [ebp-Ch]
+    [[maybe_unused]] float sample; // [esp+58h] [ebp-8h]
+    [[maybe_unused]] float sample_4; // [esp+5Ch] [ebp-4h]
 
     iassert( (pixels > 0) );
     iassert( (dstRes > 0) );
@@ -276,10 +276,10 @@ void __cdecl RB_GenerateGaussianFilter2D(
 {
     float tapOffsetsY[2]; // [esp+18h] [ebp-2Ch] BYREF
     float tapWeightsX[2]; // [esp+20h] [ebp-24h] BYREF
-    int tapIndex; // [esp+28h] [ebp-1Ch]
+    [[maybe_unused]] int tapIndex; // [esp+28h] [ebp-1Ch]
     float tapOffsetsX[2]; // [esp+2Ch] [ebp-18h] BYREF
-    int x; // [esp+34h] [ebp-10h]
-    int y; // [esp+38h] [ebp-Ch]
+    [[maybe_unused]] int x; // [esp+34h] [ebp-10h]
+    [[maybe_unused]] int y; // [esp+38h] [ebp-Ch]
     float tapWeightsY[2]; // [esp+3Ch] [ebp-8h] BYREF
 
     RB_GaussianFilterPoints1D(radius, srcWidth, dstWidth, 2, tapOffsetsX, tapWeightsX);
@@ -309,9 +309,9 @@ void __cdecl RB_GenerateGaussianFilter2D(
 
 void __cdecl RB_FilterImage(GfxImageFilter *filter)
 {
-    int passIndex; // [esp+2Ch] [ebp-Ch]
-    float h; // [esp+30h] [ebp-8h]
-    float w; // [esp+34h] [ebp-4h]
+    [[maybe_unused]] int passIndex; // [esp+2Ch] [ebp-Ch]
+    [[maybe_unused]] float h; // [esp+30h] [ebp-8h]
+    [[maybe_unused]] float w; // [esp+34h] [ebp-4h]
 
     iassert( filter );
     if (filter->passCount <= 0)
@@ -351,7 +351,7 @@ void __cdecl RB_FilterImage(GfxImageFilter *filter)
 
 void __cdecl RB_SetupFilterPass(const GfxImageFilterPass *filterPass)
 {
-    int constIndex; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int constIndex; // [esp+4h] [ebp-4h]
 
     if (filterPass->tapHalfCount >= 9u)
         MyAssertHandler(
@@ -371,9 +371,9 @@ void __cdecl RB_SetupFilterPass(const GfxImageFilterPass *filterPass)
 
 void __cdecl RB_FilterPingPong(const GfxImageFilter *filter, int passIndex)
 {
-    GfxRenderTargetId finalTarget; // [esp+0h] [ebp-14h]
-    GfxImage *image; // [esp+4h] [ebp-10h]
-    unsigned int pingpong; // [esp+8h] [ebp-Ch]
+    [[maybe_unused]] GfxRenderTargetId finalTarget; // [esp+0h] [ebp-14h]
+    [[maybe_unused]] GfxImage *image; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] unsigned int pingpong; // [esp+8h] [ebp-Ch]
 
     pingpong = passIndex & 1;
     if (passIndex)
@@ -391,8 +391,8 @@ void __cdecl RB_FilterPingPong(const GfxImageFilter *filter, int passIndex)
 
 void __cdecl RB_GlowFilterImage(float radius)
 {
-    float radiusScale; // [esp+1Ch] [ebp-8h]
-    float radiusa; // [esp+2Ch] [ebp+8h]
+    [[maybe_unused]] float radiusScale; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] float radiusa; // [esp+2Ch] [ebp+8h]
 
     if (backEnd.glowCount)
         MyAssertHandler(
@@ -420,10 +420,10 @@ GfxRenderTargetId __cdecl RB_ApplyGlowFilter(
     GfxRenderTargetId dstRenderTarget)
 {
     int GaussianFilterChain; // eax
-    float v5; // [esp+20h] [ebp-1324h]
+    [[maybe_unused]] float v5; // [esp+20h] [ebp-1324h]
     float radiusY; // [esp+24h] [ebp-1320h] BYREF
-    int srcWidth; // [esp+28h] [ebp-131Ch]
-    int srcHeight; // [esp+2Ch] [ebp-1318h]
+    [[maybe_unused]] int srcWidth; // [esp+28h] [ebp-131Ch]
+    [[maybe_unused]] int srcHeight; // [esp+2Ch] [ebp-1318h]
     float radiusX; // [esp+30h] [ebp-1314h] BYREF
     GfxImageFilter filter; // [esp+34h] [ebp-1310h] BYREF
 

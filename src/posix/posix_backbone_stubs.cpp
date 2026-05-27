@@ -1813,14 +1813,14 @@ void R_BeginView(GfxCmdBufSourceState * /*source*/, const GfxSceneDef * /*sceneD
 void R_DrawSurfs(GfxCmdBufContext /*ctx*/, GfxCmdBufState * /*prepassState*/, const GfxDrawSurfListInfo * /*info*/) {}
 void R_ClearScreen(IDirect3DDevice9 * /*device*/, unsigned char /*whichToClear*/, const float * /*color*/, float /*depth*/, unsigned char /*stencil*/, const GfxViewport * /*viewport*/) {}
 void R_SetRenderTarget(GfxCmdBufContext /*ctx*/, GfxRenderTargetId /*newTargetId*/) {}
-void RB_GlowFilterImage(float /*radius*/) {}
+// RB_GlowFilterImage provided by src/gfx_d3d/rb_imagefilter.cpp now.
 void RB_FullScreenFilter(const Material * /*material*/) {}
 void R_DirtyCodeConstant(GfxCmdBufSourceState * /*source*/, CodeConstant /*constant*/) {}
 void R_SetViewportStruct(GfxCmdBufSourceState * /*source*/, const GfxViewport * /*viewport*/) {}
 void R_SetViewportValues(GfxCmdBufSourceState * /*source*/, int /*x*/, int /*y*/, int /*w*/, int /*h*/) {}
 void RB_SplitScreenFilter(const Material * /*material*/, const GfxViewInfo * /*viewInfo*/) {}
 void R_SetRenderTargetSize(GfxCmdBufSourceState * /*source*/, GfxRenderTargetId /*newTargetId*/) {}
-void RB_GaussianFilterImage(float /*radius*/, GfxRenderTargetId /*src*/, GfxRenderTargetId /*dst*/) {}
+// RB_GaussianFilterImage provided by src/gfx_d3d/rb_imagefilter.cpp now.
 void R_InitCmdBufSourceState(GfxCmdBufSourceState * /*source*/, const GfxCmdBufInput * /*input*/, int /*cameraView*/) {}
 void R_SetShadowLookupMatrix(GfxCmdBufSourceState * /*source*/, const GfxMatrix * /*matrix*/) {}
 void R_SetCodeConstantFromVec4(GfxCmdBufSourceState * /*source*/, CodeConstant /*constant*/, float * /*value*/) {}

@@ -151,6 +151,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/rb_spotshadow.cpp"
     "${SRC_DIR}/gfx_d3d/rb_sunshadow.cpp"
     "${SRC_DIR}/gfx_d3d/rb_drawprofile.cpp"
+    "${SRC_DIR}/gfx_d3d/rb_imagefilter.cpp"
     "${SRC_DIR}/gfx_d3d/rb_light.cpp"
     "${SRC_DIR}/gfx_d3d/rb_logfile.cpp"
     "${SRC_DIR}/gfx_d3d/rb_postfx.cpp"

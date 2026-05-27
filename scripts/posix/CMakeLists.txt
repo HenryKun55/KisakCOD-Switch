@@ -219,6 +219,7 @@ set(GFX_PORTABLE_SOURCES
     # rb_uploadshaders.cpp pulls IDirect3DDevice9 + D3DPT_TRIANGLELIST.
     # Land behind graphics abstraction.
     "${SRC_DIR}/gfx_d3d/rb_drawprofile.cpp"
+    "${SRC_DIR}/gfx_d3d/rb_imagefilter.cpp"
     "${SRC_DIR}/gfx_d3d/rb_light.cpp"
     "${SRC_DIR}/gfx_d3d/rb_logfile.cpp"
     "${SRC_DIR}/gfx_d3d/rb_postfx.cpp"
