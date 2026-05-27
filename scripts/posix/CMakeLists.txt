@@ -212,6 +212,8 @@ set(PHYSICS_ODE_SOURCES
     # util.cpp / error.cpp / array.cpp depend on dArrayBase, dAlloc,
     # dFree (memory.h and array.h are wrapped in `#if 0` upstream).
     # Land together when ODE memory/array storage is reimplemented.
+    # collision_space.cpp / collision_std.cpp pull ODE_AllocateGeom /
+    # dxGeom ctor from collision_kernel (gated). Land together.
     "${SRC_DIR}/physics/ode/collision_util.cpp"
     "${SRC_DIR}/physics/ode/error.cpp"
     "${SRC_DIR}/physics/ode/fastdot.c"

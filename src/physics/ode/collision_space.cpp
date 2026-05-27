@@ -428,7 +428,7 @@ void dxHashSpace::cleanGeoms()
 
 void dxHashSpace::collide (void *data, dNearCallback *callback)
 {
-  dAASSERT(this && callback);
+  dAASSERT(callback);  // KISAKHACK: dropped `this &&` — undefined in C++.
   dxGeom *geom;
   dxAABB *aabb;
   int i,maxlevel;
