@@ -113,7 +113,7 @@ submatrix of A. there are two ways we could arrange the rows/columns in AC.
 #include <ode/matrix.h>
 #include <ode/misc.h>
 // #include "mat.h"		// for testing
-// #include <ode/timer.h>		// for testing
+#include <ode/timer.h>		// for testing
 
 //***************************************************************************
 // code generation parameters
@@ -143,7 +143,7 @@ submatrix of A. there are two ways we could arrange the rows/columns in AC.
 
 // an alternative inline dot product, for speed comparisons
 
-static inline dReal myDot (dReal *a, dReal *b, int n)
+[[maybe_unused]] static inline dReal myDot (dReal *a, dReal *b, int n)
 {
   dReal sum=0;
   while (n > 0) {

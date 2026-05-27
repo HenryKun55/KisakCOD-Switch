@@ -305,8 +305,7 @@ set(PHYSICS_ODE_SOURCES
     "${SRC_DIR}/physics/ode/fastldlt.c"
     "${SRC_DIR}/physics/ode/fastlsolve.c"
     "${SRC_DIR}/physics/ode/fastltsolve.c"
-    # lcp.cpp pulls dStopwatch (gated in timer.h). Land with the
-    # broader ODE gated set.
+    "${SRC_DIR}/physics/ode/lcp.cpp"
     "${SRC_DIR}/physics/ode/matrix.cpp"
     "${SRC_DIR}/physics/ode/odemath.cpp"
     "${SRC_DIR}/physics/ode/odemisc.cpp"

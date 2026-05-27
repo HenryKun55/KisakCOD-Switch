@@ -272,6 +272,7 @@ set(UI_PORTABLE_SOURCES
 set(PHYSICS_PORTABLE_SOURCES
     "${SRC_DIR}/physics/ode/collision_util.cpp"
     "${SRC_DIR}/physics/ode/error.cpp"
+    "${SRC_DIR}/physics/ode/lcp.cpp"
     "${SRC_DIR}/physics/ode/fastdot.c"
     "${SRC_DIR}/physics/ode/fastldlt.c"
     "${SRC_DIR}/physics/ode/fastlsolve.c"
