@@ -164,6 +164,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_state_utils.cpp"
     "${SRC_DIR}/gfx_d3d/r_sky.cpp"
     "${SRC_DIR}/gfx_d3d/r_spotshadow.cpp"
+    "${SRC_DIR}/gfx_d3d/r_state.cpp"
     "${SRC_DIR}/gfx_d3d/r_sunshadow.cpp"
     "${SRC_DIR}/gfx_d3d/r_pixelcost_load_obj.cpp"
     "${SRC_DIR}/gfx_d3d/r_primarylights.cpp"

@@ -73,7 +73,7 @@ void __cdecl R_ChangeStreamSource(
     unsigned int vertexOffset,
     unsigned int vertexStride)
 {
-    const char *v5; // eax
+    [[maybe_unused]] const char *v5; // eax
     [[maybe_unused]] int hr; // [esp+0h] [ebp-8h]
     [[maybe_unused]] IDirect3DDevice9 *device; // [esp+4h] [ebp-4h]
 
@@ -554,7 +554,10 @@ void  R_GenerateWorldOutdoorLookupMatrix(
 
     MatrixMultiply44(worldMatrix.m, rgp.world->outdoorLookupMatrix, *(mat4x4*)outMatrix);
 
-    Vec4Add(&(*outMatrix)[12], worldOffset, &(*outMatrix)[12]);
+    {
+        float *outFlat = reinterpret_cast<float *>(outMatrix);
+        Vec4Add(&outFlat[12], worldOffset, &outFlat[12]);
+    }
 
     source->constVersions[86] = source->matrixVersions[7];
 }
@@ -849,8 +852,8 @@ void __cdecl R_ChangeState_0(GfxCmdBufState *state, unsigned int stateBits0)
         {
             if ((stateBits0 & 0x7000000) == 0)
             {
-                stateBits0 = stateBits0 & 0xF800FFFF | ((stateBits0 & 0x7FF) << 16);
-                changedBits = changedBits & 0xF800FFFF | (state->activeStateBits[0] ^ stateBits0) & 0x7FF0000;
+                stateBits0 = (stateBits0 & 0xF800FFFF) | ((stateBits0 & 0x7FF) << 16);
+                changedBits = (changedBits & 0xF800FFFF) | ((state->activeStateBits[0] ^ stateBits0) & 0x7FF0000);
                 iassert( (stateBits0 ^ state->activeStateBits[0]) == changedBits );
             }
             R_HW_SetBlend(device, blendOpRgbWasEnabled, changedBits, stateBits0);
@@ -864,7 +867,7 @@ void __cdecl R_ChangeState_0(GfxCmdBufState *state, unsigned int stateBits0)
                     0,
                     "%s",
                     "(stateBits0 & GFXS0_BLENDOP_ALPHA_MASK) == (GFXS_BLENDOP_DISABLED << GFXS0_BLENDOP_ALPHA_SHIFT)");
-            stateBits0 = stateBits0 & 0xF800F800 | state->activeStateBits[0] & 0x7FF07FF;
+            stateBits0 = (stateBits0 & 0xF800F800) | (state->activeStateBits[0] & 0x7FF07FF);
             changedBits &= 0xF800F800;
             iassert( (stateBits0 ^ state->activeStateBits[0]) == changedBits );
             if (blendOpRgbWasEnabled)
@@ -1305,7 +1308,7 @@ void __cdecl R_ChangeState_1(GfxCmdBufState *state, unsigned int stateBits1)
     changedBits = state->activeStateBits[1] ^ stateBits1;
     if (changedBits)
     {
-        if (!(stateBits1 & 0x40 | ((stateBits1 & 0x80) == 0)))
+        if (!((stateBits1 & 0x40) | ((stateBits1 & 0x80) == 0)))
             MyAssertHandler(
                 ".\\r_state.cpp",
                 937,
@@ -1341,12 +1344,12 @@ void __cdecl R_ChangeState_1(GfxCmdBufState *state, unsigned int stateBits1)
         {
             if ((changedBits & 0x40) != 0)
                 R_HW_DisableStencil(device);
-            stateBits1 = stateBits1 & 0x7F | state->activeStateBits[1] & 0xFFFFFF80;
+            stateBits1 = (stateBits1 & 0x7F) | (state->activeStateBits[1] & 0xFFFFFF80);
             changedBits &= 0x7Fu;
         }
         if ((stateBits1 & 0x80) == 0)
         {
-            stateBits1 = stateBits1 & 0xFFFFF | ((stateBits1 & 0xFFF00) << 12);
+            stateBits1 = (stateBits1 & 0xFFFFF) | ((stateBits1 & 0xFFF00) << 12);
             changedBits = state->activeStateBits[1] ^ stateBits1;
         }
         if ((changedBits & 0x1FF00) != 0)
@@ -1814,7 +1817,7 @@ unsigned int __cdecl R_HW_SetSamplerState(
     {
         if ((unsigned __int8)samplerState <= 1u)
         {
-            finalSamplerState = (unsigned __int8)oldSamplerState | samplerState & 0xFFFFFF00;
+            finalSamplerState = (unsigned __int8)oldSamplerState | (samplerState & 0xFFFFFF00);
         }
         else
         {
@@ -1995,7 +1998,7 @@ void __cdecl R_ForceSetStencilState(IDirect3DDevice9 *device, unsigned int state
     {
         R_HW_EnableStencil(device);
         if ((stateBits1 & 0x80) == 0)
-            stateBits1 = stateBits1 & 0xFFFFF | ((stateBits1 & 0xFFF00) << 12);
+            stateBits1 = (stateBits1 & 0xFFFFF) | ((stateBits1 & 0xFFF00) << 12);
         R_HW_SetFrontStencilOp(device, (stateBits1 >> 8) & 7, (stateBits1 >> 11) & 7, (stateBits1 >> 14) & 7);
         R_HW_SetBackStencilOp(device, (stateBits1 >> 20) & 7, (stateBits1 >> 23) & 7, (stateBits1 >> 26) & 7);
         R_HW_SetFrontStencilFunc(device, (stateBits1 >> 17) & 7);

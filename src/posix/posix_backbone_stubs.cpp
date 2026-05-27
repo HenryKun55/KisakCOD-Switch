@@ -1766,7 +1766,7 @@ enum CodeConstant : int;
 // RB_DrawLines2D provided by src/gfx_d3d/rb_backend.cpp now.
 struct GfxCmdBuf;
 // R_DrawSunShadowMap provided by src/gfx_d3d/r_draw_sunshadow.cpp now.
-void R_UpdateCodeConstant(GfxCmdBufSourceState * /*src*/, CodeConstant /*c*/, float /*x*/, float /*y*/, float /*z*/, float /*w*/) {}
+// R_UpdateCodeConstant provided by src/gfx_d3d/r_state.cpp now.
 enum MaterialTextureSource : unsigned int;
 struct GfxImage;
 // R_SetCodeImageTexture provided by src/gfx_d3d/rb_backend.cpp now.
@@ -1801,7 +1801,7 @@ void Sys_StopRenderer() {}
 int Sys_RendererReady() { return 0; }
 void *Sys_RendererSleep() { return nullptr; }
 void Sys_StartRenderer() {}
-void R_ChangeDepthRange(GfxCmdBufState * /*s*/, GfxDepthRangeType /*type*/) {}
+// R_ChangeDepthRange provided by src/gfx_d3d/r_state.cpp now.
 void R_SetColorMappings() {}
 // R_TessCodeMeshList provided by src/gfx_d3d/rb_tess.cpp now.
 // R_TessMarkMeshList provided by src/gfx_d3d/rb_tess.cpp now.
@@ -1811,12 +1811,12 @@ void Sys_RenderCompleted() {}
 int Sys_WaitBackendEvent() { return 0; }
 int Sys_IsMainThreadReady() { return 0; }
 void Sys_WaitForMainThread() {}
-void R_ClearAllStreamSources(GfxCmdBufPrimState * /*p*/) {}
+// R_ClearAllStreamSources provided by src/gfx_d3d/r_state.cpp now.
 // R_TessParticleCloudList provided by src/gfx_d3d/rb_tess.cpp now.
 void RB_PatchStaticModelCache() {}
-void R_ChangeDepthHackNearClip(GfxCmdBufSourceState * /*src*/, unsigned int /*idx*/) {}
+// R_ChangeDepthHackNearClip provided by src/gfx_d3d/r_state.cpp now.
 // R_TessTrianglesPreTessList provided by src/gfx_d3d/rb_tess.cpp now.
-void R_SetAlphaAntiAliasingState(IDirect3DDevice9 * /*d*/, short /*s*/) {}
+// R_SetAlphaAntiAliasingState provided by src/gfx_d3d/r_state.cpp now.
 // R_TessStaticModelCachedList provided by src/gfx_d3d/rb_tess.cpp now.
 // R_TessStaticModelPreTessList provided by src/gfx_d3d/rb_tess.cpp now.
 // R_TessXModelRigidDrawSurfList provided by src/gfx_d3d/rb_tess.cpp now.
@@ -1861,22 +1861,22 @@ void Material_PreLoadAllShaderText() {}
 MaterialTechniqueSet *Material_FindTechniqueSet_LoadObj(const char * /*name*/, MtlTechSetNotFoundBehavior /*b*/) { return nullptr; }
 
 // r_state_utils satellite stubs.
-void R_SetCodeConstant(GfxCmdBufSourceState * /*src*/, CodeConstant /*c*/, float, float, float, float) {}
-void R_SetCompleteState(IDirect3DDevice9 * /*d*/, unsigned int * /*bits*/) {}
-unsigned int R_DecodeSamplerState(unsigned char /*s*/) { return 0; }
+// R_SetCodeConstant provided by src/gfx_d3d/r_state.cpp now.
+// R_SetCompleteState provided by src/gfx_d3d/r_state.cpp now.
+// R_DecodeSamplerState provided by src/gfx_d3d/r_state.cpp now.
 
 // r_shade satellite stubs.
-void R_ChangeState_0(GfxCmdBufState * /*s*/, unsigned int /*bits*/) {}
-void R_ChangeState_1(GfxCmdBufState * /*s*/, unsigned int /*bits*/) {}
-GfxCmdBufSourceState *R_GetCodeMatrix(GfxCmdBufSourceState *src, unsigned int /*a*/, unsigned int /*b*/) { return src; }
-const GfxImage *R_GetTextureFromCode(GfxCmdBufSourceState * /*src*/, MaterialTextureSource /*t*/, unsigned char * /*p*/) { return nullptr; }
-void R_TextureFromCodeError(GfxCmdBufSourceState * /*src*/, unsigned int /*t*/) {}
+// R_ChangeState_0 provided by src/gfx_d3d/r_state.cpp now.
+// R_ChangeState_1 provided by src/gfx_d3d/r_state.cpp now.
+// R_GetCodeMatrix provided by src/gfx_d3d/r_state.cpp now.
+// R_GetTextureFromCode provided by src/gfx_d3d/r_state.cpp now.
+// R_TextureFromCodeError provided by src/gfx_d3d/r_state.cpp now.
 
 // r_image satellite stubs.
 bool Image_IsProg(GfxImage * /*img*/) { return false; }
 void Image_GetPicmip(const GfxImage * /*img*/, Picmip * /*p*/) {}
 void Image_Generate3D(GfxImage * /*img*/, unsigned char *, int, int, int, int) {}
-void R_DisableSampler(GfxCmdBufState * /*s*/, unsigned int /*idx*/) {}
+// R_DisableSampler provided by src/gfx_d3d/r_state.cpp now.
 void Image_TrackTexture(GfxImage * /*img*/, char, int, int, int, int) {}
 void DB_LoadedExternalData(int /*size*/) {}
 GfxImage *Image_Register_LoadObj(char * /*name*/, unsigned char, unsigned char) { return nullptr; }
@@ -1909,20 +1909,20 @@ void R_UncacheStaticModel(unsigned int /*idx*/) {}
 
 // r_meshdata satellite stubs (now provided by r_meshdata.cpp).
 // R_SetVertex2d provided by src/gfx_d3d/rb_backend.cpp now.
-int R_BeginMaterial(GfxCmdBufState * /*s*/, const Material * /*m*/, MaterialTechniqueType /*t*/) { return 0; }
-void R_SetMeshStream(GfxCmdBufState * /*s*/, GfxMeshData * /*m*/) {}
+// R_BeginMaterial provided by src/gfx_d3d/r_state.cpp now.
+// R_SetMeshStream provided by src/gfx_d3d/r_state.cpp now.
 
 // r_draw_bsp / r_draw_staticmodel satellite stubs.
-void R_SetLightmap(GfxCmdBufContext /*ctx*/, unsigned int /*idx*/) {}
-void R_SetSamplerState(GfxCmdBufState * /*state*/, unsigned int /*idx*/, unsigned char /*s*/) {}
+// R_SetLightmap provided by src/gfx_d3d/r_state.cpp now.
+// R_SetSamplerState provided by src/gfx_d3d/r_state.cpp now.
 // R_ReserveIndexData provided by src/gfx_d3d/r_shade.cpp now.
-void R_ChangeStreamSource(GfxCmdBufPrimState * /*p*/, unsigned int /*idx*/, IDirect3DVertexBuffer9 * /*vb*/, unsigned int /*offset*/, unsigned int /*stride*/) {}
-const GfxImage *R_OverrideGrayscaleImage(const dvar_s * /*d*/) { return nullptr; }
+// R_ChangeStreamSource provided by src/gfx_d3d/r_state.cpp now.
+// R_OverrideGrayscaleImage provided by src/gfx_d3d/r_state.cpp now.
 
 // r_draw_xmodel satellite stubs.
 // RB_ShowTess provided by src/gfx_d3d/rb_tess.cpp now.
-void R_ChangeIndices(GfxCmdBufPrimState * /*p*/, IDirect3DIndexBuffer9 * /*ib*/) {}
-void R_SetReflectionProbe(GfxCmdBufContext /*ctx*/, unsigned int /*idx*/) {}
+// R_ChangeIndices provided by src/gfx_d3d/r_state.cpp now.
+// R_SetReflectionProbe provided by src/gfx_d3d/r_state.cpp now.
 void DB_GetIndexBufferAndBase(unsigned char /*zone*/, void * /*indices*/, void **ib, int *baseIndex) { if (ib) *ib = nullptr; if (baseIndex) *baseIndex = 0; }
 void DB_GetVertexBufferAndOffset(unsigned char /*zone*/, unsigned char * /*verts*/, void **vb, int *off) { if (vb) *vb = nullptr; if (off) *off = 0; }
 // R_SetModelLightingCoordsForSource provided by src/gfx_d3d/r_model_lighting.cpp now.
@@ -1967,11 +1967,11 @@ void R_FatalLockError(long /*hr*/) {}
 GfxAssets gfxAssets{};
 
 // rb_state satellite stubs.
-void R_SetTexFilter() {}
+// R_SetTexFilter provided by src/gfx_d3d/r_state.cpp now.
 // RB_InitCodeImages provided by src/gfx_d3d/rb_backend.cpp now.
 // R_InitCmdBufState provided by src/gfx_d3d/r_state_utils.cpp now.
 // RB_BindDefaultImages provided by src/gfx_d3d/rb_backend.cpp now.
-void R_SetInitialContextState(IDirect3DDevice9 * /*d*/) {}
+// R_SetInitialContextState provided by src/gfx_d3d/r_state.cpp now.
 bool g_allocateMinimalResources = false;
 
 // rb_shade satellite stubs.
@@ -1981,27 +1981,27 @@ bool g_allocateMinimalResources = false;
 // R_SetupPassCriticalPixelShaderArgs provided by src/gfx_d3d/r_shade.cpp now.
 // R_SetupPassPerObjectArgs provided by src/gfx_d3d/r_shade.cpp now.
 // R_SetupPassPerPrimArgs provided by src/gfx_d3d/r_shade.cpp now.
-void R_GetViewport(GfxCmdBufSourceState * /*src*/, GfxViewport * /*v*/) {}
-void R_SetViewport(GfxCmdBufState * /*state*/, const GfxViewport * /*v*/) {}
-void R_UpdateViewport(GfxCmdBufSourceState * /*src*/, GfxViewport * /*v*/) {}
+// R_GetViewport provided by src/gfx_d3d/r_state.cpp now.
+// R_SetViewport provided by src/gfx_d3d/r_state.cpp now.
+// R_UpdateViewport provided by src/gfx_d3d/r_state.cpp now.
 // R_SetIndexData provided by src/gfx_d3d/r_shade.cpp now.
 // R_SetVertexData provided by src/gfx_d3d/r_shade.cpp now.
 // R_SetStreamSource provided by src/gfx_d3d/r_draw_staticmodel.cpp now.
 // R_UpdateVertexDecl provided by src/gfx_d3d/r_shade.cpp now.
-void R_DrawIndexedPrimitive(GfxCmdBufPrimState * /*p*/, const GfxDrawPrimArgs * /*args*/) {}
+// R_DrawIndexedPrimitive provided by src/gfx_d3d/r_state.cpp now.
 // R_PixelCost_* provided by src/gfx_d3d/rb_pixelcost.cpp now.
 
 // rb_uploadshaders satellite stubs.
 #include <gfx_d3d/rb_shade.h>
 #include <gfx_d3d/r_shade.h>
-void R_SetSampler(GfxCmdBufContext /*ctx*/, unsigned int /*idx*/, unsigned char /*state*/, const GfxImage * /*image*/) {}
+// R_SetSampler provided by src/gfx_d3d/r_state.cpp now.
 // R_SetVertexDecl provided by src/gfx_d3d/rb_shade.cpp now.
 // R_SetPixelShader provided by src/gfx_d3d/r_shade.cpp now.
 // R_SetVertexShader provided by src/gfx_d3d/r_shade.cpp now.
 
 // rb_depthprepass satellite stubs.
 #include <gfx_d3d/r_meshdata.h>
-void R_DrawCall(void (*)(const void *, GfxCmdBufContext, GfxCmdBufContext), const void *, GfxCmdBufSourceState *, const GfxViewInfo *, const GfxDrawSurfListInfo *, const GfxViewParms *, GfxCmdBuf *, GfxCmdBuf *) {}
+// R_DrawCall provided by src/gfx_d3d/r_state.cpp now.
 // R_DrawQuadMesh provided by src/gfx_d3d/r_meshdata.cpp now.
 
 // rb_sky satellite stubs.
@@ -2009,7 +2009,7 @@ void R_DrawCall(void (*)(const void *, GfxCmdBufContext, GfxCmdBufContext), cons
 // RB_SetIdentity provided by src/gfx_d3d/rb_backend.cpp now.
 // RB_SetTessTechnique provided by src/gfx_d3d/rb_shade.cpp now.
 // RB_ResetStatTracking provided by src/gfx_d3d/rb_backend.cpp now.
-void R_ClearScreenInternal(IDirect3DDevice9 * /*d*/, unsigned char /*w*/, const float * /*c*/, float /*d2*/, unsigned char /*s*/, const GfxViewport * /*v*/) {}
+// R_ClearScreenInternal provided by src/gfx_d3d/r_state.cpp now.
 IDirect3DQuery9 *RB_HW_AllocOcclusionQuery() { return nullptr; }
 // RB_DrawFullScreenColoredQuad provided by src/gfx_d3d/rb_backend.cpp now.
 GfxGlobals r_glob{};
@@ -2035,19 +2035,19 @@ struct TechniqueSetList;
 // gfxCmdBufContext provided by src/gfx_d3d/rb_state.cpp now.
 // R_BeginView provided by src/gfx_d3d/r_state_utils.cpp now.
 // R_DrawSurfs provided by src/gfx_d3d/rb_backend.cpp now.
-void R_ClearScreen(IDirect3DDevice9 * /*device*/, unsigned char /*whichToClear*/, const float * /*color*/, float /*depth*/, unsigned char /*stencil*/, const GfxViewport * /*viewport*/) {}
-void R_SetRenderTarget(GfxCmdBufContext /*ctx*/, GfxRenderTargetId /*newTargetId*/) {}
+// R_ClearScreen provided by src/gfx_d3d/r_state.cpp now.
+// R_SetRenderTarget provided by src/gfx_d3d/r_state.cpp now.
 // RB_GlowFilterImage provided by src/gfx_d3d/rb_imagefilter.cpp now.
 // RB_FullScreenFilter provided by src/gfx_d3d/rb_backend.cpp now.
-void R_DirtyCodeConstant(GfxCmdBufSourceState * /*source*/, CodeConstant /*constant*/) {}
-void R_SetViewportStruct(GfxCmdBufSourceState * /*source*/, const GfxViewport * /*viewport*/) {}
-void R_SetViewportValues(GfxCmdBufSourceState * /*source*/, int /*x*/, int /*y*/, int /*w*/, int /*h*/) {}
+// R_DirtyCodeConstant provided by src/gfx_d3d/r_state.cpp now.
+// R_SetViewportStruct provided by src/gfx_d3d/r_state.cpp now.
+// R_SetViewportValues provided by src/gfx_d3d/r_state.cpp now.
 // RB_SplitScreenFilter provided by src/gfx_d3d/rb_backend.cpp now.
-void R_SetRenderTargetSize(GfxCmdBufSourceState * /*source*/, GfxRenderTargetId /*newTargetId*/) {}
+// R_SetRenderTargetSize provided by src/gfx_d3d/r_state.cpp now.
 // RB_GaussianFilterImage provided by src/gfx_d3d/rb_imagefilter.cpp now.
 // R_InitCmdBufSourceState provided by src/gfx_d3d/r_state_utils.cpp now.
 // R_SetShadowLookupMatrix provided by src/gfx_d3d/r_state_utils.cpp now.
-void R_SetCodeConstantFromVec4(GfxCmdBufSourceState * /*source*/, CodeConstant /*constant*/, float * /*value*/) {}
+// R_SetCodeConstantFromVec4 provided by src/gfx_d3d/r_state.cpp now.
 // RB_FullScreenColoredFilter provided by src/gfx_d3d/rb_backend.cpp now.
 // R_Set2D provided by src/gfx_d3d/r_state_utils.cpp now.
 // R_Resolve provided by src/gfx_d3d/rb_backend.cpp now.
