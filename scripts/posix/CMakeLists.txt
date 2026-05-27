@@ -99,6 +99,10 @@ set(QCOMMON_PORTABLE_SOURCES
 
 set(SCRIPT_PORTABLE_SOURCES
     "${SRC_DIR}/script/scr_animtree.cpp"
+    # scr_compiler.cpp and scr_compiler2.cpp emit script bytecode that
+    # stores `(unsigned int)pos` into 4-byte code slots and later casts
+    # them back via `(const char *)(int)stored`. Requires bytecode
+    # widening to 64-bit pointer slots before landing.
     "${SRC_DIR}/script/scr_const.cpp"
     # scr_evaluate.cpp depends on scr_debugger / scr_compiler / scr_parser
     # batch (debugger_node*, Scr_CompileStatement, Scr_ClearDebugExpr,
@@ -109,6 +113,9 @@ set(SCRIPT_PORTABLE_SOURCES
     "${SRC_DIR}/script/scr_parsetree.cpp"
     "${SRC_DIR}/script/scr_stringlist.cpp"
     "${SRC_DIR}/script/scr_variable.cpp"
+    # scr_yacc2.cpp / scr_yacc.cpp use MSVC `#pragma optimize("", off)`
+    # and have Bison short tables with literal 32768 that overflow
+    # signed short under clang. Land after pragma + narrowing fix.
 )
 
 set(GFX_PORTABLE_SOURCES

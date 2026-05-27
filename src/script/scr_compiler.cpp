@@ -40,7 +40,7 @@ void Scr_InitFromChildBlocks(scr_block_s **childBlocks, int childCount, scr_bloc
 {
     int localVarsCreateCount, childIndex, i;
     scr_block_s *childBlock;
-    unsigned int name;
+    [[maybe_unused]] unsigned int name;
 
     if (!childCount)
     {
@@ -165,7 +165,7 @@ void __cdecl EmitCanonicalString(unsigned int stringValue)
 
 void __cdecl EmitCanonicalStringConst(unsigned int stringValue)
 {
-    bool bConstRefCount; // [esp+3h] [ebp-1h]
+    [[maybe_unused]] bool bConstRefCount; // [esp+3h] [ebp-1h]
 
     bConstRefCount = scrCompileGlob.bConstRefCount;
     scrCompileGlob.bConstRefCount = 1;
@@ -175,8 +175,8 @@ void __cdecl EmitCanonicalStringConst(unsigned int stringValue)
 
 int __cdecl Scr_FindLocalVarIndex(unsigned int name, sval_u sourcePos, bool create, scr_block_s *block)
 {
-    char *v5; // eax
-    int i; // [esp+4h] [ebp-4h]
+    const char *v5; // eax
+    [[maybe_unused]] int i; // [esp+4h] [ebp-4h]
 
     if (scrCompilePub.developer_statement == 3)
         MyAssertHandler(
@@ -314,7 +314,7 @@ void __cdecl EmitFloat(float value)
 
 void __cdecl EmitGetVector(const float *value, sval_u sourcePos)
 {
-    int i; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+4h] [ebp-4h]
 
     EmitOpcode(OP_GetVector, 1, 0);
     AddOpcodePos(sourcePos.stringValue, 1);
@@ -487,8 +487,8 @@ void __cdecl Scr_BeginDevScript(int *type, char **savedPos)
 
 int __cdecl EmitExpressionList(sval_u exprlist, scr_block_s *block)
 {
-    sval_u *node; // [esp+0h] [ebp-8h]
-    int expr_count; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] sval_u *node; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] int expr_count; // [esp+4h] [ebp-4h]
 
     expr_count = 0;
     for (node = exprlist.node[0].node; node; node = node[1].node)
@@ -501,7 +501,7 @@ int __cdecl EmitExpressionList(sval_u exprlist, scr_block_s *block)
 
 void __cdecl EmitCallBuiltinOpcode(int param_count, sval_u sourcePos)
 {
-    Opcode_t opcode; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] Opcode_t opcode; // [esp+0h] [ebp-4h]
 
     if (param_count > 5)
     {
@@ -519,7 +519,7 @@ void __cdecl EmitCallBuiltinOpcode(int param_count, sval_u sourcePos)
 
 int __cdecl AddFunction(int func, const char *name)
 {
-    int i; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+0h] [ebp-4h]
 
     for (i = 0; i < scrCompilePub.func_table_size; ++i)
     {
@@ -538,7 +538,7 @@ int __cdecl AddFunction(int func, const char *name)
 
 void __cdecl AddExpressionListOpcodePos(sval_u exprlist)
 {
-    sval_u *node; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] sval_u *node; // [esp+0h] [ebp-4h]
 
     if (scrVarPub.developer)
     {
@@ -587,17 +587,17 @@ void __cdecl EmitFunction(sval_u func, sval_u sourcePos)
 {
     char *v2; // eax
     unsigned int Variable; // eax
-    unsigned int valueId; // [esp+1Ch] [ebp-3Ch]
-    VariableValue pos; // [esp+20h] [ebp-38h]
-    HashEntry_unnamed_type_u filename; // [esp+28h] [ebp-30h]
-    unsigned int posId; // [esp+2Ch] [ebp-2Ch]
-    unsigned int threadId; // [esp+30h] [ebp-28h]
-    int scope; // [esp+38h] [ebp-20h]
-    unsigned int countId; // [esp+3Ch] [ebp-1Ch]
+    [[maybe_unused]] unsigned int valueId; // [esp+1Ch] [ebp-3Ch]
+    [[maybe_unused]] VariableValue pos; // [esp+20h] [ebp-38h]
+    [[maybe_unused]] HashEntry_unnamed_type_u filename; // [esp+28h] [ebp-30h]
+    [[maybe_unused]] unsigned int posId; // [esp+2Ch] [ebp-2Ch]
+    [[maybe_unused]] unsigned int threadId; // [esp+30h] [ebp-28h]
+    [[maybe_unused]] int scope; // [esp+38h] [ebp-20h]
+    [[maybe_unused]] unsigned int countId; // [esp+3Ch] [ebp-1Ch]
     VariableValue count; // [esp+40h] [ebp-18h] BYREF
     VariableValue value; // [esp+48h] [ebp-10h] BYREF
-    unsigned int fileId; // [esp+50h] [ebp-8h]
-    unsigned int threadPtr; // [esp+54h] [ebp-4h]
+    [[maybe_unused]] unsigned int fileId; // [esp+50h] [ebp-8h]
+    [[maybe_unused]] unsigned int threadPtr; // [esp+54h] [ebp-4h]
 
     if (scrCompilePub.developer_statement == 3)
     {
@@ -825,12 +825,12 @@ void __cdecl EmitCall(sval_u func_name, sval_u params, bool bStatement, scr_bloc
     int v5; // eax
     void(__cdecl * func)(); // [esp+8h] [ebp-28h]
     char *savedPos; // [esp+Ch] [ebp-24h] BYREF
-    unsigned int funcId; // [esp+10h] [ebp-20h]
-    int param_count; // [esp+14h] [ebp-1Ch]
-    unsigned int name; // [esp+18h] [ebp-18h]
+    [[maybe_unused]] unsigned int funcId; // [esp+10h] [ebp-20h]
+    [[maybe_unused]] int param_count; // [esp+14h] [ebp-1Ch]
+    [[maybe_unused]] unsigned int name; // [esp+18h] [ebp-18h]
     const char *pName; // [esp+1Ch] [ebp-14h] BYREF
     int type; // [esp+20h] [ebp-10h] BYREF
-    sval_u sourcePos; // [esp+24h] [ebp-Ch]
+    [[maybe_unused]] sval_u sourcePos; // [esp+24h] [ebp-Ch]
     VariableValue value; // [esp+28h] [ebp-8h] BYREF
 
     savedPos = 0;
@@ -915,7 +915,7 @@ void __cdecl EmitCall(sval_u func_name, sval_u params, bool bStatement, scr_bloc
 
 void __cdecl EmitCallBuiltinMethodOpcode(int param_count, sval_u sourcePos)
 {
-    Opcode_t opcode; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] Opcode_t opcode; // [esp+0h] [ebp-4h]
 
     if (param_count > 5)
     {
@@ -955,13 +955,13 @@ void __cdecl EmitMethod(
 {
     __int16 v6; // ax
     char *savedPos; // [esp+8h] [ebp-28h] BYREF
-    unsigned int methId; // [esp+Ch] [ebp-24h]
+    [[maybe_unused]] unsigned int methId; // [esp+Ch] [ebp-24h]
     void(__cdecl * meth)(scr_entref_t); // [esp+10h] [ebp-20h]
-    int param_count; // [esp+14h] [ebp-1Ch]
-    unsigned int name; // [esp+18h] [ebp-18h]
+    [[maybe_unused]] int param_count; // [esp+14h] [ebp-1Ch]
+    [[maybe_unused]] unsigned int name; // [esp+18h] [ebp-18h]
     const char *pName; // [esp+1Ch] [ebp-14h] BYREF
     int type; // [esp+20h] [ebp-10h] BYREF
-    sval_u sourcePos; // [esp+24h] [ebp-Ch]
+    [[maybe_unused]] sval_u sourcePos; // [esp+24h] [ebp-Ch]
     VariableValue value; // [esp+28h] [ebp-8h] BYREF
 
     savedPos = 0;
@@ -1166,11 +1166,11 @@ void __cdecl EmitFieldVariable(sval_u expr, sval_u field, sval_u sourcePos, scr_
 
 void __cdecl EmitObject(sval_u expr, sval_u sourcePos)
 {
-    signed int ObjectType; // [esp+0h] [ebp-18h]
-    const char *classnum; // [esp+4h] [ebp-14h]
-    char *s; // [esp+Ch] [ebp-Ch]
-    const char *entnum; // [esp+10h] [ebp-8h]
-    unsigned int idValue; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] signed int ObjectType; // [esp+0h] [ebp-18h]
+    [[maybe_unused]] const char *classnum; // [esp+4h] [ebp-14h]
+    [[maybe_unused]] char *s; // [esp+Ch] [ebp-Ch]
+    [[maybe_unused]] const char *entnum; // [esp+10h] [ebp-8h]
+    [[maybe_unused]] unsigned int idValue; // [esp+14h] [ebp-4h]
 
     if (scrCompilePub.script_loading)
     {
@@ -1288,8 +1288,8 @@ void __cdecl EmitAnim(sval_u sourcePos)
 
 void __cdecl Scr_CreateVector(VariableCompileValue *constValue, VariableValue *value)
 {
-    int type; // [esp+0h] [ebp-14h]
-    int i; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] int type; // [esp+0h] [ebp-14h]
+    [[maybe_unused]] int i; // [esp+4h] [ebp-10h]
     float vec[3]; // [esp+8h] [ebp-Ch] BYREF
 
     for (i = 0; i < 3; ++i)
@@ -1327,10 +1327,10 @@ bool __cdecl EmitOrEvalPrimitiveExpressionList(
     VariableCompileValue *constValue,
     scr_block_s *block)
 {
-    sval_u *node; // [esp+0h] [ebp-18h]
+    [[maybe_unused]] sval_u *node; // [esp+0h] [ebp-18h]
     VariableCompileValue constValue2; // [esp+4h] [ebp-14h] BYREF
-    int expr_count; // [esp+10h] [ebp-8h]
-    bool success; // [esp+17h] [ebp-1h]
+    [[maybe_unused]] int expr_count; // [esp+10h] [ebp-8h]
+    [[maybe_unused]] bool success; // [esp+17h] [ebp-1h]
 
     if (!constValue)
         MyAssertHandler(".\\script\\scr_compiler.cpp", 2536, 0, "%s", "constValue");
@@ -1506,10 +1506,10 @@ char __cdecl EvalExpression(sval_u expr, VariableCompileValue *constValue)
 
 bool __cdecl EvalPrimitiveExpressionList(sval_u exprlist, sval_u sourcePos, VariableCompileValue *constValue)
 {
-    sval_u *node; // [esp+0h] [ebp-30h]
+    [[maybe_unused]] sval_u *node; // [esp+0h] [ebp-30h]
     VariableCompileValue constValue2[3]; // [esp+4h] [ebp-2Ch] BYREF
-    int expr_count; // [esp+28h] [ebp-8h]
-    int i; // [esp+2Ch] [ebp-4h]
+    [[maybe_unused]] int expr_count; // [esp+28h] [ebp-8h]
+    [[maybe_unused]] int i; // [esp+2Ch] [ebp-4h]
 
     iassert(constValue);
 
@@ -1595,9 +1595,9 @@ void __cdecl EmitBoolOrExpression(
     sval_u expr2sourcePos,
     scr_block_s *block)
 {
-    unsigned __int8 *pos; // [esp+0h] [ebp-Ch]
-    char *offset; // [esp+4h] [ebp-8h]
-    char *nextPos; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] unsigned __int8 *pos; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] char *offset; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] char *nextPos; // [esp+8h] [ebp-4h]
 
     EmitExpression(expr1, block);
     EmitOpcode(OP_JumpOnTrueExpr, -1, 0);
@@ -1680,9 +1680,9 @@ void __cdecl EmitBoolAndExpression(
     sval_u expr2sourcePos,
     scr_block_s *block)
 {
-    unsigned __int8 *pos; // [esp+0h] [ebp-Ch]
-    char *offset; // [esp+4h] [ebp-8h]
-    char *nextPos; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] unsigned __int8 *pos; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] char *offset; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] char *nextPos; // [esp+8h] [ebp-4h]
 
     EmitExpression(expr1, block);
     EmitOpcode(OP_JumpOnFalseExpr, -1, 0);
@@ -1799,7 +1799,7 @@ void __cdecl EmitExpression(sval_u expr, scr_block_s *block)
 
 void __cdecl EmitLocalVariableRef(sval_u expr, sval_u sourcePos, scr_block_s *block)
 {
-    int index; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int index; // [esp+0h] [ebp-4h]
 
     if (scrCompilePub.developer_statement == 3)
     {
@@ -2088,7 +2088,7 @@ void __cdecl Scr_TransferBlock(scr_block_s *from, scr_block_s *to)
 
 void __cdecl EmitRemoveLocalVars(scr_block_s *block, scr_block_s *outerBlock)
 {
-    int removeCount; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int removeCount; // [esp+0h] [ebp-4h]
 
     if (!block->abortLevel)
     {
@@ -2120,7 +2120,7 @@ void __cdecl EmitRemoveLocalVars(scr_block_s *block, scr_block_s *outerBlock)
 
 void __cdecl EmitNOP2(bool lastStatement, unsigned int endSourcePos, scr_block_s *block)
 {
-    unsigned int checksum; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] unsigned int checksum; // [esp+0h] [ebp-4h]
 
     checksum = scrVarPub.checksum;
     if (lastStatement)
@@ -2144,9 +2144,9 @@ void __cdecl EmitIfStatement(
     scr_block_s *block,
     sval_u *ifStatBlock)
 {
-    unsigned __int8 *pos; // [esp+0h] [ebp-Ch]
-    char *offset; // [esp+4h] [ebp-8h]
-    char *nextPos; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] unsigned __int8 *pos; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] char *offset; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] char *nextPos; // [esp+8h] [ebp-4h]
 
     EmitExpression(expr, block);
     EmitOpcode(OP_JumpOnFalse, -1, 0);
@@ -2176,14 +2176,14 @@ void __cdecl EmitIfElseStatement(
     sval_u *ifStatBlock,
     sval_u *elseStatBlock)
 {
-    unsigned int checksum; // [esp+0h] [ebp-24h]
-    char *offset; // [esp+4h] [ebp-20h]
-    char *nextPos1; // [esp+8h] [ebp-1Ch]
-    unsigned __int8 *pos1; // [esp+Ch] [ebp-18h]
+    [[maybe_unused]] unsigned int checksum; // [esp+0h] [ebp-24h]
+    [[maybe_unused]] char *offset; // [esp+4h] [ebp-20h]
+    [[maybe_unused]] char *nextPos1; // [esp+8h] [ebp-1Ch]
+    [[maybe_unused]] unsigned __int8 *pos1; // [esp+Ch] [ebp-18h]
     scr_block_s *childBlocks[2]; // [esp+10h] [ebp-14h] BYREF
-    const char *nextPos2; // [esp+18h] [ebp-Ch]
-    int childCount; // [esp+1Ch] [ebp-8h]
-    char *pos2; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] const char *nextPos2; // [esp+18h] [ebp-Ch]
+    [[maybe_unused]] int childCount; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] char *pos2; // [esp+20h] [ebp-4h]
 
     childCount = 0;
     EmitExpression(expr, block);
@@ -2231,7 +2231,7 @@ void __cdecl EmitIfElseStatement(
 
 void __cdecl EmitCreateLocalVars(scr_block_s *block)
 {
-    int i; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+0h] [ebp-4h]
 
     if (block->localVarsPublicCount < block->localVarsCreateCount)
         MyAssertHandler(
@@ -2255,8 +2255,8 @@ void __cdecl EmitCreateLocalVars(scr_block_s *block)
 ContinueStatementInfo *ConnectContinueStatements()
 {
     ContinueStatementInfo *result; // eax
-    ContinueStatementInfo *continueStatement; // [esp+0h] [ebp-8h]
-    char *codePos; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] ContinueStatementInfo *continueStatement; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] char *codePos; // [esp+4h] [ebp-4h]
 
     codePos = TempMalloc(0);
     result = scrCompileGlob.currentContinueStatement;
@@ -2271,8 +2271,8 @@ ContinueStatementInfo *ConnectContinueStatements()
 BreakStatementInfo *ConnectBreakStatements()
 {
     BreakStatementInfo *result; // eax
-    BreakStatementInfo *breakStatement; // [esp+0h] [ebp-8h]
-    char *codePos; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] BreakStatementInfo *breakStatement; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] char *codePos; // [esp+4h] [ebp-4h]
 
     if (scrCompilePub.value_count)
         MyAssertHandler(".\\script\\scr_compiler.cpp", 3022, 0, "%s", "!scrCompilePub.value_count");
@@ -2312,25 +2312,25 @@ void __cdecl EmitForStatement(
     sval_u *forStatBlock,
     sval_u *forStatPostBlock)
 {
-    ContinueStatementInfo *oldContinueStatement; // [esp+0h] [ebp-50h]
+    [[maybe_unused]] ContinueStatementInfo *oldContinueStatement; // [esp+0h] [ebp-50h]
     int breakChildCount; // [esp+4h] [ebp-4Ch] BYREF
-    int *oldBreakChildCount; // [esp+8h] [ebp-48h]
-    scr_block_s **breakChildBlocks; // [esp+Ch] [ebp-44h]
-    BreakStatementInfo *oldBreakStatement; // [esp+10h] [ebp-40h]
-    bool constConditional; // [esp+17h] [ebp-39h]
-    unsigned int offset; // [esp+18h] [ebp-38h]
-    bool bOldCanBreak; // [esp+1Eh] [ebp-32h]
-    bool bOldCanContinue; // [esp+1Fh] [ebp-31h]
+    [[maybe_unused]] int *oldBreakChildCount; // [esp+8h] [ebp-48h]
+    [[maybe_unused]] scr_block_s **breakChildBlocks; // [esp+Ch] [ebp-44h]
+    [[maybe_unused]] BreakStatementInfo *oldBreakStatement; // [esp+10h] [ebp-40h]
+    [[maybe_unused]] bool constConditional; // [esp+17h] [ebp-39h]
+    [[maybe_unused]] unsigned int offset; // [esp+18h] [ebp-38h]
+    [[maybe_unused]] bool bOldCanBreak; // [esp+1Eh] [ebp-32h]
+    [[maybe_unused]] bool bOldCanContinue; // [esp+1Fh] [ebp-31h]
     int continueChildCount; // [esp+20h] [ebp-30h] BYREF
-    int *oldContinueChildCount; // [esp+24h] [ebp-2Ch]
+    [[maybe_unused]] int *oldContinueChildCount; // [esp+24h] [ebp-2Ch]
     VariableCompileValue constValue; // [esp+28h] [ebp-28h] BYREF
-    const char *pos1; // [esp+34h] [ebp-1Ch]
-    const char *nextPos2; // [esp+38h] [ebp-18h]
-    scr_block_s **continueChildBlocks; // [esp+3Ch] [ebp-14h]
-    scr_block_s **oldBreakChildBlocks; // [esp+40h] [ebp-10h]
-    char *pos2; // [esp+44h] [ebp-Ch]
-    scr_block_s **oldContinueChildBlocks; // [esp+48h] [ebp-8h]
-    scr_block_s *oldBreakBlock; // [esp+4Ch] [ebp-4h]
+    [[maybe_unused]] const char *pos1; // [esp+34h] [ebp-1Ch]
+    [[maybe_unused]] const char *nextPos2; // [esp+38h] [ebp-18h]
+    [[maybe_unused]] scr_block_s **continueChildBlocks; // [esp+3Ch] [ebp-14h]
+    [[maybe_unused]] scr_block_s **oldBreakChildBlocks; // [esp+40h] [ebp-10h]
+    [[maybe_unused]] char *pos2; // [esp+44h] [ebp-Ch]
+    [[maybe_unused]] scr_block_s **oldContinueChildBlocks; // [esp+48h] [ebp-8h]
+    [[maybe_unused]] scr_block_s *oldBreakBlock; // [esp+4Ch] [ebp-4h]
 
     bOldCanBreak = scrCompileGlob.bCanBreak;
     oldBreakStatement = scrCompileGlob.currentBreakStatement;
@@ -2446,23 +2446,23 @@ void __cdecl EmitWhileStatement(
     scr_block_s *block,
     sval_u *whileStatBlock)
 {
-    ContinueStatementInfo *oldContinueStatement; // [esp+0h] [ebp-48h]
+    [[maybe_unused]] ContinueStatementInfo *oldContinueStatement; // [esp+0h] [ebp-48h]
     int breakChildCount; // [esp+4h] [ebp-44h] BYREF
-    int *oldBreakChildCount; // [esp+8h] [ebp-40h]
-    scr_block_s **breakChildBlocks; // [esp+Ch] [ebp-3Ch]
-    BreakStatementInfo *oldBreakStatement; // [esp+10h] [ebp-38h]
-    bool constConditional; // [esp+17h] [ebp-31h]
-    unsigned int offset; // [esp+18h] [ebp-30h]
-    bool bOldCanBreak; // [esp+1Eh] [ebp-2Ah]
-    bool bOldCanContinue; // [esp+1Fh] [ebp-29h]
-    int *oldContinueChildCount; // [esp+20h] [ebp-28h]
+    [[maybe_unused]] int *oldBreakChildCount; // [esp+8h] [ebp-40h]
+    [[maybe_unused]] scr_block_s **breakChildBlocks; // [esp+Ch] [ebp-3Ch]
+    [[maybe_unused]] BreakStatementInfo *oldBreakStatement; // [esp+10h] [ebp-38h]
+    [[maybe_unused]] bool constConditional; // [esp+17h] [ebp-31h]
+    [[maybe_unused]] unsigned int offset; // [esp+18h] [ebp-30h]
+    [[maybe_unused]] bool bOldCanBreak; // [esp+1Eh] [ebp-2Ah]
+    [[maybe_unused]] bool bOldCanContinue; // [esp+1Fh] [ebp-29h]
+    [[maybe_unused]] int *oldContinueChildCount; // [esp+20h] [ebp-28h]
     VariableCompileValue constValue; // [esp+24h] [ebp-24h] BYREF
-    const char *pos1; // [esp+30h] [ebp-18h]
-    const char *nextPos2; // [esp+34h] [ebp-14h]
-    scr_block_s **oldBreakChildBlocks; // [esp+38h] [ebp-10h]
-    char *pos2; // [esp+3Ch] [ebp-Ch]
-    scr_block_s **oldContinueChildBlocks; // [esp+40h] [ebp-8h]
-    scr_block_s *oldBreakBlock; // [esp+44h] [ebp-4h]
+    [[maybe_unused]] const char *pos1; // [esp+30h] [ebp-18h]
+    [[maybe_unused]] const char *nextPos2; // [esp+34h] [ebp-14h]
+    [[maybe_unused]] scr_block_s **oldBreakChildBlocks; // [esp+38h] [ebp-10h]
+    [[maybe_unused]] char *pos2; // [esp+3Ch] [ebp-Ch]
+    [[maybe_unused]] scr_block_s **oldContinueChildBlocks; // [esp+40h] [ebp-8h]
+    [[maybe_unused]] scr_block_s *oldBreakBlock; // [esp+44h] [ebp-4h]
 
     bOldCanBreak = scrCompileGlob.bCanBreak;
     oldBreakStatement = scrCompileGlob.currentBreakStatement;
@@ -2635,8 +2635,8 @@ void __cdecl EmitStatementList(sval_u val, bool lastStatement, unsigned int endS
 
 void __cdecl EmitDeveloperStatementList(sval_u val, sval_u sourcePos, scr_block_s *block, sval_u *devStatBlock)
 {
-    char *savedPos; // [esp+0h] [ebp-8h]
-    unsigned int savedChecksum; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] char *savedPos; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] unsigned int savedChecksum; // [esp+4h] [ebp-4h]
 
     if (scrCompilePub.developer_statement)
     {
@@ -2666,7 +2666,7 @@ void __cdecl EmitDeveloperStatementList(sval_u val, sval_u sourcePos, scr_block_
 
 void __cdecl EmitSafeSetWaittillVariableField(sval_u expr, sval_u sourcePos, scr_block_s *block)
 {
-    unsigned __int8 index; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] unsigned __int8 index; // [esp+0h] [ebp-4h]
 
     index = Scr_FindLocalVarIndex(expr.stringValue, sourcePos, 1, block);
     EmitOpcode(OP_SafeSetWaittillVariableFieldCached, 0, 0);
@@ -2719,8 +2719,8 @@ void __cdecl EmitWaittillmatchStatement(
     sval_u waitSourcePos,
     scr_block_s *block)
 {
-    sval_u *node; // [esp+0h] [ebp-8h]
-    int exprCount; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] sval_u *node; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] int exprCount; // [esp+4h] [ebp-4h]
 
     node = exprlist.node[0].node[1].node;
 
@@ -2775,9 +2775,9 @@ void __cdecl EmitNotifyStatement(
     sval_u notifySourcePos,
     scr_block_s *block)
 {
-    sval_u *node; // [esp+0h] [ebp-Ch]
-    sval_u *start_node; // [esp+4h] [ebp-8h]
-    int expr_count; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] sval_u *node; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] sval_u *start_node; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] int expr_count; // [esp+8h] [ebp-4h]
 
     EmitOpcode(OP_voidCodepos, 1, 0);
     AddOpcodePos(sourcePos.stringValue, 1);
@@ -2813,7 +2813,7 @@ void __cdecl EmitEndOnStatement(sval_u obj, sval_u expr, sval_u sourcePos, sval_
 
 void __cdecl EmitCaseStatementInfo(unsigned int name, sval_u sourcePos)
 {
-    CaseStatementInfo *newCaseStatement; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] CaseStatementInfo *newCaseStatement; // [esp+0h] [ebp-4h]
 
     if (scrCompilePub.developer_statement == 2)
     {
@@ -2876,14 +2876,14 @@ void __cdecl Scr_AddBreakBlock(scr_block_s *block)
 
 void __cdecl EmitSwitchStatementList(sval_u val, bool lastStatement, unsigned int endSourcePos, scr_block_s *block)
 {
-    sval_u *node; // [esp+4h] [ebp-20h]
-    sval_u *nextNode; // [esp+8h] [ebp-1Ch]
+    [[maybe_unused]] sval_u *node; // [esp+4h] [ebp-20h]
+    [[maybe_unused]] sval_u *nextNode; // [esp+8h] [ebp-1Ch]
     int breakChildCount; // [esp+Ch] [ebp-18h] BYREF
-    scr_block_s **breakChildBlocks; // [esp+10h] [ebp-14h]
-    int *oldBreakChildCount; // [esp+14h] [ebp-10h]
-    bool hasDefault; // [esp+1Bh] [ebp-9h]
-    scr_block_s **oldBreakChildBlocks; // [esp+1Ch] [ebp-8h]
-    scr_block_s *oldBreakBlock; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] scr_block_s **breakChildBlocks; // [esp+10h] [ebp-14h]
+    [[maybe_unused]] int *oldBreakChildCount; // [esp+14h] [ebp-10h]
+    [[maybe_unused]] bool hasDefault; // [esp+1Bh] [ebp-9h]
+    [[maybe_unused]] scr_block_s **oldBreakChildBlocks; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] scr_block_s *oldBreakBlock; // [esp+20h] [ebp-4h]
 
     oldBreakChildBlocks = scrCompileGlob.breakChildBlocks;
     oldBreakChildCount = scrCompileGlob.breakChildCount;
@@ -2977,16 +2977,16 @@ void __cdecl EmitSwitchStatement(
     unsigned int endSourcePos,
     scr_block_s *block)
 {
-    CaseStatementInfo *oldCaseStatement; // [esp+0h] [ebp-24h]
-    char *pos3; // [esp+4h] [ebp-20h]
-    BreakStatementInfo *oldBreakStatement; // [esp+8h] [ebp-1Ch]
-    bool bOldCanBreak; // [esp+Fh] [ebp-15h]
-    char *nextPos1; // [esp+10h] [ebp-14h]
-    CaseStatementInfo *caseStatement; // [esp+14h] [ebp-10h]
-    CaseStatementInfo *caseStatementa; // [esp+14h] [ebp-10h]
-    unsigned __int8 *pos1; // [esp+18h] [ebp-Ch]
-    signed int num; // [esp+1Ch] [ebp-8h]
-    unsigned __int8 *pos2; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] CaseStatementInfo *oldCaseStatement; // [esp+0h] [ebp-24h]
+    [[maybe_unused]] char *pos3; // [esp+4h] [ebp-20h]
+    [[maybe_unused]] BreakStatementInfo *oldBreakStatement; // [esp+8h] [ebp-1Ch]
+    [[maybe_unused]] bool bOldCanBreak; // [esp+Fh] [ebp-15h]
+    [[maybe_unused]] char *nextPos1; // [esp+10h] [ebp-14h]
+    [[maybe_unused]] CaseStatementInfo *caseStatement; // [esp+14h] [ebp-10h]
+    [[maybe_unused]] CaseStatementInfo *caseStatementa; // [esp+14h] [ebp-10h]
+    [[maybe_unused]] unsigned __int8 *pos1; // [esp+18h] [ebp-Ch]
+    [[maybe_unused]] signed int num; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] unsigned __int8 *pos2; // [esp+20h] [ebp-4h]
 
     oldCaseStatement = scrCompileGlob.currentCaseStatement;
     bOldCanBreak = scrCompileGlob.bCanBreak;
@@ -3041,7 +3041,7 @@ void __cdecl EmitSwitchStatement(
 
 void __cdecl EmitBreakStatement(sval_u sourcePos, scr_block_s *block)
 {
-    BreakStatementInfo *newBreakStatement; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] BreakStatementInfo *newBreakStatement; // [esp+0h] [ebp-4h]
 
     if (scrCompileGlob.bCanBreak && !block->abortLevel)
     {
@@ -3074,7 +3074,7 @@ void __cdecl EmitBreakStatement(sval_u sourcePos, scr_block_s *block)
 
 void __cdecl EmitContinueStatement(sval_u sourcePos, scr_block_s *block)
 {
-    ContinueStatementInfo *newContinueStatement; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] ContinueStatementInfo *newContinueStatement; // [esp+0h] [ebp-4h]
 
     if (scrCompileGlob.bCanContinue && !block->abortLevel)
     {
@@ -3115,7 +3115,7 @@ void __cdecl EmitBreakpointStatement(sval_u sourcePos)
 void __cdecl EmitProfStatement(sval_u profileName, sval_u sourcePos, Opcode_t op)
 {
     char *v3; // eax
-    int profileIndex; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int profileIndex; // [esp+0h] [ebp-4h]
 
     if (scrVarPub.developer_script)
     {
@@ -3299,11 +3299,11 @@ void __cdecl EmitStatement(sval_u val, bool lastStatement, unsigned int endSourc
 
 void __cdecl EmitOpcode(Opcode_t op, int offset, int callType)
 {
-    bool v3; // [esp+4h] [ebp-10h]
-    int valueIndex; // [esp+8h] [ebp-Ch]
-    int value_count; // [esp+Ch] [ebp-8h]
-    unsigned int index; // [esp+10h] [ebp-4h]
-    unsigned int indexa; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] bool v3; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] int valueIndex; // [esp+8h] [ebp-Ch]
+    [[maybe_unused]] int value_count; // [esp+Ch] [ebp-8h]
+    [[maybe_unused]] unsigned int index; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] unsigned int indexa; // [esp+10h] [ebp-4h]
 
     if (scrCompilePub.developer_statement == 3)
     {
@@ -3527,9 +3527,9 @@ unsigned int __cdecl SpecifyThreadPosition(unsigned int threadId, unsigned int n
 {
     char *v4; // eax
     char *v5; // eax
-    char *buf; // [esp-4h] [ebp-1Ch]
+    [[maybe_unused]] char *buf; // [esp-4h] [ebp-1Ch]
     VariableValue pos; // [esp+8h] [ebp-10h] BYREF
-    unsigned int posId; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] unsigned int posId; // [esp+14h] [ebp-4h]
 
     posId = GetVariable(threadId, 1u);
     pos = Scr_EvalVariable(posId);
@@ -3596,7 +3596,7 @@ void __cdecl SpecifyThread(sval_u val)
 
 void __cdecl Scr_RegisterLocalVar(unsigned int name, sval_u sourcePos, scr_block_s *block)
 {
-    int i; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+0h] [ebp-4h]
 
     if (!block->abortLevel)
     {
@@ -3679,12 +3679,12 @@ void __cdecl Scr_CopyBlock(scr_block_s *from, scr_block_s **to)
 void __cdecl Scr_MergeChildBlocks(scr_block_s **childBlocks, int childCount, scr_block_s *block)
 {
     unsigned int v3; // ecx
-    int j; // [esp+4h] [ebp-18h]
-    unsigned int localVar; // [esp+8h] [ebp-14h]
-    unsigned int localVar_4; // [esp+Ch] [ebp-10h]
-    scr_block_s *childBlock; // [esp+10h] [ebp-Ch]
-    int childIndex; // [esp+14h] [ebp-8h]
-    int i; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] int j; // [esp+4h] [ebp-18h]
+    [[maybe_unused]] unsigned int localVar; // [esp+8h] [ebp-14h]
+    [[maybe_unused]] unsigned int localVar_4; // [esp+Ch] [ebp-10h]
+    [[maybe_unused]] scr_block_s *childBlock; // [esp+10h] [ebp-Ch]
+    [[maybe_unused]] int childIndex; // [esp+14h] [ebp-8h]
+    [[maybe_unused]] int i; // [esp+18h] [ebp-4h]
 
     if (!childCount || block->abortLevel != SCR_ABORT_NONE)
     {
@@ -3734,11 +3734,11 @@ void __cdecl Scr_CalcLocalVarsIfStatement(sval_u stmt, scr_block_s *block, sval_
 void __cdecl Scr_AppendChildBlocks(scr_block_s **childBlocks, int childCount, scr_block_s *block)
 {
     int localVarsCount; // ecx
-    unsigned int localVar; // [esp+0h] [ebp-14h]
-    unsigned int localVar_4; // [esp+4h] [ebp-10h]
-    int childIndex; // [esp+Ch] [ebp-8h]
-    int childIndexa; // [esp+Ch] [ebp-8h]
-    int i; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] unsigned int localVar; // [esp+0h] [ebp-14h]
+    [[maybe_unused]] unsigned int localVar_4; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] int childIndex; // [esp+Ch] [ebp-8h]
+    [[maybe_unused]] int childIndexa; // [esp+Ch] [ebp-8h]
+    [[maybe_unused]] int i; // [esp+10h] [ebp-4h]
 
     if (childCount && !block->abortLevel)
     {
@@ -3816,17 +3816,17 @@ void __cdecl Scr_CalcLocalVarsIfElseStatement(
 void __cdecl Scr_CalcLocalVarsWhileStatement(sval_u expr, sval_u stmt, scr_block_s *block, sval_u *whileStatBlock)
 {
     int breakChildCount; // [esp+0h] [ebp-38h] BYREF
-    int *oldBreakChildCount; // [esp+4h] [ebp-34h]
-    scr_block_s **breakChildBlocks; // [esp+8h] [ebp-30h]
-    bool constConditional; // [esp+Fh] [ebp-29h]
+    [[maybe_unused]] int *oldBreakChildCount; // [esp+4h] [ebp-34h]
+    [[maybe_unused]] scr_block_s **breakChildBlocks; // [esp+8h] [ebp-30h]
+    [[maybe_unused]] bool constConditional; // [esp+Fh] [ebp-29h]
     int continueChildCount; // [esp+10h] [ebp-28h] BYREF
-    int *oldContinueChildCount; // [esp+14h] [ebp-24h]
+    [[maybe_unused]] int *oldContinueChildCount; // [esp+14h] [ebp-24h]
     VariableCompileValue constValue; // [esp+18h] [ebp-20h] BYREF
-    int i; // [esp+24h] [ebp-14h]
-    scr_block_s **continueChildBlocks; // [esp+28h] [ebp-10h]
-    scr_block_s **oldBreakChildBlocks; // [esp+2Ch] [ebp-Ch]
-    int abortLevel; // [esp+30h] [ebp-8h]
-    scr_block_s **oldContinueChildBlocks; // [esp+34h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+24h] [ebp-14h]
+    [[maybe_unused]] scr_block_s **continueChildBlocks; // [esp+28h] [ebp-10h]
+    [[maybe_unused]] scr_block_s **oldBreakChildBlocks; // [esp+2Ch] [ebp-Ch]
+    [[maybe_unused]] int abortLevel; // [esp+30h] [ebp-8h]
+    [[maybe_unused]] scr_block_s **oldContinueChildBlocks; // [esp+34h] [ebp-4h]
 
     constConditional = 0;
     if (EvalExpression(expr, &constValue))
@@ -3883,17 +3883,17 @@ void __cdecl Scr_CalcLocalVarsForStatement(
     sval_u *forStatPostBlock)
 {
     int breakChildCount; // [esp+0h] [ebp-38h] BYREF
-    int *oldBreakChildCount; // [esp+4h] [ebp-34h]
-    scr_block_s **breakChildBlocks; // [esp+8h] [ebp-30h]
-    bool constConditional; // [esp+Fh] [ebp-29h]
+    [[maybe_unused]] int *oldBreakChildCount; // [esp+4h] [ebp-34h]
+    [[maybe_unused]] scr_block_s **breakChildBlocks; // [esp+8h] [ebp-30h]
+    [[maybe_unused]] bool constConditional; // [esp+Fh] [ebp-29h]
     int continueChildCount; // [esp+10h] [ebp-28h] BYREF
-    int *oldContinueChildCount; // [esp+14h] [ebp-24h]
+    [[maybe_unused]] int *oldContinueChildCount; // [esp+14h] [ebp-24h]
     VariableCompileValue constValue; // [esp+18h] [ebp-20h] BYREF
-    int i; // [esp+24h] [ebp-14h]
-    scr_block_s **continueChildBlocks; // [esp+28h] [ebp-10h]
-    scr_block_s **oldBreakChildBlocks; // [esp+2Ch] [ebp-Ch]
-    int abortLevel; // [esp+30h] [ebp-8h]
-    scr_block_s **oldContinueChildBlocks; // [esp+34h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+24h] [ebp-14h]
+    [[maybe_unused]] scr_block_s **continueChildBlocks; // [esp+28h] [ebp-10h]
+    [[maybe_unused]] scr_block_s **oldBreakChildBlocks; // [esp+2Ch] [ebp-Ch]
+    [[maybe_unused]] int abortLevel; // [esp+30h] [ebp-8h]
+    [[maybe_unused]] scr_block_s **oldContinueChildBlocks; // [esp+34h] [ebp-4h]
 
     Scr_CalcLocalVarsStatement(stmt1, block);
     if (expr.node[0].type == ENUM_expression)
@@ -3977,16 +3977,16 @@ void __cdecl Scr_CalcLocalVarsWaittillStatement(sval_u exprlist, scr_block_s *bl
 
 void __cdecl Scr_CalcLocalVarsSwitchStatement(sval_u stmtlist, scr_block_s *block)
 {
-    sval_u *node; // [esp+0h] [ebp-28h]
+    [[maybe_unused]] sval_u *node; // [esp+0h] [ebp-28h]
     int breakChildCount; // [esp+4h] [ebp-24h] BYREF
-    scr_block_s **breakChildBlocks; // [esp+8h] [ebp-20h]
-    int *oldBreakChildCount; // [esp+Ch] [ebp-1Ch]
-    bool hasDefault; // [esp+13h] [ebp-15h]
+    [[maybe_unused]] scr_block_s **breakChildBlocks; // [esp+8h] [ebp-20h]
+    [[maybe_unused]] int *oldBreakChildCount; // [esp+Ch] [ebp-1Ch]
+    [[maybe_unused]] bool hasDefault; // [esp+13h] [ebp-15h]
     scr_block_s *currentBlock; // [esp+14h] [ebp-14h] BYREF
-    scr_block_s **childBlocks; // [esp+18h] [ebp-10h]
-    scr_block_s **oldBreakChildBlocks; // [esp+1Ch] [ebp-Ch]
-    int childCount; // [esp+20h] [ebp-8h]
-    int abortLevel; // [esp+24h] [ebp-4h]
+    [[maybe_unused]] scr_block_s **childBlocks; // [esp+18h] [ebp-10h]
+    [[maybe_unused]] scr_block_s **oldBreakChildBlocks; // [esp+1Ch] [ebp-Ch]
+    [[maybe_unused]] int childCount; // [esp+20h] [ebp-8h]
+    [[maybe_unused]] int abortLevel; // [esp+24h] [ebp-4h]
 
     abortLevel = 3;
     oldBreakChildBlocks = scrCompileGlob.breakChildBlocks;
@@ -4162,7 +4162,7 @@ void __cdecl InitThread(int type)
 
 void __cdecl EmitSafeSetVariableField(sval_u expr, sval_u sourcePos, scr_block_s *block)
 {
-    int index; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int index; // [esp+0h] [ebp-4h]
 
     index = Scr_FindLocalVarIndex(expr.stringValue, sourcePos, 1, block);
     if (index)
@@ -4228,8 +4228,8 @@ void __cdecl EmitThreadInternal(
 void __cdecl EmitDeveloperThread(sval_u val, sval_u *stmttblock)
 {
     unsigned int Variable; // eax
-    unsigned int savedChecksum; // [esp+4h] [ebp-8h]
-    char *begin_pos; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] unsigned int savedChecksum; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] char *begin_pos; // [esp+8h] [ebp-4h]
 
     unsigned int posId;
     unsigned int threadId;
@@ -4261,7 +4261,7 @@ void __cdecl EmitDeveloperThread(sval_u val, sval_u *stmttblock)
 void __cdecl EmitNormalThread(sval_u val, sval_u *stmttblock)
 {
     unsigned int Variable; // eax
-    VariableValueInternal_u threadId; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] VariableValueInternal_u threadId; // [esp+0h] [ebp-4h]
 
     InitThread(0);
     Variable = FindVariable(scrCompileGlob.fileId, val.node[1].sourcePosValue);
@@ -4273,7 +4273,7 @@ void __cdecl EmitNormalThread(sval_u val, sval_u *stmttblock)
 void __cdecl EmitThread(sval_u val)
 {
     char *v1; // eax
-    unsigned int v2; // [esp-4h] [ebp-8h]
+    [[maybe_unused]] unsigned int v2; // [esp-4h] [ebp-8h]
 
     switch (val.node[0].type)
     {
@@ -4307,7 +4307,7 @@ void __cdecl EmitThread(sval_u val)
 
 void __cdecl EmitThreadList(sval_u val)
 {
-    sval_u *node; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] sval_u *node; // [esp+0h] [ebp-4h]
 
     scrCompileGlob.in_developer_thread = false;
 
@@ -4330,12 +4330,12 @@ void __cdecl EmitThreadList(sval_u val)
 
 void __cdecl LinkThread(unsigned int threadId, VariableValue *pos, bool allowFarCall)
 {
-    VariableValue v3; // [esp+0h] [ebp-28h]
-    unsigned int valueId; // [esp+Ch] [ebp-1Ch]
-    unsigned int countId; // [esp+10h] [ebp-18h]
-    unsigned int type; // [esp+14h] [ebp-14h]
-    int i; // [esp+18h] [ebp-10h]
-    VariableValueInternal_u *value; // [esp+24h] [ebp-4h]
+    [[maybe_unused]] VariableValue v3; // [esp+0h] [ebp-28h]
+    [[maybe_unused]] unsigned int valueId; // [esp+Ch] [ebp-1Ch]
+    [[maybe_unused]] unsigned int countId; // [esp+10h] [ebp-18h]
+    [[maybe_unused]] unsigned int type; // [esp+14h] [ebp-14h]
+    [[maybe_unused]] int i; // [esp+18h] [ebp-10h]
+    [[maybe_unused]] VariableValueInternal_u *value; // [esp+24h] [ebp-4h]
 
     countId = FindVariable(threadId, 0);
     if (countId)
@@ -4382,10 +4382,10 @@ void __cdecl LinkThread(unsigned int threadId, VariableValue *pos, bool allowFar
 void __cdecl LinkFile(unsigned int fileId)
 {
     VariableValue pos; // [esp+8h] [ebp-1Ch] BYREF
-    unsigned int posId; // [esp+10h] [ebp-14h]
-    unsigned int threadId; // [esp+14h] [ebp-10h]
+    [[maybe_unused]] unsigned int posId; // [esp+10h] [ebp-14h]
+    [[maybe_unused]] unsigned int threadId; // [esp+14h] [ebp-10h]
     VariableValue emptyValue; // [esp+18h] [ebp-Ch] BYREF
-    unsigned int threadPtr; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] unsigned int threadPtr; // [esp+20h] [ebp-4h]
 
     for (threadPtr = FindFirstSibling(fileId); threadPtr; threadPtr = FindNextSibling(threadPtr))
     {
@@ -4432,24 +4432,24 @@ void __cdecl ScriptCompile(
     char *v6; // eax
     unsigned int Variable_DONE; // eax
     VariableValueInternal_u *VariableValueAddress_DONE; // esi
-    PrecacheEntry *v9; // [esp+4h] [ebp-54h]
-    int j; // [esp+10h] [ebp-48h]
+    [[maybe_unused]] PrecacheEntry *v9; // [esp+4h] [ebp-54h]
+    [[maybe_unused]] int j; // [esp+10h] [ebp-48h]
     VariableValue pos; // [esp+14h] [ebp-44h] BYREF
-    unsigned __int16 filename; // [esp+1Ch] [ebp-3Ch]
-    PrecacheEntry *precachescript; // [esp+20h] [ebp-38h]
-    int far_function_count; // [esp+24h] [ebp-34h]
-    PrecacheEntry *precachescript2; // [esp+28h] [ebp-30h]
-    unsigned int toThreadId; // [esp+2Ch] [ebp-2Ch]
-    unsigned int toPosId; // [esp+30h] [ebp-28h]
-    unsigned int posId; // [esp+34h] [ebp-24h]
-    unsigned __int16 name; // [esp+38h] [ebp-20h]
-    unsigned int threadId; // [esp+3Ch] [ebp-1Ch]
-    PrecacheEntry *precachescriptList; // [esp+40h] [ebp-18h]
-    int i; // [esp+44h] [ebp-14h]
-    unsigned int includeFileId; // [esp+48h] [ebp-10h]
+    [[maybe_unused]] unsigned __int16 filename; // [esp+1Ch] [ebp-3Ch]
+    [[maybe_unused]] PrecacheEntry *precachescript; // [esp+20h] [ebp-38h]
+    [[maybe_unused]] int far_function_count; // [esp+24h] [ebp-34h]
+    [[maybe_unused]] PrecacheEntry *precachescript2; // [esp+28h] [ebp-30h]
+    [[maybe_unused]] unsigned int toThreadId; // [esp+2Ch] [ebp-2Ch]
+    [[maybe_unused]] unsigned int toPosId; // [esp+30h] [ebp-28h]
+    [[maybe_unused]] unsigned int posId; // [esp+34h] [ebp-24h]
+    [[maybe_unused]] unsigned __int16 name; // [esp+38h] [ebp-20h]
+    [[maybe_unused]] unsigned int threadId; // [esp+3Ch] [ebp-1Ch]
+    [[maybe_unused]] PrecacheEntry *precachescriptList; // [esp+40h] [ebp-18h]
+    [[maybe_unused]] int i; // [esp+44h] [ebp-14h]
+    [[maybe_unused]] unsigned int includeFileId; // [esp+48h] [ebp-10h]
     VariableValue value; // [esp+4Ch] [ebp-Ch] BYREF
-    unsigned int threadPtr; // [esp+54h] [ebp-4h]
-    int entriesCounta; // [esp+70h] [ebp+18h]
+    [[maybe_unused]] unsigned int threadPtr; // [esp+54h] [ebp-4h]
+    [[maybe_unused]] int entriesCounta; // [esp+70h] [ebp+18h]
 
     scrCompileGlob.fileId = fileId;
     scrCompileGlob.bConstRefCount = 0;
