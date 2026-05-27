@@ -129,10 +129,10 @@ set(SCRIPT_PORTABLE_SOURCES
     # scr_vm.cpp packs pointers into 32-bit slots throughout
     # (VariableStackBuffer * from int, char * from int). Land after
     # script-VM 64-bit widening pass.
-    # scr_yacc.cpp has hundreds of `.type = OP_*` assignments that
-    # need Enum_t casts, plus HashEntry_unnamed_type_u return mismatch,
-    # multi-char chars, and 32-bit ptr-as-int storage. Land after
-    # Bison stub layer pass.
+    # scr_yacc.cpp uses flex-generated yy_create_buffer (defined in
+    # a separate scr_lex.cpp not included), multi-char char literals,
+    # HashEntry_unnamed_type_u init mismatch, and StringValue overload
+    # resolution issues. Land after flex/lex shim layer.
     "${SRC_DIR}/script/scr_yacc2.cpp"
 )
 

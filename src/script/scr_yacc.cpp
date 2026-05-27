@@ -6064,7 +6064,7 @@ unsigned __int8 g_parse_user;
 char ch_buf[16386];
 
 template <typename T>
-static inline T RETURN_ARG1(T crap) { return crap; }
+static inline Enum_t RETURN_ARG1(T crap) { return (Enum_t)crap; }
 
 HashEntry_unnamed_type_u __cdecl LowerCase(unsigned int stringValue)
 {
