@@ -148,6 +148,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_draw_sunshadow.cpp"
     "${SRC_DIR}/gfx_d3d/r_draw_xmodel.cpp"
     "${SRC_DIR}/gfx_d3d/r_marks.cpp"
+    "${SRC_DIR}/gfx_d3d/r_meshdata.cpp"
     "${SRC_DIR}/gfx_d3d/r_pretess.cpp"
     "${SRC_DIR}/gfx_d3d/r_reflection_probe.cpp"
     "${SRC_DIR}/gfx_d3d/r_setstate_d3d.cpp"

@@ -1674,10 +1674,8 @@ unsigned int Image_CountMipmapsForFile(const GfxImageFileHeader * /*hdr*/) { ret
 
 // r_meshdata satellite stubs.
 struct GfxMeshData;
-unsigned char *R_GetMeshVerts(GfxMeshData * /*mesh*/, unsigned short /*baseVertex*/) { return nullptr; }
-void R_BeginMeshVerts(GfxMeshData * /*mesh*/) {}
-char R_ReserveMeshVerts(GfxMeshData * /*mesh*/, int /*count*/, unsigned short * /*out*/) { return 0; }
-char R_ReserveMeshIndices(GfxMeshData * /*mesh*/, int /*count*/, r_double_index_t ** /*out*/) { return 0; }
+// R_GetMeshVerts / R_BeginMeshVerts / R_ReserveMeshVerts /
+// R_ReserveMeshIndices provided by src/gfx_d3d/r_meshdata.cpp now.
 
 // r_light satellite stubs.
 struct GfxSurface;
@@ -1810,6 +1808,11 @@ GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 
+// r_meshdata satellite stubs.
+void R_SetVertex2d(GfxVertex * /*v*/, float, float, float, float, unsigned int) {}
+int R_BeginMaterial(GfxCmdBufState * /*s*/, const Material * /*m*/, MaterialTechniqueType /*t*/) { return 0; }
+void R_SetMeshStream(GfxCmdBufState * /*s*/, GfxMeshData * /*m*/) {}
+
 // r_draw_bsp / r_draw_staticmodel satellite stubs.
 void R_SetLightmap(GfxCmdBufContext /*ctx*/, unsigned int /*idx*/) {}
 void R_SetSamplerState(GfxCmdBufState * /*state*/, unsigned int /*idx*/, unsigned char /*s*/) {}
@@ -1830,10 +1833,10 @@ void R_SetModelLightingCoordsForSource(unsigned short /*h*/, GfxCmdBufSourceStat
 void R_AddSceneDObj(unsigned int /*entnum*/, unsigned int /*viewIndex*/) {}
 GfxViewParms *R_AllocViewParms() { return nullptr; }
 void R_InitDynamicMesh(GfxMeshData * /*mesh*/, unsigned int, unsigned int, unsigned int) {}
-void R_SetQuadMeshData(GfxMeshData * /*mesh*/, float, float, float, float, float, float, float, float, unsigned int) {}
+// R_SetQuadMeshData provided by src/gfx_d3d/r_meshdata.cpp now.
 void R_ShutdownDynamicMesh(GfxMeshData * /*mesh*/) {}
 void R_AddAllSceneEntSurfacesSpotShadow(const GfxViewInfo * /*v*/, unsigned int /*a*/, unsigned int /*b*/) {}
-GfxMeshGlobals gfxMeshGlob{};
+// gfxMeshGlob provided by src/gfx_d3d/r_meshdata.cpp now.
 
 // r_draw_material / r_draw_shadowable_light / r_draw_sunshadow satellite stubs.
 void R_SetGameTime(GfxCmdBufSourceState * /*src*/, float /*t*/) {}
@@ -1900,7 +1903,7 @@ void R_SetVertexShader(GfxCmdBufState * /*s*/, const MaterialVertexShader * /*vs
 // rb_depthprepass satellite stubs.
 #include <gfx_d3d/r_meshdata.h>
 void R_DrawCall(void (*)(const void *, GfxCmdBufContext, GfxCmdBufContext), const void *, GfxCmdBufSourceState *, const GfxViewInfo *, const GfxDrawSurfListInfo *, const GfxViewParms *, GfxCmdBuf *, GfxCmdBuf *) {}
-void R_DrawQuadMesh(GfxCmdBufContext /*ctx*/, const Material * /*m*/, GfxMeshData * /*mesh*/) {}
+// R_DrawQuadMesh provided by src/gfx_d3d/r_meshdata.cpp now.
 
 // rb_sky satellite stubs.
 #include <gfx_d3d/rb_backend.h>
