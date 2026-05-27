@@ -2,7 +2,7 @@
 #include <universal/assertive.h>
 #include "r_init.h"
 
-#define INITGUID 
+#define INITGUID
 #include <ddraw.h>
 
 unsigned int s_maxReportedTexMem;
