@@ -108,7 +108,8 @@ set(SCRIPT_PORTABLE_SOURCES
     # them back via `(const char *)(int)stored`. Requires bytecode
     # widening to 64-bit pointer slots before landing.
     "${SRC_DIR}/script/scr_const.cpp"
-    # scr_evaluate.cpp depends on scr_debugger / scr_compiler / scr_parser
+    "${SRC_DIR}/script/scr_evaluate.cpp"
+    # scr_evaluate.cpp old held-back comment kept for history
     # batch (debugger_node*, Scr_CompileStatement, Scr_ClearDebugExpr,
     # scrCompileGlob, scrVmDebugPub). Land together.
     # scr_debugger.cpp stores Scr_WatchElement_s* in 32-bit elementList

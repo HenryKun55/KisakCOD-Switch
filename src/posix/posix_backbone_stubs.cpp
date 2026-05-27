@@ -528,7 +528,7 @@ void TRACK_r_staticmodelcache() {}
 // void TRACK_rb_stats() {}
 // void TRACK_rb_sunshadow() {}  // provided by rb_sunshadow.cpp now
 void TRACK_scr_debugger() {}
-void TRACK_scr_evaluate() {}
+// TRACK_scr_evaluate provided by src/script/scr_evaluate.cpp now.
 // TRACK_scr_parser provided by src/script/scr_parser.cpp now.
 void TRACK_scr_vm() {}
 void TRACK_snd_driver() {}
@@ -1319,16 +1319,16 @@ struct HunkUser;
 // unsigned int Scr_AllocArray() { return 0; }  // provided by scr_variable/scr_stringlist now
 void Scr_ClearErrorMessage() {}
 // unsigned int Scr_CreateCanonicalFilename(const char * /*filename*/) { return 0; }  // provided by scr_variable/scr_stringlist now
-void Scr_EndLoadEvaluate() {}
+// Scr_EndLoadEvaluate provided by src/script/scr_evaluate.cpp now.
 // VariableValue Scr_EvalVariable(unsigned int /*id*/) { VariableValue v{}; return v; }  // provided by scr_variable/scr_stringlist now
 // Scr_InitAllocNode provided by src/script/scr_parsetree.cpp now.
 void Scr_InitDebugger() {}
 void Scr_InitDebuggerMain() {}
-void Scr_InitEvaluate() {}
+// Scr_InitEvaluate provided by src/script/scr_evaluate.cpp now.
 // Scr_InitOpcodeLookup provided by src/script/scr_parser.cpp now.
 void Scr_ShutdownDebugger() {}
 void Scr_ShutdownDebuggerMain() {}
-void Scr_ShutdownEvaluate() {}
+// Scr_ShutdownEvaluate provided by src/script/scr_evaluate.cpp now.
 // Scr_ShutdownOpcodeLookup provided by src/script/scr_parser.cpp now.
 
 // --- Compiler/parser ------------------------------------------------------
@@ -1778,14 +1778,24 @@ struct GfxImage;
 // pixelCostMode provided by src/gfx_d3d/rb_pixelcost.cpp now.
 vidConfig_t vidConfig{};
 
+// scr_evaluate satellite stubs.
+#include <script/scr_compiler.h>
+#include <csetjmp>
+bool Scr_RefToVariable(unsigned int /*id*/, int /*isObject*/) { return false; }
+void Scr_ClearOutParams() {}
+void Scr_CompileStatement(sval_u /*parseData*/) {}
+int GetExpressionCount(sval_u /*exprlist*/) { return 0; }
+scrCompileGlob_t scrCompileGlob{};
+jmp_buf g_script_error[33]{};
+
 // scr_parsetree / scr_parser satellite stubs.
 #include <script/scr_evaluate.h>
 #include <script/scr_vm.h>
 #include <script/scr_debugger.h>
 scrVmDebugPub_t scrVmDebugPub{};
-debugger_sval_s *g_debugExprHead = nullptr;
-void Scr_FreeDebugExprValue(sval_u /*val*/) {}
-void Scr_ClearDebugExprValue(sval_u /*val*/) {}
+// g_debugExprHead provided by src/script/scr_evaluate.cpp now.
+// Scr_FreeDebugExprValue provided by src/script/scr_evaluate.cpp now.
+// Scr_ClearDebugExprValue provided by src/script/scr_evaluate.cpp now.
 bool Scr_IgnoreErrors() { return false; }
 
 // r_light satellite stubs.
