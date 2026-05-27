@@ -8,11 +8,11 @@
 
 void __cdecl R_DrawSunShadowMapCallback(const void *userData, GfxCmdBufContext context, GfxCmdBufContext prepassContext)
 {
-    int height; // [esp+10h] [ebp-28h]
-    int width; // [esp+14h] [ebp-24h]
-    int verticalOffset; // [esp+18h] [ebp-20h]
+    [[maybe_unused]] int height; // [esp+10h] [ebp-28h]
+    [[maybe_unused]] int width; // [esp+14h] [ebp-24h]
+    [[maybe_unused]] int verticalOffset; // [esp+18h] [ebp-20h]
     RECT rect; // [esp+24h] [ebp-14h] BYREF
-    const GfxSunShadowPartition *partition; // [esp+34h] [ebp-4h]
+    [[maybe_unused]] const GfxSunShadowPartition *partition; // [esp+34h] [ebp-4h]
 
     partition = (const GfxSunShadowPartition * )userData;
     R_SetRenderTarget(context, R_RENDERTARGET_SHADOWMAP_SUN);
@@ -42,7 +42,7 @@ void R_DrawSunShadowMap(
     unsigned int partitionIndex,
     GfxCmdBuf *cmdBuf)
 {
-    float x; // [esp+14h] [ebp-F28h]
+    [[maybe_unused]] float x; // [esp+14h] [ebp-F28h]
     GfxCmdBufSourceState state; // [esp+20h] [ebp-F1Ch] BYREF
 
     R_InitCmdBufSourceState(&state, &viewInfo->input, 0);
@@ -81,7 +81,7 @@ void __cdecl DrawSunDirectionDebug(const float *viewOrg, const float *viewForwar
     float mins[3]; // [esp+3Ch] [ebp-6Ch] BYREF
     float zColor[4]; // [esp+48h] [ebp-60h] BYREF
     float xColor[4]; // [esp+58h] [ebp-50h] BYREF
-    float ext[3]; // [esp+68h] [ebp-40h]
+    [[maybe_unused]] float ext[3]; // [esp+68h] [ebp-40h]
     float ydir[3]; // [esp+74h] [ebp-34h] BYREF
     float maxs[3]; // [esp+80h] [ebp-28h] BYREF
     float yColor[4]; // [esp+8Ch] [ebp-1Ch] BYREF

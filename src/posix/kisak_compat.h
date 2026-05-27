@@ -552,6 +552,15 @@ struct IDirect3DDevice9 {
 #ifndef D3DRS_TWOSIDEDSTENCILMODE
 #define D3DRS_TWOSIDEDSTENCILMODE 185
 #endif
+#ifndef D3DCLEAR_TARGET
+#define D3DCLEAR_TARGET 1
+#endif
+#ifndef D3DCLEAR_ZBUFFER
+#define D3DCLEAR_ZBUFFER 2
+#endif
+#ifndef D3DCLEAR_STENCIL
+#define D3DCLEAR_STENCIL 4
+#endif
 typedef int  _D3DFORMAT;  // enum in DX9 SDK; opaque int here
 typedef int  D3DFORMAT;
 typedef int  _D3DCUBEMAP_FACES;

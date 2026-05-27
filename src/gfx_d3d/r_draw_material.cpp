@@ -11,10 +11,10 @@ int __cdecl R_SetupMaterial(
     const GfxDrawSurfListInfo *info,
     GfxDrawSurf drawSurf)
 {
-    unsigned __int64 v5; // rax
-    GfxDrawSurf overrideDrawSurf; // [esp+8h] [ebp-18h]
-    MaterialTechniqueType baseTechType; // [esp+14h] [ebp-Ch]
-    unsigned int surfType; // [esp+18h] [ebp-8h]
+    [[maybe_unused]] unsigned __int64 v5; // rax
+    [[maybe_unused]] GfxDrawSurf overrideDrawSurf; // [esp+8h] [ebp-18h]
+    [[maybe_unused]] MaterialTechniqueType baseTechType; // [esp+14h] [ebp-Ch]
+    [[maybe_unused]] unsigned int surfType; // [esp+18h] [ebp-8h]
 
     surfType = drawSurf.fields.surfType;
     baseTechType = info->baseTechType;
@@ -64,8 +64,8 @@ int __cdecl R_SetupMaterial(
 
 int __cdecl R_SetPrepassMaterial(GfxCmdBufContext context, GfxDrawSurf drawSurf, MaterialTechniqueType techType)
 {
-    const MaterialTechnique *technique; // [esp+8h] [ebp-Ch]
-    Material *material; // [esp+Ch] [ebp-8h]
+    [[maybe_unused]] const MaterialTechnique *technique; // [esp+8h] [ebp-Ch]
+    [[maybe_unused]] Material *material; // [esp+Ch] [ebp-8h]
 
     if (drawSurf.fields.prepass == MTL_PREPASS_NONE)
         return 0;
@@ -92,8 +92,8 @@ int __cdecl R_SetPrepassMaterial(GfxCmdBufContext context, GfxDrawSurf drawSurf,
 
 int __cdecl R_SetMaterial(GfxCmdBufContext context, GfxDrawSurf drawSurf, MaterialTechniqueType techType)
 {
-    const MaterialTechnique *technique; // [esp+8h] [ebp-8h]
-    Material *material; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] const MaterialTechnique *technique; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] Material *material; // [esp+Ch] [ebp-4h]
 
     material = rgp.sortedMaterials[drawSurf.fields.materialSortedIndex];
     technique = Material_GetTechnique(material, techType);
@@ -126,7 +126,7 @@ int __cdecl R_SetMaterial(GfxCmdBufContext context, GfxDrawSurf drawSurf, Materi
 
 int __cdecl R_UpdateMaterialTime(GfxCmdBufSourceState *source, float materialTime)
 {
-    float gameTime; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] float gameTime; // [esp+4h] [ebp-4h]
 
     if (source->materialTime == materialTime)
         return 0;

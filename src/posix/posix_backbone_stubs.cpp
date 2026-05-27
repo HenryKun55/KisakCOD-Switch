@@ -1781,7 +1781,7 @@ void R_SetInputCodeConstantFromVec4(GfxCmdBufInput * /*input*/, CodeConstant /*c
 // rb_spotshadow / rb_sunshadow satellite stubs.
 void RB_DrawLines2D(int /*count*/, int /*colorCount*/, const GfxPointVertex * /*verts*/) {}
 struct GfxCmdBuf;
-void R_DrawSunShadowMap(const GfxViewInfo * /*viewInfo*/, unsigned int /*cascade*/, GfxCmdBuf * /*cmd*/) {}
+// R_DrawSunShadowMap provided by src/gfx_d3d/r_draw_sunshadow.cpp now.
 void R_UpdateCodeConstant(GfxCmdBufSourceState * /*src*/, CodeConstant /*c*/, float /*x*/, float /*y*/, float /*z*/, float /*w*/) {}
 enum MaterialTextureSource : unsigned int;
 struct GfxImage;
@@ -1809,6 +1809,9 @@ bool Scr_IgnoreErrors() { return false; }
 GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
+
+// r_draw_material / r_draw_shadowable_light / r_draw_sunshadow satellite stubs.
+void R_SetGameTime(GfxCmdBufSourceState * /*src*/, float /*t*/) {}
 
 // r_bsp satellite stubs.
 #include <gfx_d3d/r_bsp.h>

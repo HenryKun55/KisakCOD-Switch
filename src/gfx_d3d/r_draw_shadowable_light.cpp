@@ -14,12 +14,12 @@ void __cdecl R_SetLightProperties(
     LightHasShadowMap hasShadowMap,
     float spotShadowFade)
 {
-    float spotDotScale; // [esp+54h] [ebp-30h]
+    [[maybe_unused]] float spotDotScale; // [esp+54h] [ebp-30h]
     float lightOrigin[3]; // [esp+58h] [ebp-2Ch] BYREF
     float diffuseColor[3]; // [esp+64h] [ebp-20h] BYREF
-    float spotExponent; // [esp+70h] [ebp-14h]
+    [[maybe_unused]] float spotExponent; // [esp+70h] [ebp-14h]
     float specularColor[3]; // [esp+74h] [ebp-10h] BYREF
-    float spotDotBias; // [esp+80h] [ebp-4h]
+    [[maybe_unused]] float spotDotBias; // [esp+80h] [ebp-4h]
 
     iassert(source->viewMode == VIEW_MODE_3D);
     iassert( light );
@@ -83,13 +83,13 @@ void __cdecl R_SetShadowableLight(
     unsigned int shadowableLightIndex,
     const GfxViewInfo *viewInfo)
 {
-    float falloffScale; // [esp+28h] [ebp-28h]
-    float spotShadowFade; // [esp+30h] [ebp-20h]
-    GfxLightDef *def; // [esp+34h] [ebp-1Ch]
-    float falloffShift; // [esp+3Ch] [ebp-14h]
-    const GfxSpotShadow *spotShadow; // [esp+44h] [ebp-Ch]
-    const GfxMatrix *lookupMatrix; // [esp+48h] [ebp-8h]
-    LightHasShadowMap hasShadowMap; // [esp+4Ch] [ebp-4h]
+    [[maybe_unused]] float falloffScale; // [esp+28h] [ebp-28h]
+    [[maybe_unused]] float spotShadowFade; // [esp+30h] [ebp-20h]
+    [[maybe_unused]] GfxLightDef *def; // [esp+34h] [ebp-1Ch]
+    [[maybe_unused]] float falloffShift; // [esp+3Ch] [ebp-14h]
+    [[maybe_unused]] const GfxSpotShadow *spotShadow; // [esp+44h] [ebp-Ch]
+    [[maybe_unused]] const GfxMatrix *lookupMatrix; // [esp+48h] [ebp-8h]
+    [[maybe_unused]] LightHasShadowMap hasShadowMap; // [esp+4Ch] [ebp-4h]
 
     if (shadowableLightIndex >= 0xFF)
         MyAssertHandler(
@@ -164,8 +164,8 @@ void __cdecl R_SetShadowableLight(
 
 void __cdecl R_SetDrawSurfsShadowableLight(GfxCmdBufSourceState *source, const GfxDrawSurfListInfo *info)
 {
-    unsigned int shadowableLightIndex; // [esp+4h] [ebp-14h]
-    const GfxLight *light; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] unsigned int shadowableLightIndex; // [esp+4h] [ebp-14h]
+    [[maybe_unused]] const GfxLight *light; // [esp+14h] [ebp-4h]
 
     if (info->light)
     {
