@@ -97,6 +97,7 @@ set(SCRIPT_PORTABLE_SOURCES
     "${SRC_DIR}/script/scr_const.cpp"
     "${SRC_DIR}/script/scr_main.cpp"
     "${SRC_DIR}/script/scr_memorytree.cpp"
+    "${SRC_DIR}/script/scr_parsetree.cpp"
     "${SRC_DIR}/script/scr_stringlist.cpp"
     "${SRC_DIR}/script/scr_variable.cpp"
 )

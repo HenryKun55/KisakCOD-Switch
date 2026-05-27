@@ -1342,7 +1342,7 @@ void Scr_ClearErrorMessage() {}
 // unsigned int Scr_CreateCanonicalFilename(const char * /*filename*/) { return 0; }  // provided by scr_variable/scr_stringlist now
 void Scr_EndLoadEvaluate() {}
 // VariableValue Scr_EvalVariable(unsigned int /*id*/) { VariableValue v{}; return v; }  // provided by scr_variable/scr_stringlist now
-void Scr_InitAllocNode() {}
+// Scr_InitAllocNode provided by src/script/scr_parsetree.cpp now.
 void Scr_InitDebugger() {}
 void Scr_InitDebuggerMain() {}
 void Scr_InitEvaluate() {}
@@ -1800,6 +1800,14 @@ void R_SetCodeImageTexture(GfxCmdBufSourceState * /*src*/, MaterialTextureSource
 GfxRenderTarget gfxRenderTargets[17]{};
 int pixelCostMode = 0;
 vidConfig_t vidConfig{};
+
+// scr_parsetree satellite stubs.
+#include <script/scr_evaluate.h>
+#include <script/scr_vm.h>
+scrVmDebugPub_t scrVmDebugPub{};
+debugger_sval_s *g_debugExprHead = nullptr;
+void Scr_FreeDebugExprValue(sval_u /*val*/) {}
+void Scr_ClearDebugExprValue(sval_u /*val*/) {}
 
 // r_light satellite stubs.
 #include <gfx_d3d/r_scene.h>
