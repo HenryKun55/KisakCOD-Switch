@@ -152,6 +152,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_marks.cpp"
     "${SRC_DIR}/gfx_d3d/r_material.cpp"
     "${SRC_DIR}/gfx_d3d/r_rendercmds.cpp"
+    "${SRC_DIR}/gfx_d3d/r_scene.cpp"
     "${SRC_DIR}/gfx_d3d/r_dpvs.cpp"
     "${SRC_DIR}/gfx_d3d/r_meshdata.cpp"
     "${SRC_DIR}/gfx_d3d/r_pretess.cpp"

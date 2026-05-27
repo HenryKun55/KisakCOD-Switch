@@ -277,9 +277,9 @@ void R_ComErrorCleanup() {}
 // R_EndRemoteScreenUpdate provided by src/gfx_d3d/r_rendercmds.cpp now.
 void R_InitThreads() {}
 // R_PopRemoteScreenUpdate provided by src/gfx_d3d/r_rendercmds.cpp now.
-void R_SetEndTime(int /*endTime*/) {}
+// R_SetEndTime provided by src/gfx_d3d/r_scene.cpp now.
 // R_SyncRenderThread provided by src/gfx_d3d/r_rendercmds.cpp now.
-void R_WaitEndTime() {}
+// R_WaitEndTime provided by src/gfx_d3d/r_scene.cpp now.
 // void R_WaitWorkerCmds() {}
 
 // =========================================================================
@@ -515,7 +515,7 @@ void TRACK_r_init() {}
 // TRACK_r_material provided by src/gfx_d3d/r_material.cpp now.
 // void TRACK_r_model() {}
 // TRACK_r_rendercmds provided by src/gfx_d3d/r_rendercmds.cpp now.
-void TRACK_r_scene() {}
+// TRACK_r_scene provided by src/gfx_d3d/r_scene.cpp now.
 void TRACK_r_screenshot() {}
 void TRACK_r_staticmodelcache() {}
 // void TRACK_r_water() {}
@@ -982,7 +982,7 @@ void DB_EnumXAssets(XAssetType /*type*/, void (*)(XAssetHeader, void*) /*cb*/, v
 // void R_ArchiveFogState(MemoryFile * /*memFile*/) {}  // provided by gfx_d3d batch now
 void R_EndRegistration() {}
 // R_LoadWorld provided by src/gfx_d3d/r_bsp.cpp now.
-void R_RenderScene(const refdef_s * /*refdef*/) {}
+// R_RenderScene provided by src/gfx_d3d/r_scene.cpp now.
 void R_UpdateTeamColors(int /*localClientNum*/, const float * /*color1*/, const float * /*color2*/) {}
 
 // char *SEH_SafeTranslateString(char *str) { return str ? str : (char*)""; }  // provided by stringed_hooks.cpp now
@@ -1225,7 +1225,7 @@ struct dxJointBall;
 // XModelGetBounds now provided by xanim/xmodel.cpp.
 
 // R
-unsigned int R_GetLocalClientNum() { return 0; }
+// R_GetLocalClientNum provided by src/gfx_d3d/r_scene.cpp now.
 
 // SL (stringlist)
 // unsigned int SL_FindString(const char * /*str*/) { return 0; }  // provided by scr_variable/scr_stringlist now
@@ -1520,7 +1520,7 @@ DObjAnimMat *CG_DObjCalcPose(const cpose_t *, const DObj_s *, int32_t *) { retur
 // CG_InitView provided by src/cgame_mp/cg_view_mp.cpp now.
 // CG_ClearUnion provided by src/cgame_mp/cg_ents_mp.cpp now.
 // CG_GameMessage provided by src/cgame_mp/cg_main_mp.cpp now.
-void   R_UnlinkEntity(unsigned int, unsigned int) {}
+// R_UnlinkEntity provided by src/gfx_d3d/r_scene.cpp now.
 // void   AimAssist_Setup(int) {}  // provided by aim_assist.cpp now
 // R_InitSceneData provided by src/gfx_d3d/r_dpvs.cpp now.
 // XModel *R_RegisterModel(const char *) { return nullptr; }
@@ -1547,12 +1547,12 @@ void   SND_FadeAllSounds(float, int) {}
 
 // float BG_GetSpeed(const playerState_s *, int) { return 0.f; }  // provided by bg_pmove.cpp now
 // void  FX_RewindTo(int, int) {}
-void  R_ClearScene(unsigned int) {}
+// R_ClearScene provided by src/gfx_d3d/r_scene.cpp now.
 // CG_DrawActive provided by src/cgame_mp/cg_draw_mp.cpp now.
 // float BG_GetBobCycle(const playerState_s *) { return 0.f; }  // provided by bg_weapons.cpp now
 // void  FX_BeginUpdate(int) {}
 // void  Key_AddCatcher(int, int) {}  // provided by cl_keys.cpp now
-void  R_SetLodOrigin(const refdef_s *) {}
+// R_SetLodOrigin provided by src/gfx_d3d/r_scene.cpp now.
 // CG_VehGunnerPOV provided by src/cgame_mp/cg_vehicles_mp.cpp now.
 // void  CG_AddViewWeapon(int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // CG_ProcessEntity provided by src/cgame_mp/cg_ents_mp.cpp now.
@@ -1587,8 +1587,8 @@ dxBody *Phys_ObjLoad(PhysWorld /*w*/, MemoryFile * /*memFile*/) { return nullptr
 void Phys_ObjSave(dxBody * /*body*/, MemoryFile * /*memFile*/) {}
 
 // void DynEnt_LoadEntities() {}
-void R_LinkDynEnt(unsigned int /*idx*/, DynEntityDrawType /*type*/, float * /*mins*/, float * /*maxs*/) {}
-void R_UnlinkDynEnt(unsigned int /*idx*/, DynEntityDrawType /*type*/) {}
+// R_LinkDynEnt provided by src/gfx_d3d/r_scene.cpp now.
+// R_UnlinkDynEnt provided by src/gfx_d3d/r_scene.cpp now.
 void Phys_AddJitterRegion(PhysWorld /*w*/, const float * /*pos*/, float /*r*/, float /*j1*/, float /*j2*/, float /*j3*/) {}
 struct XModelPieces;
 XModelPieces *XModelPiecesPrecache(const char * /*name*/, void *(* /*alloc*/)(int)) { return nullptr; }
@@ -1675,7 +1675,7 @@ struct GfxViewParms;
 // R_SetupShadowSurfacesDpvs provided by src/gfx_d3d/r_dpvs.cpp now.
 // R_AddWorldSurfacesFrustumOnly provided by src/gfx_d3d/r_dpvs.cpp now.
 // R_DpvsPlaneMinSignedDistToBox provided by src/gfx_d3d/r_dpvs.cpp now.
-void R_SetupViewProjectionMatrices(GfxViewParms * /*viewParms*/) {}
+// R_SetupViewProjectionMatrices provided by src/gfx_d3d/r_scene.cpp now.
 
 // fx_marks satellite stubs (live in fx_update / fx_system).
 struct FxElemVisStateSample;
@@ -1693,10 +1693,10 @@ struct MaterialInfo;
 void Material_GetInfo(Material * /*m*/, MaterialInfo * /*out*/) {}
 struct PhysPreset;
 PhysPreset *FX_RegisterPhysPreset(const char * /*name*/) { return nullptr; }
-void R_AddOmniLightToScene(const float * /*origin*/, float /*radius*/, float /*r*/, float /*g*/, float /*b*/) {}
-void R_AddSpotLightToScene(const float * /*origin*/, const float * /*dir*/, float /*radius*/, float /*r*/, float /*g*/, float /*b*/) {}
+// R_AddOmniLightToScene provided by src/gfx_d3d/r_scene.cpp now.
+// R_AddSpotLightToScene provided by src/gfx_d3d/r_scene.cpp now.
 struct GfxParticleCloud;
-GfxParticleCloud *R_AddParticleCloudToScene(Material * /*material*/) { return nullptr; }
+// R_AddParticleCloudToScene provided by src/gfx_d3d/r_scene.cpp now.
 
 // fx_system satellite stubs.
 struct FxSpatialFrame;
@@ -1741,7 +1741,7 @@ void Sys_WaitForWorkerCmd() {}
 void Sys_SetWorkerCmdEvent() {}
 void Sys_ResetWorkerCmdEvent() {}
 bool Sys_SpawnWorkerThread(void (*)(unsigned int), unsigned int /*idx*/) { return false; }
-bool R_EndFencePending() { return false; }
+// R_EndFencePending provided by src/gfx_d3d/r_scene.cpp now.
 struct GfxSpotShadowEntCmd;
 // R_AddSpotShadowEntCmd provided by src/gfx_d3d/r_spotshadow.cpp now.
 // R_ReleaseThreadOwnership provided by src/gfx_d3d/r_rendercmds.cpp now.
@@ -1790,9 +1790,13 @@ bool Scr_IgnoreErrors() { return false; }
 
 // r_light satellite stubs.
 #include <gfx_d3d/r_scene.h>
-GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
-GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
-GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
+// R_AddDObjSurfaces provided by src/gfx_d3d/r_scene.cpp now.
+// R_AddBModelSurfaces provided by src/gfx_d3d/r_scene.cpp now.
+// R_AddXModelSurfaces provided by src/gfx_d3d/r_scene.cpp now.
+
+// r_scene satellite stubs.
+bool R_Cinematic_IsStarted() { return false; }
+bool R_Cinematic_IsUnderrun() { return false; }
 
 // r_rendercmds satellite stubs.
 void RB_EndFrame(char /*drawType*/) {}
@@ -1858,11 +1862,11 @@ void R_UncacheStaticModel(unsigned int /*idx*/) {}
 
 // r_dpvs satellite stubs.
 #include <gfx_d3d/r_model_lighting.h>
-unsigned int R_AllocSceneModel() { return 0; }
-void R_AddDObjSurfacesCamera(GfxSceneEntity * /*e*/, short, unsigned char, GfxDrawSurf **, GfxDrawSurf **) {}
+// R_AllocSceneModel provided by src/gfx_d3d/r_scene.cpp now.
+// R_AddDObjSurfacesCamera provided by src/gfx_d3d/r_scene.cpp now.
 // R_AllocModelLighting_Box provided by src/gfx_d3d/r_model_lighting.cpp now.
-void R_AddBModelSurfacesCamera(BModelDrawInfo * /*info*/, const GfxBrushModel * /*m*/, GfxDrawSurf **, GfxDrawSurf **, unsigned int) {}
-void R_AddXModelSurfacesCamera(XModelDrawInfo * /*info*/, const XModel * /*model*/, float * /*p*/, unsigned short, unsigned int, unsigned char, char, int, GfxDrawSurf **, GfxDrawSurf **, unsigned int) {}
+// R_AddBModelSurfacesCamera provided by src/gfx_d3d/r_scene.cpp now.
+// R_AddXModelSurfacesCamera provided by src/gfx_d3d/r_scene.cpp now.
 // R_AllocModelLighting_Sphere provided by src/gfx_d3d/r_model_lighting.cpp now.
 // R_AllocModelLighting_PrimaryLight provided by src/gfx_d3d/r_model_lighting.cpp now.
 
@@ -2028,7 +2032,7 @@ struct GfxStaticModelDrawInst;
 struct MaterialTechnique;
 // Material_GetTechnique provided by src/gfx_d3d/r_rendercmds.cpp now.
 void *R_GetCachedSModelSurf(unsigned int /*idx*/) { return nullptr; }
-void R_AddXModelDebugString(const float * /*origin*/, char * /*text*/) {}
+// R_AddXModelDebugString provided by src/gfx_d3d/r_scene.cpp now.
 void R_CacheStaticModelSurface(unsigned int /*idx*/, unsigned int /*surfIdx*/, const XModelLodInfo * /*lod*/) {}
 // R_AllocStaticModelLighting provided by src/gfx_d3d/r_model_lighting.cpp now.
 
@@ -2094,7 +2098,7 @@ void  R_SyncGpu(int (*)(unsigned long long)) {}
 // float RotationToYaw(const float *) { return 0.f; }  // provided by com_math.cpp now
 // float vectosignedyaw(const float *) { return 0.f; }  // provided by com_math.cpp now
 // YawToAxis provided by src/universal/com_math.cpp now.
-void  R_AddDObjToScene(const DObj_s *, const cpose_t *, unsigned int, unsigned int, float *, float) {}
+// R_AddDObjToScene provided by src/gfx_d3d/r_scene.cpp now.
 // void  BG_PlayerAnimation(int, const entityState_s *, clientInfo_t *) {}  // provided by bg_animation_mp.cpp now
 // void  CG_AddPlayerWeapon(int, const GfxScaledPlacement *, const playerState_s *, centity_s *, int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // bool  BG_IsKnifeMeleeAnim(const clientInfo_t *, int) { return false; }  // provided by bg_animation_mp.cpp now
@@ -2196,13 +2200,13 @@ void Phys_Init() {}
 
 // const char *DObjGetName(const DObj_s *) { return ""; }
 // void  Vec3ScaleMad(float, const float *, float, const float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }  // provided by com_math.cpp now
-GfxBrushModel *R_GetBrushModel(unsigned int) { return nullptr; }
+// R_GetBrushModel provided by src/gfx_d3d/r_scene.cpp now.
 void  CG_DoControllers(const cpose_t *, const DObj_s *, int *) {}
-void  R_LinkDObjEntity(unsigned int, unsigned int, float *, float) {}
+// R_LinkDObjEntity provided by src/gfx_d3d/r_scene.cpp now.
 // void  UnitQuatToAngles(const float *, float *out) { if (out) { out[0] = out[1] = out[2] = 0; } }  // provided by com_math.cpp now
 // PhysPreset *DObjGetPhysPreset(const DObj_s *) { return nullptr; }
 // void  FX_RetriggerEffect(int, FxEffect *, int) {}
-void  R_LinkBModelEntity(unsigned int, unsigned int, GfxBrushModel *) {}
+// R_LinkBModelEntity provided by src/gfx_d3d/r_scene.cpp now.
 // CG_VehProcessEntity provided by src/cgame_mp/cg_vehicles_mp.cpp now.
 // void  DObjSetHidePartBits(DObj_s *, const unsigned int *) {}
 // DObj_s *Com_ClientDObjCreate(DObjModel_s *, unsigned short, XAnimTree_s *, unsigned int, int) { return nullptr; }
@@ -2218,7 +2222,7 @@ void  Phys_ObjBulletImpact(PhysWorld, dxBody *, const float *, const float *, fl
 // void  BG_Player_DoControllersSetup(const entityState_s *, clientInfo_t *, int) {}  // provided by bg_animation_mp.cpp now
 // CG_VehSeatTransformForPlayer provided by src/cgame_mp/cg_vehicles_mp.cpp now.
 // void  FX_MarkEntUpdateHidePartBits(const uint32_t *, const uint32_t *, int, int) {}
-void  R_AddBrushModelToSceneFromAngles(const GfxBrushModel *, const float *, const float *, uint16_t) {}
+// R_AddBrushModelToSceneFromAngles provided by src/gfx_d3d/r_scene.cpp now.
 // void  DObjPhysicsSetCollisionFromXModel(const DObj_s *, PhysWorld, dxBody *) {}
 // Vec3Avg provided by src/universal/com_math.cpp now.
 
@@ -3183,7 +3187,7 @@ r_global_permanent_t rgp{};
 #include <gfx_d3d/r_scene.h>
 // gfxBuf provided by src/gfx_d3d/r_buffers.cpp now.
 // frontEndDataOut provided by src/gfx_d3d/r_rendercmds.cpp now.
-GfxScene scene{};
+// scene provided by src/gfx_d3d/r_scene.cpp now.
 
 struct IDirect3DIndexBuffer9;
 struct GfxReadCmdBuf;

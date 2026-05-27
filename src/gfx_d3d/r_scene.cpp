@@ -52,11 +52,11 @@ void __cdecl TRACK_r_scene()
 
 unsigned int __cdecl R_AllocSceneDObj()
 {
-    unsigned int sceneEntIndex; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] unsigned int sceneEntIndex; // [esp+0h] [ebp-4h]
 
     iassert( rg.registered );
     iassert( rg.inFrame );
-    sceneEntIndex = InterlockedExchangeAdd(&scene.sceneDObjCount, 1);
+    sceneEntIndex = InterlockedExchangeAdd(&scene.sceneDObjCount, 1u);
     if (sceneEntIndex >= 0x200)
     {
         scene.sceneDObjCount = 512;
@@ -67,11 +67,11 @@ unsigned int __cdecl R_AllocSceneDObj()
 
 unsigned int __cdecl R_AllocSceneModel()
 {
-    unsigned int sceneEntIndex; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] unsigned int sceneEntIndex; // [esp+0h] [ebp-4h]
 
     iassert( rg.registered );
     iassert( rg.inFrame );
-    sceneEntIndex = InterlockedExchangeAdd(&scene.sceneModelCount, 1);
+    sceneEntIndex = InterlockedExchangeAdd(&scene.sceneModelCount, 1u);
     if (sceneEntIndex >= 0x400)
     {
         scene.sceneModelCount = 1024;
@@ -82,11 +82,11 @@ unsigned int __cdecl R_AllocSceneModel()
 
 unsigned int __cdecl R_AllocSceneBrush()
 {
-    unsigned int sceneEntIndex; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] unsigned int sceneEntIndex; // [esp+0h] [ebp-4h]
 
     iassert( rg.registered );
     iassert( rg.inFrame );
-    sceneEntIndex = InterlockedExchangeAdd(&scene.sceneBrushCount, 1);
+    sceneEntIndex = InterlockedExchangeAdd(&scene.sceneBrushCount, 1u);
     if (sceneEntIndex >= 0x200)
     {
         scene.sceneBrushCount = 512;
@@ -115,8 +115,8 @@ void __cdecl R_AddBrushModelToSceneFromAngles(
     const float *angles,
     unsigned __int16 entnum)
 {
-    unsigned int sceneEntIndex; // [esp+4h] [ebp-8h]
-    GfxSceneBrush *sceneBrush; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] unsigned int sceneEntIndex; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] GfxSceneBrush *sceneBrush; // [esp+8h] [ebp-4h]
 
     iassert( bmodel );
     if (r_drawEntities->current.enabled && r_drawBModels->current.enabled && bmodel->surfaceCount)
@@ -143,16 +143,16 @@ void __cdecl R_AddDObjToScene(
     float *lightingOrigin,
     float materialTime)
 {
-    float s; // [esp+0h] [ebp-38h]
-    GfxSceneModel *sceneModel; // [esp+10h] [ebp-28h]
-    XModel *model; // [esp+14h] [ebp-24h]
-    float radius; // [esp+18h] [ebp-20h]
-    float radiusa; // [esp+18h] [ebp-20h]
-    GfxEntity *gfxEnt; // [esp+1Ch] [ebp-1Ch]
+    [[maybe_unused]] float s; // [esp+0h] [ebp-38h]
+    [[maybe_unused]] GfxSceneModel *sceneModel; // [esp+10h] [ebp-28h]
+    [[maybe_unused]] XModel *model; // [esp+14h] [ebp-24h]
+    [[maybe_unused]] float radius; // [esp+18h] [ebp-20h]
+    [[maybe_unused]] float radiusa; // [esp+18h] [ebp-20h]
+    [[maybe_unused]] GfxEntity *gfxEnt; // [esp+1Ch] [ebp-1Ch]
     float angles[3]; // [esp+20h] [ebp-18h] BYREF
-    GfxSceneEntity *sceneEnt; // [esp+2Ch] [ebp-Ch]
-    unsigned int sceneEntIndex; // [esp+30h] [ebp-8h]
-    unsigned int gfxEntIndex; // [esp+34h] [ebp-4h]
+    [[maybe_unused]] GfxSceneEntity *sceneEnt; // [esp+2Ch] [ebp-Ch]
+    [[maybe_unused]] unsigned int sceneEntIndex; // [esp+30h] [ebp-8h]
+    [[maybe_unused]] unsigned int gfxEntIndex; // [esp+34h] [ebp-4h]
 
     iassert(Sys_IsMainThread());
     iassert(obj);
@@ -168,7 +168,7 @@ void __cdecl R_AddDObjToScene(
         }
         else
         {
-            gfxEntIndex = InterlockedExchangeAdd(&frontEndDataOut->gfxEntCount, 1);
+            gfxEntIndex = InterlockedExchangeAdd(&frontEndDataOut->gfxEntCount, 1L);
             if (gfxEntIndex >= 0x80)
             {
                 frontEndDataOut->gfxEntCount = 128;
@@ -216,7 +216,7 @@ void __cdecl R_AddDObjToScene(
                 sceneModel->obj = obj;
                 sceneModel->entnum = entnum;
                 scene.dpvs.sceneXModelIndex[entnum] = sceneEntIndex;
-                sceneModel->cachedLightingHandle = (unsigned __int16 *)LongNoSwap((unsigned int)pose);
+                sceneModel->cachedLightingHandle = (unsigned __int16 *)(uintptr_t)LongNoSwap((unsigned int)(uintptr_t)pose);
                 radius = XModelGetRadius(model);
                 CG_GetPoseOrigin(pose, sceneModel->placement.base.origin);
                 CG_GetPoseAngles(pose, angles);
@@ -234,7 +234,7 @@ void __cdecl R_AddDObjToScene(
 
 GfxParticleCloud *__cdecl R_AddParticleCloudToScene(Material *material)
 {
-    volatile unsigned int cloudIndex; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] volatile unsigned int cloudIndex; // [esp+Ch] [ebp-4h]
 
     cloudIndex = InterlockedIncrement(&frontEndDataOut->cloudCount) - 1;
     if (cloudIndex < 0x100)
@@ -254,7 +254,7 @@ GfxParticleCloud *__cdecl R_AddParticleCloudToScene(Material *material)
 
 void __cdecl R_AddOmniLightToScene(const float *org, float radius, float r, float g, float b)
 {
-    GfxLight *dst; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] GfxLight *dst; // [esp+8h] [ebp-4h]
 
     if (rg.registered && rgp.world)
     {
@@ -287,16 +287,16 @@ void __cdecl R_AddOmniLightToScene(const float *org, float radius, float r, floa
 
 void __cdecl R_AddSpotLightToScene(const float *org, const float *dir, float radius, float r, float g, float b)
 {
-    float v6; // [esp+Ch] [ebp-38h]
-    float v7; // [esp+10h] [ebp-34h]
-    float v8; // [esp+14h] [ebp-30h]
-    float spotLightFovOuter; // [esp+18h] [ebp-2Ch]
-    float v10; // [esp+1Ch] [ebp-28h]
-    float value; // [esp+20h] [ebp-24h]
-    float v12; // [esp+30h] [ebp-14h]
-    float spotLightFovInner; // [esp+38h] [ebp-Ch]
-    float spotLightOffset; // [esp+3Ch] [ebp-8h]
-    GfxLight *dst; // [esp+40h] [ebp-4h]
+    [[maybe_unused]] float v6; // [esp+Ch] [ebp-38h]
+    [[maybe_unused]] float v7; // [esp+10h] [ebp-34h]
+    [[maybe_unused]] float v8; // [esp+14h] [ebp-30h]
+    [[maybe_unused]] float spotLightFovOuter; // [esp+18h] [ebp-2Ch]
+    [[maybe_unused]] float v10; // [esp+1Ch] [ebp-28h]
+    [[maybe_unused]] float value; // [esp+20h] [ebp-24h]
+    [[maybe_unused]] float v12; // [esp+30h] [ebp-14h]
+    [[maybe_unused]] float spotLightFovInner; // [esp+38h] [ebp-Ch]
+    [[maybe_unused]] float spotLightOffset; // [esp+3Ch] [ebp-8h]
+    [[maybe_unused]] GfxLight *dst; // [esp+40h] [ebp-4h]
 
     if (rg.registered && rgp.world)
     {
@@ -355,8 +355,8 @@ void __cdecl R_AddSpotLightToScene(const float *org, const float *dir, float rad
 
 double __cdecl R_GetDefaultNearClip()
 {
-    float v2; // [esp+4h] [ebp-8h]
-    float value; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] float v2; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] float value; // [esp+8h] [ebp-4h]
 
     value = r_znear->current.value;
     v2 = 0.0099999998 - value;
@@ -379,14 +379,14 @@ void __cdecl R_AddBModelSurfacesCamera(
     GfxDrawSurf **lastDrawSurfs,
     unsigned int reflectionProbeIndex)
 {
-    unsigned __int16 surfaceCount; // [esp+4h] [ebp-28h]
-    unsigned int surfId; // [esp+8h] [ebp-24h]
+    [[maybe_unused]] unsigned __int16 surfaceCount; // [esp+4h] [ebp-28h]
+    [[maybe_unused]] unsigned int surfId; // [esp+8h] [ebp-24h]
     //unsigned __int64 drawSurf; // [esp+Ch] [ebp-20h]
-    const Material *material; // [esp+14h] [ebp-18h]
-    BModelSurface *modelSurf; // [esp+18h] [ebp-14h]
-    const GfxSurface *bspSurf; // [esp+1Ch] [ebp-10h]
-    unsigned int region; // [esp+20h] [ebp-Ch]
-    unsigned int count; // [esp+28h] [ebp-4h]
+    [[maybe_unused]] const Material *material; // [esp+14h] [ebp-18h]
+    [[maybe_unused]] BModelSurface *modelSurf; // [esp+18h] [ebp-14h]
+    [[maybe_unused]] const GfxSurface *bspSurf; // [esp+1Ch] [ebp-10h]
+    [[maybe_unused]] unsigned int region; // [esp+20h] [ebp-Ch]
+    [[maybe_unused]] unsigned int count; // [esp+28h] [ebp-4h]
 
     iassert(bmodel);
     surfId = bmodelInfo->surfId;
@@ -458,11 +458,11 @@ GfxDrawSurf *__cdecl R_AddBModelSurfaces(
     GfxDrawSurf *drawSurf,
     GfxDrawSurf *lastDrawSurf)
 {
-    unsigned __int16 surfaceCount; // [esp+6h] [ebp-2Ah]
-    unsigned int surfId; // [esp+10h] [ebp-20h]
-    const Material *material; // [esp+14h] [ebp-1Ch]
-    BModelSurface *modelSurf; // [esp+20h] [ebp-10h]
-    unsigned int count; // [esp+2Ch] [ebp-4h]
+    [[maybe_unused]] unsigned __int16 surfaceCount; // [esp+6h] [ebp-2Ah]
+    [[maybe_unused]] unsigned int surfId; // [esp+10h] [ebp-20h]
+    [[maybe_unused]] const Material *material; // [esp+14h] [ebp-1Ch]
+    [[maybe_unused]] BModelSurface *modelSurf; // [esp+20h] [ebp-10h]
+    [[maybe_unused]] unsigned int count; // [esp+2Ch] [ebp-4h]
 
     iassert( bmodel );
     surfId = bmodelInfo->surfId;
@@ -487,7 +487,7 @@ GfxDrawSurf *__cdecl R_AddBModelSurfaces(
             //newDrawSurf_4 = HIDWORD(material->info.drawSurf.packed) & 0xFFC3FFFF/*MINUS surfType*/ | 0x180000;
             //*(unsigned int *)&drawSurf->fields = (unsigned __int16)surfId | *(unsigned int *)&material->info.drawSurf.fields & 0xFFFF0000;
             drawSurf->fields.objectId = surfId;
-            HIDWORD(drawSurf->packed) = HIDWORD(material->info.drawSurf.packed) & 0xFFC3FFFF/*MINUS surfType*/ | 0x180000; // 0x180000 sets bits 48-49 to 1 (primaryLightIndex?)
+            HIDWORD(drawSurf->packed) = (HIDWORD(material->info.drawSurf.packed) & 0xFFC3FFFF/*MINUS surfType*/) | 0x180000; // 0x180000 sets bits 48-49 to 1 (primaryLightIndex?)
             ++drawSurf;
         }
         ++modelSurf;
@@ -500,7 +500,7 @@ const XSurface *__cdecl R_GetXSurface(unsigned int *modelSurf, surfaceType_t sur
 {
     iassert( modelSurf );
     iassert( R_IsModelSurfaceType( surfType ) );
-    return (const XSurface *)modelSurf[1];
+    return (const XSurface *)(uintptr_t)modelSurf[1];
 }
 
 void __cdecl R_AddXModelSurfacesCamera(
@@ -518,18 +518,18 @@ void __cdecl R_AddXModelSurfacesCamera(
 {
     const XSurface *xSurf; // eax
     const XSurface *v12; // eax
-    unsigned int surfId; // [esp+8h] [ebp-38h]
-    int totalVertCount; // [esp+Ch] [ebp-34h]
+    [[maybe_unused]] unsigned int surfId; // [esp+8h] [ebp-38h]
+    [[maybe_unused]] int totalVertCount; // [esp+Ch] [ebp-34h]
     //__int64 drawSurf; // [esp+10h] [ebp-30h]
-    int totalTriCount; // [esp+1Ch] [ebp-24h]
-    Material **material; // [esp+20h] [ebp-20h]
-    unsigned int subMatIndex; // [esp+24h] [ebp-1Ch]
-    int skinnedCachedOffset; // [esp+28h] [ebp-18h]
-    int lod; // [esp+2Ch] [ebp-14h]
-    GfxModelRigidSurface *modelSurf; // [esp+30h] [ebp-10h]
-    surfaceType_t surfType; // [esp+34h] [ebp-Ch]
-    unsigned int region; // [esp+38h] [ebp-8h]
-    unsigned int numsurfs; // [esp+3Ch] [ebp-4h]
+    [[maybe_unused]] int totalTriCount; // [esp+1Ch] [ebp-24h]
+    [[maybe_unused]] Material **material; // [esp+20h] [ebp-20h]
+    [[maybe_unused]] unsigned int subMatIndex; // [esp+24h] [ebp-1Ch]
+    [[maybe_unused]] int skinnedCachedOffset; // [esp+28h] [ebp-18h]
+    [[maybe_unused]] int lod; // [esp+2Ch] [ebp-14h]
+    [[maybe_unused]] GfxModelRigidSurface *modelSurf; // [esp+30h] [ebp-10h]
+    [[maybe_unused]] surfaceType_t surfType; // [esp+34h] [ebp-Ch]
+    [[maybe_unused]] unsigned int region; // [esp+38h] [ebp-8h]
+    [[maybe_unused]] unsigned int numsurfs; // [esp+3Ch] [ebp-4h]
 
     iassert( lightingHandle );
     totalTriCount = 0;
@@ -664,15 +664,15 @@ GfxDrawSurf *__cdecl R_AddXModelSurfaces(
     GfxDrawSurf *drawSurf,
     GfxDrawSurf *lastDrawSurf)
 {
-    unsigned int surfId; // [esp+10h] [ebp-2Ch]
-    Material **material; // [esp+14h] [ebp-28h]
-    unsigned int subMatIndex; // [esp+18h] [ebp-24h]
+    [[maybe_unused]] unsigned int surfId; // [esp+10h] [ebp-2Ch]
+    [[maybe_unused]] Material **material; // [esp+14h] [ebp-28h]
+    [[maybe_unused]] unsigned int subMatIndex; // [esp+18h] [ebp-24h]
     //unsigned __int64 newDrawSurf; // [esp+1Ch] [ebp-20h]
-    int skinnedCachedOffset; // [esp+28h] [ebp-14h]
-    int lod; // [esp+2Ch] [ebp-10h]
-    GfxModelRigidSurface *modelSurf; // [esp+30h] [ebp-Ch]
-    char surfType; // [esp+34h] [ebp-8h]
-    unsigned int numsurfs; // [esp+38h] [ebp-4h]
+    [[maybe_unused]] int skinnedCachedOffset; // [esp+28h] [ebp-14h]
+    [[maybe_unused]] int lod; // [esp+2Ch] [ebp-10h]
+    [[maybe_unused]] GfxModelRigidSurface *modelSurf; // [esp+30h] [ebp-Ch]
+    [[maybe_unused]] char surfType; // [esp+34h] [ebp-8h]
+    [[maybe_unused]] unsigned int numsurfs; // [esp+38h] [ebp-4h]
 
     iassert( model );
     surfId = modelInfo->surfId;
@@ -748,27 +748,27 @@ void __cdecl R_AddDObjSurfacesCamera(
 {
     const XSurface *xSurf; // eax
     const XSurface *v6; // eax
-    bool v10; // [esp+4h] [ebp-6Ch]
-    unsigned int surfId; // [esp+Ch] [ebp-64h]
-    int totalVertCount; // [esp+10h] [ebp-60h]
-    const DObj_s *obj; // [esp+14h] [ebp-5Ch]
+    [[maybe_unused]] bool v10; // [esp+4h] [ebp-6Ch]
+    [[maybe_unused]] unsigned int surfId; // [esp+Ch] [ebp-64h]
+    [[maybe_unused]] int totalVertCount; // [esp+10h] [ebp-60h]
+    [[maybe_unused]] const DObj_s *obj; // [esp+14h] [ebp-5Ch]
     //unsigned __int64 drawSurf; // [esp+18h] [ebp-58h]
-    int totalTriCount; // [esp+20h] [ebp-50h]
-    Material **material; // [esp+24h] [ebp-4Ch]
-    XModel *model; // [esp+28h] [ebp-48h]
-    unsigned int subMatIndex; // [esp+2Ch] [ebp-44h]
-    unsigned int surfSize; // [esp+30h] [ebp-40h]
-    int lod; // [esp+3Ch] [ebp-34h]
-    unsigned int depthHack; // [esp+40h] [ebp-30h]
-    char *modelSurf; // [esp+44h] [ebp-2Ch]
-    bool isShadowReceiver; // [esp+48h] [ebp-28h]
-    surfaceType_t surfType; // [esp+4Ch] [ebp-24h]
-    unsigned int region; // [esp+50h] [ebp-20h]
-    unsigned int gfxEntIndex; // [esp+54h] [ebp-1Ch]
-    unsigned int numsurfs; // [esp+5Ch] [ebp-14h]
-    unsigned int modelIndex; // [esp+60h] [ebp-10h]
-    unsigned int modelCount; // [esp+64h] [ebp-Ch]
-    int totalSurfCount; // [esp+6Ch] [ebp-4h]
+    [[maybe_unused]] int totalTriCount; // [esp+20h] [ebp-50h]
+    [[maybe_unused]] Material **material; // [esp+24h] [ebp-4Ch]
+    [[maybe_unused]] XModel *model; // [esp+28h] [ebp-48h]
+    [[maybe_unused]] unsigned int subMatIndex; // [esp+2Ch] [ebp-44h]
+    [[maybe_unused]] unsigned int surfSize; // [esp+30h] [ebp-40h]
+    [[maybe_unused]] int lod; // [esp+3Ch] [ebp-34h]
+    [[maybe_unused]] unsigned int depthHack; // [esp+40h] [ebp-30h]
+    [[maybe_unused]] char *modelSurf; // [esp+44h] [ebp-2Ch]
+    [[maybe_unused]] bool isShadowReceiver; // [esp+48h] [ebp-28h]
+    [[maybe_unused]] surfaceType_t surfType; // [esp+4Ch] [ebp-24h]
+    [[maybe_unused]] unsigned int region; // [esp+50h] [ebp-20h]
+    [[maybe_unused]] unsigned int gfxEntIndex; // [esp+54h] [ebp-1Ch]
+    [[maybe_unused]] unsigned int numsurfs; // [esp+5Ch] [ebp-14h]
+    [[maybe_unused]] unsigned int modelIndex; // [esp+60h] [ebp-10h]
+    [[maybe_unused]] unsigned int modelCount; // [esp+64h] [ebp-Ch]
+    [[maybe_unused]] int totalSurfCount; // [esp+6Ch] [ebp-4h]
 
     modelSurf = (char *)sceneEnt->cull.skinnedSurfs.firstSurf;
     if (!modelSurf)
@@ -906,20 +906,20 @@ GfxDrawSurf *__cdecl R_AddDObjSurfaces(
     GfxDrawSurf *drawSurf,
     GfxDrawSurf *lastDrawSurf)
 {
-    unsigned int surfId; // [esp+10h] [ebp-50h]
-    const DObj_s *obj; // [esp+14h] [ebp-4Ch]
-    Material **material; // [esp+18h] [ebp-48h]
-    XModel *model; // [esp+1Ch] [ebp-44h]
-    unsigned int subMatIndex; // [esp+20h] [ebp-40h]
-    unsigned int surfSize; // [esp+24h] [ebp-3Ch]
-    GfxDrawSurf newDrawSurf; // [esp+28h] [ebp-38h]
-    int lod; // [esp+38h] [ebp-28h]
-    unsigned int depthHack; // [esp+3Ch] [ebp-24h]
-    char *modelSurf; // [esp+40h] [ebp-20h]
-    char surfType; // [esp+44h] [ebp-1Ch]
-    unsigned int numsurfs; // [esp+50h] [ebp-10h]
-    unsigned int modelIndex; // [esp+54h] [ebp-Ch]
-    unsigned int modelCount; // [esp+58h] [ebp-8h]
+    [[maybe_unused]] unsigned int surfId; // [esp+10h] [ebp-50h]
+    [[maybe_unused]] const DObj_s *obj; // [esp+14h] [ebp-4Ch]
+    [[maybe_unused]] Material **material; // [esp+18h] [ebp-48h]
+    [[maybe_unused]] XModel *model; // [esp+1Ch] [ebp-44h]
+    [[maybe_unused]] unsigned int subMatIndex; // [esp+20h] [ebp-40h]
+    [[maybe_unused]] unsigned int surfSize; // [esp+24h] [ebp-3Ch]
+    [[maybe_unused]] GfxDrawSurf newDrawSurf; // [esp+28h] [ebp-38h]
+    [[maybe_unused]] int lod; // [esp+38h] [ebp-28h]
+    [[maybe_unused]] unsigned int depthHack; // [esp+3Ch] [ebp-24h]
+    [[maybe_unused]] char *modelSurf; // [esp+40h] [ebp-20h]
+    [[maybe_unused]] char surfType; // [esp+44h] [ebp-1Ch]
+    [[maybe_unused]] unsigned int numsurfs; // [esp+50h] [ebp-10h]
+    [[maybe_unused]] unsigned int modelIndex; // [esp+54h] [ebp-Ch]
+    [[maybe_unused]] unsigned int modelCount; // [esp+58h] [ebp-8h]
 
     modelSurf = (char *)sceneEnt->cull.skinnedSurfs.firstSurf;
     if (!modelSurf)
@@ -1098,7 +1098,7 @@ void __cdecl R_InitScene()
 
 void __cdecl R_ClearScene(unsigned int localClientNum)
 {
-    unsigned int viewIndex; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] unsigned int viewIndex; // [esp+0h] [ebp-4h]
 
     iassert( rg.inFrame );
     iassert( Sys_IsMainThread() || Sys_IsRenderThread() );
@@ -1142,8 +1142,8 @@ void __cdecl R_SetLodOrigin(const refdef_s *refdef)
 void R_UpdateFrameFog()
 {
     GfxFog *p_fogSettings; // edx
-    float lerpPos; // [esp+8h] [ebp-8h]
-    int fadeTime; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] float lerpPos; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] int fadeTime; // [esp+Ch] [ebp-4h]
 
     if (!frontEndDataOut->viewInfoCount)
     {
@@ -1203,7 +1203,7 @@ unsigned __int8 __cdecl LerpByte(unsigned __int8 from, unsigned __int8 to, float
 
 void __cdecl R_SetViewParmsForScene(const refdef_s *refdef, GfxViewParms *viewParms)
 {
-    float DefaultNearClip; // [esp+Ch] [ebp-24h]
+    [[maybe_unused]] float DefaultNearClip; // [esp+Ch] [ebp-24h]
 
     memset((unsigned __int8 *)viewParms, 0, sizeof(GfxViewParms));
     viewParms->origin[0] = refdef->vieworg[0];
@@ -1239,11 +1239,11 @@ void __cdecl R_SetupProjection(float tanHalfFovX, float tanHalfFovY, GfxViewParm
 bool R_UpdateFrameSun()
 {
     bool result; // eax
-    bool v1; // [esp+10h] [ebp-24h]
-    int v2; // [esp+14h] [ebp-20h]
-    int v3; // [esp+18h] [ebp-1Ch]
-    float *color; // [esp+2Ch] [ebp-8h]
-    float *dir; // [esp+30h] [ebp-4h]
+    [[maybe_unused]] bool v1; // [esp+10h] [ebp-24h]
+    [[maybe_unused]] int v2; // [esp+14h] [ebp-20h]
+    [[maybe_unused]] int v3; // [esp+18h] [ebp-1Ch]
+    [[maybe_unused]] float *color; // [esp+2Ch] [ebp-8h]
+    [[maybe_unused]] float *dir; // [esp+30h] [ebp-4h]
 
     iassert( rgp.world );
     iassert( rgp.world->sunLight );
@@ -1276,7 +1276,7 @@ bool R_UpdateFrameSun()
         color[2] = rg.sunLightOverride[2];
     }
     v2 = 0;
-    const DvarValue &dvarVal = r_lightTweakSunDirection->current;
+    [[maybe_unused]] const DvarValue &dvarVal = r_lightTweakSunDirection->current;
     if (sm_enable->current.enabled)
     {
         if (rg.useSunDirOverride
@@ -1307,11 +1307,11 @@ void __cdecl R_LerpDir(
     int currTime,
     float *result)
 {
-    float fraction; // [esp+8h] [ebp-28h]
-    float v7; // [esp+Ch] [ebp-24h]
-    float v8; // [esp+10h] [ebp-20h]
-    float v9; // [esp+28h] [ebp-8h]
-    float lerpFraction; // [esp+2Ch] [ebp-4h]
+    [[maybe_unused]] float fraction; // [esp+8h] [ebp-28h]
+    [[maybe_unused]] float v7; // [esp+Ch] [ebp-24h]
+    [[maybe_unused]] float v8; // [esp+10h] [ebp-20h]
+    [[maybe_unused]] float v9; // [esp+28h] [ebp-8h]
+    [[maybe_unused]] float lerpFraction; // [esp+2Ch] [ebp-4h]
 
     iassert( endLerpTime > beginLerpTime );
     lerpFraction = (double)(currTime - beginLerpTime) / (double)(endLerpTime - beginLerpTime);
@@ -1331,9 +1331,9 @@ void __cdecl R_LerpDir(
 
 void __cdecl R_UpdateLodParms(const refdef_s *refdef, GfxLodParms *lodParms)
 {
-    float v2; // [esp+8h] [ebp-18h]
-    float value; // [esp+14h] [ebp-Ch]
-    float invFovScale; // [esp+1Ch] [ebp-4h]
+    [[maybe_unused]] float v2; // [esp+8h] [ebp-18h]
+    [[maybe_unused]] float value; // [esp+14h] [ebp-Ch]
+    [[maybe_unused]] float invFovScale; // [esp+1Ch] [ebp-4h]
 
     if (r_lockPvs->current.enabled)
     {
@@ -1364,9 +1364,9 @@ void __cdecl R_CorrectLodScale(const refdef_s *refdef)
 
 void __cdecl R_RenderScene(const refdef_s *refdef)
 {
-    GfxViewParms *dpvs; // [esp+0h] [ebp-E8h]
+    [[maybe_unused]] GfxViewParms *dpvs; // [esp+0h] [ebp-E8h]
     GfxSceneParms sceneParms; // [esp+40h] [ebp-A8h] BYREF
-    GfxViewParms *viewParmsDraw; // [esp+E4h] [ebp-4h]
+    [[maybe_unused]] GfxViewParms *viewParmsDraw; // [esp+E4h] [ebp-4h]
 
     iassert( refdef->tanHalfFovX > 0 );
     iassert( refdef->tanHalfFovY > 0 );
@@ -1410,8 +1410,8 @@ void __cdecl R_RenderScene(const refdef_s *refdef)
 
 char __cdecl R_DoesDrawSurfListInfoNeedFloatz(GfxDrawSurfListInfo *emissiveInfo)
 {
-    const MaterialTechnique *technique; // [esp+38h] [ebp-Ch]
-    unsigned int surfIndex; // [esp+3Ch] [ebp-8h]
+    [[maybe_unused]] const MaterialTechnique *technique; // [esp+38h] [ebp-Ch]
+    [[maybe_unused]] unsigned int surfIndex; // [esp+3Ch] [ebp-8h]
 
     PROF_SCOPED("R_DoesDrawSurfListInfoNeedFloatz");
 
@@ -1442,33 +1442,33 @@ void __cdecl R_GenerateSortedDrawSurfs(
 {
     MaterialTechniqueType EmissiveTechnique; // eax
     char DoesDrawSurfListInfoNeedFloatz; // al
-    float v7; // [esp+30h] [ebp-148h]
-    float v8; // [esp+4Ch] [ebp-12Ch]
-    float v9; // [esp+70h] [ebp-108h]
-    float *viewOrigin; // [esp+BCh] [ebp-BCh]
+    [[maybe_unused]] float v7; // [esp+30h] [ebp-148h]
+    [[maybe_unused]] float v8; // [esp+4Ch] [ebp-12Ch]
+    [[maybe_unused]] float v9; // [esp+70h] [ebp-108h]
+    [[maybe_unused]] float *viewOrigin; // [esp+BCh] [ebp-BCh]
     unsigned int data[20]; // [esp+C4h] [ebp-B4h] BYREF
-    float v15; // [esp+114h] [ebp-64h]
-    float v16; // [esp+118h] [ebp-60h]
-    float v17; // [esp+11Ch] [ebp-5Ch]
-    float bestError; // [esp+120h] [ebp-58h]
-    unsigned int bestNum; // [esp+124h] [ebp-54h]
-    float error; // [esp+128h] [ebp-50h]
-    unsigned int num; // [esp+12Ch] [ebp-4Ch]
-    unsigned int bestDen; // [esp+130h] [ebp-48h]
-    unsigned int den; // [esp+134h] [ebp-44h]
-    int pointLightCount; // [esp+138h] [ebp-40h]
-    int firstDrawSurfCount; // [esp+13Ch] [ebp-3Ch]
-    int cameraCellIndex; // [esp+140h] [ebp-38h]
-    GfxDrawSurfListInfo *litInfo; // [esp+144h] [ebp-34h]
-    GfxDrawSurfListInfo *decalInfo; // [esp+148h] [ebp-30h]
-    GfxDrawSurfListInfo *emissiveInfo; // [esp+14Ch] [ebp-2Ch]
-    bool usePreTess; // [esp+153h] [ebp-25h]
-    GfxViewInfo *viewInfo; // [esp+154h] [ebp-24h]
-    int viewInfoIndex; // [esp+158h] [ebp-20h]
+    [[maybe_unused]] float v15; // [esp+114h] [ebp-64h]
+    [[maybe_unused]] float v16; // [esp+118h] [ebp-60h]
+    [[maybe_unused]] float v17; // [esp+11Ch] [ebp-5Ch]
+    [[maybe_unused]] float bestError; // [esp+120h] [ebp-58h]
+    [[maybe_unused]] unsigned int bestNum; // [esp+124h] [ebp-54h]
+    [[maybe_unused]] float error; // [esp+128h] [ebp-50h]
+    [[maybe_unused]] unsigned int num; // [esp+12Ch] [ebp-4Ch]
+    [[maybe_unused]] unsigned int bestDen; // [esp+130h] [ebp-48h]
+    [[maybe_unused]] unsigned int den; // [esp+134h] [ebp-44h]
+    [[maybe_unused]] int pointLightCount; // [esp+138h] [ebp-40h]
+    [[maybe_unused]] int firstDrawSurfCount; // [esp+13Ch] [ebp-3Ch]
+    [[maybe_unused]] int cameraCellIndex; // [esp+140h] [ebp-38h]
+    [[maybe_unused]] GfxDrawSurfListInfo *litInfo; // [esp+144h] [ebp-34h]
+    [[maybe_unused]] GfxDrawSurfListInfo *decalInfo; // [esp+148h] [ebp-30h]
+    [[maybe_unused]] GfxDrawSurfListInfo *emissiveInfo; // [esp+14Ch] [ebp-2Ch]
+    [[maybe_unused]] bool usePreTess; // [esp+153h] [ebp-25h]
+    [[maybe_unused]] GfxViewInfo *viewInfo; // [esp+154h] [ebp-24h]
+    [[maybe_unused]] int viewInfoIndex; // [esp+158h] [ebp-20h]
     const GfxLight *visibleLights[4]; // [esp+15Ch] [ebp-1Ch] BYREF
-    ShadowType dynamicShadowType; // [esp+16Ch] [ebp-Ch]
+    [[maybe_unused]] ShadowType dynamicShadowType; // [esp+16Ch] [ebp-Ch]
     SceneEntCmd sceneEntCmd; // [esp+170h] [ebp-8h] BYREF
-    int visibleLightCount; // [esp+174h] [ebp-4h]
+    [[maybe_unused]] int visibleLightCount; // [esp+174h] [ebp-4h]
 
     iassert(frontEndDataOut->viewInfoCount == rg.viewInfoCount);
     viewInfoIndex = rg.viewInfoCount++;
@@ -1661,9 +1661,9 @@ void __cdecl R_GenerateSortedDrawSurfs(
         }
         else if (dynamicShadowType == SHADOW_COOKIE)
         {
-            data[0] = (unsigned int)viewParmsDpvs;
-            data[1] = (unsigned int)viewParmsDraw;
-            data[2] = (unsigned int)&viewInfo->shadowCookieList;
+            data[0] = (unsigned int)(uintptr_t)viewParmsDpvs;
+            data[1] = (unsigned int)(uintptr_t)viewParmsDraw;
+            data[2] = (unsigned int)(uintptr_t)&viewInfo->shadowCookieList;
             data[3] = viewInfo->localClientNum;
             R_AddWorkerCmd(WRKCMD_SHADOW_COOKIE, (unsigned __int8 *)data);
         }
@@ -1775,7 +1775,7 @@ ShadowType __cdecl R_DynamicShadowType()
 
 void __cdecl R_SetDepthOfField(GfxViewInfo *viewInfo, const GfxSceneParms *sceneParms)
 {
-    Font_s *font; // [esp+24h] [ebp-4h]
+    [[maybe_unused]] Font_s *font; // [esp+24h] [ebp-4h]
 
     if (r_dof_tweak->current.enabled)
     {
@@ -1829,9 +1829,9 @@ void __cdecl R_SetDepthOfField(GfxViewInfo *viewInfo, const GfxSceneParms *scene
 
 void __cdecl R_SetFilmInfo(GfxViewInfo *viewInfo, const GfxSceneParms *sceneParms)
 {
-    const DvarValue *p_current; // [esp+Ch] [ebp-10h]
-    int v3; // [esp+14h] [ebp-8h]
-    float desaturationScale; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] const DvarValue *p_current; // [esp+Ch] [ebp-10h]
+    [[maybe_unused]] int v3; // [esp+14h] [ebp-8h]
+    [[maybe_unused]] float desaturationScale; // [esp+18h] [ebp-4h]
 
     iassert( viewInfo );
     iassert( sceneParms );
@@ -1867,14 +1867,14 @@ void __cdecl R_SetFilmInfo(GfxViewInfo *viewInfo, const GfxSceneParms *sceneParm
 
 void __cdecl R_UpdateColorManipulation(GfxViewInfo *viewInfo)
 {
-    float v1; // [esp+10h] [ebp-50h]
-    float v2; // [esp+14h] [ebp-4Ch]
-    float desaturation; // [esp+20h] [ebp-40h]
+    [[maybe_unused]] float v1; // [esp+10h] [ebp-50h]
+    [[maybe_unused]] float v2; // [esp+14h] [ebp-4Ch]
+    [[maybe_unused]] float desaturation; // [esp+20h] [ebp-40h]
     float colorTintDelta[4]; // [esp+34h] [ebp-2Ch] BYREF
-    float tintScale; // [esp+44h] [ebp-1Ch]
+    [[maybe_unused]] float tintScale; // [esp+44h] [ebp-1Ch]
     float colorTintBase[4]; // [esp+48h] [ebp-18h] BYREF
-    float desaturationScale; // [esp+58h] [ebp-8h]
-    float tintBias; // [esp+5Ch] [ebp-4h]
+    [[maybe_unused]] float desaturationScale; // [esp+58h] [ebp-8h]
+    [[maybe_unused]] float tintBias; // [esp+5Ch] [ebp-4h]
 
     iassert( viewInfo );
     if (viewInfo->film.enabled)
@@ -1912,9 +1912,9 @@ void __cdecl R_UpdateColorManipulation(GfxViewInfo *viewInfo)
 
 void __cdecl R_SetGlowInfo(GfxViewInfo *viewInfo, const GfxSceneParms *sceneParms)
 {
-    Font_s *font; // [esp+24h] [ebp-10h]
-    float bloomCutoffRescale; // [esp+28h] [ebp-Ch]
-    float bloomCutoff; // [esp+30h] [ebp-4h]
+    [[maybe_unused]] Font_s *font; // [esp+24h] [ebp-10h]
+    [[maybe_unused]] float bloomCutoffRescale; // [esp+28h] [ebp-Ch]
+    [[maybe_unused]] float bloomCutoff; // [esp+30h] [ebp-4h]
 
     iassert( viewInfo );
     iassert( sceneParms );
@@ -1953,11 +1953,11 @@ void __cdecl R_SetGlowInfo(GfxViewInfo *viewInfo, const GfxSceneParms *sceneParm
 
 void __cdecl R_SetFullSceneViewMesh(int viewInfoIndex, GfxViewInfo *viewInfo)
 {
-    float width; // [esp+24h] [ebp-14h]
-    float height; // [esp+28h] [ebp-10h]
-    GfxQuadMeshData *quadMesh; // [esp+2Ch] [ebp-Ch]
-    float x; // [esp+30h] [ebp-8h]
-    float y; // [esp+34h] [ebp-4h]
+    [[maybe_unused]] float width; // [esp+24h] [ebp-14h]
+    [[maybe_unused]] float height; // [esp+28h] [ebp-10h]
+    [[maybe_unused]] GfxQuadMeshData *quadMesh; // [esp+2Ch] [ebp-Ch]
+    [[maybe_unused]] float x; // [esp+30h] [ebp-8h]
+    [[maybe_unused]] float y; // [esp+34h] [ebp-4h]
 
     quadMesh = &gfxMeshGlob.fullSceneViewMesh[viewInfoIndex];
     viewInfo->fullSceneViewMesh = quadMesh;
@@ -1987,7 +1987,7 @@ void __cdecl R_GenerateSortedSunShadowDrawSurfs(GfxViewInfo *viewInfo)
 
 void __cdecl R_AddEmissiveSpotLight(GfxViewInfo *viewInfo)
 {
-    bool v1; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] bool v1; // [esp+8h] [ebp-8h]
 
     viewInfo->emissiveSpotLightCount = 0;
     v1 = r_dlightLimit->current.integer && gfxDrawMethod.drawScene == GFX_DRAW_SCENE_STANDARD;
@@ -2009,15 +2009,15 @@ void __cdecl R_AddEmissiveSpotLight(GfxViewInfo *viewInfo)
 
 void R_GenerateMarkVertsForDynamicModels()
 {
-    GfxSceneModel *sceneModel; // [esp+4h] [ebp-24h]
-    int dobjIndex; // [esp+8h] [ebp-20h]
-    unsigned __int8 reflectionProbeIndex; // [esp+Fh] [ebp-19h]
+    [[maybe_unused]] GfxSceneModel *sceneModel; // [esp+4h] [ebp-24h]
+    [[maybe_unused]] int dobjIndex; // [esp+8h] [ebp-20h]
+    [[maybe_unused]] unsigned __int8 reflectionProbeIndex; // [esp+Fh] [ebp-19h]
     unsigned int indexCount; // [esp+10h] [ebp-18h] BYREF
-    int brushModelIndex; // [esp+14h] [ebp-14h]
-    unsigned __int16 entnum; // [esp+18h] [ebp-10h]
-    unsigned __int16 lightHandle; // [esp+1Ch] [ebp-Ch]
-    int modelIndex; // [esp+20h] [ebp-8h]
-    GfxSceneEntity *sceneEntity; // [esp+24h] [ebp-4h]
+    [[maybe_unused]] int brushModelIndex; // [esp+14h] [ebp-14h]
+    [[maybe_unused]] unsigned __int16 entnum; // [esp+18h] [ebp-10h]
+    [[maybe_unused]] unsigned __int16 lightHandle; // [esp+1Ch] [ebp-Ch]
+    [[maybe_unused]] int modelIndex; // [esp+20h] [ebp-8h]
+    [[maybe_unused]] GfxSceneEntity *sceneEntity; // [esp+24h] [ebp-4h]
 
     FX_BeginGeneratingMarkVertsForEntModels(scene.dpvs.localClientNum, &indexCount);
     for (dobjIndex = 0; dobjIndex != scene.sceneDObjCount; ++dobjIndex)
@@ -2026,7 +2026,7 @@ void R_GenerateMarkVertsForDynamicModels()
         entnum = sceneEntity->entnum;
         if (entnum < gfxCfg.entnumOrdinaryEnd && (scene.sceneDObjVisData[0][dobjIndex] & 1) != 0)
         {
-            lightHandle = *(_WORD *)LongNoSwap((unsigned int)sceneEntity->info.pose);
+            lightHandle = *(_WORD *)(uintptr_t)LongNoSwap((unsigned int)(uintptr_t)sceneEntity->info.pose);
             FX_GenerateMarkVertsForEntDObj(
                 scene.dpvs.localClientNum,
                 entnum,
@@ -2071,7 +2071,7 @@ void R_GenerateMarkVertsForDynamicModels()
 
 int __cdecl R_GetVisibleDLights(const GfxLight **visibleLights)
 {
-    int visibleLightCount; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int visibleLightCount; // [esp+4h] [ebp-4h]
 
     KISAK_NULLSUB();
     visibleLightCount = 0;
@@ -2152,7 +2152,7 @@ void __cdecl R_SetSunShadowConstants(GfxCmdBufInput *input, const GfxSunShadowPr
 
 void __cdecl R_SetSunConstants(GfxCmdBufInput *input)
 {
-    const GfxLight *sun; // [esp+1Ch] [ebp-10h]
+    [[maybe_unused]] const GfxLight *sun; // [esp+1Ch] [ebp-10h]
     float specularColor[3]; // [esp+20h] [ebp-Ch] BYREF
 
     iassert( input->data->sunLight.type == GFX_LIGHT_TYPE_DIR );
@@ -2165,8 +2165,8 @@ void __cdecl R_SetSunConstants(GfxCmdBufInput *input)
 
 void R_DrawCineWarning()
 {
-    Font_s *font; // [esp+1Ch] [ebp-8h]
-    const char *msg; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] Font_s *font; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] const char *msg; // [esp+20h] [ebp-4h]
 
     if (com_statmon->current.enabled && R_Cinematic_IsStarted())
     {
@@ -2180,7 +2180,7 @@ void R_DrawCineWarning()
 
 void __cdecl R_SetSceneParms(const refdef_s *refdef, GfxSceneParms *sceneParms)
 {
-    bool v2; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] bool v2; // [esp+10h] [ebp-4h]
 
     iassert( refdef );
     iassert( sceneParms );
