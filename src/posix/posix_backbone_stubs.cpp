@@ -529,7 +529,7 @@ void TRACK_rb_state() {}
 // void TRACK_rb_sunshadow() {}  // provided by rb_sunshadow.cpp now
 void TRACK_scr_debugger() {}
 void TRACK_scr_evaluate() {}
-void TRACK_scr_parser() {}
+// TRACK_scr_parser provided by src/script/scr_parser.cpp now.
 void TRACK_scr_vm() {}
 void TRACK_snd_driver() {}
 void TRACK_snd() {}
@@ -1335,8 +1335,7 @@ struct HunkUser;
 // void SL_TransferRefToUser(unsigned int /*stringValue*/, unsigned int /*user*/) {}  // provided by scr_variable/scr_stringlist now
 
 // --- Scr_* lifecycle + helpers --------------------------------------------
-char *Scr_AddSourceBuffer(const char * /*filename*/, char * /*extFilename*/,
-                          const char * /*codePos*/, bool /*archive*/) { return nullptr; }
+// Scr_AddSourceBuffer provided by src/script/scr_parser.cpp now.
 // unsigned int Scr_AllocArray() { return 0; }  // provided by scr_variable/scr_stringlist now
 void Scr_ClearErrorMessage() {}
 // unsigned int Scr_CreateCanonicalFilename(const char * /*filename*/) { return 0; }  // provided by scr_variable/scr_stringlist now
@@ -1346,15 +1345,14 @@ void Scr_EndLoadEvaluate() {}
 void Scr_InitDebugger() {}
 void Scr_InitDebuggerMain() {}
 void Scr_InitEvaluate() {}
-void Scr_InitOpcodeLookup() {}
+// Scr_InitOpcodeLookup provided by src/script/scr_parser.cpp now.
 void Scr_ShutdownDebugger() {}
 void Scr_ShutdownDebuggerMain() {}
 void Scr_ShutdownEvaluate() {}
-void Scr_ShutdownOpcodeLookup() {}
+// Scr_ShutdownOpcodeLookup provided by src/script/scr_parser.cpp now.
 
 // --- Compiler/parser ------------------------------------------------------
-void CompileError(unsigned int /*sourcePos*/, const char * /*msg*/, ...) {}
-void CompileError2(char * /*codePos*/, const char * /*msg*/, ...) {}
+// CompileError / CompileError2 provided by src/script/scr_parser.cpp now.
 void ScriptCompile(sval_u /*val*/, unsigned int /*fileId*/, unsigned int /*scriptId*/,
                    PrecacheEntry * /*entries*/, int /*entriesCount*/) {}
 void ScriptParse(sval_u * /*parseData*/, unsigned char /*user*/) {}
@@ -1385,11 +1383,11 @@ void ScriptParse(sval_u * /*parseData*/, unsigned char /*user*/) {}
 // All these pub structs have their definitions reached via the script
 // headers included at the top, so we can zero-construct them properly.
 scrCompilePub_t  scrCompilePub{};
-scrParserPub_t   scrParserPub{};
+// scrParserPub provided by src/script/scr_parser.cpp now.
 // scrVarPub_t      scrVarPub{};  // provided by scr_variable/scr_stringlist now
 // scrVarDebugPub storage provided by scr_variable/scr_stringlist now.
 scrVmPub_t       scrVmPub{};
-bool g_loadedImpureScript = false;
+// g_loadedImpureScript provided by src/script/scr_parser.cpp now.
 
 // FxRandomTableInit / FX_RandomDir — provided by fx_random.cpp now.
 
@@ -1801,13 +1799,15 @@ GfxRenderTarget gfxRenderTargets[17]{};
 int pixelCostMode = 0;
 vidConfig_t vidConfig{};
 
-// scr_parsetree satellite stubs.
+// scr_parsetree / scr_parser satellite stubs.
 #include <script/scr_evaluate.h>
 #include <script/scr_vm.h>
+#include <script/scr_debugger.h>
 scrVmDebugPub_t scrVmDebugPub{};
 debugger_sval_s *g_debugExprHead = nullptr;
 void Scr_FreeDebugExprValue(sval_u /*val*/) {}
 void Scr_ClearDebugExprValue(sval_u /*val*/) {}
+bool Scr_IgnoreErrors() { return false; }
 
 // r_light satellite stubs.
 #include <gfx_d3d/r_scene.h>
@@ -3105,11 +3105,8 @@ void Sys_Mkdir(const char *) {}
 
 VariableValue GetEntityFieldValue(unsigned int, int, int) { VariableValue v{}; return v; }
 void Scr_CancelNotifyList(unsigned int) {}
-const char *Scr_PrevCodePosFileName(char *) { return ""; }
-bool Scr_PrevCodePosFileNameMatches(char *, const char *) { return false; }
-const char *Scr_PrevCodePosFunctionName(char *) { return ""; }
-void Scr_PrintPrevCodePos(int, char *, unsigned int) {}
-void Scr_PrintPrevCodePosSpreadSheet(int, char *, bool, bool) {}
+// Scr_PrevCodePos* / Scr_PrintPrevCodePos* provided by
+// src/script/scr_parser.cpp now.
 void Scr_TerminalError(const char *) {}
 char SetEntityFieldValue(unsigned int, int, int, VariableValue *) { return 0; }
 // unsigned int SL_ConvertFromString(const char *) { return 0; }  // provided by scr_variable/scr_stringlist now

@@ -561,7 +561,7 @@ void __cdecl Scr_AddSourceBufferInternal(
             {
                 c = *buf++;
 
-                if (c == 10 || c == 13 && *buf != 10)
+                if (c == 10 || (c == 13 && *buf != 10))
                     *tmp = 0;
                 else
                     *tmp = c;
@@ -637,7 +637,7 @@ char *__cdecl Scr_AddSourceBuffer(const char *filename, char *extFilename, const
     iassert(len >= -1);
     if (len >= 0)
     {
-        sourceBuf = (char *)Hunk_AllocateTempMemoryHigh(len + 1, "Scr_AddSourceBuffer1");
+        sourceBuf = (char *)(uintptr_t)Hunk_AllocateTempMemoryHigh(len + 1, "Scr_AddSourceBuffer1");
         source = saveSourceBuffer->sourceBuf;
         dest = sourceBuf;
         for (i = 0; i < len; ++i)
@@ -672,7 +672,7 @@ char *__cdecl Scr_ReadFile_LoadObj(const char *filename, char *extFilename, cons
     if (len >= 0)
     {
         g_loadedImpureScript = 1;
-        sourceBuf = (char*)Hunk_AllocateTempMemoryHigh(len + 1, "Scr_ReadFile");
+        sourceBuf = (char *)(uintptr_t)Hunk_AllocateTempMemoryHigh(len + 1, "Scr_ReadFile");
         FS_Read((unsigned char*)sourceBuf, len, f);
         sourceBuf[len] = 0;
         FS_FCloseFile(f);
@@ -690,7 +690,7 @@ char *__cdecl Scr_ReadFile(const char *filename, char *extFilename, const char *
 {
     int file; // [esp+24h] [ebp-4h] BYREF
 
-    if (*(_BYTE *)fs_gameDirVar->current.integer)
+    if (*(_BYTE *)(uintptr_t)fs_gameDirVar->current.integer)
     {
         if ((FS_FOpenFileRead(extFilename, &file) & 0x80000000) != 0)
         {
@@ -1329,8 +1329,8 @@ char __cdecl Scr_PrintProfileTimes(float minTime)
             maxNameLength = 0;
         for (profileIndexa = 0; profileIndexa < 40; ++profileIndexa)
         {
-            v4 = (int)&profile->profileScriptNames[profileIndexa][1];
-            v5 = (unsigned int)&profile->profileScriptNames[profileIndexa][strlen(profile->profileScriptNames[profileIndexa])
+            v4 = (int)(uintptr_t)&profile->profileScriptNames[profileIndexa][1];
+            v5 = (unsigned int)(uintptr_t)&profile->profileScriptNames[profileIndexa][strlen(profile->profileScriptNames[profileIndexa])
                 + 1];
             if (v5 - v4 > maxNameLength)
                 maxNameLength = v5 - v4;
@@ -1534,7 +1534,7 @@ void __cdecl RuntimeErrorInternal(int channel, char *codePos, unsigned int index
             Com_PrintError(channel, "called from:\n");
             Scr_PrintPrevCodePos(
                 0,
-                (char *)scrVmPub.stack[3 * i - 96].u.intValue,
+                (char *)(uintptr_t)scrVmPub.stack[3 * i - 96].u.intValue,
                 scrVmPub.function_frame_start[i].fs.localId == 0);
         }
         Com_PrintError(channel, "started from:\n");

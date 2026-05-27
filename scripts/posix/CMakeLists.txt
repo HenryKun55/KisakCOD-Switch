@@ -105,6 +105,7 @@ set(SCRIPT_PORTABLE_SOURCES
     # scrCompileGlob, scrVmDebugPub). Land together.
     "${SRC_DIR}/script/scr_main.cpp"
     "${SRC_DIR}/script/scr_memorytree.cpp"
+    "${SRC_DIR}/script/scr_parser.cpp"
     "${SRC_DIR}/script/scr_parsetree.cpp"
     "${SRC_DIR}/script/scr_stringlist.cpp"
     "${SRC_DIR}/script/scr_variable.cpp"
@@ -272,8 +273,9 @@ set(EFFECTSCORE_PORTABLE_SOURCES
     "${SRC_DIR}/EffectsCore/fx_dvars.cpp"
     "${SRC_DIR}/EffectsCore/fx_graph.cpp"
     "${SRC_DIR}/EffectsCore/fx_marks.cpp"
-    # fx_load_obj.cpp has hex-rays 32-bit pointer arithmetic baked into
-    # byte-buffer offsets (FX_LoadDefault); land after typed struct refactor.
+    # fx_load_obj.cpp packs DWORD-sized pointers into byte buffers for
+    # FxEffectDef relocation (effectDef[0..7] is a 32-bit ptr-as-int).
+    # Land after typed struct refactor.
     "${SRC_DIR}/EffectsCore/fx_postlight.cpp"
     "${SRC_DIR}/EffectsCore/fx_profile.cpp"
     "${SRC_DIR}/EffectsCore/fx_random.cpp"
