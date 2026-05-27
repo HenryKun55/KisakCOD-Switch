@@ -188,8 +188,12 @@ set(GFX_PORTABLE_SOURCES
     # types. Land behind graphics abstraction.
     # r_model_lighting.cpp pulls IDirect3DVolumeTexture9 / _D3DLOCKED_BOX
     # / _D3DBOX. Land behind graphics abstraction.
+    "${SRC_DIR}/gfx_d3d/r_model_lighting.cpp"
     "${SRC_DIR}/gfx_d3d/r_model_pose.cpp"
     "${SRC_DIR}/gfx_d3d/r_model_skin.cpp"
+    # r_model_skin_sse.cpp uses x86 SSE intrinsics (mmintrin.h /
+    # xmmintrin.h); not portable to ARM. Replace with NEON or scalar
+    # path.
     "${SRC_DIR}/gfx_d3d/r_outdoor.cpp"
     "${SRC_DIR}/gfx_d3d/r_meshdata.cpp"
     "${SRC_DIR}/gfx_d3d/r_pretess.cpp"

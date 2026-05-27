@@ -452,7 +452,9 @@ struct IDirect3DIndexBuffer9 {
     long Unlock() { return 0; }
     unsigned long Release() { return 0; }
 };
-struct IDirect3DBaseTexture9;
+struct IDirect3DBaseTexture9 {
+    unsigned long Release() { return 0; }
+};
 struct IDirect3DTexture9;
 struct IDirect3DVolumeTexture9;
 struct IDirect3DCubeTexture9;
@@ -492,6 +494,28 @@ struct tagRECT {
     long bottom;
 };
 typedef tagRECT RECT;
+struct _D3DLOCKED_RECT {
+    int Pitch;
+    void *pBits;
+};
+struct _D3DBOX {
+    unsigned int Left;
+    unsigned int Top;
+    unsigned int Right;
+    unsigned int Bottom;
+    unsigned int Front;
+    unsigned int Back;
+};
+struct _D3DLOCKED_BOX {
+    int RowPitch;
+    int SlicePitch;
+    void *pBits;
+};
+struct IDirect3DVolumeTexture9 : IDirect3DBaseTexture9 {
+    long LockBox(unsigned int, _D3DLOCKED_BOX *out, const _D3DBOX *, unsigned long) { if (out) *out = {}; return 0; }
+    long UnlockBox(unsigned int) { return 0; }
+    long AddDirtyBox(const _D3DBOX *) { return 0; }
+};
 struct IDirect3DDevice9 {
     long BeginScene() { return 0; }
     long EndScene() { return 0; }
@@ -518,6 +542,7 @@ struct IDirect3DDevice9 {
     long SetViewport(const void *) { return 0; }
     long CreateVertexBuffer(unsigned int, unsigned long, unsigned long, unsigned long, IDirect3DVertexBuffer9 **out, void *) { if (out) *out = nullptr; return 0; }
     long CreateIndexBuffer(unsigned int, unsigned long, int, unsigned long, IDirect3DIndexBuffer9 **out, void *) { if (out) *out = nullptr; return 0; }
+    long UpdateTexture(IDirect3DBaseTexture9 *, IDirect3DBaseTexture9 *) { return 0; }
 };
 #ifndef D3DRS_SCISSORTESTENABLE
 #define D3DRS_SCISSORTESTENABLE 174

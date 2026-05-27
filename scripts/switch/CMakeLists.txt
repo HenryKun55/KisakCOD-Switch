@@ -112,6 +112,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_material_override.cpp"
     "${SRC_DIR}/gfx_d3d/r_dobj_skin.cpp"
     "${SRC_DIR}/gfx_d3d/r_dpvs_dynmodel.cpp"
+    "${SRC_DIR}/gfx_d3d/r_model_lighting.cpp"
     "${SRC_DIR}/gfx_d3d/r_model_pose.cpp"
     "${SRC_DIR}/gfx_d3d/r_model_skin.cpp"
     "${SRC_DIR}/gfx_d3d/r_outdoor.cpp"

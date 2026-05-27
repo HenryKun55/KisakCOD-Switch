@@ -1808,15 +1808,23 @@ GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 
+// r_model_lighting satellite stubs.
+void Image_Release(GfxImage * /*img*/) {}
+GfxImage *Image_AllocProg(int /*type*/, unsigned char /*cat*/, unsigned char /*sem*/) { return nullptr; }
+void Image_SetupAndLoad(GfxImage * /*img*/, int, int, int, int, int) {}
+void R_FreeGlobalVariable(void * /*var*/) {}
+void R_UncacheStaticModel(unsigned int /*idx*/) {}
+void R_SetInputCodeImageTexture(GfxCmdBufInput * /*input*/, MaterialTextureSource /*src*/, const GfxImage * /*img*/) {}
+
 // r_dpvs satellite stubs.
 #include <gfx_d3d/r_model_lighting.h>
 unsigned int R_AllocSceneModel() { return 0; }
 void R_AddDObjSurfacesCamera(GfxSceneEntity * /*e*/, short, unsigned char, GfxDrawSurf **, GfxDrawSurf **) {}
-unsigned int R_AllocModelLighting_Box(const GfxViewInfo * /*v*/, float * /*a*/, const float * /*b*/, const float * /*c*/, unsigned short * /*d*/, GfxLightingInfo * /*l*/) { return 0; }
+// R_AllocModelLighting_Box provided by src/gfx_d3d/r_model_lighting.cpp now.
 void R_AddBModelSurfacesCamera(BModelDrawInfo * /*info*/, const GfxBrushModel * /*m*/, GfxDrawSurf **, GfxDrawSurf **, unsigned int) {}
 void R_AddXModelSurfacesCamera(XModelDrawInfo * /*info*/, const XModel * /*model*/, float * /*p*/, unsigned short, unsigned int, unsigned char, char, int, GfxDrawSurf **, GfxDrawSurf **, unsigned int) {}
-unsigned int R_AllocModelLighting_Sphere(const GfxViewInfo * /*v*/, float * /*a*/, const float * /*b*/, float, unsigned short * /*c*/, GfxLightingInfo * /*l*/) { return 0; }
-unsigned int R_AllocModelLighting_PrimaryLight(float * /*p*/, unsigned int, unsigned short * /*c*/, GfxLightingInfo * /*l*/) { return 0; }
+// R_AllocModelLighting_Sphere provided by src/gfx_d3d/r_model_lighting.cpp now.
+// R_AllocModelLighting_PrimaryLight provided by src/gfx_d3d/r_model_lighting.cpp now.
 
 // r_meshdata satellite stubs (now provided by r_meshdata.cpp).
 void R_SetVertex2d(GfxVertex * /*v*/, float, float, float, float, unsigned int) {}
@@ -1836,7 +1844,7 @@ void R_ChangeIndices(GfxCmdBufPrimState * /*p*/, IDirect3DIndexBuffer9 * /*ib*/)
 void R_SetReflectionProbe(GfxCmdBufContext /*ctx*/, unsigned int /*idx*/) {}
 void DB_GetIndexBufferAndBase(unsigned char /*zone*/, void * /*indices*/, void **ib, int *baseIndex) { if (ib) *ib = nullptr; if (baseIndex) *baseIndex = 0; }
 void DB_GetVertexBufferAndOffset(unsigned char /*zone*/, unsigned char * /*verts*/, void **vb, int *off) { if (vb) *vb = nullptr; if (off) *off = 0; }
-void R_SetModelLightingCoordsForSource(unsigned short /*h*/, GfxCmdBufSourceState * /*s*/) {}
+// R_SetModelLightingCoordsForSource provided by src/gfx_d3d/r_model_lighting.cpp now.
 
 // r_shadowcookie / r_spotshadow satellite stubs.
 #include <gfx_d3d/r_meshdata.h>
@@ -1858,8 +1866,8 @@ void R_InterpretSunLightParseParamsIntoLights(SunLightParseParams * /*sp*/, GfxL
 // DynEntCl_InitFilter provided by src/gfx_d3d/r_dpvs.cpp now.
 // R_GenerateShadowMapCasterCells provided by src/gfx_d3d/r_dpvs.cpp now.
 void R_FlushStaticModelCache() {}
-void R_ResetModelLighting() {}
-void R_InitStaticModelLighting() {}
+// R_ResetModelLighting provided by src/gfx_d3d/r_model_lighting.cpp now.
+// R_InitStaticModelLighting provided by src/gfx_d3d/r_model_lighting.cpp now.
 // R_ResetShadowCookies provided by src/gfx_d3d/r_shadowcookie.cpp now.
 void RB_SetBspImages() {}
 
@@ -1982,7 +1990,7 @@ const MaterialTechnique *Material_GetTechnique(const Material * /*m*/, MaterialT
 void *R_GetCachedSModelSurf(unsigned int /*idx*/) { return nullptr; }
 void R_AddXModelDebugString(const float * /*origin*/, char * /*text*/) {}
 void R_CacheStaticModelSurface(unsigned int /*idx*/, unsigned int /*surfIdx*/, const XModelLodInfo * /*lod*/) {}
-char R_AllocStaticModelLighting(GfxStaticModelDrawInst * /*inst*/, unsigned int /*size*/) { return 0; }
+// R_AllocStaticModelLighting provided by src/gfx_d3d/r_model_lighting.cpp now.
 
 // Code-mesh stubs (provided once r_drawsurf.cpp lands).
 struct Material;
