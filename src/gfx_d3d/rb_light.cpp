@@ -35,21 +35,21 @@ void __cdecl R_SetLightGridSampleDeltas(int rowStride, int sliceStride)
 
 void __cdecl R_ShowLightVisCachePoints(const float *viewOrigin, const DpvsPlane *clipPlanes, int clipPlaneCount)
 {
-    float *color; // [esp+Ch] [ebp-A4h]
-    float v4; // [esp+44h] [ebp-6Ch]
-    float v5; // [esp+58h] [ebp-58h]
-    float v6; // [esp+6Ch] [ebp-44h]
-    int i; // [esp+7Ch] [ebp-34h]
-    int spread; // [esp+80h] [ebp-30h]
+    [[maybe_unused]] float *color; // [esp+Ch] [ebp-A4h]
+    [[maybe_unused]] float v4; // [esp+44h] [ebp-6Ch]
+    [[maybe_unused]] float v5; // [esp+58h] [ebp-58h]
+    [[maybe_unused]] float v6; // [esp+6Ch] [ebp-44h]
+    [[maybe_unused]] int i; // [esp+7Ch] [ebp-34h]
+    [[maybe_unused]] int spread; // [esp+80h] [ebp-30h]
     float origin[3]; // [esp+84h] [ebp-2Ch] BYREF
-    unsigned int z; // [esp+90h] [ebp-20h]
-    unsigned int iz; // [esp+94h] [ebp-1Ch]
-    unsigned int iy; // [esp+98h] [ebp-18h]
-    int dz; // [esp+9Ch] [ebp-14h]
-    unsigned int ix; // [esp+A0h] [ebp-10h]
-    unsigned int x; // [esp+A4h] [ebp-Ch]
-    unsigned int y; // [esp+A8h] [ebp-8h]
-    int dy; // [esp+ACh] [ebp-4h]
+    [[maybe_unused]] unsigned int z; // [esp+90h] [ebp-20h]
+    [[maybe_unused]] unsigned int iz; // [esp+94h] [ebp-1Ch]
+    [[maybe_unused]] unsigned int iy; // [esp+98h] [ebp-18h]
+    [[maybe_unused]] int dz; // [esp+9Ch] [ebp-14h]
+    [[maybe_unused]] unsigned int ix; // [esp+A0h] [ebp-10h]
+    [[maybe_unused]] unsigned int x; // [esp+A4h] [ebp-Ch]
+    [[maybe_unused]] unsigned int y; // [esp+A8h] [ebp-8h]
+    [[maybe_unused]] int dy; // [esp+ACh] [ebp-4h]
 
     iassert(!Sys_IsRenderThread());
 
@@ -106,10 +106,10 @@ int __cdecl R_SortedHistoryEntry(int x, int y, int z, GfxSortedHistoryAdd addMod
     int v4; // edx
     int v5; // eax
     int v6; // ecx
-    int compare; // [esp+0h] [ebp-10h]
-    int top; // [esp+4h] [ebp-Ch]
-    int bot; // [esp+8h] [ebp-8h]
-    int mid; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] int compare; // [esp+0h] [ebp-10h]
+    [[maybe_unused]] int top; // [esp+4h] [ebp-Ch]
+    [[maybe_unused]] int bot; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] int mid; // [esp+Ch] [ebp-4h]
 
     top = s_vc_log.count - 1;
     bot = 0;
@@ -273,7 +273,7 @@ void __cdecl R_FixedPointBlendLightGridColors(
     GfxLightGridColors *outPacked)
 {
     unsigned __int16 accumulated[168]; // [esp+18h] [ebp-158h] BYREF
-    unsigned int colorsIter; // [esp+16Ch] [ebp-4h]
+    [[maybe_unused]] unsigned int colorsIter; // [esp+16Ch] [ebp-4h]
 
     R_ScaleLightGridColors(&lightGrid->colors[*colorsIndex], *fixedPointWeight, accumulated);
 
@@ -292,7 +292,7 @@ void __cdecl R_ScaleLightGridColors(
     unsigned __int16 fixedPointWeight,
     unsigned __int16 *scaled)
 {
-    unsigned int sampleIter; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] unsigned int sampleIter; // [esp+4h] [ebp-4h]
 
     for (sampleIter = 0; sampleIter != 168; sampleIter += 8)
     {
@@ -314,7 +314,7 @@ void __cdecl R_WeightedAccumulateLightGridColors(
     unsigned __int16 fixedPointWeight,
     unsigned __int16 *accumulated)
 {
-    unsigned int sampleIter; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] unsigned int sampleIter; // [esp+4h] [ebp-4h]
 
     for (sampleIter = 0; sampleIter != 168; sampleIter += 8)
     {
@@ -333,7 +333,7 @@ void __cdecl R_WeightedAccumulateLightGridColors(
 
 void __cdecl R_PackAccumulatedLightGridColors(const unsigned __int16 *accumulated, GfxLightGridColors *packed)
 {
-    unsigned int sampleIter; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] unsigned int sampleIter; // [esp+4h] [ebp-4h]
 
     for (sampleIter = 0; sampleIter < 168; sampleIter += 8)
     {
@@ -356,9 +356,9 @@ unsigned __int8 __cdecl R_GetPrimaryLightFromGrid(
     unsigned __int8 sunPrimaryLightIndex)
 {
     float cornerWeight[8]; // [esp+0h] [ebp-50h] BYREF
-    const GfxLightGridEntry *entry; // [esp+20h] [ebp-30h]
-    unsigned int cornerIndex; // [esp+24h] [ebp-2Ch]
-    unsigned __int8 primaryLightIndex; // [esp+2Bh] [ebp-25h]
+    [[maybe_unused]] const GfxLightGridEntry *entry; // [esp+20h] [ebp-30h]
+    [[maybe_unused]] unsigned int cornerIndex; // [esp+24h] [ebp-2Ch]
+    [[maybe_unused]] unsigned __int8 primaryLightIndex; // [esp+2Bh] [ebp-25h]
     const GfxLightGridEntry *cornerEntry[8]; // [esp+2Ch] [ebp-24h] BYREF
     unsigned int defaultGridEntry; // [esp+4Ch] [ebp-4h] BYREF
 
@@ -387,22 +387,22 @@ unsigned __int8 __cdecl R_LightGridLookup(
     const GfxLightGridEntry **cornerEntry,
     unsigned int *defaultGridEntry)
 {
-    bool v6; // [esp+8h] [ebp-7Ch]
-    float v7; // [esp+24h] [ebp-60h]
-    float v8; // [esp+28h] [ebp-5Ch]
-    float v9; // [esp+2Ch] [ebp-58h]
-    bool v10; // [esp+32h] [ebp-52h]
-    unsigned __int8 v11; // [esp+33h] [ebp-51h]
+    [[maybe_unused]] bool v6; // [esp+8h] [ebp-7Ch]
+    [[maybe_unused]] float v7; // [esp+24h] [ebp-60h]
+    [[maybe_unused]] float v8; // [esp+28h] [ebp-5Ch]
+    [[maybe_unused]] float v9; // [esp+2Ch] [ebp-58h]
+    [[maybe_unused]] bool v10; // [esp+32h] [ebp-52h]
+    [[maybe_unused]] unsigned __int8 v11; // [esp+33h] [ebp-51h]
     unsigned int pos[3]; // [esp+40h] [ebp-44h] BYREF
-    bool honorSuppression; // [esp+4Fh] [ebp-35h]
-    const GfxLightGridEntry *entry; // [esp+50h] [ebp-34h]
-    unsigned int cornerTraceBit; // [esp+54h] [ebp-30h]
-    unsigned int cornerIndex; // [esp+58h] [ebp-2Ch]
-    float axisLerp[3]; // [esp+5Ch] [ebp-28h]
-    unsigned __int8 primaryLightIndex; // [esp+6Bh] [ebp-19h]
-    float bestPrimaryLightWeight; // [esp+6Ch] [ebp-18h]
-    bool suppressEntry; // [esp+73h] [ebp-11h]
-    float quadWeight; // [esp+74h] [ebp-10h]
+    [[maybe_unused]] bool honorSuppression; // [esp+4Fh] [ebp-35h]
+    [[maybe_unused]] const GfxLightGridEntry *entry; // [esp+50h] [ebp-34h]
+    [[maybe_unused]] unsigned int cornerTraceBit; // [esp+54h] [ebp-30h]
+    [[maybe_unused]] unsigned int cornerIndex; // [esp+58h] [ebp-2Ch]
+    [[maybe_unused]] float axisLerp[3]; // [esp+5Ch] [ebp-28h]
+    [[maybe_unused]] unsigned __int8 primaryLightIndex; // [esp+6Bh] [ebp-19h]
+    [[maybe_unused]] float bestPrimaryLightWeight; // [esp+6Ch] [ebp-18h]
+    [[maybe_unused]] bool suppressEntry; // [esp+73h] [ebp-11h]
+    [[maybe_unused]] float quadWeight; // [esp+74h] [ebp-10h]
     bool suppressEntryLog[8]; // [esp+78h] [ebp-Ch] BYREF
 
     iassert(lightGrid);
@@ -483,7 +483,7 @@ unsigned __int8 __cdecl R_LightGridLookup(
         if (primaryLightIndex)
         {
             if (v11)
-                v10 = primaryLightIndex == 255 || v11 != 255 && cornerWeight[cornerIndex] > (double)bestPrimaryLightWeight;
+                v10 = primaryLightIndex == 255 || (v11 != 255 && cornerWeight[cornerIndex] > (double)bestPrimaryLightWeight);
             else
                 v10 = 0;
         }
@@ -510,12 +510,12 @@ void __cdecl R_ShowLightGrid(
     bool *suppressEntry,
     bool honorSuppression)
 {
-    unsigned int yBit; // [esp+8h] [ebp-1Ch]
-    unsigned int z; // [esp+Ch] [ebp-18h]
-    unsigned int cornerIndex; // [esp+10h] [ebp-14h]
-    unsigned int xBit; // [esp+18h] [ebp-Ch]
-    unsigned int x; // [esp+1Ch] [ebp-8h]
-    unsigned int y; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] unsigned int yBit; // [esp+8h] [ebp-1Ch]
+    [[maybe_unused]] unsigned int z; // [esp+Ch] [ebp-18h]
+    [[maybe_unused]] unsigned int cornerIndex; // [esp+10h] [ebp-14h]
+    [[maybe_unused]] unsigned int xBit; // [esp+18h] [ebp-Ch]
+    [[maybe_unused]] unsigned int x; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] unsigned int y; // [esp+20h] [ebp-4h]
 
     R_ShowGridOrigin(samplePos);
     R_ShowGridBox(pos);
@@ -579,7 +579,7 @@ void __cdecl R_ShowGridOrigin(const float *origin)
 
 void __cdecl R_ShowGridBox(const unsigned int *pos)
 {
-    float origin[3]; // [esp+18h] [ebp-24h]
+    [[maybe_unused]] float origin[3]; // [esp+18h] [ebp-24h]
     float boxMaxs[3]; // [esp+24h] [ebp-18h] BYREF
     float boxMins[3]; // [esp+30h] [ebp-Ch] BYREF
 
@@ -600,7 +600,7 @@ void __cdecl R_ShowGridBox(const unsigned int *pos)
 
 void __cdecl R_ShowGridCorner(unsigned int x, unsigned int y, unsigned int z, float halfSize, const float *color)
 {
-    float origin[3]; // [esp+18h] [ebp-24h]
+    [[maybe_unused]] float origin[3]; // [esp+18h] [ebp-24h]
     float boxMaxs[3]; // [esp+24h] [ebp-18h] BYREF
     float boxMins[3]; // [esp+30h] [ebp-Ch] BYREF
 
@@ -621,9 +621,9 @@ void __cdecl R_ShowGridCorner(unsigned int x, unsigned int y, unsigned int z, fl
 
 void __cdecl R_UpdateVisHistory(const GfxLightGrid *lightGrid, const unsigned int *pos)
 {
-    unsigned int yBit; // [esp+0h] [ebp-1Ch]
-    unsigned int cornerIndex; // [esp+8h] [ebp-14h]
-    unsigned int xBit; // [esp+10h] [ebp-Ch]
+    [[maybe_unused]] unsigned int yBit; // [esp+0h] [ebp-1Ch]
+    [[maybe_unused]] unsigned int cornerIndex; // [esp+8h] [ebp-14h]
+    [[maybe_unused]] unsigned int xBit; // [esp+10h] [ebp-Ch]
 
     if (lightGrid->rowAxis)
     {
@@ -649,34 +649,34 @@ void __cdecl R_GetLightGridSampleEntryQuad(
     const GfxLightGridEntry **entries,
     unsigned int *defaultGridEntry)
 {
-    const GfxLightGridEntry *v4; // [esp+0h] [ebp-54h]
-    const GfxLightGridEntry *v5; // [esp+4h] [ebp-50h]
-    int v6; // [esp+8h] [ebp-4Ch]
-    const GfxLightGridEntry *v7; // [esp+Ch] [ebp-48h]
-    const GfxLightGridEntry *v8; // [esp+10h] [ebp-44h]
-    const GfxLightGridEntry *v9; // [esp+14h] [ebp-40h]
-    const GfxLightGridEntry *v10; // [esp+18h] [ebp-3Ch]
-    int v11; // [esp+1Ch] [ebp-38h]
-    const GfxLightGridEntry *v12; // [esp+20h] [ebp-34h]
-    const GfxLightGridEntry *v13; // [esp+24h] [ebp-30h]
-    unsigned int lookup; // [esp+28h] [ebp-2Ch]
-    unsigned int lookupa; // [esp+28h] [ebp-2Ch]
-    unsigned int lookupb; // [esp+28h] [ebp-2Ch]
-    unsigned int lookupc; // [esp+28h] [ebp-2Ch]
-    unsigned int firstBlockEntry; // [esp+2Ch] [ebp-28h]
-    unsigned int firstBlockEntrya; // [esp+2Ch] [ebp-28h]
-    unsigned int z; // [esp+30h] [ebp-24h]
-    unsigned int localZ; // [esp+38h] [ebp-1Ch]
-    const GfxLightGridRow *row; // [esp+3Ch] [ebp-18h]
-    const unsigned __int8 *rleData; // [esp+40h] [ebp-14h]
-    const unsigned __int8 *rleDataa; // [esp+40h] [ebp-14h]
-    unsigned int rleSizeFull; // [esp+44h] [ebp-10h]
-    unsigned int colIndex; // [esp+48h] [ebp-Ch]
-    unsigned int rowIndex; // [esp+4Ch] [ebp-8h]
-    unsigned int baseZ; // [esp+50h] [ebp-4h]
-    unsigned int baseZa; // [esp+50h] [ebp-4h]
-    unsigned int baseZb; // [esp+50h] [ebp-4h]
-    unsigned int baseZc; // [esp+50h] [ebp-4h]
+    [[maybe_unused]] const GfxLightGridEntry *v4; // [esp+0h] [ebp-54h]
+    [[maybe_unused]] const GfxLightGridEntry *v5; // [esp+4h] [ebp-50h]
+    [[maybe_unused]] int v6; // [esp+8h] [ebp-4Ch]
+    [[maybe_unused]] const GfxLightGridEntry *v7; // [esp+Ch] [ebp-48h]
+    [[maybe_unused]] const GfxLightGridEntry *v8; // [esp+10h] [ebp-44h]
+    [[maybe_unused]] const GfxLightGridEntry *v9; // [esp+14h] [ebp-40h]
+    [[maybe_unused]] const GfxLightGridEntry *v10; // [esp+18h] [ebp-3Ch]
+    [[maybe_unused]] int v11; // [esp+1Ch] [ebp-38h]
+    [[maybe_unused]] const GfxLightGridEntry *v12; // [esp+20h] [ebp-34h]
+    [[maybe_unused]] const GfxLightGridEntry *v13; // [esp+24h] [ebp-30h]
+    [[maybe_unused]] unsigned int lookup; // [esp+28h] [ebp-2Ch]
+    [[maybe_unused]] unsigned int lookupa; // [esp+28h] [ebp-2Ch]
+    [[maybe_unused]] unsigned int lookupb; // [esp+28h] [ebp-2Ch]
+    [[maybe_unused]] unsigned int lookupc; // [esp+28h] [ebp-2Ch]
+    [[maybe_unused]] unsigned int firstBlockEntry; // [esp+2Ch] [ebp-28h]
+    [[maybe_unused]] unsigned int firstBlockEntrya; // [esp+2Ch] [ebp-28h]
+    [[maybe_unused]] unsigned int z; // [esp+30h] [ebp-24h]
+    [[maybe_unused]] unsigned int localZ; // [esp+38h] [ebp-1Ch]
+    [[maybe_unused]] const GfxLightGridRow *row; // [esp+3Ch] [ebp-18h]
+    [[maybe_unused]] const unsigned __int8 *rleData; // [esp+40h] [ebp-14h]
+    [[maybe_unused]] const unsigned __int8 *rleDataa; // [esp+40h] [ebp-14h]
+    [[maybe_unused]] unsigned int rleSizeFull; // [esp+44h] [ebp-10h]
+    [[maybe_unused]] unsigned int colIndex; // [esp+48h] [ebp-Ch]
+    [[maybe_unused]] unsigned int rowIndex; // [esp+4Ch] [ebp-8h]
+    [[maybe_unused]] unsigned int baseZ; // [esp+50h] [ebp-4h]
+    [[maybe_unused]] unsigned int baseZa; // [esp+50h] [ebp-4h]
+    [[maybe_unused]] unsigned int baseZb; // [esp+50h] [ebp-4h]
+    [[maybe_unused]] unsigned int baseZc; // [esp+50h] [ebp-4h]
 
     rowIndex = pos[lightGrid->rowAxis] - lightGrid->mins[lightGrid->rowAxis];
     if (rowIndex >= lightGrid->maxs[lightGrid->rowAxis] + 1 - (unsigned int)lightGrid->mins[lightGrid->rowAxis]
@@ -872,19 +872,19 @@ unsigned int __cdecl R_GetLightingAtPoint(
     unsigned __int16 dest,
     GfxModelLightExtrapolation extrapolateBehavior)
 {
-    float v6; // [esp+Ch] [ebp-F4h]
+    [[maybe_unused]] float v6; // [esp+Ch] [ebp-F4h]
     float cornerWeight[8]; // [esp+68h] [ebp-98h] BYREF
-    const GfxLightGridEntry *entry; // [esp+88h] [ebp-78h]
-    unsigned int cornerIndex; // [esp+8Ch] [ebp-74h]
+    [[maybe_unused]] const GfxLightGridEntry *entry; // [esp+88h] [ebp-78h]
+    [[maybe_unused]] unsigned int cornerIndex; // [esp+8Ch] [ebp-74h]
     unsigned __int16 sampleColors[8]; // [esp+90h] [ebp-70h] BYREF
-    unsigned int primaryLightIndex; // [esp+A4h] [ebp-5Ch]
-    float primaryVisibleWeight; // [esp+A8h] [ebp-58h]
-    const ComPrimaryLight *light; // [esp+ACh] [ebp-54h]
-    float maxWeight; // [esp+B0h] [ebp-50h]
-    unsigned int sampleCount; // [esp+B4h] [ebp-4Ch]
+    [[maybe_unused]] unsigned int primaryLightIndex; // [esp+A4h] [ebp-5Ch]
+    [[maybe_unused]] float primaryVisibleWeight; // [esp+A8h] [ebp-58h]
+    [[maybe_unused]] const ComPrimaryLight *light; // [esp+ACh] [ebp-54h]
+    [[maybe_unused]] float maxWeight; // [esp+B0h] [ebp-50h]
+    [[maybe_unused]] unsigned int sampleCount; // [esp+B4h] [ebp-4Ch]
     const GfxLightGridEntry *cornerEntry[8]; // [esp+B8h] [ebp-48h] BYREF
     unsigned int defaultGridEntry; // [esp+D8h] [ebp-28h] BYREF
-    float primaryOccludedWeight; // [esp+DCh] [ebp-24h]
+    [[maybe_unused]] float primaryOccludedWeight; // [esp+DCh] [ebp-24h]
     float sampleWeight[8]; // [esp+E0h] [ebp-20h] BYREF
 
     iassert(lightGrid);
@@ -914,7 +914,7 @@ unsigned int __cdecl R_GetLightingAtPoint(
             {
                 primaryVisibleWeight = primaryVisibleWeight + cornerWeight[cornerIndex];
             }
-            else if (!entry->primaryLightIndex || entry->primaryLightIndex == 255 && primaryLightIndex)
+            else if (!entry->primaryLightIndex || (entry->primaryLightIndex == 255 && primaryLightIndex))
             {
                 light = Com_GetPrimaryLight(primaryLightIndex);
                 if (R_CanLightInfluenceLightGridCorner(lightGrid, light, samplePos, cornerIndex))
@@ -980,13 +980,13 @@ unsigned int __cdecl R_GetLightingAtPoint(
 GfxModelLightingPatch *__cdecl R_BackEndDataAllocAndClearModelLightingPatch(GfxBackEndData *frontEndDataOut)
 {
     GfxModelLightingPatch *v1; // edx
-    unsigned int patchIndex; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] unsigned int patchIndex; // [esp+4h] [ebp-4h]
 
-    patchIndex = InterlockedExchangeAdd(&frontEndDataOut->modelLightingPatchCount, 1);
+    patchIndex = InterlockedExchangeAdd(&frontEndDataOut->modelLightingPatchCount, static_cast<long>(1));
     if (patchIndex >= 0x1000)
         Com_Error(ERR_FATAL, "modelLightingPatchList ran out of elements.");
     v1 = &frontEndDataOut->modelLightingPatchList[patchIndex];
-    memset(v1, 0, sizeof(v1));
+    memset(v1, 0, sizeof(*v1));
     return v1;
 }
 
@@ -996,7 +996,7 @@ void __cdecl R_SetLightGridColorsFromIndex(
     float primaryLightWeight,
     unsigned __int16 dest)
 {
-    GfxModelLightingPatch *patch; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] GfxModelLightingPatch *patch; // [esp+14h] [ebp-4h]
 
     patch = R_BackEndDataAllocAndClearModelLightingPatch(frontEndDataOut);
     patch->modelLightingIndex = dest;
@@ -1015,7 +1015,7 @@ void __cdecl R_BlendAndSetLightGridColors(
     float weightNormalizeScale,
     unsigned __int16 dest)
 {
-    GfxModelLightingPatch *patch; // [esp+28h] [ebp-4h]
+    [[maybe_unused]] GfxModelLightingPatch *patch; // [esp+28h] [ebp-4h]
 
     patch = R_BackEndDataAllocAndClearModelLightingPatch(frontEndDataOut);
     patch->modelLightingIndex = dest;
@@ -1032,9 +1032,9 @@ void __cdecl R_GetLightGridColorsFixedPointBlendWeights(
     float weightNormalizeScale,
     unsigned __int16 *fixedPointWeight)
 {
-    unsigned int maxWeightIndex; // [esp+Ch] [ebp-Ch]
-    unsigned __int16 fixedPointWeightSum; // [esp+10h] [ebp-8h]
-    unsigned int colorsIter; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] unsigned int maxWeightIndex; // [esp+Ch] [ebp-Ch]
+    [[maybe_unused]] unsigned __int16 fixedPointWeightSum; // [esp+10h] [ebp-8h]
+    [[maybe_unused]] unsigned int colorsIter; // [esp+14h] [ebp-4h]
 
     fixedPointWeightSum = 0;
     maxWeightIndex = 0;
@@ -1056,9 +1056,9 @@ unsigned __int8 __cdecl R_ExtrapolateLightingAtPoint(
     GfxModelLightExtrapolation extrapolateBehavior,
     unsigned int defaultGridEntry)
 {
-    if (extrapolateBehavior == GFX_MODELLIGHT_SHOW_MISSING
-        && !defaultGridEntry
-        && r_showMissingLightGrid->current.enabled
+    if ((extrapolateBehavior == GFX_MODELLIGHT_SHOW_MISSING
+            && !defaultGridEntry
+            && r_showMissingLightGrid->current.enabled)
         || lightGrid->colorCount <= defaultGridEntry)
     {
         R_SetLightGridColorsFromIndex(lightGrid, lightGrid->colorCount - 1, 1.0, dest);
@@ -1078,7 +1078,7 @@ unsigned int __cdecl R_AddLightGridSample(
     unsigned __int16 sampleColorsAdd,
     float sampleWeightAdd)
 {
-    unsigned int sampleIndex; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] unsigned int sampleIndex; // [esp+0h] [ebp-4h]
 
     for (sampleIndex = 0; sampleIndex < sampleCount; ++sampleIndex)
     {
@@ -1119,26 +1119,26 @@ char __cdecl R_CanLightInfluenceLightGridCorner(
 
 void __cdecl R_GetAverageLightingAtPoint(const float *samplePos, unsigned __int8 *outColor)
 {
-    float v2; // [esp+18h] [ebp-C0h]
-    float v3; // [esp+1Ch] [ebp-BCh]
-    float v4; // [esp+20h] [ebp-B8h]
-    float v5; // [esp+2Ch] [ebp-ACh]
-    float v6; // [esp+30h] [ebp-A8h]
+    [[maybe_unused]] float v2; // [esp+18h] [ebp-C0h]
+    [[maybe_unused]] float v3; // [esp+1Ch] [ebp-BCh]
+    [[maybe_unused]] float v4; // [esp+20h] [ebp-B8h]
+    [[maybe_unused]] float v5; // [esp+2Ch] [ebp-ACh]
+    [[maybe_unused]] float v6; // [esp+30h] [ebp-A8h]
     float cornerWeight[8]; // [esp+38h] [ebp-A0h] BYREF
-    const GfxLightGridEntry *entry; // [esp+58h] [ebp-80h]
-    unsigned int cornerIndex; // [esp+5Ch] [ebp-7Ch]
+    [[maybe_unused]] const GfxLightGridEntry *entry; // [esp+58h] [ebp-80h]
+    [[maybe_unused]] unsigned int cornerIndex; // [esp+5Ch] [ebp-7Ch]
     unsigned __int16 sampleColors[8]; // [esp+60h] [ebp-78h] BYREF
-    float weightNormalizeScale; // [esp+74h] [ebp-64h]
-    unsigned __int8 primaryLightIndex; // [esp+7Bh] [ebp-5Dh]
+    [[maybe_unused]] float weightNormalizeScale; // [esp+74h] [ebp-64h]
+    [[maybe_unused]] unsigned __int8 primaryLightIndex; // [esp+7Bh] [ebp-5Dh]
     unsigned __int8 colorWithSunAlpha[4]; // [esp+7Ch] [ebp-5Ch] BYREF
-    float maxWeight; // [esp+80h] [ebp-58h]
-    unsigned int sampleCount; // [esp+84h] [ebp-54h]
+    [[maybe_unused]] float maxWeight; // [esp+80h] [ebp-58h]
+    [[maybe_unused]] unsigned int sampleCount; // [esp+84h] [ebp-54h]
     const GfxLightGridEntry *cornerEntry[8]; // [esp+88h] [ebp-50h] BYREF
     unsigned int defaultGridEntry; // [esp+A8h] [ebp-30h] BYREF
-    int colorIndex; // [esp+ACh] [ebp-2Ch]
+    [[maybe_unused]] int colorIndex; // [esp+ACh] [ebp-2Ch]
     float sampleWeight[8]; // [esp+B0h] [ebp-28h] BYREF
-    float primaryWeight; // [esp+D0h] [ebp-8h]
-    float *primaryLightColor; // [esp+D4h] [ebp-4h]
+    [[maybe_unused]] float primaryWeight; // [esp+D0h] [ebp-8h]
+    [[maybe_unused]] float *primaryLightColor; // [esp+D4h] [ebp-4h]
 
     sampleCount = 0;
     maxWeight = 0.0;
@@ -1235,9 +1235,9 @@ void __cdecl R_BlendAndAverageLightGridColors(
 
 void __cdecl R_AverageLightGridColors(const GfxLightGridColors *colors, float sunWeight, unsigned __int8 *outColor)
 {
-    int accumulator[3]; // [esp+Ch] [ebp-14h]
-    int sampleIndex; // [esp+18h] [ebp-8h]
-    int colorIndex; // [esp+1Ch] [ebp-4h]
+    [[maybe_unused]] int accumulator[3]; // [esp+Ch] [ebp-14h]
+    [[maybe_unused]] int sampleIndex; // [esp+18h] [ebp-8h]
+    [[maybe_unused]] int colorIndex; // [esp+1Ch] [ebp-4h]
 
     for (colorIndex = 0; colorIndex != 3; ++colorIndex)
         accumulator[colorIndex] = 0;
@@ -1255,7 +1255,7 @@ void __cdecl R_InitLightVisHistory(char *bspName)
 {
     char filename[68]; // [esp+30h] [ebp-50h] BYREF
     unsigned __int16 (*buffer)[3]; // [esp+78h] [ebp-8h] BYREF
-    int count; // [esp+7Ch] [ebp-4h]
+    [[maybe_unused]] int count; // [esp+7Ch] [ebp-4h]
 
     s_vc_log.history = 0;
     s_vc_log.count = 0;
@@ -1313,28 +1313,28 @@ void __cdecl R_SaveLightVisHistory()
 
 char __cdecl R_IsPointInLightRegionHull(const float *relPoint, const GfxLightRegionHull *hull)
 {
-    float v3; // [esp+0h] [ebp-80h]
-    float v4; // [esp+4h] [ebp-7Ch]
-    float v5; // [esp+8h] [ebp-78h]
-    float v6; // [esp+Ch] [ebp-74h]
-    float v7; // [esp+10h] [ebp-70h]
-    float v8; // [esp+14h] [ebp-6Ch]
-    float v9; // [esp+18h] [ebp-68h]
-    float v10; // [esp+1Ch] [ebp-64h]
-    float v11; // [esp+20h] [ebp-60h]
-    float v12; // [esp+24h] [ebp-5Ch]
-    float v13; // [esp+2Ch] [ebp-54h]
-    float v14; // [esp+34h] [ebp-4Ch]
-    float v15; // [esp+3Ch] [ebp-44h]
-    float v16; // [esp+44h] [ebp-3Ch]
-    float v17; // [esp+4Ch] [ebp-34h]
-    float v18; // [esp+54h] [ebp-2Ch]
-    float v19; // [esp+5Ch] [ebp-24h]
-    float v20; // [esp+64h] [ebp-1Ch]
-    float v21; // [esp+6Ch] [ebp-14h]
-    float v22; // [esp+74h] [ebp-Ch]
-    unsigned int axisIter; // [esp+78h] [ebp-8h]
-    float midPointAlongDir; // [esp+7Ch] [ebp-4h]
+    [[maybe_unused]] float v3; // [esp+0h] [ebp-80h]
+    [[maybe_unused]] float v4; // [esp+4h] [ebp-7Ch]
+    [[maybe_unused]] float v5; // [esp+8h] [ebp-78h]
+    [[maybe_unused]] float v6; // [esp+Ch] [ebp-74h]
+    [[maybe_unused]] float v7; // [esp+10h] [ebp-70h]
+    [[maybe_unused]] float v8; // [esp+14h] [ebp-6Ch]
+    [[maybe_unused]] float v9; // [esp+18h] [ebp-68h]
+    [[maybe_unused]] float v10; // [esp+1Ch] [ebp-64h]
+    [[maybe_unused]] float v11; // [esp+20h] [ebp-60h]
+    [[maybe_unused]] float v12; // [esp+24h] [ebp-5Ch]
+    [[maybe_unused]] float v13; // [esp+2Ch] [ebp-54h]
+    [[maybe_unused]] float v14; // [esp+34h] [ebp-4Ch]
+    [[maybe_unused]] float v15; // [esp+3Ch] [ebp-44h]
+    [[maybe_unused]] float v16; // [esp+44h] [ebp-3Ch]
+    [[maybe_unused]] float v17; // [esp+4Ch] [ebp-34h]
+    [[maybe_unused]] float v18; // [esp+54h] [ebp-2Ch]
+    [[maybe_unused]] float v19; // [esp+5Ch] [ebp-24h]
+    [[maybe_unused]] float v20; // [esp+64h] [ebp-1Ch]
+    [[maybe_unused]] float v21; // [esp+6Ch] [ebp-14h]
+    [[maybe_unused]] float v22; // [esp+74h] [ebp-Ch]
+    [[maybe_unused]] unsigned int axisIter; // [esp+78h] [ebp-8h]
+    [[maybe_unused]] float midPointAlongDir; // [esp+7Ch] [ebp-4h]
 
     v22 = *relPoint - hull->kdopMidPoint[0];
     v12 = I_fabs(v22);
@@ -1389,14 +1389,14 @@ unsigned int __cdecl R_GetPrimaryLightForModelVertex(
     const bool *checkLight,
     const GfxLightRegion *lightRegions)
 {
-    float v5; // [esp+0h] [ebp-28h]
-    unsigned int hullIter; // [esp+4h] [ebp-24h]
-    const ComPrimaryLight *light; // [esp+8h] [ebp-20h]
-    unsigned int primaryLightIter; // [esp+Ch] [ebp-1Ch]
-    float cosHalfFov; // [esp+10h] [ebp-18h]
-    float lenSq; // [esp+14h] [ebp-14h]
+    [[maybe_unused]] float v5; // [esp+0h] [ebp-28h]
+    [[maybe_unused]] unsigned int hullIter; // [esp+4h] [ebp-24h]
+    [[maybe_unused]] const ComPrimaryLight *light; // [esp+8h] [ebp-20h]
+    [[maybe_unused]] unsigned int primaryLightIter; // [esp+Ch] [ebp-1Ch]
+    [[maybe_unused]] float cosHalfFov; // [esp+10h] [ebp-18h]
+    [[maybe_unused]] float lenSq; // [esp+14h] [ebp-14h]
     float relPoint[3]; // [esp+18h] [ebp-10h] BYREF
-    float dot; // [esp+24h] [ebp-4h]
+    [[maybe_unused]] float dot; // [esp+24h] [ebp-4h]
 
     for (primaryLightIter = 0; primaryLightIter < primaryLightCount; ++primaryLightIter)
     {
@@ -1452,23 +1452,23 @@ unsigned __int8 __cdecl R_GetPrimaryLightForModel(
     const float *maxs,
     const GfxLightRegion *lightRegions)
 {
-    unsigned int chosenLight; // [esp+Ch] [ebp-564h]
-    unsigned int primaryLightCount; // [esp+10h] [ebp-560h]
-    const ComPrimaryLight *light; // [esp+14h] [ebp-55Ch]
-    unsigned int surfCount; // [esp+18h] [ebp-558h]
-    unsigned int primaryLightIter; // [esp+1Ch] [ebp-554h]
-    unsigned int lod; // [esp+20h] [ebp-550h]
-    float *verts; // [esp+24h] [ebp-54Ch]
-    unsigned int checkCount; // [esp+28h] [ebp-548h]
+    [[maybe_unused]] unsigned int chosenLight; // [esp+Ch] [ebp-564h]
+    [[maybe_unused]] unsigned int primaryLightCount; // [esp+10h] [ebp-560h]
+    [[maybe_unused]] const ComPrimaryLight *light; // [esp+14h] [ebp-55Ch]
+    [[maybe_unused]] unsigned int surfCount; // [esp+18h] [ebp-558h]
+    [[maybe_unused]] unsigned int primaryLightIter; // [esp+1Ch] [ebp-554h]
+    [[maybe_unused]] unsigned int lod; // [esp+20h] [ebp-550h]
+    [[maybe_unused]] float *verts; // [esp+24h] [ebp-54Ch]
+    [[maybe_unused]] unsigned int checkCount; // [esp+28h] [ebp-548h]
     float boxHalfSize[3]; // [esp+2Ch] [ebp-544h] BYREF
     unsigned int votes[255]; // [esp+38h] [ebp-538h] BYREF
-    unsigned int mostVotes; // [esp+43Ch] [ebp-134h]
-    unsigned int surfIter; // [esp+440h] [ebp-130h]
-    unsigned int vertCount; // [esp+444h] [ebp-12Ch]
+    [[maybe_unused]] unsigned int mostVotes; // [esp+43Ch] [ebp-134h]
+    [[maybe_unused]] unsigned int surfIter; // [esp+440h] [ebp-130h]
+    [[maybe_unused]] unsigned int vertCount; // [esp+444h] [ebp-12Ch]
     bool checkLight[255]; // [esp+448h] [ebp-128h] BYREF
-    unsigned int bestLight; // [esp+54Ch] [ebp-24h]
+    [[maybe_unused]] unsigned int bestLight; // [esp+54Ch] [ebp-24h]
     XSurface *surfs; // [esp+550h] [ebp-20h] BYREF
-    unsigned int vertIter; // [esp+554h] [ebp-1Ch]
+    [[maybe_unused]] unsigned int vertIter; // [esp+554h] [ebp-1Ch]
     float boxMidPoint[3]; // [esp+558h] [ebp-18h] BYREF
     float point[3]; // [esp+564h] [ebp-Ch] BYREF
 

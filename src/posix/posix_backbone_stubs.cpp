@@ -1736,7 +1736,7 @@ struct FxSpatialFrame;
 char SND_AnyActiveListeners() { return 0; }
 // void FX_SpawnAllFutureLooping(FxSystem * /*s*/, FxEffect * /*e*/, int /*a*/, int /*b*/, const FxSpatialFrame * /*p1*/, const FxSpatialFrame * /*p2*/, long double /*c*/, long double /*d*/, long double /*f*/) {}
 // void FX_TrailElem_CompressBasis(const float (* /*basis*/)[3], char (* /*out*/)[3]) {}
-void R_GetAverageLightingAtPoint(const float * /*point*/, unsigned char * /*out*/) {}
+// R_GetAverageLightingAtPoint provided by src/gfx_d3d/rb_light.cpp now.
 
 // rb_stats / rb_drawprofile satellite stubs.
 struct Font_s;
@@ -1784,7 +1784,7 @@ void R_AddCellDynBrushSurfacesInFrustumCmd(const DpvsDynamicCellCmd * /*cmd*/) {
 
 // rb_showcollision satellite stubs.
 struct GfxMatrix;
-unsigned int R_FrustumClipPlanes(const GfxMatrix * /*mtx*/, const float (* /*planes*/)[4], int /*count*/, DpvsPlane * /*out*/) { return 0; }
+void R_FrustumClipPlanes(const GfxMatrix * /*mtx*/, const float (* /*planes*/)[4], int /*count*/, DpvsPlane * /*out*/) {}
 struct GfxCmdBufInput;
 enum CodeConstant : int;
 void R_SetInputCodeConstant(GfxCmdBufInput * /*input*/, CodeConstant /*c*/, float /*x*/, float /*y*/, float /*z*/, float /*w*/) {}
@@ -1805,6 +1805,28 @@ GfxRenderTarget gfxRenderTargets[17]{};
 int pixelCostMode = 0;
 vidConfig_t vidConfig{};
 
+// rb_light / rb_postfx / rb_shadowcookie satellite stubs.
+#include <gfx_d3d/r_utils.h>
+#include <gfx_d3d/rb_imagefilter.h>
+const GfxCmdBufContext gfxCmdBufContext{};
+void R_BeginView(GfxCmdBufSourceState * /*source*/, const GfxSceneDef * /*sceneDef*/, const GfxViewParms * /*viewParms*/) {}
+void R_DrawSurfs(GfxCmdBufContext /*ctx*/, GfxCmdBufState * /*prepassState*/, const GfxDrawSurfListInfo * /*info*/) {}
+void R_ClearScreen(IDirect3DDevice9 * /*device*/, unsigned char /*whichToClear*/, const float * /*color*/, float /*depth*/, unsigned char /*stencil*/, const GfxViewport * /*viewport*/) {}
+void R_SetRenderTarget(GfxCmdBufContext /*ctx*/, GfxRenderTargetId /*newTargetId*/) {}
+void RB_GlowFilterImage(float /*radius*/) {}
+void RB_FullScreenFilter(const Material * /*material*/) {}
+void R_DirtyCodeConstant(GfxCmdBufSourceState * /*source*/, CodeConstant /*constant*/) {}
+void R_SetViewportStruct(GfxCmdBufSourceState * /*source*/, const GfxViewport * /*viewport*/) {}
+void R_SetViewportValues(GfxCmdBufSourceState * /*source*/, int /*x*/, int /*y*/, int /*w*/, int /*h*/) {}
+void RB_SplitScreenFilter(const Material * /*material*/, const GfxViewInfo * /*viewInfo*/) {}
+void R_SetRenderTargetSize(GfxCmdBufSourceState * /*source*/, GfxRenderTargetId /*newTargetId*/) {}
+void RB_GaussianFilterImage(float /*radius*/, GfxRenderTargetId /*src*/, GfxRenderTargetId /*dst*/) {}
+void R_InitCmdBufSourceState(GfxCmdBufSourceState * /*source*/, const GfxCmdBufInput * /*input*/, int /*cameraView*/) {}
+void R_SetShadowLookupMatrix(GfxCmdBufSourceState * /*source*/, const GfxMatrix * /*matrix*/) {}
+void R_SetCodeConstantFromVec4(GfxCmdBufSourceState * /*source*/, CodeConstant /*constant*/, float * /*value*/) {}
+void RB_FullScreenColoredFilter(const Material * /*material*/, unsigned int /*color*/) {}
+void R_Set2D(GfxCmdBufSourceState * /*source*/) {}
+void R_Resolve(GfxCmdBufContext /*ctx*/, GfxImage * /*image*/) {}
 
 r_backEndGlobals_t backEnd{};
 materialCommands_t tess{};
@@ -3024,7 +3046,7 @@ void R_MatrixIdentity44(float (*m)[4]) {
         m[i][3] = (i == 3) ? 1.0f : 0.0f;
     }
 }
-void R_GetActiveWorldMatrix(GfxCmdBufSourceState *) {}
+GfxCmdBufSourceState *R_GetActiveWorldMatrix(GfxCmdBufSourceState *source) { return source; }
 
 // === com_files satellites ==========================================================
 

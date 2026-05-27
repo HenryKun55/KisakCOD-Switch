@@ -25,11 +25,11 @@ void __cdecl RB_SetShadowCookie(const GfxMatrix *lookupMatrix, float fade)
 
 void __cdecl RB_BlurShadowPass(float st0, float st1)
 {
-    float w; // [esp+28h] [ebp-14h]
-    float h; // [esp+2Ch] [ebp-10h]
-    float screenWidth; // [esp+30h] [ebp-Ch]
-    const GfxImage *workingImage; // [esp+34h] [ebp-8h]
-    float screenHeight; // [esp+38h] [ebp-4h]
+    [[maybe_unused]] float w; // [esp+28h] [ebp-14h]
+    [[maybe_unused]] float h; // [esp+2Ch] [ebp-10h]
+    [[maybe_unused]] float screenWidth; // [esp+30h] [ebp-Ch]
+    [[maybe_unused]] const GfxImage *workingImage; // [esp+34h] [ebp-8h]
+    [[maybe_unused]] float screenHeight; // [esp+38h] [ebp-4h]
 
     if (tess.indexCount)
         RB_EndTessSurface();
@@ -48,13 +48,13 @@ void __cdecl RB_BlurShadowPass(float st0, float st1)
 int RB_BlurShadowCookie()
 {
     int result; // eax
-    float v1; // [esp+8h] [ebp-1Ch]
-    float v2; // [esp+Ch] [ebp-18h]
-    float v3; // [esp+10h] [ebp-14h]
-    float v4; // [esp+14h] [ebp-10h]
-    float shadowHalfTexel; // [esp+18h] [ebp-Ch]
-    float shadowBorderTexel; // [esp+1Ch] [ebp-8h]
-    int blurIter; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] float v1; // [esp+8h] [ebp-1Ch]
+    [[maybe_unused]] float v2; // [esp+Ch] [ebp-18h]
+    [[maybe_unused]] float v3; // [esp+10h] [ebp-14h]
+    [[maybe_unused]] float v4; // [esp+14h] [ebp-10h]
+    [[maybe_unused]] float shadowHalfTexel; // [esp+18h] [ebp-Ch]
+    [[maybe_unused]] float shadowBorderTexel; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] int blurIter; // [esp+20h] [ebp-4h]
 
     shadowHalfTexel = 0.00390625;
     shadowBorderTexel = 0.0078125;
@@ -74,11 +74,11 @@ int RB_BlurShadowCookie()
 void __cdecl RB_DrawShadowCookies(const GfxViewInfo *viewInfo)
 {
     float cookieClearColor[4]; // [esp+44h] [ebp-28h] BYREF
-    int needToClearDynamicShadows; // [esp+54h] [ebp-18h]
-    const ShadowCookie *cookie; // [esp+58h] [ebp-14h]
-    const ShadowCookieList *cookieList; // [esp+60h] [ebp-Ch]
-    unsigned int cookieIter; // [esp+64h] [ebp-8h]
-    int receiverSurfCount; // [esp+68h] [ebp-4h]
+    [[maybe_unused]] int needToClearDynamicShadows; // [esp+54h] [ebp-18h]
+    [[maybe_unused]] const ShadowCookie *cookie; // [esp+58h] [ebp-14h]
+    [[maybe_unused]] const ShadowCookieList *cookieList; // [esp+60h] [ebp-Ch]
+    [[maybe_unused]] unsigned int cookieIter; // [esp+64h] [ebp-8h]
+    [[maybe_unused]] int receiverSurfCount; // [esp+68h] [ebp-4h]
 
     PROF_SCOPED("SC_DrawReceivers");
 
@@ -137,15 +137,15 @@ void __cdecl RB_DrawShadowCookies(const GfxViewInfo *viewInfo)
 void RB_ShadowCookieOverlay()
 {
     unsigned int v1; // [esp+2Ch] [ebp-68h] BYREF
-    float v2; // [esp+30h] [ebp-64h]
-    float v3; // [esp+34h] [ebp-60h]
-    __int64 color; // [esp+38h] [ebp-5Ch]
-    float w; // [esp+40h] [ebp-54h]
-    float x; // [esp+44h] [ebp-50h]
+    [[maybe_unused]] float v2; // [esp+30h] [ebp-64h]
+    [[maybe_unused]] float v3; // [esp+34h] [ebp-60h]
+    [[maybe_unused]] __int64 color; // [esp+38h] [ebp-5Ch]
+    [[maybe_unused]] float w; // [esp+40h] [ebp-54h]
+    [[maybe_unused]] float x; // [esp+44h] [ebp-50h]
     GfxMatrix v7; // [esp+48h] [ebp-4Ch] BYREF
-    int identityMatrix_52; // [esp+88h] [ebp-Ch]
-    void *identityMatrix_56; // [esp+8Ch] [ebp-8h]
-    void *retaddr; // [esp+94h] [ebp+0h]
+    [[maybe_unused]] int identityMatrix_52; // [esp+88h] [ebp-Ch]
+    [[maybe_unused]] void *identityMatrix_56; // [esp+8Ch] [ebp-8h]
+    [[maybe_unused]] void *retaddr; // [esp+94h] [ebp+0h]
 
     MatrixIdentity44(v7.m);
     x = 4.0;

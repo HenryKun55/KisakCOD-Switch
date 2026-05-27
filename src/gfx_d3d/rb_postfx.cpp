@@ -343,7 +343,7 @@ float __cdecl RB_GetBlurRadius(float blurRadiusFromCode)
 
 void __cdecl RB_BlurScreen(const GfxViewInfo *viewInfo, float blurRadius)
 {
-    float v2; // [esp+18h] [ebp-18h]
+    [[maybe_unused]] float v2; // [esp+18h] [ebp-18h]
     float blurRadiusMin; // [esp+28h] [ebp-8h]
     unsigned int color; // [esp+2Ch] [ebp-4h]
 
