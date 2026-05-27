@@ -317,6 +317,10 @@ set(PHYSICS_ODE_SOURCES
     # mat.cpp uses dAlloc/dFree (gated in ode/memory.h). Land after
     # un-gating memory.h.
     "${SRC_DIR}/physics/ode/matrix.cpp"
+    # ode.cpp drags dxProcessIslands / jointInit / dxUserGeom ctor
+    # / dxSimpleSpace ctor / dxSpace dtor / dGeomGetBodyNext etc. —
+    # the whole geom + space hierarchy from collision_kernel /
+    # joint / collision_space (all gated). Land alongside.
     "${SRC_DIR}/physics/ode/odemath.cpp"
     "${SRC_DIR}/physics/ode/odemisc.cpp"
     # util.cpp drags dxQuickStepper / dGeomGetBodyNext / dGeomMoved
