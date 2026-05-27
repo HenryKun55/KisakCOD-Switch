@@ -343,7 +343,7 @@ static void fprintDoubleWithPrefix (FILE *f, double a, const char *fmt)
 void dTimerReport (FILE *fout, int average)
 {
   int i;
-  size_t maxl;
+  int maxl;
   double ccunit = 1.0/dTimerTicksPerSecond();
   fprintf (fout,"\nTimer Report (");
   fprintDoubleWithPrefix (fout,ccunit,"%.2f ");
@@ -353,7 +353,7 @@ void dTimerReport (FILE *fout, int average)
   // get maximum description length
   maxl = 0;
   for (i=0; i<num; i++) {
-    size_t l = strlen (event[i].description);
+    int l = (int)strlen (event[i].description);
     if (l > maxl) maxl = l;
   }
 

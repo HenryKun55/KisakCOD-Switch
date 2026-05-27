@@ -210,9 +210,17 @@ set(UI_PORTABLE_SOURCES
 )
 
 set(PHYSICS_PORTABLE_SOURCES
+    "${SRC_DIR}/physics/ode/collision_util.cpp"
     "${SRC_DIR}/physics/ode/error.cpp"
+    "${SRC_DIR}/physics/ode/fastdot.c"
+    "${SRC_DIR}/physics/ode/fastldlt.c"
+    "${SRC_DIR}/physics/ode/fastlsolve.c"
+    "${SRC_DIR}/physics/ode/fastltsolve.c"
+    "${SRC_DIR}/physics/ode/matrix.cpp"
     "${SRC_DIR}/physics/ode/odemath.cpp"
+    "${SRC_DIR}/physics/ode/odemisc.cpp"
     "${SRC_DIR}/physics/ode/rotation.cpp"
+    "${SRC_DIR}/physics/ode/timer.cpp"
     "${SRC_DIR}/physics/phys_coll_capsulebrush.cpp"
     "${SRC_DIR}/physics/phys_coll_cylinderbrush.cpp"
     "${SRC_DIR}/physics/phys_contacts.cpp"

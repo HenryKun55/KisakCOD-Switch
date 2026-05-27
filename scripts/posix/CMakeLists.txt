@@ -212,9 +212,21 @@ set(PHYSICS_ODE_SOURCES
     # util.cpp / error.cpp / array.cpp depend on dArrayBase, dAlloc,
     # dFree (memory.h and array.h are wrapped in `#if 0` upstream).
     # Land together when ODE memory/array storage is reimplemented.
+    "${SRC_DIR}/physics/ode/collision_util.cpp"
     "${SRC_DIR}/physics/ode/error.cpp"
+    "${SRC_DIR}/physics/ode/fastdot.c"
+    "${SRC_DIR}/physics/ode/fastldlt.c"
+    "${SRC_DIR}/physics/ode/fastlsolve.c"
+    "${SRC_DIR}/physics/ode/fastltsolve.c"
+    # lcp.cpp pulls dStopwatch (gated in timer.h). Land with the
+    # broader ODE gated set.
+    "${SRC_DIR}/physics/ode/matrix.cpp"
     "${SRC_DIR}/physics/ode/odemath.cpp"
+    "${SRC_DIR}/physics/ode/odemisc.cpp"
     "${SRC_DIR}/physics/ode/rotation.cpp"
+    # stack.cpp pulls dStack (gated in stack.h). Land with broader
+    # ODE gated set.
+    "${SRC_DIR}/physics/ode/timer.cpp"
 )
 
 set(EFFECTSCORE_PORTABLE_SOURCES
