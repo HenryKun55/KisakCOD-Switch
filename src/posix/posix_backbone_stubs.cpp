@@ -521,11 +521,11 @@ void TRACK_r_staticmodelcache() {}
 void TRACK_r_water() {}
 void TRACK_r_workercmds() {}
 void TRACK_rb_backend() {}
-void TRACK_rb_drawprofile() {}
+// void TRACK_rb_drawprofile() {}
 void TRACK_rb_showcollision() {}
 void TRACK_rb_sky() {}
 void TRACK_rb_state() {}
-void TRACK_rb_stats() {}
+// void TRACK_rb_stats() {}
 void TRACK_rb_sunshadow() {}
 void TRACK_scr_debugger() {}
 void TRACK_scr_evaluate() {}
@@ -1738,6 +1738,27 @@ char SND_AnyActiveListeners() { return 0; }
 // void FX_TrailElem_CompressBasis(const float (* /*basis*/)[3], char (* /*out*/)[3]) {}
 void R_GetAverageLightingAtPoint(const float * /*point*/, unsigned char * /*out*/) {}
 
+// rb_stats / rb_drawprofile satellite stubs.
+struct Font_s;
+struct GfxPointVertex;
+enum GfxPrimStatsTarget : int;
+void RB_DrawText(const char * /*text*/, Font_s * /*font*/, float /*x*/, float /*y*/, GfxColor /*color*/) {}
+void RB_DrawLines3D(int /*count*/, int /*colorCount*/, const GfxPointVertex * /*verts*/, bool /*flag*/) {}
+void RB_SetPolyVert(float * /*v*/, GfxColor /*c*/, int /*idx*/) {}
+void RB_BeginSurface(const Material * /*m*/, MaterialTechniqueType /*t*/) {}
+void RB_DrawStretchPic(const Material * /*m*/, float /*x*/, float /*y*/, float /*w*/, float /*h*/, float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/, unsigned int /*color*/, GfxPrimStatsTarget /*target*/) {}
+void RB_EndTessSurface() {}
+void RB_DrawTextInSpace(const char * /*text*/, Font_s * /*font*/, const float * /*origin*/, const float * /*axis*/, const float * /*color*/, unsigned int /*flags*/) {}
+void RB_CheckTessOverflow(int /*a*/, int /*b*/) {}
+#include <gfx_d3d/rb_backend.h>
+#include <gfx_d3d/rb_state.h>
+void R_Set3D(GfxCmdBufSourceState * /*source*/) {}
+r_backEndGlobals_t backEnd{};
+materialCommands_t tess{};
+GfxBackEndData *backEndData;
+GfxCmdBufState gfxCmdBufState{};
+GfxCmdBufSourceState gfxCmdBufSourceState{};
+
 struct DiskGfxReflectionProbe;
 void R_CreateReflectionRawDataFromCubemapShot(DiskGfxReflectionProbe * /*probe*/, int /*downRes*/) {}
 
@@ -2932,7 +2953,7 @@ enum GfxScreenshotType : int;
 void R_ScreenshotCommand(GfxScreenshotType) {}
 void R_StaticModelCacheFlush_f() {}
 void R_StaticModelCacheStats_f() {}
-void RB_Stats_f() {}
+// void RB_Stats_f() {}
 // int DObjGetSurfaces(const DObj_s *, int *, const char *) { return 0; }
 
 struct GfxReflectionProbe;

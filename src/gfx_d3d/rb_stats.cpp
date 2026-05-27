@@ -37,23 +37,23 @@ const unsigned int s_stencilFuncTable_52[8] =
 {
     1, 2, 3, 4, 5, 6, 7, 8
 };
-const unsigned int s_cullTable_52[4] =
+[[maybe_unused]] const unsigned int s_cullTable_52[4] =
 {
     0, 1, 3, 2
 };
-const unsigned int s_blendTable_52[11] =
+[[maybe_unused]] const unsigned int s_blendTable_52[11] =
 {
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 };
-const unsigned int s_blendOpTable_52[6] =
+[[maybe_unused]] const unsigned int s_blendOpTable_52[6] =
 {
     0, 1, 2, 3, 4, 5
 };
-const unsigned int s_depthTestTable_52[4] =
+[[maybe_unused]] const unsigned int s_depthTestTable_52[4] =
 {
     8, 2, 3, 4
 };
-const unsigned int s_stencilOpTable_52[8] =
+[[maybe_unused]] const unsigned int s_stencilOpTable_52[8] =
 {
     1, 2, 3, 4, 5, 6, 7, 8
 };
@@ -390,7 +390,7 @@ void __cdecl RB_DrawPrimHistogramOverlay()
     float x1; // [esp+A4h] [ebp-78h]
     int subTotalPrims[2][3]; // [esp+A8h] [ebp-74h] BYREF
     unsigned int subTotalIndex; // [esp+C0h] [ebp-5Ch]
-    const char *caption; // [esp+C4h] [ebp-58h]
+    [[maybe_unused]] const char *caption; // [esp+C4h] [ebp-58h]
     GfxColor colorNow[3]; // [esp+C8h] [ebp-54h]
     int historyIndex; // [esp+D4h] [ebp-48h]
     int totalPrims[2]; // [esp+D8h] [ebp-44h]

@@ -142,6 +142,10 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_reflection_probe_load_obj.cpp"
     "${SRC_DIR}/gfx_d3d/r_staticmodel.cpp"
     "${SRC_DIR}/gfx_d3d/r_xsurface.cpp"
+    "${SRC_DIR}/gfx_d3d/rb_debug.cpp"
+    "${SRC_DIR}/gfx_d3d/rb_drawprofile.cpp"
+    "${SRC_DIR}/gfx_d3d/rb_logfile.cpp"
+    "${SRC_DIR}/gfx_d3d/rb_stats.cpp"
 )
 
 set(EFFECTSCORE_PORTABLE_SOURCES

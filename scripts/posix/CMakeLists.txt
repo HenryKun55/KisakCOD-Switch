@@ -199,6 +199,12 @@ set(GFX_PORTABLE_SOURCES
     # 64-bit (smodel leaf grows beyond 256 bytes), 6 past-end int[3]
     # array accesses, and a hex-rays self-compare. Focused pass.
     "${SRC_DIR}/gfx_d3d/r_xsurface.cpp"
+    "${SRC_DIR}/gfx_d3d/rb_debug.cpp"
+    "${SRC_DIR}/gfx_d3d/rb_drawprofile.cpp"
+    "${SRC_DIR}/gfx_d3d/rb_logfile.cpp"
+    # rb_pixelcost.cpp uses IDirect3DQuery9 / D3DISSUE_END. Land
+    # behind graphics abstraction.
+    "${SRC_DIR}/gfx_d3d/rb_stats.cpp"
 )
 
 # physics/ode/: 15 of 34 ODE source files compile clean (collision_kernel,

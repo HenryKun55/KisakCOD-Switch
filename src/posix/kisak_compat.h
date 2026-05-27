@@ -224,6 +224,25 @@ static inline int fopen_s(::FILE **out, const char *path, const char *mode)
     *out = std::fopen(path, mode);
     return *out ? 0 : errno;
 }
+// MSVC: _itoa(value, buffer, radix) — converts an integer to a string in
+// the given radix and writes it into the caller's buffer (the buffer must
+// be large enough; the MSVC contract has no size param). Map onto a
+// portable inline that uses snprintf for radix 10 and a manual loop for
+// other radices.
+static inline char *_itoa(int value, char *buffer, int radix)
+{
+    if (!buffer) return nullptr;
+    if (radix == 10) { std::snprintf(buffer, 16, "%d", value); return buffer; }
+    char *p = buffer;
+    unsigned int u = (unsigned int)value;
+    char *digits = (char *)"0123456789abcdefghijklmnopqrstuvwxyz";
+    char tmp[33]; int n = 0;
+    if (u == 0) tmp[n++] = '0';
+    else while (u) { tmp[n++] = digits[u % (unsigned)radix]; u /= (unsigned)radix; }
+    while (n) *p++ = tmp[--n];
+    *p = 0;
+    return buffer;
+}
 
 // _time64/_localtime64: MSVC's explicit 64-bit time_t variants. POSIX
 // time_t is already 64-bit on every platform we target (macOS arm64, Linux
