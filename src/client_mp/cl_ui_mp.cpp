@@ -391,7 +391,7 @@ void __cdecl LAN_MarkServerDirty(int source, unsigned int n, unsigned __int8 dir
     int count; // [esp+Ch] [ebp-4h]
     int na; // [esp+1Ch] [ebp+Ch]
 
-    if (n == -1)
+    if (n == 0xFFFFFFFFu)
     {
         count = 128;
         server = 0;

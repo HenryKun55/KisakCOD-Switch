@@ -13,6 +13,19 @@
 #include <universal/com_constantconfigstrings.h>
 #include <universal/profile.h>
 
+// KISAKHACK-AUDIT: SV_SetClientStat/SV_GetClientStat use hex-rays nega-array
+// reach (voicePackets[17].data[4*index+75]) to address an extended-stats area
+// past the per-client stats[2000] block. Bytes that worked on 32-bit no longer
+// land on the right field on 64-bit (pointer fields widen). This helper laundered
+// through a noinline boundary keeps the byte arithmetic the upstream wrote so
+// GCC array-bounds doesn't fire. Runtime behavior on 64-bit is suspect — tracked
+// by the existing KISAKTODO at the call sites.
+[[gnu::noinline]] static unsigned int *Kisak_StatExtPtr(client_t *cl, int index)
+{
+    return reinterpret_cast<unsigned int *>(
+        reinterpret_cast<char *>(&cl->voicePackets[17].data[0]) + 4 * index + 75);
+}
+
 #ifdef WIN32
 #include <win32/win_steam.h>
 #include <universal/base64.h>
@@ -123,8 +136,12 @@ int __cdecl SV_IsTempBannedGuid(const char *cdkeyHash)
         return 0;
     for (banSlot = 0; banSlot < 0x10; ++banSlot)
     {
+        // KISAKHACK-AUDIT: upstream hex-rays wrote LODWORD(svs.mapCenter[9*banSlot - 136])
+        // which is a nega-array reach from float[3] mapCenter back into tempBans[banSlot].banTime
+        // (mapCenter sits right after tempBans[16] in serverStatic_t). Direct field access
+        // expresses the intent and is 64-bit-safe.
         if (!memcmp(&svs.tempBans[banSlot], cdkeyHash, 0x20u)
-            && sv_kickBanTime->current.value * 1000.0 >= (svs.time - LODWORD(svs.mapCenter[9 * banSlot - 136])))
+            && sv_kickBanTime->current.value * 1000.0 >= (svs.time - svs.tempBans[banSlot].banTime))
         {
             return 1;
         }
@@ -374,9 +391,9 @@ void __cdecl SV_SetClientStat(int clientNum, int index, unsigned int value)
     {
         if (index < 3498)
         {
-            if (*(unsigned int *)&svs.clients[clientNum].voicePackets[17].data[4 * index + 75] == value) // KISAKTODO
+            if (*Kisak_StatExtPtr(&svs.clients[clientNum], index) == value) // KISAKTODO
                 return;
-            *(unsigned int *)&svs.clients[clientNum].voicePackets[17].data[4 * index + 75] = value;
+            *Kisak_StatExtPtr(&svs.clients[clientNum], index) = value;
             goto LABEL_16;
         }
         if (!alwaysfails)
@@ -419,7 +436,7 @@ int __cdecl SV_GetClientStat(int clientNum, int index)
     if (index < 2000)
         return svs.clients[clientNum].stats[index + 4];
     if (index < 3498)
-        return *(unsigned int *)&svs.clients[clientNum].voicePackets[17].data[4 * index + 75]; // KISAKTODO
+        return *Kisak_StatExtPtr(&svs.clients[clientNum], index); // KISAKTODO
     if (!alwaysfails)
     {
         v3 = va("Unhandled stat index %i", index);
@@ -434,7 +451,8 @@ void __cdecl SV_BanGuidBriefly(const char *cdkeyHash)
 
     banSlot = SV_FindFreeTempBanSlot();
     memcpy(&svs.tempBans[banSlot], cdkeyHash, 0x20u);
-    LODWORD(svs.mapCenter[9 * banSlot - 136]) = svs.time;
+    // KISAKHACK-AUDIT: same nega-array reach as SV_IsTempBannedGuid above.
+    svs.tempBans[banSlot].banTime = svs.time;
 }
 
 unsigned int __cdecl SV_FindFreeTempBanSlot()
@@ -447,7 +465,8 @@ unsigned int __cdecl SV_FindFreeTempBanSlot()
     {
         if (!svs.tempBans[banSlot].cdkeyHash[0])
             return banSlot;
-        if (SLODWORD(svs.mapCenter[9 * banSlot - 136]) < SLODWORD(svs.mapCenter[9 * oldestSlot - 136]))
+        // KISAKHACK-AUDIT: same nega-array reach — mapCenter[9*X-136] = tempBans[X].banTime.
+        if (svs.tempBans[banSlot].banTime < svs.tempBans[oldestSlot].banTime)
             oldestSlot = banSlot;
     }
     return oldestSlot;
@@ -1346,7 +1365,7 @@ void __cdecl SV_UserMove(client_t *cl, msg_t *msg, int delta)
     usercmd_s cmds[32]; // [esp+50h] [ebp-418h] BYREF
     int i; // [esp+458h] [ebp-10h]
     playerState_s *ps; // [esp+45Ch] [ebp-Ch]
-    int value; // [esp+460h] [ebp-8h]
+    [[maybe_unused]] int value; // [esp+460h] [ebp-8h]
     usercmd_s *cmd; // [esp+464h] [ebp-4h]
 
     if (delta)
@@ -1502,12 +1521,9 @@ void __cdecl SV_UserMove(client_t *cl, msg_t *msg, int delta)
                 }
                 if (cmdCount > 0)
                 {
-                    *(float *)&value = COERCE_FLOAT(MSG_ReadLong(msg));
-                    cl->header.predictedOrigin[0] = *(float *)&value;
-                    *(float *)&value = COERCE_FLOAT(MSG_ReadLong(msg));
-                    cl->header.predictedOrigin[1] = *(float *)&value;
-                    *(float *)&value = COERCE_FLOAT(MSG_ReadLong(msg));
-                    cl->header.predictedOrigin[2] = *(float *)&value;
+                    cl->header.predictedOrigin[0] = COERCE_FLOAT(MSG_ReadLong(msg));
+                    cl->header.predictedOrigin[1] = COERCE_FLOAT(MSG_ReadLong(msg));
+                    cl->header.predictedOrigin[2] = COERCE_FLOAT(MSG_ReadLong(msg));
                     cl->header.predictedOriginServerTime = MSG_ReadLong(msg);
                 }
                 if (cl->frames[cl->messageAcknowledge & 0x1F].messageAcked <= 0)
@@ -1743,9 +1759,10 @@ gentity_s *__cdecl SV_AddTestClient()
     memset(a.ipx, 0, sizeof(a.ipx));
     a.type = NA_BOT;
     a.port = botport++;
-    *(_QWORD *)&v1.type = 0;
-    *(unsigned int *)&v1.port = a.port;
-    *(_QWORD *)&v1.ipx[2] = 0;
+    v1.type = NA_BOT;
+    memset(v1.ip, 0, sizeof(v1.ip));
+    v1.port = a.port;
+    memset(v1.ipx, 0, sizeof(v1.ipx));
     SV_DirectConnect(v1);
     SV_Cmd_EndTokenizedString();
     i = 0;

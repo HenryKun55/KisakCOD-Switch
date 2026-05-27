@@ -52,7 +52,14 @@ const float MY_ST[4][4] =
   { 0.0, 0.0, 1.0, 1.0 },
   { 0.0, 1.0, 1.0, 0.0 }
 }; // idb
-const float MY_DIMS[4][2] = { { 0.5, 0.25 }, { 0.5, 0.25 }, { 0.25, 0.5 }, { 0.25, 0.5 } }; // idb
+// KISAKHACK-AUDIT: upstream hex-rays uses MY_DIMS[idx+4] (nega-array reach into adjacent
+// memory). Extended to 8 entries to silence GCC array-bounds. Slots 4..7 are zeroed —
+// upstream's actual data was in a separate adjacent table we don't have. Visual layout
+// of action slots may be wrong; gameplay correctness unaffected.
+const float MY_DIMS[8][2] = {
+    { 0.5, 0.25 }, { 0.5, 0.25 }, { 0.25, 0.5 }, { 0.25, 0.5 },
+    { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 }
+}; // idb
 
 void __cdecl CG_AmmoCounterRegisterDvars()
 {

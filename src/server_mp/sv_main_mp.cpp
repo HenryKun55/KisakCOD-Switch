@@ -750,7 +750,7 @@ void __cdecl SV_PacketEvent(netadr_t from, msg_t *msg)
 
     if (!Sys_IsMainThread())
         MyAssertHandler(".\\server_mp\\sv_main_mp.cpp", 1336, 0, "%s", "Sys_IsMainThread()");
-    if (msg->cursize >= 4 && *(unsigned int *)msg->data == -1)
+    if (msg->cursize >= 4 && *(unsigned int *)msg->data == 0xFFFFFFFFu)
     {
         SV_ConnectionlessPacket(from, msg);
     }

@@ -109,6 +109,18 @@ submatrix of A. there are two ways we could arrange the rows/columns in AC.
 */
 
 #include <ode/common.h>
+// KISAKHACK-AUDIT: devkitA64's ctype.h defines _U, _L, _N, _S, _P, _C, _X, _B as
+// octal masks. Those clash with ODE's parameter names (_L, _d, _ell, etc.) in
+// the dLCP constructor below. Undefine them here — we don't need the macros in
+// this TU.
+#undef _U
+#undef _L
+#undef _N
+#undef _S
+#undef _P
+#undef _C
+#undef _X
+#undef _B
 #include "lcp.h"
 #include <ode/matrix.h>
 #include <ode/misc.h>

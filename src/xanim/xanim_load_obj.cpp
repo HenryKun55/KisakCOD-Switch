@@ -747,7 +747,7 @@ unsigned __int8 *__cdecl GetQuaternions(
                     quat[2] = -quat[2];
                     quat[3] = -quat[3];
                 }
-                *(XAnimPartQuatData*)&(*part->quat->u.frames.u.frames)[0] = *(XAnimPartQuatData*)quat;
+                memcpy(&(*part->quat->u.frames.u.frames)[0], quat, sizeof(__int16) * 4);
                 for (n = 1; n < numQuatIndices; ++n)
                 {
                     ConsumeQuat(&pos, quat);
@@ -925,7 +925,7 @@ XAnimParts *__cdecl XAnimLoadFile(char *name, void *(__cdecl *Alloc)(int))
     int v33; // [esp+BCh] [ebp-1428h]
     unsigned __int8 v34; // [esp+C0h] [ebp-1424h]
     [[maybe_unused]] unsigned __int16 v35; // [esp+C4h] [ebp-1420h]
-    __int16 numBones; // [esp+C8h] [ebp-141Ch]
+    unsigned int numBones; // [esp+C8h] [ebp-141Ch]
     [[maybe_unused]] unsigned __int16 v37; // [esp+CCh] [ebp-1418h]
     __int16 version; // [esp+D0h] [ebp-1414h]
     unsigned __int8 *pos; // [esp+DCh] [ebp-1408h] BYREF

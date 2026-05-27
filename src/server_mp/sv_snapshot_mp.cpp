@@ -629,7 +629,7 @@ int __cdecl SV_GetArchivedClientInfo(int clientNum, int *pArchiveTime, playerSta
         deltaTime = svs.time - cachedFrame->time;
         for (i = 0; ; ++i)
         {
-            if (i >= cachedFrame->num_clients)
+            if (i >= static_cast<unsigned int>(cachedFrame->num_clients))
                 goto LABEL_14;
             cachedClient = &svs.cachedSnapshotClients[(i + cachedFrame->first_client) % 0x1000];
             if (cachedClient->cs.clientIndex == clientNum)
@@ -762,18 +762,22 @@ cachedSnapshot_t *__cdecl SV_GetCachedSnapshotInternal(int archivedFrame)
     }
     v2 = svs.archivedSnapshotFrames[archivedFrame % 1200].start % 0x2000000;
     partSize = 0x2000000 - v2;
-    if (*(_DWORD *)&svs.archivedSnapshotBuffer[8 * (archivedFrame % 1200) - 9596] > 0x2000000 - v2)
+    // KISAKHACK-AUDIT: upstream hex-rays addressed archivedSnapshotFrames[i].size via a
+    // nega-array reach from archivedSnapshotBuffer back into the frames array (which sits
+    // 9600 bytes before the buffer in serverStatic_t). Direct field access expresses the
+    // intent and is 64-bit-safe.
+    if (static_cast<unsigned int>(svs.archivedSnapshotFrames[archivedFrame % 1200].size) > static_cast<unsigned int>(0x2000000 - v2))
         MSG_InitReadOnlySplit(
             &msg,
             &svs.archivedSnapshotBuffer[v2],
             partSize,
             svs.archivedSnapshotBuffer,
-            *(_DWORD *)&svs.archivedSnapshotBuffer[8 * (archivedFrame % 1200) - 9596] - partSize);
+            svs.archivedSnapshotFrames[archivedFrame % 1200].size - partSize);
     else
         MSG_InitReadOnly(
             &msg,
             &svs.archivedSnapshotBuffer[v2],
-            *(_DWORD *)&svs.archivedSnapshotBuffer[8 * (archivedFrame % 1200) - 9596]);
+            svs.archivedSnapshotFrames[archivedFrame % 1200].size);
     MSG_BeginReading(&msg);
     if (MSG_ReadBit(&msg))
     {

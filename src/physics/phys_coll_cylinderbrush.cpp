@@ -89,7 +89,7 @@ LABEL_24:
         Phys_GetWindingForBrushFace2(brush, brushSideIndex, &brushPoly, 256, axialPlanes);
         if (phys_drawCollisionWorld->current.enabled)
             Phys_DrawPoly(&brushPoly, colorCyan);
-        if (brushSideIndex >= brush->numsides + 6)
+        if (brushSideIndex >= static_cast<int>(brush->numsides) + 6)
             MyAssertHandler(
                 ".\\physics\\phys_coll_cylinderbrush.cpp",
                 818,
@@ -108,7 +108,7 @@ LABEL_24:
                     if (brush->maxs[i] < (double)info->pos[i])
                     {
                         newBrushSideIndex = 2 * i + 1;
-                        if (newBrushSideIndex != brushSideIndex)
+                        if (newBrushSideIndex != static_cast<unsigned int>(brushSideIndex))
                         {
                             Phys_GetWindingForBrushFace2(brush, newBrushSideIndex, &brushPoly, 256, axialPlanes);
                             if (brushPoly.ptCount)
@@ -124,7 +124,7 @@ LABEL_24:
                 else
                 {
                     newBrushSideIndex = 2 * i;
-                    if (2 * i != brushSideIndex)
+                    if (2 * i != static_cast<unsigned int>(brushSideIndex))
                     {
                         Phys_GetWindingForBrushFace2(brush, newBrushSideIndex, &brushPoly, 256, axialPlanes);
                         if (brushPoly.ptCount)
@@ -140,7 +140,7 @@ LABEL_24:
             for (i = 0; i < brush->numsides; ++i)
             {
                 newBrushSideIndex = i + 6;
-                if (brushSideIndex != i + 6)
+                if (brushSideIndex != static_cast<int>(i + 6))
                 {
                     v3 = Vec3Dot(info->pos, brush->sides[i].plane->normal);
                     if (brush->sides[i].plane->dist < v3)

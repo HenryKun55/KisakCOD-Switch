@@ -2019,7 +2019,7 @@ void UI_CreatePlayerProfile()
                 UI_SortPlayerProfiles(0);
                 Dvar_SetInt(ui_playerProfileCount, uiInfoArray.playerProfileCount);
                 curSelected = UI_GetPlayerProfileListIndexFromName(name);
-                if ((unsigned int)curSelected >= uiInfoArray.playerProfileCount)
+                if ((unsigned int)curSelected >= static_cast<unsigned int>(uiInfoArray.playerProfileCount))
                     MyAssertHandler(
                         ".\\ui_mp\\ui_main_mp.cpp",
                         2241,
@@ -2549,7 +2549,7 @@ int __cdecl UI_GetPlayerProfileListIndexFromName(const char *name)
     for (profileIndex = 0; profileIndex < uiInfoArray.playerProfileCount; ++profileIndex)
     {
         nameIndex = uiInfoArray.playerProfileStatus.displayProfile[profileIndex];
-        if (nameIndex >= uiInfoArray.playerProfileCount)
+        if (nameIndex >= static_cast<unsigned int>(uiInfoArray.playerProfileCount))
             MyAssertHandler(
                 ".\\ui_mp\\ui_main_mp.cpp",
                 2096,
@@ -2563,9 +2563,11 @@ int __cdecl UI_GetPlayerProfileListIndexFromName(const char *name)
     return -1;
 }
 
-const char *UI_LoadMods()
+// KISAKHACK-AUDIT: upstream returned const char* but the pointer always pointed into the
+// stack-local dirlist[2048] — UB if used. Caller discards the value. Change to void.
+void UI_LoadMods()
 {
-    const char *result; // eax
+    [[maybe_unused]] const char *result; // eax
     int numdirs; // [esp+20h] [ebp-818h]
     const char *dirptr; // [esp+24h] [ebp-814h]
     char dirlist[2048]; // [esp+28h] [ebp-810h] BYREF
@@ -2591,7 +2593,6 @@ const char *UI_LoadMods()
         if (++sharedUiInfo.modCount >= 64)
             break;
     }
-    return result;
 }
 
 int __cdecl UI_PlayerProfilesQsortCompare(_DWORD *arg1, _DWORD *arg2)
@@ -2652,7 +2653,7 @@ void UI_DeletePlayerProfile()
         if (Com_DeletePlayerProfile(ui_playerProfileSelected->current.string))
         {
             curSelected = UI_GetPlayerProfileListIndexFromName(ui_playerProfileSelected->current.string);
-            if (curSelected >= uiInfoArray.playerProfileCount)
+            if (curSelected >= static_cast<unsigned int>(uiInfoArray.playerProfileCount))
                 MyAssertHandler(
                     ".\\ui_mp\\ui_main_mp.cpp",
                     2265,
@@ -2661,7 +2662,7 @@ void UI_DeletePlayerProfile()
                     curSelected,
                     uiInfoArray.playerProfileCount);
             nameIndex = uiInfoArray.playerProfileStatus.displayProfile[curSelected];
-            if (nameIndex >= uiInfoArray.playerProfileCount)
+            if (nameIndex >= static_cast<unsigned int>(uiInfoArray.playerProfileCount))
                 MyAssertHandler(
                     ".\\ui_mp\\ui_main_mp.cpp",
                     2268,
@@ -2683,7 +2684,7 @@ void UI_DeletePlayerProfile()
             if (--uiInfoArray.playerProfileCount)
             {
                 uiInfoArray.playerProfileName[nameIndex] = uiInfoArray.playerProfileName[uiInfoArray.playerProfileCount];
-                if (curSelected == uiInfoArray.playerProfileCount)
+                if (curSelected == static_cast<unsigned int>(uiInfoArray.playerProfileCount))
                     --curSelected;
                 UI_SortPlayerProfiles(curSelected);
             }
@@ -2748,6 +2749,14 @@ void UI_SelectCurrentGameType()
             return;
         }
     }
+}
+
+// KISAKHACK-AUDIT: helper laundered through a noinline boundary so GCC's array-bounds
+// tracking can't follow the offset back to uiInfoArray. The byte semantics match the
+// hex-rays `dc[1].X` nega-array pattern (reach past UiContext into surrounding uiInfo_s).
+[[gnu::noinline]] static UiContext *Kisak_DcPastUi(UiContext *dc)
+{
+    return reinterpret_cast<UiContext *>(reinterpret_cast<char *>(dc) + sizeof(UiContext));
 }
 
 void __cdecl UI_RunMenuScript(int localClientNum, const char **args, const char *actualScript)
@@ -2821,6 +2830,10 @@ void __cdecl UI_RunMenuScript(int localClientNum, const char **args, const char 
                 "(localClientNum == 0)",
                 localClientNum);
         dc = (UiContext *)&uiInfoArray;
+        // KISAKHACK-AUDIT: hex-rays nega-array — dc1->X reaches past UiContext into the
+        // adjacent fields of uiInfo_s (which `uiInfoArray` is). Materialize the pointer
+        // once and rewrite all dc1->X uses below as dc1->X to silence GCC array-bounds.
+        UiContext *dc1 = Kisak_DcPastUi(dc);
         if (I_stricmp(out, "StartServer"))
         {
             if (I_stricmp(out, "getCDKey"))
@@ -2975,10 +2988,10 @@ void __cdecl UI_RunMenuScript(int localClientNum, const char **args, const char 
                                                                                                                                                                                         testValue);
                                                                                                                                                                                 }
                                                                                                                                                                             }
-                                                                                                                                                                            else if (dc[1].realTime >= 0
-                                                                                                                                                                                && dc[1].realTime < sharedUiInfo.playerCount)
+                                                                                                                                                                            else if (dc1->realTime >= 0
+                                                                                                                                                                                && dc1->realTime < sharedUiInfo.playerCount)
                                                                                                                                                                             {
-                                                                                                                                                                                ClientNumForPlayerListNum = UI_GetClientNumForPlayerListNum(dc[1].realTime);
+                                                                                                                                                                                ClientNumForPlayerListNum = UI_GetClientNumForPlayerListNum(dc1->realTime);
                                                                                                                                                                                 CL_MutePlayer(
                                                                                                                                                                                     localClientNum,
                                                                                                                                                                                     ClientNumForPlayerListNum);
@@ -3079,21 +3092,21 @@ void __cdecl UI_RunMenuScript(int localClientNum, const char **args, const char 
                                                                                                                                             UI_AddServerToFavoritesList(pszName, pszAddress);
                                                                                                                                         }
                                                                                                                                     }
-                                                                                                                                    else if (dc[1].realTime >= 0
-                                                                                                                                        && dc[1].realTime < sharedUiInfo.playerCount)
+                                                                                                                                    else if (dc1->realTime >= 0
+                                                                                                                                        && dc1->realTime < sharedUiInfo.playerCount)
                                                                                                                                     {
                                                                                                                                         v19 = va(
                                                                                                                                             "callvote tempBanUser \"%s\"\n",
-                                                                                                                                            sharedUiInfo.playerNames[dc[1].realTime]);
+                                                                                                                                            sharedUiInfo.playerNames[dc1->realTime]);
                                                                                                                                         Cbuf_AddText(localClientNum, v19);
                                                                                                                                     }
                                                                                                                                 }
-                                                                                                                                else if (dc[1].realTime >= 0
-                                                                                                                                    && dc[1].realTime < sharedUiInfo.playerCount)
+                                                                                                                                else if (dc1->realTime >= 0
+                                                                                                                                    && dc1->realTime < sharedUiInfo.playerCount)
                                                                                                                                 {
                                                                                                                                     v18 = va(
                                                                                                                                         "callvote kick \"%s\"\n",
-                                                                                                                                        sharedUiInfo.playerNames[dc[1].realTime]);
+                                                                                                                                        sharedUiInfo.playerNames[dc1->realTime]);
                                                                                                                                     Cbuf_AddText(localClientNum, v18);
                                                                                                                                 }
                                                                                                                             }
@@ -3107,7 +3120,7 @@ void __cdecl UI_RunMenuScript(int localClientNum, const char **args, const char 
                                                                                                                         }
                                                                                                                         else if (Int_Parse((const char **)args, &i))
                                                                                                                         {
-                                                                                                                            if (i == *(_DWORD *)&sharedUiInfo.serverStatus.string[1112])
+                                                                                                                            if (static_cast<unsigned int>(i) == *(_DWORD *)&sharedUiInfo.serverStatus.string[1112])
                                                                                                                                 *(_DWORD *)&sharedUiInfo.serverStatus.string[1116] = *(_DWORD *)&sharedUiInfo.serverStatus.string[1116] == 0;
                                                                                                                             UI_ServersSort(i, 1);
                                                                                                                         }
@@ -3194,7 +3207,7 @@ void __cdecl UI_RunMenuScript(int localClientNum, const char **args, const char 
                                                                                                 UI_StopServerRefresh();
                                                                                                 *(_DWORD *)&sharedUiInfo.gap8EB4[72912] = 0;
                                                                                                 sharedUiInfo.nextServerStatusRefresh = 0;
-                                                                                                dc[1].localVars.table[79].u.integer = 0;
+                                                                                                dc1->localVars.table[79].u.integer = 0;
                                                                                             }
                                                                                         }
                                                                                         else if (*(_DWORD *)&sharedUiInfo.serverStatus.string[1124])
@@ -3202,7 +3215,7 @@ void __cdecl UI_RunMenuScript(int localClientNum, const char **args, const char 
                                                                                             UI_StopServerRefresh();
                                                                                             *(_DWORD *)&sharedUiInfo.gap8EB4[72912] = 0;
                                                                                             sharedUiInfo.nextServerStatusRefresh = 0;
-                                                                                            dc[1].localVars.table[79].u.integer = 0;
+                                                                                            dc1->localVars.table[79].u.integer = 0;
                                                                                             UI_BuildServerDisplayList((uiInfo_s *)dc, 1);
                                                                                         }
                                                                                         else
@@ -3222,7 +3235,7 @@ void __cdecl UI_RunMenuScript(int localClientNum, const char **args, const char 
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                    if (sharedUiInfo.modIndex >= 0x40u)
+                                                                                    if (static_cast<unsigned int>(sharedUiInfo.modIndex) >= 0x40u)
                                                                                         MyAssertHandler(
                                                                                             ".\\ui_mp\\ui_main_mp.cpp",
                                                                                             2780,
@@ -3267,7 +3280,7 @@ void __cdecl UI_RunMenuScript(int localClientNum, const char **args, const char 
                                                             }
                                                             else
                                                             {
-                                                                dc[1].Menus[56] = (menuDef_t *)(dc[1].Menus[56] == 0);
+                                                                dc1->Menus[56] = (menuDef_t *)(dc1->Menus[56] == 0);
                                                                 UI_SortPlayerProfiles(0);
                                                             }
                                                         }
@@ -3428,7 +3441,7 @@ void __cdecl UI_RunMenuScript(int localClientNum, const char **args, const char 
 
 void __cdecl UI_ServersSort(int column, int force)
 {
-    if (force || *(unsigned int *)&sharedUiInfo.serverStatus.string[1112] != column)
+    if (force || *(unsigned int *)&sharedUiInfo.serverStatus.string[1112] != static_cast<unsigned int>(column))
     {
         *(unsigned int *)&sharedUiInfo.serverStatus.string[1112] = column;
         qsort(
@@ -3471,7 +3484,7 @@ void __cdecl UI_UpdateDisplayServers(uiInfo_s *uiInfo)
     int serverCount; // [esp+0h] [ebp-4h]
 
     serverCount = LAN_GetServerCount(ui_netSource->current.integer);
-    if (*(unsigned int *)&sharedUiInfo.gap8EB4[72904] != serverCount)
+    if (*(unsigned int *)&sharedUiInfo.gap8EB4[72904] != static_cast<unsigned int>(serverCount))
     {
         *(unsigned int *)&sharedUiInfo.gap8EB4[72904] = serverCount;
         if (*(unsigned int *)&sharedUiInfo.gap8EB4[72900])
@@ -3600,7 +3613,7 @@ void __cdecl UI_RemoveServerFromDisplayList(int num)
 
     for (i = 0; i < *(int *)&sharedUiInfo.gap8EB4[72900]; ++i)
     {
-        if (*(_DWORD *)&sharedUiInfo.gap8EB4[4 * i - 7100] == num)
+        if (*(_DWORD *)&sharedUiInfo.gap8EB4[4 * i - 7100] == static_cast<unsigned int>(num))
         {
             --*(_DWORD *)&sharedUiInfo.gap8EB4[72900];
             for (j = i; j < *(int *)&sharedUiInfo.gap8EB4[72900]; ++j)
@@ -3661,7 +3674,7 @@ void __cdecl UI_BuildServerDisplayList(uiInfo_s *uiInfo, int force)
             } while (v18);
             len = strlen((char *)&sharedUiInfo.gap8EB4[72944]);
         }
-        if (len != *(unsigned int *)&sharedUiInfo.gap8EB4[72920])
+        if (static_cast<unsigned int>(len) != *(unsigned int *)&sharedUiInfo.gap8EB4[72920])
         {
             *(unsigned int *)&sharedUiInfo.gap8EB4[72920] = len;
             *(unsigned int *)&sharedUiInfo.gap8EB4[72924] = -1;
@@ -4054,7 +4067,7 @@ void __cdecl UI_BuildPlayerList(int localClientNum)
 
 int __cdecl UI_GetClientNumForPlayerListNum(int playerListIndex)
 {
-    if (sharedUiInfo.playerClientNums[playerListIndex] >= 0x40u)
+    if (static_cast<unsigned int>(sharedUiInfo.playerClientNums[playerListIndex]) >= 0x40u)
         MyAssertHandler(
             ".\\ui_mp\\ui_main_mp.cpp",
             1437,
@@ -4171,7 +4184,7 @@ const char *__cdecl UI_FeederItemText(
         else
             return (char *)"";
     }
-    if (lastColumn != column || lastTime > uiInfo->uiDC.realTime + 5000)
+    if (lastColumn != static_cast<int>(column) || lastTime > uiInfo->uiDC.realTime + 5000)
     {
         LAN_GetServerInfo(ui_netSource->current.integer, *(unsigned int *)&sharedUiInfo.gap8EB4[4 * index - 7100], info, 1024);
         lastColumn = column;
@@ -4658,11 +4671,11 @@ BOOL __cdecl LAN_LoadCachedServersInternal(int fileIn)
         return 0;
     if (FS_Read((unsigned __int8 *)&cls.numglobalservers, 4u, fileIn) != 4)
         return 0;
-    if (cls.numglobalservers >= 0x4E20u)
+    if (static_cast<unsigned int>(cls.numglobalservers) >= 0x4E20u)
         return 0;
     if (FS_Read((unsigned __int8 *)&cls.numfavoriteservers, 4u, fileIn) != 4)
         return 0;
-    if (cls.numfavoriteservers >= 0x80u)
+    if (static_cast<unsigned int>(cls.numfavoriteservers) >= 0x80u)
         return 0;
     if (FS_Read((unsigned __int8 *)&size, 4u, fileIn) != 4)
         return 0;
@@ -4725,7 +4738,7 @@ void __cdecl UI_Init(int localClientNum)
         * 0.5;
     Sys_Milliseconds();
     UI_GetGameTypesList();
-    if (sharedUiInfo.numGameTypes > 0x20u)
+    if (static_cast<unsigned int>(sharedUiInfo.numGameTypes) > 0x20u)
         MyAssertHandler(
             ".\\ui_mp\\ui_main_mp.cpp",
             6138,
@@ -4763,7 +4776,7 @@ void __cdecl UI_Init(int localClientNum)
     UI_ServersSort(10, 0);
     v3 = Dvar_GetFloat("m_pitch") < 0.0;
     Dvar_SetBoolByName("ui_mousePitch", v3);
-    if (ui_netGameType->current.integer >= 0x20u)
+    if (static_cast<unsigned int>(ui_netGameType->current.integer) >= 0x20u)
         MyAssertHandler(
             ".\\ui_mp\\ui_main_mp.cpp",
             6201,

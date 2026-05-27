@@ -348,7 +348,7 @@ void __cdecl ClientScr_GetStatusIcon(gclient_s *pSelf, const client_fields_s *pF
 
     if (!pSelf)
         MyAssertHandler(".\\game\\g_client_fields.cpp", 272, 0, "%s", "pSelf");
-    if (pSelf->sess.status_icon > 8u)
+    if (static_cast<unsigned int>(pSelf->sess.status_icon) > 8u)
         MyAssertHandler(
             ".\\game\\g_client_fields.cpp",
             274,

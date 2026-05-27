@@ -41,7 +41,7 @@ void __cdecl AddIP(char *str)
 {
     int i; // [esp+0h] [ebp-4h]
 
-    for (i = 0; i < numIPFilters && ipFilters[i].compare != -1; ++i)
+    for (i = 0; i < numIPFilters && ipFilters[i].compare != 0xFFFFFFFFu; ++i)
         ;
     if (i == numIPFilters)
     {
@@ -106,7 +106,7 @@ void UpdateIPBans()
     iplist[0] = 0;
     for (i = 0; i < numIPFilters; ++i)
     {
-        if (ipFilters[i].compare != -1)
+        if (ipFilters[i].compare != 0xFFFFFFFFu)
         {
             b = ipFilters[i].compare;
             Com_sprintf(

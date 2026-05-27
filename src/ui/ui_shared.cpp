@@ -1567,7 +1567,7 @@ itemDef_s *__cdecl Menu_FocusFirstSelectableItem(UiContext *dc, menuDef_t *menu)
                 localClientNum,
                 1);
         cursor = menu->cursorItem[localClientNum];
-        if (cursor >= menu->itemCount)
+        if (cursor >= static_cast<unsigned int>(menu->itemCount))
             MyAssertHandler(
                 ".\\ui\\ui_shared.cpp",
                 1387,
@@ -2841,7 +2841,7 @@ bool __cdecl Item_TextField_HandleKey(UiContext *dc, itemDef_s *item, int key)
             Dvar_SetFromStringByName(item->dvar, buff);
             v6 = (char *)Dvar_GetVariantString(item->dvar);
             I_strncpyz(buff, v6, 1024);
-            strlen(buff);
+            (void)strlen(buff);
             item->cursorPos[dc->localClientNum] = Item_GetCursorPosOffset(dc->localClientNum, item, buff, 1);
             Item_TextField_EnsureCursorVisible(dc->localClientNum, item, buff);
             if (editPtr->maxChars)
@@ -2972,12 +2972,12 @@ void __cdecl Item_TextField_EnsureCursorVisible(int localClientNum, itemDef_s *i
 
 void __cdecl Scroll_ListBox_AutoFunc(UiContext *dc, void *p)
 {
-    if (dc->realTime > *(_DWORD *)p)
+    if (static_cast<uint32_t>(dc->realTime) > *(_DWORD *)p)
     {
         Item_ListBox_HandleKey(dc, *((itemDef_s **)p + 6), *((_DWORD *)p + 3), 1, 0);
         *(_DWORD *)p = *((_DWORD *)p + 2) + dc->realTime;
     }
-    if (dc->realTime > *((_DWORD *)p + 1))
+    if (static_cast<uint32_t>(dc->realTime) > *((_DWORD *)p + 1))
     {
         *((_DWORD *)p + 1) = dc->realTime + 150;
         if (*((int *)p + 2) > 20)
@@ -3052,12 +3052,12 @@ void __cdecl Scroll_ListBox_ThumbFunc(UiContext *dc, void *p)
                 listPtr->startPos[dc->localClientNum] = posa;
                 *((float *)(uintptr_t)p + 5) = dc->cursor.y;
             }
-            if (dc->realTime > *(_DWORD *)p)
+            if (static_cast<uint32_t>(dc->realTime) > *(_DWORD *)p)
             {
                 Item_ListBox_HandleKey(dc, *((itemDef_s **)p + 6), *((_DWORD *)p + 3), 1, 0);
                 *(_DWORD *)p = *((_DWORD *)p + 2) + dc->realTime;
             }
-            if (dc->realTime > *((_DWORD *)p + 1))
+            if (static_cast<uint32_t>(dc->realTime) > *((_DWORD *)p + 1))
             {
                 *((_DWORD *)p + 1) = dc->realTime + 150;
                 if (*((int *)p + 2) > 20)
@@ -6503,12 +6503,12 @@ void __cdecl Item_GameMsgWindow_Paint(UiContext *dc, itemDef_s *item)
         MyAssertHandler(".\\ui\\ui_shared.cpp", 5581, 0, "%s", "item");
     if (CL_IsCgameInitialized(dc->localClientNum))
     {
-        if (item->gameMsgWindowIndex >= 4u)
+        if (static_cast<unsigned int>(item->gameMsgWindowIndex) >= 4u)
         {
             v2 = va("Game message window index %d is not valid. Must be in [0, %d).", item->gameMsgWindowIndex, 4);
             Com_Error(ERR_DROP, v2);
         }
-        if (item->gameMsgWindowMode >= 2u && item->gameMsgWindowMode != 3 && item->gameMsgWindowMode != 2)
+        if (static_cast<unsigned int>(item->gameMsgWindowMode) >= 2u && item->gameMsgWindowMode != 3 && item->gameMsgWindowMode != 2)
         {
             v3 = va("Game message window mode %d is not valid.", item->gameMsgWindowMode);
             Com_Error(ERR_DROP, v3);
@@ -6738,7 +6738,7 @@ void __cdecl UI_AddMenu(UiContext *dc, menuDef_t *menu)
         Com_Error(ERR_DROP, "UI_AddMenu: EXE_ERR_OUT_OF_MEMORY");
     if (!menu)
         MyAssertHandler(".\\ui\\ui_shared.cpp", 6297, 0, "%s", "menu");
-    if (dc->menuCount >= 0x280u)
+    if (static_cast<unsigned int>(dc->menuCount) >= 0x280u)
         MyAssertHandler(
             ".\\ui\\ui_shared.cpp",
             6298,

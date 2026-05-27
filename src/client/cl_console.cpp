@@ -200,7 +200,7 @@ void __cdecl Con_ResetMessageWindowTimes(MessageWindow *msgwnd, int32_t serverTi
                 "(msgwnd->lineCount > 0)",
                 msgwnd->lineCount);
         lineIndex = (lineOffset + msgwnd->firstLineIndex) % msgwnd->lineCount;
-        if (lineIndex >= msgwnd->lineCount)
+        if (lineIndex >= static_cast<uint32_t>(msgwnd->lineCount))
             MyAssertHandler(
                 ".\\client\\cl_console.cpp",
                 426,
@@ -209,7 +209,7 @@ void __cdecl Con_ResetMessageWindowTimes(MessageWindow *msgwnd, int32_t serverTi
                 lineIndex,
                 msgwnd->lineCount);
         line = &msgwnd->lines[lineIndex];
-        if (line->messageIndex >= (uint32_t)msgwnd->lineCount)
+        if (static_cast<uint32_t>(line->messageIndex) >= static_cast<uint32_t>(msgwnd->lineCount))
             MyAssertHandler(
                 ".\\client\\cl_console.cpp",
                 429,
@@ -263,7 +263,7 @@ void __cdecl Con_NudgeMessageWindowTimes(MessageWindow *msgwnd, int32_t serverTi
                 "(msgwnd->lineCount > 0)",
                 msgwnd->lineCount);
         lineIndex = (lineOffset + msgwnd->firstLineIndex) % msgwnd->lineCount;
-        if (lineIndex >= msgwnd->lineCount)
+        if (lineIndex >= static_cast<uint32_t>(msgwnd->lineCount))
             MyAssertHandler(
                 ".\\client\\cl_console.cpp",
                 466,
@@ -272,7 +272,7 @@ void __cdecl Con_NudgeMessageWindowTimes(MessageWindow *msgwnd, int32_t serverTi
                 lineIndex,
                 msgwnd->lineCount);
         line = &msgwnd->lines[lineIndex];
-        if (line->messageIndex >= (uint32_t)msgwnd->lineCount)
+        if (static_cast<uint32_t>(line->messageIndex) >= static_cast<uint32_t>(msgwnd->lineCount))
             MyAssertHandler(
                 ".\\client\\cl_console.cpp",
                 469,
@@ -1250,7 +1250,7 @@ void __cdecl Con_UpdateMessage(int32_t localClientNum, MessageWindow *msgwnd, in
 
     if (!msgwnd)
         MyAssertHandler(".\\client\\cl_console.cpp", 678, 0, "%s", "msgwnd");
-    if (msgwnd->messageIndex >= (uint32_t)msgwnd->lineCount)
+    if (static_cast<uint32_t>(msgwnd->messageIndex) >= static_cast<uint32_t>(msgwnd->lineCount))
         MyAssertHandler(
             ".\\client\\cl_console.cpp",
             679,
@@ -1339,7 +1339,7 @@ void __cdecl Con_UpdateMessageWindowLine(int32_t localClientNum, MessageWindow *
 
     if (!msgwnd)
         MyAssertHandler(".\\client\\cl_console.cpp", 893, 0, "%s", "msgwnd");
-    if (msgwnd->firstLineIndex >= (uint32_t)msgwnd->lineCount)
+    if (static_cast<uint32_t>(msgwnd->firstLineIndex) >= static_cast<uint32_t>(msgwnd->lineCount))
         MyAssertHandler(
             ".\\client\\cl_console.cpp",
             894,
@@ -1347,7 +1347,7 @@ void __cdecl Con_UpdateMessageWindowLine(int32_t localClientNum, MessageWindow *
             "msgwnd->firstLineIndex doesn't index msgwnd->lineCount\n\t%i not in [0, %i)",
             msgwnd->firstLineIndex,
             msgwnd->lineCount);
-    if (msgwnd->messageIndex >= (uint32_t)msgwnd->lineCount)
+    if (static_cast<uint32_t>(msgwnd->messageIndex) >= static_cast<uint32_t>(msgwnd->lineCount))
         MyAssertHandler(
             ".\\client\\cl_console.cpp",
             895,
@@ -1376,7 +1376,7 @@ void __cdecl Con_UpdateMessageWindowLine(int32_t localClientNum, MessageWindow *
         if (newPadLineOffset > 0)
         {
             imod = (msgwnd->firstLineIndex + newPadLineOffset - 1) % msgwnd->lineCount;
-            if (imod >= msgwnd->lineCount)
+            if (static_cast<uint32_t>(imod) >= static_cast<uint32_t>(msgwnd->lineCount))
                 MyAssertHandler(
                     ".\\client\\cl_console.cpp",
                     925,
@@ -1385,7 +1385,7 @@ void __cdecl Con_UpdateMessageWindowLine(int32_t localClientNum, MessageWindow *
                     imod,
                     msgwnd->lineCount);
             linea = &msgwnd->lines[imod];
-            if (linea->messageIndex >= (uint32_t)msgwnd->lineCount)
+            if (static_cast<uint32_t>(linea->messageIndex) >= static_cast<uint32_t>(msgwnd->lineCount))
                 MyAssertHandler(
                     ".\\client\\cl_console.cpp",
                     927,
@@ -1655,16 +1655,22 @@ void __cdecl CL_DeathMessagePrint(
                 MyAssertHandler(".\\client\\cl_console.cpp", 1403, 0, "%s", "c != '\\0'");
             deathMsg[1] = attackerColorIndex;
             deathMsgLena = CL_AddDeathMessageString(deathMsg, 2u, 0x400u, attackerName);
-            if (deathMsgLena + 1 > 0x400)
+            if (deathMsgLena + 1 > 0x400) {
                 MyAssertHandler(".\\client\\cl_console.cpp", 1404, 0, "%s", "deathMsgLen + 1 <= deathMsgMaxLen");
+                deathMsgLena = 0x3FF; // KISAKHACK-AUDIT: clamp after non-fatal assert
+            }
             deathMsg[deathMsgLena] = 94;
             deathMsgLenb = deathMsgLena + 1;
-            if (deathMsgLenb + 1 > 0x400)
+            if (deathMsgLenb + 1 > 0x400) {
                 MyAssertHandler(".\\client\\cl_console.cpp", 1404, 0, "%s", "deathMsgLen + 1 <= deathMsgMaxLen");
+                deathMsgLenb = 0x3FF; // KISAKHACK-AUDIT: clamp after non-fatal assert
+            }
             deathMsg[deathMsgLenb] = 55;
             deathMsgLenc = deathMsgLenb + 1;
-            if (deathMsgLenc + 1 > 0x400)
+            if (deathMsgLenc + 1 > 0x400) {
                 MyAssertHandler(".\\client\\cl_console.cpp", 1404, 0, "%s", "deathMsgLen + 1 <= deathMsgMaxLen");
+                deathMsgLenc = 0x3FF; // KISAKHACK-AUDIT: clamp after non-fatal assert
+            }
             deathMsg[deathMsgLenc] = 32;
             deathMsgLen = deathMsgLenc + 1;
         }
@@ -1685,22 +1691,30 @@ void __cdecl CL_DeathMessagePrint(
                 victimColorIndex,
                 48,
                 57);
-        if (deathMsgLend + 1 > 0x400)
+        if (deathMsgLend + 1 > 0x400) {
             MyAssertHandler(".\\client\\cl_console.cpp", 1404, 0, "%s", "deathMsgLen + 1 <= deathMsgMaxLen");
+            deathMsgLend = 0x3FF; // KISAKHACK-AUDIT: clamp after non-fatal assert
+        }
         deathMsg[deathMsgLend] = 32;
         deathMsgLene = deathMsgLend + 1;
-        if (deathMsgLene + 1 > 0x400)
+        if (deathMsgLene + 1 > 0x400) {
             MyAssertHandler(".\\client\\cl_console.cpp", 1404, 0, "%s", "deathMsgLen + 1 <= deathMsgMaxLen");
+            deathMsgLene = 0x3FF; // KISAKHACK-AUDIT: clamp after non-fatal assert
+        }
         deathMsg[deathMsgLene] = 94;
         deathMsgLenf = deathMsgLene + 1;
         if (!victimColorIndex)
             MyAssertHandler(".\\client\\cl_console.cpp", 1403, 0, "%s", "c != '\\0'");
-        if (deathMsgLenf + 1 > 0x400)
+        if (deathMsgLenf + 1 > 0x400) {
             MyAssertHandler(".\\client\\cl_console.cpp", 1404, 0, "%s", "deathMsgLen + 1 <= deathMsgMaxLen");
+            deathMsgLenf = 0x3FF; // KISAKHACK-AUDIT: clamp after non-fatal assert
+        }
         deathMsg[deathMsgLenf] = victimColorIndex;
         deathMsgLeng = CL_AddDeathMessageString(deathMsg, deathMsgLenf + 1, 0x400u, victimName);
-        if (deathMsgLeng + 1 > 0x400)
+        if (deathMsgLeng + 1 > 0x400) {
             MyAssertHandler(".\\client\\cl_console.cpp", 1404, 0, "%s", "deathMsgLen + 1 <= deathMsgMaxLen");
+            deathMsgLeng = 0x3FF; // KISAKHACK-AUDIT: clamp after non-fatal assert
+        }
         deathMsg[deathMsgLeng] = 10;
         deathMsgLenh = deathMsgLeng + 1;
         if (deathMsgLenh >= 0x400)
@@ -2153,7 +2167,7 @@ void __cdecl Con_DrawMessageWindowNewToOld(
         if (msgwnd->lineCount <= 0)
             MyAssertHandler(".\\client\\cl_console.cpp", 2554, 0, "%s", "msgwnd->lineCount > 0");
         imod = (lineOffset + msgwnd->firstLineIndex) % msgwnd->lineCount;
-        if ((uint32_t)imod >= msgwnd->lineCount)
+        if (static_cast<uint32_t>(imod) >= static_cast<uint32_t>(msgwnd->lineCount))
             MyAssertHandler(
                 ".\\client\\cl_console.cpp",
                 2556,
@@ -2162,7 +2176,7 @@ void __cdecl Con_DrawMessageWindowNewToOld(
                 imod,
                 msgwnd->lineCount);
         line = &msgwnd->lines[imod];
-        if (line->messageIndex >= (uint32_t)msgwnd->lineCount)
+        if (static_cast<uint32_t>(line->messageIndex) >= static_cast<uint32_t>(msgwnd->lineCount))
             MyAssertHandler(
                 ".\\client\\cl_console.cpp",
                 2558,
@@ -2212,7 +2226,7 @@ void __cdecl Con_DrawMessageWindowNewToOld(
     for (lineOffset = msgwnd->activeLineCount - 1; lineOffset >= 0; --lineOffset)
     {
         imod = (lineOffset + msgwnd->firstLineIndex) % msgwnd->lineCount;
-        if ((uint32_t)imod >= msgwnd->lineCount)
+        if (static_cast<uint32_t>(imod) >= static_cast<uint32_t>(msgwnd->lineCount))
             MyAssertHandler(
                 ".\\client\\cl_console.cpp",
                 2581,
@@ -2221,7 +2235,7 @@ void __cdecl Con_DrawMessageWindowNewToOld(
                 imod,
                 msgwnd->lineCount);
         line = &msgwnd->lines[imod];
-        if (line->messageIndex >= (uint32_t)msgwnd->lineCount)
+        if (static_cast<uint32_t>(line->messageIndex) >= static_cast<uint32_t>(msgwnd->lineCount))
             MyAssertHandler(
                 ".\\client\\cl_console.cpp",
                 2584,
@@ -2443,7 +2457,7 @@ void __cdecl Con_CullFinishedLines(int32_t serverTime, MessageWindow *msgwnd)
     while (msgwnd->activeLineCount)
     {
         line = &msgwnd->lines[msgwnd->firstLineIndex];
-        if (line->messageIndex >= (uint32_t)msgwnd->lineCount)
+        if (static_cast<uint32_t>(line->messageIndex) >= static_cast<uint32_t>(msgwnd->lineCount))
             MyAssertHandler(
                 ".\\client\\cl_console.cpp",
                 2479,
@@ -2555,7 +2569,7 @@ void __cdecl Con_DrawMessageWindowOldToNew(
         if (msgwnd->lineCount <= 0)
             MyAssertHandler(".\\client\\cl_console.cpp", 2632, 0, "%s", "msgwnd->lineCount > 0");
         imod = (lineOffset + msgwnd->firstLineIndex) % msgwnd->lineCount;
-        if ((uint32_t)imod >= msgwnd->lineCount)
+        if (static_cast<uint32_t>(imod) >= static_cast<uint32_t>(msgwnd->lineCount))
             MyAssertHandler(
                 ".\\client\\cl_console.cpp",
                 2634,
@@ -2564,7 +2578,7 @@ void __cdecl Con_DrawMessageWindowOldToNew(
                 imod,
                 msgwnd->lineCount);
         line = &msgwnd->lines[imod];
-        if (line->messageIndex >= (uint32_t)msgwnd->lineCount)
+        if (static_cast<uint32_t>(line->messageIndex) >= static_cast<uint32_t>(msgwnd->lineCount))
             MyAssertHandler(
                 ".\\client\\cl_console.cpp",
                 2636,
@@ -2661,7 +2675,7 @@ void __cdecl Con_DrawMiniConsole(int32_t localClientNum, int32_t xPos, int32_t y
     float color[4]; // [esp+14h] [ebp-10h] BYREF
 
     font = UI_GetFontHandle(&scrPlaceView[localClientNum], 0, 1.0);
-    if (con_miniconlines->current.integer > 0x64u)
+    if (static_cast<unsigned int>(con_miniconlines->current.integer) > 0x64u)
         MyAssertHandler(
             ".\\client\\cl_console.cpp",
             2757,

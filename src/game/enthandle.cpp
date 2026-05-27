@@ -198,7 +198,7 @@ void EntHandle::Shutdown()
             }
         }
         Com_Printf(1, "EntHandle END\n");
-        if (usedEntHandle != g_usedEntHandle)
+        if (usedEntHandle != static_cast<uint32_t>(g_usedEntHandle))
         {
             v0 = va("%d %d", usedEntHandle, g_usedEntHandle);
             MyAssertHandler(".\\game\\enthandle.cpp", 103, 0, "%s\n\t%s", "usedEntHandle == g_usedEntHandle", v0);

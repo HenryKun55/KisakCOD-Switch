@@ -144,7 +144,7 @@ void __cdecl CG_DrawSnapshotAnalysis(int32_t localClientNum)
                 v10 = y - height;
                 UI_DrawHandlePic(&scrPlaceView[localClientNum], x, v10, width, height, 3, 1, colorBlack, cgMedia.whiteMaterial);
                 color = (const float (*)[4])colorWhite;
-                if (cg_packetAnalysisClient->current.integer >= 0x40u)
+                if (static_cast<unsigned int>(cg_packetAnalysisClient->current.integer) >= 0x40u)
                     MyAssertHandler(
                         ".\\cgame_mp\\cg_draw_net_mp.cpp",
                         260,
@@ -176,7 +176,7 @@ void __cdecl CG_DrawSnapshotAnalysis(int32_t localClientNum)
                     for (column = 0; column < 13; ++column)
                     {
                         fieldb = sortedSamples[column];
-                        if (fieldb > 0xC)
+                        if (fieldb > 0xC) {
                             MyAssertHandler(
                                 ".\\cgame_mp\\cg_draw_net_mp.cpp",
                                 280,
@@ -184,6 +184,8 @@ void __cdecl CG_DrawSnapshotAnalysis(int32_t localClientNum)
                                 "%s\n\t(field) = %i",
                                 "(field >= 0 && field < ANALYZE_SNAPSHOT_DATATYPE_COUNT)",
                                 fieldb);
+                            fieldb = 0; // KISAKHACK-AUDIT: clamp after non-fatal assert
+                        }
                         v = (int)((float)cgameGlob->bitsSent[arrayFrameb][fieldb] * height / 255.0f);
                         if (v)
                         {
@@ -416,7 +418,7 @@ void __cdecl CG_DrawSnapshotEntityAnalysis(int32_t localClientNum)
             v17 = 100.0f - 100.0f;
             UI_DrawHandlePic(&scrPlaceView[localClientNum], 10.0f, v17, 80.0f, 100.0, 1, 1, colorBlack, cgMedia.whiteMaterial);
             color = (const float (*)[4])colorWhite;
-            if (cg_packetAnalysisClient->current.integer >= 0x40u)
+            if (static_cast<unsigned int>(cg_packetAnalysisClient->current.integer) >= 0x40u)
                 MyAssertHandler(
                     ".\\cgame_mp\\cg_draw_net_mp.cpp",
                     457,

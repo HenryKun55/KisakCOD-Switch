@@ -456,7 +456,7 @@ void __cdecl XModelReadSurface(XModel *model, unsigned char **pos, void *(__cdec
 {
     int vertCount; // edx
     [[maybe_unused]] __int16 v32; // [esp+84h] [ebp-6BCh]
-    float check[3]; // [esp+88h] [ebp-6B8h] BYREF
+    [[maybe_unused]] float check[3]; // [esp+88h] [ebp-6B8h] BYREF
     [[maybe_unused]] int j; // [esp+94h] [ebp-6ACh]
     [[maybe_unused]] unsigned __int8 numWeights; // [esp+9Bh] [ebp-6A5h]
     int weightCount[4]; // [esp+9Ch] [ebp-6A4h] BYREF
@@ -673,7 +673,7 @@ void __cdecl XModelReadSurface(XModel *model, unsigned char **pos, void *(__cdec
     memcpy(surface->vertList, rigidVertListArray, sizeof(XRigidVertList) * vertListCount);
     vertexBytes = sizeof(GfxPackedVertex) * surface->vertCount;
     surface->verts0 = (GfxPackedVertex *)Alloc(vertexBytes);
-    memset(surface->verts0, 0, vertexBytes); // Add from blops
+    memset(reinterpret_cast<unsigned char *>(surface->verts0), 0, vertexBytes); // Add from blops
     model->memUsage += vertexBytes;
     XSurfaceTransfer(surfVerts, surface->verts0, surface->verts0, surface->vertCount);
     if (deformed)

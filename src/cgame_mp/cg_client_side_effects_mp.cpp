@@ -536,7 +536,7 @@ void __cdecl CG_CopyClientSideSoundEntityOrientation(
 {
     ClientEntSound *v3; // edx
 
-    if (clientSoundEntIndex >= g_clientEntSoundCount)
+    if (clientSoundEntIndex >= static_cast<uint32_t>(g_clientEntSoundCount))
         MyAssertHandler(
             ".\\cgame_mp\\cg_client_side_effects_mp.cpp",
             603,

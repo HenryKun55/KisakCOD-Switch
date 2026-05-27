@@ -1408,7 +1408,7 @@ void __cdecl PmoveSingle(pmove_t *pm)
                 v6 = I_fabs(v15),
                 v6 >= (double)v7))
         {
-            if ((ps->pm_flags & PMF_SIGHT_AIMING) == 0 && (ps->weaponstate <= 4u || ps->weaponstate == 7))
+            if ((ps->pm_flags & PMF_SIGHT_AIMING) == 0 && (static_cast<unsigned int>(ps->weaponstate) <= 4u || ps->weaponstate == 7))
                 ps->pm_flags &= ~PMF_PRONEMOVE_OVERRIDDEN;
         }
         else

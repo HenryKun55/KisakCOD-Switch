@@ -494,7 +494,7 @@ void __cdecl Missile_FreeAttractorRefs(gentity_s *ent)
         if (attrGlob.attractors[attractorIndex].inUse && attrGlob.attractors[attractorIndex].entnum == ent->s.number)
         {
             v1 = &attrGlob.attractors[attractorIndex];
-            *(uint32_t *)&v1->inUse = 0;
+            v1->inUse = 0;
             v1->entnum = 0;
             v1->origin[0] = 0.0;
             v1->origin[1] = 0.0;
@@ -594,7 +594,7 @@ void __cdecl Scr_MissileDeleteAttractor()
     if (attractorIndex >= 0x20)
         Scr_ParamError(0, "Invalid attractor or repulsor");
     v0 = &attrGlob.attractors[attractorIndex];
-    *(uint32_t *)&v0->inUse = 0;
+    v0->inUse = 0;
     v0->entnum = 0;
     v0->origin[0] = 0.0;
     v0->origin[1] = 0.0;
@@ -1385,7 +1385,7 @@ bool __cdecl BounceMissile(gentity_s *ent, trace_t *trace)
             MissileLandAngles(ent, trace, vAngles, 1);
         }
         G_SetAngle(ent, vAngles);
-        ent->item[1] = *(item_ent_t *)trace->normal;
+        memcpy(&ent->item[1], trace->normal, sizeof(item_ent_t));
         if (!weapDef->timedDetonation)
             ent->nextthink = 0;
         CheckGrenadeDanger(ent);
@@ -3015,7 +3015,7 @@ gentity_s *__cdecl G_FireRocket(
     if (weapDef->destabilizationRateTime == 0.0)
         v8 = bolt->flags | FL_STABLE_MISSILES;
     else
-        v8 = bolt->flags | parent->flags & FL_STABLE_MISSILES;
+        v8 = bolt->flags | (parent->flags & FL_STABLE_MISSILES);
     bolt->flags = v8;
     SV_LinkEntity(bolt);
     return bolt;
@@ -3121,9 +3121,7 @@ static void PredictBounceMissile(
                 || stickiness == WEAPSTICKINESS_GROUND_WITH_YAW
                 || sqrtf((float)((float)(pos->trDelta[2] * pos->trDelta[2]) + (float)((float)(pos->trDelta[0] * pos->trDelta[0]) + (float)(pos->trDelta[1] * pos->trDelta[1])))) < 20.0)))
     {
-        pos->trBase[0] = *endpos;
-        pos->trBase[1] = endpos[1];
-        pos->trBase[2] = endpos[2];
+        memcpy(pos->trBase, endpos, 3 * sizeof(float));
         pos->trType = TR_STATIONARY;
         pos->trTime = 0;
         pos->trDuration = 0;
@@ -3169,17 +3167,26 @@ int G_PredictMissile(gentity_s *ent, int duration, float *vLandPos, int allowBou
     float start[3]; // [sp+68h] [-408h] BYREF
     //float v34; // [sp+6Ch] [-404h]
     //float v35; // [sp+70h] [-400h]
-    float v36; // [sp+78h] [-3F8h] BYREF
-    float v37; // [sp+7Ch] [-3F4h]
-    float v38; // [sp+80h] [-3F0h]
-    float v39; // [sp+88h] [-3E8h] BYREF
-    float v40; // [sp+8Ch] [-3E4h]
-    float v41; // [sp+90h] [-3E0h]
+    // KISAKHACK-AUDIT: upstream hex-rays scattered float v36/v37/v38 as 3 adjacent stack
+    // floats used together as a vec3 (called with &v36 to G_MissileTrace etc). 32-bit stack
+    // layout placed them contiguously; on 64-bit alignment isn't guaranteed. Pack into a
+    // real float[3] and alias by reference so &kisak_v36[0] gives a true vec3.
+    float kisak_v36[3]; // BYREF (originally v36..v38)
+    float &v36 = kisak_v36[0];
+    float &v37 = kisak_v36[1];
+    float &v38 = kisak_v36[2];
+    float kisak_v39[3]; // BYREF (originally v39..v41)
+    float &v39 = kisak_v39[0];
+    float &v40 = kisak_v39[1];
+    float &v41 = kisak_v39[2];
     trace_t trace; // [sp+A0h] [-3D0h] BYREF
     float v43[4]; // [sp+D0h] [-3A0h] BYREF
     float v44[4]; // [sp+E0h] [-390h] BYREF
     trajectory_t trajectory; // [sp+F0h] [-380h] BYREF
-    _BYTE v46[628]; // [sp+120h] [-350h] BYREF
+    // KISAKHACK-AUDIT: upstream sized this scratch buffer at 628 (sizeof(gentity_s) on
+    // 32-bit). On 64-bit gentity_s grows when its pointer fields widen — use sizeof()
+    // so the buffer always fits the actual struct.
+    _BYTE v46[sizeof(gentity_s)]; // [sp+120h] [-350h] BYREF
 
     p_pos = &ent->s.lerp.pos;
     v11 = &trajectory;
@@ -3251,7 +3258,7 @@ int G_PredictMissile(gentity_s *ent, int duration, float *vLandPos, int allowBou
         v38 = (float)((float)(end[2] - start[2]) * trace.fraction) + start[2];
         if (g_debugBullets->current.integer >= 5)
         {
-            G_DebugLineWithDuration(start, &v36, v44, 1, 1000);
+            G_DebugLineWithDuration(start, kisak_v36, v44, 1, 1000);
             fraction = trace.fraction;
             v21 = v38;
             v19 = v37;
@@ -3276,7 +3283,7 @@ int G_PredictMissile(gentity_s *ent, int duration, float *vLandPos, int allowBou
                     v22 = ent->r.ownerNum.entnum();
                 else
                     v22 = ENTITYNUM_NONE;
-                G_MissileTrace(&trace, &v39, end, v22, ent->clipmask);
+                G_MissileTrace(&trace, kisak_v39, end,v22, ent->clipmask);
                 v36 = (float)((float)(end[0] - v39) * trace.fraction) + v39;
                 v37 = (float)((float)(end[1] - v40) * trace.fraction) + v40;
                 v38 = (float)((float)(end[2] - v41) * trace.fraction) + v41;
@@ -3305,7 +3312,7 @@ int G_PredictMissile(gentity_s *ent, int duration, float *vLandPos, int allowBou
                 v23 = ent->r.ownerNum.entnum();
             else
                 v23 = ENTITYNUM_NONE;
-            G_MissileTrace(&trace, &v39, end, v23, ent->clipmask);
+            G_MissileTrace(&trace, kisak_v39, end,v23, ent->clipmask);
             fraction = trace.fraction;
             v37 = (float)((float)(end[1] - v40) * trace.fraction) + v40;
             v36 = (float)((float)(end[0] - v39) * trace.fraction) + v39;
@@ -3330,7 +3337,7 @@ int G_PredictMissile(gentity_s *ent, int duration, float *vLandPos, int allowBou
                 break;
             if ((ent->s.lerp.eFlags & 0x1000000) == 0)
                 break;
-            PredictBounceMissile(ent, &trajectory, &trace, time, time - (int)(float)((float)fraction * (float)-50.0) - 50, start, &v36);
+            PredictBounceMissile(ent, &trajectory, &trace, time, time - (int)(float)((float)fraction * (float)-50.0) - 50, start, kisak_v36);
             trajectory.trTime = time;
             if (trajectory.trType == TR_STATIONARY)
                 break;

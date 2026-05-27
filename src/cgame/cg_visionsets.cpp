@@ -74,10 +74,10 @@ void __cdecl CG_InitVisionSetsMenu()
 
 void __cdecl CG_AddVisionSetMenuItem(XAssetHeader header)
 {
-    char devguiPath[260]; // [esp+0h] [ebp-310h] BYREF
+    char devguiPath[512]; // [esp+0h] [ebp-310h] BYREF  // widened to fit "Renderer/Vision Sets/" + visionSetName[256]
     const char *visionSetNameEnd; // [esp+104h] [ebp-20Ch]
     char visionSetName[256]; // [esp+108h] [ebp-208h] BYREF
-    char command[256]; // [esp+208h] [ebp-108h] BYREF
+    char command[512]; // widened to fit "VisionSetNaked " + visionSetName[256]
     const char *visionSetNameBegin; // [esp+30Ch] [ebp-4h]
 
     if (!header.xmodelPieces)
@@ -100,8 +100,8 @@ void __cdecl CG_AddVisionSetMenuItem(XAssetHeader header)
                 "visionSetNameEnd - visionSetNameBegin < static_cast<int>( sizeof( visionSetName ) )");
         strncpy(visionSetName, visionSetNameBegin, visionSetNameEnd - visionSetNameBegin);
         visionSetName[visionSetNameEnd - visionSetNameBegin] = 0;
-        _snprintf(devguiPath, 0x100u, "Renderer/Vision Sets/%s", visionSetName);
-        _snprintf(command, 0x100u, "VisionSetNaked %s", visionSetName);
+        _snprintf(devguiPath, sizeof(devguiPath), "Renderer/Vision Sets/%s", visionSetName);
+        _snprintf(command, sizeof(command), "VisionSetNaked %s", visionSetName);
         DevGui_AddCommand(devguiPath, command);
     }
 }
@@ -153,7 +153,7 @@ void __cdecl UpdateVarsLerp(
         MyAssertHandler(".\\cgame\\cg_visionsets.cpp", 378, 0, "%s", "lerpData");
     if (!result)
         MyAssertHandler(".\\cgame\\cg_visionsets.cpp", 379, 0, "%s", "result");
-    if (lerpData->style >= (unsigned int)VISIONSETLERP_TO_LINEAR)
+    if (static_cast<unsigned int>(lerpData->style) >= static_cast<unsigned int>(VISIONSETLERP_TO_LINEAR))
     {
         if (lerpData->timeDuration + lerpData->timeStart >= time)
         {

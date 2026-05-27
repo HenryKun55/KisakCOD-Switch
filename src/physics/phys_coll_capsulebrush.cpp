@@ -954,7 +954,7 @@ void __cdecl Phys_CollideCapsuleWithTriangleList(
     float radius; // [esp+13Ch] [ebp-14h]
     const unsigned __int16 *indices; // [esp+140h] [ebp-10h]
     unsigned int triIndex; // [esp+144h] [ebp-Ch]
-    Poly triPoly; // [esp+148h] [ebp-8h]
+    [[maybe_unused]] Poly triPoly; // [esp+148h] [ebp-8h]
 
     if (results->contactCount < results->maxContacts)
     {

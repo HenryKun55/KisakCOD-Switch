@@ -160,9 +160,11 @@ void __cdecl Phys_KMeans(const ContactList *contacts, float (*centroid)[3], int 
 
     for (step = 0; ; ++step)
     {
+        // KISAKHACK-AUDIT: caller passes float[3][3], formal is float(*)[3]. Flat-pointer
+        // indexing matches the upstream byte semantics safely.
         for (groupIter = 0; groupIter != 3; ++groupIter)
         {
-            v6 = &(*centroid)[3 * groupIter];
+            v6 = reinterpret_cast<float *>(centroid) + 3 * groupIter;
             *v6 = 0.0;
             v6[1] = 0.0;
             v6[2] = 0.0;
@@ -294,9 +296,10 @@ void __cdecl Phys_GenerateGroupContacts(
     int contactIter; // [esp+9Ch] [ebp-4h]
 
     outContacts->contactCount = 0;
+    // KISAKHACK-AUDIT: same flat-pointer pattern as above.
     for (groupIter = 0; groupIter != 3; ++groupIter)
     {
-        v8 = &(*centroid)[3 * groupIter];
+        v8 = reinterpret_cast<float *>(centroid) + 3 * groupIter;
         *v8 = 0.0;
         v8[1] = 0.0;
         v8[2] = 0.0;

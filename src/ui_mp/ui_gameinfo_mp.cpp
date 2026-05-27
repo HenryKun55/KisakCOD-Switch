@@ -133,9 +133,12 @@ void __cdecl UI_LoadArenas()
     }
 }
 
-const char *UI_LoadArenasFromFile_LoadObj()
+// KISAKHACK-AUDIT: upstream signature returned const char* but the returned pointer
+// was always into a stack-local listbuf — using it would be UB. Caller discards the
+// value, so changing to void avoids GCC's -Wreturn-local-addr.
+void UI_LoadArenasFromFile_LoadObj()
 {
-    char *result; // eax
+    [[maybe_unused]] char *result; // eax
     const char *v1; // [esp+14h] [ebp-24A4h]
     char string[132]; // [esp+18h] [ebp-24A0h] BYREF
     char *v3; // [esp+9Ch] [ebp-241Ch]
@@ -181,7 +184,6 @@ const char *UI_LoadArenasFromFile_LoadObj()
         result = &v3[v9 + 1];
         v3 = result;
     }
-    return result;
 }
 
 void UI_LoadArenasFromFile()

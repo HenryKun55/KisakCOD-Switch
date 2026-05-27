@@ -857,7 +857,7 @@ char __cdecl Xmodel_ParsePhysicsBrush(
     SimplePlaneIntersection OutPts[1024]; // [esp+268h] [ebp-66A8h] BYREF
     int InPtCount; // [esp+6268h] [ebp-6A8h]
     unsigned int ptIndex; // [esp+626Ch] [ebp-6A4h]
-    int sideIndex; // [esp+6270h] [ebp-6A0h]
+    unsigned int sideIndex; // [esp+6270h] [ebp-6A0h]
     float maxs[3]; // [esp+6274h] [ebp-69Ch] BYREF
     adjacencyWinding_t windings[32]; // [esp+6280h] [ebp-690h] BYREF
     [[maybe_unused]] int v29; // [esp+6900h] [ebp-10h]
@@ -917,7 +917,7 @@ char __cdecl Xmodel_ParsePhysicsBrush(
     maxs[1] = OutPts[0].xyz[1];
     maxs[2] = OutPts[0].xyz[2];
 
-    for (ptIndex = 1; ptIndex < InPtCount; ++ptIndex)
+    for (ptIndex = 1; ptIndex < static_cast<unsigned int>(InPtCount); ++ptIndex)
     {
         for (axis = 0; axis < 3; ++axis)
         {
@@ -984,7 +984,7 @@ char __cdecl Xmodel_ParsePhysicsBrush(
             geom->brush->edgeCount[dir][axis] = windings[order].numsides;
             iassert(geom->brush->edgeCount[dir][axis] == windings[order].numsides);
             geom->brush->firstAdjacentSideOffsets[dir][axis] = edgeIndex;
-            for (ptIndex = 0; ptIndex < windings[order].numsides; ++ptIndex)
+            for (ptIndex = 0; ptIndex < static_cast<unsigned int>(windings[order].numsides); ++ptIndex)
             {
                 geom->brush->baseAdjacentSide[ptIndex + edgeIndex] = windings[order].sides[ptIndex];
                 iassert(geom->brush->baseAdjacentSide[edgeIndex + ptIndex] == windings[order].sides[ptIndex]);
@@ -1000,13 +1000,13 @@ char __cdecl Xmodel_ParsePhysicsBrush(
         geom->brush->sides = (cbrushside_t*)Alloc(12 * geom->brush->numsides);
         geom->brush->planes = (cplane_s*)Alloc(20 * geom->brush->numsides);
         sideIndex = 0;
-        while (sideIndex < geom->brush->numsides)
+        while (sideIndex < static_cast<unsigned int>(geom->brush->numsides))
         {
             iassert(order == sideIndex + 6);
             geom->brush->sides[sideIndex].edgeCount = windings[order].numsides;
             iassert(geom->brush->sides[sideIndex].edgeCount == windings[order].numsides);
             geom->brush->sides[sideIndex].firstAdjacentSideOffset = edgeIndex;
-            for (ptIndex = 0; ptIndex < windings[order].numsides; ++ptIndex)
+            for (ptIndex = 0; ptIndex < static_cast<unsigned int>(windings[order].numsides); ++ptIndex)
             {
                 geom->brush->baseAdjacentSide[ptIndex + edgeIndex] = windings[order].sides[ptIndex];
                 iassert(geom->brush->baseAdjacentSide[edgeIndex + ptIndex] == windings[order].sides[ptIndex]);

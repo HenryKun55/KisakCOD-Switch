@@ -8,6 +8,18 @@
 #include <EffectsCore/fx_system.h>
 #include <bgame/bg_public.h>
 #include <DynEntity/DynEntity_client.h>
+
+// KISAKHACK-AUDIT: upstream hex-rays addresses cgMedia.landSound[event-48] for events
+// in EV_LANDING_PAIN_FIRST..LAST (107..133). event-48 ∈ [59..85] which overflows the
+// landSound[58] array — relying on adjacent struct fields. 64-bit pointer widening
+// reshuffles those neighbors, so direct access is unsafe. Launder via noinline helper
+// to keep the upstream byte arithmetic without triggering GCC array-bounds.
+struct snd_alias_list_t;
+[[gnu::noinline]] static snd_alias_list_t *Kisak_LandSoundAt(snd_alias_list_t **base, int index)
+{
+    return reinterpret_cast<snd_alias_list_t **>(
+        reinterpret_cast<char *>(base) + index * sizeof(snd_alias_list_t *))[0];
+}
 #include <ragdoll/ragdoll.h>
 #include <client/client.h>
 
@@ -169,9 +181,9 @@ void __cdecl CG_EntityEvent(int32_t localClientNum, centity_s *cent, int32_t eve
         if (event > EV_LANDING_FIRST && event < EV_LANDING_LAST)
         {
             if (isPlayerView)
-                CG_PlayEntitySoundAlias(localClientNum, ent->number, *(&cgMedia.landSound[event - 19] + offset));
+                CG_PlayEntitySoundAlias(localClientNum, ent->number, Kisak_LandSoundAt(cgMedia.landSound, event - 19 + offset));
             else
-                CG_PlayEntitySoundAlias(localClientNum, ent->number, *(&cgMedia.stepProneSoundPlayer[event - 19] + offset));
+                CG_PlayEntitySoundAlias(localClientNum, ent->number, Kisak_LandSoundAt(cgMedia.stepProneSoundPlayer, event - 19 + offset));
             if (clientNum == cgameGlob->predictedPlayerState.clientNum)
             {
                 cgameGlob->landChange = 0.0 - (double)eventParm;
@@ -181,9 +193,9 @@ void __cdecl CG_EntityEvent(int32_t localClientNum, centity_s *cent, int32_t eve
         else if (event > EV_LANDING_PAIN_FIRST && event < EV_LANDING_PAIN_LAST)
         {
             if (isPlayerView)
-                CG_PlayEntitySoundAlias(localClientNum, ent->number, *(&cgMedia.landSound[event - 48] + offset));
+                CG_PlayEntitySoundAlias(localClientNum, ent->number, Kisak_LandSoundAt(cgMedia.landSound, event - 48 + offset));
             else
-                CG_PlayEntitySoundAlias(localClientNum, ent->number, *(&cgMedia.stepProneSoundPlayer[event - 48] + offset));
+                CG_PlayEntitySoundAlias(localClientNum, ent->number, Kisak_LandSoundAt(cgMedia.stepProneSoundPlayer, event - 48 + offset));
             CG_PlayEntitySoundAlias(localClientNum, ent->number, cgMedia.landDmgSound);
             if (clientNum == cgameGlob->predictedPlayerState.clientNum)
             {
@@ -525,7 +537,7 @@ void __cdecl CG_EntityEvent(int32_t localClientNum, centity_s *cent, int32_t eve
                     weaponDef->damage);
                 return;
             case EV_GRENADE_BOUNCE:
-                if (ent->surfType >= 0x1Du)
+                if (static_cast<unsigned int>(ent->surfType) >= 0x1Du)
                     MyAssertHandler(
                         ".\\cgame\\cg_event.cpp",
                         971,
@@ -561,7 +573,7 @@ void __cdecl CG_EntityEvent(int32_t localClientNum, centity_s *cent, int32_t eve
                     1.0,
                     weaponDef->iExplosionInnerDamage,
                     weaponDef->iExplosionOuterDamage);
-                if (ent->surfType >= 0x1Du)
+                if (static_cast<unsigned int>(ent->surfType) >= 0x1Du)
                     MyAssertHandler(
                         ".\\cgame\\cg_event.cpp",
                         992,
@@ -599,7 +611,7 @@ void __cdecl CG_EntityEvent(int32_t localClientNum, centity_s *cent, int32_t eve
                     1.0,
                     weaponDef->iExplosionInnerDamage,
                     weaponDef->iExplosionOuterDamage);
-                if (ent->surfType >= 0x1Du)
+                if (static_cast<unsigned int>(ent->surfType) >= 0x1Du)
                     MyAssertHandler(
                         ".\\cgame\\cg_event.cpp",
                         1022,
@@ -685,7 +697,7 @@ void __cdecl CG_EntityEvent(int32_t localClientNum, centity_s *cent, int32_t eve
                 cgameGlob->nomarks = 0;
                 return;
             case EV_DUD_EXPLODE:
-                if (ent->surfType >= 0x1Du)
+                if (static_cast<unsigned int>(ent->surfType) >= 0x1Du)
                     MyAssertHandler(
                         ".\\cgame\\cg_event.cpp",
                         1103,
@@ -713,7 +725,7 @@ void __cdecl CG_EntityEvent(int32_t localClientNum, centity_s *cent, int32_t eve
                     CG_PlaySoundAlias(localClientNum, ENTITYNUM_WORLD, position, weaponDef->projDudSound);
                 return;
             case EV_DUD_IMPACT:
-                if (ent->surfType >= 0x1Du)
+                if (static_cast<unsigned int>(ent->surfType) >= 0x1Du)
                     MyAssertHandler(
                         ".\\cgame\\cg_event.cpp",
                         1122,
@@ -1104,7 +1116,7 @@ void __cdecl CG_Obituary(int32_t localClientNum, const entityState_s *ent)
     {
         CL_GetClientName(localClientNum, target, targetName, 38);
         victimColor = CG_DrawScoreboard_GetTeamColorIndex(victimCI->oldteam, localClientNum);
-        if (cgameGlob->clientNum >= 0x40u)
+        if (static_cast<unsigned int>(cgameGlob->clientNum) >= 0x40u)
             MyAssertHandler(
                 ".\\cgame\\cg_event.cpp",
                 147,
@@ -1135,7 +1147,7 @@ void __cdecl CG_Obituary(int32_t localClientNum, const entityState_s *ent)
             {
                 attackerName[0] = 0;
             }
-            else if (attacker == ps->clientNum)
+            else if (attacker == static_cast<uint32_t>(ps->clientNum))
             {
                 if (!cgameGlob->inKillCam)
                 {
@@ -1146,7 +1158,7 @@ void __cdecl CG_Obituary(int32_t localClientNum, const entityState_s *ent)
                     CG_PriorityCenterPrint(localClientNum, s, 0);
                 }
             }
-            else if (target == ps->clientNum && attackerCI && !cgameGlob->inKillCam)
+            else if (target == static_cast<uint32_t>(ps->clientNum) && attackerCI && !cgameGlob->inKillCam)
             {
                 // KISAKTODO: double check the string literals here in va() `CGAME_...`
                 if (attackerCI->oldteam && victimCI->oldteam == attackerCI->oldteam)

@@ -243,7 +243,7 @@ void __cdecl CL_WritePacket(int localClientNum)
         *(unsigned int *)compressedBuf = *(unsigned int *)buf.data;
         *((unsigned int *)v4 + 1) = *((unsigned int *)v3 + 1);
         v4[8] = v3[8];
-        if (buf.cursize > 0x800u)
+        if (static_cast<unsigned int>(buf.cursize) > 0x800u)
             Com_Error(ERR_DROP, "Overflow compressed msg buf in CL_WritePacket()");
         compressedSize = MSG_WriteBitsCompress(
             0,
@@ -469,7 +469,7 @@ float __cdecl CL_KeyState(kbutton_t *key)
     if (msec <= 0)
         return 0.0f;
 
-    if (msec >= frame_msec)
+    if (static_cast<uint32_t>(msec) >= frame_msec)
         return 1.0f;
 
     iassert(frame_msec);

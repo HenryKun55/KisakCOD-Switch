@@ -187,7 +187,7 @@ struct CStringEdPackage // sizeof=0x78
         std::string *result,
         std::string string)
     {
-        int v4[2]; // [esp-8h] [ebp-A8h]
+        [[maybe_unused]] int v4[2]; // [esp-8h] [ebp-A8h]
         std::string str;
         [[maybe_unused]] int loc; // [esp+98h] [ebp-8h]
 

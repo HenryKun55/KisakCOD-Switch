@@ -696,7 +696,7 @@ void __cdecl CL_DisconnectLocalClient(int32_t localClientNum)
             "%s\n\t(localClientNum) = %i",
             "(localClientNum == 0)",
             localClientNum);
-    v1 = clientUIActives[0].connectionState > (uint32_t)CA_LOGO;
+    v1 = static_cast<uint32_t>(clientUIActives[0].connectionState) > static_cast<uint32_t>(CA_LOGO);
     CL_Disconnect(localClientNum);
     if (v1)
     {
@@ -1389,15 +1389,17 @@ void __cdecl CL_ServersResponsePacket(netadr_t from, msg_t *msg)
     count = cls.numglobalservers;
     for (i = 0; i < numservers && count < 20000; ++i)
     {
+        memset(&adr, 0, sizeof(adr));
         adr.type = NA_IP;
         adr.ip[0] = addresses[i].ip[0];
         adr.ip[1] = addresses[i].ip[1];
         adr.ip[2] = addresses[i].ip[2];
         adr.ip[3] = addresses[i].ip[3];
         adr.port = addresses[i].port;
-        *(_QWORD *)&v3.type = __PAIR64__(*(uint32_t *)adr.ip, 4);
-        *(_DWORD *)&v3.port = *(_DWORD *)&adr.port;
-        *(_QWORD *)&v3.ipx[2] = *(_QWORD *)&adr.ipx[2];
+        v3.type = NA_IP;
+        memcpy(v3.ip, adr.ip, sizeof(v3.ip));
+        v3.port = adr.port;
+        memcpy(v3.ipx, adr.ipx, sizeof(v3.ipx));
         if (!CL_FindServerInfo(v3))
         {
             server = &cls.globalServers[count++];
@@ -1848,7 +1850,7 @@ char __cdecl CL_PacketEvent(netsrc_t localClientNum, netadr_t from, msg_t *msg, 
     int32_t headerBytes; // [esp+10h] [ebp-Ch]
     int32_t savedReliableAcknowledge; // [esp+14h] [ebp-8h]
 
-    if (msg->cursize >= 4 && *(uint32_t *)msg->data == -1)
+    if (msg->cursize >= 4 && *(uint32_t *)msg->data == 0xFFFFFFFFu)
         return CL_ConnectionlessPacket(localClientNum, from, msg, time);
     if (localClientNum)
         MyAssertHandler(
@@ -3055,9 +3057,9 @@ ping_t *__cdecl CL_GetFreePing()
     oldest = 0x80000000;
     for (ia = 0; ia < 16; ++ia)
     {
-        if ((currentTime - pingptra->start) > oldest)
+        if (static_cast<int32_t>(currentTime - pingptra->start) > oldest)
         {
-            oldest = currentTime - pingptra->start;
+            oldest = static_cast<int32_t>(currentTime - pingptra->start);
             best = pingptra;
         }
         ++pingptra;
@@ -3297,7 +3299,7 @@ void __cdecl CL_UpdateLevelHunkUsage()
         }
         len = strlen(outbuf);
         v2 = FS_Write(outbuf, len, handle);
-        if (v2 != len)
+        if (v2 != static_cast<unsigned int>(len))
             Com_Error(ERR_DROP, "EXE_ERR_CANT_WRITE %s", memlistfile);
         FS_FCloseFile(handle);
         Z_Free(buf, 10);
@@ -3369,13 +3371,13 @@ void __cdecl COM_WriteFinalStringEdFile(char *fromOSPath, char *toOSPath)
     {
         len = FS_FileGetFileSize(f);
         buf = (unsigned char*)malloc(len);
-        if (FS_FileRead(buf, len, f) != len)
+        if (FS_FileRead(buf, len, f) != static_cast<unsigned int>(len))
             Com_Error(ERR_FATAL, "Short read in COM_WriteFinalStringEdFile()");
         FS_FileClose(f);
         fa = FS_FileOpenWriteBinary(toOSPath);
         if (fa)
         {
-            if (FS_FileWrite(buf, len, fa) != len)
+            if (FS_FileWrite(buf, len, fa) != static_cast<unsigned int>(len))
                 Com_Error(ERR_FATAL, "Short write in COM_WriteFinalStringEdFile()");
             FS_FileClose(fa);
             free(buf);
@@ -3852,7 +3854,7 @@ void __cdecl CL_Init(int32_t localClientNum)
     //if (CountBitsEnabled(0x77777777u) != 24)
     //    MyAssertHandler(".\\client_mp\\cl_main_mp.cpp", 5209, 0, "%s", "CountBitsEnabled( 0x77777777 ) == 24");
     CL_ClearMutedList();
-    if (localClientNum)
+    if (localClientNum) {
         MyAssertHandler(
             "c:\\trees\\cod3\\src\\client_mp\\client_mp.h",
             1063,
@@ -3860,6 +3862,8 @@ void __cdecl CL_Init(int32_t localClientNum)
             "%s\n\t(localClientNum) = %i",
             "(localClientNum == 0)",
             localClientNum);
+        localClientNum = 0; // KISAKHACK-AUDIT: clamp after non-fatal assert
+    }
     clientUIActives[0].connectionState = CA_DISCONNECTED;
     cls.realtime = 0;
     clientUIActives[0].active = 1;
@@ -4098,10 +4102,9 @@ int32_t __cdecl CL_UpdateDirtyPings(netsrc_t localClientNum, uint32_t source)
                     v3 = &server[i];
                     v4 = &cl_pinglist[ja];
                     v4->adr.type = v3->adr.type;
-                    *(uint32_t *)v4->adr.ip = *(uint32_t *)v3->adr.ip;
-                    *(uint32_t *)&v4->adr.port = *(uint32_t *)&v3->adr.port;
-                    *(uint32_t *)&v4->adr.ipx[2] = *(uint32_t *)&v3->adr.ipx[2];
-                    *(uint32_t *)&v4->adr.ipx[6] = *(uint32_t *)&v3->adr.ipx[6];
+                    memcpy(v4->adr.ip, v3->adr.ip, sizeof(v4->adr.ip));
+                    v4->adr.port = v3->adr.port;
+                    memcpy(v4->adr.ipx, v3->adr.ipx, sizeof(v4->adr.ipx));
                     cl_pinglist[ja].start = Sys_Milliseconds();
                     cl_pinglist[ja].time = 0;
                     cl_pinglist[ja].info[0] = 0;

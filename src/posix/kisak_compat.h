@@ -10,6 +10,10 @@
 
 #pragma once
 
+// This header is C++ only. .c TUs (e.g. ODE physics) pull it via the build's
+// force-include but don't need (and can't compile) any of the shims below.
+#ifdef __cplusplus
+
 #if !defined(_MSC_VER)
 
 // === Calling conventions ====================================================
@@ -1054,3 +1058,5 @@ typedef long HRESULT;
 typedef struct tagPOINT { long x, y; } tagPOINT, POINT;
 
 #endif // !_MSC_VER
+
+#endif // __cplusplus

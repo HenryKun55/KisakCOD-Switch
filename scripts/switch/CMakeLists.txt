@@ -264,7 +264,7 @@ set(UI_PORTABLE_SOURCES
     "${SRC_DIR}/ui/ui_expressions.cpp"
     "${SRC_DIR}/ui/ui_expressions_logicfunctions.cpp"
     "${SRC_DIR}/ui/ui_shared.cpp"
-    "${SRC_DIR}/ui/ui_shared_obj.cpp"
+    # "${SRC_DIR}/ui/ui_shared_obj.cpp"  # TODO Switch: 48 strict-aliasing errors in expression evaluator, needs careful rewrite
     "${SRC_DIR}/ui/ui_localvars.cpp"
     "${SRC_DIR}/ui/ui_utils.cpp"
     "${SRC_DIR}/ui_mp/ui_gameinfo_mp.cpp"
@@ -342,7 +342,7 @@ set(CGAME_PORTABLE_SOURCES
     "${SRC_DIR}/cgame_mp/cg_animtree_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_client_side_effects_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_draw_mp.cpp"
-    "${SRC_DIR}/cgame_mp/cg_ents_mp.cpp"
+    # "${SRC_DIR}/cgame_mp/cg_ents_mp.cpp"  # TODO Switch: heavy SIMD QWORD-mask AABB rotation, needs full rewrite
     "${SRC_DIR}/cgame_mp/cg_compassfriendlies_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_consolecmds_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_draw_net_mp.cpp"
@@ -427,7 +427,7 @@ set(XANIM_PORTABLE_SOURCES
 )
 
 set(BGAME_PORTABLE_SOURCES
-    "${SRC_DIR}/bgame/bg_animation_mp.cpp"
+    # "${SRC_DIR}/bgame/bg_animation_mp.cpp"  # TODO Switch: SIMD QWORD-mask type punning + sign-compares
     "${SRC_DIR}/bgame/bg_pmove.cpp"
     "${SRC_DIR}/bgame/bg_weapons.cpp"
     "${SRC_DIR}/bgame/bg_misc.cpp"

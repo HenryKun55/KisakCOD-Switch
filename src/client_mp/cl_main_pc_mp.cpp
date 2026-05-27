@@ -46,7 +46,7 @@ int __cdecl CL_ServerStatus(char *serverAddress, char *serverStatusString, int m
                 serverStatus->startTime = 0;
                 return 1;
             }
-            if (serverStatus->startTime < (Sys_Milliseconds() - cl_serverStatusResendTime->current.integer))
+            if (static_cast<unsigned int>(serverStatus->startTime) < (Sys_Milliseconds() - static_cast<unsigned int>(cl_serverStatusResendTime->current.integer)))
             {
                 serverStatus->print = 0;
                 serverStatus->pending = 1;

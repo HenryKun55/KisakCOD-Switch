@@ -296,7 +296,7 @@ void __cdecl G_InitGame(int32_t levelTime, int32_t randomSeed, int32_t restart, 
 
     if (!restart)
     {
-        memset(&bgs->animScriptData, 0, sizeof(animScriptData_t));
+        memset(reinterpret_cast<unsigned char *>(&bgs->animScriptData), 0, sizeof(animScriptData_t));
         bgs->animScriptData.soundAlias = Com_FindSoundAlias;
         bgs->animScriptData.playSoundAlias = G_AnimScriptSound;
         GScr_LoadScripts();
@@ -1249,7 +1249,8 @@ void __cdecl G_RunFrame(int32_t levelTime)
                 --level.currentTriggerListSize;
                 --i;
                 v1 = &level.currentTriggerList[level.currentTriggerListSize];
-                *(uint32_t *)&trigger_info->entnum = *(uint32_t *)&v1->entnum;
+                trigger_info->entnum = v1->entnum;
+                trigger_info->otherEntnum = v1->otherEntnum;
                 trigger_info->useCount = v1->useCount;
                 trigger_info->otherUseCount = v1->otherUseCount;
             }

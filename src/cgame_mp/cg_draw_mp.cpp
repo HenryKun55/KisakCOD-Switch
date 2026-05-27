@@ -940,7 +940,7 @@ int32_t __cdecl CG_DrawFollow(int32_t localClientNum)
         return 0;
     if (cgameGlob->inKillCam)
         return 0;
-    if (ps->clientNum >= 0x40u)
+    if (static_cast<unsigned int>(ps->clientNum) >= 0x40u)
         MyAssertHandler(
             ".\\cgame_mp\\cg_draw_mp.cpp",
             1419,

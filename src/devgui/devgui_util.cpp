@@ -137,7 +137,8 @@ void __cdecl DevGui_DrawBevelBox(int32_t x, int32_t y, int32_t w, int32_t h, flo
     else
         v33 = 0.0;
     unpackedColor[2] = v33;
-    *(_QWORD *)&vtxs[0][0] = __PAIR64__(y, x);
+    vtxs[0][0] = x;
+    vtxs[0][1] = y;
     vtxs[1][0] = x + 4;
     vtxs[1][1] = y + 4;
     vtxs[2][0] = x + 4;
@@ -179,7 +180,8 @@ void __cdecl DevGui_DrawBevelBox(int32_t x, int32_t y, int32_t w, int32_t h, flo
     else
         v24 = 0.0;
     unpackedColor[2] = v24;
-    *(_QWORD *)&vtxs[0][0] = __PAIR64__(y, x);
+    vtxs[0][0] = x;
+    vtxs[0][1] = y;
     vtxs[1][0] = w + x;
     vtxs[1][1] = y;
     vtxs[2][0] = x + w - 4;
@@ -279,14 +281,19 @@ void __cdecl DevGui_DrawQuad(const int32_t (*vtxs)[2], const float *color)
 {
     float xy[4][2]; // [esp+0h] [ebp-20h] BYREF
 
-    xy[0][0] = (float)(*vtxs)[0];
-    xy[0][1] = (float)(*vtxs)[1];
-    xy[1][0] = (float)(*vtxs)[2];
-    xy[1][1] = (float)(*vtxs)[3];
-    xy[2][0] = (float)(*vtxs)[4];
-    xy[2][1] = (float)(*vtxs)[5];
-    xy[3][0] = (float)(*vtxs)[6];
-    xy[3][1] = (float)(*vtxs)[7];
+    // KISAKHACK-AUDIT: upstream hex-rays treated `*vtxs` (`int[2]`) as flat int[8] across
+    // the 4-vertex array. Callers pass `int vtxs[4][2]` which contiguously lays out as
+    // [v0x,v0y,v1x,v1y,v2x,v2y,v3x,v3y]. Read via flat pointer to keep that semantic
+    // without forming an out-of-bounds index on the formal `int[2]` array type.
+    const int32_t *flat = reinterpret_cast<const int32_t *>(vtxs);
+    xy[0][0] = (float)flat[0];
+    xy[0][1] = (float)flat[1];
+    xy[1][0] = (float)flat[2];
+    xy[1][1] = (float)flat[3];
+    xy[2][0] = (float)flat[4];
+    xy[2][1] = (float)flat[5];
+    xy[3][0] = (float)flat[6];
+    xy[3][1] = (float)flat[7];
     R_AddCmdDrawQuadPic(xy, color, cls.whiteMaterial);
 }
 

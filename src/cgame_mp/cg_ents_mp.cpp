@@ -235,7 +235,8 @@ void  CG_UpdateBModelWorldBounds(uint32_t localClientNum, centity_s *cent, int32
     bounds_4[0] = brush->bounds[1][0];
     bounds_4[1] = brush->bounds[1][1];
     bounds_4[2] = brush->bounds[1][2];
-    v81 = *(_DWORD*)&brush->surfaceCount;
+    // KISAKHACK-AUDIT: upstream stored DWORD pack of surfaceCount|startSurfIndex into
+    // unused scratch v81. Dead value, drop it.
     AnglesToAxis(cent->pose.angles, v78);
     origin = cent->pose.origin;
     v73 = v78[0][0];

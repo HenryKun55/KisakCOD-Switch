@@ -38,7 +38,7 @@ void __cdecl CG_CompassUpdateVehicleInfo(int32_t localClientNum, int32_t entityI
 
     Vehicle = GetVehicle(localClientNum, entityIndex);
     Vehicle->lastUpdate = cgameGlob->time;
-    *(double *)Vehicle->lastPos = *(double *)cent->pose.origin;
+    memcpy(Vehicle->lastPos, cent->pose.origin, sizeof(double));
     Vehicle->lastYaw = cent->pose.angles[1];
     Vehicle->team = (team_t)(cent->nextState.lerp.u.vehicle.teamAndOwnerIndex & 3);
     Vehicle->ownerIndex = cent->nextState.lerp.u.vehicle.teamAndOwnerIndex >> 2;
@@ -174,7 +174,7 @@ bool __cdecl DoLinesSurroundPoint(cg_s *cgameGlob, float *radarLine1, float *rad
     v1 = v6 - radarLine1[2];
     v5 = pos[1] * radarLine2[1] + *pos * *radarLine2;
     v2 = v5 - radarLine2[2];
-    return v1 < 0.0 != v2 < 0.0;
+    return (v1 < 0.0) != (v2 < 0.0);
 }
 
 void __cdecl RadarPingEnemyPlayer(CompassActor *actor, int32_t time)
@@ -185,7 +185,7 @@ void __cdecl RadarPingEnemyPlayer(CompassActor *actor, int32_t time)
         actor->lastUpdate = 0;
     if (actor->lastUpdate >= time - 1500 && (actor->perks & 1) == 0)
     {
-        *(double *)actor->lastEnemyPos = *(double *)actor->lastPos;
+        memcpy(actor->lastEnemyPos, actor->lastPos, sizeof(double));
         actor->beginRadarFadeTime = time;
     }
 }
@@ -277,7 +277,7 @@ void __cdecl ActorUpdatePos(int32_t localClientNum, CompassActor *actor, const f
         if (CanLocalPlayerHearActorFootsteps(localClientNum, newPos, actorClientIndex))
             RadarPingEnemyPlayer(actor, cgameGlob->time);
     }
-    *(double *)actor->lastPos = *(double *)newPos;
+    memcpy(actor->lastPos, newPos, sizeof(double));
 }
 
 bool __cdecl DoesMovementCrossRadar(cg_s *cgameGlob, float radarProgress, const float *p1, const float *p2)
@@ -295,7 +295,7 @@ bool __cdecl DoesMovementCrossRadar(cg_s *cgameGlob, float radarProgress, const 
     v1 = v6 - radarLine[2];
     v5 = p2[1] * radarLine[1] + *p2 * radarLine[0];
     v2 = v5 - radarLine[2];
-    return v1 < 0.0 != v2 < 0.0;
+    return (v1 < 0.0) != (v2 < 0.0);
 }
 
 bool __cdecl CanLocalPlayerHearActorFootsteps(int32_t localClientNum, const float *actorPos, uint32_t actorClientIndex)

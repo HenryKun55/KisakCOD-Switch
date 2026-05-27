@@ -177,7 +177,7 @@ clientInfo_t *__cdecl ClientInfoForEntity(int32_t localClientNum, uint32_t entNu
         return 0;
     if (cent->nextState.eType >= ET_EVENTS)
         return 0;
-    if (cent->nextState.clientNum >= 0x40u)
+    if (static_cast<unsigned int>(cent->nextState.clientNum) >= 0x40u)
         MyAssertHandler(
             ".\\cgame_mp\\cg_vehicles_mp.cpp",
             88,

@@ -764,7 +764,7 @@ void __cdecl CG_ParseScores(int32_t localClientNum)
             cgameGlob->bgs.clientinfo[clientNum].rank,
             cgameGlob->bgs.clientinfo[clientNum].prestige,
             &cgameGlob->scores[i].hRankIcon);
-        if (cgameGlob->scores[i].client >= 0x40u)
+        if (static_cast<unsigned int>(cgameGlob->scores[i].client) >= 0x40u)
             cgameGlob->scores[i].client = 0;
         bcassert(cgameGlob->scores[0].client, MAX_CLIENTS);
         cgameGlob->bgs.clientinfo[cgameGlob->scores[i].client].score = cgameGlob->scores[i].score;
@@ -818,11 +818,14 @@ void __cdecl CG_SortSingleClientScore(cg_s *cgameGlob, int32_t scoreIndex)
 {
     score_t temp; // [esp+8h] [ebp-28h] BYREF
 
+    // KISAKHACK-AUDIT: upstream hex-rays addressed scores[scoreIndex-1] via the nega-array
+    // teamScores[10*scoreIndex+2] (40-byte stride matched score_t size on 32-bit). Direct
+    // scores[scoreIndex-1] access uses the right struct size on 64-bit too.
     while (scoreIndex > 0
-        && CG_ClientScoreIsBetter(&cgameGlob->scores[scoreIndex], (score_t *)&cgameGlob->teamScores[10 * scoreIndex + 2]))
+        && CG_ClientScoreIsBetter(&cgameGlob->scores[scoreIndex], &cgameGlob->scores[scoreIndex - 1]))
     {
-        memcpy(&temp, &cgameGlob->teamScores[10 * scoreIndex + 2], sizeof(temp));
-        memcpy(&cgameGlob->teamScores[10 * scoreIndex + 2], &cgameGlob->scores[scoreIndex], 0x28u);
+        memcpy(&temp, &cgameGlob->scores[scoreIndex - 1], sizeof(temp));
+        memcpy(&cgameGlob->scores[scoreIndex - 1], &cgameGlob->scores[scoreIndex], sizeof(score_t));
         memcpy(&cgameGlob->scores[scoreIndex--], &temp, sizeof(cgameGlob->scores[0]));
     }
     while (scoreIndex < cgameGlob->numScores - 1
@@ -955,8 +958,14 @@ void __cdecl CG_ConfigStringModified(int32_t localClientNum)
                         }
                         else
                         {
-                            cgs->fxs[num - CS_EFFECT_NAMES] = FX_Register(str);
-                            iassert(cgs->fxs[num - CS_EFFECT_NAMES]);
+                            // KISAKHACK-AUDIT: CS_EFFECT_NAMES is 244 in our headers but the
+                            // selecting branch above is num∈[1598..1697], so the upstream
+                            // index num-CS_EFFECT_NAMES (= [1354..1453]) overflows fxs[100].
+                            // The branch base IS the effect-names range start (1598), so use
+                            // (num - 1598) to land on fxs[0..99]. Header value mismatch noted
+                            // by KISAKTODO upstream.
+                            cgs->fxs[num - 1598] = FX_Register(str);
+                            iassert(cgs->fxs[num - 1598]);
                         }
                     }
                     else

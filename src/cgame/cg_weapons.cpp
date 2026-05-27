@@ -97,7 +97,7 @@ void __cdecl CG_RegisterWeapon(int32_t localClientNum, uint32_t weaponNum)
 {
     [[maybe_unused]] uint32_t NumWeapons; // eax
     [[maybe_unused]] char *v3; // eax
-    [[maybe_unused]] int64_t _C; // [esp+Ch] [ebp-34h]
+    [[maybe_unused]] int64_t reg_c; // [esp+Ch] [ebp-34h]  // hex-rays scratch (renamed from _C: reserved id)
     [[maybe_unused]] const char *blendTime; // [esp+14h] [ebp-2Ch]
     weaponInfo_s *weapInfo; // [esp+18h] [ebp-28h]
     uint32_t dobjHandle; // [esp+1Ch] [ebp-24h]
@@ -1134,7 +1134,7 @@ void __cdecl ProcessWeaponNoteTracks(int32_t localClientNum, const playerState_s
     uint32_t NumWeapons; // eax
     int32_t noteListSize; // [esp+0h] [ebp-14h]
     XAnimNotify_s *noteList; // [esp+4h] [ebp-10h] BYREF
-    int32_t weapIndex; // [esp+8h] [ebp-Ch]
+    uint32_t weapIndex; // [esp+8h] [ebp-Ch]
     int32_t i; // [esp+Ch] [ebp-8h]
     WeaponDef *weapDef; // [esp+10h] [ebp-4h]
 
@@ -1838,7 +1838,7 @@ int32_t __cdecl NextWeapInCycle(
     bool skipHaveNoAlts)
 {
     uint32_t highestWeapIndex; // [esp+0h] [ebp-14h]
-    int32_t weaponIndex; // [esp+Ch] [ebp-8h]
+    uint32_t weaponIndex; // [esp+Ch] [ebp-8h]
     WeaponDef *weapDef; // [esp+10h] [ebp-4h]
 
     if (!ps)
@@ -2034,7 +2034,7 @@ void __cdecl CG_EjectWeaponBrass(int32_t localClientNum, const entityState_s *en
 
     if (cg_brass->current.enabled && ent->eType < ET_EVENTS && ent->weapon)
     {
-        if (ent->weapon < BG_GetNumWeapons())
+        if (static_cast<uint32_t>(ent->weapon) < BG_GetNumWeapons())
         {
             nextSnap = CG_GetLocalClientGlobals(localClientNum)->nextSnap;
             v6 = (nextSnap->ps.otherFlags & 6) != 0 && ent->number == nextSnap->ps.clientNum;
@@ -3694,7 +3694,7 @@ void __cdecl ParseWeaponDefFiles(const char **ppszFiles, int32_t iNumFiles)
     for (i = 0; i < iNumFiles; ++i)
     {
         name = ppszFiles[i];
-        if (BG_GetWeaponIndexForName(name, 0) != i + 1)
+        if (BG_GetWeaponIndexForName(name, 0) != static_cast<uint32_t>(i + 1))
             Com_Error(ERR_DROP, "Weapon index mismatch for '%s'", name);
     }
 }

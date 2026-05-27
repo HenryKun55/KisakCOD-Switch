@@ -3,7 +3,7 @@
 
 #include <bgame/bg_local.h>
 
-static uint8_t bulletPriorityMap[20] =
+[[maybe_unused]] static uint8_t bulletPriorityMap[20] =
 {
   1u,
   3u,
@@ -27,7 +27,7 @@ static uint8_t bulletPriorityMap[20] =
   0u
 };
 
-static uint8_t riflePriorityMap[20] =
+[[maybe_unused]] static uint8_t riflePriorityMap[20] =
 { 1u, 9u, 9u, 9u, 8u, 7u, 6u, 6u, 6u, 6u, 5u, 5u, 4u, 4u, 4u, 4u, 3u, 3u, 0u, 0  };
 
 

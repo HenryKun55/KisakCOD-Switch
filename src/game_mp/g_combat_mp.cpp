@@ -292,7 +292,7 @@ void __cdecl G_DamageClient(
         && targ->client->sess.connected == CON_CONNECTED
         && targ->client->ps.pm_type != PM_DEAD)
     {
-        if (weapon == -1)
+        if (weapon == 0xFFFFFFFFu)
         {
             if (inflictor)
             {
@@ -376,7 +376,7 @@ void __cdecl G_Damage(
             inflictor = &g_entities[ENTITYNUM_WORLD];
         if (!attacker)
             attacker = &g_entities[ENTITYNUM_WORLD];
-        if (weapon == -1)
+        if (weapon == 0xFFFFFFFFu)
             weapon = G_GetWeaponIndexForEntity(inflictor);
 
         bcassert(weapon, BG_GetNumWeapons());

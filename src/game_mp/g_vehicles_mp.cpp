@@ -145,16 +145,17 @@ vehicleEffects *__cdecl VehicleGetFxInfo(int32_t localClientNum, int32_t entityN
         veha = oldest;
     }
     v3 = &vehEffects[localClientNum][veha];
-    *(_DWORD*)&v3->active = 0;
+    v3->active = false;
     v3->lastAccessed = 0;
     v3->entityNum = 0;
     v3->nextDustFx = 0;
     v3->nextSmokeFx = 0;
-    *(_DWORD*)&v3->soundPlaying = 0;
+    v3->soundPlaying = false;
     v3->barrelVelocity = 0.0;
     v3->barrelPos = 0.0;
     v3->lastBarrelUpdateTime = 0;
-    *(_DWORD*)&v3->tag_engine_left = 0;
+    v3->tag_engine_left = 0;
+    v3->tag_engine_right = 0;
     v3->active = 1;
     vehEffects[localClientNum][veha].lastAccessed = Sys_Milliseconds();
     vehEffects[localClientNum][veha].entityNum = entityNum;
@@ -1885,7 +1886,7 @@ bool __cdecl DriverBreaking(vehicle_physic_t *phys, float driverAccel)
     float v3; // [esp+4h] [ebp-Ch]
 
     v3 = I_fabs(driverAccel);
-    return v3 < 0.0099999998f || CarTravelingForward(phys) != driverAccel >= 0.0f;
+    return v3 < 0.0099999998f || CarTravelingForward(phys) != (driverAccel >= 0.0f);
 }
 
 void __cdecl AdvanceVehiclePosition(gentity_s *ent, float frameTime)
@@ -1937,7 +1938,7 @@ void __cdecl VEH_GroundTrace(gentity_s *ent)
     point[1] = veh->phys.origin[1];
     point[2] = veh->phys.origin[2] - 0.25f;
     G_TraceCapsule(&trace, start, veh->phys.mins, veh->phys.maxs, point, ent->s.number, ent->clipmask);
-    memcpy(&s_phys_0, &trace, 0x2Cu);
+    memcpy(reinterpret_cast<unsigned char *>(&s_phys_0), &trace, 0x2Cu);
     s_phys_0.hasGround = 0;
     s_phys_0.onGround = 0;
     if ((!trace.allsolid || VEH_CorrectAllSolid(ent, &trace))
@@ -2306,8 +2307,8 @@ void __cdecl VEH_GroundPlant(gentity_s *ent, int32_t gravity, float frameTime)
     phys->angles[0] = DiffTrackAngle(angles[0], phys->prevAngles[0], 6.0f, frameTime);
     phys->angles[2] = DiffTrackAngle(angles[2], phys->prevAngles[2], 6.0f, frameTime);
 
-    CLAMP(phys->angles[0], -60.0f, 60.0f);
-    CLAMP(phys->angles[2], -60.0f, 60.0f);
+    phys->angles[0] = CLAMP(phys->angles[0], -60.0f, 60.0f);
+    phys->angles[2] = CLAMP(phys->angles[2], -60.0f, 60.0f);
 
     if ((veh->flags & 1) == 0 && plane[2] != 0.0f)
         phys->origin[2] = -(phys->origin[0] * plane[0] + phys->origin[1] * plane[1] - plane[3]) / plane[2];

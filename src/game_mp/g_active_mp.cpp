@@ -417,7 +417,7 @@ void __cdecl AttemptLiveGrenadePickup(gentity_s *clientEnt)
         MyAssertHandler(".\\game_mp\\g_active_mp.cpp", 410, 0, "%s", "clientEnt");
     if (!clientEnt->client)
         MyAssertHandler(".\\game_mp\\g_active_mp.cpp", 411, 0, "%s", "clientEnt->client");
-    if (clientEnt->client->ps.cursorHintEntIndex >= 0x400u)
+    if (static_cast<unsigned int>(clientEnt->client->ps.cursorHintEntIndex) >= 0x400u)
         MyAssertHandler(
             ".\\game_mp\\g_active_mp.cpp",
             412,
@@ -1097,7 +1097,7 @@ void __cdecl G_PlayerController(const gentity_s *self, int32_t *partBits)
     CEntPlayerInfo player; // [esp+Ch] [ebp-10h] BYREF
 
     SV_CheckThread();
-    if (self->s.clientNum >= 0x40u)
+    if (static_cast<unsigned int>(self->s.clientNum) >= 0x40u)
         MyAssertHandler(
             ".\\game_mp\\g_active_mp.cpp",
             1353,

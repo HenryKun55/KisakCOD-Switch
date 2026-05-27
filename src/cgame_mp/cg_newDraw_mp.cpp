@@ -1667,7 +1667,7 @@ void __cdecl CG_PulseLowHealthOverlay(cg_s *cgameGlob, float healthRatio)
             cgameGlob->healthOverlayHurt = 1;
         cgameGlob->healthOverlayPulseTime = cgameGlob->time;
         cgameGlob->healthOverlayFromAlpha = cgameGlob->healthOverlayToAlpha;
-        if (cgameGlob->healthOverlayPulseIndex >= 4u)
+        if (static_cast<unsigned int>(cgameGlob->healthOverlayPulseIndex) >= 4u)
         {
             cgameGlob->healthOverlayHurt = 0;
             cgameGlob->healthOverlayToAlpha = hud_healthOverlay_phaseEnd_toAlpha->current.value;

@@ -1924,7 +1924,7 @@ void __cdecl CG_CompassDrawPlayerPointers_MP(
         centerX = scaledRect.w * 0.5 + scaledRect.x;
         centerY = scaledRect.h * 0.5 + scaledRect.y;
         ps = &cgameGlob->nextSnap->ps;
-        if (ps->clientNum >= 0x40u)
+        if (static_cast<unsigned int>(ps->clientNum) >= 0x40u)
             MyAssertHandler(
                 ".\\cgame\\cg_compass.cpp",
                 1542,

@@ -991,11 +991,11 @@ void __cdecl Load_XAnimPartsPtr(bool atStreamStart)
     if (*varXAnimPartsPtr)
     {
         value = (uint32_t)(uintptr_t)*varXAnimPartsPtr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varXAnimPartsPtr = (XAnimParts *)AllocLoad_FxElemVisStateSample();
             varXAnimParts = *varXAnimPartsPtr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -1111,7 +1111,7 @@ void __cdecl Load_MssSound(bool atStreamStart)
         {
             varMssSound->data = AllocLoad_raw_byte();
             varbyte = varMssSound->data;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -1145,11 +1145,11 @@ void __cdecl Load_LoadedSoundPtr(bool atStreamStart)
     if (*varLoadedSoundPtr)
     {
         value = (uint32_t)(uintptr_t)*varLoadedSoundPtr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varLoadedSoundPtr = (LoadedSound *)AllocLoad_FxElemVisStateSample();
             varLoadedSound = *varLoadedSoundPtr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -1213,11 +1213,11 @@ void __cdecl Load_SndCurvePtr(bool atStreamStart)
     if (*varSndCurvePtr)
     {
         value = (uint32_t)(uintptr_t)*varSndCurvePtr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varSndCurvePtr = (SndCurve *)AllocLoad_FxElemVisStateSample();
             varSndCurve = *varSndCurvePtr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -1329,11 +1329,11 @@ void __cdecl Load_snd_alias_list_ptr(bool atStreamStart)
     if (*varsnd_alias_list_ptr)
     {
         value = (uint32_t)(uintptr_t)*varsnd_alias_list_ptr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varsnd_alias_list_ptr = (snd_alias_list_t*)AllocLoad_FxElemVisStateSample();
             varsnd_alias_list_t = *varsnd_alias_list_ptr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -1759,11 +1759,11 @@ void __cdecl Load_GfxImagePtr(bool atStreamStart)
     if (*varGfxImagePtr)
     {
         value = (uint32_t)(uintptr_t)*varGfxImagePtr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varGfxImagePtr = (GfxImage *)AllocLoad_FxElemVisStateSample();
             varGfxImage = *varGfxImagePtr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -1929,7 +1929,7 @@ void __cdecl Load_MaterialArgumentDef(bool atStreamStart)
     case 7u:
         if (varMaterialArgumentDef->codeSampler)
         {
-            if (varMaterialArgumentDef->codeSampler == -1)
+            if (static_cast<unsigned int>(varMaterialArgumentDef->codeSampler) == 0xFFFFFFFFu)
             {
                 varMaterialArgumentDef->codeSampler = (MaterialTextureSource)(unsigned int)(uintptr_t)AllocLoad_FxElemVisStateSample();
                 varfloat = (float *)varMaterialArgumentDef->codeSampler;
@@ -2164,11 +2164,11 @@ void __cdecl Load_MaterialTechniqueSetPtr(bool atStreamStart)
     if (*varMaterialTechniqueSetPtr)
     {
         value = (uint32_t)(uintptr_t)*varMaterialTechniqueSetPtr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varMaterialTechniqueSetPtr = (MaterialTechniqueSet *)AllocLoad_FxElemVisStateSample();
             varMaterialTechniqueSet = *varMaterialTechniqueSetPtr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -2245,11 +2245,11 @@ void __cdecl Load_MaterialHandle(bool atStreamStart)
     if (*varMaterialHandle)
     {
         value = (uint32_t)(uintptr_t)*varMaterialHandle;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varMaterialHandle = (Material *)AllocLoad_FxElemVisStateSample();
             varMaterial = *varMaterialHandle;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -2390,11 +2390,11 @@ void __cdecl Load_GfxLightDefPtr(bool atStreamStart)
     if (*varGfxLightDefPtr)
     {
         value = (uint32_t)(uintptr_t)*varGfxLightDefPtr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varGfxLightDefPtr = (GfxLightDef *)AllocLoad_FxElemVisStateSample();
             varGfxLightDef = *varGfxLightDefPtr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -2555,11 +2555,11 @@ void __cdecl Load_PhysPresetPtr(bool atStreamStart)
     if (*varPhysPresetPtr)
     {
         value = (uint32_t)(uintptr_t)*varPhysPresetPtr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varPhysPresetPtr = (PhysPreset *)AllocLoad_FxElemVisStateSample();
             varPhysPreset = *varPhysPresetPtr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -2884,11 +2884,11 @@ void __cdecl Load_XModelPtr(bool atStreamStart)
     if (*varXModelPtr)
     {
         value = (uint32_t)(uintptr_t)*varXModelPtr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varXModelPtr = (XModel *)AllocLoad_FxElemVisStateSample();
             varXModel = *varXModelPtr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -3291,11 +3291,11 @@ void __cdecl Load_GameWorldSpPtr(bool atStreamStart)
     if (*varGameWorldSpPtr)
     {
         value = (uint32_t)(uintptr_t)*varGameWorldSpPtr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varGameWorldSpPtr = (GameWorldSp *)AllocLoad_FxElemVisStateSample();
             varGameWorldSp = *varGameWorldSpPtr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -3322,11 +3322,11 @@ void __cdecl Load_GameWorldMpPtr(bool atStreamStart)
     if (*varGameWorldMpPtr)
     {
         value = (uint32_t)(uintptr_t)*varGameWorldMpPtr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varGameWorldMpPtr = (GameWorldMp *)AllocLoad_FxElemVisStateSample();
             varGameWorldMp = *varGameWorldMpPtr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -3387,11 +3387,11 @@ void __cdecl Load_FxEffectDefHandle(bool atStreamStart)
     if (*varFxEffectDefHandle)
     {
         value = (uint32_t)(uintptr_t)*varFxEffectDefHandle;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varFxEffectDefHandle = (const FxEffectDef *)AllocLoad_FxElemVisStateSample();
             varFxEffectDef = (FxEffectDef *)*varFxEffectDefHandle;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -3839,11 +3839,11 @@ void __cdecl Load_MapEntsPtr(bool atStreamStart)
     if (*varMapEntsPtr)
     {
         value = (uint32_t)(uintptr_t)*varMapEntsPtr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varMapEntsPtr = (MapEnts *)AllocLoad_FxElemVisStateSample();
             varMapEnts = *varMapEntsPtr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -4310,11 +4310,11 @@ void __cdecl Load_clipMap_ptr(bool atStreamStart)
     if (*varclipMap_ptr)
     {
         value = (uint32_t)(uintptr_t)*varclipMap_ptr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varclipMap_ptr = (clipMap_t *)AllocLoad_FxElemVisStateSample();
             varclipMap_t = *varclipMap_ptr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -4429,11 +4429,11 @@ void __cdecl Load_ComWorldPtr(bool atStreamStart)
     if (*varComWorldPtr)
     {
         value = (uint32_t)(uintptr_t)*varComWorldPtr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varComWorldPtr = (ComWorld *)AllocLoad_FxElemVisStateSample();
             varComWorld = *varComWorldPtr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -4811,11 +4811,11 @@ void __cdecl Load_menuDef_ptr(bool atStreamStart)
     if (*varmenuDef_ptr)
     {
         value = (uint32_t)(uintptr_t)*varmenuDef_ptr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varmenuDef_ptr = (menuDef_t *)AllocLoad_FxElemVisStateSample();
             varmenuDef_t = *varmenuDef_ptr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -4872,11 +4872,11 @@ void __cdecl Load_MenuListPtr(bool atStreamStart)
     if (*varMenuListPtr)
     {
         value = (uint32_t)(uintptr_t)*varMenuListPtr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varMenuListPtr = (MenuList *)AllocLoad_FxElemVisStateSample();
             varMenuList = *varMenuListPtr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -5037,11 +5037,11 @@ void __cdecl Load_LocalizeEntryPtr(bool atStreamStart)
     if (*varLocalizeEntryPtr)
     {
         value = (uint32_t)(uintptr_t)*varLocalizeEntryPtr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varLocalizeEntryPtr = (LocalizeEntry *)AllocLoad_FxElemVisStateSample();
             varLocalizeEntry = *varLocalizeEntryPtr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -5116,11 +5116,11 @@ void __cdecl Load_FxImpactTablePtr(bool atStreamStart)
     if (*varFxImpactTablePtr)
     {
         value = (uint32_t)(uintptr_t)*varFxImpactTablePtr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varFxImpactTablePtr = (FxImpactTable *)AllocLoad_FxElemVisStateSample();
             varFxImpactTable = *varFxImpactTablePtr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -5446,11 +5446,11 @@ void __cdecl Load_WeaponDefPtr(bool atStreamStart)
     if (*varWeaponDefPtr)
     {
         value = (uint32_t)(uintptr_t)*varWeaponDefPtr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varWeaponDefPtr = (WeaponDef *)AllocLoad_FxElemVisStateSample();
             varWeaponDef = *varWeaponDefPtr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -5665,11 +5665,11 @@ void __cdecl Load_RawFilePtr(bool atStreamStart)
     if (*varRawFilePtr)
     {
         value = (uint32_t)(uintptr_t)*varRawFilePtr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varRawFilePtr = (RawFile *)AllocLoad_FxElemVisStateSample();
             varRawFile = *varRawFilePtr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -6566,11 +6566,11 @@ void __cdecl Load_GfxWorldPtr(bool atStreamStart)
     if (*varGfxWorldPtr)
     {
         value = (uint32_t)(uintptr_t)*varGfxWorldPtr;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varGfxWorldPtr = (GfxWorld *)AllocLoad_FxElemVisStateSample();
             varGfxWorld = *varGfxWorldPtr;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;
@@ -6704,11 +6704,11 @@ void __cdecl Load_FontHandle(bool atStreamStart)
     if (*varFontHandle)
     {
         value = (uint32_t)(uintptr_t)*varFontHandle;
-        if (value == -1 || value == -2)
+        if (value == 0xFFFFFFFFu || value == 0xFFFFFFFEu)
         {
             *varFontHandle = (Font_s *)AllocLoad_FxElemVisStateSample();
             varFont = *varFontHandle;
-            if (value == -2)
+            if (value == 0xFFFFFFFEu)
                 inserted = DB_InsertPointer();
             else
                 inserted = 0;

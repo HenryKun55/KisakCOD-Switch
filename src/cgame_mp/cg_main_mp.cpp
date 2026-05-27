@@ -1698,8 +1698,8 @@ void __cdecl CG_Init(int32_t localClientNum, int32_t serverMessageNum, int32_t s
     cgs_t *cgs = CG_GetLocalClientStaticGlobals(localClientNum);
     CL_GetLocalClientConnection(localClientNum);
     memset(cgs, 0, sizeof(cgs_t));
-    memset(cgameGlob, 0, sizeof(cg_s));
-    memset(&cgDC[localClientNum], 0, sizeof(UiContext));
+    memset(reinterpret_cast<unsigned char *>(cgameGlob), 0, sizeof(cg_s));
+    memset(reinterpret_cast<unsigned char *>(&cgDC[localClientNum]), 0, sizeof(UiContext));
     memset(cg_entitiesArray[localClientNum], 0, sizeof(centity_s[1024]));
     memset(cg_weaponsArray[localClientNum], 0, sizeof(weaponInfo_s[128]));
     cgDC[localClientNum].localClientNum = localClientNum;
@@ -2183,7 +2183,7 @@ void __cdecl CG_Shutdown(int32_t localClientNum)
         Scr_ShutdownGameStrings();
 
     cgameGlob->nextSnap = 0;
-    memset(cgameGlob, 0, sizeof(cg_s));
+    memset(reinterpret_cast<unsigned char *>(cgameGlob), 0, sizeof(cg_s));
     iassert(!cgameGlob->nextSnap);
 
     CG_ClearCompassPingData();

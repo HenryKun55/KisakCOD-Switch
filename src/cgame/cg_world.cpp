@@ -557,7 +557,7 @@ void __cdecl CG_ClipMoveToEntity(const moveclip_t *clip, uint32_t entIndex, trac
     localClientNum = CG_GetCollWorldLocalClientNum();
     cent = CG_GetEntity(localClientNum, entIndex);
     p_nextState = &cent->nextState;
-    if (entIndex == clip->passEntityNum)
+    if (entIndex == static_cast<uint32_t>(clip->passEntityNum))
         MyAssertHandler(".\\cgame\\cg_world.cpp", 306, 0, "%s", "entIndex != clip->passEntityNum");
     if (p_nextState->solid && (p_nextState->solid != 0xFFFFFF || (p_nextState->lerp.eFlags & 1) == 0))
     {
@@ -785,7 +785,7 @@ void __cdecl CG_PointTraceToEntity(const pointtrace_t *clip, uint32_t entIndex, 
     localClientNum = CG_GetCollWorldLocalClientNum();
     cent = CG_GetEntity(localClientNum, entIndex);
     p_nextState = &cent->nextState;
-    if (entIndex == clip->ignoreEntParams->baseEntity)
+    if (entIndex == static_cast<uint32_t>(clip->ignoreEntParams->baseEntity))
         MyAssertHandler(".\\cgame\\cg_world.cpp", 516, 0, "%s", "entIndex != clip->ignoreEntParams->baseEntity");
     if (clip->bLocational)
         v4 = CG_LocationalTraceDObj(localClientNum, entIndex);

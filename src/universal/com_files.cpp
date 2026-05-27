@@ -1358,8 +1358,13 @@ iwd_t *__cdecl FS_LoadZipFile(char *zipfile, char *basename)
         iwd->hashTable[i] = 0;
     I_strncpyz(iwd->iwdFilename, zipfile, 256);
     I_strncpyz(iwd->iwdBasename, basename, 256);
-    if (strlen(iwd->iwdFilename) > 4 && !I_stricmp(&iwd->iwdFilename[strlen(iwd->iwdFilename) - 4], ".iwd"))
-        iwd->iwdFilename[strlen(iwd->iwdFilename) - 4] = 0;
+    // KISAKHACK-AUDIT: upstream hex-rays wrote &iwd->iwdFilename[strlen(iwd->iwdBasename) + 252]
+    // which abused adjacent-field layout to reach iwdBasename via OOB index on iwdFilename.
+    // On 64-bit that overflow doesn't reliably land on iwdBasename (alignment/padding) and
+    // GCC flags the OOB index. Direct iwdBasename access expresses the upstream intent
+    // (strip ".iwd" suffix from basename) safely on both arches.
+    if (strlen(iwd->iwdBasename) > 4 && !I_stricmp(&iwd->iwdBasename[strlen(iwd->iwdBasename) - 4], ".iwd"))
+        iwd->iwdBasename[strlen(iwd->iwdBasename) - 4] = 0;
     iwd->handle = uf;
     iwd->numfiles = gi.number_entry;
     iwd->hasOpenFile = 0;

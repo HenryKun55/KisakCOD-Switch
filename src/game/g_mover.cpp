@@ -311,7 +311,7 @@ void __cdecl G_MoverTeam(gentity_s *ent)
                         v2[2] = v3[2];
                     }
                     if (check->s.eType == ET_MISSILE)
-                        check->item[1] = *(item_ent_t *)p->surfaceNormal;
+                        memcpy(&check->item[1], p->surfaceNormal, sizeof(item_ent_t));
                     SV_LinkEntity(check);
                 }
                 ent->s.lerp.pos.trTime += level.time - level.previousTime;
@@ -442,7 +442,7 @@ char __cdecl G_MoverPush(gentity_s *pusher, float *move, float *amove, gentity_s
         origin[2] = currentOrigin[2];
         pushed_p->deltayaw = amove[1];
         if (ent->s.eType == ET_MISSILE)
-            *(item_ent_t *)pushed_p->surfaceNormal = *(item_ent_t *)ent->missile.surfaceNormal;
+            memcpy(pushed_p->surfaceNormal, ent->missile.surfaceNormal, sizeof(item_ent_t));
         if (G_TryPushingEntity(ent, pusher, move, amove) || ent->s.eType == ET_ITEM || ent->s.eType == ET_MISSILE)
         {
             SV_LinkEntity(ent);

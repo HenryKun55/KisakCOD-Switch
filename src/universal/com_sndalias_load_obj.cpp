@@ -632,6 +632,12 @@ SndCurve *__cdecl Com_RegisterSoundAliasVolumeFalloffCurve(const char *filename,
 
     if (!filename)
         MyAssertHandler(".\\universal\\com_sndalias.cpp", 1173, 0, "%s", "filename");
+    // KISAKHACK-AUDIT: upstream hex-rays wrote g_sa.volumeFalloffCurveNames[-18][72*i],
+    // which on 32-bit relied on sizeof(SndCurve)==72 placing volumeFalloffCurves directly
+    // before volumeFalloffCurveNames so a [-18][72*i] reach hit volumeFalloffCurves[i].filename.
+    // On 64-bit sizeof(SndCurve)==80 (pointer widened) so the byte arithmetic no longer lands
+    // on volumeFalloffCurves[i] — the original code was therefore broken on 64-bit. Direct
+    // field access expresses the upstream intent and is 64-bit-safe.
     for (i = 0; i < 16; ++i)
     {
         if (g_sa.volumeFalloffCurves[i].filename

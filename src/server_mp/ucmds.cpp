@@ -261,7 +261,7 @@ void __cdecl SV_VerifyIwds_f(client_t *cl)
                     checksumFeed = sv.checksumFeed;
                     for (i = 0; i < v9; ++i)
                         checksumFeed ^= v13[i];
-                    if ((v9 ^ checksumFeed) != v13[v9])
+                    if (static_cast<uint32>(v9 ^ checksumFeed) != v13[v9])
                         v11 = 0;
                 }
             }

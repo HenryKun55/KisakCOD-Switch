@@ -1083,7 +1083,7 @@ void __cdecl SV_SetPerk_f()
             i = 0;
             for (clIdx = svs.clients; i < sv_maxclients->current.integer && clIdx != PlayerByName; ++clIdx)
                 ++i;
-            if ((unsigned int)i >= sv_maxclients->current.integer)
+            if ((unsigned int)i >= static_cast<unsigned int>(sv_maxclients->current.integer))
                 MyAssertHandler(
                     ".\\server_mp\\sv_ccmds_mp.cpp",
                     1130,

@@ -759,7 +759,7 @@ bool __cdecl Field_CharEvent(int32_t localClientNum, const ScreenPlacement *scrP
                 len + 1 - edit->cursor);
             edit->buffer[edit->cursor++] = ch;
         }
-        if (edit->cursor == len + 1)
+        if (static_cast<uint32_t>(edit->cursor) == len + 1)
             edit->buffer[edit->cursor] = 0;
         isModified = 1;
         break;
@@ -1119,8 +1119,16 @@ const char *__cdecl Key_KeynumToString(int32_t keynum, int32_t translate)
         return "<KEY NOT FOUND>";
     if (keynum >= 0x100)
         return "<OUT OF RANGE>";
-    if (translate && SEH_GetCurrentLanguage() == 1 && keynum >= 48 && keynum <= 57)
-        return *(&keynames_localized[72].name + keynum);
+    if (translate && SEH_GetCurrentLanguage() == 1 && keynum >= 48 && keynum <= 57) {
+        // KISAKHACK-AUDIT: upstream hex-rays did *(&keynames_localized[72].name + keynum)
+        // which on 32-bit indexed past the [96] array via .name pointer arithmetic into
+        // adjacent struct fields — the byte semantics don't carry to 64-bit. Fall back to
+        // ASCII digit handling below.
+        static char digitTinystr[2];
+        digitTinystr[0] = static_cast<char>(keynum);
+        digitTinystr[1] = 0;
+        return digitTinystr;
+    }
     if (keynum > ' ' && keynum < 127 && keynum != '"')
     {
         tinystr[0] = toupper(keynum);

@@ -602,7 +602,7 @@ char __cdecl GetOperandList(OperandStack *dataStack, OperandList *list)
     {
         Com_PrintError(13, "Error: Invalid operation - missing parameter inside function or parenthesis\n");
         dataStack->numOperandLists = 1;
-        memcpy(list, dataStack, sizeof(OperandList));
+        memcpy(reinterpret_cast<unsigned char *>(list), dataStack, sizeof(OperandList));
         list->operandCount = 1;
         list->operands[0].dataType = VAL_INT;
         list->operands[0].internals.intVal = 0;

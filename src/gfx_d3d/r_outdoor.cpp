@@ -14,6 +14,10 @@ void __cdecl Outdoor_ApplyBoundingBox(const float *outdoorMin, const float *outd
     outdoorGlob.bbox[1][0] = *outdoorMax;
     outdoorGlob.bbox[1][1] = outdoorMax[1];
     outdoorGlob.bbox[1][2] = outdoorMax[2];
+    // KISAKHACK-AUDIT: upstream hex-rays wrote outdoorGlob.scale[dimIter - 3] which is a
+    // nega-array reach from scale[3] back into bbox[1] (since bbox precedes scale in the
+    // struct). Direct outdoorGlob.bbox[1][dimIter] expresses the upstream intent (SUPREMUM
+    // edge of bbox) and is 64-bit-safe. Confirmed via struct OutdoorGlob layout.
     for (dimIter = 0; dimIter != 3; ++dimIter)
     {
         if (outdoorGlob.bbox[0][dimIter] == 131072.0)

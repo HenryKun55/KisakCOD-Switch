@@ -101,8 +101,13 @@ const score_t *__cdecl UI_GetScoreAtRank(int32_t localClientNum, int32_t rank)
     if (rank < 1 || rank > cgameGlob->numScores)
         return 0;
 
-    if (cgameGlob->bgs.clientinfo[cgameGlob->teamScores[10 * rank + 2]].infoValid)
-        return (const score_t *)&cgameGlob->teamScores[10 * rank + 2];
+    // KISAKHACK-AUDIT: upstream hex-rays teamScores[10*rank+2] is a nega-array reach.
+    // teamScores[10*1+2]=teamScores[12] hits scores[0].client at byte offset 52 (= 4+48)
+    // from cg_s.numScores on 32-bit, where score_t is 40 bytes. On 64-bit score_t grows
+    // to 48 bytes (Material* widens), so the byte arithmetic no longer matches. Direct
+    // field access expresses the upstream intent and is 64-bit-safe.
+    if (cgameGlob->bgs.clientinfo[cgameGlob->scores[rank - 1].client].infoValid)
+        return &cgameGlob->scores[rank - 1];
 
     return 0;
 }
@@ -471,7 +476,7 @@ double __cdecl CG_DrawTeamOfClientScore(
     i = 0;
     while (i < cgameGlob->numScores)
     {
-        if (score->client >= 0x40u)
+        if (static_cast<unsigned int>(score->client) >= 0x40u)
             MyAssertHandler(
                 ".\\cgame_mp\\cg_scoreboard_mp.cpp",
                 1037,

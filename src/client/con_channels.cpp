@@ -40,7 +40,10 @@ char __cdecl Con_OpenChannel(char *name, bool allowScript)
     if (!alreadyExists)
     {
         I_strncpyz(pcGlob.openChannels[index].name, name, 32);
-        *((_BYTE *)pcGlob.filters[-263] + 33 * index) = allowScript;
+        // KISAKHACK-AUDIT: upstream hex-rays addressed openChannels[index].allowScript
+        // via the nega-array reach (_BYTE*)pcGlob.filters[-263] + 33*index. Direct field
+        // access expresses the upstream intent and is 64-bit-safe.
+        pcGlob.openChannels[index].allowScript = allowScript;
     }
     return 1;
 }
@@ -50,7 +53,7 @@ bool __cdecl Con_ScriptHasPermission(uint32_t channel)
     if (channel >= 0x100)
         return 0;
     if (pcGlob.openChannels[channel].name[0])
-        return *((_BYTE *)pcGlob.filters[-263] + 33 * channel);
+        return pcGlob.openChannels[channel].allowScript;
     return 0;
 }
 
@@ -78,7 +81,7 @@ bool __cdecl Con_IsChannelVisible(print_msg_dest_t dest, uint32_t channel, int32
 {
     int32_t error; // [esp+4h] [ebp-4h]
 
-    if (channel >= 0x100)
+    if (channel >= 0x100) {
         MyAssertHandler(
             ".\\client\\con_channels.cpp",
             209,
@@ -86,6 +89,8 @@ bool __cdecl Con_IsChannelVisible(print_msg_dest_t dest, uint32_t channel, int32
             "%s\n\t(channel) = %i",
             "(channel >= 0 && channel < CON_MAX_CHANNELS)",
             channel);
+        channel = 0; // KISAKHACK-AUDIT: clamp after non-fatal assert
+    }
     if (!pcGlob.openChannels[channel].name[0])
         return 0;
     if (dest == CON_DEST_MINICON)

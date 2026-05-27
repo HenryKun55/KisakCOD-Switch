@@ -325,6 +325,10 @@ DObj_s *Com_DObjCloneToBuffer(unsigned int entnum)
     unsigned int v4; // r26
     unsigned int FreeDObjIndex; // r30
 
+    // KISAKHACK-AUDIT: upstream had a bare MyAssertHandler() with no early return,
+    // which on release builds (assert noop) would fall through into serverObjMap[entnum]
+    // OOB read returning garbage — undefined behavior. Adding return nullptr; is safer
+    // than upstream and matches the intent of the assert.
     if (entnum >= SERVER_DOBJ_HANDLE_MAX) {
         MyAssertHandler(
             "c:\\trees\\cod3\\cod3src\\src\\qcommon\\dobj_management.cpp",

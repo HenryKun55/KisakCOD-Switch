@@ -13,8 +13,16 @@
 #include "cg_main.h"
 #endif
 
-const float sign[4][2] =
+// KISAKHACK-AUDIT: upstream hex-rays uses sign[i+4] in CG_DrawLine (nega-array reach
+// into adjacent memory on 32-bit). Extended to sign[8][2] with the same corner pattern
+// duplicated so [i+4] indexing is in-bounds and 64-bit-safe. Both halves give identical
+// quad-corner signs which matches CG_DrawLine's line-as-thin-quad usage.
+const float sign[8][2] =
 {
+    { -1.0f, -1.0f },
+    { 1.0f, -1.0f },
+    { 1.0f, 1.0f },
+    {-1.0f, 1.0f },
     { -1.0f, -1.0f },
     { 1.0f, -1.0f },
     { 1.0f, 1.0f },

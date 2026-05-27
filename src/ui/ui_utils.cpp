@@ -13,7 +13,11 @@ void __cdecl TRACK_ui_utils()
 
 void __cdecl Window_SetDynamicFlags(int localClientNum, windowDef_t *w, int flags)
 {
-    if (localClientNum)
+    // KISAKHACK-AUDIT: MAX_POSSIBLE_LOCAL_CLIENTS==1, so dynamicFlags is int[1]. Upstream
+    // hex-rays asserted localClientNum==0 then unconditionally indexed dynamicFlags[localClientNum].
+    // GCC array-bounds flags the potential OOB on release builds where assert is noop. Clamp
+    // index to 0 (matches the assert intent).
+    if (localClientNum) {
         MyAssertHandler(
             ".\\ui\\ui_utils.cpp",
             43,
@@ -21,6 +25,8 @@ void __cdecl Window_SetDynamicFlags(int localClientNum, windowDef_t *w, int flag
             "localClientNum doesn't index MAX_POSSIBLE_LOCAL_CLIENTS\n\t%i not in [0, %i)",
             localClientNum,
             1);
+        localClientNum = 0;
+    }
     if (flags && (flags & 0xFFFFF) == 0)
         MyAssertHandler(".\\ui\\ui_utils.cpp", 44, 0, "%s\n\t(flags) = %i", "(flags == 0 || flags & 0x000FFFFF)", flags);
     if ((flags & 0xFFF00000) != 0)
@@ -30,7 +36,7 @@ void __cdecl Window_SetDynamicFlags(int localClientNum, windowDef_t *w, int flag
 
 void __cdecl Window_AddDynamicFlags(int localClientNum, windowDef_t *w, int newFlags)
 {
-    if (localClientNum)
+    if (localClientNum) {
         MyAssertHandler(
             "c:\\trees\\cod3\\src\\ui\\ui_utils.h",
             23,
@@ -38,6 +44,8 @@ void __cdecl Window_AddDynamicFlags(int localClientNum, windowDef_t *w, int newF
             "localClientNum doesn't index MAX_POSSIBLE_LOCAL_CLIENTS\n\t%i not in [0, %i)",
             localClientNum,
             1);
+        localClientNum = 0;
+    }
     Window_SetDynamicFlags(localClientNum, w, newFlags | w->dynamicFlags[localClientNum]);
 }
 
@@ -45,7 +53,7 @@ void __cdecl Window_RemoveDynamicFlags(int localClientNum, windowDef_t *w, int n
 {
     int modifiedFlags; // [esp+0h] [ebp-8h]
 
-    if (localClientNum)
+    if (localClientNum) {
         MyAssertHandler(
             "c:\\trees\\cod3\\src\\ui\\ui_utils.h",
             23,
@@ -53,6 +61,8 @@ void __cdecl Window_RemoveDynamicFlags(int localClientNum, windowDef_t *w, int n
             "localClientNum doesn't index MAX_POSSIBLE_LOCAL_CLIENTS\n\t%i not in [0, %i)",
             localClientNum,
             1);
+        localClientNum = 0;
+    }
     modifiedFlags = newFlags;
     if ((newFlags & 4) != 0)
         modifiedFlags = newFlags | 2;
@@ -139,7 +149,7 @@ void __cdecl Item_SetTextRect(int localClientNum, itemDef_s *item, const rectDef
         MyAssertHandler(".\\ui\\ui_utils.cpp", 235, 0, "%s", "item");
     if (!textRect)
         MyAssertHandler(".\\ui\\ui_utils.cpp", 236, 0, "%s", "textRect");
-    if (textRect->horzAlign >= 8u)
+    if (static_cast<unsigned int>(textRect->horzAlign) >= 8u)
         MyAssertHandler(
             ".\\ui\\ui_utils.cpp",
             237,
@@ -147,7 +157,7 @@ void __cdecl Item_SetTextRect(int localClientNum, itemDef_s *item, const rectDef
             "%s\n\t(textRect->horzAlign) = %i",
             "(textRect->horzAlign >= 0 && textRect->horzAlign <= 7)",
             textRect->horzAlign);
-    if (textRect->vertAlign >= 8u)
+    if (static_cast<unsigned int>(textRect->vertAlign) >= 8u)
         MyAssertHandler(
             ".\\ui\\ui_utils.cpp",
             238,
@@ -181,8 +191,7 @@ int __cdecl Item_GetCursorPosOffset(int localClientNum, const itemDef_s *item, c
     {
         while (1)
         {
-            while (&text[pos]
-                && text[pos] == 94
+            while (text[pos] == 94
                     && text[pos + 1]
                     && text[pos + 1] != 94
                     && text[pos + 1] >= 48

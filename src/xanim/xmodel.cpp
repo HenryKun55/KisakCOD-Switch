@@ -108,7 +108,7 @@ int __cdecl XModelTraceLine(
     boneExtents.end[2] = localEnd[2];
     CM_CalcTraceExtents(&boneExtents);
     Vec3Sub(boneExtents.end, boneExtents.start, delta);
-    for (i = 0; i < model->numCollSurfs; ++i)
+    for (i = 0; i < static_cast<unsigned int>(model->numCollSurfs); ++i)
     {
         csurf = &model->collSurfs[i];
         if ((contentmask & csurf->contents) != 0 && !CM_TraceBox(&boneExtents, (float*)csurf->mins, (float *)csurf->maxs, results->fraction))
@@ -209,7 +209,7 @@ int __cdecl XModelTraceLineAnimated(
     partIndex = -1;
     baseMatList = XModelGetBasePose(model);
     DObjGetHidePartBits(obj, hidePartBits);
-    for (i = 0; i < model->numCollSurfs; ++i)
+    for (i = 0; i < static_cast<unsigned int>(model->numCollSurfs); ++i)
     {
         csurf = &model->collSurfs[i];
         if ((contentmask & csurf->contents) != 0)
@@ -313,7 +313,7 @@ void __cdecl XModelTraceLineAnimatedPartBits(
     if (model->collLod >= 0)
     {
         DObjGetHidePartBits(obj, hidePartBits);
-        for (i = 0; i < model->numCollSurfs; ++i)
+        for (i = 0; i < static_cast<unsigned int>(model->numCollSurfs); ++i)
         {
             csurf = &model->collSurfs[i];
             if ((contentmask & csurf->contents) != 0)
@@ -616,7 +616,7 @@ int __cdecl XModelGetStaticBounds(const XModel *model, mat3x3 &axis, float *mins
     int k; // [esp+10h] [ebp-24h]
     const XModelCollSurf_s *csurf; // [esp+14h] [ebp-20h]
     float rotated[3]; // [esp+18h] [ebp-1Ch] BYREF
-    int i; // [esp+24h] [ebp-10h]
+    unsigned int i; // [esp+24h] [ebp-10h]
     float corner[3]; // [esp+28h] [ebp-Ch] BYREF
 
     if (model->numCollSurfs)
@@ -630,7 +630,7 @@ int __cdecl XModelGetStaticBounds(const XModel *model, mat3x3 &axis, float *mins
         maxs[2] = -FLT_MAX;
         maxs[0] = -FLT_MAX;
 
-        for (i = 0; i < model->numCollSurfs; ++i)
+        for (i = 0; i < static_cast<unsigned int>(model->numCollSurfs); ++i)
         {
             csurf = &model->collSurfs[i];
             for (k = 0; k < 8; ++k)

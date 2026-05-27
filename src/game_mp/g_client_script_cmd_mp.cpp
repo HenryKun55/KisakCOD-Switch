@@ -1455,7 +1455,7 @@ void __cdecl PlayerCmd_finishPlayerDamage(scr_entref_t entref)
                 }
                 if (tempBulletHitEntity)
                     tempBulletHitEntity->s.un1.scale |= 2u;
-                if (pSelf->health <= 0xFFFFFC18)
+                if (pSelf->health <= -999)
                     pSelf->health = -999;
                 die = entityHandlers[pSelf->handler].die;
                 if (die)
@@ -2069,7 +2069,7 @@ void __cdecl PlayerCmd_ClonePlayer(scr_entref_t entref)
     corpseInfo->entnum = body->s.number;
     corpseInfo->time = level.time;
     corpseInfo->falling = 1;
-    if (client->ps.clientNum >= 0x40u)
+    if (static_cast<unsigned int>(client->ps.clientNum) >= 0x40u)
         MyAssertHandler(
             ".\\game_mp\\g_client_script_cmd_mp.cpp",
             1551,
@@ -2143,7 +2143,7 @@ void __cdecl PlayerCmd_SetClientDvar(scr_entref_t entref)
     {
         pszText = Scr_GetString(1);
     }
-    strlen(pszText);
+    (void)strlen(pszText);
     if (Dvar_IsValidName(pszDvar))
     {
         pCh = szOutString;

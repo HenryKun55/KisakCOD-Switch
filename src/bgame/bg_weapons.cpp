@@ -987,7 +987,7 @@ bool __cdecl BG_UsingSniperScope(playerState_s *ps)
 
 int __cdecl PM_InteruptWeaponWithProneMove(playerState_s *ps)
 {
-    if (ps->weaponstate <= 4u
+    if (static_cast<unsigned int>(ps->weaponstate) <= 4u
         || ps->weaponstate == 7
         || ps->weaponstate == 9
         || ps->weaponstate == 11
@@ -1521,7 +1521,7 @@ void __cdecl PM_Weapon_FinishRechamber(playerState_s *ps)
 
 void __cdecl PM_ContinueWeaponAnim(playerState_s *ps, int32_t anim)
 {
-    if ((ps->weapAnim & 0xFFFFFDFF) != anim)
+    if ((ps->weapAnim & 0xFFFFFDFFu) != static_cast<unsigned int>(anim))
         PM_StartWeaponAnim(ps, anim);
 }
 
@@ -2130,7 +2130,7 @@ void __cdecl UpdatePendingTriggerPull(pmove_t *pm)
     playerState_s* ps = pm->ps; // [esp+4h] [ebp-4h]
     iassert(ps);
 
-    if (BG_GetWeaponDef(ps->weapon)->fireType >= (unsigned int)WEAPON_FIRETYPE_BURSTFIRE2
+    if (static_cast<unsigned int>(BG_GetWeaponDef(ps->weapon)->fireType) >= static_cast<unsigned int>(WEAPON_FIRETYPE_BURSTFIRE2)
         && (pm->cmd.buttons & 1) != 0
         && (pm->oldcmd.buttons & 1) == 0)
     {

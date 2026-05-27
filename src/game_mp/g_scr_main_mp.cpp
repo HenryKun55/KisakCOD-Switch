@@ -2031,7 +2031,7 @@ void __cdecl GScr_SetCursorHint(scr_entref_t entref)
         Com_Printf(23, "List of valid hint type strings\n");
         if (pEnt->classname == scr_const.trigger_use || pEnt->classname == scr_const.trigger_use_touch)
             Com_Printf(23, "HINT_INHERIT (for trigger_use or trigger_use_touch entities only)\n");
-        for (ia = 1; ia < 5; ++ia)
+        for (ia = 1; ia < 4; ++ia)
             Com_Printf(23, "%s\n", hintStrings[ia]);
         Scr_Error(va("%s is not a valid hint type. See above for list of valid hint types\n", pszHint));
     }
@@ -5838,7 +5838,7 @@ void __cdecl GScr_SetStat(scr_entref_t entref)
     if (argc == 2)
     {
         index.intValue = Scr_GetInt(0);
-        if (index.intValue >= 0xDACu)
+        if (static_cast<unsigned int>(index.intValue) >= 0xDACu)
         {
             v1 = va("setstat: invalid index %i", index.intValue);
             Scr_ParamError(0, v1);

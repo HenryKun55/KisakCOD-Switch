@@ -47,7 +47,7 @@ playerState_s *__cdecl SV_GameClientNum(int num)
 
 svEntity_s *__cdecl SV_SvEntityForGentity(const gentity_s *gEnt)
 {
-    if (!gEnt || gEnt->s.number >= ARRAY_COUNT(sv.svEntities))
+    if (!gEnt || static_cast<unsigned long>(gEnt->s.number) >= ARRAY_COUNT(sv.svEntities))
         Com_Error(ERR_DROP, "SV_SvEntityForGentity: bad gEnt");
     return &sv.svEntities[gEnt->s.number];
 }
@@ -224,7 +224,7 @@ char *__cdecl SV_AllocSkelMemory(unsigned int size)
     {
         result = &g_sv_skel_memory_start[sv.skelMemPos];
         sv.skelMemPos += sizea;
-        if (sv.skelMemPos <= (sizeof(g_sv_skel_memory) - SKEL_MEM_ALIGNMENT))
+        if (static_cast<unsigned long>(sv.skelMemPos) <= (sizeof(g_sv_skel_memory) - SKEL_MEM_ALIGNMENT))
             break;
         if (warnCount_2 != sv.skelTimeStamp)
         {

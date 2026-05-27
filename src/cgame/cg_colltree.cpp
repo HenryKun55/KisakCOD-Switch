@@ -115,7 +115,7 @@ void __cdecl CG_UnlinkEntityColl(int32_t localClientNum, uint32_t entIndex)
         node->sector = 0;
         if (!world->sectors[sectorIndex].entListHead)
             MyAssertHandler(".\\cgame\\cg_colltree.cpp", 342, 0, "%s", "sector->entListHead");
-        if (world->sectors[sectorIndex].entListHead - 1 == entIndex)
+        if (static_cast<uint32_t>(world->sectors[sectorIndex].entListHead - 1) == entIndex)
         {
             world->sectors[sectorIndex].entListHead = node->nextEntInSector;
         }

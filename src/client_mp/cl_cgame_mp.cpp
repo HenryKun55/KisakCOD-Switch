@@ -1011,7 +1011,7 @@ void __cdecl CL_ReadDemoNetworkPacket(int32_t localClientNum)
             if (buf.cursize > buf.maxsize)
                 Com_Error(ERR_DROP, "CL_ReadDemoMessage: demoMsglen > MAX_MSGLEN");
             v1 = FS_Read(buf.data, buf.cursize, clc->demofile);
-            if (v1 == buf.cursize)
+            if (v1 == static_cast<uint32_t>(buf.cursize))
             {
                 clc->lastPacketTime = cls.realtime;
                 buf.readcount = 0;

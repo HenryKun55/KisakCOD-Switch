@@ -531,7 +531,7 @@ void __cdecl CG_ResetPlayerEntity(int32_t localClientNum, cg_s *cgameGlob, centi
     DObj_s *obj; // [esp+1Ch] [ebp-Ch]
     clientInfo_t *ci; // [esp+24h] [ebp-4h]
 
-    if (cent->nextState.clientNum >= 0x40u)
+    if (static_cast<unsigned int>(cent->nextState.clientNum) >= 0x40u)
         MyAssertHandler(
             ".\\cgame_mp\\cg_players_mp.cpp",
             605,

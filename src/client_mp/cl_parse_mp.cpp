@@ -29,7 +29,7 @@ int autoupdateStarted;
 char autoupdateFilename[64];
 int cl_connectedToPureServer;
 
-constexpr size_t CLIENT_ARCHIVE_SIZE = 256;
+constexpr int CLIENT_ARCHIVE_SIZE = 256;
 
 void __cdecl TRACK_cl_parse()
 {
@@ -1073,7 +1073,7 @@ void __cdecl CL_ParseGamestate(netsrc_t localClientNum, msg_t *msg)
                     LocalClientGlobals->gameState.dataCount += v7 + 1;
                     ++currentConstConfigString;
                 }
-                if (constantConfigStrings[currentConstConfigString].configStringNum == configStringIndex)
+                if (static_cast<unsigned int>(constantConfigStrings[currentConstConfigString].configStringNum) == configStringIndex)
                     ++currentConstConfigString;
                 s = MSG_ReadBigString(msg);
                 v6 = strlen(s);
