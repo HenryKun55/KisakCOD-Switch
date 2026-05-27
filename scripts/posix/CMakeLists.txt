@@ -588,8 +588,7 @@ set(XANIM_PORTABLE_SOURCES
     "${SRC_DIR}/xanim/xmodel.cpp"
     "${SRC_DIR}/xanim/xmodel_load_obj.cpp"
     "${SRC_DIR}/xanim/xmodel_utils.cpp"
-    # xmodel_load_phys_collmap.cpp compiles clean but pulls ODE
-    # (dMass*). Brings back once ODE physics is in the build.
+    "${SRC_DIR}/xanim/xmodel_load_phys_collmap.cpp"
 )
 
 set(BGAME_PORTABLE_SOURCES

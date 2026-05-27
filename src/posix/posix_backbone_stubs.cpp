@@ -1881,7 +1881,7 @@ MaterialTechniqueSet *Material_FindTechniqueSet_LoadObj(const char * /*name*/, M
 // xmodel_load_obj satellite stubs.
 void R_GetXModelBounds(XModel * /*m*/, const float (* /*axes*/)[3], float * /*mins*/, float * /*maxs*/) {}
 struct PhysGeomList;
-PhysGeomList *XModel_LoadPhysicsCollMap(const char * /*name*/, void *(* /*alloc*/)(int)) { return nullptr; }
+// XModel_LoadPhysicsCollMap provided by src/xanim/xmodel_load_phys_collmap.cpp now.
 
 // com_sndalias_load_obj satellite stubs.
 #include <universal/com_sndalias.h>
