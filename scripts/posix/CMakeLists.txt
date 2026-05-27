@@ -213,9 +213,9 @@ set(GFX_PORTABLE_SOURCES
     # r_scene.cpp pulls r_cinematic.h (Bink BINKTEXTURESET / BINKREALTIME)
     # and IDirect3DQuery9 member access. Land alongside r_cinematic /
     # graphics abstraction.
-    # r_screenshot.cpp uses tagMONITORINFO/HMONITOR/ClientToScreen
-    # (Win32) and IDirect3DSurface9/IDirect3DSwapChain9 (D3D9). Land
-    # behind a screen-capture abstraction.
+    # r_screenshot.cpp uses tagMONITORINFO / HMONITOR / MonitorFromWindow
+    # / ClientToScreen (Win32 monitor APIs) and IDirect3DSwapChain9::GetFrontBufferData.
+    # Land behind a screen-capture abstraction.
     # r_shade.cpp pulls D3DLOCK_NOOVERWRITE / DISCARD plus
     # IDirect3DDevice9 member access. Land behind graphics
     # abstraction.
