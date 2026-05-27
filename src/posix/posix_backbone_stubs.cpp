@@ -510,7 +510,7 @@ void TRACK_phys() {}
 // TRACK_r_dpvs provided by src/gfx_d3d/r_dpvs.cpp now.
 // void TRACK_r_font() {}
 // void TRACK_r_image_wavelet() {}  // provided by r_image_wavelet.cpp now
-void TRACK_r_image() {}
+// TRACK_r_image provided by src/gfx_d3d/r_image.cpp now.
 void TRACK_r_init() {}
 void TRACK_r_material() {}
 // void TRACK_r_model() {}
@@ -1655,22 +1655,22 @@ GfxMetrics gfxMetrics{};
 
 // r_outdoor satellite stubs.
 struct GfxImage;
-GfxImage *Image_Register(const char * /*name*/, unsigned char /*flags*/, int /*format*/) { return nullptr; }
+// Image_Register provided by src/gfx_d3d/r_image.cpp now.
 void Image_Generate2D(GfxImage * /*img*/, unsigned char * /*data*/, int /*w*/, int /*h*/, int /*format*/) {}
-GfxImage *Image_Alloc(char * /*name*/, unsigned char /*flags*/, unsigned char /*a*/, unsigned char /*b*/) { return nullptr; }
+// Image_Alloc provided by src/gfx_d3d/r_image.cpp now.
 void Image_GenerateCube(GfxImage * /*img*/, const unsigned char *(* /*faces*/)[15], int /*w*/, int /*h*/, unsigned int /*flags*/) {}
 struct GfxImageFileHeader;
-char Image_ValidateHeader(GfxImageFileHeader * /*hdr*/, const char * /*name*/) { return 0; }
+// Image_ValidateHeader provided by src/gfx_d3d/r_image.cpp now.
 struct WaveletDecode;
 // void Wavelet_DecompressLevel(unsigned char * /*dst*/, unsigned char * /*src*/, WaveletDecode * /*ctx*/) {}  // provided by r_image_wavelet.cpp now
 unsigned char *Material_Alloc(unsigned int /*size*/) { return nullptr; }
 void Image_BuildWaterMap(GfxImage * /*img*/) {}
-void Image_UploadData(const GfxImage * /*img*/, int /*format*/, int /*face*/, unsigned int /*mip*/, unsigned char * /*data*/) {}
+// Image_UploadData provided by src/gfx_d3d/r_image.cpp now.
 unsigned int Image_CubemapFace(unsigned int /*faceIndex*/) { return 0; }
 void Image_SetupFromFile(GfxImage * /*img*/, const GfxImageFileHeader * /*hdr*/, int /*flags*/) {}
 void Image_FreeTempMemory(unsigned char * /*p*/, int /*size*/) {}
 unsigned char *Image_AllocTempMemory(int /*size*/) { return nullptr; }
-unsigned int Image_CountMipmapsForFile(const GfxImageFileHeader * /*hdr*/) { return 0; }
+// Image_CountMipmapsForFile provided by src/gfx_d3d/r_image.cpp now.
 
 // r_meshdata satellite stubs.
 struct GfxMeshData;
@@ -1808,10 +1808,27 @@ GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 
+// r_image satellite stubs.
+bool Image_IsProg(GfxImage * /*img*/) { return false; }
+void Image_GetPicmip(const GfxImage * /*img*/, Picmip * /*p*/) {}
+void Image_Generate3D(GfxImage * /*img*/, unsigned char *, int, int, int, int) {}
+void R_DisableSampler(GfxCmdBufState * /*s*/, unsigned int /*idx*/) {}
+void Image_TrackTexture(GfxImage * /*img*/, char, int, int, int, int) {}
+void DB_LoadedExternalData(int /*size*/) {}
+GfxImage *Image_Register_LoadObj(char * /*name*/, unsigned char, unsigned char) { return nullptr; }
+unsigned int R_AvailableTextureMemory() { return 0; }
+unsigned int Image_GetCardMemoryAmount(char, int, unsigned int, unsigned int, unsigned int) { return 0; }
+GfxImage *Image_FindExisting_LoadObj(const char * /*name*/) { return nullptr; }
+void Image_Upload2D_CopyData_PC(const GfxImage * /*img*/, int, int, unsigned int, unsigned char *) {}
+void Image_Upload3D_CopyData_PC(const GfxImage * /*img*/, int, unsigned int, unsigned char *) {}
+char Image_LoadFromFileWithReader(GfxImage * /*img*/, int (*)(const char *, int *)) { return 0; }
+unsigned int Image_GetCardMemoryAmountForMipLevel(int, unsigned int, unsigned int, unsigned int) { return 0; }
+ImgGlobals imageGlobals{};
+
 // r_model_lighting satellite stubs.
-void Image_Release(GfxImage * /*img*/) {}
-GfxImage *Image_AllocProg(int /*type*/, unsigned char /*cat*/, unsigned char /*sem*/) { return nullptr; }
-void Image_SetupAndLoad(GfxImage * /*img*/, int, int, int, int, int) {}
+// Image_Release provided by src/gfx_d3d/r_image.cpp now.
+// Image_AllocProg provided by src/gfx_d3d/r_image.cpp now.
+// Image_SetupAndLoad provided by src/gfx_d3d/r_image.cpp now.
 void R_FreeGlobalVariable(void * /*var*/) {}
 void R_UncacheStaticModel(unsigned int /*idx*/) {}
 void R_SetInputCodeImageTexture(GfxCmdBufInput * /*input*/, MaterialTextureSource /*src*/, const GfxImage * /*img*/) {}
@@ -1935,7 +1952,7 @@ GfxGlobals r_glob{};
 
 // rb_imagetouch satellite stubs.
 #include <gfx_d3d/r_image.h>
-void R_GetImageList(ImageList *list) { if (list) list->count = 0; }
+// R_GetImageList provided by src/gfx_d3d/r_image.cpp now.
 const char *R_ErrorDescription(long /*hr*/) { return ""; }
 int g_disableRendering = 0;
 
@@ -3157,7 +3174,7 @@ void Material_UpdatePicmipAll() {}
 // void R_Cmd_LoadSun() {}  // provided by r_sky.cpp now
 void R_Cmd_ReloadMaterialTextures() {}
 // void R_Cmd_SaveSun() {}  // provided by r_sky.cpp now
-void R_ImageList_f() {}
+// R_ImageList_f provided by src/gfx_d3d/r_image.cpp now.
 void R_MaterialList_f() {}
 // void R_ModelList_f() {}
 enum GfxScreenshotType : int;

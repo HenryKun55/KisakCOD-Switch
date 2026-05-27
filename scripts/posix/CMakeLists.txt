@@ -146,6 +146,7 @@ set(GFX_PORTABLE_SOURCES
     # IDirect3DVolumeTexture9 / IDirect3DTexture9 / IDirect3DCubeTexture9
     # member functions and uses _D3DLOCKED_BOX / _D3DLOCKED_RECT.
     # Land behind D3D9 abstraction.
+    "${SRC_DIR}/gfx_d3d/r_image.cpp"
     "${SRC_DIR}/gfx_d3d/r_image_utils.cpp"
     # r_image_load_obj.cpp uses D3DCUBEMAP_FACE_* / D3DFMT_G16R16F.
     # Land behind a graphics format/cubemap abstraction.

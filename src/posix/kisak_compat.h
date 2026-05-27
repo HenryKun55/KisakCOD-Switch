@@ -454,6 +454,7 @@ struct IDirect3DIndexBuffer9 {
 };
 struct IDirect3DBaseTexture9 {
     unsigned long Release() { return 0; }
+    unsigned long AddRef() { return 1; }
 };
 struct IDirect3DTexture9;
 struct IDirect3DVolumeTexture9;
@@ -511,10 +512,44 @@ struct _D3DLOCKED_BOX {
     int SlicePitch;
     void *pBits;
 };
+struct _D3DSURFACE_DESC {
+    int Format;
+    int Type;
+    unsigned long Usage;
+    int Pool;
+    int MultiSampleType;
+    unsigned long MultiSampleQuality;
+    unsigned int Width;
+    unsigned int Height;
+};
+struct _D3DVOLUME_DESC {
+    int Format;
+    int Type;
+    unsigned long Usage;
+    int Pool;
+    unsigned int Width;
+    unsigned int Height;
+    unsigned int Depth;
+};
+struct IDirect3DTexture9 : IDirect3DBaseTexture9 {
+    long LockRect(unsigned int, _D3DLOCKED_RECT *out, const tagRECT *, unsigned long) { if (out) *out = {}; return 0; }
+    long UnlockRect(unsigned int) { return 0; }
+    long AddDirtyRect(const tagRECT *) { return 0; }
+    long GetLevelDesc(unsigned int, _D3DSURFACE_DESC *out) { if (out) *out = {}; return 0; }
+    long GetSurfaceLevel(unsigned int, IDirect3DSurface9 **out) { if (out) *out = nullptr; return 0; }
+};
+struct IDirect3DCubeTexture9 : IDirect3DBaseTexture9 {
+    long LockRect(unsigned int, unsigned int, _D3DLOCKED_RECT *out, const tagRECT *, unsigned long) { if (out) *out = {}; return 0; }
+    long UnlockRect(unsigned int, unsigned int) { return 0; }
+    long AddDirtyRect(unsigned int, const tagRECT *) { return 0; }
+    long GetLevelDesc(unsigned int, _D3DSURFACE_DESC *out) { if (out) *out = {}; return 0; }
+    long GetCubeMapSurface(unsigned int, unsigned int, IDirect3DSurface9 **out) { if (out) *out = nullptr; return 0; }
+};
 struct IDirect3DVolumeTexture9 : IDirect3DBaseTexture9 {
     long LockBox(unsigned int, _D3DLOCKED_BOX *out, const _D3DBOX *, unsigned long) { if (out) *out = {}; return 0; }
     long UnlockBox(unsigned int) { return 0; }
     long AddDirtyBox(const _D3DBOX *) { return 0; }
+    long GetLevelDesc(unsigned int, _D3DVOLUME_DESC *out) { if (out) *out = {}; return 0; }
 };
 struct IDirect3DDevice9 {
     long BeginScene() { return 0; }
@@ -543,7 +578,23 @@ struct IDirect3DDevice9 {
     long CreateVertexBuffer(unsigned int, unsigned long, unsigned long, unsigned long, IDirect3DVertexBuffer9 **out, void *) { if (out) *out = nullptr; return 0; }
     long CreateIndexBuffer(unsigned int, unsigned long, int, unsigned long, IDirect3DIndexBuffer9 **out, void *) { if (out) *out = nullptr; return 0; }
     long UpdateTexture(IDirect3DBaseTexture9 *, IDirect3DBaseTexture9 *) { return 0; }
+    long CreateCubeTexture(unsigned int, unsigned int, unsigned long, int, unsigned long, IDirect3DCubeTexture9 **out, void *) { if (out) *out = nullptr; return 0; }
+    long CreateVolumeTexture(unsigned int, unsigned int, unsigned int, unsigned int, unsigned long, int, unsigned long, IDirect3DVolumeTexture9 **out, void *) { if (out) *out = nullptr; return 0; }
+    long CreateTexture(unsigned int, unsigned int, unsigned int, unsigned long, int, unsigned long, IDirect3DTexture9 **out, void *) { if (out) *out = nullptr; return 0; }
+    long CreateRenderTarget(unsigned int, unsigned int, int, unsigned long, unsigned long, int, IDirect3DSurface9 **out, void *) { if (out) *out = nullptr; return 0; }
+    long CreateDepthStencilSurface(unsigned int, unsigned int, int, unsigned long, unsigned long, int, IDirect3DSurface9 **out, void *) { if (out) *out = nullptr; return 0; }
+    long CreateVertexDeclaration(const void *, IDirect3DVertexDeclaration9 **out) { if (out) *out = nullptr; return 0; }
+    long CreateVertexShader(const unsigned long *, IDirect3DVertexShader9 **out) { if (out) *out = nullptr; return 0; }
+    long CreatePixelShader(const unsigned long *, IDirect3DPixelShader9 **out) { if (out) *out = nullptr; return 0; }
+    long CreateQuery(unsigned long, IDirect3DQuery9 **out) { if (out) *out = nullptr; return 0; }
+    long SetPixelShaderConstantF(unsigned int, const float *, unsigned int) { return 0; }
+    long SetVertexShaderConstantF(unsigned int, const float *, unsigned int) { return 0; }
+    long GetAvailableTextureMem() { return 0; }
+    long GetBackBuffer(unsigned int, unsigned int, int, IDirect3DSurface9 **out) { if (out) *out = nullptr; return 0; }
+    long GetSwapChain(unsigned int, IDirect3DSwapChain9 **out) { if (out) *out = nullptr; return 0; }
+    long GetRenderTargetData(IDirect3DSurface9 *, IDirect3DSurface9 *) { return 0; }
 };
+typedef int _D3DPOOL;
 #ifndef D3DRS_SCISSORTESTENABLE
 #define D3DRS_SCISSORTESTENABLE 174
 #endif
@@ -552,6 +603,9 @@ struct IDirect3DDevice9 {
 #endif
 #ifndef D3DPOOL_DEFAULT
 #define D3DPOOL_DEFAULT 0
+#endif
+#ifndef D3DPOOL_MANAGED
+#define D3DPOOL_MANAGED 1
 #endif
 #ifndef D3DPOOL_SCRATCH
 #define D3DPOOL_SCRATCH 2
