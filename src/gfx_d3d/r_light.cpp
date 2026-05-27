@@ -36,8 +36,8 @@ int(__cdecl *allowSurf_1[2])(int, void *) = { R_AllowBspSpotLight, R_AllowBspSpo
 
 void __cdecl R_EnumLightDefs(void(__cdecl *func)(GfxLightDef *, void *), void *data)
 {
-    GfxLightDef *def; // [esp+0h] [ebp-8h]
-    int defIndex; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] GfxLightDef *def; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] int defIndex; // [esp+4h] [ebp-4h]
 
     for (defIndex = 0; defIndex < lightGlob.defCount; ++defIndex)
     {
@@ -49,10 +49,10 @@ void __cdecl R_EnumLightDefs(void(__cdecl *func)(GfxLightDef *, void *), void *d
 
 GfxLightDef *__cdecl R_RegisterLightDef_LoadObj(const char *name)
 {
-    GfxLightDef *def; // [esp+0h] [ebp-8h]
-    GfxLightDef *defa; // [esp+0h] [ebp-8h]
-    int defIndex; // [esp+4h] [ebp-4h]
-    int defIndexa; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] GfxLightDef *def; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] GfxLightDef *defa; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] int defIndex; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int defIndexa; // [esp+4h] [ebp-4h]
 
     iassert( name );
     for (defIndex = 0; defIndex < lightGlob.defCount; ++defIndex)
@@ -115,9 +115,9 @@ void __cdecl R_ShutdownLightDefs()
 int __cdecl R_GetPointLightPartitions(const GfxLight **visibleLights)
 {
     const GfxLight *addedLights[32]; // [esp+0h] [ebp-90h] BYREF
-    int visibleCount; // [esp+84h] [ebp-Ch]
-    int visibleLimit; // [esp+88h] [ebp-8h]
-    int lightIndex; // [esp+8Ch] [ebp-4h]
+    [[maybe_unused]] int visibleCount; // [esp+84h] [ebp-Ch]
+    [[maybe_unused]] int visibleLimit; // [esp+88h] [ebp-8h]
+    [[maybe_unused]] int lightIndex; // [esp+8Ch] [ebp-4h]
 
     if (scene.addedLightCount > 32)
         MyAssertHandler(
@@ -153,11 +153,11 @@ int __cdecl R_GetPointLightPartitions(const GfxLight **visibleLights)
 
 void __cdecl R_MostImportantLights(const GfxLight **lights, int lightCount, int keepCount)
 {
-    int top; // [esp+54h] [ebp-10h]
-    int bot; // [esp+58h] [ebp-Ch]
-    const GfxLight *pivot; // [esp+5Ch] [ebp-8h]
-    const GfxLight *swapCache; // [esp+60h] [ebp-4h]
-    const GfxLight *swapCachea; // [esp+60h] [ebp-4h]
+    [[maybe_unused]] int top; // [esp+54h] [ebp-10h]
+    [[maybe_unused]] int bot; // [esp+58h] [ebp-Ch]
+    [[maybe_unused]] const GfxLight *pivot; // [esp+5Ch] [ebp-8h]
+    [[maybe_unused]] const GfxLight *swapCache; // [esp+60h] [ebp-4h]
+    [[maybe_unused]] const GfxLight *swapCachea; // [esp+60h] [ebp-4h]
 
     iassert( lightCount > keepCount );
     iassert( keepCount >= 1 );
@@ -211,8 +211,8 @@ bool __cdecl R_LightImportanceGreaterEqual(const GfxLight *light0, const GfxLigh
 {
     float v[3]; // [esp+4h] [ebp-28h] BYREF
     float diff[3]; // [esp+10h] [ebp-1Ch] BYREF
-    float radiusSq[2]; // [esp+1Ch] [ebp-10h]
-    float distSq[2]; // [esp+24h] [ebp-8h]
+    [[maybe_unused]] float radiusSq[2]; // [esp+1Ch] [ebp-10h]
+    [[maybe_unused]] float distSq[2]; // [esp+24h] [ebp-8h]
 
     if (light0->type != 3 && light0->type != 2)
         MyAssertHandler(
@@ -269,16 +269,16 @@ BOOL __cdecl R_SortBspShadowReceiverSurfaces(GfxSurface *surface0, GfxSurface *s
 void __cdecl R_GetBspOmniLightSurfs(const GfxLight *light, int lightIndex, GfxBspDrawSurfData *surfData)
 {
     unsigned __int16 triSurfList[2]; // [esp+F0h] [ebp-4Ch] BYREF
-    unsigned int surfIndex; // [esp+F4h] [ebp-48h]
+    [[maybe_unused]] unsigned int surfIndex; // [esp+F4h] [ebp-48h]
     float mins[3]; // [esp+F8h] [ebp-44h] BYREF
     BspOmniLightCallback bspLightCallback; // [esp+104h] [ebp-38h] BYREF
     unsigned int visLightDrawSurfCount; // [esp+118h] [ebp-24h] BYREF
-    unsigned __int8 *surfaceVisData; // [esp+11Ch] [ebp-20h]
+    [[maybe_unused]] unsigned __int8 *surfaceVisData; // [esp+11Ch] [ebp-20h]
     GfxSurface **surfaces[1]; // [esp+120h] [ebp-1Ch] BYREF
     float maxs[3]; // [esp+124h] [ebp-18h] BYREF
-    GfxDrawSurf *drawSurfs; // [esp+130h] [ebp-Ch]
-    GfxDrawSurf *surfaceMaterials; // [esp+134h] [ebp-8h]
-    unsigned int listSurfIndex; // [esp+138h] [ebp-4h]
+    [[maybe_unused]] GfxDrawSurf *drawSurfs; // [esp+130h] [ebp-Ch]
+    [[maybe_unused]] GfxDrawSurf *surfaceMaterials; // [esp+134h] [ebp-8h]
+    [[maybe_unused]] unsigned int listSurfIndex; // [esp+138h] [ebp-4h]
     //int savedregs; // [esp+13Ch] [ebp+0h] BYREF
 
     surfaceVisData = rgp.world->dpvs.surfaceVisData[0];
@@ -341,7 +341,7 @@ void __cdecl R_GetBspOmniLightSurfs(const GfxLight *light, int lightIndex, GfxBs
 
 int __cdecl R_AllowBspOmniLight(int surfIndex, void *bspLightCallbackAsVoid)
 {
-    return *(_BYTE *)(*(unsigned int *)bspLightCallbackAsVoid + surfIndex)
+    return *(_BYTE *)(uintptr_t)(*(unsigned int *)bspLightCallbackAsVoid + surfIndex)
         && *((float *)bspLightCallbackAsVoid + 4) >= PointToBoxDistSq(
             (const float *)bspLightCallbackAsVoid + 1,
             rgp.world->dpvs.surfaces[surfIndex].bounds[0],
@@ -351,15 +351,15 @@ int __cdecl R_AllowBspOmniLight(int surfIndex, void *bspLightCallbackAsVoid)
 void __cdecl R_GetBspSpotLightSurfs(const GfxLight *light, int lightIndex, GfxBspDrawSurfData *surfData)
 {
     unsigned __int16 triSurfList[2]; // [esp+1B4h] [ebp-ACh] BYREF
-    unsigned int surfIndex; // [esp+1B8h] [ebp-A8h]
+    [[maybe_unused]] unsigned int surfIndex; // [esp+1B8h] [ebp-A8h]
     float mins[3]; // [esp+1BCh] [ebp-A4h] BYREF
     BspSpotLightCallback bspLightCallback; // [esp+1C8h] [ebp-98h] BYREF
-    unsigned __int8 *surfaceVisData; // [esp+230h] [ebp-30h]
+    [[maybe_unused]] unsigned __int8 *surfaceVisData; // [esp+230h] [ebp-30h]
     GfxSurface **surfaces[2]; // [esp+234h] [ebp-2Ch] BYREF
     float maxs[3]; // [esp+23Ch] [ebp-24h] BYREF
-    GfxDrawSurf *drawSurfs[2]; // [esp+248h] [ebp-18h]
-    GfxDrawSurf *surfaceMaterials; // [esp+250h] [ebp-10h]
-    unsigned int listSurfIndex; // [esp+254h] [ebp-Ch]
+    [[maybe_unused]] GfxDrawSurf *drawSurfs[2]; // [esp+248h] [ebp-18h]
+    [[maybe_unused]] GfxDrawSurf *surfaceMaterials; // [esp+250h] [ebp-10h]
+    [[maybe_unused]] unsigned int listSurfIndex; // [esp+254h] [ebp-Ch]
     unsigned int surfCounts[2]; // [esp+258h] [ebp-8h] BYREF
 
     iassert(lightIndex < MAX_VISIBLE_SHADOWABLE_DLIGHTS);
@@ -454,7 +454,7 @@ int __cdecl R_AllowBspSpotLightShadows(int surfIndex, void *bspLightCallbackAsVo
 {
     if (r_spotLightShadows->current.enabled)
         return R_BoxInPlanes(
-            (const float (*)[4])((unsigned int)bspLightCallbackAsVoid + 4),
+            (const float (*)[4])((uintptr_t)bspLightCallbackAsVoid + 4),
             rgp.world->dpvs.surfaces[surfIndex].bounds[0],
             rgp.world->dpvs.surfaces[surfIndex].bounds[1]);
     else
@@ -463,32 +463,32 @@ int __cdecl R_AllowBspSpotLightShadows(int surfIndex, void *bspLightCallbackAsVo
 
 int __cdecl R_BoxInPlanes(const float (*planes)[4], const float *mins, const float *maxs)
 {
-    float v4; // [esp+0h] [ebp-4Ch]
-    float v5; // [esp+4h] [ebp-48h]
-    float v6; // [esp+8h] [ebp-44h]
-    float v7; // [esp+Ch] [ebp-40h]
-    float v8; // [esp+10h] [ebp-3Ch]
-    float v9; // [esp+14h] [ebp-38h]
-    float v10; // [esp+18h] [ebp-34h]
-    float v11; // [esp+1Ch] [ebp-30h]
-    float v12; // [esp+20h] [ebp-2Ch]
-    float v13; // [esp+24h] [ebp-28h]
-    float v14; // [esp+28h] [ebp-24h]
-    float v15; // [esp+2Ch] [ebp-20h]
-    float v16; // [esp+30h] [ebp-1Ch]
-    float v17; // [esp+34h] [ebp-18h]
-    float v18; // [esp+38h] [ebp-14h]
-    float v19; // [esp+3Ch] [ebp-10h]
-    const float *plane; // [esp+40h] [ebp-Ch]
-    float insidef; // [esp+44h] [ebp-8h]
-    float inside; // [esp+44h] [ebp-8h]
-    float insidea; // [esp+44h] [ebp-8h]
-    float insideb; // [esp+44h] [ebp-8h]
-    float insidec; // [esp+44h] [ebp-8h]
-    float insided; // [esp+44h] [ebp-8h]
-    float insidee; // [esp+44h] [ebp-8h]
-    float insideg; // [esp+44h] [ebp-8h]
-    unsigned int planeIndex; // [esp+48h] [ebp-4h]
+    [[maybe_unused]] float v4; // [esp+0h] [ebp-4Ch]
+    [[maybe_unused]] float v5; // [esp+4h] [ebp-48h]
+    [[maybe_unused]] float v6; // [esp+8h] [ebp-44h]
+    [[maybe_unused]] float v7; // [esp+Ch] [ebp-40h]
+    [[maybe_unused]] float v8; // [esp+10h] [ebp-3Ch]
+    [[maybe_unused]] float v9; // [esp+14h] [ebp-38h]
+    [[maybe_unused]] float v10; // [esp+18h] [ebp-34h]
+    [[maybe_unused]] float v11; // [esp+1Ch] [ebp-30h]
+    [[maybe_unused]] float v12; // [esp+20h] [ebp-2Ch]
+    [[maybe_unused]] float v13; // [esp+24h] [ebp-28h]
+    [[maybe_unused]] float v14; // [esp+28h] [ebp-24h]
+    [[maybe_unused]] float v15; // [esp+2Ch] [ebp-20h]
+    [[maybe_unused]] float v16; // [esp+30h] [ebp-1Ch]
+    [[maybe_unused]] float v17; // [esp+34h] [ebp-18h]
+    [[maybe_unused]] float v18; // [esp+38h] [ebp-14h]
+    [[maybe_unused]] float v19; // [esp+3Ch] [ebp-10h]
+    [[maybe_unused]] const float *plane; // [esp+40h] [ebp-Ch]
+    [[maybe_unused]] float insidef; // [esp+44h] [ebp-8h]
+    [[maybe_unused]] float inside; // [esp+44h] [ebp-8h]
+    [[maybe_unused]] float insidea; // [esp+44h] [ebp-8h]
+    [[maybe_unused]] float insideb; // [esp+44h] [ebp-8h]
+    [[maybe_unused]] float insidec; // [esp+44h] [ebp-8h]
+    [[maybe_unused]] float insided; // [esp+44h] [ebp-8h]
+    [[maybe_unused]] float insidee; // [esp+44h] [ebp-8h]
+    [[maybe_unused]] float insideg; // [esp+44h] [ebp-8h]
+    [[maybe_unused]] unsigned int planeIndex; // [esp+48h] [ebp-4h]
 
     for (planeIndex = 0; planeIndex < 6; ++planeIndex)
     {
@@ -549,9 +549,9 @@ int __cdecl R_BoxInPlanes(const float (*planes)[4], const float *mins, const flo
 
 int __cdecl R_AllowBspSpotLight(int surfIndex, void *bspLightCallbackAsVoid)
 {
-    if (*(_BYTE *)(*(unsigned int *)bspLightCallbackAsVoid + surfIndex))
+    if (*(_BYTE *)(uintptr_t)(*(unsigned int *)bspLightCallbackAsVoid + surfIndex))
         return R_BoxInPlanes(
-            (const float (*)[4])((unsigned int)bspLightCallbackAsVoid + 4),
+            (const float (*)[4])((uintptr_t)bspLightCallbackAsVoid + 4),
             rgp.world->dpvs.surfaces[surfIndex].bounds[0],
             rgp.world->dpvs.surfaces[surfIndex].bounds[1]);
     else
@@ -560,18 +560,18 @@ int __cdecl R_AllowBspSpotLight(int surfIndex, void *bspLightCallbackAsVoid)
 
 void __cdecl R_CalcSpotLightPlanes(const GfxLight *light, float (*planes)[4])
 {
-    float fCos; // [esp+0h] [ebp-50h]
-    float fCosa; // [esp+0h] [ebp-50h]
-    float v4; // [esp+4h] [ebp-4Ch]
-    float v5; // [esp+4h] [ebp-4Ch]
-    float v6; // [esp+4h] [ebp-4Ch]
-    float v7; // [esp+4h] [ebp-4Ch]
-    float v8; // [esp+14h] [ebp-3Ch]
-    float v9; // [esp+18h] [ebp-38h]
+    [[maybe_unused]] float fCos; // [esp+0h] [ebp-50h]
+    [[maybe_unused]] float fCosa; // [esp+0h] [ebp-50h]
+    [[maybe_unused]] float v4; // [esp+4h] [ebp-4Ch]
+    [[maybe_unused]] float v5; // [esp+4h] [ebp-4Ch]
+    [[maybe_unused]] float v6; // [esp+4h] [ebp-4Ch]
+    [[maybe_unused]] float v7; // [esp+4h] [ebp-4Ch]
+    [[maybe_unused]] float v8; // [esp+14h] [ebp-3Ch]
+    [[maybe_unused]] float v9; // [esp+18h] [ebp-38h]
     float origin[3]; // [esp+1Ch] [ebp-34h] BYREF
     float crossDirs[2][3]; // [esp+28h] [ebp-28h] BYREF
     float lightDirection[3]; // [esp+40h] [ebp-10h] BYREF
-    float fSin; // [esp+4Ch] [ebp-4h]
+    [[maybe_unused]] float fSin; // [esp+4Ch] [ebp-4h]
 
     Vec3Scale(light->dir, -1.0, lightDirection);
     Vec3Scale(lightDirection, -1.0, (float *)planes);
@@ -582,17 +582,18 @@ void __cdecl R_CalcSpotLightPlanes(const GfxLight *light, float (*planes)[4])
     v8 = sqrt(v9);
     fSin = v8;
     v4 = -v8;
-    R_CalcPlaneFromCosSinPointDirs(&(*planes)[4], light->cosHalfFovOuter, v4, light->origin, lightDirection, crossDirs[0]);
+    float *planesFlat = reinterpret_cast<float *>(planes);
+    R_CalcPlaneFromCosSinPointDirs(&planesFlat[4], light->cosHalfFovOuter, v4, light->origin, lightDirection, crossDirs[0]);
     v5 = -fSin;
-    R_CalcPlaneFromCosSinPointDirs(&(*planes)[8], light->cosHalfFovOuter, v5, light->origin, lightDirection, crossDirs[1]);
+    R_CalcPlaneFromCosSinPointDirs(&planesFlat[8], light->cosHalfFovOuter, v5, light->origin, lightDirection, crossDirs[1]);
     v6 = -fSin;
     fCos = -light->cosHalfFovOuter;
-    R_CalcPlaneFromCosSinPointDirs(&(*planes)[12], fCos, v6, light->origin, lightDirection, crossDirs[0]);
+    R_CalcPlaneFromCosSinPointDirs(&planesFlat[12], fCos, v6, light->origin, lightDirection, crossDirs[0]);
     v7 = -fSin;
     fCosa = -light->cosHalfFovOuter;
-    R_CalcPlaneFromCosSinPointDirs(&(*planes)[16], fCosa, v7, light->origin, lightDirection, crossDirs[1]);
+    R_CalcPlaneFromCosSinPointDirs(&planesFlat[16], fCosa, v7, light->origin, lightDirection, crossDirs[1]);
     Vec3Mad(light->origin, light->radius, lightDirection, origin);
-    R_CalcPlaneFromPointDir(&(*planes)[20], origin, lightDirection);
+    R_CalcPlaneFromPointDir(&planesFlat[20], origin, lightDirection);
 }
 
 void __cdecl R_CalcPlaneFromPointDir(float *plane, const float *origin, const float *dir)
@@ -605,10 +606,10 @@ void __cdecl R_CalcPlaneFromPointDir(float *plane, const float *origin, const fl
 
 void __cdecl R_ComputeSpotLightCrossDirs(const GfxLight *light, float (*crossDirs)[3])
 {
-    float v2; // [esp+0h] [ebp-34h]
-    float v3; // [esp+4h] [ebp-30h]
-    int axisIndex; // [esp+2Ch] [ebp-8h]
-    int bestCrossAxis; // [esp+30h] [ebp-4h]
+    [[maybe_unused]] float v2; // [esp+0h] [ebp-34h]
+    [[maybe_unused]] float v3; // [esp+4h] [ebp-30h]
+    [[maybe_unused]] int axisIndex; // [esp+2Ch] [ebp-8h]
+    [[maybe_unused]] int bestCrossAxis; // [esp+30h] [ebp-4h]
 
     bestCrossAxis = 0;
     for (axisIndex = 1; axisIndex < 3; ++axisIndex)
@@ -642,27 +643,27 @@ void __cdecl R_CalcPlaneFromCosSinPointDirs(
 
 void __cdecl R_GetStaticModelLightSurfs(const GfxLight **visibleLights, int visibleCount)
 {
-    const GfxStaticModelDrawInst* smodelDrawInst; // [esp+18h] [ebp-89Ch]
-    GfxDrawSurf drawSurf; // [esp+1Ch] [ebp-898h]
+    [[maybe_unused]] const GfxStaticModelDrawInst* smodelDrawInst; // [esp+18h] [ebp-89Ch]
+    [[maybe_unused]] GfxDrawSurf drawSurf; // [esp+1Ch] [ebp-898h]
     float mins[3]; // [esp+28h] [ebp-88Ch] BYREF
-    unsigned int surfaceIndex; // [esp+34h] [ebp-880h]
-    const Material* material; // [esp+38h] [ebp-87Ch]
+    [[maybe_unused]] unsigned int surfaceIndex; // [esp+34h] [ebp-880h]
+    [[maybe_unused]] const Material* material; // [esp+38h] [ebp-87Ch]
     GfxBspDrawSurfData shadowSurfData; // [esp+3Ch] [ebp-878h] BYREF
-    unsigned int surfaceCount; // [esp+58h] [ebp-85Ch]
-    const GfxLight* light; // [esp+5Ch] [ebp-858h]
-    GfxStaticModelId staticModelId; // [esp+60h] [ebp-854h]
-    Material* const* pMaterial; // [esp+64h] [ebp-850h]
+    [[maybe_unused]] unsigned int surfaceCount; // [esp+58h] [ebp-85Ch]
+    [[maybe_unused]] const GfxLight* light; // [esp+5Ch] [ebp-858h]
+    [[maybe_unused]] GfxStaticModelId staticModelId; // [esp+60h] [ebp-854h]
+    [[maybe_unused]] Material* const* pMaterial; // [esp+64h] [ebp-850h]
     unsigned __int16 list[2]; // [esp+68h] [ebp-84Ch] BYREF
-    unsigned int* lodData; // [esp+6Ch] [ebp-848h]
-    int lod; // [esp+70h] [ebp-844h]
+    [[maybe_unused]] unsigned int* lodData; // [esp+6Ch] [ebp-848h]
+    [[maybe_unused]] int lod; // [esp+70h] [ebp-844h]
     unsigned __int16 smodels[1024]; // [esp+74h] [ebp-840h] BYREF
     float maxs[3]; // [esp+878h] [ebp-3Ch] BYREF
-    int smodelCount; // [esp+884h] [ebp-30h]
+    [[maybe_unused]] int smodelCount; // [esp+884h] [ebp-30h]
     XSurface* surfaces; // [esp+888h] [ebp-2Ch] BYREF
-    int index; // [esp+88Ch] [ebp-28h]
-    int lightIndex; // [esp+890h] [ebp-24h]
+    [[maybe_unused]] int index; // [esp+88Ch] [ebp-28h]
+    [[maybe_unused]] int lightIndex; // [esp+890h] [ebp-24h]
     GfxBspDrawSurfData surfData; // [esp+894h] [ebp-20h] BYREF
-    int smodelIndex; // [esp+8B0h] [ebp-4h]
+    [[maybe_unused]] int smodelIndex; // [esp+8B0h] [ebp-4h]
     //int savedregs; // [esp+8B4h] [ebp+0h] BYREF
 
     iassert( visibleCount );
@@ -775,36 +776,36 @@ int __cdecl R_AllowStaticModelSpotLight(int smodelIndex)
 
 void __cdecl R_GetSceneEntLightSurfs(const GfxLight **visibleLights, int visibleCount)
 {
-    float v2; // [esp+4h] [ebp-208h]
-    float v3; // [esp+8h] [ebp-204h]
-    float v4; // [esp+Ch] [ebp-200h]
+    [[maybe_unused]] float v2; // [esp+4h] [ebp-208h]
+    [[maybe_unused]] float v3; // [esp+8h] [ebp-204h]
+    [[maybe_unused]] float v4; // [esp+Ch] [ebp-200h]
     float v[3]; // [esp+10h] [ebp-1FCh] BYREF
     float diff[3]; // [esp+1Ch] [ebp-1F0h] BYREF
-    GfxSceneDynBrush *sceneDynBrush; // [esp+28h] [ebp-1E4h]
-    DynEntityPose *dynEntPose; // [esp+2Ch] [ebp-1E0h]
-    GfxVisibleLight *visLightShadow; // [esp+30h] [ebp-1DCh]
-    GfxSceneModel *sceneModel; // [esp+34h] [ebp-1D8h]
-    GfxDrawSurf *drawSurf; // [esp+38h] [ebp-1D4h]
-    unsigned int dynEntIndex; // [esp+3Ch] [ebp-1D0h]
-    GfxDrawSurf *newDrawSurf; // [esp+40h] [ebp-1CCh]
+    [[maybe_unused]] GfxSceneDynBrush *sceneDynBrush; // [esp+28h] [ebp-1E4h]
+    [[maybe_unused]] DynEntityPose *dynEntPose; // [esp+2Ch] [ebp-1E0h]
+    [[maybe_unused]] GfxVisibleLight *visLightShadow; // [esp+30h] [ebp-1DCh]
+    [[maybe_unused]] GfxSceneModel *sceneModel; // [esp+34h] [ebp-1D8h]
+    [[maybe_unused]] GfxDrawSurf *drawSurf; // [esp+38h] [ebp-1D4h]
+    [[maybe_unused]] unsigned int dynEntIndex; // [esp+3Ch] [ebp-1D0h]
+    [[maybe_unused]] GfxDrawSurf *newDrawSurf; // [esp+40h] [ebp-1CCh]
     float planes[4][6][4]; // [esp+44h] [ebp-1C8h] BYREF
-    unsigned int sceneEntCount; // [esp+1C8h] [ebp-44h]
-    const GfxLight *light; // [esp+1CCh] [ebp-40h]
-    unsigned int visLightDrawSurfCount; // [esp+1D0h] [ebp-3Ch]
-    float radius; // [esp+1D4h] [ebp-38h]
-    GfxVisibleLight *visLight; // [esp+1D8h] [ebp-34h]
-    const DynEntityDef *dynEntDef; // [esp+1DCh] [ebp-30h]
-    const float *bounds; // [esp+1E0h] [ebp-2Ch]
-    unsigned int visLightShadowDrawSurfCount; // [esp+1E4h] [ebp-28h]
-    unsigned int sceneEntIndex; // [esp+1E8h] [ebp-24h]
-    GfxSceneEntity *sceneEnt; // [esp+1ECh] [ebp-20h]
-    GfxSceneBrush *sceneBrush; // [esp+1F0h] [ebp-1Ch]
-    unsigned __int8 *sceneEntVisData; // [esp+1F4h] [ebp-18h]
-    int lightIndex; // [esp+1F8h] [ebp-14h]
-    GfxSceneDynModel *sceneDynModel; // [esp+1FCh] [ebp-10h]
-    float distSq; // [esp+200h] [ebp-Ch]
-    const GfxBrushModel *bmodel; // [esp+204h] [ebp-8h]
-    GfxDrawSurf *lastDrawSurf; // [esp+208h] [ebp-4h]
+    [[maybe_unused]] unsigned int sceneEntCount; // [esp+1C8h] [ebp-44h]
+    [[maybe_unused]] const GfxLight *light; // [esp+1CCh] [ebp-40h]
+    [[maybe_unused]] unsigned int visLightDrawSurfCount; // [esp+1D0h] [ebp-3Ch]
+    [[maybe_unused]] float radius; // [esp+1D4h] [ebp-38h]
+    [[maybe_unused]] GfxVisibleLight *visLight; // [esp+1D8h] [ebp-34h]
+    [[maybe_unused]] const DynEntityDef *dynEntDef; // [esp+1DCh] [ebp-30h]
+    [[maybe_unused]] const float *bounds; // [esp+1E0h] [ebp-2Ch]
+    [[maybe_unused]] unsigned int visLightShadowDrawSurfCount; // [esp+1E4h] [ebp-28h]
+    [[maybe_unused]] unsigned int sceneEntIndex; // [esp+1E8h] [ebp-24h]
+    [[maybe_unused]] GfxSceneEntity *sceneEnt; // [esp+1ECh] [ebp-20h]
+    [[maybe_unused]] GfxSceneBrush *sceneBrush; // [esp+1F0h] [ebp-1Ch]
+    [[maybe_unused]] unsigned __int8 *sceneEntVisData; // [esp+1F4h] [ebp-18h]
+    [[maybe_unused]] int lightIndex; // [esp+1F8h] [ebp-14h]
+    [[maybe_unused]] GfxSceneDynModel *sceneDynModel; // [esp+1FCh] [ebp-10h]
+    [[maybe_unused]] float distSq; // [esp+200h] [ebp-Ch]
+    [[maybe_unused]] const GfxBrushModel *bmodel; // [esp+204h] [ebp-8h]
+    [[maybe_unused]] GfxDrawSurf *lastDrawSurf; // [esp+208h] [ebp-4h]
 
     iassert( (visibleCount <= 4) );
     for (lightIndex = 0; lightIndex < visibleCount; ++lightIndex)
@@ -1181,7 +1182,7 @@ void __cdecl R_GetSceneEntLightSurfs(const GfxLight **visibleLights, int visible
 
 int __cdecl R_SphereInPlanes(const float (*planes)[4], const float *center, float radius)
 {
-    unsigned int planeIndex; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] unsigned int planeIndex; // [esp+4h] [ebp-4h]
 
     for (planeIndex = 0; planeIndex < 6; ++planeIndex)
     {
@@ -1193,8 +1194,8 @@ int __cdecl R_SphereInPlanes(const float (*planes)[4], const float *center, floa
 
 bool __cdecl R_SpotLightIsAttachedToDobj(const DObj_s *obj)
 {
-    FxSystem *system; // [esp+0h] [ebp-8h]
-    DObj_s *attachedDobj; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] FxSystem *system; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] DObj_s *attachedDobj; // [esp+4h] [ebp-4h]
 
     iassert( obj );
     system = FX_GetSystem(0);
@@ -1211,25 +1212,25 @@ bool __cdecl R_SpotLightIsAttachedToDobj(const DObj_s *obj)
 void __cdecl ShortSortArray_GfxReverseSortDrawSurfsInterface_GfxDrawSurf_(GfxDrawSurf *lo, GfxDrawSurf *hi)
 {
     int packed_high; // edx
-    unsigned __int64 v3; // [esp+4h] [ebp-34h]
-    unsigned __int64 packed; // [esp+Ch] [ebp-2Ch]
-    GfxDrawSurf *max; // [esp+1Ch] [ebp-1Ch]
-    unsigned __int64 maxKey; // [esp+20h] [ebp-18h]
-    GfxDrawSurf *walk; // [esp+34h] [ebp-4h]
+    [[maybe_unused]] unsigned __int64 v3; // [esp+4h] [ebp-34h]
+    [[maybe_unused]] unsigned __int64 packed; // [esp+Ch] [ebp-2Ch]
+    [[maybe_unused]] GfxDrawSurf *max; // [esp+1Ch] [ebp-1Ch]
+    [[maybe_unused]] unsigned __int64 maxKey; // [esp+20h] [ebp-18h]
+    [[maybe_unused]] GfxDrawSurf *walk; // [esp+34h] [ebp-4h]
 
     while (hi > lo)
     {
         max = lo;
         LODWORD(maxKey) = LODWORD(lo->fields);
-        HIDWORD(maxKey) = ((~((lo->packed >> 54) & 0x3F) & 0x3F) << 22) | HIDWORD(lo->packed) & 0xF03FFFFF;
+        HIDWORD(maxKey) = ((~((lo->packed >> 54) & 0x3F) & 0x3F) << 22) | (HIDWORD(lo->packed) & 0xF03FFFFF);
         for (walk = lo + 1; walk <= hi; ++walk)
         {
             packed = walk->packed;
-            HIDWORD(packed) = ((~((walk->packed >> 54) & 0x3F) & 0x3F) << 22) | HIDWORD(walk->packed) & 0xF03FFFFF;
+            HIDWORD(packed) = ((~((walk->packed >> 54) & 0x3F) & 0x3F) << 22) | (HIDWORD(walk->packed) & 0xF03FFFFF);
             if (maxKey < packed)
             {
                 LODWORD(maxKey) = LODWORD(walk->fields);
-                HIDWORD(maxKey) = ((~((walk->packed >> 54) & 0x3F) & 0x3F) << 22) | HIDWORD(walk->packed) & 0xF03FFFFF;
+                HIDWORD(maxKey) = ((~((walk->packed >> 54) & 0x3F) & 0x3F) << 22) | (HIDWORD(walk->packed) & 0xF03FFFFF);
                 max = walk;
             }
         }
@@ -1251,22 +1252,22 @@ void __cdecl qsortArray_GfxReverseSortDrawSurfsInterface_GfxDrawSurf_(GfxDrawSur
     int v4; // eax
     int v5; // ecx
     GfxDrawSurf *v6; // edx
-    GfxDrawSurf v7; // [esp+4h] [ebp-180h]
-    unsigned __int64 fields; // [esp+Ch] [ebp-178h]
-    int v9; // [esp+10h] [ebp-174h]
-    GfxDrawSurf v10; // [esp+14h] [ebp-170h]
-    GfxDrawSurf v11; // [esp+1Ch] [ebp-168h]
-    GfxDrawSurf v12; // [esp+2Ch] [ebp-158h]
-    unsigned __int64 pivotKey; // [esp+64h] [ebp-120h]
-    GfxDrawSurf *loWalk; // [esp+74h] [ebp-110h]
-    int sortCount; // [esp+78h] [ebp-10Ch]
-    GfxDrawSurf *hiEnd; // [esp+7Ch] [ebp-108h]
-    GfxDrawSurf *hiWalk; // [esp+80h] [ebp-104h]
-    GfxDrawSurf *loStack[30]; // [esp+84h] [ebp-100h]
-    GfxDrawSurf *hiStack[30]; // [esp+FCh] [ebp-88h]
-    int stackPos; // [esp+178h] [ebp-Ch]
-    GfxDrawSurf *loEnd; // [esp+17Ch] [ebp-8h]
-    GfxDrawSurf *mid; // [esp+180h] [ebp-4h]
+    [[maybe_unused]] GfxDrawSurf v7; // [esp+4h] [ebp-180h]
+    [[maybe_unused]] unsigned __int64 fields; // [esp+Ch] [ebp-178h]
+    [[maybe_unused]] int v9; // [esp+10h] [ebp-174h]
+    [[maybe_unused]] GfxDrawSurf v10; // [esp+14h] [ebp-170h]
+    [[maybe_unused]] GfxDrawSurf v11; // [esp+1Ch] [ebp-168h]
+    [[maybe_unused]] GfxDrawSurf v12; // [esp+2Ch] [ebp-158h]
+    [[maybe_unused]] unsigned __int64 pivotKey; // [esp+64h] [ebp-120h]
+    [[maybe_unused]] GfxDrawSurf *loWalk; // [esp+74h] [ebp-110h]
+    [[maybe_unused]] int sortCount; // [esp+78h] [ebp-10Ch]
+    [[maybe_unused]] GfxDrawSurf *hiEnd; // [esp+7Ch] [ebp-108h]
+    [[maybe_unused]] GfxDrawSurf *hiWalk; // [esp+80h] [ebp-104h]
+    [[maybe_unused]] GfxDrawSurf *loStack[30]; // [esp+84h] [ebp-100h]
+    [[maybe_unused]] GfxDrawSurf *hiStack[30]; // [esp+FCh] [ebp-88h]
+    [[maybe_unused]] int stackPos; // [esp+178h] [ebp-Ch]
+    [[maybe_unused]] GfxDrawSurf *loEnd; // [esp+17Ch] [ebp-8h]
+    [[maybe_unused]] GfxDrawSurf *mid; // [esp+180h] [ebp-4h]
 
     if (count >= 2)
     {
@@ -1294,7 +1295,7 @@ void __cdecl qsortArray_GfxReverseSortDrawSurfsInterface_GfxDrawSurf_(GfxDrawSur
                 loWalk = loEnd;
                 hiWalk = hiEnd + 1;
                 LODWORD(pivotKey) = loEnd->packed;
-                HIDWORD(pivotKey) = ((~((loEnd->packed >> 54) & 0x3F) & 0x3F) << 22) | HIDWORD(loEnd->packed) & 0xF03FFFFF;
+                HIDWORD(pivotKey) = ((~((loEnd->packed >> 54) & 0x3F) & 0x3F) << 22) | (HIDWORD(loEnd->packed) & 0xF03FFFFF);
                 while (1)
                 {
                     do
@@ -1303,7 +1304,7 @@ void __cdecl qsortArray_GfxReverseSortDrawSurfsInterface_GfxDrawSurf_(GfxDrawSur
                             break;
                         v11.fields = loWalk->fields;
                         HIDWORD(v11.packed) = ((~((loWalk->packed >> 54) & 0x3F) & 0x3F) << 22)
-                            | HIDWORD(loWalk->packed) & 0xF03FFFFF;
+                            | (HIDWORD(loWalk->packed) & 0xF03FFFFF);
                     } while (v11.packed <= pivotKey);
                     do
                     {
@@ -1311,7 +1312,7 @@ void __cdecl qsortArray_GfxReverseSortDrawSurfsInterface_GfxDrawSurf_(GfxDrawSur
                             break;
                         v10.fields = hiWalk->fields;
                         HIDWORD(v10.packed) = ((~((hiWalk->packed >> 54) & 0x3F) & 0x3F) << 22)
-                            | HIDWORD(hiWalk->packed) & 0xF03FFFFF;
+                            | (HIDWORD(hiWalk->packed) & 0xF03FFFFF);
                     } while (pivotKey <= v10.packed);
                     if (hiWalk < loWalk)
                         break;
@@ -1375,14 +1376,14 @@ int __cdecl R_EmitPointLightPartitionSurfs(
     int visibleCount,
     const float *viewOrigin)
 {
-    int firstDrawSurf; // [esp+Ch] [ebp-28h]
-    PointLightPartition *partitions; // [esp+10h] [ebp-24h]
-    const GfxLight *light; // [esp+18h] [ebp-1Ch]
-    int partitionCount; // [esp+20h] [ebp-14h]
-    unsigned int lightDrawSurfCount; // [esp+24h] [ebp-10h]
-    int lightIndex; // [esp+28h] [ebp-Ch]
-    PointLightPartition *partition; // [esp+2Ch] [ebp-8h]
-    int drawSurfCount; // [esp+30h] [ebp-4h]
+    [[maybe_unused]] int firstDrawSurf; // [esp+Ch] [ebp-28h]
+    [[maybe_unused]] PointLightPartition *partitions; // [esp+10h] [ebp-24h]
+    [[maybe_unused]] const GfxLight *light; // [esp+18h] [ebp-1Ch]
+    [[maybe_unused]] int partitionCount; // [esp+20h] [ebp-14h]
+    [[maybe_unused]] unsigned int lightDrawSurfCount; // [esp+24h] [ebp-10h]
+    [[maybe_unused]] int lightIndex; // [esp+28h] [ebp-Ch]
+    [[maybe_unused]] PointLightPartition *partition; // [esp+2Ch] [ebp-8h]
+    [[maybe_unused]] int drawSurfCount; // [esp+30h] [ebp-4h]
 
     partitions = viewInfo->pointLightPartitions;
     partitionCount = 0;
@@ -1463,8 +1464,8 @@ void __cdecl R_EmitShadowedLightPartitionSurfs(
     GfxDrawSurf *lightDrawSurfs,
     GfxDrawSurfListInfo *info)
 {
-    int firstDrawSurf; // [esp+0h] [ebp-8h]
-    unsigned int drawSurfCount; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int firstDrawSurf; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] unsigned int drawSurfCount; // [esp+4h] [ebp-4h]
 
     firstDrawSurf = frontEndDataOut->drawSurfCount;
     R_EmitDrawSurfList(lightDrawSurfs, lightDrawSurfCount);

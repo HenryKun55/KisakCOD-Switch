@@ -1805,6 +1805,12 @@ GfxRenderTarget gfxRenderTargets[17]{};
 int pixelCostMode = 0;
 vidConfig_t vidConfig{};
 
+// r_light satellite stubs.
+#include <gfx_d3d/r_scene.h>
+GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
+GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
+GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
+
 // r_material_override satellite stubs.
 #include <gfx_d3d/r_material.h>
 #include <gfx_d3d/rb_uploadshaders.h>

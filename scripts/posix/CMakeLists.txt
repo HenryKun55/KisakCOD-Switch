@@ -131,8 +131,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_image_wavelet.cpp"
     "${SRC_DIR}/gfx_d3d/r_imagedecode.cpp"
     "${SRC_DIR}/gfx_d3d/r_light_load_obj.cpp"
-    # r_light.cpp has ~12 past-end float[4] array indices, six `&`-in-`|`
-    # precedence sites, and several uint32 truncations. Focused pass.
+    "${SRC_DIR}/gfx_d3d/r_light.cpp"
     "${SRC_DIR}/gfx_d3d/r_model.cpp"
     "${SRC_DIR}/gfx_d3d/r_cmds.cpp"
     # r_dpvs.cpp drags R_AddDObjSurfaces / R_AddBModelSurfaces /
