@@ -523,7 +523,7 @@ void TRACK_r_staticmodelcache() {}
 void TRACK_rb_backend() {}
 // void TRACK_rb_drawprofile() {}
 // void TRACK_rb_showcollision() {}  // provided by rb_showcollision.cpp now
-void TRACK_rb_sky() {}
+// TRACK_rb_sky provided by src/gfx_d3d/rb_sky.cpp now.
 void TRACK_rb_state() {}
 // void TRACK_rb_stats() {}
 // void TRACK_rb_sunshadow() {}  // provided by rb_sunshadow.cpp now
@@ -1655,7 +1655,7 @@ FileDataHashEntry *com_fileDataHashTable[8192]{};
 GfxConfiguration gfxCfg{};
 GfxMetrics gfxMetrics{};
 #include <gfx_d3d/r_sky.h>
-SunFlareDynamic sunFlareArray[4]{};
+// sunFlareArray provided by src/gfx_d3d/rb_sky.cpp now.
 
 void R_AddSpotShadowsForLight(GfxViewInfo * /*viewInfo*/, GfxLight * /*light*/, unsigned int /*idx*/, float /*scale*/) {}
 
@@ -1814,6 +1814,16 @@ bool Scr_IgnoreErrors() { return false; }
 GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
+
+// rb_sky satellite stubs.
+#include <gfx_d3d/rb_backend.h>
+void RB_SetIdentity() {}
+void RB_SetTessTechnique(const Material * /*m*/, MaterialTechniqueType /*t*/) {}
+void RB_ResetStatTracking() {}
+void R_ClearScreenInternal(IDirect3DDevice9 * /*d*/, unsigned char /*w*/, const float * /*c*/, float /*d2*/, unsigned char /*s*/, const GfxViewport * /*v*/) {}
+IDirect3DQuery9 *RB_HW_AllocOcclusionQuery() { return nullptr; }
+void RB_DrawFullScreenColoredQuad(const Material * /*m*/, float, float, float, float, unsigned int) {}
+GfxGlobals r_glob{};
 
 // rb_imagetouch satellite stubs.
 #include <gfx_d3d/r_image.h>

@@ -454,7 +454,25 @@ struct IDirect3DVertexDeclaration9;
 struct IDirect3DVertexShader9;
 struct IDirect3DPixelShader9;
 struct IDirect3DSwapChain9;
-struct IDirect3DQuery9;
+inline void Sleep(unsigned long ms) {
+    if (ms == 0) return;
+    timespec ts{static_cast<time_t>(ms / 1000), static_cast<long>((ms % 1000) * 1000000L)};
+    nanosleep(&ts, nullptr);
+}
+struct IDirect3DQuery9 {
+    long Issue(unsigned long) { return 0; }
+    long GetData(void *, unsigned int, unsigned long) { return 0; }
+    unsigned long Release() { return 0; }
+};
+#ifndef D3DISSUE_BEGIN
+#define D3DISSUE_BEGIN 2
+#endif
+#ifndef D3DISSUE_END
+#define D3DISSUE_END 1
+#endif
+#ifndef D3DGETDATA_FLUSH
+#define D3DGETDATA_FLUSH 1
+#endif
 
 // IDirect3DDevice9 stub: provides the most-called methods so renderer
 // files compile against the abstraction. None of these run on POSIX —

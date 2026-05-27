@@ -234,8 +234,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/rb_fog.cpp"
     "${SRC_DIR}/gfx_d3d/rb_imagetouch.cpp"
     "${SRC_DIR}/gfx_d3d/rb_showcollision.cpp"
-    # rb_sky.cpp pulls IDirect3DDevice9/IDirect3DQuery9 +
-    # D3DISSUE_BEGIN + Sleep(). Land behind graphics abstraction.
+    "${SRC_DIR}/gfx_d3d/rb_sky.cpp"
     "${SRC_DIR}/gfx_d3d/rb_spotshadow.cpp"
     "${SRC_DIR}/gfx_d3d/rb_sunshadow.cpp"
     # rb_state.cpp drags R_SetTexFilter / R_InitCmdBuf* /

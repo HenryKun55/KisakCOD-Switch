@@ -153,6 +153,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/rb_fog.cpp"
     "${SRC_DIR}/gfx_d3d/rb_imagetouch.cpp"
     "${SRC_DIR}/gfx_d3d/rb_showcollision.cpp"
+    "${SRC_DIR}/gfx_d3d/rb_sky.cpp"
     "${SRC_DIR}/gfx_d3d/rb_spotshadow.cpp"
     "${SRC_DIR}/gfx_d3d/rb_sunshadow.cpp"
     "${SRC_DIR}/gfx_d3d/rb_drawprofile.cpp"
