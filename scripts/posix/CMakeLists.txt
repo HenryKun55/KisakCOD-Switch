@@ -203,6 +203,12 @@ set(GFX_PORTABLE_SOURCES
     # array accesses, and a hex-rays self-compare. Focused pass.
     "${SRC_DIR}/gfx_d3d/r_xsurface.cpp"
     "${SRC_DIR}/gfx_d3d/rb_debug.cpp"
+    # rb_depthprepass.cpp uses tagRECT + IDirect3DDevice9 +
+    # D3DRS_SCISSORTESTENABLE. Land behind graphics abstraction.
+    "${SRC_DIR}/gfx_d3d/rb_fog.cpp"
+    # rb_imagetouch.cpp pulls IDirect3DDevice9 for sampler swizzle.
+    # Land behind graphics abstraction.
+    "${SRC_DIR}/gfx_d3d/rb_showcollision.cpp"
     "${SRC_DIR}/gfx_d3d/rb_drawprofile.cpp"
     "${SRC_DIR}/gfx_d3d/rb_logfile.cpp"
     # rb_pixelcost.cpp uses IDirect3DQuery9 / D3DISSUE_END. Land

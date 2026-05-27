@@ -9,7 +9,7 @@
 #include "rb_state.h"
 #include "rb_debug.h"
 
-const float shadowFrustumSidePlanes[5][4] =
+[[maybe_unused]] const float shadowFrustumSidePlanes[5][4] =
 {
   { -1.0, 0.0, 0.0, 1.0 },
   { 1.0, 0.0, 0.0, 1.0 },

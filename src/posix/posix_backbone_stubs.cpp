@@ -522,7 +522,7 @@ void TRACK_r_staticmodelcache() {}
 // void TRACK_r_workercmds() {}
 void TRACK_rb_backend() {}
 // void TRACK_rb_drawprofile() {}
-void TRACK_rb_showcollision() {}
+// void TRACK_rb_showcollision() {}  // provided by rb_showcollision.cpp now
 void TRACK_rb_sky() {}
 void TRACK_rb_state() {}
 // void TRACK_rb_stats() {}
@@ -1744,7 +1744,7 @@ struct GfxPointVertex;
 enum GfxPrimStatsTarget : int;
 void RB_DrawText(const char * /*text*/, Font_s * /*font*/, float /*x*/, float /*y*/, GfxColor /*color*/) {}
 void RB_DrawLines3D(int /*count*/, int /*colorCount*/, const GfxPointVertex * /*verts*/, bool /*flag*/) {}
-void RB_SetPolyVert(float * /*v*/, GfxColor /*c*/, int /*idx*/) {}
+// void RB_SetPolyVert(float * /*v*/, GfxColor /*c*/, int /*idx*/) {}  // provided by rb_showcollision.cpp now
 void RB_BeginSurface(const Material * /*m*/, MaterialTechniqueType /*t*/) {}
 void RB_DrawStretchPic(const Material * /*m*/, float /*x*/, float /*y*/, float /*w*/, float /*h*/, float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/, unsigned int /*color*/, GfxPrimStatsTarget /*target*/) {}
 void RB_EndTessSurface() {}
@@ -1781,6 +1781,15 @@ void R_GenerateShadowCookiesCmd(ShadowCookieCmd * /*cmd*/) {}
 void R_SkinCachedStaticModelCmd(SkinCachedStaticModelCmd * /*cmd*/) {}
 void R_AddAllSceneEntSurfacesCamera(const GfxViewInfo * /*viewInfo*/) {}
 void R_AddCellDynBrushSurfacesInFrustumCmd(const DpvsDynamicCellCmd * /*cmd*/) {}
+
+// rb_showcollision satellite stubs.
+struct GfxMatrix;
+unsigned int R_FrustumClipPlanes(const GfxMatrix * /*mtx*/, const float (* /*planes*/)[4], int /*count*/, DpvsPlane * /*out*/) { return 0; }
+struct GfxCmdBufInput;
+enum CodeConstant : int;
+void R_SetInputCodeConstant(GfxCmdBufInput * /*input*/, CodeConstant /*c*/, float /*x*/, float /*y*/, float /*z*/, float /*w*/) {}
+void R_SetInputCodeConstantFromVec4(GfxCmdBufInput * /*input*/, CodeConstant /*c*/, const float * /*v*/) {}
+
 
 r_backEndGlobals_t backEnd{};
 materialCommands_t tess{};
