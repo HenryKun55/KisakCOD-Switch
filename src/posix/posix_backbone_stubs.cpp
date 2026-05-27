@@ -524,7 +524,7 @@ void TRACK_rb_backend() {}
 // void TRACK_rb_drawprofile() {}
 // void TRACK_rb_showcollision() {}  // provided by rb_showcollision.cpp now
 // TRACK_rb_sky provided by src/gfx_d3d/rb_sky.cpp now.
-void TRACK_rb_state() {}
+// TRACK_rb_state provided by src/gfx_d3d/rb_state.cpp now.
 // void TRACK_rb_stats() {}
 // void TRACK_rb_sunshadow() {}  // provided by rb_sunshadow.cpp now
 void TRACK_scr_debugger() {}
@@ -1816,6 +1816,14 @@ GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 
+// rb_state satellite stubs.
+void R_SetTexFilter() {}
+void RB_InitCodeImages() {}
+void R_InitCmdBufState(GfxCmdBufState * /*state*/) {}
+void RB_BindDefaultImages() {}
+void R_SetInitialContextState(IDirect3DDevice9 * /*d*/) {}
+bool g_allocateMinimalResources = false;
+
 // rb_shade satellite stubs.
 #include <gfx_d3d/r_buffers.h>
 #include <gfx_d3d/rb_pixelcost.h>
@@ -1876,7 +1884,7 @@ void Material_CollateTechniqueSets(XAssetHeader /*h*/, TechniqueSetList * /*l*/)
 // rb_light / rb_postfx / rb_shadowcookie satellite stubs.
 #include <gfx_d3d/r_utils.h>
 #include <gfx_d3d/rb_imagefilter.h>
-const GfxCmdBufContext gfxCmdBufContext{};
+// gfxCmdBufContext provided by src/gfx_d3d/rb_state.cpp now.
 void R_BeginView(GfxCmdBufSourceState * /*source*/, const GfxSceneDef * /*sceneDef*/, const GfxViewParms * /*viewParms*/) {}
 void R_DrawSurfs(GfxCmdBufContext /*ctx*/, GfxCmdBufState * /*prepassState*/, const GfxDrawSurfListInfo * /*info*/) {}
 void R_ClearScreen(IDirect3DDevice9 * /*device*/, unsigned char /*whichToClear*/, const float * /*color*/, float /*depth*/, unsigned char /*stencil*/, const GfxViewport * /*viewport*/) {}
@@ -1899,8 +1907,7 @@ void R_Resolve(GfxCmdBufContext /*ctx*/, GfxImage * /*image*/) {}
 r_backEndGlobals_t backEnd{};
 materialCommands_t tess{};
 GfxBackEndData *backEndData;
-GfxCmdBufState gfxCmdBufState{};
-GfxCmdBufSourceState gfxCmdBufSourceState{};
+// gfxCmdBufState / gfxCmdBufSourceState provided by src/gfx_d3d/rb_state.cpp now.
 
 struct DiskGfxReflectionProbe;
 void R_CreateReflectionRawDataFromCubemapShot(DiskGfxReflectionProbe * /*probe*/, int /*downRes*/) {}
