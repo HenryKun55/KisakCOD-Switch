@@ -112,10 +112,9 @@ set(SCRIPT_PORTABLE_SOURCES
     # scr_evaluate.cpp old held-back comment kept for history
     # batch (debugger_node*, Scr_CompileStatement, Scr_ClearDebugExpr,
     # scrCompileGlob, scrVmDebugPub). Land together.
-    # scr_debugger.cpp stores Scr_WatchElement_s* in 32-bit elementList
-    # slots (`elementList[i] = (uint32_t)&newElements[i]`) and uses
-    # `*(uint32_t *)(slot + offset)` to re-dereference. Land after
-    # 32→64-bit element-list widening.
+    # scr_debugger.cpp depends on UI_Component / UI_LinesComponent /
+    # UI_ScrollPane / UI_VerticalDivider class hierarchies plus the
+    # Sys_*DebugSocket transport. Land alongside ui_component (held back).
     "${SRC_DIR}/script/scr_main.cpp"
     "${SRC_DIR}/script/scr_memorytree.cpp"
     "${SRC_DIR}/script/scr_parser.cpp"

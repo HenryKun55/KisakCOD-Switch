@@ -200,7 +200,7 @@ bool __thiscall Scr_ScriptWindow::AddBreakpointAtSourcePos(
         case 4u:
         case 5u:
             codePos = (char*)Scr_GetOpcodePosOfType(this->bufferIndex, startSourcePos, endSourcePos, 1, &sourcePos);
-            if (codePos && (*Scr_FindBreakpointInfo(codePos) != 127 || *codePos != 135))
+            if (codePos && (*Scr_FindBreakpointInfo(codePos) != 127 || (unsigned char)*codePos != 135))
                 success = 1;
             break;
         case 6u:
@@ -1170,7 +1170,7 @@ void __cdecl Scr_SortElementChildren(Scr_WatchElement_s *parentElement)
     newElements = parentElement->childArrayHead;
     elementList = Scr_AllocDebugMem(4 * count, "Scr_SortElementChildren");
     for (newIndex = 0; newIndex < count; ++newIndex)
-        elementList[newIndex] = (unsigned int)&newElements[newIndex];
+        elementList[newIndex] = (unsigned int)(uintptr_t)&newElements[newIndex];
     qsort(elementList, count, 4u, (int(__cdecl *)(const void *, const void *))CompareThreadElements);
     for (newIndexa = 0; newIndexa < count; ++newIndexa)
     {
@@ -1178,9 +1178,9 @@ void __cdecl Scr_SortElementChildren(Scr_WatchElement_s *parentElement)
             v1 = 0;
         else
             v1 = elementList[newIndexa + 1];
-        *(unsigned int *)(elementList[newIndexa] + 96) = v1;
+        *(unsigned int *)(uintptr_t)(elementList[newIndexa] + 96) = v1;
     }
-    parentElement->childHead = (Scr_WatchElement_s *)*elementList;
+    parentElement->childHead = (Scr_WatchElement_s *)(uintptr_t)*elementList;
     Scr_FreeDebugMem(elementList);
 }
 
@@ -1191,12 +1191,12 @@ int __cdecl CompareThreadElements(int *arg1, int *arg2)
 
     elements = *arg1;
     elements_4 = *arg2;
-    if (scrParserPub.sourceBufferLookup[*(unsigned int *)(*arg1 + 72)].sortedIndex != scrParserPub.sourceBufferLookup[*(unsigned int *)(*arg2 + 72)].sortedIndex)
-        return scrParserPub.sourceBufferLookup[*(unsigned int *)(*arg1 + 72)].sortedIndex
-        - scrParserPub.sourceBufferLookup[*(unsigned int *)(*arg2 + 72)].sortedIndex;
-    if (*(unsigned int *)(elements + 76) == *(unsigned int *)(elements_4 + 76))
-        return *(unsigned int *)(elements + 48) - *(unsigned int *)(elements_4 + 48);
-    return *(unsigned int *)(elements + 76) - *(unsigned int *)(elements_4 + 76);
+    if (scrParserPub.sourceBufferLookup[*(unsigned int *)(uintptr_t)(*arg1 + 72)].sortedIndex != scrParserPub.sourceBufferLookup[*(unsigned int *)(uintptr_t)(*arg2 + 72)].sortedIndex)
+        return scrParserPub.sourceBufferLookup[*(unsigned int *)(uintptr_t)(*arg1 + 72)].sortedIndex
+        - scrParserPub.sourceBufferLookup[*(unsigned int *)(uintptr_t)(*arg2 + 72)].sortedIndex;
+    if (*(unsigned int *)(uintptr_t)(elements + 76) == *(unsigned int *)(uintptr_t)(elements_4 + 76))
+        return *(unsigned int *)(uintptr_t)(elements + 48) - *(unsigned int *)(uintptr_t)(elements_4 + 48);
+    return *(unsigned int *)(uintptr_t)(elements + 76) - *(unsigned int *)(uintptr_t)(elements_4 + 76);
 }
 
 Scr_WatchElement_s *__cdecl Scr_CreateWatchElement(char *text, Scr_WatchElement_s **prevElem, const char *name)
@@ -1420,8 +1420,8 @@ bool __cdecl Scr_RefToVariable(unsigned int id, int isObject)
         if (*pElementNode)
             return 0;
         elementNodec = Scr_AllocDebugMem(8, "Scr_RefToVariable2");
-        *elementNodec = (unsigned int)scrDebuggerGlob.currentElement;
-        elementNodec[1] = (unsigned int)breakpoints->list;
+        *elementNodec = (unsigned int)(uintptr_t)scrDebuggerGlob.currentElement;
+        elementNodec[1] = (unsigned int)(uintptr_t)breakpoints->list;
         breakpoints->list = (Scr_WatchElementNode_s *)elementNodec;
     }
     else
@@ -1888,7 +1888,7 @@ Scr_WatchElement_s *Scr_DisplayDebugger()
 
         R_PushRemoteScreenUpdate(remoteScreenUpdateNesting);
         IN_ActivateMouse(1);
-        clientUIActives[0].keyCatchers = keyCatchers | clientUIActives[0].keyCatchers & 3;
+        clientUIActives[0].keyCatchers = keyCatchers | (clientUIActives[0].keyCatchers & 3);
         CL_EndScriptDebugger(cls.realtime - startTime);
     }
 
@@ -2276,7 +2276,7 @@ void __cdecl Scr_DebugTerminateThread(int topThread)
             scrDebuggerGlob.kill_thread = 1;
             if (scrDebuggerGlob.killThreadCodePos)
                 MyAssertHandler(".\\script\\scr_debugger.cpp", 9058, 0, "%s", "!scrDebuggerGlob.killThreadCodePos");
-            if (*scrVmPub.function_frame->fs.pos != 135 && *scrVmPub.function_frame->fs.pos != 137)
+            if ((unsigned char)*scrVmPub.function_frame->fs.pos != 135 && (unsigned char)*scrVmPub.function_frame->fs.pos != 137)
             {
                 scrDebuggerGlob.killThreadCodePos = (char *)scrVmPub.function_frame->fs.pos;
                 Scr_AddManualBreakpoint((unsigned __int8 *)scrDebuggerGlob.killThreadCodePos);
@@ -2285,7 +2285,7 @@ void __cdecl Scr_DebugTerminateThread(int topThread)
     }
     else
     {
-        scrVmPub.stack[3 * topThread - 96].u.intValue = (int)&g_EndPos;
+        scrVmPub.stack[3 * topThread - 96].u.intValue = (int)(uintptr_t)&g_EndPos;
     }
 }
 
@@ -2318,7 +2318,7 @@ void __cdecl Scr_ReadRemoteFile()
         GetNewVariable(scrCompilePub.loadedscripts, name);
         SL_RemoveRefToString(name);
         Hunk_CheckTempMemoryHighClear();
-        sourceBuf = (char*)Hunk_AllocateTempMemoryHigh(len + 1, "Scr_ReadRemoteFile");
+        sourceBuf = (char*)(uintptr_t)Hunk_AllocateTempMemoryHigh(len + 1, "Scr_ReadRemoteFile");
         Sys_ReadDebugSocketData(sourceBuf, len, 1);
         sourceBuf[len] = 0;
         Scr_AddSourceBufferInternal(extFilename, 0, sourceBuf, len, 0, 0);
@@ -3278,12 +3278,12 @@ void __cdecl UI_Component__DrawPic(float x, float y, float width, float height, 
 
 void Scr_DrawCurrentFilename()
 {
-    char *v0; // eax
-    char *v1; // eax
-    __int64 v2; // [esp+10h] [ebp-C8h]
-    int v3; // [esp+14h] [ebp-C4h]
-    float v4; // [esp+18h] [ebp-C0h]
-    float v5; // [esp+1Ch] [ebp-BCh]
+    [[maybe_unused]] char *v0; // eax
+    [[maybe_unused]] char *v1; // eax
+    [[maybe_unused]] __int64 v2; // [esp+10h] [ebp-C8h]
+    [[maybe_unused]] int v3; // [esp+14h] [ebp-C4h]
+    [[maybe_unused]] float v4; // [esp+18h] [ebp-C0h]
+    [[maybe_unused]] float v5; // [esp+1Ch] [ebp-BCh]
     float colorYellow[4]; // [esp+38h] [ebp-A0h] BYREF
     char filename[128]; // [esp+48h] [ebp-90h] BYREF
     float width; // [esp+CCh] [ebp-Ch]
