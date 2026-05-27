@@ -507,7 +507,7 @@ void TRACK_phys() {}
 // void TRACK_q_shared() {}  // provided by q_shared.cpp now
 // TRACK_r_buffers provided by src/gfx_d3d/r_buffers.cpp now.
 // void TRACK_r_debug() {}
-void TRACK_r_dpvs() {}
+// TRACK_r_dpvs provided by src/gfx_d3d/r_dpvs.cpp now.
 // void TRACK_r_font() {}
 // void TRACK_r_image_wavelet() {}  // provided by r_image_wavelet.cpp now
 void TRACK_r_image() {}
@@ -1536,7 +1536,7 @@ DObjAnimMat *CG_DObjCalcPose(const cpose_t *, const DObj_s *, int32_t *) { retur
 // CG_GameMessage provided by src/cgame_mp/cg_main_mp.cpp now.
 void   R_UnlinkEntity(unsigned int, unsigned int) {}
 // void   AimAssist_Setup(int) {}  // provided by aim_assist.cpp now
-void   R_InitSceneData(int) {}
+// R_InitSceneData provided by src/gfx_d3d/r_dpvs.cpp now.
 // XModel *R_RegisterModel(const char *) { return nullptr; }
 void   SND_SetListener(int, int, const float *, const float (*)[3]) {}
 void   SND_FadeAllSounds(float, int) {}
@@ -1574,7 +1574,7 @@ void  R_SetLodOrigin(const refdef_s *) {}
 // void  AddLeanToPosition(float *, float, float, float, float) {}  // provided by q_shared.cpp now
 // CG_DObjUpdateInfo provided by src/cgame_mp/cg_ents_mp.cpp now.
 // void  Key_RemoveCatcher(int, int) {}  // provided by cl_keys.cpp now
-double R_GetFarPlaneDist() { return 0.0; }
+// R_GetFarPlaneDist provided by src/gfx_d3d/r_dpvs.cpp now.
 double R_GetBaseLodDist(const float * /*origin*/) { return 0.0; }
 enum XModelLodRampType : int;
 double R_GetAdjustedLodDist(float dist, XModelLodRampType /*lodRampType*/) { return dist; }
@@ -1607,7 +1607,7 @@ void Phys_AddJitterRegion(PhysWorld /*w*/, const float * /*pos*/, float /*r*/, f
 struct XModelPieces;
 XModelPieces *XModelPiecesPrecache(const char * /*name*/, void *(* /*alloc*/)(int)) { return nullptr; }
 struct GfxScaledPlacement;
-void R_FilterXModelIntoScene(const XModel * /*model*/, const GfxScaledPlacement * /*placement*/, unsigned short /*flags*/, unsigned short * /*outIds*/) {}
+// R_FilterXModelIntoScene provided by src/gfx_d3d/r_dpvs.cpp now.
 void Phys_ObjSetAngularVelocity(dxBody * /*b*/, float * /*omega*/) {}
 
 // r_dvars satellite storage (declared extern in r_dvars.h, owned by the
@@ -1631,10 +1631,10 @@ struct GfxSceneEntity;
 
 // r_dpvs satellite stubs.
 struct DpvsPlane;
-float R_DpvsPlaneMaxSignedDistToBox(const DpvsPlane * /*plane*/, const float * /*minmax*/) { return 0.0f; }
-void R_CopyClipPlane(const DpvsPlane * /*in*/, DpvsPlane * /*out*/) {}
-thread_local unsigned char *g_smodelVisData;
-thread_local unsigned char *g_surfaceVisData;
+// R_DpvsPlaneMaxSignedDistToBox provided by src/gfx_d3d/r_dpvs.cpp now.
+// R_CopyClipPlane provided by src/gfx_d3d/r_dpvs.cpp now.
+// g_smodelVisData provided by src/gfx_d3d/r_dpvs.cpp now.
+// g_surfaceVisData provided by src/gfx_d3d/r_dpvs.cpp now.
 
 // r_model satellite stubs.
 struct IDirect3DVertexBuffer9;
@@ -1683,12 +1683,12 @@ void R_AddShadowSurfaceToPrimaryLight(GfxWorld * /*world*/, unsigned int /*surfI
 void R_ForEachPrimaryLightAffectingSurface(GfxWorld * /*world*/, const GfxSurface * /*surf*/, unsigned int /*surfIndex*/, void (*)(GfxWorld *, unsigned int, unsigned int)) {}
 
 // r_sunshadow satellite stubs (live in r_dpvs / r_scene / r_view).
-void R_SetVisData(unsigned int /*cellIndex*/) {}
-void R_SetDpvsPlaneSides(DpvsPlane * /*plane*/) {}
+// R_SetVisData provided by src/gfx_d3d/r_dpvs.cpp now.
+// R_SetDpvsPlaneSides provided by src/gfx_d3d/r_dpvs.cpp now.
 struct GfxViewParms;
-void R_SetupShadowSurfacesDpvs(const GfxViewParms * /*viewParms*/, const float (* /*planes*/)[4], unsigned int /*planeCount*/, int /*flags*/) {}
-void R_AddWorldSurfacesFrustumOnly() {}
-float R_DpvsPlaneMinSignedDistToBox(const DpvsPlane * /*plane*/, const float * /*minmax*/) { return 0.0f; }
+// R_SetupShadowSurfacesDpvs provided by src/gfx_d3d/r_dpvs.cpp now.
+// R_AddWorldSurfacesFrustumOnly provided by src/gfx_d3d/r_dpvs.cpp now.
+// R_DpvsPlaneMinSignedDistToBox provided by src/gfx_d3d/r_dpvs.cpp now.
 void R_SetupViewProjectionMatrices(GfxViewParms * /*viewParms*/) {}
 
 // fx_marks satellite stubs (live in fx_update / fx_system).
@@ -1765,12 +1765,12 @@ struct GfxViewInfo;
 struct DpvsDynamicCellCmd;
 // R_GenerateShadowCookiesCmd provided by src/gfx_d3d/r_shadowcookie.cpp now.
 void R_SkinCachedStaticModelCmd(SkinCachedStaticModelCmd * /*cmd*/) {}
-void R_AddAllSceneEntSurfacesCamera(const GfxViewInfo * /*viewInfo*/) {}
-void R_AddCellDynBrushSurfacesInFrustumCmd(const DpvsDynamicCellCmd * /*cmd*/) {}
+// R_AddAllSceneEntSurfacesCamera provided by src/gfx_d3d/r_dpvs.cpp now.
+// R_AddCellDynBrushSurfacesInFrustumCmd provided by src/gfx_d3d/r_dpvs.cpp now.
 
 // rb_showcollision satellite stubs.
 struct GfxMatrix;
-void R_FrustumClipPlanes(const GfxMatrix * /*mtx*/, const float (* /*planes*/)[4], int /*count*/, DpvsPlane * /*out*/) {}
+// R_FrustumClipPlanes provided by src/gfx_d3d/r_dpvs.cpp now.
 struct GfxCmdBufInput;
 enum CodeConstant : int;
 void R_SetInputCodeConstant(GfxCmdBufInput * /*input*/, CodeConstant /*c*/, float /*x*/, float /*y*/, float /*z*/, float /*w*/) {}
@@ -1808,7 +1808,17 @@ GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 
-// r_meshdata satellite stubs.
+// r_dpvs satellite stubs.
+#include <gfx_d3d/r_model_lighting.h>
+unsigned int R_AllocSceneModel() { return 0; }
+void R_AddDObjSurfacesCamera(GfxSceneEntity * /*e*/, short, unsigned char, GfxDrawSurf **, GfxDrawSurf **) {}
+unsigned int R_AllocModelLighting_Box(const GfxViewInfo * /*v*/, float * /*a*/, const float * /*b*/, const float * /*c*/, unsigned short * /*d*/, GfxLightingInfo * /*l*/) { return 0; }
+void R_AddBModelSurfacesCamera(BModelDrawInfo * /*info*/, const GfxBrushModel * /*m*/, GfxDrawSurf **, GfxDrawSurf **, unsigned int) {}
+void R_AddXModelSurfacesCamera(XModelDrawInfo * /*info*/, const XModel * /*model*/, float * /*p*/, unsigned short, unsigned int, unsigned char, char, int, GfxDrawSurf **, GfxDrawSurf **, unsigned int) {}
+unsigned int R_AllocModelLighting_Sphere(const GfxViewInfo * /*v*/, float * /*a*/, const float * /*b*/, float, unsigned short * /*c*/, GfxLightingInfo * /*l*/) { return 0; }
+unsigned int R_AllocModelLighting_PrimaryLight(float * /*p*/, unsigned int, unsigned short * /*c*/, GfxLightingInfo * /*l*/) { return 0; }
+
+// r_meshdata satellite stubs (now provided by r_meshdata.cpp).
 void R_SetVertex2d(GfxVertex * /*v*/, float, float, float, float, unsigned int) {}
 int R_BeginMaterial(GfxCmdBufState * /*s*/, const Material * /*m*/, MaterialTechniqueType /*t*/) { return 0; }
 void R_SetMeshStream(GfxCmdBufState * /*s*/, GfxMeshData * /*m*/) {}
@@ -1830,12 +1840,12 @@ void R_SetModelLightingCoordsForSource(unsigned short /*h*/, GfxCmdBufSourceStat
 
 // r_shadowcookie / r_spotshadow satellite stubs.
 #include <gfx_d3d/r_meshdata.h>
-void R_AddSceneDObj(unsigned int /*entnum*/, unsigned int /*viewIndex*/) {}
+// R_AddSceneDObj provided by src/gfx_d3d/r_dpvs.cpp now.
 GfxViewParms *R_AllocViewParms() { return nullptr; }
 void R_InitDynamicMesh(GfxMeshData * /*mesh*/, unsigned int, unsigned int, unsigned int) {}
 // R_SetQuadMeshData provided by src/gfx_d3d/r_meshdata.cpp now.
 void R_ShutdownDynamicMesh(GfxMeshData * /*mesh*/) {}
-void R_AddAllSceneEntSurfacesSpotShadow(const GfxViewInfo * /*v*/, unsigned int /*a*/, unsigned int /*b*/) {}
+// R_AddAllSceneEntSurfacesSpotShadow provided by src/gfx_d3d/r_dpvs.cpp now.
 // gfxMeshGlob provided by src/gfx_d3d/r_meshdata.cpp now.
 
 // r_draw_material / r_draw_shadowable_light / r_draw_sunshadow satellite stubs.
@@ -1845,8 +1855,8 @@ void R_SetGameTime(GfxCmdBufSourceState * /*src*/, float /*t*/) {}
 #include <gfx_d3d/r_bsp.h>
 GfxWorld *R_LoadWorldInternal(const char * /*name*/) { return nullptr; }
 void R_InterpretSunLightParseParamsIntoLights(SunLightParseParams * /*sp*/, GfxLight * /*l*/) {}
-void DynEntCl_InitFilter() {}
-void R_GenerateShadowMapCasterCells() {}
+// DynEntCl_InitFilter provided by src/gfx_d3d/r_dpvs.cpp now.
+// R_GenerateShadowMapCasterCells provided by src/gfx_d3d/r_dpvs.cpp now.
 void R_FlushStaticModelCache() {}
 void R_ResetModelLighting() {}
 void R_InitStaticModelLighting() {}
@@ -1972,7 +1982,7 @@ const MaterialTechnique *Material_GetTechnique(const Material * /*m*/, MaterialT
 void *R_GetCachedSModelSurf(unsigned int /*idx*/) { return nullptr; }
 void R_AddXModelDebugString(const float * /*origin*/, char * /*text*/) {}
 void R_CacheStaticModelSurface(unsigned int /*idx*/, unsigned int /*surfIdx*/, const XModelLodInfo * /*lod*/) {}
-void *R_AllocStaticModelLighting(GfxStaticModelDrawInst * /*inst*/, unsigned int /*size*/) { return nullptr; }
+char R_AllocStaticModelLighting(GfxStaticModelDrawInst * /*inst*/, unsigned int /*size*/) { return 0; }
 
 // Code-mesh stubs (provided once r_drawsurf.cpp lands).
 struct Material;

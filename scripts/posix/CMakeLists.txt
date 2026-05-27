@@ -155,10 +155,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_light.cpp"
     "${SRC_DIR}/gfx_d3d/r_model.cpp"
     "${SRC_DIR}/gfx_d3d/r_cmds.cpp"
-    # r_dpvs.cpp drags R_AddDObjSurfaces / R_AddBModelSurfaces /
-    # R_AddXModelSurfaces / R_AllocSceneModel / R_AllocModelLighting_*
-    # / R_WaitWorkerCmdsOfType / R_ShowLightVisCachePoints — land
-    # together with the renderer-frame batch.
+    "${SRC_DIR}/gfx_d3d/r_dpvs.cpp"
     "${SRC_DIR}/gfx_d3d/r_dpvs_dynmodel.cpp"
     "${SRC_DIR}/gfx_d3d/r_dpvs_entity.cpp"
     "${SRC_DIR}/gfx_d3d/r_dpvs_sceneent.cpp"

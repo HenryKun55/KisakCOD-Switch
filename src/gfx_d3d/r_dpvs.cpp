@@ -43,10 +43,10 @@ void __cdecl R_FrustumClipPlanes(
     int sidePlaneCount,
     DpvsPlane *frustumPlanes)
 {
-    int term; // [esp+14h] [ebp-10h]
-    float scale; // [esp+18h] [ebp-Ch]
-    float length; // [esp+1Ch] [ebp-8h]
-    int planeIndex; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] int term; // [esp+14h] [ebp-10h]
+    [[maybe_unused]] float scale; // [esp+18h] [ebp-Ch]
+    [[maybe_unused]] float length; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] int planeIndex; // [esp+20h] [ebp-4h]
 
     for (planeIndex = 0; planeIndex < sidePlaneCount; ++planeIndex)
     {
@@ -115,11 +115,11 @@ unsigned int __cdecl R_FindNearestReflectionProbeInCell(
     const float *origin)
 {
     float diff[3]; // [esp+4h] [ebp-1Ch] BYREF
-    float bestProbeDist; // [esp+10h] [ebp-10h]
-    unsigned __int8 bestProbe; // [esp+16h] [ebp-Ah]
-    unsigned __int8 probeIndex; // [esp+17h] [ebp-9h]
-    float testProbeDist; // [esp+18h] [ebp-8h]
-    unsigned int cellProbeIndex; // [esp+1Ch] [ebp-4h]
+    [[maybe_unused]] float bestProbeDist; // [esp+10h] [ebp-10h]
+    [[maybe_unused]] unsigned __int8 bestProbe; // [esp+16h] [ebp-Ah]
+    [[maybe_unused]] unsigned __int8 probeIndex; // [esp+17h] [ebp-9h]
+    [[maybe_unused]] float testProbeDist; // [esp+18h] [ebp-8h]
+    [[maybe_unused]] unsigned int cellProbeIndex; // [esp+1Ch] [ebp-4h]
 
     iassert( world->reflectionProbeCount < 0xff );
     bestProbe = 0;
@@ -151,10 +151,10 @@ unsigned int __cdecl R_FindNearestReflectionProbeInCell(
 unsigned int __cdecl R_FindNearestReflectionProbe(const GfxWorld *world, const float *origin)
 {
     float diff[3]; // [esp+4h] [ebp-18h] BYREF
-    float bestProbeDist; // [esp+10h] [ebp-Ch]
-    unsigned __int8 bestProbe; // [esp+16h] [ebp-6h]
-    unsigned __int8 probeIndex; // [esp+17h] [ebp-5h]
-    float testProbeDist; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] float bestProbeDist; // [esp+10h] [ebp-Ch]
+    [[maybe_unused]] unsigned __int8 bestProbe; // [esp+16h] [ebp-6h]
+    [[maybe_unused]] unsigned __int8 probeIndex; // [esp+17h] [ebp-5h]
+    [[maybe_unused]] float testProbeDist; // [esp+18h] [ebp-4h]
 
     iassert(world->reflectionProbeCount < 0xff);
 
@@ -176,7 +176,7 @@ unsigned int __cdecl R_FindNearestReflectionProbe(const GfxWorld *world, const f
 
 unsigned int __cdecl R_CalcReflectionProbeIndex(const float *origin)
 {
-    unsigned int cellIndex; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] unsigned int cellIndex; // [esp+0h] [ebp-4h]
 
     cellIndex = R_CellForPoint(rgp.world, origin);
 
@@ -189,32 +189,32 @@ unsigned int __cdecl R_CalcReflectionProbeIndex(const float *origin)
 
 void __cdecl R_AddAllSceneEntSurfacesCamera(const GfxViewInfo *viewInfo)
 {
-    bool v1; // [esp+Ch] [ebp-D4h]
-    GfxSceneDynBrush *sceneDynBrush; // [esp+70h] [ebp-70h]
-    DynEntityPose *dynEntPose; // [esp+74h] [ebp-6Ch]
-    DynEntityPose *dynEntPosea; // [esp+74h] [ebp-6Ch]
-    GfxSceneModel *sceneModel; // [esp+78h] [ebp-68h]
+    [[maybe_unused]] bool v1; // [esp+Ch] [ebp-D4h]
+    [[maybe_unused]] GfxSceneDynBrush *sceneDynBrush; // [esp+70h] [ebp-70h]
+    [[maybe_unused]] DynEntityPose *dynEntPose; // [esp+74h] [ebp-6Ch]
+    [[maybe_unused]] DynEntityPose *dynEntPosea; // [esp+74h] [ebp-6Ch]
+    [[maybe_unused]] GfxSceneModel *sceneModel; // [esp+78h] [ebp-68h]
     GfxLightingInfo lightingInfo; // [esp+7Ch] [ebp-64h] BYREF
     GfxDrawSurf *lastDrawSurfs[3]; // [esp+80h] [ebp-60h] BYREF
-    unsigned int sceneEntCount; // [esp+8Ch] [ebp-54h]
-    DynEntityClient *dynEntClient; // [esp+90h] [ebp-50h]
-    unsigned int reflectionProbeIndex; // [esp+94h] [ebp-4Ch]
-    GfxEntity *gfxEnt; // [esp+98h] [ebp-48h]
-    const DynEntityDef *dynEntDef; // [esp+9Ch] [ebp-44h]
-    int depthHack; // [esp+A0h] [ebp-40h]
-    unsigned int sceneEntIndex; // [esp+A4h] [ebp-3Ch]
-    GfxSceneEntity *sceneEnt; // [esp+A8h] [ebp-38h]
-    unsigned __int16 *cachedLightingHandle; // [esp+ACh] [ebp-34h]
-    int isShadowReceiver; // [esp+B0h] [ebp-30h]
-    GfxSceneBrush *sceneBrush; // [esp+B4h] [ebp-2Ch]
+    [[maybe_unused]] unsigned int sceneEntCount; // [esp+8Ch] [ebp-54h]
+    [[maybe_unused]] DynEntityClient *dynEntClient; // [esp+90h] [ebp-50h]
+    [[maybe_unused]] unsigned int reflectionProbeIndex; // [esp+94h] [ebp-4Ch]
+    [[maybe_unused]] GfxEntity *gfxEnt; // [esp+98h] [ebp-48h]
+    [[maybe_unused]] const DynEntityDef *dynEntDef; // [esp+9Ch] [ebp-44h]
+    [[maybe_unused]] int depthHack; // [esp+A0h] [ebp-40h]
+    [[maybe_unused]] unsigned int sceneEntIndex; // [esp+A4h] [ebp-3Ch]
+    [[maybe_unused]] GfxSceneEntity *sceneEnt; // [esp+A8h] [ebp-38h]
+    [[maybe_unused]] unsigned __int16 *cachedLightingHandle; // [esp+ACh] [ebp-34h]
+    [[maybe_unused]] int isShadowReceiver; // [esp+B0h] [ebp-30h]
+    [[maybe_unused]] GfxSceneBrush *sceneBrush; // [esp+B4h] [ebp-2Ch]
     GfxDrawSurf *drawSurfs[3]; // [esp+B8h] [ebp-28h] BYREF
-    unsigned __int16 dynEntId; // [esp+C4h] [ebp-1Ch]
-    unsigned int gfxEntIndex; // [esp+C8h] [ebp-18h]
-    unsigned __int8 *sceneEntVisData; // [esp+CCh] [ebp-14h]
-    GfxSceneDynModel *sceneDynModel; // [esp+D0h] [ebp-10h]
-    unsigned int lightingHandle; // [esp+D4h] [ebp-Ch]
-    const GfxBrushModel *bmodel; // [esp+D8h] [ebp-8h]
-    int drawSurfCount; // [esp+DCh] [ebp-4h]
+    [[maybe_unused]] unsigned __int16 dynEntId; // [esp+C4h] [ebp-1Ch]
+    [[maybe_unused]] unsigned int gfxEntIndex; // [esp+C8h] [ebp-18h]
+    [[maybe_unused]] unsigned __int8 *sceneEntVisData; // [esp+CCh] [ebp-14h]
+    [[maybe_unused]] GfxSceneDynModel *sceneDynModel; // [esp+D0h] [ebp-10h]
+    [[maybe_unused]] unsigned int lightingHandle; // [esp+D4h] [ebp-Ch]
+    [[maybe_unused]] const GfxBrushModel *bmodel; // [esp+D8h] [ebp-8h]
+    [[maybe_unused]] int drawSurfCount; // [esp+DCh] [ebp-4h]
 
     PROF_SCOPED("SceneEntSurfaces");
     {
@@ -232,7 +232,7 @@ void __cdecl R_AddAllSceneEntSurfacesCamera(const GfxViewInfo *viewInfo)
             {
                 sceneEnt = &scene.sceneDObj[sceneEntIndex];
                 iassert(sceneEnt->cull.state >= CULL_STATE_BOUNDED);
-                cachedLightingHandle = (unsigned __int16 *)LongNoSwap((unsigned int)sceneEnt->info.cachedLightingHandle);
+                cachedLightingHandle = (unsigned __int16 *)(uintptr_t)LongNoSwap((unsigned int)(uintptr_t)sceneEnt->info.cachedLightingHandle);
                 lightingHandle = R_AllocModelLighting_Box(
                     viewInfo,
                     sceneEnt->lightingOrigin,
@@ -385,7 +385,7 @@ void __cdecl R_AddAllSceneEntSurfacesCamera(const GfxViewInfo *viewInfo)
 
 void __cdecl R_AddAllSceneEntSurfacesSunShadow()
 {
-    unsigned int partitionIndex; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] unsigned int partitionIndex; // [esp+0h] [ebp-4h]
 
     for (partitionIndex = 0; partitionIndex < 2; ++partitionIndex)
         R_AddAllSceneEntSurfacesRangeSunShadow(partitionIndex);
@@ -393,16 +393,16 @@ void __cdecl R_AddAllSceneEntSurfacesSunShadow()
 
 void __cdecl R_AddAllSceneEntSurfacesRangeSunShadow(unsigned int partitionIndex)
 {
-    GfxSceneDynBrush *sceneDynBrush; // [esp+30h] [ebp-40h]
-    GfxDrawSurf *drawSurf; // [esp+38h] [ebp-38h]
-    MaterialTechniqueType shadowmapBuildTechType; // [esp+3Ch] [ebp-34h]
-    unsigned int stage; // [esp+44h] [ebp-2Ch]
-    const DynEntityDef *dynEntDef; // [esp+48h] [ebp-28h]
-    unsigned __int8 *sceneEntVisData; // [esp+5Ch] [ebp-14h]
-    GfxSceneDynModel *sceneDynModel; // [esp+60h] [ebp-10h]
-    GfxBrushModel *bmodel; // [esp+64h] [ebp-Ch]
-    signed int drawSurfCount; // [esp+68h] [ebp-8h]
-    GfxDrawSurf *lastDrawSurf; // [esp+6Ch] [ebp-4h]
+    [[maybe_unused]] GfxSceneDynBrush *sceneDynBrush; // [esp+30h] [ebp-40h]
+    [[maybe_unused]] GfxDrawSurf *drawSurf; // [esp+38h] [ebp-38h]
+    [[maybe_unused]] MaterialTechniqueType shadowmapBuildTechType; // [esp+3Ch] [ebp-34h]
+    [[maybe_unused]] unsigned int stage; // [esp+44h] [ebp-2Ch]
+    [[maybe_unused]] const DynEntityDef *dynEntDef; // [esp+48h] [ebp-28h]
+    [[maybe_unused]] unsigned __int8 *sceneEntVisData; // [esp+5Ch] [ebp-14h]
+    [[maybe_unused]] GfxSceneDynModel *sceneDynModel; // [esp+60h] [ebp-10h]
+    [[maybe_unused]] GfxBrushModel *bmodel; // [esp+64h] [ebp-Ch]
+    [[maybe_unused]] signed int drawSurfCount; // [esp+68h] [ebp-8h]
+    [[maybe_unused]] GfxDrawSurf *lastDrawSurf; // [esp+6Ch] [ebp-4h]
 
     PROF_SCOPED("SceneEntSurfacesShadow");
 
@@ -480,29 +480,29 @@ void __cdecl R_AddAllSceneEntSurfacesSpotShadow(
     unsigned int spotShadowIndex,
     unsigned int primaryLightIndex)
 {
-    GfxSceneDynBrush *sceneDynBrush; // [esp+0h] [ebp-44h]
-    GfxDrawSurf *drawSurf; // [esp+8h] [ebp-3Ch]
-    MaterialTechniqueType shadowmapBuildTechType; // [esp+Ch] [ebp-38h]
-    volatile unsigned int sceneEntCount; // [esp+10h] [ebp-34h]
-    volatile unsigned int sceneEntCounta; // [esp+10h] [ebp-34h]
-    unsigned int sceneEntCountb; // [esp+10h] [ebp-34h]
-    volatile unsigned int sceneEntCountc; // [esp+10h] [ebp-34h]
-    unsigned int sceneEntCountd; // [esp+10h] [ebp-34h]
-    unsigned int stage; // [esp+18h] [ebp-2Ch]
-    const DynEntityDef *dynEntDef; // [esp+1Ch] [ebp-28h]
-    const DynEntityDef *dynEntDefa; // [esp+1Ch] [ebp-28h]
-    unsigned int sceneEntIndex; // [esp+20h] [ebp-24h]
-    unsigned int sceneEntIndexa; // [esp+20h] [ebp-24h]
-    unsigned int sceneEntIndexb; // [esp+20h] [ebp-24h]
-    unsigned int sceneEntIndexc; // [esp+20h] [ebp-24h]
-    unsigned int sceneEntIndexd; // [esp+20h] [ebp-24h]
-    GfxSceneBrush *sceneBrush; // [esp+28h] [ebp-1Ch]
-    unsigned __int16 dynEntId; // [esp+2Ch] [ebp-18h]
-    unsigned __int16 dynEntIda; // [esp+2Ch] [ebp-18h]
-    GfxSceneDynModel *sceneDynModel; // [esp+34h] [ebp-10h]
-    GfxBrushModel *bmodel; // [esp+38h] [ebp-Ch]
-    signed int drawSurfCount; // [esp+3Ch] [ebp-8h]
-    GfxDrawSurf *lastDrawSurf; // [esp+40h] [ebp-4h]
+    [[maybe_unused]] GfxSceneDynBrush *sceneDynBrush; // [esp+0h] [ebp-44h]
+    [[maybe_unused]] GfxDrawSurf *drawSurf; // [esp+8h] [ebp-3Ch]
+    [[maybe_unused]] MaterialTechniqueType shadowmapBuildTechType; // [esp+Ch] [ebp-38h]
+    [[maybe_unused]] volatile unsigned int sceneEntCount; // [esp+10h] [ebp-34h]
+    [[maybe_unused]] volatile unsigned int sceneEntCounta; // [esp+10h] [ebp-34h]
+    [[maybe_unused]] unsigned int sceneEntCountb; // [esp+10h] [ebp-34h]
+    [[maybe_unused]] volatile unsigned int sceneEntCountc; // [esp+10h] [ebp-34h]
+    [[maybe_unused]] unsigned int sceneEntCountd; // [esp+10h] [ebp-34h]
+    [[maybe_unused]] unsigned int stage; // [esp+18h] [ebp-2Ch]
+    [[maybe_unused]] const DynEntityDef *dynEntDef; // [esp+1Ch] [ebp-28h]
+    [[maybe_unused]] const DynEntityDef *dynEntDefa; // [esp+1Ch] [ebp-28h]
+    [[maybe_unused]] unsigned int sceneEntIndex; // [esp+20h] [ebp-24h]
+    [[maybe_unused]] unsigned int sceneEntIndexa; // [esp+20h] [ebp-24h]
+    [[maybe_unused]] unsigned int sceneEntIndexb; // [esp+20h] [ebp-24h]
+    [[maybe_unused]] unsigned int sceneEntIndexc; // [esp+20h] [ebp-24h]
+    [[maybe_unused]] unsigned int sceneEntIndexd; // [esp+20h] [ebp-24h]
+    [[maybe_unused]] GfxSceneBrush *sceneBrush; // [esp+28h] [ebp-1Ch]
+    [[maybe_unused]] unsigned __int16 dynEntId; // [esp+2Ch] [ebp-18h]
+    [[maybe_unused]] unsigned __int16 dynEntIda; // [esp+2Ch] [ebp-18h]
+    [[maybe_unused]] GfxSceneDynModel *sceneDynModel; // [esp+34h] [ebp-10h]
+    [[maybe_unused]] GfxBrushModel *bmodel; // [esp+38h] [ebp-Ch]
+    [[maybe_unused]] signed int drawSurfCount; // [esp+3Ch] [ebp-8h]
+    [[maybe_unused]] GfxDrawSurf *lastDrawSurf; // [esp+40h] [ebp-4h]
 
     iassert( R_IsPrimaryLight( primaryLightIndex ) );
     stage = 3 * spotShadowIndex + 23;
@@ -583,21 +583,21 @@ void __cdecl R_AddSceneDObj(unsigned int entnum, unsigned int viewIndex)
 
 void __cdecl R_DrawAllSceneEnt(const GfxViewInfo *viewInfo)
 {
-    unsigned __int8 viewVisData; // [esp+14h] [ebp-50h]
-    unsigned int *entVisBits; // [esp+18h] [ebp-4Ch]
-    GfxSceneModel *sceneModel; // [esp+1Ch] [ebp-48h]
-    volatile unsigned int sceneEntCount; // [esp+20h] [ebp-44h]
-    const DpvsView *view; // [esp+24h] [ebp-40h]
-    GfxEntity *gfxEnt; // [esp+28h] [ebp-3Ch]
-    GfxEntity *gfxEnta; // [esp+28h] [ebp-3Ch]
-    unsigned int sceneEntIndex; // [esp+2Ch] [ebp-38h]
-    GfxSceneEntity *sceneEnt; // [esp+30h] [ebp-34h]
-    GfxSceneBrush *sceneBrush; // [esp+34h] [ebp-30h]
-    unsigned int entnum; // [esp+3Ch] [ebp-28h]
-    unsigned __int8 *sceneEntVisData[7]; // [esp+40h] [ebp-24h]
-    unsigned int viewIndex; // [esp+5Ch] [ebp-8h]
-    unsigned int visData; // [esp+60h] [ebp-4h]
-    int savedregs; // [esp+64h] [ebp+0h] BYREF
+    [[maybe_unused]] unsigned __int8 viewVisData; // [esp+14h] [ebp-50h]
+    [[maybe_unused]] unsigned int *entVisBits; // [esp+18h] [ebp-4Ch]
+    [[maybe_unused]] GfxSceneModel *sceneModel; // [esp+1Ch] [ebp-48h]
+    [[maybe_unused]] volatile unsigned int sceneEntCount; // [esp+20h] [ebp-44h]
+    [[maybe_unused]] const DpvsView *view; // [esp+24h] [ebp-40h]
+    [[maybe_unused]] GfxEntity *gfxEnt; // [esp+28h] [ebp-3Ch]
+    [[maybe_unused]] GfxEntity *gfxEnta; // [esp+28h] [ebp-3Ch]
+    [[maybe_unused]] unsigned int sceneEntIndex; // [esp+2Ch] [ebp-38h]
+    [[maybe_unused]] GfxSceneEntity *sceneEnt; // [esp+30h] [ebp-34h]
+    [[maybe_unused]] GfxSceneBrush *sceneBrush; // [esp+34h] [ebp-30h]
+    [[maybe_unused]] unsigned int entnum; // [esp+3Ch] [ebp-28h]
+    [[maybe_unused]] unsigned __int8 *sceneEntVisData[7]; // [esp+40h] [ebp-24h]
+    [[maybe_unused]] unsigned int viewIndex; // [esp+5Ch] [ebp-8h]
+    [[maybe_unused]] unsigned int visData; // [esp+60h] [ebp-4h]
+    [[maybe_unused]] int savedregs; // [esp+64h] [ebp+0h] BYREF
 
     entVisBits = dpvsGlob.entVisBits[scene.dpvs.localClientNum];
     for (viewIndex = 0; viewIndex < 7; ++viewIndex)
@@ -887,22 +887,22 @@ void __cdecl R_DrawAllSceneEnt(const GfxViewInfo *viewInfo)
 
 int __cdecl R_DrawBModel(BModelDrawInfo *bmodelInfo, const GfxBrushModel *bmodel, const GfxPlacement *placement)
 {
-    unsigned __int16 visibleSurfaceCount; // [esp+Ah] [ebp-26h]
-    unsigned int surfId; // [esp+10h] [ebp-20h]
-    int startSurfPos; // [esp+14h] [ebp-1Ch]
-    GfxScaledPlacement *newPlacement; // [esp+18h] [ebp-18h]
-    unsigned int surfIndex; // [esp+1Ch] [ebp-14h]
-    unsigned int surfIndexa; // [esp+1Ch] [ebp-14h]
-    const GfxSurface *surf; // [esp+24h] [ebp-Ch]
-    const GfxSurface *surfa; // [esp+24h] [ebp-Ch]
-    BModelSurface *bmodelSurf; // [esp+28h] [ebp-8h]
+    [[maybe_unused]] unsigned __int16 visibleSurfaceCount; // [esp+Ah] [ebp-26h]
+    [[maybe_unused]] unsigned int surfId; // [esp+10h] [ebp-20h]
+    [[maybe_unused]] int startSurfPos; // [esp+14h] [ebp-1Ch]
+    [[maybe_unused]] GfxScaledPlacement *newPlacement; // [esp+18h] [ebp-18h]
+    [[maybe_unused]] unsigned int surfIndex; // [esp+1Ch] [ebp-14h]
+    [[maybe_unused]] unsigned int surfIndexa; // [esp+1Ch] [ebp-14h]
+    [[maybe_unused]] const GfxSurface *surf; // [esp+24h] [ebp-Ch]
+    [[maybe_unused]] const GfxSurface *surfa; // [esp+24h] [ebp-Ch]
+    [[maybe_unused]] BModelSurface *bmodelSurf; // [esp+28h] [ebp-8h]
 
     if (r_drawDecals->current.enabled)
         visibleSurfaceCount = bmodel->surfaceCount;
     else
         visibleSurfaceCount = bmodel->surfaceCountNoDecal;
     iassert( visibleSurfaceCount );
-    startSurfPos = InterlockedExchangeAdd(&frontEndDataOut->surfPos, 8 * visibleSurfaceCount + 32);
+    startSurfPos = InterlockedExchangeAdd(&frontEndDataOut->surfPos, static_cast<long>(8 * visibleSurfaceCount + 32));
     if (8 * (unsigned int)visibleSurfaceCount + 32 + startSurfPos <= 0x20000)
     {
         iassert( !(startSurfPos & 3) );
@@ -953,21 +953,21 @@ int __cdecl R_DrawBModel(BModelDrawInfo *bmodelInfo, const GfxBrushModel *bmodel
 
 void __cdecl R_DrawAllDynEnt(const GfxViewInfo *viewInfo)
 {
-    DynEntityPose *dynEntPose; // [esp+38h] [ebp-38h]
-    DynEntityPose *dynEntPosea; // [esp+38h] [ebp-38h]
-    GfxSceneDynBrush *sceneDynBrush; // [esp+3Ch] [ebp-34h]
-    unsigned int dynEntIndex; // [esp+40h] [ebp-30h]
-    unsigned int dynEntIndexa; // [esp+40h] [ebp-30h]
-    unsigned int dynEntCount; // [esp+44h] [ebp-2Ch]
-    unsigned int dynEntCounta; // [esp+44h] [ebp-2Ch]
-    const DynEntityDef *dynEntDef; // [esp+48h] [ebp-28h]
-    const DynEntityDef *dynEntDefa; // [esp+48h] [ebp-28h]
-    unsigned __int8 *dynEntVisData[3]; // [esp+54h] [ebp-1Ch]
-    GfxSceneDynModel *sceneDynModel; // [esp+60h] [ebp-10h]
-    unsigned int viewIndex; // [esp+64h] [ebp-Ch]
-    unsigned int visData; // [esp+68h] [ebp-8h]
-    GfxBrushModel *bmodel; // [esp+6Ch] [ebp-4h]
-    int savedregs; // [esp+70h] [ebp+0h] BYREF
+    [[maybe_unused]] DynEntityPose *dynEntPose; // [esp+38h] [ebp-38h]
+    [[maybe_unused]] DynEntityPose *dynEntPosea; // [esp+38h] [ebp-38h]
+    [[maybe_unused]] GfxSceneDynBrush *sceneDynBrush; // [esp+3Ch] [ebp-34h]
+    [[maybe_unused]] unsigned int dynEntIndex; // [esp+40h] [ebp-30h]
+    [[maybe_unused]] unsigned int dynEntIndexa; // [esp+40h] [ebp-30h]
+    [[maybe_unused]] unsigned int dynEntCount; // [esp+44h] [ebp-2Ch]
+    [[maybe_unused]] unsigned int dynEntCounta; // [esp+44h] [ebp-2Ch]
+    [[maybe_unused]] const DynEntityDef *dynEntDef; // [esp+48h] [ebp-28h]
+    [[maybe_unused]] const DynEntityDef *dynEntDefa; // [esp+48h] [ebp-28h]
+    [[maybe_unused]] unsigned __int8 *dynEntVisData[3]; // [esp+54h] [ebp-1Ch]
+    [[maybe_unused]] GfxSceneDynModel *sceneDynModel; // [esp+60h] [ebp-10h]
+    [[maybe_unused]] unsigned int viewIndex; // [esp+64h] [ebp-Ch]
+    [[maybe_unused]] unsigned int visData; // [esp+68h] [ebp-8h]
+    [[maybe_unused]] GfxBrushModel *bmodel; // [esp+6Ch] [ebp-4h]
+    [[maybe_unused]] int savedregs; // [esp+70h] [ebp+0h] BYREF
 
     PROF_SCOPED("DrawDynEnt");
 
@@ -1034,13 +1034,13 @@ void __cdecl R_DrawAllDynEnt(const GfxViewInfo *viewInfo)
 
 void __cdecl R_UnfilterEntFromCells(unsigned int localClientNum, unsigned int entnum)
 {
-    unsigned int cellIndex; // [esp+0h] [ebp-18h]
-    unsigned int invBit; // [esp+4h] [ebp-14h]
-    unsigned int offset; // [esp+8h] [ebp-10h]
-    unsigned int *entCellBits; // [esp+Ch] [ebp-Ch]
-    unsigned int cellCount; // [esp+10h] [ebp-8h]
-    unsigned int cellCounta; // [esp+10h] [ebp-8h]
-    unsigned int wordIndex; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] unsigned int cellIndex; // [esp+0h] [ebp-18h]
+    [[maybe_unused]] unsigned int invBit; // [esp+4h] [ebp-14h]
+    [[maybe_unused]] unsigned int offset; // [esp+8h] [ebp-10h]
+    [[maybe_unused]] unsigned int *entCellBits; // [esp+Ch] [ebp-Ch]
+    [[maybe_unused]] unsigned int cellCount; // [esp+10h] [ebp-8h]
+    [[maybe_unused]] unsigned int cellCounta; // [esp+10h] [ebp-8h]
+    [[maybe_unused]] unsigned int wordIndex; // [esp+14h] [ebp-4h]
 
     iassert( Sys_IsMainThread() );
     iassert( rgp.world );
@@ -1078,11 +1078,11 @@ void __cdecl R_UnfilterEntFromCells(unsigned int localClientNum, unsigned int en
 
 void __cdecl R_UnfilterDynEntFromCells(unsigned int dynEntId, DynEntityDrawType drawType)
 {
-    unsigned int cellIndex; // [esp+0h] [ebp-18h]
-    unsigned int cellCount; // [esp+8h] [ebp-10h]
-    unsigned int dynEntClientWordCount; // [esp+Ch] [ebp-Ch]
-    unsigned int *dynEntCellBits; // [esp+10h] [ebp-8h]
-    unsigned int wordIndex; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] unsigned int cellIndex; // [esp+0h] [ebp-18h]
+    [[maybe_unused]] unsigned int cellCount; // [esp+8h] [ebp-10h]
+    [[maybe_unused]] unsigned int dynEntClientWordCount; // [esp+Ch] [ebp-Ch]
+    [[maybe_unused]] unsigned int *dynEntCellBits; // [esp+10h] [ebp-8h]
+    [[maybe_unused]] unsigned int wordIndex; // [esp+14h] [ebp-4h]
 
     iassert( Sys_IsMainThread() );
     dynEntCellBits = rgp.world->dpvsDyn.dynEntCellBits[drawType];
@@ -1103,19 +1103,19 @@ void __cdecl R_FilterXModelIntoScene(
     unsigned __int16 *cachedLightingHandle)
 {
     const char *v4; // eax
-    int v5; // [esp+38h] [ebp-3Ch]
-    int frustumPlaneCount; // [esp+3Ch] [ebp-38h]
-    const float *a; // [esp+40h] [ebp-34h]
-    int v8; // [esp+44h] [ebp-30h]
-    GfxSceneModel *sceneModel; // [esp+4Ch] [ebp-28h]
-    float radius; // [esp+54h] [ebp-20h]
-    const DpvsView *view; // [esp+58h] [ebp-1Ch]
-    GfxEntity *gfxEnt; // [esp+5Ch] [ebp-18h]
-    unsigned int sceneEntIndex; // [esp+60h] [ebp-14h]
-    unsigned int gfxEntIndex; // [esp+64h] [ebp-10h]
-    unsigned int cullCount; // [esp+68h] [ebp-Ch]
-    unsigned __int8 sceneEntVisData[4]; // [esp+6Ch] [ebp-8h]
-    unsigned int viewIndex; // [esp+70h] [ebp-4h]
+    [[maybe_unused]] int v5; // [esp+38h] [ebp-3Ch]
+    [[maybe_unused]] int frustumPlaneCount; // [esp+3Ch] [ebp-38h]
+    [[maybe_unused]] const float *a; // [esp+40h] [ebp-34h]
+    [[maybe_unused]] int v8; // [esp+44h] [ebp-30h]
+    [[maybe_unused]] GfxSceneModel *sceneModel; // [esp+4Ch] [ebp-28h]
+    [[maybe_unused]] float radius; // [esp+54h] [ebp-20h]
+    [[maybe_unused]] const DpvsView *view; // [esp+58h] [ebp-1Ch]
+    [[maybe_unused]] GfxEntity *gfxEnt; // [esp+5Ch] [ebp-18h]
+    [[maybe_unused]] unsigned int sceneEntIndex; // [esp+60h] [ebp-14h]
+    [[maybe_unused]] unsigned int gfxEntIndex; // [esp+64h] [ebp-10h]
+    [[maybe_unused]] unsigned int cullCount; // [esp+68h] [ebp-Ch]
+    [[maybe_unused]] unsigned __int8 sceneEntVisData[4]; // [esp+6Ch] [ebp-8h]
+    [[maybe_unused]] unsigned int viewIndex; // [esp+70h] [ebp-4h]
 
     iassert( model );
     iassert( placement->scale > 0 );
@@ -1163,7 +1163,7 @@ void __cdecl R_FilterXModelIntoScene(
     {
         if (renderFxFlags)
         {
-            gfxEntIndex = InterlockedExchangeAdd(&frontEndDataOut->gfxEntCount, 1);
+            gfxEntIndex = InterlockedExchangeAdd(&frontEndDataOut->gfxEntCount, static_cast<long>(1));
             if (gfxEntIndex >= 0x80)
             {
                 frontEndDataOut->gfxEntCount = 128;
@@ -1201,7 +1201,7 @@ void __cdecl R_FilterXModelIntoScene(
 
 void __cdecl R_FilterDObjIntoCells(unsigned int localClientNum, unsigned int entnum, float *origin, float radius)
 {
-    float s; // [esp+0h] [ebp-30h]
+    [[maybe_unused]] float s; // [esp+0h] [ebp-30h]
     float mins[3]; // [esp+8h] [ebp-28h] BYREF
     FilterEntInfo entInfo; // [esp+14h] [ebp-1Ch] BYREF
     float maxs[3]; // [esp+24h] [ebp-Ch] BYREF
@@ -1228,18 +1228,18 @@ void __cdecl R_FilterDObjIntoCells(unsigned int localClientNum, unsigned int ent
 
 void __cdecl R_FilterEntIntoCells_r(FilterEntInfo *entInfo, mnode_t *node, const float *mins, const float *maxs)
 {
-    float localmaxs[3]; // [esp+0h] [ebp-50h]
-    float dist; // [esp+Ch] [ebp-44h]
+    [[maybe_unused]] float localmaxs[3]; // [esp+0h] [ebp-50h]
+    [[maybe_unused]] float dist; // [esp+Ch] [ebp-44h]
     float localmins[3]; // [esp+10h] [ebp-40h] BYREF
-    unsigned int type; // [esp+1Ch] [ebp-34h]
-    int side; // [esp+20h] [ebp-30h]
-    cplane_s *plane; // [esp+24h] [ebp-2Ch]
-    int cellIndex; // [esp+28h] [ebp-28h]
+    [[maybe_unused]] unsigned int type; // [esp+1Ch] [ebp-34h]
+    [[maybe_unused]] int side; // [esp+20h] [ebp-30h]
+    [[maybe_unused]] cplane_s *plane; // [esp+24h] [ebp-2Ch]
+    [[maybe_unused]] int cellIndex; // [esp+28h] [ebp-28h]
     float mins2[3]; // [esp+2Ch] [ebp-24h] BYREF
-    int cellCount; // [esp+38h] [ebp-18h]
+    [[maybe_unused]] int cellCount; // [esp+38h] [ebp-18h]
     float maxs2[3]; // [esp+3Ch] [ebp-14h] BYREF
-    mnode_t *rightNode; // [esp+48h] [ebp-8h]
-    int planeIndex; // [esp+4Ch] [ebp-4h]
+    [[maybe_unused]] mnode_t *rightNode; // [esp+48h] [ebp-8h]
+    [[maybe_unused]] int planeIndex; // [esp+4Ch] [ebp-4h]
 
     cellCount = rgp.world->dpvsPlanes.cellCount + 1;
     mins2[0] = *mins;
@@ -1302,11 +1302,11 @@ void __cdecl R_FilterEntIntoCells_r(FilterEntInfo *entInfo, mnode_t *node, const
 
 void __cdecl R_AddEntToCell(FilterEntInfo *entInfo, unsigned int cellIndex)
 {
-    unsigned int bit; // [esp+0h] [ebp-1Ch]
-    unsigned int localClientNum; // [esp+4h] [ebp-18h]
-    unsigned int offset; // [esp+8h] [ebp-14h]
-    unsigned int *entCellBits; // [esp+Ch] [ebp-10h]
-    unsigned int entnum; // [esp+14h] [ebp-8h]
+    [[maybe_unused]] unsigned int bit; // [esp+0h] [ebp-1Ch]
+    [[maybe_unused]] unsigned int localClientNum; // [esp+4h] [ebp-18h]
+    [[maybe_unused]] unsigned int offset; // [esp+8h] [ebp-14h]
+    [[maybe_unused]] unsigned int *entCellBits; // [esp+Ch] [ebp-10h]
+    [[maybe_unused]] unsigned int entnum; // [esp+14h] [ebp-8h]
 
     iassert( Sys_IsMainThread() );
     localClientNum = entInfo->localClientNum;
@@ -1378,18 +1378,18 @@ void __cdecl R_FilterDynEntIntoCells_r(
     const float *mins,
     const float *maxs)
 {
-    float localmaxs[3]; // [esp+0h] [ebp-50h]
-    float dist; // [esp+Ch] [ebp-44h]
+    [[maybe_unused]] float localmaxs[3]; // [esp+0h] [ebp-50h]
+    [[maybe_unused]] float dist; // [esp+Ch] [ebp-44h]
     float localmins[3]; // [esp+10h] [ebp-40h] BYREF
-    unsigned int type; // [esp+1Ch] [ebp-34h]
-    int side; // [esp+20h] [ebp-30h]
-    cplane_s *plane; // [esp+24h] [ebp-2Ch]
-    int cellIndex; // [esp+28h] [ebp-28h]
+    [[maybe_unused]] unsigned int type; // [esp+1Ch] [ebp-34h]
+    [[maybe_unused]] int side; // [esp+20h] [ebp-30h]
+    [[maybe_unused]] cplane_s *plane; // [esp+24h] [ebp-2Ch]
+    [[maybe_unused]] int cellIndex; // [esp+28h] [ebp-28h]
     float mins2[3]; // [esp+2Ch] [ebp-24h] BYREF
-    int cellCount; // [esp+38h] [ebp-18h]
+    [[maybe_unused]] int cellCount; // [esp+38h] [ebp-18h]
     float maxs2[3]; // [esp+3Ch] [ebp-14h] BYREF
-    mnode_t *rightNode; // [esp+48h] [ebp-8h]
-    int planeIndex; // [esp+4Ch] [ebp-4h]
+    [[maybe_unused]] mnode_t *rightNode; // [esp+48h] [ebp-8h]
+    [[maybe_unused]] int planeIndex; // [esp+4Ch] [ebp-4h]
 
     cellCount = rgp.world->dpvsPlanes.cellCount + 1;
 
@@ -1453,7 +1453,7 @@ void __cdecl R_FilterDynEntIntoCells_r(
 
 void __cdecl R_AddDynEntToCell(unsigned int cellIndex, unsigned int dynEntIndex, DynEntityDrawType drawType)
 {
-    unsigned int wordIndex; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] unsigned int wordIndex; // [esp+Ch] [ebp-4h]
 
     iassert( Sys_IsMainThread() );
     wordIndex = rgp.world->dpvsDyn.dynEntClientWordCount[drawType] * cellIndex + (dynEntIndex >> 5);
@@ -1462,30 +1462,30 @@ void __cdecl R_AddDynEntToCell(unsigned int cellIndex, unsigned int dynEntIndex,
 
 void __cdecl R_FilterEntitiesIntoCells(int cameraCellIndex)
 {
-    float s; // [esp+0h] [ebp-84h]
-    unsigned int v2; // [esp+14h] [ebp-70h]
-    int v3; // [esp+18h] [ebp-6Ch]
-    const DpvsPlane *v4; // [esp+1Ch] [ebp-68h]
-    int v5; // [esp+20h] [ebp-64h]
-    int v6; // [esp+24h] [ebp-60h]
-    int frustumPlaneCount; // [esp+28h] [ebp-5Ch]
-    float radius; // [esp+2Ch] [ebp-58h]
-    const DpvsPlane *a; // [esp+30h] [ebp-54h]
-    int v10; // [esp+34h] [ebp-50h]
-    int v11; // [esp+38h] [ebp-4Ch]
-    const DpvsPlane *frustumPlanes; // [esp+40h] [ebp-44h]
-    int v13; // [esp+44h] [ebp-40h]
+    [[maybe_unused]] float s; // [esp+0h] [ebp-84h]
+    [[maybe_unused]] unsigned int v2; // [esp+14h] [ebp-70h]
+    [[maybe_unused]] int v3; // [esp+18h] [ebp-6Ch]
+    [[maybe_unused]] const DpvsPlane *v4; // [esp+1Ch] [ebp-68h]
+    [[maybe_unused]] int v5; // [esp+20h] [ebp-64h]
+    [[maybe_unused]] int v6; // [esp+24h] [ebp-60h]
+    [[maybe_unused]] int frustumPlaneCount; // [esp+28h] [ebp-5Ch]
+    [[maybe_unused]] float radius; // [esp+2Ch] [ebp-58h]
+    [[maybe_unused]] const DpvsPlane *a; // [esp+30h] [ebp-54h]
+    [[maybe_unused]] int v10; // [esp+34h] [ebp-50h]
+    [[maybe_unused]] int v11; // [esp+38h] [ebp-4Ch]
+    [[maybe_unused]] const DpvsPlane *frustumPlanes; // [esp+40h] [ebp-44h]
+    [[maybe_unused]] int v13; // [esp+44h] [ebp-40h]
     float mins[3]; // [esp+48h] [ebp-3Ch] BYREF
     float maxs[3]; // [esp+54h] [ebp-30h] BYREF
-    GfxSceneModel *sceneModel; // [esp+60h] [ebp-24h]
-    const DpvsView *dpvsView; // [esp+64h] [ebp-20h]
-    const DpvsView *view; // [esp+68h] [ebp-1Ch]
-    int sceneEntIndex; // [esp+6Ch] [ebp-18h]
-    GfxSceneEntity *sceneEnt; // [esp+70h] [ebp-14h]
-    GfxSceneBrush *sceneBrush; // [esp+74h] [ebp-10h]
-    unsigned int entnum; // [esp+78h] [ebp-Ch]
-    unsigned int viewIndex; // [esp+7Ch] [ebp-8h]
-    const GfxBrushModel *bmodel; // [esp+80h] [ebp-4h]
+    [[maybe_unused]] GfxSceneModel *sceneModel; // [esp+60h] [ebp-24h]
+    [[maybe_unused]] const DpvsView *dpvsView; // [esp+64h] [ebp-20h]
+    [[maybe_unused]] const DpvsView *view; // [esp+68h] [ebp-1Ch]
+    [[maybe_unused]] int sceneEntIndex; // [esp+6Ch] [ebp-18h]
+    [[maybe_unused]] GfxSceneEntity *sceneEnt; // [esp+70h] [ebp-14h]
+    [[maybe_unused]] GfxSceneBrush *sceneBrush; // [esp+74h] [ebp-10h]
+    [[maybe_unused]] unsigned int entnum; // [esp+78h] [ebp-Ch]
+    [[maybe_unused]] unsigned int viewIndex; // [esp+7Ch] [ebp-8h]
+    [[maybe_unused]] const GfxBrushModel *bmodel; // [esp+80h] [ebp-4h]
 
     iassert( Sys_IsMainThread() );
     if (cameraCellIndex < 0)
@@ -1604,8 +1604,8 @@ void __cdecl R_FilterEntitiesIntoCells(int cameraCellIndex)
 // SCENE_VIEW_SUNSHADOW_1 = 0x2, (CSM Far)
 unsigned int __cdecl R_SetVisData(unsigned int viewIndex)
 {
-    unsigned int oldViewIndex; // [esp+4h] [ebp-8h]
-    unsigned int drawType; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] unsigned int oldViewIndex; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] unsigned int drawType; // [esp+8h] [ebp-4h]
 
     oldViewIndex = g_viewIndex;
     //g_viewIndex = oldViewIndex; // (Fuck you whoever did this typo!)
@@ -1618,7 +1618,7 @@ unsigned int __cdecl R_SetVisData(unsigned int viewIndex)
 
 void __cdecl R_AddCellDynBrushSurfacesInFrustumCmd(const DpvsDynamicCellCmd *data)
 {
-    unsigned int oldViewIndex; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] unsigned int oldViewIndex; // [esp+0h] [ebp-8h]
 
     oldViewIndex = R_SetVisData(data->viewIndex);
     if (r_drawDynEnts->current.enabled)
@@ -1629,18 +1629,18 @@ void __cdecl R_AddCellDynBrushSurfacesInFrustumCmd(const DpvsDynamicCellCmd *dat
 void __cdecl R_CullDynBrushInCell(unsigned int cellIndex, const DpvsPlane *planes, int planeCount)
 {
     unsigned long v4; // eax
-    int v5; // [esp+4h] [ebp-34h]
-    const DpvsPlane *v6; // [esp+8h] [ebp-30h]
-    int v7; // [esp+Ch] [ebp-2Ch]
-    unsigned int dynEntIndex; // [esp+14h] [ebp-24h]
-    const DynEntityDef *dynEntDef; // [esp+18h] [ebp-20h]
-    unsigned int bits; // [esp+1Ch] [ebp-1Ch]
-    unsigned int dynEntClientWordCount; // [esp+20h] [ebp-18h]
-    unsigned int indexLow; // [esp+24h] [ebp-14h]
-    unsigned __int8 *dynEntVisData; // [esp+28h] [ebp-10h]
-    unsigned int *dynEntCellBits; // [esp+2Ch] [ebp-Ch]
-    unsigned int wordIndex; // [esp+30h] [ebp-8h]
-    const GfxBrushModel *bmodel; // [esp+34h] [ebp-4h]
+    [[maybe_unused]] int v5; // [esp+4h] [ebp-34h]
+    [[maybe_unused]] const DpvsPlane *v6; // [esp+8h] [ebp-30h]
+    [[maybe_unused]] int v7; // [esp+Ch] [ebp-2Ch]
+    [[maybe_unused]] unsigned int dynEntIndex; // [esp+14h] [ebp-24h]
+    [[maybe_unused]] const DynEntityDef *dynEntDef; // [esp+18h] [ebp-20h]
+    [[maybe_unused]] unsigned int bits; // [esp+1Ch] [ebp-1Ch]
+    [[maybe_unused]] unsigned int dynEntClientWordCount; // [esp+20h] [ebp-18h]
+    [[maybe_unused]] unsigned int indexLow; // [esp+24h] [ebp-14h]
+    [[maybe_unused]] unsigned __int8 *dynEntVisData; // [esp+28h] [ebp-10h]
+    [[maybe_unused]] unsigned int *dynEntCellBits; // [esp+2Ch] [ebp-Ch]
+    [[maybe_unused]] unsigned int wordIndex; // [esp+30h] [ebp-8h]
+    [[maybe_unused]] const GfxBrushModel *bmodel; // [esp+34h] [ebp-4h]
 
     if (cellIndex >= rgp.world->dpvsPlanes.cellCount)
         MyAssertHandler(
@@ -1700,9 +1700,9 @@ void __cdecl R_CullDynBrushInCell(unsigned int cellIndex, const DpvsPlane *plane
 void __cdecl R_GenerateShadowMapCasterCells()
 {
     GfxLight *sunLight; // edx
-    GfxCell *cell; // [esp+4h] [ebp-Ch]
-    int cellIndex; // [esp+8h] [ebp-8h]
-    unsigned int cellCasterBitsCount; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] GfxCell *cell; // [esp+4h] [ebp-Ch]
+    [[maybe_unused]] int cellIndex; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] unsigned int cellCasterBitsCount; // [esp+Ch] [ebp-4h]
 
     iassert( rgp.world->sunLight );
     cellCasterBitsCount = (rgp.world->dpvsPlanes.cellCount + 31) >> 5;
@@ -1729,17 +1729,17 @@ void __cdecl R_GenerateShadowMapCasterCells()
 
 void __cdecl R_VisitPortalsNoFrustum(const GfxCell *cell)
 {
-    float scale; // [esp+4h] [ebp-D80h]
+    [[maybe_unused]] float scale; // [esp+4h] [ebp-D80h]
     GfxHullPointsPool(*hullPointsPoolArray)[256]; // [esp+5Ch] [ebp-D28h]
-    int childPlaneCount; // [esp+60h] [ebp-D24h]
-    GfxPortal *portal; // [esp+64h] [ebp-D20h]
-    int queueIndex; // [esp+68h] [ebp-D1Ch]
+    [[maybe_unused]] int childPlaneCount; // [esp+60h] [ebp-D24h]
+    [[maybe_unused]] GfxPortal *portal; // [esp+64h] [ebp-D20h]
+    [[maybe_unused]] int queueIndex; // [esp+68h] [ebp-D1Ch]
     float portalVerts[64][3]; // [esp+6Ch] [ebp-D18h] BYREF
     float hullOrigin[3]; // [esp+36Ch] [ebp-A18h] BYREF
-    unsigned int vertIndex; // [esp+378h] [ebp-A0Ch]
+    [[maybe_unused]] unsigned int vertIndex; // [esp+378h] [ebp-A0Ch]
     PortalHeapNode portalQueue[256]; // [esp+37Ch] [ebp-A08h] BYREF
     float hull[64][2]; // [esp+B7Ch] [ebp-208h] BYREF
-    unsigned int hullPointCount; // [esp+D80h] [ebp-4h]
+    [[maybe_unused]] unsigned int hullPointCount; // [esp+D80h] [ebp-4h]
 
     LargeLocal hullPointsPoolArray_large_local(0x20000);
     //LargeLocal::LargeLocal(&hullPointsPoolArray_large_local, 0x20000);
@@ -1795,13 +1795,13 @@ unsigned int __cdecl R_PortalClipPlanesNoFrustum(
     unsigned int vertexCount,
     const float (*winding)[3])
 {
-    DpvsPlane *a; // [esp+0h] [ebp-620h]
-    DpvsPlane *v5; // [esp+8h] [ebp-618h]
-    float *v6; // [esp+Ch] [ebp-614h]
+    [[maybe_unused]] DpvsPlane *a; // [esp+0h] [ebp-620h]
+    [[maybe_unused]] DpvsPlane *v5; // [esp+8h] [ebp-618h]
+    [[maybe_unused]] float *v6; // [esp+Ch] [ebp-614h]
     float normals[128][3]; // [esp+10h] [ebp-610h] BYREF
-    unsigned int windingVertIndex; // [esp+614h] [ebp-Ch]
-    unsigned int planeCount; // [esp+618h] [ebp-8h]
-    bool useNormalPlanes; // [esp+61Fh] [ebp-1h]
+    [[maybe_unused]] unsigned int windingVertIndex; // [esp+614h] [ebp-Ch]
+    [[maybe_unused]] unsigned int planeCount; // [esp+618h] [ebp-8h]
+    [[maybe_unused]] bool useNormalPlanes; // [esp+61Fh] [ebp-1h]
 
     iassert( Sys_IsMainThread() );
     iassert( (vertexCount >= 3) );
@@ -1833,10 +1833,10 @@ unsigned int __cdecl R_PortalClipPlanesNoFrustum(
 
 void __cdecl R_GetSidePlaneNormals(const float (*winding)[3], unsigned int vertexCount, float (*normals)[3])
 {
-    float *v3; // [esp+18h] [ebp-61Ch]
+    [[maybe_unused]] float *v3; // [esp+18h] [ebp-61Ch]
     float delta[388]; // [esp+1Ch] [ebp-618h] BYREF
-    unsigned int vertexIndex; // [esp+62Ch] [ebp-8h]
-    unsigned int vertexIndexNext; // [esp+630h] [ebp-4h]
+    [[maybe_unused]] unsigned int vertexIndex; // [esp+62Ch] [ebp-8h]
+    [[maybe_unused]] unsigned int vertexIndexNext; // [esp+630h] [ebp-4h]
 
     iassert( vertexCount < ARRAY_COUNT( delta ) );
     if (dpvsGlob.viewOrgIsDir)
@@ -1872,9 +1872,9 @@ GfxPortal *__cdecl R_NextQueuedPortal()
     PortalHeapNode *portalQueue; // esi
     float v2; // eax
     PortalHeapNode *v3; // esi
-    int heapIndex; // [esp+4h] [ebp-Ch]
-    int chosenChildIndex; // [esp+8h] [ebp-8h]
-    GfxPortal *portal; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] int heapIndex; // [esp+4h] [ebp-Ch]
+    [[maybe_unused]] int chosenChildIndex; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] GfxPortal *portal; // [esp+Ch] [ebp-4h]
 
     if (dpvsGlob.queuedCount <= 0)
         MyAssertHandler(
@@ -1915,7 +1915,7 @@ GfxPortal *__cdecl R_NextQueuedPortal()
 int R_AssertValidQueue()
 {
     int result = 0; // eax
-    int queueIndex; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int queueIndex; // [esp+4h] [ebp-4h]
 
     for (queueIndex = 1; queueIndex < dpvsGlob.queuedCount; ++queueIndex)
     {
@@ -1940,9 +1940,9 @@ void __cdecl R_VisitPortalsForCellNoFrustum(
     int frustumPlaneCount,
     signed int recursionDepth)
 {
-    unsigned __int8 v7; // [esp+0h] [ebp-10h]
-    GfxPortal *portal; // [esp+8h] [ebp-8h]
-    int portalIndex; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] unsigned __int8 v7; // [esp+0h] [ebp-10h]
+    [[maybe_unused]] GfxPortal *portal; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] int portalIndex; // [esp+Ch] [ebp-4h]
 
     R_SetCellVisible(cell);
     R_SetAncestorListStatus(parentPortal, 1);
@@ -1977,9 +1977,9 @@ void __cdecl R_EnqueuePortal(GfxPortal *portal)
 {
     float v1; // edx
     PortalHeapNode *portalQueue; // esi
-    int heapIndex; // [esp+4h] [ebp-Ch]
-    float dist; // [esp+8h] [ebp-8h]
-    int parentIndex; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] int heapIndex; // [esp+4h] [ebp-Ch]
+    [[maybe_unused]] float dist; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] int parentIndex; // [esp+Ch] [ebp-4h]
 
     iassert( portal );
     iassert( !portal->writable.isQueued );
@@ -2015,13 +2015,13 @@ void __cdecl R_EnqueuePortal(GfxPortal *portal)
 
 double __cdecl R_FurthestPointOnWinding(const float (*points)[3], int pointCount, const DpvsPlane *plane)
 {
-    float v4; // [esp+0h] [ebp-24h]
-    float v5; // [esp+4h] [ebp-20h]
-    float v6; // [esp+8h] [ebp-1Ch]
-    float v7; // [esp+Ch] [ebp-18h]
-    int pointIndex; // [esp+18h] [ebp-Ch]
-    int pointIndexa; // [esp+18h] [ebp-Ch]
-    float distMax; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] float v4; // [esp+0h] [ebp-24h]
+    [[maybe_unused]] float v5; // [esp+4h] [ebp-20h]
+    [[maybe_unused]] float v6; // [esp+8h] [ebp-1Ch]
+    [[maybe_unused]] float v7; // [esp+Ch] [ebp-18h]
+    [[maybe_unused]] int pointIndex; // [esp+18h] [ebp-Ch]
+    [[maybe_unused]] int pointIndexa; // [esp+18h] [ebp-Ch]
+    [[maybe_unused]] float distMax; // [esp+20h] [ebp-4h]
 
     v7 = Vec3Dot(plane->coeffs, (const float *)points) + plane->coeffs[3];
     v6 = Vec3Dot(plane->coeffs, &(*points)[3 * pointCount - 3]) + plane->coeffs[3];
@@ -2052,7 +2052,7 @@ double __cdecl R_FurthestPointOnWinding(const float (*points)[3], int pointCount
 
 bool __cdecl R_ShouldSkipPortal(const GfxPortal *portal, const DpvsPlane *planes, int planeCount)
 {
-    float v4; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] float v4; // [esp+0h] [ebp-4h]
 
     if (portal->writable.isAncestor)
         return 1;
@@ -2074,9 +2074,9 @@ char __cdecl R_PortalBehindAnyPlane(const GfxPortal *portal, const DpvsPlane *pl
 
 char __cdecl R_PortalBehindPlane(const GfxPortal *portal, const DpvsPlane *plane)
 {
-    float v3; // [esp+0h] [ebp-Ch]
-    int c; // [esp+4h] [ebp-8h]
-    float *v; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] float v3; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] int c; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] float *v; // [esp+8h] [ebp-4h]
 
     v = (float *)portal->vertices;
     for (c = portal->vertexCount; c; --c)
@@ -2095,8 +2095,8 @@ char __cdecl R_ChopPortalAndAddHullPointsNoFrustum(
     const DpvsPlane *planes,
     int planeCount)
 {
-    int vertCount; // [esp+0h] [ebp-C10h]
-    int vertIndex; // [esp+4h] [ebp-C0Ch]
+    [[maybe_unused]] int vertCount; // [esp+0h] [ebp-C10h]
+    [[maybe_unused]] int vertIndex; // [esp+4h] [ebp-C0Ch]
     float v[2][128][3]; // [esp+8h] [ebp-C08h] BYREF
     const float (*w)[3]; // [esp+C0Ch] [ebp-4h] BYREF
 
@@ -2120,7 +2120,7 @@ char __cdecl R_ChopPortalAndAddHullPointsNoFrustum(
 void __cdecl R_AddVertToPortalHullPoints(GfxPortal *portal, const float *v)
 {
     float hull[64][2]; // [esp+14h] [ebp-208h] BYREF
-    int hullPointCount; // [esp+218h] [ebp-4h]
+    [[maybe_unused]] int hullPointCount; // [esp+218h] [ebp-4h]
 
     if (portal->writable.hullPoints)
     {
@@ -2150,7 +2150,7 @@ void __cdecl R_AddVertToPortalHullPoints(GfxPortal *portal, const float *v)
 
 GfxHullPointsPool *__cdecl R_AllocHullPoints()
 {
-    GfxHullPointsPool *hullPointsPool; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] GfxHullPointsPool *hullPointsPool; // [esp+0h] [ebp-4h]
 
     hullPointsPool = dpvsGlob.nextFreeHullPoints;
     if (!dpvsGlob.nextFreeHullPoints)
@@ -2168,7 +2168,7 @@ int __cdecl R_ChopPortal(
     const float (**finalVerts)[3])
 {
     int vertCount; // [esp+0h] [ebp-Ch] BYREF
-    int planeIndex; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] int planeIndex; // [esp+4h] [ebp-8h]
     const float (*w)[3]; // [esp+8h] [ebp-4h]
 
     iassert( Sys_IsMainThread() );
@@ -2203,22 +2203,22 @@ const float (*__cdecl R_ChopPortalWinding(
     const DpvsPlane *plane,
     float (*vertsOut)[3]))[3]
 {
-    float v5; // [esp+0h] [ebp-2D0h]
-    float v6; // [esp+4h] [ebp-2CCh]
-    float v7; // [esp+8h] [ebp-2C8h]
-    float *v8; // [esp+Ch] [ebp-2C4h]
-    float *v9; // [esp+10h] [ebp-2C0h]
-    float *v10; // [esp+14h] [ebp-2BCh]
-    float *v11; // [esp+18h] [ebp-2B8h]
-    float v12; // [esp+1Ch] [ebp-2B4h]
-    unsigned __int8 sideForVert[136]; // [esp+20h] [ebp-2B0h]
-    float lerpFactor; // [esp+ACh] [ebp-224h]
-    int backCount; // [esp+B0h] [ebp-220h]
-    int vertexIndex; // [esp+B4h] [ebp-21Ch]
-    float distForVert[131]; // [esp+B8h] [ebp-218h]
-    int newVertCount; // [esp+2C4h] [ebp-Ch]
-    int frontCount; // [esp+2C8h] [ebp-8h]
-    const float *v; // [esp+2CCh] [ebp-4h]
+    [[maybe_unused]] float v5; // [esp+0h] [ebp-2D0h]
+    [[maybe_unused]] float v6; // [esp+4h] [ebp-2CCh]
+    [[maybe_unused]] float v7; // [esp+8h] [ebp-2C8h]
+    [[maybe_unused]] float *v8; // [esp+Ch] [ebp-2C4h]
+    [[maybe_unused]] float *v9; // [esp+10h] [ebp-2C0h]
+    [[maybe_unused]] float *v10; // [esp+14h] [ebp-2BCh]
+    [[maybe_unused]] float *v11; // [esp+18h] [ebp-2B8h]
+    [[maybe_unused]] float v12; // [esp+1Ch] [ebp-2B4h]
+    [[maybe_unused]] unsigned __int8 sideForVert[136]; // [esp+20h] [ebp-2B0h]
+    [[maybe_unused]] float lerpFactor; // [esp+ACh] [ebp-224h]
+    [[maybe_unused]] int backCount; // [esp+B0h] [ebp-220h]
+    [[maybe_unused]] int vertexIndex; // [esp+B4h] [ebp-21Ch]
+    [[maybe_unused]] float distForVert[131]; // [esp+B8h] [ebp-218h]
+    [[maybe_unused]] int newVertCount; // [esp+2C4h] [ebp-Ch]
+    [[maybe_unused]] int frontCount; // [esp+2C8h] [ebp-8h]
+    [[maybe_unused]] const float *v; // [esp+2CCh] [ebp-4h]
 
     frontCount = 0;
     backCount = 0;
@@ -2316,22 +2316,22 @@ void __cdecl R_SetAncestorListStatus(GfxPortal *portal, bool isAncestor)
 }
 void __cdecl R_AddWorldSurfacesFrustumOnly()
 {
-    int v0; // [esp+8h] [ebp-B4h]
-    DpvsPlane *v1; // [esp+Ch] [ebp-B0h]
-    int v2; // [esp+10h] [ebp-ACh]
-    int v3; // [esp+14h] [ebp-A8h]
-    DpvsPlane *v4; // [esp+18h] [ebp-A4h]
-    int v5; // [esp+1Ch] [ebp-A0h]
-    GfxCell *cell; // [esp+20h] [ebp-9Ch]
-    GfxCell *cella; // [esp+20h] [ebp-9Ch]
-    unsigned int cellIndex; // [esp+24h] [ebp-98h]
-    unsigned int cellIndexa; // [esp+24h] [ebp-98h]
-    unsigned int casterIndex; // [esp+28h] [ebp-94h]
+    [[maybe_unused]] int v0; // [esp+8h] [ebp-B4h]
+    [[maybe_unused]] DpvsPlane *v1; // [esp+Ch] [ebp-B0h]
+    [[maybe_unused]] int v2; // [esp+10h] [ebp-ACh]
+    [[maybe_unused]] int v3; // [esp+14h] [ebp-A8h]
+    [[maybe_unused]] DpvsPlane *v4; // [esp+18h] [ebp-A4h]
+    [[maybe_unused]] int v5; // [esp+1Ch] [ebp-A0h]
+    [[maybe_unused]] GfxCell *cell; // [esp+20h] [ebp-9Ch]
+    [[maybe_unused]] GfxCell *cella; // [esp+20h] [ebp-9Ch]
+    [[maybe_unused]] unsigned int cellIndex; // [esp+24h] [ebp-98h]
+    [[maybe_unused]] unsigned int cellIndexa; // [esp+24h] [ebp-98h]
+    [[maybe_unused]] unsigned int casterIndex; // [esp+28h] [ebp-94h]
     unsigned int cellDrawBits[32]; // [esp+2Ch] [ebp-90h] BYREF
-    unsigned int cellCount; // [esp+ACh] [ebp-10h]
-    unsigned int visibleCellIndex; // [esp+B0h] [ebp-Ch]
-    unsigned int *cellCasterBits; // [esp+B4h] [ebp-8h]
-    unsigned int cellBitsCount; // [esp+B8h] [ebp-4h]
+    [[maybe_unused]] unsigned int cellCount; // [esp+ACh] [ebp-10h]
+    [[maybe_unused]] unsigned int visibleCellIndex; // [esp+B0h] [ebp-Ch]
+    [[maybe_unused]] unsigned int *cellCasterBits; // [esp+B4h] [ebp-8h]
+    [[maybe_unused]] unsigned int cellBitsCount; // [esp+B8h] [ebp-4h]
 
     cellCount = rgp.world->dpvsPlanes.cellCount;
     iassert( cellCount );
@@ -2438,18 +2438,18 @@ void __cdecl R_AddCellSurfacesAndCullGroupsInFrustumDelayed(
 
 void __cdecl R_ShowCull()
 {
-    float s; // [esp+0h] [ebp-50h]
-    float *origin; // [esp+14h] [ebp-3Ch]
-    GfxSceneModel *sceneModel; // [esp+18h] [ebp-38h]
+    [[maybe_unused]] float s; // [esp+0h] [ebp-50h]
+    [[maybe_unused]] float *origin; // [esp+14h] [ebp-3Ch]
+    [[maybe_unused]] GfxSceneModel *sceneModel; // [esp+18h] [ebp-38h]
     float mins[3]; // [esp+1Ch] [ebp-34h] BYREF
-    float radius; // [esp+28h] [ebp-28h]
-    unsigned int sceneEntCount; // [esp+2Ch] [ebp-24h]
+    [[maybe_unused]] float radius; // [esp+28h] [ebp-28h]
+    [[maybe_unused]] unsigned int sceneEntCount; // [esp+2Ch] [ebp-24h]
     float maxs[3]; // [esp+30h] [ebp-20h] BYREF
-    unsigned int sceneEntIndex; // [esp+3Ch] [ebp-14h]
-    GfxSceneEntity *sceneEnt; // [esp+40h] [ebp-10h]
-    GfxSceneBrush *sceneBrush; // [esp+44h] [ebp-Ch]
-    unsigned __int8 *sceneEntVisData; // [esp+48h] [ebp-8h]
-    const GfxBrushModel *bmodel; // [esp+4Ch] [ebp-4h]
+    [[maybe_unused]] unsigned int sceneEntIndex; // [esp+3Ch] [ebp-14h]
+    [[maybe_unused]] GfxSceneEntity *sceneEnt; // [esp+40h] [ebp-10h]
+    [[maybe_unused]] GfxSceneBrush *sceneBrush; // [esp+44h] [ebp-Ch]
+    [[maybe_unused]] unsigned __int8 *sceneEntVisData; // [esp+48h] [ebp-8h]
+    [[maybe_unused]] const GfxBrushModel *bmodel; // [esp+4Ch] [ebp-4h]
 
     if (r_showCullXModels->current.enabled)
     {
@@ -2497,9 +2497,9 @@ void __cdecl R_ShowCull()
 
 void __cdecl R_InitSceneData(int localClientNum)
 {
-    unsigned int cellIndex; // [esp+0h] [ebp-10h]
-    unsigned int offset; // [esp+4h] [ebp-Ch]
-    unsigned int cellCount; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] unsigned int cellIndex; // [esp+0h] [ebp-10h]
+    [[maybe_unused]] unsigned int offset; // [esp+4h] [ebp-Ch]
+    [[maybe_unused]] unsigned int cellCount; // [esp+Ch] [ebp-4h]
 
     iassert( Sys_IsMainThread() );
     iassert( rgp.world );
@@ -2530,7 +2530,7 @@ void __cdecl R_InitSceneData(int localClientNum)
 
 void __cdecl DynEntCl_InitFilter()
 {
-    unsigned int drawType; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] unsigned int drawType; // [esp+0h] [ebp-4h]
 
     iassert( Sys_IsMainThread() );
     iassert( rgp.world );
@@ -2545,8 +2545,8 @@ void __cdecl DynEntCl_InitFilter()
 
 void __cdecl R_InitSceneBuffers()
 {
-    unsigned int localClientNum; // [esp+0h] [ebp-8h]
-    unsigned int viewIndex; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] unsigned int localClientNum; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] unsigned int viewIndex; // [esp+4h] [ebp-4h]
 
     iassert( (gfxCfg.entCount & 31) == 0 );
     scene.entOverflowedDrawBuf = (unsigned int *)R_AllocGlobalVariable(gfxCfg.entCount >> 3, "R_InitSceneBuffers");
@@ -2567,9 +2567,9 @@ void __cdecl R_InitSceneBuffers()
 
 void __cdecl R_ClearDpvsScene()
 {
-    unsigned int drawType; // [esp+0h] [ebp-8h]
-    int i; // [esp+4h] [ebp-4h]
-    int ia; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] unsigned int drawType; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] int i; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int ia; // [esp+4h] [ebp-4h]
 
     iassert( rgp.world );
     iassert( rgp.world->cells );
@@ -2628,10 +2628,10 @@ bool __cdecl R_CullDynamicSpotLightInCameraView()
 
 void __cdecl R_CullDynamicPointLightsInCameraView()
 {
-    int planeCount; // [esp+Ch] [ebp-10h]
-    DpvsPlane *planes; // [esp+10h] [ebp-Ch]
-    GfxLight *dl; // [esp+14h] [ebp-8h]
-    int lightIndex; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] int planeCount; // [esp+Ch] [ebp-10h]
+    [[maybe_unused]] DpvsPlane *planes; // [esp+10h] [ebp-Ch]
+    [[maybe_unused]] GfxLight *dl; // [esp+14h] [ebp-8h]
+    [[maybe_unused]] int lightIndex; // [esp+18h] [ebp-4h]
 
     planes = dpvsGlob.views[scene.dpvs.localClientNum][SCENE_VIEW_CAMERA].frustumPlanes;
     planeCount = dpvsGlob.views[scene.dpvs.localClientNum][SCENE_VIEW_CAMERA].frustumPlaneCount;
@@ -2656,7 +2656,7 @@ const float standardFrustumSidePlanes[4][4] =
 
 void __cdecl R_SetupWorldSurfacesDpvs(const GfxViewParms *viewParms)
 {
-    DpvsView *dpvsView; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] DpvsView *dpvsView; // [esp+0h] [ebp-4h]
 
     iassert( Sys_IsMainThread() );
     iassert( rgp.world );
@@ -2674,7 +2674,7 @@ void __cdecl R_SetupWorldSurfacesDpvs(const GfxViewParms *viewParms)
 
 int __cdecl R_AddNearAndFarClipPlanes(DpvsPlane *planes, int planeCount)
 {
-    int planeCounta; // [esp+Ch] [ebp+Ch]
+    [[maybe_unused]] int planeCounta; // [esp+Ch] [ebp+Ch]
 
     iassert( Sys_IsMainThread() );
     iassert( dpvsGlob.nearPlane );
@@ -2687,7 +2687,7 @@ int __cdecl R_AddNearAndFarClipPlanes(DpvsPlane *planes, int planeCount)
 
 void __cdecl R_SetupDpvsForPoint(const GfxViewParms *viewParms)
 {
-    float zfar; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] float zfar; // [esp+14h] [ebp-4h]
 
     iassert( Sys_IsMainThread() );
     dpvsGlob.viewOrg[0] = viewParms->origin[0];
@@ -2742,15 +2742,15 @@ void __cdecl R_CopyClipPlane(const DpvsPlane *in, DpvsPlane *out)
 
 void __cdecl R_AddSkySurfacesDpvs(const DpvsPlane *planes, int planeCount)
 {
-    int v2; // [esp+4h] [ebp-1B0h]
-    int v3; // [esp+8h] [ebp-1ACh]
-    const DpvsPlane *v4; // [esp+Ch] [ebp-1A8h]
-    unsigned int i; // [esp+10h] [ebp-1A4h]
-    GfxSurface *v6; // [esp+18h] [ebp-19Ch]
+    [[maybe_unused]] int v2; // [esp+4h] [ebp-1B0h]
+    [[maybe_unused]] int v3; // [esp+8h] [ebp-1ACh]
+    [[maybe_unused]] const DpvsPlane *v4; // [esp+Ch] [ebp-1A8h]
+    [[maybe_unused]] unsigned int i; // [esp+10h] [ebp-1A4h]
+    [[maybe_unused]] GfxSurface *v6; // [esp+18h] [ebp-19Ch]
     DpvsPlane clipPlanePool[16]; // [esp+1Ch] [ebp-198h] BYREF
-    int surfIndex; // [esp+160h] [ebp-54h]
-    DpvsClipPlaneSet clipSet; // [esp+164h] [ebp-50h]
-    int planeIndex; // [esp+1B0h] [ebp-4h]
+    [[maybe_unused]] int surfIndex; // [esp+160h] [ebp-54h]
+    [[maybe_unused]] DpvsClipPlaneSet clipSet; // [esp+164h] [ebp-50h]
+    [[maybe_unused]] int planeIndex; // [esp+1B0h] [ebp-4h]
 
     iassert( Sys_IsMainThread() );
     g_smodelVisData = rgp.world->dpvs.smodelVisData[0];
@@ -2793,7 +2793,7 @@ void __cdecl R_AddSkySurfacesDpvs(const DpvsPlane *planes, int planeCount)
 
 void __cdecl R_AddWorldSurfacesDpvs(const GfxViewParms *viewParms, int cameraCellIndex)
 {
-    DpvsView *dpvsView; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] DpvsView *dpvsView; // [esp+0h] [ebp-4h]
 
     iassert( Sys_IsMainThread() );
     iassert( rgp.world );
@@ -2826,9 +2826,9 @@ void __cdecl R_AddWorldSurfacesDpvs(const GfxViewParms *viewParms, int cameraCel
 
 void __cdecl R_AddWorldSurfacesPortalWalk(int cameraCellIndex)
 {
-    GfxCell *cell; // [esp+0h] [ebp-Ch]
-    int cellIndex; // [esp+4h] [ebp-8h]
-    DpvsView *dpvsView; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] GfxCell *cell; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] int cellIndex; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] DpvsView *dpvsView; // [esp+8h] [ebp-4h]
 
     iassert( Sys_IsMainThread() );
     iassert( rgp.world->dpvsPlanes.cellCount );
@@ -2877,23 +2877,23 @@ const float color[4] = { 0.0f, 1.0f, 1.0f, 0.25f };
 
 void __cdecl R_VisitPortals(const GfxCell *cell, const DpvsPlane *parentPlane, const DpvsPlane *planes, int planeCount)
 {
-    float scale; // [esp+4h] [ebp-D98h]
-    float v5; // [esp+28h] [ebp-D74h]
-    float v6; // [esp+2Ch] [ebp-D70h]
-    DpvsPlane *childPlanes; // [esp+58h] [ebp-D44h]
+    [[maybe_unused]] float scale; // [esp+4h] [ebp-D98h]
+    [[maybe_unused]] float v5; // [esp+28h] [ebp-D74h]
+    [[maybe_unused]] float v6; // [esp+2Ch] [ebp-D70h]
+    [[maybe_unused]] DpvsPlane *childPlanes; // [esp+58h] [ebp-D44h]
     GfxHullPointsPool(*hullPointsPoolArray)[256]; // [esp+64h] [ebp-D38h]
-    unsigned int childPlanesCount; // [esp+68h] [ebp-D34h]
-    int childPlaneCount; // [esp+6Ch] [ebp-D30h]
-    int iteration; // [esp+70h] [ebp-D2Ch]
-    GfxPortal *portal; // [esp+74h] [ebp-D28h]
-    int queueIndex; // [esp+78h] [ebp-D24h]
+    [[maybe_unused]] unsigned int childPlanesCount; // [esp+68h] [ebp-D34h]
+    [[maybe_unused]] int childPlaneCount; // [esp+6Ch] [ebp-D30h]
+    [[maybe_unused]] int iteration; // [esp+70h] [ebp-D2Ch]
+    [[maybe_unused]] GfxPortal *portal; // [esp+74h] [ebp-D28h]
+    [[maybe_unused]] int queueIndex; // [esp+78h] [ebp-D24h]
     float portalVerts[64][3]; // [esp+7Ch] [ebp-D20h] BYREF
     float hullOrigin[3]; // [esp+380h] [ebp-A1Ch] BYREF
     DpvsClipChildren clipChildren; // [esp+38Ch] [ebp-A10h] BYREF
-    unsigned int vertIndex; // [esp+390h] [ebp-A0Ch]
+    [[maybe_unused]] unsigned int vertIndex; // [esp+390h] [ebp-A0Ch]
     PortalHeapNode portalQueue[256]; // [esp+394h] [ebp-A08h] BYREF
     float hull[64][2]; // [esp+B94h] [ebp-208h] BYREF
-    unsigned int hullPointCount; // [esp+D98h] [ebp-4h]
+    [[maybe_unused]] unsigned int hullPointCount; // [esp+D98h] [ebp-4h]
 
     LargeLocal hullPointsPoolArray_large_local(0x20000);
     //LargeLocal::LargeLocal(&hullPointsPoolArray_large_local, 0x20000);
@@ -2992,20 +2992,20 @@ unsigned int __cdecl R_PortalClipPlanes(
     GfxCell *cell,
     DpvsClipChildren *clipChildren)
 {
-    bool v6; // [esp+0h] [ebp-640h]
-    DpvsForceBevels v7; // [esp+4h] [ebp-63Ch]
-    DpvsPlane *a; // [esp+8h] [ebp-638h]
-    DpvsPlane *v9; // [esp+10h] [ebp-630h]
-    float *v10; // [esp+14h] [ebp-62Ch]
+    [[maybe_unused]] bool v6; // [esp+0h] [ebp-640h]
+    [[maybe_unused]] DpvsForceBevels v7; // [esp+4h] [ebp-63Ch]
+    [[maybe_unused]] DpvsPlane *a; // [esp+8h] [ebp-638h]
+    [[maybe_unused]] DpvsPlane *v9; // [esp+10h] [ebp-630h]
+    [[maybe_unused]] float *v10; // [esp+14h] [ebp-62Ch]
     float normals[128][3]; // [esp+18h] [ebp-628h] BYREF
-    unsigned int windingVertIndex; // [esp+618h] [ebp-28h]
-    unsigned int planeCount; // [esp+61Ch] [ebp-24h]
+    [[maybe_unused]] unsigned int windingVertIndex; // [esp+618h] [ebp-28h]
+    [[maybe_unused]] unsigned int planeCount; // [esp+61Ch] [ebp-24h]
     float clipSpaceMins[2]; // [esp+620h] [ebp-20h] BYREF
     float clipSpaceMaxs[2]; // [esp+628h] [ebp-18h] BYREF
-    bool useNormalPlanes; // [esp+633h] [ebp-Dh]
-    float distMin; // [esp+634h] [ebp-Ch]
-    DpvsForceBevels forceBevels; // [esp+638h] [ebp-8h]
-    bool useBevelPlanes; // [esp+63Fh] [ebp-1h]
+    [[maybe_unused]] bool useNormalPlanes; // [esp+633h] [ebp-Dh]
+    [[maybe_unused]] float distMin; // [esp+634h] [ebp-Ch]
+    [[maybe_unused]] DpvsForceBevels forceBevels; // [esp+638h] [ebp-8h]
+    [[maybe_unused]] bool useBevelPlanes; // [esp+63Fh] [ebp-1h]
 
     iassert( Sys_IsMainThread() );
     iassert( (vertexCount >= 3) );
@@ -3059,13 +3059,13 @@ unsigned int __cdecl R_PortalClipPlanes(
 
 double __cdecl R_NearestPointOnWinding(const float (*points)[3], int pointCount, const DpvsPlane *plane)
 {
-    float v4; // [esp+0h] [ebp-24h]
-    float v5; // [esp+4h] [ebp-20h]
-    float v6; // [esp+8h] [ebp-1Ch]
-    float v7; // [esp+Ch] [ebp-18h]
-    float distMin; // [esp+18h] [ebp-Ch]
-    int pointIndex; // [esp+1Ch] [ebp-8h]
-    int pointIndexa; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] float v4; // [esp+0h] [ebp-24h]
+    [[maybe_unused]] float v5; // [esp+4h] [ebp-20h]
+    [[maybe_unused]] float v6; // [esp+8h] [ebp-1Ch]
+    [[maybe_unused]] float v7; // [esp+Ch] [ebp-18h]
+    [[maybe_unused]] float distMin; // [esp+18h] [ebp-Ch]
+    [[maybe_unused]] int pointIndex; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] int pointIndexa; // [esp+1Ch] [ebp-8h]
 
     v7 = Vec3Dot(plane->coeffs, (const float *)points) + plane->coeffs[3];
     v6 = Vec3Dot(plane->coeffs, &(*points)[3 * pointCount - 3]) + plane->coeffs[3];
@@ -3101,12 +3101,12 @@ void __cdecl R_ProjectPortal(
     float *maxs,
     DpvsClipChildren *clipChildren)
 {
-    int windingVertIndex; // [esp+40h] [ebp-440h]
-    int windingVertIndexa; // [esp+40h] [ebp-440h]
-    float area; // [esp+44h] [ebp-43Ch]
-    const float *xyz; // [esp+48h] [ebp-438h]
-    float x; // [esp+50h] [ebp-430h]
-    float y; // [esp+54h] [ebp-42Ch]
+    [[maybe_unused]] int windingVertIndex; // [esp+40h] [ebp-440h]
+    [[maybe_unused]] int windingVertIndexa; // [esp+40h] [ebp-440h]
+    [[maybe_unused]] float area; // [esp+44h] [ebp-43Ch]
+    [[maybe_unused]] const float *xyz; // [esp+48h] [ebp-438h]
+    [[maybe_unused]] float x; // [esp+50h] [ebp-430h]
+    [[maybe_unused]] float y; // [esp+54h] [ebp-42Ch]
     float screenSpaceWinding[132][2]; // [esp+58h] [ebp-428h] BYREF
 
     iassert(vertexCount >= 3);
@@ -3185,18 +3185,18 @@ unsigned int __cdecl R_AddBevelPlanes(
     float *maxs,
     DpvsForceBevels forceBevels)
 {
-    float v8; // [esp+0h] [ebp-B0h]
-    float v9; // [esp+4h] [ebp-ACh]
-    DpvsPlane *a; // [esp+8h] [ebp-A8h]
-    DpvsPlane *v11; // [esp+10h] [ebp-A0h]
-    float *v12; // [esp+14h] [ebp-9Ch]
-    unsigned int windingVertIndex; // [esp+1Ch] [ebp-94h]
+    [[maybe_unused]] float v8; // [esp+0h] [ebp-B0h]
+    [[maybe_unused]] float v9; // [esp+4h] [ebp-ACh]
+    [[maybe_unused]] DpvsPlane *a; // [esp+8h] [ebp-A8h]
+    [[maybe_unused]] DpvsPlane *v11; // [esp+10h] [ebp-A0h]
+    [[maybe_unused]] float *v12; // [esp+14h] [ebp-9Ch]
+    [[maybe_unused]] unsigned int windingVertIndex; // [esp+1Ch] [ebp-94h]
     float projected[2]; // [esp+20h] [ebp-90h] BYREF
     float bevelVerts[5][3]; // [esp+28h] [ebp-88h] BYREF
-    unsigned int planeCount; // [esp+64h] [ebp-4Ch]
+    [[maybe_unused]] unsigned int planeCount; // [esp+64h] [ebp-4Ch]
     float bevelNormals[4][3]; // [esp+68h] [ebp-48h] BYREF
-    float invW; // [esp+98h] [ebp-18h]
-    unsigned int bevelVertIndex; // [esp+9Ch] [ebp-14h]
+    [[maybe_unused]] float invW; // [esp+98h] [ebp-18h]
+    [[maybe_unused]] unsigned int bevelVertIndex; // [esp+9Ch] [ebp-14h]
     float unprojected[4]; // [esp+A0h] [ebp-10h] BYREF
 
     for (bevelVertIndex = 0; bevelVertIndex < 4; ++bevelVertIndex)
@@ -3291,14 +3291,14 @@ void __cdecl R_VisitPortalsForCell(
     signed int recursionDepth,
     DpvsClipChildren clipChildren)
 {
-    unsigned __int8 v8; // [esp+0h] [ebp-24h]
-    int vertCount; // [esp+8h] [ebp-1Ch]
-    const float *verts; // [esp+Ch] [ebp-18h]
+    [[maybe_unused]] unsigned __int8 v8; // [esp+0h] [ebp-24h]
+    [[maybe_unused]] int vertCount; // [esp+8h] [ebp-1Ch]
+    [[maybe_unused]] const float *verts; // [esp+Ch] [ebp-18h]
     int xCoord; // [esp+10h] [ebp-14h] BYREF
     int yCoord; // [esp+14h] [ebp-10h] BYREF
-    float v13; // [esp+18h] [ebp-Ch]
-    GfxPortal *portal; // [esp+1Ch] [ebp-8h]
-    int portalIndex; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] float v13; // [esp+18h] [ebp-Ch]
+    [[maybe_unused]] GfxPortal *portal; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] int portalIndex; // [esp+20h] [ebp-4h]
 
     R_AddCellSurfacesAndCullGroupsInFrustumDelayed(cell, planes, planeCount, frustumPlaneCount);
     R_SetCellVisible(cell);
@@ -3396,8 +3396,8 @@ char __cdecl R_ChopPortalAndAddHullPoints(
     const DpvsPlane *planes,
     int planeCount)
 {
-    int vertCount; // [esp+0h] [ebp-C10h]
-    int vertIndex; // [esp+4h] [ebp-C0Ch]
+    [[maybe_unused]] int vertCount; // [esp+0h] [ebp-C10h]
+    [[maybe_unused]] int vertIndex; // [esp+4h] [ebp-C0Ch]
     float v[2][128][3]; // [esp+8h] [ebp-C08h] BYREF
     const float (*w)[3]; // [esp+C0Ch] [ebp-4h] BYREF
 
@@ -3416,9 +3416,9 @@ void __cdecl R_VisitAllFurtherCells(
     int planeCount,
     unsigned __int8 frustumPlaneCount)
 {
-    int i; // [esp+0h] [ebp-1C0Ch]
+    [[maybe_unused]] int i; // [esp+0h] [ebp-1C0Ch]
     GfxCell *list[1025]; // [esp+4h] [ebp-1C08h] BYREF
-    int FurtherCellList_r; // [esp+1008h] [ebp-C04h]
+    [[maybe_unused]] int FurtherCellList_r; // [esp+1008h] [ebp-C04h]
     float v[256][3]; // [esp+100Ch] [ebp-C00h] BYREF
 
     FurtherCellList_r = R_GetFurtherCellList_r(
@@ -3446,8 +3446,8 @@ int __cdecl R_GetFurtherCellList_r(
     int count)
 {
     int v7; // eax
-    const GfxPortal *portal; // [esp+0h] [ebp-8h]
-    int portalIndex; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] const GfxPortal *portal; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] int portalIndex; // [esp+4h] [ebp-4h]
 
     for (portalIndex = 0; portalIndex < cell->portalCount; ++portalIndex)
     {
@@ -3466,7 +3466,7 @@ int __cdecl R_GetFurtherCellList_r(
 
 char __cdecl R_IsCellInList(const GfxCell *cell, const GfxCell **list, int count)
 {
-    int index; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int index; // [esp+0h] [ebp-4h]
 
     for (index = 0; index < count; ++index)
     {
@@ -3488,7 +3488,7 @@ void __cdecl R_SetupShadowSurfacesDpvs(
     unsigned int sidePlaneCount,
     int partitionIndex)
 {
-    DpvsView *dpvsView; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] DpvsView *dpvsView; // [esp+0h] [ebp-8h]
 
     iassert(Sys_IsMainThread());
     iassert(rgp.world);
@@ -3541,7 +3541,7 @@ double __cdecl R_GetFarPlaneDist()
 
 unsigned int __cdecl R_CalcReflectionProbeIndex(const GfxWorld *world, const float *origin)
 {
-    unsigned int cellIndex; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] unsigned int cellIndex; // [esp+0h] [ebp-4h]
 
     cellIndex = R_CellForPoint(world, origin);
     if (cellIndex == -1)
@@ -3559,11 +3559,11 @@ unsigned int __cdecl R_CalcReflectionProbeIndex(const GfxWorld *world, const flo
 
 int __cdecl R_CellForPoint(const GfxWorld *world, const float *origin)
 {
-    mnode_t *node; // [esp+4h] [ebp-1Ch]
-    cplane_s *plane; // [esp+Ch] [ebp-14h]
-    float d; // [esp+10h] [ebp-10h]
-    int cellIndex; // [esp+14h] [ebp-Ch]
-    int cellCount; // [esp+18h] [ebp-8h]
+    [[maybe_unused]] mnode_t *node; // [esp+4h] [ebp-1Ch]
+    [[maybe_unused]] cplane_s *plane; // [esp+Ch] [ebp-14h]
+    [[maybe_unused]] float d; // [esp+10h] [ebp-10h]
+    [[maybe_unused]] int cellIndex; // [esp+14h] [ebp-Ch]
+    [[maybe_unused]] int cellCount; // [esp+18h] [ebp-8h]
 
     iassert( world );
     node = (mnode_t *)world->dpvsPlanes.nodes;
