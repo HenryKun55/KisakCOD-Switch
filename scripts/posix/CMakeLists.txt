@@ -167,8 +167,9 @@ set(GFX_PORTABLE_SOURCES
     # r_rendertarget.cpp pulls IDirect3D9 + D3DRTYPE_SURFACE +
     # D3DMULTISAMPLE_NONE — D3D9 swap chain / multisample setup.
     # Land behind graphics abstraction.
-    # r_scene.cpp pulls r_cinematic.h (Bink BINKTEXTURES*) and
-    # IDirect3DQuery9. Land alongside r_cinematic.
+    # r_scene.cpp pulls r_cinematic.h (Bink BINKTEXTURESET / BINKREALTIME)
+    # and IDirect3DQuery9 member access. Land alongside r_cinematic /
+    # graphics abstraction.
     # r_screenshot.cpp uses tagMONITORINFO/HMONITOR/ClientToScreen
     # (Win32) and IDirect3DSurface9/IDirect3DSwapChain9 (D3D9). Land
     # behind a screen-capture abstraction.
@@ -177,6 +178,8 @@ set(GFX_PORTABLE_SOURCES
     # abstraction.
     "${SRC_DIR}/gfx_d3d/r_sky.cpp"
     "${SRC_DIR}/gfx_d3d/r_sunshadow.cpp"
+    # r_texturemem.cpp uses DirectDraw7 (ddraw.h) for VRAM queries.
+    # Land behind a video-memory abstraction.
     # r_spotshadow.cpp drags R_DrawCall / R_DrawSurfs / R_ClearScreen /
     # R_AddSceneDObj / R_DrawQuadMesh / R_SetRenderTarget / Image_Alloc.
     # Land with renderer-frame batch.

@@ -22,16 +22,16 @@ GfxScaledPlacement s_manualObjectPlacement;
 
 void __cdecl RB_ShowTess(GfxCmdBufContext context, const float *center, const char *tessName, const float *color)
 {
-    const char *v5; // eax
-    const GfxBackEndData *data; // [esp+14h] [ebp-2Ch]
-    float TEXT_TECH_MEAN; // [esp+18h] [ebp-28h]
-    const char *infoIdString; // [esp+1Ch] [ebp-24h]
-    float TEXT_TECH_VERTICAL_OFFSET; // [esp+20h] [ebp-20h]
+    [[maybe_unused]] const char *v5; // eax
+    [[maybe_unused]] const GfxBackEndData *data; // [esp+14h] [ebp-2Ch]
+    [[maybe_unused]] float TEXT_TECH_MEAN; // [esp+18h] [ebp-28h]
+    [[maybe_unused]] const char *infoIdString; // [esp+1Ch] [ebp-24h]
+    [[maybe_unused]] float TEXT_TECH_VERTICAL_OFFSET; // [esp+20h] [ebp-20h]
     float offsetCenter[3]; // [esp+24h] [ebp-1Ch] BYREF
-    const MaterialTechnique *tech; // [esp+30h] [ebp-10h]
-    const MaterialTechniqueSet *techSet; // [esp+34h] [ebp-Ch]
-    float TEXT_SIZE; // [esp+38h] [ebp-8h]
-    const char *infoString; // [esp+3Ch] [ebp-4h]
+    [[maybe_unused]] const MaterialTechnique *tech; // [esp+30h] [ebp-10h]
+    [[maybe_unused]] const MaterialTechniqueSet *techSet; // [esp+34h] [ebp-Ch]
+    [[maybe_unused]] float TEXT_SIZE; // [esp+38h] [ebp-8h]
+    [[maybe_unused]] const char *infoString; // [esp+3Ch] [ebp-4h]
 
     TEXT_SIZE = 0.6f;
     TEXT_TECH_VERTICAL_OFFSET = 0.3f;
@@ -101,19 +101,19 @@ void __cdecl RB_ShowTess(GfxCmdBufContext context, const float *center, const ch
 unsigned int __cdecl R_TessCodeMeshList(const GfxDrawSurfListArgs *listArgs, GfxCmdBufContext prepassContext)
 {
     const char *v2; // eax
-    GfxDepthRangeType depthRangeType; // [esp+24h] [ebp-6Ch]
-    GfxCmdBufContext context; // [esp+3Ch] [ebp-54h]
-    const GfxDrawSurfListInfo *info; // [esp+44h] [ebp-4Ch]
-    GfxDrawSurf drawSurf; // [esp+48h] [ebp-48h]
-    const GfxBackEndData *data; // [esp+50h] [ebp-40h]
-    const FxCodeMeshData *codeMesh; // [esp+58h] [ebp-38h]
-    unsigned int drawSurfIndex; // [esp+5Ch] [ebp-34h]
-    unsigned __int8 *indices; // [esp+68h] [ebp-28h]
-    unsigned int argCount; // [esp+6Ch] [ebp-24h]
-    const GfxDrawSurf *drawSurfList; // [esp+70h] [ebp-20h]
+    [[maybe_unused]] GfxDepthRangeType depthRangeType; // [esp+24h] [ebp-6Ch]
+    [[maybe_unused]] GfxCmdBufContext context; // [esp+3Ch] [ebp-54h]
+    [[maybe_unused]] const GfxDrawSurfListInfo *info; // [esp+44h] [ebp-4Ch]
+    [[maybe_unused]] GfxDrawSurf drawSurf; // [esp+48h] [ebp-48h]
+    [[maybe_unused]] const GfxBackEndData *data; // [esp+50h] [ebp-40h]
+    [[maybe_unused]] const FxCodeMeshData *codeMesh; // [esp+58h] [ebp-38h]
+    [[maybe_unused]] unsigned int drawSurfIndex; // [esp+5Ch] [ebp-34h]
+    [[maybe_unused]] unsigned __int8 *indices; // [esp+68h] [ebp-28h]
+    [[maybe_unused]] unsigned int argCount; // [esp+6Ch] [ebp-24h]
+    [[maybe_unused]] const GfxDrawSurf *drawSurfList; // [esp+70h] [ebp-20h]
     GfxDrawPrimArgs args; // [esp+74h] [ebp-1Ch] BYREF
-    unsigned __int64 drawSurfKey; // [esp+80h] [ebp-10h]
-    unsigned int drawSurfCount; // [esp+8Ch] [ebp-4h]
+    [[maybe_unused]] unsigned __int64 drawSurfKey; // [esp+80h] [ebp-10h]
+    [[maybe_unused]] unsigned int drawSurfCount; // [esp+8Ch] [ebp-4h]
 
     PROF_SCOPED("TessCodeMesh");
 
@@ -216,16 +216,16 @@ void __cdecl R_TessCodeMeshList_AddCodeMeshArgs(
     const GfxBackEndData *data,
     const FxCodeMeshData *codeMesh)
 {
-    float v3; // [esp+0h] [ebp-2Ch]
-    float v4; // [esp+4h] [ebp-28h]
-    float v5; // [esp+8h] [ebp-24h]
-    float v6; // [esp+Ch] [ebp-20h]
-    float *v7; // [esp+10h] [ebp-1Ch]
-    unsigned int argIndex; // [esp+14h] [ebp-18h]
-    unsigned int argGlobalIndex; // [esp+18h] [ebp-14h]
-    unsigned int argCount; // [esp+20h] [ebp-Ch]
-    unsigned int argOffset; // [esp+24h] [ebp-8h]
-    CodeConstant constantId; // [esp+28h] [ebp-4h]
+    [[maybe_unused]] float v3; // [esp+0h] [ebp-2Ch]
+    [[maybe_unused]] float v4; // [esp+4h] [ebp-28h]
+    [[maybe_unused]] float v5; // [esp+8h] [ebp-24h]
+    [[maybe_unused]] float v6; // [esp+Ch] [ebp-20h]
+    [[maybe_unused]] float *v7; // [esp+10h] [ebp-1Ch]
+    [[maybe_unused]] unsigned int argIndex; // [esp+14h] [ebp-18h]
+    [[maybe_unused]] unsigned int argGlobalIndex; // [esp+18h] [ebp-14h]
+    [[maybe_unused]] unsigned int argCount; // [esp+20h] [ebp-Ch]
+    [[maybe_unused]] unsigned int argOffset; // [esp+24h] [ebp-8h]
+    [[maybe_unused]] CodeConstant constantId; // [esp+28h] [ebp-4h]
 
     argOffset = codeMesh->argOffset;
     argCount = codeMesh->argCount;
@@ -265,31 +265,31 @@ void __cdecl R_TessCodeMeshList_AddCodeMeshArgs(
 
 unsigned int __cdecl R_TessMarkMeshList(const GfxDrawSurfListArgs *listArgs, GfxCmdBufContext prepassContext)
 {
-    int objId; // eax
-    int v3; // eax
-    bool v5; // [esp+10h] [ebp-B4h]
-    bool v6; // [esp+18h] [ebp-ACh]
-    bool v7; // [esp+1Ch] [ebp-A8h]
-    GfxDepthRangeType depthRangeType; // [esp+40h] [ebp-84h]
-    GfxCmdBufContext context; // [esp+58h] [ebp-6Ch]
-    const GfxDrawSurfListInfo *info; // [esp+60h] [ebp-64h]
-    GfxDrawSurf drawSurf; // [esp+64h] [ebp-60h]
-    const GfxBackEndData *data; // [esp+6Ch] [ebp-58h]
-    unsigned __int64 drawSurfSubKey; // [esp+74h] [ebp-50h]
-    GfxDrawSurf drawSurfSubMask; // [esp+7Ch] [ebp-48h]
-    MaterialTechniqueType baseTechType; // [esp+84h] [ebp-40h]
-    unsigned int drawSurfIndex; // [esp+88h] [ebp-3Ch]
-    unsigned __int8 *indices; // [esp+94h] [ebp-30h]
-    MaterialVertexDeclType declType; // [esp+98h] [ebp-2Ch]
-    const FxMarkMeshData *markMesh; // [esp+9Ch] [ebp-28h]
-    const FxMarkMeshData *markMesha; // [esp+9Ch] [ebp-28h]
-    unsigned int markType; // [esp+A0h] [ebp-24h]
-    unsigned int markTypea; // [esp+A0h] [ebp-24h]
-    unsigned int markTypeb; // [esp+A0h] [ebp-24h]
-    const GfxDrawSurf *drawSurfList; // [esp+A4h] [ebp-20h]
+    [[maybe_unused]] int objId; // eax
+    [[maybe_unused]] int v3; // eax
+    [[maybe_unused]] bool v5; // [esp+10h] [ebp-B4h]
+    [[maybe_unused]] bool v6; // [esp+18h] [ebp-ACh]
+    [[maybe_unused]] bool v7; // [esp+1Ch] [ebp-A8h]
+    [[maybe_unused]] GfxDepthRangeType depthRangeType; // [esp+40h] [ebp-84h]
+    [[maybe_unused]] GfxCmdBufContext context; // [esp+58h] [ebp-6Ch]
+    [[maybe_unused]] const GfxDrawSurfListInfo *info; // [esp+60h] [ebp-64h]
+    [[maybe_unused]] GfxDrawSurf drawSurf; // [esp+64h] [ebp-60h]
+    [[maybe_unused]] const GfxBackEndData *data; // [esp+6Ch] [ebp-58h]
+    [[maybe_unused]] unsigned __int64 drawSurfSubKey; // [esp+74h] [ebp-50h]
+    [[maybe_unused]] GfxDrawSurf drawSurfSubMask; // [esp+7Ch] [ebp-48h]
+    [[maybe_unused]] MaterialTechniqueType baseTechType; // [esp+84h] [ebp-40h]
+    [[maybe_unused]] unsigned int drawSurfIndex; // [esp+88h] [ebp-3Ch]
+    [[maybe_unused]] unsigned __int8 *indices; // [esp+94h] [ebp-30h]
+    [[maybe_unused]] MaterialVertexDeclType declType; // [esp+98h] [ebp-2Ch]
+    [[maybe_unused]] const FxMarkMeshData *markMesh; // [esp+9Ch] [ebp-28h]
+    [[maybe_unused]] const FxMarkMeshData *markMesha; // [esp+9Ch] [ebp-28h]
+    [[maybe_unused]] unsigned int markType; // [esp+A0h] [ebp-24h]
+    [[maybe_unused]] unsigned int markTypea; // [esp+A0h] [ebp-24h]
+    [[maybe_unused]] unsigned int markTypeb; // [esp+A0h] [ebp-24h]
+    [[maybe_unused]] const GfxDrawSurf *drawSurfList; // [esp+A4h] [ebp-20h]
     GfxDrawPrimArgs args; // [esp+A8h] [ebp-1Ch] BYREF
-    unsigned __int64 drawSurfKey; // [esp+B4h] [ebp-10h]
-    unsigned int drawSurfCount; // [esp+C0h] [ebp-4h]
+    [[maybe_unused]] unsigned __int64 drawSurfKey; // [esp+B4h] [ebp-10h]
+    [[maybe_unused]] unsigned int drawSurfCount; // [esp+C0h] [ebp-4h]
 
     PROF_SCOPED("TessCodeMesh");
 
@@ -443,13 +443,13 @@ unsigned int __cdecl R_TessMarkMeshList(const GfxDrawSurfListArgs *listArgs, Gfx
 unsigned int __cdecl R_TessParticleCloudList(const GfxDrawSurfListArgs *listArgs, GfxCmdBufContext prepassContext)
 {
     const char *v2; // eax
-    GfxDepthRangeType depthRangeType; // [esp+24h] [ebp-5Ch]
-    const GfxParticleCloud *cloud; // [esp+50h] [ebp-30h]
-    GfxCmdBufContext context; // [esp+54h] [ebp-2Ch]
-    const GfxDrawSurfListInfo *info; // [esp+5Ch] [ebp-24h]
-    GfxDrawSurf drawSurf; // [esp+60h] [ebp-20h]
-    const GfxBackEndData *data; // [esp+6Ch] [ebp-14h]
-    GfxCmdBufSourceState *commonSource; // [esp+70h] [ebp-10h]
+    [[maybe_unused]] GfxDepthRangeType depthRangeType; // [esp+24h] [ebp-5Ch]
+    [[maybe_unused]] const GfxParticleCloud *cloud; // [esp+50h] [ebp-30h]
+    [[maybe_unused]] GfxCmdBufContext context; // [esp+54h] [ebp-2Ch]
+    [[maybe_unused]] const GfxDrawSurfListInfo *info; // [esp+5Ch] [ebp-24h]
+    [[maybe_unused]] GfxDrawSurf drawSurf; // [esp+60h] [ebp-20h]
+    [[maybe_unused]] const GfxBackEndData *data; // [esp+6Ch] [ebp-14h]
+    [[maybe_unused]] GfxCmdBufSourceState *commonSource; // [esp+70h] [ebp-10h]
     GfxDrawPrimArgs args; // [esp+74h] [ebp-Ch] BYREF
 
     PROF_SCOPED("TessCloud");
@@ -513,7 +513,7 @@ unsigned int __cdecl R_TessParticleCloudList(const GfxDrawSurfListArgs *listArgs
 
 void __cdecl R_SetParticleCloudConstants(GfxCmdBufSourceState *source, const GfxParticleCloud *cloud)
 {
-    float v3; // [esp+34h] [ebp-60h]
+    [[maybe_unused]] float v3; // [esp+34h] [ebp-60h]
     float scaledWorldUp[3]; // [esp+40h] [ebp-54h] BYREF
     float viewUp[3]; // [esp+4Ch] [ebp-48h] BYREF
     float viewAxis[2][2]; // [esp+58h] [ebp-3Ch] BYREF
@@ -550,12 +550,12 @@ void __cdecl R_SetParticleCloudConstants(GfxCmdBufSourceState *source, const Gfx
 
 void __cdecl RB_Vec3DirWorldToView(const GfxCmdBufSourceState *source, const float *worldDir, float *viewDir)
 {
-    float v3; // [esp+8h] [ebp-4Ch]
-    float v4; // [esp+Ch] [ebp-48h]
-    float v5; // [esp+18h] [ebp-3Ch]
-    float v6; // [esp+1Ch] [ebp-38h]
-    float v7; // [esp+24h] [ebp-30h]
-    float v8; // [esp+28h] [ebp-2Ch]
+    [[maybe_unused]] float v3; // [esp+8h] [ebp-4Ch]
+    [[maybe_unused]] float v4; // [esp+Ch] [ebp-48h]
+    [[maybe_unused]] float v5; // [esp+18h] [ebp-3Ch]
+    [[maybe_unused]] float v6; // [esp+1Ch] [ebp-38h]
+    [[maybe_unused]] float v7; // [esp+24h] [ebp-30h]
+    [[maybe_unused]] float v8; // [esp+28h] [ebp-2Ch]
     float viewAxis[3][3]; // [esp+30h] [ebp-24h] BYREF
 
     if (source->viewMode != VIEW_MODE_3D)
@@ -586,7 +586,7 @@ void __cdecl RB_Vec3DirWorldToView(const GfxCmdBufSourceState *source, const flo
 
 void __cdecl RB_CreateParticleCloud2dAxis(const GfxParticleCloud *cloud, const float *viewUp, float (*viewAxis)[2][2])
 {
-    float viewAxisLength; // [esp+40h] [ebp-18h]
+    [[maybe_unused]] float viewAxisLength; // [esp+40h] [ebp-18h]
 
     iassert(cloud);
 
@@ -624,30 +624,30 @@ unsigned int __cdecl R_TessXModelSkinnedDrawSurfList(
     const GfxDrawSurfListArgs *listArgs,
     GfxCmdBufContext prepassContext)
 {
-    GfxCmdBufContext context; // [esp+5Ch] [ebp-60h]
-    unsigned int baseGfxEntIndex; // [esp+64h] [ebp-58h]
-    unsigned int baseGfxEntIndexa; // [esp+64h] [ebp-58h]
-    const GfxDrawSurfListInfo *info; // [esp+68h] [ebp-54h]
-    GfxDrawSurf drawSurf; // [esp+6Ch] [ebp-50h]
-    const GfxBackEndData *data; // [esp+74h] [ebp-48h]
-    GfxCmdBufSourceState *commonSource; // [esp+78h] [ebp-44h]
-    MaterialTechniqueType baseTechType; // [esp+7Ch] [ebp-40h]
-    int setupVertexShader; // [esp+80h] [ebp-3Ch]
-    int setupVertexShadera; // [esp+80h] [ebp-3Ch]
-    unsigned int drawSurfIndex; // [esp+84h] [ebp-38h]
-    const GfxModelSkinnedSurface *modelSurf; // [esp+98h] [ebp-24h]
-    const GfxModelSkinnedSurface *modelSurfa; // [esp+98h] [ebp-24h]
-    GfxDepthRangeType depthHackFlags; // [esp+9Ch] [ebp-20h]
-    unsigned int gfxEntIndex; // [esp+A0h] [ebp-1Ch]
-    unsigned int gfxEntIndexa; // [esp+A0h] [ebp-1Ch]
-    unsigned int gfxEntIndexb; // [esp+A0h] [ebp-1Ch]
-    float materialTime; // [esp+A4h] [ebp-18h]
-    float materialTimea; // [esp+A4h] [ebp-18h]
-    const GfxDrawSurf *drawSurfList; // [esp+A8h] [ebp-14h]
-    unsigned int drawSurfKey; // [esp+ACh] [ebp-10h]
-    unsigned int drawSurfKeya; // [esp+ACh] [ebp-10h]
-    unsigned int drawSurfKeyb; // [esp+ACh] [ebp-10h]
-    unsigned int drawSurfCount; // [esp+B8h] [ebp-4h]
+    [[maybe_unused]] GfxCmdBufContext context; // [esp+5Ch] [ebp-60h]
+    [[maybe_unused]] unsigned int baseGfxEntIndex; // [esp+64h] [ebp-58h]
+    [[maybe_unused]] unsigned int baseGfxEntIndexa; // [esp+64h] [ebp-58h]
+    [[maybe_unused]] const GfxDrawSurfListInfo *info; // [esp+68h] [ebp-54h]
+    [[maybe_unused]] GfxDrawSurf drawSurf; // [esp+6Ch] [ebp-50h]
+    [[maybe_unused]] const GfxBackEndData *data; // [esp+74h] [ebp-48h]
+    [[maybe_unused]] GfxCmdBufSourceState *commonSource; // [esp+78h] [ebp-44h]
+    [[maybe_unused]] MaterialTechniqueType baseTechType; // [esp+7Ch] [ebp-40h]
+    [[maybe_unused]] int setupVertexShader; // [esp+80h] [ebp-3Ch]
+    [[maybe_unused]] int setupVertexShadera; // [esp+80h] [ebp-3Ch]
+    [[maybe_unused]] unsigned int drawSurfIndex; // [esp+84h] [ebp-38h]
+    [[maybe_unused]] const GfxModelSkinnedSurface *modelSurf; // [esp+98h] [ebp-24h]
+    [[maybe_unused]] const GfxModelSkinnedSurface *modelSurfa; // [esp+98h] [ebp-24h]
+    [[maybe_unused]] GfxDepthRangeType depthHackFlags; // [esp+9Ch] [ebp-20h]
+    [[maybe_unused]] unsigned int gfxEntIndex; // [esp+A0h] [ebp-1Ch]
+    [[maybe_unused]] unsigned int gfxEntIndexa; // [esp+A0h] [ebp-1Ch]
+    [[maybe_unused]] unsigned int gfxEntIndexb; // [esp+A0h] [ebp-1Ch]
+    [[maybe_unused]] float materialTime; // [esp+A4h] [ebp-18h]
+    [[maybe_unused]] float materialTimea; // [esp+A4h] [ebp-18h]
+    [[maybe_unused]] const GfxDrawSurf *drawSurfList; // [esp+A8h] [ebp-14h]
+    [[maybe_unused]] unsigned int drawSurfKey; // [esp+ACh] [ebp-10h]
+    [[maybe_unused]] unsigned int drawSurfKeya; // [esp+ACh] [ebp-10h]
+    [[maybe_unused]] unsigned int drawSurfKeyb; // [esp+ACh] [ebp-10h]
+    [[maybe_unused]] unsigned int drawSurfCount; // [esp+B8h] [ebp-4h]
 
     PROF_SCOPED("TessXModSkin");
 
@@ -831,8 +831,8 @@ void __cdecl R_DrawXModelSkinnedUncached(GfxCmdBufContext context, XSurface *xsu
 {
     const char *v3; // eax
     GfxCmdBufSourceState *ActiveWorldMatrix; // eax
-    IDirect3DVertexBuffer9 *vb; // [esp+38h] [ebp-14h]
-    unsigned int vertexOffset; // [esp+3Ch] [ebp-10h]
+    [[maybe_unused]] IDirect3DVertexBuffer9 *vb; // [esp+38h] [ebp-14h]
+    [[maybe_unused]] unsigned int vertexOffset; // [esp+3Ch] [ebp-10h]
     GfxDrawPrimArgs args; // [esp+40h] [ebp-Ch] BYREF
 
     PROF_SCOPED("TessXModSkinUncached");
@@ -876,8 +876,8 @@ void __cdecl R_DrawXModelSkinnedModelSurf(GfxCmdBufContext context, const GfxMod
 void __cdecl R_DrawXModelSkinnedCached(GfxCmdBufContext context, const GfxModelSkinnedSurface *modelSurf)
 {
     GfxCmdBufSourceState *ActiveWorldMatrix; // eax
-    const GfxBackEndData *data; // [esp+48h] [ebp-18h]
-    XSurface *xsurf; // [esp+4Ch] [ebp-14h]
+    [[maybe_unused]] const GfxBackEndData *data; // [esp+48h] [ebp-18h]
+    [[maybe_unused]] XSurface *xsurf; // [esp+4Ch] [ebp-14h]
     IDirect3DIndexBuffer9 *ib; // [esp+50h] [ebp-10h] BYREF
     GfxDrawPrimArgs args; // [esp+54h] [ebp-Ch] BYREF
 
@@ -916,20 +916,20 @@ unsigned int __cdecl R_TessXModelRigidDrawSurfList(
     const GfxDrawSurfListArgs *listArgs,
     GfxCmdBufContext prepassContext)
 {
-    GfxCmdBufContext context; // [esp+40h] [ebp-44h]
-    const GfxDrawSurfListInfo *info; // [esp+48h] [ebp-3Ch]
-    GfxDrawSurf drawSurf; // [esp+4Ch] [ebp-38h]
-    const GfxBackEndData *data; // [esp+54h] [ebp-30h]
-    GfxCmdBufSourceState *commonSource; // [esp+58h] [ebp-2Ch]
-    MaterialTechniqueType baseTechType; // [esp+5Ch] [ebp-28h]
-    int setupVertexShader; // [esp+60h] [ebp-24h]
-    unsigned int drawSurfIndex; // [esp+64h] [ebp-20h]
-    const GfxModelRigidSurface *modelSurf; // [esp+6Ch] [ebp-18h]
-    GfxDepthRangeType depthHackFlags; // [esp+70h] [ebp-14h]
-    unsigned int gfxEntIndex; // [esp+74h] [ebp-10h]
-    float materialTime; // [esp+78h] [ebp-Ch]
-    const GfxDrawSurf *drawSurfList; // [esp+7Ch] [ebp-8h]
-    unsigned int drawSurfCount; // [esp+80h] [ebp-4h]
+    [[maybe_unused]] GfxCmdBufContext context; // [esp+40h] [ebp-44h]
+    [[maybe_unused]] const GfxDrawSurfListInfo *info; // [esp+48h] [ebp-3Ch]
+    [[maybe_unused]] GfxDrawSurf drawSurf; // [esp+4Ch] [ebp-38h]
+    [[maybe_unused]] const GfxBackEndData *data; // [esp+54h] [ebp-30h]
+    [[maybe_unused]] GfxCmdBufSourceState *commonSource; // [esp+58h] [ebp-2Ch]
+    [[maybe_unused]] MaterialTechniqueType baseTechType; // [esp+5Ch] [ebp-28h]
+    [[maybe_unused]] int setupVertexShader; // [esp+60h] [ebp-24h]
+    [[maybe_unused]] unsigned int drawSurfIndex; // [esp+64h] [ebp-20h]
+    [[maybe_unused]] const GfxModelRigidSurface *modelSurf; // [esp+6Ch] [ebp-18h]
+    [[maybe_unused]] GfxDepthRangeType depthHackFlags; // [esp+70h] [ebp-14h]
+    [[maybe_unused]] unsigned int gfxEntIndex; // [esp+74h] [ebp-10h]
+    [[maybe_unused]] float materialTime; // [esp+78h] [ebp-Ch]
+    [[maybe_unused]] const GfxDrawSurf *drawSurfList; // [esp+7Ch] [ebp-8h]
+    [[maybe_unused]] unsigned int drawSurfCount; // [esp+80h] [ebp-4h]
 
     PROF_SCOPED("TessXModRigid");
 
@@ -1020,12 +1020,12 @@ unsigned int __cdecl R_TessXModelRigidDrawSurfList(
 unsigned int __cdecl R_TessStaticModelCachedList(const GfxDrawSurfListArgs *listArgs, GfxCmdBufContext prepassContext)
 {
     const char *v2; // eax
-    GfxDepthRangeType depthRangeType; // [esp+1Ch] [ebp-34h]
-    GfxCmdBufContext context; // [esp+34h] [ebp-1Ch]
-    const GfxDrawSurfListInfo *info; // [esp+3Ch] [ebp-14h]
-    GfxCmdBufSourceState *commonSource; // [esp+44h] [ebp-Ch]
-    MaterialTechniqueType baseTechType; // [esp+48h] [ebp-8h]
-    const unsigned int *primDrawSurfPos; // [esp+4Ch] [ebp-4h]
+    [[maybe_unused]] GfxDepthRangeType depthRangeType; // [esp+1Ch] [ebp-34h]
+    [[maybe_unused]] GfxCmdBufContext context; // [esp+34h] [ebp-1Ch]
+    [[maybe_unused]] const GfxDrawSurfListInfo *info; // [esp+3Ch] [ebp-14h]
+    [[maybe_unused]] GfxCmdBufSourceState *commonSource; // [esp+44h] [ebp-Ch]
+    [[maybe_unused]] MaterialTechniqueType baseTechType; // [esp+48h] [ebp-8h]
+    [[maybe_unused]] const unsigned int *primDrawSurfPos; // [esp+4Ch] [ebp-4h]
 
     PROF_SCOPED("TessStaticModelCached");
 
@@ -1088,12 +1088,12 @@ void __cdecl R_DrawStaticModelPreTessSurf(const unsigned int *primDrawSurfPos, G
 unsigned int __cdecl R_TessStaticModelPreTessList(const GfxDrawSurfListArgs *listArgs, GfxCmdBufContext prepassContext)
 {
     const char *v2; // eax
-    GfxDepthRangeType depthRangeType; // [esp+1Ch] [ebp-34h]
-    GfxCmdBufContext context; // [esp+34h] [ebp-1Ch]
-    const GfxDrawSurfListInfo *info; // [esp+3Ch] [ebp-14h]
-    GfxCmdBufSourceState *commonSource; // [esp+44h] [ebp-Ch]
-    MaterialTechniqueType baseTechType; // [esp+48h] [ebp-8h]
-    const unsigned int *primDrawSurfPos; // [esp+4Ch] [ebp-4h]
+    [[maybe_unused]] GfxDepthRangeType depthRangeType; // [esp+1Ch] [ebp-34h]
+    [[maybe_unused]] GfxCmdBufContext context; // [esp+34h] [ebp-1Ch]
+    [[maybe_unused]] const GfxDrawSurfListInfo *info; // [esp+3Ch] [ebp-14h]
+    [[maybe_unused]] GfxCmdBufSourceState *commonSource; // [esp+44h] [ebp-Ch]
+    [[maybe_unused]] MaterialTechniqueType baseTechType; // [esp+48h] [ebp-8h]
+    [[maybe_unused]] const unsigned int *primDrawSurfPos; // [esp+4Ch] [ebp-4h]
 
     PROF_SCOPED("TessStaticModelCached");
 
@@ -1130,12 +1130,12 @@ unsigned int __cdecl R_TessStaticModelSkinnedDrawSurfList(
     GfxCmdBufContext prepassContext)
 {
     const char *v2; // eax
-    GfxDepthRangeType depthRangeType; // [esp+1Ch] [ebp-34h]
-    GfxCmdBufContext context; // [esp+34h] [ebp-1Ch]
-    const GfxDrawSurfListInfo *info; // [esp+3Ch] [ebp-14h]
-    GfxCmdBufSourceState *commonSource; // [esp+44h] [ebp-Ch]
-    MaterialTechniqueType baseTechType; // [esp+48h] [ebp-8h]
-    const unsigned int *primDrawSurfPos; // [esp+4Ch] [ebp-4h]
+    [[maybe_unused]] GfxDepthRangeType depthRangeType; // [esp+1Ch] [ebp-34h]
+    [[maybe_unused]] GfxCmdBufContext context; // [esp+34h] [ebp-1Ch]
+    [[maybe_unused]] const GfxDrawSurfListInfo *info; // [esp+3Ch] [ebp-14h]
+    [[maybe_unused]] GfxCmdBufSourceState *commonSource; // [esp+44h] [ebp-Ch]
+    [[maybe_unused]] MaterialTechniqueType baseTechType; // [esp+48h] [ebp-8h]
+    [[maybe_unused]] const unsigned int *primDrawSurfPos; // [esp+4Ch] [ebp-4h]
 
     PROF_SCOPED("TessXModRigid");
     context = listArgs->context;
@@ -1171,13 +1171,13 @@ unsigned int __cdecl R_TessStaticModelRigidDrawSurfList(
     GfxCmdBufContext prepassContext)
 {
     const char *v2; // eax
-    GfxDepthRangeType v4; // [esp+1Ch] [ebp-38h]
-    GfxDepthRangeType depthRangeType; // [esp+20h] [ebp-34h]
-    GfxCmdBufContext context; // [esp+38h] [ebp-1Ch]
-    const GfxDrawSurfListInfo *info; // [esp+40h] [ebp-14h]
-    GfxCmdBufSourceState *commonSource; // [esp+48h] [ebp-Ch]
-    MaterialTechniqueType baseTechType; // [esp+4Ch] [ebp-8h]
-    const unsigned int *primDrawSurfPos; // [esp+50h] [ebp-4h]
+    [[maybe_unused]] GfxDepthRangeType v4; // [esp+1Ch] [ebp-38h]
+    [[maybe_unused]] GfxDepthRangeType depthRangeType; // [esp+20h] [ebp-34h]
+    [[maybe_unused]] GfxCmdBufContext context; // [esp+38h] [ebp-1Ch]
+    [[maybe_unused]] const GfxDrawSurfListInfo *info; // [esp+40h] [ebp-14h]
+    [[maybe_unused]] GfxCmdBufSourceState *commonSource; // [esp+48h] [ebp-Ch]
+    [[maybe_unused]] MaterialTechniqueType baseTechType; // [esp+4Ch] [ebp-8h]
+    [[maybe_unused]] const unsigned int *primDrawSurfPos; // [esp+50h] [ebp-4h]
 
     PROF_SCOPED("TessStaticModel");
 
@@ -1238,25 +1238,25 @@ unsigned int __cdecl R_TessXModelRigidSkinnedDrawSurfList(
     const GfxDrawSurfListArgs *listArgs,
     GfxCmdBufContext prepassContext)
 {
-    const char *v2; // eax
-    GfxCmdBufContext context; // [esp+54h] [ebp-74h]
-    const GfxDrawSurfListInfo *info; // [esp+5Ch] [ebp-6Ch]
-    GfxDrawSurf drawSurf; // [esp+60h] [ebp-68h]
-    const GfxBackEndData *data; // [esp+6Ch] [ebp-5Ch]
-    GfxCmdBufSourceState *commonSource; // [esp+70h] [ebp-58h]
-    int setupPixelShader; // [esp+74h] [ebp-54h]
-    unsigned __int64 drawSurfSubKey; // [esp+78h] [ebp-50h]
-    GfxDrawSurf drawSurfSubMask; // [esp+80h] [ebp-48h]
-    MaterialTechniqueType baseTechType; // [esp+88h] [ebp-40h]
-    int setupVertexShader; // [esp+8Ch] [ebp-3Ch]
-    unsigned int drawSurfIndex; // [esp+90h] [ebp-38h]
-    const GfxModelRigidSurface *modelSurf; // [esp+A4h] [ebp-24h]
-    GfxDepthRangeType depthHackFlags; // [esp+A8h] [ebp-20h]
-    unsigned int gfxEntIndex; // [esp+ACh] [ebp-1Ch]
-    float materialTime; // [esp+B0h] [ebp-18h]
-    const GfxDrawSurf *drawSurfList; // [esp+B4h] [ebp-14h]
-    unsigned __int64 drawSurfKey; // [esp+B8h] [ebp-10h]
-    unsigned int drawSurfCount; // [esp+C4h] [ebp-4h]
+    [[maybe_unused]] const char *v2; // eax
+    [[maybe_unused]] GfxCmdBufContext context; // [esp+54h] [ebp-74h]
+    [[maybe_unused]] const GfxDrawSurfListInfo *info; // [esp+5Ch] [ebp-6Ch]
+    [[maybe_unused]] GfxDrawSurf drawSurf; // [esp+60h] [ebp-68h]
+    [[maybe_unused]] const GfxBackEndData *data; // [esp+6Ch] [ebp-5Ch]
+    [[maybe_unused]] GfxCmdBufSourceState *commonSource; // [esp+70h] [ebp-58h]
+    [[maybe_unused]] int setupPixelShader; // [esp+74h] [ebp-54h]
+    [[maybe_unused]] unsigned __int64 drawSurfSubKey; // [esp+78h] [ebp-50h]
+    [[maybe_unused]] GfxDrawSurf drawSurfSubMask; // [esp+80h] [ebp-48h]
+    [[maybe_unused]] MaterialTechniqueType baseTechType; // [esp+88h] [ebp-40h]
+    [[maybe_unused]] int setupVertexShader; // [esp+8Ch] [ebp-3Ch]
+    [[maybe_unused]] unsigned int drawSurfIndex; // [esp+90h] [ebp-38h]
+    [[maybe_unused]] const GfxModelRigidSurface *modelSurf; // [esp+A4h] [ebp-24h]
+    [[maybe_unused]] GfxDepthRangeType depthHackFlags; // [esp+A8h] [ebp-20h]
+    [[maybe_unused]] unsigned int gfxEntIndex; // [esp+ACh] [ebp-1Ch]
+    [[maybe_unused]] float materialTime; // [esp+B0h] [ebp-18h]
+    [[maybe_unused]] const GfxDrawSurf *drawSurfList; // [esp+B4h] [ebp-14h]
+    [[maybe_unused]] unsigned __int64 drawSurfKey; // [esp+B8h] [ebp-10h]
+    [[maybe_unused]] unsigned int drawSurfCount; // [esp+C4h] [ebp-4h]
 
     PROF_SCOPED("TessXModRigid");
 
@@ -1352,14 +1352,14 @@ unsigned int __cdecl R_TessXModelRigidSkinnedDrawSurfList(
 
 unsigned int __cdecl R_TessTrianglesPreTessList(const GfxDrawSurfListArgs *listArgs, GfxCmdBufContext prepassContext)
 {
-    IDirect3DIndexBuffer9 *ib; // [esp+1Ch] [ebp-44h]
-    GfxDepthRangeType depthRangeType; // [esp+2Ch] [ebp-34h]
-    GfxCmdBufContext context; // [esp+44h] [ebp-1Ch]
-    const GfxDrawSurfListInfo *info; // [esp+4Ch] [ebp-14h]
-    const GfxBackEndData *data; // [esp+50h] [ebp-10h]
-    GfxCmdBufSourceState *commonSource; // [esp+54h] [ebp-Ch]
-    MaterialTechniqueType baseTechType; // [esp+58h] [ebp-8h]
-    const unsigned int *primDrawSurfPos; // [esp+5Ch] [ebp-4h]
+    [[maybe_unused]] IDirect3DIndexBuffer9 *ib; // [esp+1Ch] [ebp-44h]
+    [[maybe_unused]] GfxDepthRangeType depthRangeType; // [esp+2Ch] [ebp-34h]
+    [[maybe_unused]] GfxCmdBufContext context; // [esp+44h] [ebp-1Ch]
+    [[maybe_unused]] const GfxDrawSurfListInfo *info; // [esp+4Ch] [ebp-14h]
+    [[maybe_unused]] const GfxBackEndData *data; // [esp+50h] [ebp-10h]
+    [[maybe_unused]] GfxCmdBufSourceState *commonSource; // [esp+54h] [ebp-Ch]
+    [[maybe_unused]] MaterialTechniqueType baseTechType; // [esp+58h] [ebp-8h]
+    [[maybe_unused]] const unsigned int *primDrawSurfPos; // [esp+5Ch] [ebp-4h]
 
     PROF_SCOPED("TessTriangles");
 
@@ -1392,13 +1392,13 @@ unsigned int __cdecl R_TessTrianglesPreTessList(const GfxDrawSurfListArgs *listA
 
 unsigned int __cdecl R_TessTrianglesList(const GfxDrawSurfListArgs *listArgs, GfxCmdBufContext prepassContext)
 {
-    GfxDepthRangeType v3; // [esp+20h] [ebp-38h]
-    GfxDepthRangeType depthRangeType; // [esp+24h] [ebp-34h]
-    GfxCmdBufContext context; // [esp+3Ch] [ebp-1Ch]
-    const GfxDrawSurfListInfo *info; // [esp+44h] [ebp-14h]
-    GfxCmdBufSourceState *commonSource; // [esp+4Ch] [ebp-Ch]
-    MaterialTechniqueType baseTechType; // [esp+50h] [ebp-8h]
-    const unsigned int *primDrawSurfPos; // [esp+54h] [ebp-4h]
+    [[maybe_unused]] GfxDepthRangeType v3; // [esp+20h] [ebp-38h]
+    [[maybe_unused]] GfxDepthRangeType depthRangeType; // [esp+24h] [ebp-34h]
+    [[maybe_unused]] GfxCmdBufContext context; // [esp+3Ch] [ebp-1Ch]
+    [[maybe_unused]] const GfxDrawSurfListInfo *info; // [esp+44h] [ebp-14h]
+    [[maybe_unused]] GfxCmdBufSourceState *commonSource; // [esp+4Ch] [ebp-Ch]
+    [[maybe_unused]] MaterialTechniqueType baseTechType; // [esp+50h] [ebp-8h]
+    [[maybe_unused]] const unsigned int *primDrawSurfPos; // [esp+54h] [ebp-4h]
 
     PROF_SCOPED("TessTriangles");
 
@@ -1465,23 +1465,23 @@ void __cdecl R_SetVertexDeclTypeWorld(GfxCmdBufState *state)
 
 unsigned int __cdecl R_TessBModel(const GfxDrawSurfListArgs *listArgs, GfxCmdBufContext prepassContext)
 {
-    GfxDepthRangeType v3; // [esp+34h] [ebp-88h]
-    GfxDepthRangeType depthRangeType; // [esp+38h] [ebp-84h]
-    GfxCmdBufContext context; // [esp+50h] [ebp-6Ch]
-    const GfxDrawSurfListInfo *info; // [esp+58h] [ebp-64h]
-    GfxDrawSurf drawSurf; // [esp+5Ch] [ebp-60h]
-    const GfxBackEndData *data; // [esp+68h] [ebp-54h]
-    GfxCmdBufSourceState *commonSource; // [esp+6Ch] [ebp-50h]
-    const srfTriangles_t *tris; // [esp+70h] [ebp-4Ch]
-    unsigned __int64 drawSurfSubKey; // [esp+74h] [ebp-48h]
-    GfxDrawSurf drawSurfSubMask; // [esp+7Ch] [ebp-40h]
-    MaterialTechniqueType baseTechType; // [esp+84h] [ebp-38h]
-    unsigned int drawSurfIndex; // [esp+88h] [ebp-34h]
-    const BModelSurface *bmodelSurf; // [esp+98h] [ebp-24h]
-    const GfxDrawSurf *drawSurfList; // [esp+9Ch] [ebp-20h]
+    [[maybe_unused]] GfxDepthRangeType v3; // [esp+34h] [ebp-88h]
+    [[maybe_unused]] GfxDepthRangeType depthRangeType; // [esp+38h] [ebp-84h]
+    [[maybe_unused]] GfxCmdBufContext context; // [esp+50h] [ebp-6Ch]
+    [[maybe_unused]] const GfxDrawSurfListInfo *info; // [esp+58h] [ebp-64h]
+    [[maybe_unused]] GfxDrawSurf drawSurf; // [esp+5Ch] [ebp-60h]
+    [[maybe_unused]] const GfxBackEndData *data; // [esp+68h] [ebp-54h]
+    [[maybe_unused]] GfxCmdBufSourceState *commonSource; // [esp+6Ch] [ebp-50h]
+    [[maybe_unused]] const srfTriangles_t *tris; // [esp+70h] [ebp-4Ch]
+    [[maybe_unused]] unsigned __int64 drawSurfSubKey; // [esp+74h] [ebp-48h]
+    [[maybe_unused]] GfxDrawSurf drawSurfSubMask; // [esp+7Ch] [ebp-40h]
+    [[maybe_unused]] MaterialTechniqueType baseTechType; // [esp+84h] [ebp-38h]
+    [[maybe_unused]] unsigned int drawSurfIndex; // [esp+88h] [ebp-34h]
+    [[maybe_unused]] const BModelSurface *bmodelSurf; // [esp+98h] [ebp-24h]
+    [[maybe_unused]] const GfxDrawSurf *drawSurfList; // [esp+9Ch] [ebp-20h]
     GfxDrawPrimArgs args; // [esp+A0h] [ebp-1Ch] BYREF
-    unsigned __int64 drawSurfKey; // [esp+ACh] [ebp-10h]
-    unsigned int drawSurfCount; // [esp+B8h] [ebp-4h]
+    [[maybe_unused]] unsigned __int64 drawSurfKey; // [esp+ACh] [ebp-10h]
+    [[maybe_unused]] unsigned int drawSurfCount; // [esp+B8h] [ebp-4h]
 
     PROF_SCOPED("TessBModel");
 
