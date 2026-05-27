@@ -30,7 +30,7 @@ void __cdecl FX_SpawnlAlFutureLooping(
     int32_t msecWhenPlayed,
     int32_t msecUpdateBegin)
 {
-    int32_t elemDefIndex; // [esp+64h] [ebp-4h]
+    [[maybe_unused]] int32_t elemDefIndex; // [esp+64h] [ebp-4h]
 
     if (!effect)
         MyAssertHandler(".\\EffectsCore\\fx_update.cpp", 465, 0, "%s", "effect");
@@ -62,18 +62,18 @@ void __cdecl FX_SpawnTrailLoopingElems(
     float distanceTravelledBegin,
     float distanceTravelledEnd)
 {
-    float v10; // [esp+1Ch] [ebp-50h]
-    float v11; // [esp+20h] [ebp-4Ch]
-    float v12; // [esp+24h] [ebp-48h]
-    float lerp; // [esp+2Ch] [ebp-40h]
+    [[maybe_unused]] float v10; // [esp+1Ch] [ebp-50h]
+    [[maybe_unused]] float v11; // [esp+20h] [ebp-4Ch]
+    [[maybe_unused]] float v12; // [esp+24h] [ebp-48h]
+    [[maybe_unused]] float lerp; // [esp+2Ch] [ebp-40h]
     FxSpatialFrame frameWhenPlayed; // [esp+34h] [ebp-38h] BYREF
-    float distSpawn; // [esp+50h] [ebp-1Ch]
-    float normalizedTotalDistance; // [esp+54h] [ebp-18h]
-    const FxEffectDef* effectDef; // [esp+58h] [ebp-14h]
-    const FxElemDef* elemDef; // [esp+5Ch] [ebp-10h]
-    float normalizedDistanceTraversed; // [esp+60h] [ebp-Ch]
-    float normalizedDistanceRemaining; // [esp+64h] [ebp-8h]
-    float normalizedDistanceBeforeSpawn; // [esp+68h] [ebp-4h]
+    [[maybe_unused]] float distSpawn; // [esp+50h] [ebp-1Ch]
+    [[maybe_unused]] float normalizedTotalDistance; // [esp+54h] [ebp-18h]
+    [[maybe_unused]] const FxEffectDef* effectDef; // [esp+58h] [ebp-14h]
+    [[maybe_unused]] const FxElemDef* elemDef; // [esp+5Ch] [ebp-10h]
+    [[maybe_unused]] float normalizedDistanceTraversed; // [esp+60h] [ebp-Ch]
+    [[maybe_unused]] float normalizedDistanceRemaining; // [esp+64h] [ebp-8h]
+    [[maybe_unused]] float normalizedDistanceBeforeSpawn; // [esp+68h] [ebp-4h]
 
     if (!effect)
         MyAssertHandler(".\\EffectsCore\\fx_update.cpp", 101, 0, "%s", "effect");
@@ -112,7 +112,7 @@ void __cdecl FX_SpawnTrailLoopingElems(
             msecUpdateBegin,
             msecWhenPlayed,
             msecUpdateEnd);
-    elemDef = &effect->def->elemDefs[trail->defIndex];
+    elemDef = &effect->def->elemDefs[(unsigned int)(unsigned char)trail->defIndex];
     if (elemDef->elemType != 3)
         MyAssertHandler(
             ".\\EffectsCore\\fx_update.cpp",
@@ -160,14 +160,14 @@ void __cdecl FX_SpawnLoopingElems(
     long double msecUpdateBegin,
     long double msecUpdateEnd)
 {
-    const FxEffectDef *effectDef; // [esp+40h] [ebp-3Ch]
-    const FxElemDef *elemDef; // [esp+44h] [ebp-38h]
-    int32_t msecNextSpawn; // [esp+48h] [ebp-34h]
-    float lerp; // [esp+4Ch] [ebp-30h]
-    int32_t spawnedCount; // [esp+54h] [ebp-28h]
+    [[maybe_unused]] const FxEffectDef *effectDef; // [esp+40h] [ebp-3Ch]
+    [[maybe_unused]] const FxElemDef *elemDef; // [esp+44h] [ebp-38h]
+    [[maybe_unused]] int32_t msecNextSpawn; // [esp+48h] [ebp-34h]
+    [[maybe_unused]] float lerp; // [esp+4Ch] [ebp-30h]
+    [[maybe_unused]] int32_t spawnedCount; // [esp+54h] [ebp-28h]
     FxSpatialFrame frameWhenPlayed; // [esp+58h] [ebp-24h] BYREF
-    int32_t maxUpdateMsec; // [esp+74h] [ebp-8h]
-    int32_t updateMsec; // [esp+78h] [ebp-4h]
+    [[maybe_unused]] int32_t maxUpdateMsec; // [esp+74h] [ebp-8h]
+    [[maybe_unused]] int32_t updateMsec; // [esp+78h] [ebp-4h]
 
     if (!effect)
         MyAssertHandler(".\\EffectsCore\\fx_update.cpp", 350, 0, "%s", "effect");
@@ -246,9 +246,9 @@ void __cdecl FX_SpawnAllFutureLooping(
     long double msecUpdateBegin,
     long double msecUpdateEnd)
 {
-    long double v9; // [esp-4h] [ebp-6Ch]
-    long double v10; // [esp+4h] [ebp-64h]
-    int32_t elemDefIndex; // [esp+64h] [ebp-4h]
+    [[maybe_unused]] long double v9; // [esp-4h] [ebp-6Ch]
+    [[maybe_unused]] long double v10; // [esp+4h] [ebp-64h]
+    [[maybe_unused]] int32_t elemDefIndex; // [esp+64h] [ebp-4h]
 
     if (!effect)
         MyAssertHandler(".\\EffectsCore\\fx_update.cpp", 465, 0, "%s", "effect");
@@ -269,19 +269,19 @@ int32_t __cdecl FX_LimitStabilizeTimeForElemDef_Recurse(
     bool needToSpawnSystem,
     int32_t originalUpdateTime)
 {
-    int32_t v5; // [esp+4h] [ebp-40h]
-    int32_t v6; // [esp+8h] [ebp-3Ch]
-    int32_t v7; // [esp+Ch] [ebp-38h]
-    int32_t v8; // [esp+10h] [ebp-34h]
-    int32_t v9; // [esp+14h] [ebp-30h]
-    int32_t v10; // [esp+18h] [ebp-2Ch]
-    int32_t v11; // [esp+1Ch] [ebp-28h]
-    int32_t v12; // [esp+20h] [ebp-24h]
-    int32_t v13; // [esp+24h] [ebp-20h]
-    int32_t selfStabilizeTime; // [esp+30h] [ebp-14h]
-    FxElemVisuals *visArray; // [esp+34h] [ebp-10h]
-    int32_t maxStabilizeTime; // [esp+38h] [ebp-Ch]
-    int32_t visIndex; // [esp+40h] [ebp-4h]
+    [[maybe_unused]] int32_t v5; // [esp+4h] [ebp-40h]
+    [[maybe_unused]] int32_t v6; // [esp+8h] [ebp-3Ch]
+    [[maybe_unused]] int32_t v7; // [esp+Ch] [ebp-38h]
+    [[maybe_unused]] int32_t v8; // [esp+10h] [ebp-34h]
+    [[maybe_unused]] int32_t v9; // [esp+14h] [ebp-30h]
+    [[maybe_unused]] int32_t v10; // [esp+18h] [ebp-2Ch]
+    [[maybe_unused]] int32_t v11; // [esp+1Ch] [ebp-28h]
+    [[maybe_unused]] int32_t v12; // [esp+20h] [ebp-24h]
+    [[maybe_unused]] int32_t v13; // [esp+24h] [ebp-20h]
+    [[maybe_unused]] int32_t selfStabilizeTime; // [esp+30h] [ebp-14h]
+    [[maybe_unused]] FxElemVisuals *visArray; // [esp+34h] [ebp-10h]
+    [[maybe_unused]] int32_t maxStabilizeTime; // [esp+38h] [ebp-Ch]
+    [[maybe_unused]] int32_t visIndex; // [esp+40h] [ebp-4h]
 
     if (!elemDef)
         MyAssertHandler(".\\EffectsCore\\fx_update.cpp", 243, 0, "%s", "elemDef");
@@ -350,7 +350,7 @@ int32_t __cdecl FX_LimitStabilizeTimeForElemDef_Recurse(
 
 int32_t __cdecl FX_LimitStabilizeTimeForElemDef_SelfOnly(const FxElemDef *elemDef, bool needToSpawnSystem)
 {
-    int32_t result; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int32_t result; // [esp+4h] [ebp-4h]
 
     if (elemDef->elemType == 3)
         return 0x7FFFFFFF;
@@ -369,11 +369,11 @@ int32_t __cdecl FX_LimitStabilizeTimeForElemDef_SelfOnly(const FxElemDef *elemDe
 
 int32_t __cdecl FX_LimitStabilizeTimeForEffectDef_Recurse(const FxEffectDef *remoteEffectDef, int32_t originalUpdateTime)
 {
-    int32_t v3; // [esp+0h] [ebp-1Ch]
-    int32_t v4; // [esp+4h] [ebp-18h]
-    int32_t elemIter; // [esp+10h] [ebp-Ch]
-    int32_t maxStabilizeTime; // [esp+14h] [ebp-8h]
-    int32_t elemCount; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] int32_t v3; // [esp+0h] [ebp-1Ch]
+    [[maybe_unused]] int32_t v4; // [esp+4h] [ebp-18h]
+    [[maybe_unused]] int32_t elemIter; // [esp+10h] [ebp-Ch]
+    [[maybe_unused]] int32_t maxStabilizeTime; // [esp+14h] [ebp-8h]
+    [[maybe_unused]] int32_t elemCount; // [esp+18h] [ebp-4h]
 
     if (!remoteEffectDef)
     {
@@ -408,12 +408,12 @@ void __cdecl FX_BeginLooping(
     int32_t msecWhenPlayed,
     int32_t msecNow)
 {
-    const FxElemDef* elemDef; // [esp+5Ch] [ebp-18h]
-    uint16_t trailHandle; // [esp+60h] [ebp-14h]
+    [[maybe_unused]] const FxElemDef* elemDef; // [esp+5Ch] [ebp-18h]
+    [[maybe_unused]] uint16_t trailHandle; // [esp+60h] [ebp-14h]
     FxPool<FxTrail>* trail; // [esp+64h] [ebp-10h]
-    int32_t elemDefStop; // [esp+6Ch] [ebp-8h]
-    int32_t elemDefIndex; // [esp+70h] [ebp-4h]
-    int32_t elemDefIndexa; // [esp+70h] [ebp-4h]
+    [[maybe_unused]] int32_t elemDefStop; // [esp+6Ch] [ebp-8h]
+    [[maybe_unused]] int32_t elemDefIndex; // [esp+70h] [ebp-4h]
+    [[maybe_unused]] int32_t elemDefIndexa; // [esp+70h] [ebp-4h]
 
     if (!effect)
         MyAssertHandler(".\\EffectsCore\\fx_update.cpp", 492, 0, "%s", "effect");
@@ -474,8 +474,8 @@ void __cdecl FX_TriggerOneShot(
     const FxSpatialFrame *frameWhenPlayed,
     int32_t msecWhenPlayed)
 {
-    const FxEffectDef *effectDef; // [esp+14h] [ebp-Ch]
-    int32_t elemDefIndex; // [esp+1Ch] [ebp-4h]
+    [[maybe_unused]] const FxEffectDef *effectDef; // [esp+14h] [ebp-Ch]
+    [[maybe_unused]] int32_t elemDefIndex; // [esp+1Ch] [ebp-4h]
 
     iassert(effect);
     effectDef = effect->def;
@@ -509,9 +509,9 @@ void __cdecl FX_SpawnOneShotElems(
     const FxSpatialFrame* frameWhenPlayed,
     int32_t msecWhenPlayed)
 {
-    const FxElemDef* elemDef; // [esp+10h] [ebp-Ch]
-    int32_t spawnCount; // [esp+14h] [ebp-8h]
-    int32_t spawnIndex; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] const FxElemDef* elemDef; // [esp+10h] [ebp-Ch]
+    [[maybe_unused]] int32_t spawnCount; // [esp+14h] [ebp-8h]
+    [[maybe_unused]] int32_t spawnIndex; // [esp+18h] [ebp-4h]
 
     iassert(effect);
 
@@ -532,7 +532,7 @@ void __cdecl FX_SpawnOneShotElems(
 
 void __cdecl FX_StartNewEffect(FxSystem* system, FxEffect* effect)
 {
-    const FxEffectDef* def; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] const FxEffectDef* def; // [esp+0h] [ebp-4h]
 
     def = effect->def;
     iassert(def);
@@ -562,8 +562,8 @@ bool __cdecl FX_GetBoltTemporalBits(int32_t localClientNum, int32_t dobjHandle)
 
 char __cdecl FX_GetBoneOrientation(int32_t localClientNum, uint32_t dobjHandle, int32_t boneIndex, orientation_t *orient)
 {
-    DObj_s *obj; // [esp+60h] [ebp-8h]
-    centity_s *pose; // [esp+64h] [ebp-4h]
+    [[maybe_unused]] DObj_s *obj; // [esp+60h] [ebp-8h]
+    [[maybe_unused]] centity_s *pose; // [esp+64h] [ebp-4h]
 
     if (dobjHandle >= 0x480)
         MyAssertHandler(
@@ -717,17 +717,17 @@ void __cdecl FX_UpdateEffectPartial(
     uint16_t* trailElemStop)
 {
     int32_t v10; // edx
-    double v11; // [esp+4h] [ebp-3Ch]
-    uint32_t v12; // [esp+14h] [ebp-2Ch]
-    uint16_t v13; // [esp+14h] [ebp-2Ch]
-    uint16_t v14; // [esp+18h] [ebp-28h]
-    const FxEffectDef* def; // [esp+1Ch] [ebp-24h]
-    uint16_t trailHandle; // [esp+24h] [ebp-1Ch]
+    [[maybe_unused]] double v11; // [esp+4h] [ebp-3Ch]
+    [[maybe_unused]] uint32_t v12; // [esp+14h] [ebp-2Ch]
+    [[maybe_unused]] uint16_t v13; // [esp+14h] [ebp-2Ch]
+    [[maybe_unused]] uint16_t v14; // [esp+18h] [ebp-28h]
+    [[maybe_unused]] const FxEffectDef* def; // [esp+1Ch] [ebp-24h]
+    [[maybe_unused]] uint16_t trailHandle; // [esp+24h] [ebp-1Ch]
     FxTrail trail; // [esp+28h] [ebp-18h] BYREF
-    uint32_t trailIter; // [esp+30h] [ebp-10h]
-    FxTrail* remoteTrail; // [esp+34h] [ebp-Ch]
-    uint16_t startHandle; // [esp+38h] [ebp-8h]
-    uint32_t elemClass; // [esp+3Ch] [ebp-4h]
+    [[maybe_unused]] uint32_t trailIter; // [esp+30h] [ebp-10h]
+    [[maybe_unused]] FxTrail* remoteTrail; // [esp+34h] [ebp-Ch]
+    [[maybe_unused]] uint16_t startHandle; // [esp+38h] [ebp-8h]
+    [[maybe_unused]] uint32_t elemClass; // [esp+3Ch] [ebp-4h]
 
     if (effect->msecLastUpdate > msecUpdateEnd)
         MyAssertHandler(
@@ -814,11 +814,11 @@ void __cdecl FX_ProcessLooping(
     float distanceTravelledBegin,
     float distanceTravelledEnd)
 {
-    uint16_t trailHandle; // [esp+60h] [ebp-14h]
+    [[maybe_unused]] uint16_t trailHandle; // [esp+60h] [ebp-14h]
     FxPool<FxTrail>* trail; // [esp+64h] [ebp-10h]
-    int32_t elemDefEnd; // [esp+6Ch] [ebp-8h]
-    int32_t elemDefIndex; // [esp+70h] [ebp-4h]
-    int32_t elemDefIndexa; // [esp+70h] [ebp-4h]
+    [[maybe_unused]] int32_t elemDefEnd; // [esp+6Ch] [ebp-8h]
+    [[maybe_unused]] int32_t elemDefIndex; // [esp+70h] [ebp-4h]
+    [[maybe_unused]] int32_t elemDefIndexa; // [esp+70h] [ebp-4h]
 
     if (!effect)
         MyAssertHandler(".\\EffectsCore\\fx_update.cpp", 434, 0, "%s", "effect");
@@ -866,15 +866,15 @@ void __cdecl FX_UpdateEffectPartialForClass(
     uint16_t elemHandleStop,
     uint32_t elemClass)
 {
-    int32_t v7; // [esp+Ch] [ebp-28h]
-    int32_t lifeSpan; // [esp+14h] [ebp-20h]
-    uint16_t elemHandle; // [esp+1Ch] [ebp-18h]
-    FxUpdateResult updateResult; // [esp+20h] [ebp-14h]
-    uint16_t elemHandleNext; // [esp+24h] [ebp-10h]
+    [[maybe_unused]] int32_t v7; // [esp+Ch] [ebp-28h]
+    [[maybe_unused]] int32_t lifeSpan; // [esp+14h] [ebp-20h]
+    [[maybe_unused]] uint16_t elemHandle; // [esp+1Ch] [ebp-18h]
+    [[maybe_unused]] FxUpdateResult updateResult; // [esp+20h] [ebp-14h]
+    [[maybe_unused]] uint16_t elemHandleNext; // [esp+24h] [ebp-10h]
     FxPool<FxElem>* elem; // [esp+28h] [ebp-Ch]
     FxPool<FxElem>* elema; // [esp+28h] [ebp-Ch]
-    uint32_t passCount; // [esp+2Ch] [ebp-8h]
-    uint16_t elemHandleFirstExisting; // [esp+30h] [ebp-4h]
+    [[maybe_unused]] uint32_t passCount; // [esp+2Ch] [ebp-8h]
+    [[maybe_unused]] uint16_t elemHandleFirstExisting; // [esp+30h] [ebp-4h]
 
     int32_t unk1;
     int32_t unk2;
@@ -920,9 +920,9 @@ void __cdecl FX_UpdateEffectPartialForClass(
                     elem = FX_PoolFromHandle_Generic<FxElem, 2048>(system->elems, elemHandle);
                     unk1 = (elem->item.msecBegin + effect->randomSeed + 296 * (uint32_t)elem->item.sequence)
                         % 0x1DF;
-                    unk2 = (int)&effect->def->elemDefs[elem->item.defIndex].lifeSpanMsec;
-                    lifeSpan = *(_DWORD*)unk2
-                        + (((*(_DWORD*)(unk2 + 4) + 1) * LOWORD(fx_randomTable[unk1 + 17])) >> 16);
+                    unk2 = (int)(uintptr_t)&effect->def->elemDefs[(unsigned int)(unsigned char)elem->item.defIndex].lifeSpanMsec;
+                    lifeSpan = *(_DWORD*)(uintptr_t)unk2
+                        + (((*(_DWORD*)(uintptr_t)(unk2 + 4) + 1) * LOWORD(fx_randomTable[unk1 + 17])) >> 16);
                     Com_Printf(
                         0,
                         "  elem %i def %i seq %i spawn %i die %i\n",
@@ -961,14 +961,14 @@ FxUpdateResult __cdecl FX_UpdateElement(
     int32_t msecUpdateBegin,
     int32_t msecUpdateEnd)
 {
-    float msec; // [esp+0h] [ebp-140h]
-    bool v7; // [esp+10h] [ebp-130h]
-    int32_t physObjId; // [esp+8Ch] [ebp-B4h]
+    [[maybe_unused]] float msec; // [esp+0h] [ebp-140h]
+    [[maybe_unused]] bool v7; // [esp+10h] [ebp-130h]
+    [[maybe_unused]] int32_t physObjId; // [esp+8Ch] [ebp-B4h]
     FxUpdateElem update; // [esp+A8h] [ebp-98h] BYREF
-    const FxElemDef *elemDef; // [esp+128h] [ebp-18h]
+    [[maybe_unused]] const FxElemDef *elemDef; // [esp+128h] [ebp-18h]
     FxUpdateResult updateResult; // [esp+12Ch] [ebp-14h] BYREF
     float elemOriginPrev[3]; // [esp+130h] [ebp-10h] BYREF
-    bool goToRest; // [esp+13Fh] [ebp-1h]
+    [[maybe_unused]] bool goToRest; // [esp+13Fh] [ebp-1h]
 
     if (!elem)
         MyAssertHandler(".\\EffectsCore\\fx_update.cpp", 1266, 0, "%s", "elem");
@@ -1041,8 +1041,8 @@ const FxElemDef *__cdecl FX_GetUpdateElemDef(const FxUpdateElem *update)
 
 double __cdecl FX_GetAtRestFraction(const FxUpdateElem *update, float msec)
 {
-    float v4; // [esp+Ch] [ebp-8h]
-    float v5; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] float v4; // [esp+Ch] [ebp-8h]
+    [[maybe_unused]] float v5; // [esp+10h] [ebp-4h]
 
     v4 = msec - (double)update->msecElemBegin;
     v5 = v4 * 255.0 / update->msecLifeSpan - 0.25;
@@ -1051,7 +1051,7 @@ double __cdecl FX_GetAtRestFraction(const FxUpdateElem *update, float msec)
 
 int32_t __cdecl FX_UpdateElementPosition(FxSystem* system, FxUpdateElem* update)
 {
-    const FxElemDef* elemDef; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] const FxElemDef* elemDef; // [esp+4h] [ebp-4h]
 
     elemDef = FX_GetUpdateElemDef(update);
     if (elemDef->elemType == 5 && (elemDef->flags & 0x8000000) != 0)
@@ -1065,9 +1065,9 @@ int32_t __cdecl FX_UpdateElementPosition(FxSystem* system, FxUpdateElem* update)
 
 int32_t __cdecl FX_UpdateElementPosition_Colliding(FxSystem* system, FxUpdateElem* update)
 {
-    int32_t msecUpdateBegin; // [esp+0h] [ebp-14h]
+    [[maybe_unused]] int32_t msecUpdateBegin; // [esp+0h] [ebp-14h]
     float xyzWorldOld[3]; // [esp+4h] [ebp-10h] BYREF
-    int32_t msecUpdatePartial; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] int32_t msecUpdatePartial; // [esp+10h] [ebp-4h]
 
     if (update->atRestFraction == 255)
     {
@@ -1095,8 +1095,8 @@ int32_t __cdecl FX_UpdateElementPosition_CollidingStep(
         int32_t msecUpdateEnd,
         float *xyzWorldOld)
 {
-  const FxElemDef *elemDef; // [esp+34h] [ebp-34h]
-  int32_t traceMask; // [esp+38h] [ebp-30h]
+  [[maybe_unused]] const FxElemDef *elemDef; // [esp+34h] [ebp-34h]
+  [[maybe_unused]] int32_t traceMask; // [esp+38h] [ebp-30h]
   trace_t trace; // [esp+3Ch] [ebp-2Ch] BYREF
 
   traceMask = 2065;
@@ -1131,12 +1131,12 @@ int32_t __cdecl FX_UpdateElementPosition_CollidingStep(
 void __cdecl FX_NextElementPosition(FxUpdateElem* update, int32_t msecUpdateBegin, int32_t msecUpdateEnd)
 {
     const char* v3; // eax
-    float* elemOrigin; // [esp+18h] [ebp-20h]
-    float gravityScale; // [esp+1Ch] [ebp-1Ch]
-    float secDuration; // [esp+20h] [ebp-18h]
-    const FxElemDef* elemDef; // [esp+24h] [ebp-14h]
+    [[maybe_unused]] float* elemOrigin; // [esp+18h] [ebp-20h]
+    [[maybe_unused]] float gravityScale; // [esp+1Ch] [ebp-1Ch]
+    [[maybe_unused]] float secDuration; // [esp+20h] [ebp-18h]
+    [[maybe_unused]] const FxElemDef* elemDef; // [esp+24h] [ebp-14h]
     float posLocal[3]; // [esp+28h] [ebp-10h] BYREF
-    float deltaVelFromGravity; // [esp+34h] [ebp-4h]
+    [[maybe_unused]] float deltaVelFromGravity; // [esp+34h] [ebp-4h]
 
     if (msecUpdateEnd - msecUpdateBegin <= 0)
     {
@@ -1165,9 +1165,9 @@ void __cdecl FX_NextElementPosition_NoExternalForces(
     float* posWorld)
 {
     const char* v5; // eax
-    double v6; // [esp+10h] [ebp-10h]
-    float normUpdateEnd; // [esp+18h] [ebp-8h]
-    float normUpdateBegin; // [esp+1Ch] [ebp-4h]
+    [[maybe_unused]] double v6; // [esp+10h] [ebp-10h]
+    [[maybe_unused]] float normUpdateEnd; // [esp+18h] [ebp-8h]
+    [[maybe_unused]] float normUpdateBegin; // [esp+1Ch] [ebp-4h]
 
     if (msecUpdateEnd - msecUpdateBegin <= 0)
     {
@@ -1183,24 +1183,24 @@ void __cdecl FX_NextElementPosition_NoExternalForces(
 
 void __cdecl FX_IntegrateVelocity(const FxUpdateElem *update, float t0, float t1, float *posLocal, float *posWorld)
 {
-    const char *v5; // eax
-    const char *v6; // eax
-    char *v7; // eax
-    char *v8; // eax
-    double v9; // [esp+18h] [ebp-80h]
-    int32_t v10; // [esp+20h] [ebp-78h]
-    int32_t v11; // [esp+24h] [ebp-74h]
-    float integralScale; // [esp+64h] [ebp-34h]
-    float startPoint; // [esp+68h] [ebp-30h]
-    float endPoint; // [esp+6Ch] [ebp-2Ch]
-    const FxElemDef *elemDef; // [esp+70h] [ebp-28h]
-    float startLerp; // [esp+74h] [ebp-24h]
-    int32_t startIndex; // [esp+78h] [ebp-20h]
-    const FxElemVelStateSample *samples; // [esp+7Ch] [ebp-1Ch]
-    int32_t intervalCount; // [esp+80h] [ebp-18h]
-    int32_t endIndex; // [esp+84h] [ebp-14h]
+    [[maybe_unused]] const char *v5; // eax
+    [[maybe_unused]] const char *v6; // eax
+    [[maybe_unused]] char *v7; // eax
+    [[maybe_unused]] char *v8; // eax
+    [[maybe_unused]] double v9; // [esp+18h] [ebp-80h]
+    [[maybe_unused]] int32_t v10; // [esp+20h] [ebp-78h]
+    [[maybe_unused]] int32_t v11; // [esp+24h] [ebp-74h]
+    [[maybe_unused]] float integralScale; // [esp+64h] [ebp-34h]
+    [[maybe_unused]] float startPoint; // [esp+68h] [ebp-30h]
+    [[maybe_unused]] float endPoint; // [esp+6Ch] [ebp-2Ch]
+    [[maybe_unused]] const FxElemDef *elemDef; // [esp+70h] [ebp-28h]
+    [[maybe_unused]] float startLerp; // [esp+74h] [ebp-24h]
+    [[maybe_unused]] int32_t startIndex; // [esp+78h] [ebp-20h]
+    [[maybe_unused]] const FxElemVelStateSample *samples; // [esp+7Ch] [ebp-1Ch]
+    [[maybe_unused]] int32_t intervalCount; // [esp+80h] [ebp-18h]
+    [[maybe_unused]] int32_t endIndex; // [esp+84h] [ebp-14h]
     float rangeLerp[3]; // [esp+88h] [ebp-10h] BYREF
-    float endLerp; // [esp+94h] [ebp-4h]
+    [[maybe_unused]] float endLerp; // [esp+94h] [ebp-4h]
 
     if (!update)
         MyAssertHandler(".\\EffectsCore\\fx_update.cpp", 759, 0, "%s", "update");
@@ -1324,13 +1324,13 @@ void __cdecl FX_IntegrateVelocityAcrossSegments(
     float *posLocal,
     float *posWorld)
 {
-    float v10; // [esp+10h] [ebp-28h]
-    float v11; // [esp+10h] [ebp-28h]
-    float t1ScaledByIntegral; // [esp+1Ch] [ebp-1Ch]
+    [[maybe_unused]] float v10; // [esp+10h] [ebp-28h]
+    [[maybe_unused]] float v11; // [esp+10h] [ebp-28h]
+    [[maybe_unused]] float t1ScaledByIntegral; // [esp+1Ch] [ebp-1Ch]
     float w0[2]; // [esp+20h] [ebp-18h] BYREF
-    const FxElemVelStateSample *localVelState0; // [esp+28h] [ebp-10h]
+    [[maybe_unused]] const FxElemVelStateSample *localVelState0; // [esp+28h] [ebp-10h]
     float w1[2]; // [esp+2Ch] [ebp-Ch] BYREF
-    float t0ScaledByIntegral; // [esp+34h] [ebp-4h]
+    [[maybe_unused]] float t0ScaledByIntegral; // [esp+34h] [ebp-4h]
 
     localVelState0 = velState0;
     if (t0 < 0.0 || t0 > 1.0)
@@ -1487,22 +1487,22 @@ int32_t __cdecl FX_CollisionResponse(
     float *xyzWorldOld)
 {
     const char *v7; // eax
-    float fraction_4; // [esp+14h] [ebp-9Ch]
-    float scale; // [esp+18h] [ebp-98h]
-    float v10; // [esp+1Ch] [ebp-94h]
-    float v11; // [esp+28h] [ebp-88h]
-    float v12; // [esp+60h] [ebp-50h]
+    [[maybe_unused]] float fraction_4; // [esp+14h] [ebp-9Ch]
+    [[maybe_unused]] float scale; // [esp+18h] [ebp-98h]
+    [[maybe_unused]] float v10; // [esp+1Ch] [ebp-94h]
+    [[maybe_unused]] float v11; // [esp+28h] [ebp-88h]
+    [[maybe_unused]] float v12; // [esp+60h] [ebp-50h]
     float postImpactVelocity[3]; // [esp+64h] [ebp-4Ch] BYREF
-    float gravityScale; // [esp+70h] [ebp-40h]
-    const FxElemDef *elemDef; // [esp+74h] [ebp-3Ch]
-    int32_t msecOnImpact; // [esp+78h] [ebp-38h]
+    [[maybe_unused]] float gravityScale; // [esp+70h] [ebp-40h]
+    [[maybe_unused]] const FxElemDef *elemDef; // [esp+74h] [ebp-3Ch]
+    [[maybe_unused]] int32_t msecOnImpact; // [esp+78h] [ebp-38h]
     float velDelta[3]; // [esp+7Ch] [ebp-34h] BYREF
-    float msecElapsed; // [esp+88h] [ebp-28h]
+    [[maybe_unused]] float msecElapsed; // [esp+88h] [ebp-28h]
     float scaledPreImpactVelocity[3]; // [esp+8Ch] [ebp-24h] BYREF
-    float velocityAlongNormal; // [esp+98h] [ebp-18h]
+    [[maybe_unused]] float velocityAlongNormal; // [esp+98h] [ebp-18h]
     float preImpactVelocity[3]; // [esp+9Ch] [ebp-14h] BYREF
-    float reflectionFactor; // [esp+A8h] [ebp-8h]
-    float overshotDeltaVelFromGravity; // [esp+ACh] [ebp-4h]
+    [[maybe_unused]] float reflectionFactor; // [esp+A8h] [ebp-8h]
+    [[maybe_unused]] float overshotDeltaVelFromGravity; // [esp+ACh] [ebp-4h]
 
     elemDef = FX_GetUpdateElemDef(update);
     if (msecUpdateBegin >= msecUpdateEnd)
@@ -1616,7 +1616,7 @@ void __cdecl FX_SpawnImpactEffect(
     int32_t msecOnImpact,
     const float *impactNormal)
 {
-    FxEffect *effect; // [esp+8h] [ebp-28h]
+    [[maybe_unused]] FxEffect *effect; // [esp+8h] [ebp-28h]
     float axis[3][3]; // [esp+Ch] [ebp-24h] BYREF
 
     axis[0][0] = *impactNormal;
@@ -1648,7 +1648,7 @@ int32_t __cdecl FX_UpdateElementPosition_NonColliding(FxUpdateElem *update)
 int32_t __cdecl FX_UpdateElementPosition_Local(FxUpdateElem* update)
 {
     const char* v1; // eax
-    float* elemBaseVel; // [esp+1Ch] [ebp-4h]
+    [[maybe_unused]] float* elemBaseVel; // [esp+1Ch] [ebp-4h]
 
     elemBaseVel = update->elemBaseVel;
     if (0.0 != elemBaseVel[0] || 0.0 != elemBaseVel[1] || 0.0 != elemBaseVel[2])
@@ -1679,9 +1679,9 @@ int32_t __cdecl FX_UpdateElementPosition_Local(FxUpdateElem* update)
 
 void __cdecl FX_SpawnDeathEffect(FxSystem* system, FxUpdateElem* update)
 {
-    FxEffect* effect; // [esp+10h] [ebp-54h]
+    [[maybe_unused]] FxEffect* effect; // [esp+10h] [ebp-54h]
     FxSpatialFrame frame; // [esp+14h] [ebp-50h] BYREF
-    const FxElemDef* elemDef; // [esp+30h] [ebp-34h]
+    [[maybe_unused]] const FxElemDef* elemDef; // [esp+30h] [ebp-34h]
     orientation_t orientPrev; // [esp+34h] [ebp-30h] BYREF
 
     elemDef = FX_GetUpdateElemDef(update);
@@ -1713,9 +1713,9 @@ char __cdecl FX_UpdateElement_SetupUpdate(
     float *elemOrigin,
     FxUpdateElem *update)
 {
-    const FxEffectDef *def; // [esp+4h] [ebp-Ch]
-    int32_t msecLifeSpan; // [esp+8h] [ebp-8h]
-    const FxElemDef *elemDef; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] const FxEffectDef *def; // [esp+4h] [ebp-Ch]
+    [[maybe_unused]] int32_t msecLifeSpan; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] const FxElemDef *elemDef; // [esp+Ch] [ebp-4h]
 
     memset((uint8_t *)update, 0xD0u, sizeof(FxUpdateElem));
     update->effect = effect;
@@ -1786,8 +1786,8 @@ void __cdecl FX_UpdateElement_HandleEmitting(
     FxUpdateResult* outUpdateResult)
 {
     FxSpatialFrame frameBegin; // [esp+A4h] [ebp-70h] BYREF
-    const FxElemDef* elemDef; // [esp+C0h] [ebp-54h]
-    FxEffect* effect; // [esp+C4h] [ebp-50h]
+    [[maybe_unused]] const FxElemDef* elemDef; // [esp+C0h] [ebp-54h]
+    [[maybe_unused]] FxEffect* effect; // [esp+C4h] [ebp-50h]
     orientation_t orientPrev; // [esp+C8h] [ebp-4Ch] BYREF
     FxSpatialFrame frameEnd; // [esp+F8h] [ebp-1Ch] BYREF
 
@@ -1816,25 +1816,25 @@ uint8_t __cdecl FX_ProcessEmitting(
     FxSpatialFrame* frameEnd)
 {
     const char* v6; // eax
-    float v7; // [esp+10h] [ebp-C0h]
-    float v8; // [esp+18h] [ebp-B8h]
-    float v9; // [esp+1Ch] [ebp-B4h]
-    float v10; // [esp+28h] [ebp-A8h]
-    FxEffect* effect; // [esp+38h] [ebp-98h]
-    float v12; // [esp+40h] [ebp-90h]
-    float v13; // [esp+48h] [ebp-88h]
-    const FxElemDef* elemDef; // [esp+6Ch] [ebp-64h]
-    float maxDistPerEmit; // [esp+70h] [ebp-60h]
-    float lerp; // [esp+74h] [ebp-5Ch]
-    float baseDistPerEmit; // [esp+78h] [ebp-58h]
-    float distInUpdate; // [esp+7Ch] [ebp-54h]
-    float residuala; // [esp+80h] [ebp-50h]
-    float residual; // [esp+80h] [ebp-50h]
+    [[maybe_unused]] float v7; // [esp+10h] [ebp-C0h]
+    [[maybe_unused]] float v8; // [esp+18h] [ebp-B8h]
+    [[maybe_unused]] float v9; // [esp+1Ch] [ebp-B4h]
+    [[maybe_unused]] float v10; // [esp+28h] [ebp-A8h]
+    [[maybe_unused]] FxEffect* effect; // [esp+38h] [ebp-98h]
+    [[maybe_unused]] float v12; // [esp+40h] [ebp-90h]
+    [[maybe_unused]] float v13; // [esp+48h] [ebp-88h]
+    [[maybe_unused]] const FxElemDef* elemDef; // [esp+6Ch] [ebp-64h]
+    [[maybe_unused]] float maxDistPerEmit; // [esp+70h] [ebp-60h]
+    [[maybe_unused]] float lerp; // [esp+74h] [ebp-5Ch]
+    [[maybe_unused]] float baseDistPerEmit; // [esp+78h] [ebp-58h]
+    [[maybe_unused]] float distInUpdate; // [esp+7Ch] [ebp-54h]
+    [[maybe_unused]] float residuala; // [esp+80h] [ebp-50h]
+    [[maybe_unused]] float residual; // [esp+80h] [ebp-50h]
     FxSpatialFrame frameElemNow; // [esp+84h] [ebp-4Ch] BYREF
     float axisSpawn[3][3]; // [esp+A0h] [ebp-30h] BYREF
-    float distNextEmit; // [esp+C4h] [ebp-Ch]
-    int32_t msecAtSpawn; // [esp+C8h] [ebp-8h]
-    float distLastEmit; // [esp+CCh] [ebp-4h]
+    [[maybe_unused]] float distNextEmit; // [esp+C4h] [ebp-Ch]
+    [[maybe_unused]] int32_t msecAtSpawn; // [esp+C8h] [ebp-8h]
+    [[maybe_unused]] float distLastEmit; // [esp+CCh] [ebp-4h]
 
     Vec3Sub(frameEnd->origin, frameBegin->origin, axisSpawn[0]);
     distInUpdate = Vec3Normalize(axisSpawn[0]);
@@ -1905,7 +1905,7 @@ void __cdecl FX_GetQuatForOrientation(
     orientation_t *orient,
     float *quat)
 {
-    int32_t runFlags; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int32_t runFlags; // [esp+4h] [ebp-4h]
 
     runFlags = elemDef->flags & 0xC0;
     if (runFlags)
@@ -1950,10 +1950,10 @@ char __cdecl FX_UpdateElement_TruncateToElemBegin(FxUpdateElem* update, FxUpdate
 {
     const char* v3; // eax
     const FxElemDef* UpdateElemDef; // eax
-    FxSpatialFrame* p_frameAtSpawn; // [esp-8h] [ebp-18h]
-    FxSpatialFrame* p_frameNow; // [esp-4h] [ebp-14h]
-    int32_t randomSeed; // [esp+0h] [ebp-10h]
-    const FxElemDef* elemDef; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] FxSpatialFrame* p_frameAtSpawn; // [esp-8h] [ebp-18h]
+    [[maybe_unused]] FxSpatialFrame* p_frameNow; // [esp-4h] [ebp-14h]
+    [[maybe_unused]] int32_t randomSeed; // [esp+0h] [ebp-10h]
+    [[maybe_unused]] const FxElemDef* elemDef; // [esp+Ch] [ebp-4h]
 
     if (update->msecUpdateBegin < update->msecElemBegin)
         update->msecUpdateBegin = update->msecElemBegin;
@@ -2002,12 +2002,12 @@ void __cdecl FX_UpdateEffectPartialTrail(
     FxSpatialFrame *frameNow)
 {
     float basis[2][3]; // [esp+1Ch] [ebp-34h] BYREF
-    FxTrailElem *trailElem; // [esp+38h] [ebp-18h]
-    FxTrailElem *remoteTrailElem; // [esp+3Ch] [ebp-14h]
-    uint16_t trailElemHandleNext; // [esp+40h] [ebp-10h]
-    uint16_t trailElemHandleLast; // [esp+44h] [ebp-Ch]
-    uint16_t trailElemHandle; // [esp+48h] [ebp-8h]
-    bool removable; // [esp+4Fh] [ebp-1h]
+    [[maybe_unused]] FxTrailElem *trailElem; // [esp+38h] [ebp-18h]
+    [[maybe_unused]] FxTrailElem *remoteTrailElem; // [esp+3Ch] [ebp-14h]
+    [[maybe_unused]] uint16_t trailElemHandleNext; // [esp+40h] [ebp-10h]
+    [[maybe_unused]] uint16_t trailElemHandleLast; // [esp+44h] [ebp-Ch]
+    [[maybe_unused]] uint16_t trailElemHandle; // [esp+48h] [ebp-8h]
+    [[maybe_unused]] bool removable; // [esp+4Fh] [ebp-1h]
 
     trailElemHandleLast = -1;
     if (trailElemHandleStart == 0xFFFF)
@@ -2045,7 +2045,7 @@ void __cdecl FX_UpdateEffectPartialTrail(
             trailElem->spawnDist = effect->distanceTraveled;
             FX_GetOriginForTrailElem(
                 effect,
-                &effect->def->elemDefs[trail->defIndex],
+                &effect->def->elemDefs[(unsigned int)(unsigned char)trail->defIndex],
                 frameNow,
                 (296 * trailElem->sequence + trailElem->msecBegin + (uint32_t)effect->randomSeed) % 0x1DF,
                 trailElem->origin,
@@ -2058,10 +2058,10 @@ void __cdecl FX_UpdateEffectPartialTrail(
 
 void __cdecl FX_TrailElem_CompressBasis(const float (*inBasis)[3], char (*outBasis)[3])
 {
-    int32_t v2; // [esp+0h] [ebp-10h]
-    int32_t v3; // [esp+4h] [ebp-Ch]
-    int32_t basisVecIter; // [esp+8h] [ebp-8h]
-    int32_t dimIter; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] int32_t v2; // [esp+0h] [ebp-10h]
+    [[maybe_unused]] int32_t v3; // [esp+4h] [ebp-Ch]
+    [[maybe_unused]] int32_t basisVecIter; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] int32_t dimIter; // [esp+Ch] [ebp-4h]
 
     for (basisVecIter = 0; basisVecIter != 2; ++basisVecIter)
     {
@@ -2092,9 +2092,9 @@ FxUpdateResult __cdecl FX_UpdateTrailElement(
     int32_t msecUpdateBegin,
     int32_t msecUpdateEnd)
 {
-    int32_t v7; // [esp+4h] [ebp-B4h]
-    int32_t v8; // [esp+8h] [ebp-B0h]
-    float v9; // [esp+10h] [ebp-A8h]
+    [[maybe_unused]] int32_t v7; // [esp+4h] [ebp-B4h]
+    [[maybe_unused]] int32_t v8; // [esp+8h] [ebp-B0h]
+    [[maybe_unused]] float v9; // [esp+10h] [ebp-A8h]
     FxUpdateElem update; // [esp+28h] [ebp-90h] BYREF
     FxUpdateResult updateResult; // [esp+A8h] [ebp-10h] BYREF
     float baseVel[3]; // [esp+ACh] [ebp-Ch] BYREF
@@ -2147,8 +2147,8 @@ FxUpdateResult __cdecl FX_UpdateTrailElement(
 
 void __cdecl FX_UpdateSpotLight(FxCmd* cmd)
 {
-    FxEffect* effect; // [esp+8h] [ebp-8h]
-    FxSystem* system; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] FxEffect* effect; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] FxSystem* system; // [esp+Ch] [ebp-4h]
 
     if (fx_enable->current.enabled)
     {
@@ -2161,13 +2161,13 @@ void __cdecl FX_UpdateSpotLight(FxCmd* cmd)
             if (system->activeSpotLightEffectCount != 1)
                 MyAssertHandler(".\\EffectsCore\\fx_update.cpp", 1836, 0, "%s", "system->activeSpotLightEffectCount == 1");
             for (effect = FX_EffectFromHandle(system, system->activeSpotLightEffectHandle);
-                InterlockedExchangeAdd(&effect->status, 0x20000000) >= 0x20000000;
-                InterlockedExchangeAdd(&effect->status, -536870912))
+                InterlockedExchangeAdd(&effect->status, static_cast<long>(0x20000000)) >= 0x20000000;
+                InterlockedExchangeAdd(&effect->status, static_cast<long>(-536870912)))
             {
                 ;
             }
             FX_UpdateSpotLightEffect(system, effect);
-            InterlockedExchangeAdd(&effect->status, -536870912);
+            InterlockedExchangeAdd(&effect->status, static_cast<long>(-536870912));
         }
         if (!InterlockedDecrement(&system->iteratorCount) && system->needsGarbageCollection)
             FX_RunGarbageCollection(system);
@@ -2178,11 +2178,11 @@ void __cdecl FX_UpdateSpotLight(FxCmd* cmd)
 
 void __cdecl FX_UpdateSpotLightEffect(FxSystem* system, FxEffect* effect)
 {
-    float v2; // [esp+20h] [ebp-28h]
+    [[maybe_unused]] float v2; // [esp+20h] [ebp-28h]
     float diff[3]; // [esp+28h] [ebp-20h] BYREF
     uint16_t lastElemHandle[4]; // [esp+34h] [ebp-14h] BYREF
-    float newDistanceTraveled; // [esp+40h] [ebp-8h]
-    uint32_t elemClass; // [esp+44h] [ebp-4h]
+    [[maybe_unused]] float newDistanceTraveled; // [esp+40h] [ebp-8h]
+    [[maybe_unused]] uint32_t elemClass; // [esp+44h] [ebp-4h]
 
     if ((uint16_t)effect->status && effect->msecLastUpdate <= system->msecNow)
     {
@@ -2217,7 +2217,7 @@ void __cdecl FX_UpdateSpotLightEffectPartial(
     int32_t msecUpdateBegin,
     int32_t msecUpdateEnd)
 {
-    uint16_t activeSpotLightElemHandle; // [esp+12h] [ebp-Ah]
+    [[maybe_unused]] uint16_t activeSpotLightElemHandle; // [esp+12h] [ebp-Ah]
     FxPool<FxElem>* elem; // [esp+18h] [ebp-4h]
 
     if (system->activeSpotLightEffectCount != 1)
@@ -2250,9 +2250,9 @@ void __cdecl FX_UpdateSpotLightEffectPartial(
 
 void __cdecl FX_UpdateEffectBolt(FxSystem *system, FxEffect *effect)
 {
-    int32_t localClientNum; // [esp+4h] [ebp-38h]
+    [[maybe_unused]] int32_t localClientNum; // [esp+4h] [ebp-38h]
     orientation_t orient; // [esp+8h] [ebp-34h] BYREF
-    bool temporalBitsValid; // [esp+3Bh] [ebp-1h]
+    [[maybe_unused]] bool temporalBitsValid; // [esp+3Bh] [ebp-1h]
 
     if (effect->boltAndSortOrder.boneIndex != 0x7FF)
     {
@@ -2287,8 +2287,8 @@ void __cdecl FX_UpdateNonDependent(FxCmd *cmd)
 
 void __cdecl FX_Update(FxSystem* system, int32_t localClientNum, bool nonBoltedEffectsOnly)
 {
-    FxEffect* localEffect; // [esp+48h] [ebp-Ch]
-    volatile int32_t activeIndex; // [esp+4Ch] [ebp-8h]
+    [[maybe_unused]] FxEffect* localEffect; // [esp+48h] [ebp-Ch]
+    [[maybe_unused]] int32_t activeIndex; // [esp+4Ch] [ebp-8h]
 
     PROF_SCOPED("FX_Update");
 
@@ -2300,10 +2300,10 @@ void __cdecl FX_Update(FxSystem* system, int32_t localClientNum, bool nonBoltedE
         localEffect = FX_EffectFromHandle(system, system->allEffectHandles[activeIndex & 0x3FF]);
         if (FX_ShouldProcessEffect(system, localEffect, nonBoltedEffectsOnly))
         {
-            while (InterlockedExchangeAdd(&localEffect->status, 0x20000000) >= 0x20000000)
-                InterlockedExchangeAdd(&localEffect->status, -536870912);
+            while (InterlockedExchangeAdd(&localEffect->status, static_cast<long>(0x20000000)) >= 0x20000000)
+                InterlockedExchangeAdd(&localEffect->status, static_cast<long>(-536870912));
             FX_UpdateEffect(system, localEffect);
-            InterlockedExchangeAdd(&localEffect->status, -536870912);
+            InterlockedExchangeAdd(&localEffect->status, static_cast<long>(-536870912));
         }
     }
     if (!InterlockedDecrement(&system->iteratorCount) && system->needsGarbageCollection)
@@ -2312,11 +2312,11 @@ void __cdecl FX_Update(FxSystem* system, int32_t localClientNum, bool nonBoltedE
 
 void __cdecl FX_UpdateEffect(FxSystem* system, FxEffect* effect)
 {
-    float v2; // [esp+20h] [ebp-28h]
+    [[maybe_unused]] float v2; // [esp+20h] [ebp-28h]
     float diff[3]; // [esp+28h] [ebp-20h] BYREF
     uint16_t lastElemHandle[4]; // [esp+34h] [ebp-14h] BYREF
-    float newDistanceTraveled; // [esp+40h] [ebp-8h]
-    uint32_t elemClass; // [esp+44h] [ebp-4h]
+    [[maybe_unused]] float newDistanceTraveled; // [esp+40h] [ebp-8h]
+    [[maybe_unused]] uint32_t elemClass; // [esp+44h] [ebp-4h]
 
     if ((uint16_t)effect->status && effect->msecLastUpdate <= system->msecNow)
     {
@@ -2346,12 +2346,12 @@ void __cdecl FX_UpdateEffect(FxSystem* system, FxEffect* effect)
 bool __cdecl FX_ShouldProcessEffect(FxSystem *system, FxEffect *effect, bool nonBoltedEffectsOnly)
 {
     return (!nonBoltedEffectsOnly || effect->boltAndSortOrder.boneIndex == 0x7FF)
-        && InterlockedExchange(&effect->frameCount, system->frameCount) != system->frameCount;
+        && InterlockedExchange(&effect->frameCount, static_cast<long>(system->frameCount)) != system->frameCount;
 }
 
 void __cdecl FX_RunPhysics(int32_t localClientNum)
 {
-    FxSystem *system; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] FxSystem *system; // [esp+0h] [ebp-4h]
 
     system = FX_GetSystem(localClientNum);
     Sys_EnterCriticalSection(CRITSECT_PHYSICS);
@@ -2410,18 +2410,18 @@ void __cdecl FX_AddNonSpriteDrawSurfs(FxCmd *cmd)
 
 void __cdecl FX_RewindTo(int32_t localClientNum, int32_t time)
 {
-    volatile long *Destination; // [esp+4h] [ebp-10ACh]
-    volatile long Comperand; // [esp+8h] [ebp-10A8h]
-    uint16_t v4; // [esp+18h] [ebp-1098h]
-    FxEffect *effect; // [esp+1Ch] [ebp-1094h]
-    FxEffect *effecta; // [esp+1Ch] [ebp-1094h]
-    FxEffect *effectb; // [esp+1Ch] [ebp-1094h]
+    [[maybe_unused]] volatile long *Destination; // [esp+4h] [ebp-10ACh]
+    [[maybe_unused]] volatile long Comperand; // [esp+8h] [ebp-10A8h]
+    [[maybe_unused]] uint16_t v4; // [esp+18h] [ebp-1098h]
+    [[maybe_unused]] FxEffect *effect; // [esp+1Ch] [ebp-1094h]
+    [[maybe_unused]] FxEffect *effecta; // [esp+1Ch] [ebp-1094h]
+    [[maybe_unused]] FxEffect *effectb; // [esp+1Ch] [ebp-1094h]
     uint32_t dst[32]; // [esp+20h] [ebp-1090h] BYREF
-    int32_t bitNum; // [esp+A0h] [ebp-1010h]
-    FxSystem *system; // [esp+A4h] [ebp-100Ch]
-    FxEffect* v11[1024]; // [esp+A8h] [ebp-1008h]
-    int32_t v12; // [esp+10A8h] [ebp-8h]
-    volatile int32_t i; // [esp+10ACh] [ebp-4h]
+    [[maybe_unused]] int32_t bitNum; // [esp+A0h] [ebp-1010h]
+    [[maybe_unused]] FxSystem *system; // [esp+A4h] [ebp-100Ch]
+    [[maybe_unused]] FxEffect* v11[1024]; // [esp+A8h] [ebp-1008h]
+    [[maybe_unused]] int32_t v12; // [esp+10A8h] [ebp-8h]
+    [[maybe_unused]] int32_t i; // [esp+10ACh] [ebp-4h]
 
     system = FX_GetSystem(localClientNum);
     if (!system)
@@ -2448,10 +2448,10 @@ void __cdecl FX_RewindTo(int32_t localClientNum, int32_t time)
             effecta = (FxEffect *)v11[bitNum];
             if ((uint16_t)effecta->status)
             {
-                while (InterlockedExchangeAdd(&effecta->status, 0x20000000) >= 0x20000000)
-                    InterlockedExchangeAdd(&effecta->status, -536870912);
+                while (InterlockedExchangeAdd(&effecta->status, static_cast<long>(0x20000000)) >= 0x20000000)
+                    InterlockedExchangeAdd(&effecta->status, static_cast<long>(-536870912));
                 FX_KillEffect(system, effecta);
-                InterlockedExchangeAdd(&effecta->status, -536870912);
+                InterlockedExchangeAdd(&effecta->status, static_cast<long>(-536870912));
             }
         }
         if (!InterlockedDecrement(&system->iteratorCount) && system->needsGarbageCollection)
@@ -2467,7 +2467,7 @@ void __cdecl FX_RewindTo(int32_t localClientNum, int32_t time)
                     Destination = &effectb->status;
                     do
                         Comperand = *Destination;
-                    while (InterlockedCompareExchange(Destination, Comperand | 0x10000, Comperand) != Comperand);
+                    while (InterlockedCompareExchange(Destination, static_cast<long>(Comperand | 0x10000), static_cast<long>(Comperand)) != Comperand);
                     FX_StartNewEffect(system, effectb);
                 }
                 else
@@ -2485,19 +2485,19 @@ void __cdecl FX_RewindTo(int32_t localClientNum, int32_t time)
 void __cdecl FX_SetNextUpdateCamera(int32_t localClientNum, const refdef_s *refdef, float zfar)
 {
     const char *v3; // eax
-    float scale1; // [esp+14h] [ebp-50h]
-    float scale1a; // [esp+14h] [ebp-50h]
-    double v6; // [esp+18h] [ebp-4Ch]
-    float v7; // [esp+20h] [ebp-44h]
-    float v8; // [esp+24h] [ebp-40h]
-    float v9; // [esp+38h] [ebp-2Ch]
-    float v10; // [esp+3Ch] [ebp-28h]
-    float sinHalfFov; // [esp+54h] [ebp-10h]
-    float sinHalfFova; // [esp+54h] [ebp-10h]
-    FxSystem *system; // [esp+58h] [ebp-Ch]
-    float cosHalfFov; // [esp+5Ch] [ebp-8h]
-    float cosHalfFova; // [esp+5Ch] [ebp-8h]
-    uint32_t planeIndex; // [esp+60h] [ebp-4h]
+    [[maybe_unused]] float scale1; // [esp+14h] [ebp-50h]
+    [[maybe_unused]] float scale1a; // [esp+14h] [ebp-50h]
+    [[maybe_unused]] double v6; // [esp+18h] [ebp-4Ch]
+    [[maybe_unused]] float v7; // [esp+20h] [ebp-44h]
+    [[maybe_unused]] float v8; // [esp+24h] [ebp-40h]
+    [[maybe_unused]] float v9; // [esp+38h] [ebp-2Ch]
+    [[maybe_unused]] float v10; // [esp+3Ch] [ebp-28h]
+    [[maybe_unused]] float sinHalfFov; // [esp+54h] [ebp-10h]
+    [[maybe_unused]] float sinHalfFova; // [esp+54h] [ebp-10h]
+    [[maybe_unused]] FxSystem *system; // [esp+58h] [ebp-Ch]
+    [[maybe_unused]] float cosHalfFov; // [esp+5Ch] [ebp-8h]
+    [[maybe_unused]] float cosHalfFova; // [esp+5Ch] [ebp-8h]
+    [[maybe_unused]] uint32_t planeIndex; // [esp+60h] [ebp-4h]
 
     if (!refdef)
         MyAssertHandler(".\\EffectsCore\\fx_update.cpp", 2150, 0, "%s", "refdef");
@@ -2556,12 +2556,12 @@ void __cdecl FX_SetNextUpdateCamera(int32_t localClientNum, const refdef_s *refd
         system->camera.frustum[5][3] = -system->camera.frustum[0][3] - zfar;
         system->camera.frustumPlaneCount = 6;
     }
-    InterlockedExchange(&system->camera.isValid, 1);
+    InterlockedExchange(&system->camera.isValid, static_cast<long>(1));
 }
 
 void __cdecl FX_SetNextUpdateTime(int32_t localClientNum, int32_t time)
 {
-    FxSystem *system; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] FxSystem *system; // [esp+0h] [ebp-4h]
 
     system = FX_GetSystem(localClientNum);
     if (time < system->msecNow)
@@ -2572,8 +2572,8 @@ void __cdecl FX_SetNextUpdateTime(int32_t localClientNum, int32_t time)
             "time >= system->msecNow\n\t%i, %i",
             time,
             system->msecNow);
-    InterlockedExchange(&system->camera.isValid, 0);
-    InterlockedExchange(&system->msecDraw, time);
+    InterlockedExchange(&system->camera.isValid, static_cast<long>(0));
+    InterlockedExchange(&system->msecDraw, static_cast<long>(time));
     system->msecNow = time;
     if (++system->frameCount <= 0)
         system->frameCount = 1;

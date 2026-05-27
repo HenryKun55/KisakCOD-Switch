@@ -1568,11 +1568,11 @@ void   SND_FadeAllSounds(float, int) {}
 // === cg_view_mp satellites =======================================================
 
 // float BG_GetSpeed(const playerState_s *, int) { return 0.f; }  // provided by bg_pmove.cpp now
-void  FX_RewindTo(int, int) {}
+// void  FX_RewindTo(int, int) {}
 void  R_ClearScene(unsigned int) {}
 // CG_DrawActive provided by src/cgame_mp/cg_draw_mp.cpp now.
 // float BG_GetBobCycle(const playerState_s *) { return 0.f; }  // provided by bg_weapons.cpp now
-void  FX_BeginUpdate(int) {}
+// void  FX_BeginUpdate(int) {}
 // void  Key_AddCatcher(int, int) {}  // provided by cl_keys.cpp now
 void  R_SetLodOrigin(const refdef_s *) {}
 void  CG_VehGunnerPOV(int, float *o, float *a)
@@ -1582,7 +1582,7 @@ void  CG_VehGunnerPOV(int, float *o, float *a)
 }
 // void  CG_AddViewWeapon(int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // CG_ProcessEntity provided by src/cgame_mp/cg_ents_mp.cpp now.
-void  FX_FillUpdateCmd(int, FxCmd *) {}
+// void  FX_FillUpdateCmd(int, FxCmd *) {}
 // void  AddLeanToPosition(float *, float, float, float, float) {}  // provided by q_shared.cpp now
 // CG_DObjUpdateInfo provided by src/cgame_mp/cg_ents_mp.cpp now.
 // void  Key_RemoveCatcher(int, int) {}  // provided by cl_keys.cpp now
@@ -1728,14 +1728,14 @@ GfxParticleCloud *R_AddParticleCloudToScene(Material * /*material*/) { return nu
 
 // fx_system satellite stubs.
 struct FxSpatialFrame;
-void FX_BeginLooping(FxSystem * /*system*/, FxEffect * /*effect*/, int /*a*/, int /*b*/, FxSpatialFrame * /*p1*/, FxSpatialFrame * /*p2*/, int /*c*/, int /*d*/) {}
-void FX_StartNewEffect(FxSystem * /*system*/, FxEffect * /*effect*/) {}
-void FX_TriggerOneShot(FxSystem * /*system*/, FxEffect * /*effect*/, int /*a*/, int /*b*/, const FxSpatialFrame * /*frame*/, int /*c*/) {}
-bool FX_GetBoltTemporalBits(int /*a*/, int /*b*/) { return false; }
-void FX_UpdateEffectPartial(FxSystem * /*system*/, FxEffect * /*effect*/, int /*a*/, int /*b*/, float /*c*/, float /*d*/, unsigned short * /*e*/, unsigned short * /*f*/, unsigned short * /*g*/, unsigned short * /*h*/) {}
+// void FX_BeginLooping(FxSystem * /*system*/, FxEffect * /*effect*/, int /*a*/, int /*b*/, FxSpatialFrame * /*p1*/, FxSpatialFrame * /*p2*/, int /*c*/, int /*d*/) {}
+// void FX_StartNewEffect(FxSystem * /*system*/, FxEffect * /*effect*/) {}
+// void FX_TriggerOneShot(FxSystem * /*system*/, FxEffect * /*effect*/, int /*a*/, int /*b*/, const FxSpatialFrame * /*frame*/, int /*c*/) {}
+// bool FX_GetBoltTemporalBits(int /*a*/, int /*b*/) { return false; }
+// void FX_UpdateEffectPartial(FxSystem * /*system*/, FxEffect * /*effect*/, int /*a*/, int /*b*/, float /*c*/, float /*d*/, unsigned short * /*e*/, unsigned short * /*f*/, unsigned short * /*g*/, unsigned short * /*h*/) {}
 char SND_AnyActiveListeners() { return 0; }
-void FX_SpawnAllFutureLooping(FxSystem * /*s*/, FxEffect * /*e*/, int /*a*/, int /*b*/, const FxSpatialFrame * /*p1*/, const FxSpatialFrame * /*p2*/, long double /*c*/, long double /*d*/, long double /*f*/) {}
-void FX_TrailElem_CompressBasis(const float (* /*basis*/)[3], char (* /*out*/)[3]) {}
+// void FX_SpawnAllFutureLooping(FxSystem * /*s*/, FxEffect * /*e*/, int /*a*/, int /*b*/, const FxSpatialFrame * /*p1*/, const FxSpatialFrame * /*p2*/, long double /*c*/, long double /*d*/, long double /*f*/) {}
+// void FX_TrailElem_CompressBasis(const float (* /*basis*/)[3], char (* /*out*/)[3]) {}
 void R_GetAverageLightingAtPoint(const float * /*point*/, unsigned char * /*out*/) {}
 
 struct DiskGfxReflectionProbe;
@@ -1769,10 +1769,10 @@ struct GfxPackedVertex;
 // bool  Key_IsCatcherActive(int, int) { return false; }  // provided by cl_keys.cpp now
 // CG_AddPacketEntities provided by src/cgame_mp/cg_ents_mp.cpp now.
 // CL_GetMenuBlurRadius provided by src/client_mp/cl_scrn_mp.cpp now.
-void  FX_SetNextUpdateTime(int, int) {}
+// void  FX_SetNextUpdateTime(int, int) {}
 // CL_ResetSkeletonCache provided by src/client_mp/cl_main_mp.cpp now.
 // void  BG_CalculateViewAngles(viewState_t *, float *) {}  // provided by bg_weapons.cpp now
-void  FX_SetNextUpdateCamera(int, const refdef_s *, float) {}
+// void  FX_SetNextUpdateCamera(int, const refdef_s *, float) {}
 // float BG_GetVerticalBobFactor(const playerState_s *, float, float, float) { return 0.f; }  // provided by bg_weapons.cpp now
 // int32_t BG_IsAimDownSightWeapon(uint32_t) { return 0; }  // provided by bg_weapons.cpp now
 // void  CG_UpdateViewWeaponAnim(int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
@@ -2813,7 +2813,7 @@ const dvar_t *heli_barrelRotation = nullptr;
 // void DObjClearSkel(const DObj_s *) {}
 // char DynEntCl_DynEntImpactEvent(int, int, float *, float *, int, bool) { return 0; }
 // void DynEntCl_EntityImpactEvent(const trace_t *, int, int, const float *, const float *, bool) {}
-char FX_GetBoneOrientation(int, unsigned int, int, orientation_t *) { return 0; }
+// char FX_GetBoneOrientation(int, unsigned int, int, orientation_t *) { return 0; }
 // void FX_PlayOrientedEffectWithMarkEntity(int, const FxEffectDef *, int, const float *, const float (*)[3], unsigned int) {}
 // RotatePointAroundVector provided by src/universal/com_math.cpp now.
 char SND_GetKnownLength(int, int *out) { if (out) *out = 0; return 0; }
