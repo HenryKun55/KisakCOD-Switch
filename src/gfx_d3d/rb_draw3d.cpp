@@ -24,7 +24,7 @@
 void __cdecl R_HW_InsertFence(IDirect3DQuery9 **fence)
 {
     const char *v1; // eax
-    int hr; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-4h]
 
     *fence = dx.fencePool[dx.nextFence];
     dx.nextFence = (dx.nextFence + 1) % 8;
@@ -105,7 +105,7 @@ void __cdecl RB_Draw3DInternal(const GfxViewInfo *viewInfo)
 
 void __cdecl RB_FullbrightDrawCommands(const GfxViewInfo *viewInfo)
 {
-    const GfxBackEndData *data; // [esp+10h] [ebp-8h]
+    [[maybe_unused]] const GfxBackEndData *data; // [esp+10h] [ebp-8h]
     GfxCmdBuf cmdBuf; // [esp+14h] [ebp-4h] BYREF
 
     data = backEndData;
@@ -189,7 +189,7 @@ void R_DrawFullbrightOrDebugShader(
 
 void __cdecl R_DrawFullbright(const GfxViewInfo *viewInfo, GfxCmdBufInput *input, GfxCmdBuf *cmdBuf)
 {
-    int savedregs; // [esp+0h] [ebp+0h] BYREF
+    [[maybe_unused]] int savedregs; // [esp+0h] [ebp+0h] BYREF
 
     R_DrawFullbrightOrDebugShader(
         R_DrawDebugShaderLitCallback,
@@ -210,12 +210,12 @@ void __cdecl R_DrawFullbright(const GfxViewInfo *viewInfo, GfxCmdBufInput *input
 
 void __cdecl R_DrawDebugShaderLitCallback(const void *data, GfxCmdBufContext context, GfxCmdBufContext prepassContext)
 {
-    int height; // [esp+4h] [ebp-28h]
-    int width; // [esp+8h] [ebp-24h]
-    int y; // [esp+Ch] [ebp-20h]
-    IDirect3DDevice9 *device; // [esp+14h] [ebp-18h]
+    [[maybe_unused]] int height; // [esp+4h] [ebp-28h]
+    [[maybe_unused]] int width; // [esp+8h] [ebp-24h]
+    [[maybe_unused]] int y; // [esp+Ch] [ebp-20h]
+    [[maybe_unused]] IDirect3DDevice9 *device; // [esp+14h] [ebp-18h]
     tagRECT v6; // [esp+18h] [ebp-14h] BYREF
-    const GfxViewInfo *viewInfo; // [esp+28h] [ebp-4h]
+    [[maybe_unused]] const GfxViewInfo *viewInfo; // [esp+28h] [ebp-4h]
 
     viewInfo = (const GfxViewInfo * )data;
     R_SetRenderTarget(context, R_RENDERTARGET_SCENE);
@@ -242,12 +242,12 @@ void __cdecl R_DrawDebugShaderLitCallback(const void *data, GfxCmdBufContext con
 
 void __cdecl R_DrawFullbrightDecalCallback(const void *data, GfxCmdBufContext context, GfxCmdBufContext prepassContext)
 {
-    int height; // [esp+4h] [ebp-28h]
-    int width; // [esp+8h] [ebp-24h]
-    int y; // [esp+Ch] [ebp-20h]
-    IDirect3DDevice9 *device; // [esp+14h] [ebp-18h]
+    [[maybe_unused]] int height; // [esp+4h] [ebp-28h]
+    [[maybe_unused]] int width; // [esp+8h] [ebp-24h]
+    [[maybe_unused]] int y; // [esp+Ch] [ebp-20h]
+    [[maybe_unused]] IDirect3DDevice9 *device; // [esp+14h] [ebp-18h]
     tagRECT v6; // [esp+18h] [ebp-14h] BYREF
-    const GfxViewInfo *viewInfo; // [esp+28h] [ebp-4h]
+    [[maybe_unused]] const GfxViewInfo *viewInfo; // [esp+28h] [ebp-4h]
 
     viewInfo = (const GfxViewInfo*)data;
     R_SetRenderTarget(context, R_RENDERTARGET_SCENE);
@@ -273,12 +273,12 @@ void __cdecl R_DrawFullbrightDecalCallback(const void *data, GfxCmdBufContext co
 
 void __cdecl R_DrawDebugShaderEmissiveCallback(const void *data, GfxCmdBufContext context, GfxCmdBufContext prepassContext)
 {
-    int height; // [esp+4h] [ebp-28h]
-    int width; // [esp+8h] [ebp-24h]
-    int y; // [esp+Ch] [ebp-20h]
-    IDirect3DDevice9 *device; // [esp+14h] [ebp-18h]
+    [[maybe_unused]] int height; // [esp+4h] [ebp-28h]
+    [[maybe_unused]] int width; // [esp+8h] [ebp-24h]
+    [[maybe_unused]] int y; // [esp+Ch] [ebp-20h]
+    [[maybe_unused]] IDirect3DDevice9 *device; // [esp+14h] [ebp-18h]
     tagRECT v6; // [esp+18h] [ebp-14h] BYREF
-    const GfxViewInfo *viewInfo; // [esp+28h] [ebp-4h]
+    [[maybe_unused]] const GfxViewInfo *viewInfo; // [esp+28h] [ebp-4h]
 
     viewInfo = (const GfxViewInfo * )data;
     R_SetRenderTarget(context, R_RENDERTARGET_SCENE);
@@ -306,7 +306,7 @@ void __cdecl R_DrawDebugShaderEmissiveCallback(const void *data, GfxCmdBufContex
 
 void __cdecl RB_DebugShaderDrawCommands(const GfxViewInfo *viewInfo)
 {
-    const GfxBackEndData *data; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] const GfxBackEndData *data; // [esp+8h] [ebp-8h]
     GfxCmdBuf cmdBuf; // [esp+Ch] [ebp-4h] BYREF
 
     data = backEndData;
@@ -343,16 +343,16 @@ void __cdecl R_DrawDebugShaderDecalCallback(const void *data, GfxCmdBufContext c
 
 void __cdecl RB_StandardDrawCommands(const GfxViewInfo *viewInfo)
 {
-    GfxRenderTargetId setupRenderTargetId; // [esp+44h] [ebp-2Ch]
-    const GfxBackEndData *data; // [esp+48h] [ebp-28h]
+    [[maybe_unused]] GfxRenderTargetId setupRenderTargetId; // [esp+44h] [ebp-2Ch]
+    [[maybe_unused]] const GfxBackEndData *data; // [esp+48h] [ebp-28h]
     GfxCmdBuf cmdBuf; // [esp+4Ch] [ebp-24h] BYREF
-    bool needsDepthPrepass; // [esp+53h] [ebp-1Dh]
-    ShadowType dynamicShadowType; // [esp+54h] [ebp-1Ch]
-    int isRenderingFullScreen; // [esp+58h] [ebp-18h]
+    [[maybe_unused]] bool needsDepthPrepass; // [esp+53h] [ebp-1Dh]
+    [[maybe_unused]] ShadowType dynamicShadowType; // [esp+54h] [ebp-1Ch]
+    [[maybe_unused]] int isRenderingFullScreen; // [esp+58h] [ebp-18h]
     float clearColor[4]; // [esp+5Ch] [ebp-14h] BYREF
-    unsigned __int8 whichToClearForScene; // [esp+6Eh] [ebp-2h]
-    unsigned __int8 whichToClearForSetup; // [esp+6Fh] [ebp-1h]
-    int savedregs; // [esp+70h] [ebp+0h] BYREF
+    [[maybe_unused]] unsigned __int8 whichToClearForScene; // [esp+6Eh] [ebp-2h]
+    [[maybe_unused]] unsigned __int8 whichToClearForSetup; // [esp+6Fh] [ebp-1h]
+    [[maybe_unused]] int savedregs; // [esp+70h] [ebp+0h] BYREF
 
     data = backEndData;
     dynamicShadowType = viewInfo->dynamicShadowType;
@@ -455,52 +455,52 @@ void  R_DrawLights(const GfxViewInfo *viewInfo, GfxCmdBuf *cmdBuf)
 void __cdecl R_DrawPointLitSurfs(GfxCmdBufSourceState *source, const GfxViewInfo *viewInfo, GfxCmdBuf *cmdBuf)
 {
     double v3; // st7
-    float s1; // [esp+18h] [ebp-144h]
-    float v5; // [esp+24h] [ebp-138h]
-    float v6; // [esp+28h] [ebp-134h]
-    float v7; // [esp+2Ch] [ebp-130h]
-    float v8; // [esp+30h] [ebp-12Ch]
-    float v9; // [esp+3Ch] [ebp-120h]
-    float v10; // [esp+40h] [ebp-11Ch]
-    float v11; // [esp+44h] [ebp-118h]
-    float v12; // [esp+48h] [ebp-114h]
-    float v13; // [esp+50h] [ebp-10Ch]
-    float v14; // [esp+58h] [ebp-104h]
-    float v15; // [esp+5Ch] [ebp-100h]
-    float v16; // [esp+60h] [ebp-FCh]
+    [[maybe_unused]] float s1; // [esp+18h] [ebp-144h]
+    [[maybe_unused]] float v5; // [esp+24h] [ebp-138h]
+    [[maybe_unused]] float v6; // [esp+28h] [ebp-134h]
+    [[maybe_unused]] float v7; // [esp+2Ch] [ebp-130h]
+    [[maybe_unused]] float v8; // [esp+30h] [ebp-12Ch]
+    [[maybe_unused]] float v9; // [esp+3Ch] [ebp-120h]
+    [[maybe_unused]] float v10; // [esp+40h] [ebp-11Ch]
+    [[maybe_unused]] float v11; // [esp+44h] [ebp-118h]
+    [[maybe_unused]] float v12; // [esp+48h] [ebp-114h]
+    [[maybe_unused]] float v13; // [esp+50h] [ebp-10Ch]
+    [[maybe_unused]] float v14; // [esp+58h] [ebp-104h]
+    [[maybe_unused]] float v15; // [esp+5Ch] [ebp-100h]
+    [[maybe_unused]] float v16; // [esp+60h] [ebp-FCh]
     float edgePoint[3]; // [esp+7Ch] [ebp-E0h] BYREF
-    const PointLightPartition *pointLightPartitions; // [esp+88h] [ebp-D4h]
-    const float *plane; // [esp+8Ch] [ebp-D0h]
+    [[maybe_unused]] const PointLightPartition *pointLightPartitions; // [esp+88h] [ebp-D4h]
+    [[maybe_unused]] const float *plane; // [esp+8Ch] [ebp-D0h]
     GfxPointLitSurfsInfo info; // [esp+90h] [ebp-CCh] BYREF
-    int pointLightCount; // [esp+ACh] [ebp-B0h]
-    const GfxBackEndData *data; // [esp+B0h] [ebp-ACh]
+    [[maybe_unused]] int pointLightCount; // [esp+ACh] [ebp-B0h]
+    [[maybe_unused]] const GfxBackEndData *data; // [esp+B0h] [ebp-ACh]
     float perp[3]; // [esp+B4h] [ebp-A8h] BYREF
-    float dist[4]; // [esp+C0h] [ebp-9Ch]
-    float halfWidth; // [esp+D0h] [ebp-8Ch]
-    float width; // [esp+D4h] [ebp-88h]
-    float height; // [esp+D8h] [ebp-84h]
-    const GfxLight *light; // [esp+DCh] [ebp-80h]
-    float sign; // [esp+E0h] [ebp-7Ch]
-    const PointLightPartition *pointLightPartition; // [esp+E4h] [ebp-78h]
+    [[maybe_unused]] float dist[4]; // [esp+C0h] [ebp-9Ch]
+    [[maybe_unused]] float halfWidth; // [esp+D0h] [ebp-8Ch]
+    [[maybe_unused]] float width; // [esp+D4h] [ebp-88h]
+    [[maybe_unused]] float height; // [esp+D8h] [ebp-84h]
+    [[maybe_unused]] const GfxLight *light; // [esp+DCh] [ebp-80h]
+    [[maybe_unused]] float sign; // [esp+E0h] [ebp-7Ch]
+    [[maybe_unused]] const PointLightPartition *pointLightPartition; // [esp+E4h] [ebp-78h]
     float offset[3]; // [esp+E8h] [ebp-74h] BYREF
     float edgeGoalPoint[4]; // [esp+F4h] [ebp-68h] BYREF
     float edgeDir[3]; // [esp+104h] [ebp-58h] BYREF
-    float planeDist; // [esp+110h] [ebp-4Ch]
-    int partitionIndex; // [esp+114h] [ebp-48h]
-    const GfxViewParms *viewParms; // [esp+118h] [ebp-44h]
-    float tangentDistSq; // [esp+11Ch] [ebp-40h]
+    [[maybe_unused]] float planeDist; // [esp+110h] [ebp-4Ch]
+    [[maybe_unused]] int partitionIndex; // [esp+114h] [ebp-48h]
+    [[maybe_unused]] const GfxViewParms *viewParms; // [esp+118h] [ebp-44h]
+    [[maybe_unused]] float tangentDistSq; // [esp+11Ch] [ebp-40h]
     GfxColor color; // [esp+120h] [ebp-3Ch] BYREF
-    float x; // [esp+124h] [ebp-38h]
-    float y; // [esp+128h] [ebp-34h]
-    unsigned int axis; // [esp+12Ch] [ebp-30h]
-    float offsetDistSq; // [esp+130h] [ebp-2Ch]
-    GfxDrawPrimArgs args; // [esp+134h] [ebp-28h]
-    unsigned int planeIndex; // [esp+140h] [ebp-1Ch]
-    float halfHeight; // [esp+144h] [ebp-18h]
+    [[maybe_unused]] float x; // [esp+124h] [ebp-38h]
+    [[maybe_unused]] float y; // [esp+128h] [ebp-34h]
+    [[maybe_unused]] unsigned int axis; // [esp+12Ch] [ebp-30h]
+    [[maybe_unused]] float offsetDistSq; // [esp+130h] [ebp-2Ch]
+    [[maybe_unused]] GfxDrawPrimArgs args; // [esp+134h] [ebp-28h]
+    [[maybe_unused]] unsigned int planeIndex; // [esp+140h] [ebp-1Ch]
+    [[maybe_unused]] float halfHeight; // [esp+144h] [ebp-18h]
     float perpDir[3]; // [esp+148h] [ebp-14h] BYREF
-    float perpDist; // [esp+154h] [ebp-8h]
-    float w; // [esp+158h] [ebp-4h]
-    int savedregs; // [esp+15Ch] [ebp+0h] BYREF
+    [[maybe_unused]] float perpDist; // [esp+154h] [ebp-8h]
+    [[maybe_unused]] float w; // [esp+158h] [ebp-4h]
+    [[maybe_unused]] int savedregs; // [esp+15Ch] [ebp+0h] BYREF
 
     iassert(viewInfo);
 
@@ -612,12 +612,12 @@ void __cdecl R_DrawPointLitSurfs(GfxCmdBufSourceState *source, const GfxViewInfo
 
 void __cdecl R_DrawPointLitSurfsCallback(const void *userData, GfxCmdBufContext context, GfxCmdBufContext prepassContext)
 {
-    unsigned int h; // [esp+4h] [ebp-28h]
-    unsigned int w; // [esp+8h] [ebp-24h]
-    unsigned int y; // [esp+Ch] [ebp-20h]
-    IDirect3DDevice9 *device; // [esp+14h] [ebp-18h]
+    [[maybe_unused]] unsigned int h; // [esp+4h] [ebp-28h]
+    [[maybe_unused]] unsigned int w; // [esp+8h] [ebp-24h]
+    [[maybe_unused]] unsigned int y; // [esp+Ch] [ebp-20h]
+    [[maybe_unused]] IDirect3DDevice9 *device; // [esp+14h] [ebp-18h]
     tagRECT rect; // [esp+18h] [ebp-14h] BYREF
-    const GfxPointLitSurfsInfo *info; // [esp+28h] [ebp-4h]
+    [[maybe_unused]] const GfxPointLitSurfsInfo *info; // [esp+28h] [ebp-4h]
 
     info = (const GfxPointLitSurfsInfo * )userData;
 
@@ -645,12 +645,12 @@ void __cdecl R_DrawPointLitSurfsCallback(const void *userData, GfxCmdBufContext 
 
 void __cdecl R_DrawEmissiveCallback(const void *userData, GfxCmdBufContext context, GfxCmdBufContext prepassContext)
 {
-    int height; // [esp+4h] [ebp-28h]
-    int width; // [esp+8h] [ebp-24h]
-    int y; // [esp+Ch] [ebp-20h]
-    IDirect3DDevice9 *device; // [esp+14h] [ebp-18h]
+    [[maybe_unused]] int height; // [esp+4h] [ebp-28h]
+    [[maybe_unused]] int width; // [esp+8h] [ebp-24h]
+    [[maybe_unused]] int y; // [esp+Ch] [ebp-20h]
+    [[maybe_unused]] IDirect3DDevice9 *device; // [esp+14h] [ebp-18h]
     tagRECT v6; // [esp+18h] [ebp-14h] BYREF
-    const GfxViewInfo *viewInfo; // [esp+28h] [ebp-4h]
+    [[maybe_unused]] const GfxViewInfo *viewInfo; // [esp+28h] [ebp-4h]
 
     viewInfo = (const GfxViewInfo * )userData;
     R_SetRenderTarget(context, R_RENDERTARGET_SCENE);
@@ -719,9 +719,9 @@ void __cdecl R_SetResolvedScene(GfxCmdBufContext context)
 GfxCmdBufSourceState *RB_DebugShaderDrawCommandsCommon()
 {
     GfxCmdBufSourceState *result; // eax
-    const GfxBackEndData *data; // [esp+10h] [ebp-Ch]
-    GfxViewInfo *viewInfo; // [esp+14h] [ebp-8h]
-    unsigned int viewInfoIndex; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] const GfxBackEndData *data; // [esp+10h] [ebp-Ch]
+    [[maybe_unused]] GfxViewInfo *viewInfo; // [esp+14h] [ebp-8h]
+    [[maybe_unused]] unsigned int viewInfoIndex; // [esp+18h] [ebp-4h]
 
     result = gfxCmdBufContext.source;
     data = backEndData;
@@ -740,18 +740,18 @@ GfxCmdBufSourceState *RB_DebugShaderDrawCommandsCommon()
         if (viewInfo->cmds)
             RB_ExecuteRenderCommandsLoop(viewInfo->cmds);
         memcpy(&gfxCmdBufState, gfxCmdBufContext.state, sizeof(gfxCmdBufState));
-        result = (GfxCmdBufSourceState *)(viewInfoIndex + 1);
+        result = (GfxCmdBufSourceState *)(uintptr_t)(viewInfoIndex + 1);
     }
     return result;
 }
 
 void RB_StandardDrawCommandsCommon()
 {
-    const GfxBackEndData *data; // [esp+1Ch] [ebp-Ch]
-    GfxViewInfo *viewInfo; // [esp+20h] [ebp-8h]
-    GfxViewInfo *viewInfoa; // [esp+20h] [ebp-8h]
-    unsigned int viewInfoIndex; // [esp+24h] [ebp-4h]
-    int savedregs; // [esp+28h] [ebp+0h] BYREF
+    [[maybe_unused]] const GfxBackEndData *data; // [esp+1Ch] [ebp-Ch]
+    [[maybe_unused]] GfxViewInfo *viewInfo; // [esp+20h] [ebp-8h]
+    [[maybe_unused]] GfxViewInfo *viewInfoa; // [esp+20h] [ebp-8h]
+    [[maybe_unused]] unsigned int viewInfoIndex; // [esp+24h] [ebp-4h]
+    [[maybe_unused]] int savedregs; // [esp+28h] [ebp+0h] BYREF
 
     data = backEndData;
     if (backEndData->viewInfoCount)
@@ -855,10 +855,10 @@ void RB_DrawDebugPostEffects()
 
 void RB_ShowFbColorDebug_Screen()
 {
-    float quarterScreenHeight; // [esp+34h] [ebp-14h]
-    float halfScreenWidth; // [esp+38h] [ebp-10h]
-    float halfScreenHeight; // [esp+3Ch] [ebp-Ch]
-    float quarterScreenWidth; // [esp+40h] [ebp-8h]
+    [[maybe_unused]] float quarterScreenHeight; // [esp+34h] [ebp-14h]
+    [[maybe_unused]] float halfScreenWidth; // [esp+38h] [ebp-10h]
+    [[maybe_unused]] float halfScreenHeight; // [esp+3Ch] [ebp-Ch]
+    [[maybe_unused]] float quarterScreenWidth; // [esp+40h] [ebp-8h]
 
     if (tess.indexCount)
         RB_EndTessSurface();
@@ -920,10 +920,10 @@ void RB_ShowFbColorDebug_Screen()
 
 void RB_ShowFbColorDebug_Feedback()
 {
-    float quarterScreenHeight; // [esp+44h] [ebp-10h]
-    float halfScreenWidth; // [esp+48h] [ebp-Ch]
-    float halfScreenHeight; // [esp+4Ch] [ebp-8h]
-    float quarterScreenWidth; // [esp+50h] [ebp-4h]
+    [[maybe_unused]] float quarterScreenHeight; // [esp+44h] [ebp-10h]
+    [[maybe_unused]] float halfScreenWidth; // [esp+48h] [ebp-Ch]
+    [[maybe_unused]] float halfScreenHeight; // [esp+4Ch] [ebp-8h]
+    [[maybe_unused]] float quarterScreenWidth; // [esp+50h] [ebp-4h]
 
     if (tess.indexCount)
         RB_EndTessSurface();
@@ -1030,10 +1030,10 @@ void RB_ShowFbColorDebug_Feedback()
 
 void RB_ShowFloatZDebug()
 {
-    float quarterScreenHeight; // [esp+28h] [ebp-10h]
-    float halfScreenWidth; // [esp+2Ch] [ebp-Ch]
-    float halfScreenHeight; // [esp+30h] [ebp-8h]
-    float quarterScreenWidth; // [esp+34h] [ebp-4h]
+    [[maybe_unused]] float quarterScreenHeight; // [esp+28h] [ebp-10h]
+    [[maybe_unused]] float halfScreenWidth; // [esp+2Ch] [ebp-Ch]
+    [[maybe_unused]] float halfScreenHeight; // [esp+30h] [ebp-8h]
+    [[maybe_unused]] float quarterScreenWidth; // [esp+34h] [ebp-4h]
 
     if (gfxRenderTargets[R_RENDERTARGET_FLOAT_Z].surface.color)
     {
@@ -1062,10 +1062,10 @@ void RB_ShowFloatZDebug()
 
 void RB_ShowShadowsDebug()
 {
-    float quarterScreenHeight; // [esp+38h] [ebp-10h]
-    float halfScreenWidth; // [esp+3Ch] [ebp-Ch]
-    float halfScreenHeight; // [esp+40h] [ebp-8h]
-    float quarterScreenWidth; // [esp+44h] [ebp-4h]
+    [[maybe_unused]] float quarterScreenHeight; // [esp+38h] [ebp-10h]
+    [[maybe_unused]] float halfScreenWidth; // [esp+3Ch] [ebp-Ch]
+    [[maybe_unused]] float halfScreenHeight; // [esp+40h] [ebp-8h]
+    [[maybe_unused]] float quarterScreenWidth; // [esp+44h] [ebp-4h]
 
     if (tess.indexCount)
         RB_EndTessSurface();

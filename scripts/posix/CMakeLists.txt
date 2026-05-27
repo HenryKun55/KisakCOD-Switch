@@ -262,6 +262,7 @@ set(GFX_PORTABLE_SOURCES
     # _D3DGAMMARAMP. Land behind D3D9 surface abstraction.
     "${SRC_DIR}/gfx_d3d/rb_debug.cpp"
     "${SRC_DIR}/gfx_d3d/rb_depthprepass.cpp"
+    "${SRC_DIR}/gfx_d3d/rb_draw3d.cpp"
     "${SRC_DIR}/gfx_d3d/rb_fog.cpp"
     "${SRC_DIR}/gfx_d3d/rb_imagetouch.cpp"
     "${SRC_DIR}/gfx_d3d/rb_showcollision.cpp"
