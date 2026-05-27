@@ -104,10 +104,11 @@ set(QCOMMON_PORTABLE_SOURCES
 
 set(SCRIPT_PORTABLE_SOURCES
     "${SRC_DIR}/script/scr_animtree.cpp"
-    # scr_compiler.cpp and scr_compiler2.cpp emit script bytecode that
-    # stores `(unsigned int)pos` into 4-byte code slots and later casts
-    # them back via `(const char *)(int)stored`. Requires bytecode
-    # widening to 64-bit pointer slots before landing.
+    # scr_compiler.cpp / scr_compiler2.cpp emit bytecode storing
+    # `(unsigned int)pos` in 4-byte code slots and casting back via
+    # `(const char *)(int)stored` across many call sites. Land after
+    # bytecode 64-bit widening pass (uintptr_t bridge alone isn't enough
+    # because the slot is still 4 bytes wide).
     "${SRC_DIR}/script/scr_const.cpp"
     "${SRC_DIR}/script/scr_evaluate.cpp"
     # scr_evaluate.cpp old held-back comment kept for history

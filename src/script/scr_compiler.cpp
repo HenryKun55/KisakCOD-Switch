@@ -333,7 +333,7 @@ void __cdecl EmitGetFloat(float value, sval_u sourcePos)
 void __cdecl EmitCodepos(const char *pos)
 {
     scrCompileGlob.codePos = (unsigned char*)TempMallocAlignStrict(4u);
-    *(unsigned int*)scrCompileGlob.codePos = (unsigned int)pos;
+    *(unsigned int*)scrCompileGlob.codePos = (unsigned int)(uintptr_t)pos;
 }
 
 void __cdecl EmitGetInteger(int value, sval_u sourcePos)
@@ -380,7 +380,7 @@ void __cdecl EmitGetInteger(int value, sval_u sourcePos)
     }
     EmitOpcode(OP_GetInteger, 1, 0);
     AddOpcodePos(sourcePos.stringValue, 1);
-    EmitCodepos((const char*)value);
+    EmitCodepos((const char*)(uintptr_t)value);
 }
 
 void __cdecl EmitValue(VariableCompileValue *constValue)
