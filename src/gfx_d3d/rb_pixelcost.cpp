@@ -234,8 +234,8 @@ unsigned __int64 __cdecl R_PixelCost_PackedKeyForMaterial(__int64 material)
 bool __cdecl RB_PixelCost_DoesPrimMatch(unsigned __int64 packedKey)
 {
     return __PAIR64__(
-        pixelCostGlob.records[pixelCostGlob.recordCount].key.mtl.techType,
-        pixelCostGlob.records[pixelCostGlob.recordCount].key.mtl.material) == packedKey;
+        (uintptr_t)pixelCostGlob.records[pixelCostGlob.recordCount].key.mtl.techType,
+        (uintptr_t)pixelCostGlob.records[pixelCostGlob.recordCount].key.mtl.material) == packedKey;
 }
 
 void __cdecl RB_PixelCost_ResetPrim(unsigned __int64 packedKey)

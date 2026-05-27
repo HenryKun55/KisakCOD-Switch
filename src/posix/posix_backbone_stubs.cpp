@@ -1797,7 +1797,7 @@ void R_SetCodeImageTexture(GfxCmdBufSourceState * /*src*/, MaterialTextureSource
 #include <gfx_d3d/r_state.h>
 #include <gfx_d3d/rb_pixelcost.h>
 GfxRenderTarget gfxRenderTargets[17]{};
-GfxPixelCostMode pixelCostMode = (GfxPixelCostMode)0;
+// pixelCostMode provided by src/gfx_d3d/rb_pixelcost.cpp now.
 vidConfig_t vidConfig{};
 
 // scr_parsetree / scr_parser satellite stubs.
@@ -1815,6 +1815,13 @@ bool Scr_IgnoreErrors() { return false; }
 GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
+
+// rb_pixelcost satellite stubs.
+void R_FinishGpuFence() {}
+void R_InsertGpuFence() {}
+void R_AcquireGpuFenceLock() {}
+void R_ReleaseGpuFenceLock() {}
+GfxAssets gfxAssets{};
 
 // rb_state satellite stubs.
 void R_SetTexFilter() {}
@@ -1839,9 +1846,7 @@ int R_SetVertexData(GfxCmdBufState * /*s*/, const void * /*data*/, int /*size*/,
 void R_SetStreamSource(GfxCmdBufPrimState * /*p*/, IDirect3DVertexBuffer9 * /*vb*/, unsigned int /*offset*/, unsigned int /*stride*/) {}
 void R_UpdateVertexDecl(GfxCmdBufState * /*s*/) {}
 void R_DrawIndexedPrimitive(GfxCmdBufPrimState * /*p*/, const GfxDrawPrimArgs * /*args*/) {}
-void R_PixelCost_BeginSurface(GfxCmdBufContext /*ctx*/) {}
-void R_PixelCost_EndSurface(GfxCmdBufContext /*ctx*/) {}
-const Material *R_PixelCost_GetAccumulationMaterial(const Material * /*m*/) { return nullptr; }
+// R_PixelCost_* provided by src/gfx_d3d/rb_pixelcost.cpp now.
 
 // rb_uploadshaders satellite stubs.
 #include <gfx_d3d/rb_shade.h>

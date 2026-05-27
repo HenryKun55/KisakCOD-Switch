@@ -248,8 +248,7 @@ set(GFX_PORTABLE_SOURCES
     # rb_tess.cpp drags R_DrawIndexedPrimitive / R_SetStreamSource /
     # R_ChangeIndices / DB_GetIndexBufferAndBase and the whole BSP draw
     # pipeline. Land behind D3D9 abstraction.
-    # rb_pixelcost.cpp uses IDirect3DQuery9 / D3DISSUE_END. Land
-    # behind graphics abstraction.
+    "${SRC_DIR}/gfx_d3d/rb_pixelcost.cpp"
     "${SRC_DIR}/gfx_d3d/rb_stats.cpp"
 )
 
