@@ -430,6 +430,7 @@ set(SERVER_PORTABLE_SOURCES
 )
 
 set(SOUND_PORTABLE_SOURCES
+    "${SRC_DIR}/sound/snd_driver_load_obj.cpp"
     # snd.cpp / snd_driver.cpp / snd_mss.cpp / snd_driver_load_obj.cpp
     # all pull Miles Sound System (AIL_*, _AILMIXINFO). Bring back
     # behind an audio abstraction layer.

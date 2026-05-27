@@ -510,6 +510,23 @@ struct IDirect3DQuery9 {
 // strncpy/strlcpy. The size arg is dropped (no enforcement) — callers
 // expect "fails on overflow" but on POSIX we trust callers and copy
 // best-effort.
+// Miles _AILSOUNDINFO + AIL_WAV_info: stubbed, returns 0 (failure).
+struct _AILSOUNDINFO {
+    int format;
+    const void *data_ptr;
+    unsigned int data_len;
+    unsigned int rate;
+    int bits;
+    int channels;
+    unsigned int samples;
+    unsigned int block_size;
+    const void *initial_ptr;
+};
+static inline int AIL_WAV_info(const void * /*buffer*/, _AILSOUNDINFO *info) {
+    if (info) *info = {};
+    return 0;
+}
+
 template <unsigned long N>
 static inline int strcpy_s(char (&dst)[N], const char *src) {
     if (!src) { dst[0] = '\0'; return 0; }

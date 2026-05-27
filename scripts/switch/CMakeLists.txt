@@ -309,6 +309,7 @@ set(SERVER_PORTABLE_SOURCES
 )
 
 set(SOUND_PORTABLE_SOURCES
+    "${SRC_DIR}/sound/snd_driver_load_obj.cpp"
     "${SRC_DIR}/sound/snd_utils.cpp"
 )
 

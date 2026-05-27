@@ -1886,7 +1886,7 @@ PhysGeomList *XModel_LoadPhysicsCollMap(const char * /*name*/, void *(* /*alloc*
 // com_sndalias_load_obj satellite stubs.
 #include <universal/com_sndalias.h>
 char Com_AddAliasList(const char * /*name*/, snd_alias_list_t * /*list*/) { return 0; }
-LoadedSound *SND_LoadSoundFile(const char * /*name*/) { return nullptr; }
+// SND_LoadSoundFile provided by src/sound/snd_driver_load_obj.cpp now.
 void Com_InitSoundAliasHash(unsigned int /*count*/) {}
 void Com_InitDefaultSoundAliasSpeakerMap(SpeakerMapInfo * /*info*/) {}
 void Com_VolumeFalloffCurveGraphEventCallback(const DevGraph * /*g*/, DevEventType /*e*/, int /*i*/) {}
