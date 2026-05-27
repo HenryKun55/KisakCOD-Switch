@@ -1810,6 +1810,14 @@ GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 
+// r_draw_xmodel satellite stubs.
+void RB_ShowTess(GfxCmdBufContext /*ctx*/, const float * /*c*/, const char * /*n*/, const float * /*col*/) {}
+void R_ChangeIndices(GfxCmdBufPrimState * /*p*/, IDirect3DIndexBuffer9 * /*ib*/) {}
+void R_SetReflectionProbe(GfxCmdBufContext /*ctx*/, unsigned int /*idx*/) {}
+void DB_GetIndexBufferAndBase(unsigned char /*zone*/, void * /*indices*/, void **ib, int *baseIndex) { if (ib) *ib = nullptr; if (baseIndex) *baseIndex = 0; }
+void DB_GetVertexBufferAndOffset(unsigned char /*zone*/, unsigned char * /*verts*/, void **vb, int *off) { if (vb) *vb = nullptr; if (off) *off = 0; }
+void R_SetModelLightingCoordsForSource(unsigned short /*h*/, GfxCmdBufSourceState * /*s*/) {}
+
 // r_shadowcookie / r_spotshadow satellite stubs.
 #include <gfx_d3d/r_meshdata.h>
 void R_AddSceneDObj(unsigned int /*entnum*/, unsigned int /*viewIndex*/) {}
