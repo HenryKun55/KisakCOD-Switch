@@ -495,34 +495,35 @@ struct HWND__;        // Win32 HWND is `struct HWND__ *`
 struct HINSTANCE__;   // Win32 HINSTANCE is `struct HINSTANCE__ *`
 typedef long HRESULT;
 
-// D3DFORMAT constants used in renderer headers. Real values don't matter
-// outside Windows — the code paths that consume them never run.
-#ifndef D3DFMT_D24S8
-#define D3DFMT_D24S8 0
-#endif
-#ifndef D3DFMT_D24X8
-#define D3DFMT_D24X8 0
-#endif
+// D3DFORMAT constants used in renderer headers. Values match the real
+// D3D9 enum (fourcc-packed) so switch cases on D3DFMT_* don't collide
+// even though the code paths that consume them never run.
 #ifndef D3DFMT_UNKNOWN
 #define D3DFMT_UNKNOWN 0
 #endif
+#ifndef D3DFMT_D24S8
+#define D3DFMT_D24S8 75
+#endif
+#ifndef D3DFMT_D24X8
+#define D3DFMT_D24X8 77
+#endif
 #ifndef D3DFMT_D16
-#define D3DFMT_D16 0
+#define D3DFMT_D16 80
 #endif
 #ifndef D3DFMT_A8R8G8B8
-#define D3DFMT_A8R8G8B8 0
+#define D3DFMT_A8R8G8B8 21
 #endif
 #ifndef D3DFMT_X8R8G8B8
-#define D3DFMT_X8R8G8B8 0
+#define D3DFMT_X8R8G8B8 22
 #endif
 #ifndef D3DFMT_DXT1
-#define D3DFMT_DXT1 0
+#define D3DFMT_DXT1 ((int)(('1' << 24) | ('T' << 16) | ('X' << 8) | 'D'))
 #endif
 #ifndef D3DFMT_DXT3
-#define D3DFMT_DXT3 0
+#define D3DFMT_DXT3 ((int)(('3' << 24) | ('T' << 16) | ('X' << 8) | 'D'))
 #endif
 #ifndef D3DFMT_DXT5
-#define D3DFMT_DXT5 0
+#define D3DFMT_DXT5 ((int)(('5' << 24) | ('T' << 16) | ('X' << 8) | 'D'))
 #endif
 
 #ifndef TRUE
