@@ -239,6 +239,7 @@ set(GFX_PORTABLE_SOURCES
     # rb_state.cpp drags R_SetTexFilter / R_InitCmdBuf* /
     # RB_InitCodeImages / R_SetRenderTarget. Land alongside the
     # renderer-frame batch.
+    "${SRC_DIR}/gfx_d3d/rb_shade.cpp"
     "${SRC_DIR}/gfx_d3d/rb_uploadshaders.cpp"
     "${SRC_DIR}/gfx_d3d/rb_drawprofile.cpp"
     "${SRC_DIR}/gfx_d3d/rb_imagefilter.cpp"

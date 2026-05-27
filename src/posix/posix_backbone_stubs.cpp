@@ -1739,9 +1739,9 @@ enum GfxPrimStatsTarget : int;
 void RB_DrawText(const char * /*text*/, Font_s * /*font*/, float /*x*/, float /*y*/, GfxColor /*color*/) {}
 void RB_DrawLines3D(int /*count*/, int /*colorCount*/, const GfxPointVertex * /*verts*/, bool /*flag*/) {}
 // void RB_SetPolyVert(float * /*v*/, GfxColor /*c*/, int /*idx*/) {}  // provided by rb_showcollision.cpp now
-void RB_BeginSurface(const Material * /*m*/, MaterialTechniqueType /*t*/) {}
+// RB_BeginSurface provided by src/gfx_d3d/rb_shade.cpp now.
 void RB_DrawStretchPic(const Material * /*m*/, float /*x*/, float /*y*/, float /*w*/, float /*h*/, float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/, unsigned int /*color*/, GfxPrimStatsTarget /*target*/) {}
-void RB_EndTessSurface() {}
+// RB_EndTessSurface provided by src/gfx_d3d/rb_shade.cpp now.
 void RB_DrawTextInSpace(const char * /*text*/, Font_s * /*font*/, const float * /*origin*/, const float * /*axis*/, const float * /*color*/, unsigned int /*flags*/) {}
 void RB_CheckTessOverflow(int /*a*/, int /*b*/) {}
 #include <gfx_d3d/rb_backend.h>
@@ -1793,10 +1793,11 @@ enum MaterialTextureSource : unsigned int;
 struct GfxImage;
 void R_SetCodeImageTexture(GfxCmdBufSourceState * /*src*/, MaterialTextureSource /*slot*/, const GfxImage * /*image*/) {}
 // gfxRenderTargets / pixelCostMode / vidConfig — declared extern in
-// r_init.h with concrete types; provide storage here.
+// r_init.h / rb_pixelcost.h with concrete types; provide storage here.
 #include <gfx_d3d/r_state.h>
+#include <gfx_d3d/rb_pixelcost.h>
 GfxRenderTarget gfxRenderTargets[17]{};
-int pixelCostMode = 0;
+GfxPixelCostMode pixelCostMode = (GfxPixelCostMode)0;
 vidConfig_t vidConfig{};
 
 // scr_parsetree / scr_parser satellite stubs.
@@ -1815,11 +1816,30 @@ GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 
+// rb_shade satellite stubs.
+#include <gfx_d3d/r_buffers.h>
+#include <gfx_d3d/rb_pixelcost.h>
+void R_SetupPass(GfxCmdBufContext /*ctx*/, unsigned int /*passIndex*/) {}
+void R_SetupPassCriticalPixelShaderArgs(GfxCmdBufContext /*ctx*/) {}
+void R_SetupPassPerObjectArgs(GfxCmdBufContext /*ctx*/) {}
+void R_SetupPassPerPrimArgs(GfxCmdBufContext /*ctx*/) {}
+void R_GetViewport(GfxCmdBufSourceState * /*src*/, GfxViewport * /*v*/) {}
+void R_SetViewport(GfxCmdBufState * /*state*/, const GfxViewport * /*v*/) {}
+void R_UpdateViewport(GfxCmdBufSourceState * /*src*/, GfxViewport * /*v*/) {}
+int R_SetIndexData(GfxCmdBufPrimState * /*p*/, unsigned char * /*data*/, int /*count*/) { return 0; }
+int R_SetVertexData(GfxCmdBufState * /*s*/, const void * /*data*/, int /*size*/, int /*stride*/) { return 0; }
+void R_SetStreamSource(GfxCmdBufPrimState * /*p*/, IDirect3DVertexBuffer9 * /*vb*/, unsigned int /*offset*/, unsigned int /*stride*/) {}
+void R_UpdateVertexDecl(GfxCmdBufState * /*s*/) {}
+void R_DrawIndexedPrimitive(GfxCmdBufPrimState * /*p*/, const GfxDrawPrimArgs * /*args*/) {}
+void R_PixelCost_BeginSurface(GfxCmdBufContext /*ctx*/) {}
+void R_PixelCost_EndSurface(GfxCmdBufContext /*ctx*/) {}
+const Material *R_PixelCost_GetAccumulationMaterial(const Material * /*m*/) { return nullptr; }
+
 // rb_uploadshaders satellite stubs.
 #include <gfx_d3d/rb_shade.h>
 #include <gfx_d3d/r_shade.h>
 void R_SetSampler(GfxCmdBufContext /*ctx*/, unsigned int /*idx*/, unsigned char /*state*/, const GfxImage * /*image*/) {}
-void R_SetVertexDecl(GfxCmdBufPrimState * /*p*/, const MaterialVertexDeclaration * /*v*/) {}
+// R_SetVertexDecl provided by src/gfx_d3d/rb_shade.cpp now.
 void R_SetPixelShader(GfxCmdBufState * /*s*/, const MaterialPixelShader * /*ps*/) {}
 void R_SetVertexShader(GfxCmdBufState * /*s*/, const MaterialVertexShader * /*vs*/) {}
 
@@ -1831,7 +1851,7 @@ void R_DrawQuadMesh(GfxCmdBufContext /*ctx*/, const Material * /*m*/, GfxMeshDat
 // rb_sky satellite stubs.
 #include <gfx_d3d/rb_backend.h>
 void RB_SetIdentity() {}
-void RB_SetTessTechnique(const Material * /*m*/, MaterialTechniqueType /*t*/) {}
+// RB_SetTessTechnique provided by src/gfx_d3d/rb_shade.cpp now.
 void RB_ResetStatTracking() {}
 void R_ClearScreenInternal(IDirect3DDevice9 * /*d*/, unsigned char /*w*/, const float * /*c*/, float /*d2*/, unsigned char /*s*/, const GfxViewport * /*v*/) {}
 IDirect3DQuery9 *RB_HW_AllocOcclusionQuery() { return nullptr; }

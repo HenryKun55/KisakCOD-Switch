@@ -494,6 +494,9 @@ struct IDirect3DDevice9 {
     long SetRenderState(unsigned long, unsigned long) { return 0; }
     long SetScissorRect(const tagRECT *) { return 0; }
     long DrawPrimitiveUP(unsigned long, unsigned int, const void *, unsigned int) { return 0; }
+    long SetVertexDeclaration(IDirect3DVertexDeclaration9 *) { return 0; }
+    long SetPixelShader(IDirect3DPixelShader9 *) { return 0; }
+    long SetVertexShader(IDirect3DVertexShader9 *) { return 0; }
 };
 #ifndef D3DRS_SCISSORTESTENABLE
 #define D3DRS_SCISSORTESTENABLE 174
