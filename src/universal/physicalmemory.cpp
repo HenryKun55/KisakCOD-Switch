@@ -1,14 +1,20 @@
 #include "physicalmemory.h"
 
+#ifdef _WIN32
 #include <Windows.h>
+#endif
 #include "assertive.h"
 #include <qcommon/mem_track.h>
 #include "q_shared.h"
 #include <qcommon/qcommon.h>
+#ifdef _WIN32
 #include <win32/win_local.h>
+#endif
 
 PhysicalMemory g_mem;
 int g_overAllocatedSize;
+
+void Sys_OutOfMemErrorInternal(const char *file, int line);
 
 void __cdecl PMem_Init()
 {
@@ -104,7 +110,7 @@ void __cdecl PMem_EndAlloc(const char *name, unsigned int allocType)
 
 void __cdecl PMem_EndAllocInPrim(PhysicalMemoryPrim *prim, const char *name)
 {
-    __int64 v2; // rax
+    [[maybe_unused]] __int64 v2; // rax
 
     if (prim->allocName != name)
         MyAssertHandler(".\\universal\\physicalmemory.cpp", 364, 0, "%s", "prim->allocName == name");
@@ -144,9 +150,9 @@ void __cdecl PMem_FreeInPrim(PhysicalMemoryPrim *prim, const char *name)
 
 void __cdecl PMem_FreeIndex(PhysicalMemoryPrim *prim, unsigned int allocIndex)
 {
-    __int64 v2; // rax
+    [[maybe_unused]] __int64 v2; // rax
     const char *v3; // eax
-    __int64 v4; // rax
+    [[maybe_unused]] __int64 v4; // rax
     PhysicalMemoryAllocation *allocEntry; // [esp+0h] [ebp-Ch]
     const char *name; // [esp+4h] [ebp-8h]
 

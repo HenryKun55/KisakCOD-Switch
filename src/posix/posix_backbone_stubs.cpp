@@ -590,11 +590,8 @@ struct XZoneMemory;
 void DB_LoadXFileData(unsigned char * /*buffer*/, unsigned int /*size*/) {}
 
 // PMem
-unsigned char *PMem_Alloc(unsigned int size, unsigned int /*alignment*/, unsigned int /*allocType*/, unsigned int /*name*/)
-{
-    return static_cast<unsigned char *>(std::calloc(1, size));
-}
-unsigned int PMem_GetOverAllocatedSize() { return 0; }
+// PMem_Alloc provided by src/universal/physicalmemory.cpp now.
+// PMem_GetOverAllocatedSize provided by src/universal/physicalmemory.cpp now.
 
 // SL
 // unsigned int SL_GetString(const char * /*str*/, unsigned int /*user*/) { return 0; }  // provided by scr_variable/scr_stringlist now
@@ -1120,9 +1117,9 @@ void NET_Sleep(int /*msec*/) {}
 // void Hunk_InitDebugMemory() {}
 // void Hunk_ResetDebugMem() {}
 // void Hunk_ShutdownDebugMemory() {}
-void PMem_Init() {}
-void PMem_BeginAlloc(const char * /*name*/, unsigned int /*allocType*/) {}
-void PMem_EndAlloc(const char * /*name*/, unsigned int /*allocType*/) {}
+// PMem_Init provided by src/universal/physicalmemory.cpp now.
+// PMem_BeginAlloc provided by src/universal/physicalmemory.cpp now.
+// PMem_EndAlloc provided by src/universal/physicalmemory.cpp now.
 
 // =========================================================================
 // Build number — upstream auto-generates this on Windows. We ship a static
@@ -1375,7 +1372,7 @@ scrVmPub_t       scrVmPub{};
 // CG_ShouldDrawHud provided by src/cgame_mp/cg_newDraw_mp.cpp now.
 void R_TrackStatistics(trStatistics_t *) {}
 // void FX_DrawMarkProfile(int, void (*)(const char *, float *), float *) {}  // provided by fx_profile.cpp now
-int  PMem_GetFreeAmount() { return 0; }
+// PMem_GetFreeAmount provided by src/universal/physicalmemory.cpp now.
 void Phys_DrawDebugText(const ScreenPlacement *) {}
 int  Scr_GetStringUsage() { return 0; }
 void Phys_GetPerformance(float *t, int *a, int *b) { if (t) *t = 0.f; if (a) *a = 0; if (b) *b = 0; }
@@ -1626,7 +1623,7 @@ struct IDirect3DVertexBuffer9;
 // R_LockVertexBuffer provided by src/gfx_d3d/r_buffers.cpp now.
 // unsigned char *Hunk_AllocXModelPrecache(unsigned int /*size*/) { return nullptr; }
 // unsigned char *Hunk_AllocXModelPrecacheColl(unsigned int /*size*/) { return nullptr; }
-void PMem_DumpMemStats() {}
+// PMem_DumpMemStats provided by src/universal/physicalmemory.cpp now.
 void Sys_OutOfMemErrorInternal(const char * /*file*/, int /*line*/) {}
 struct FileDataHashEntry;
 FileDataHashEntry *com_fileDataHashTable[8192]{};

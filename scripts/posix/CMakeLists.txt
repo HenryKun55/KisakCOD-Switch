@@ -40,6 +40,7 @@ set(UNIVERSAL_PORTABLE_SOURCES
     # negative-index struct walking (`g_sa.soundFileInfo[-4]`) plus
     # 32-bit pointer-as-int storage. Land after typed soundalias
     # struct refactor.
+    "${SRC_DIR}/universal/physicalmemory.cpp"
     "${SRC_DIR}/universal/pool_allocator.cpp"
     "${SRC_DIR}/universal/q_shared.cpp"
     "${SRC_DIR}/universal/surfaceflags.cpp"
