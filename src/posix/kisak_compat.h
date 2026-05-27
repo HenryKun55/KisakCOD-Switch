@@ -911,6 +911,24 @@ typedef long HRESULT;
 #ifndef D3DFMT_INDEX32
 #define D3DFMT_INDEX32 102
 #endif
+#ifndef D3DFMT_G16R16F
+#define D3DFMT_G16R16F 112
+#endif
+#ifndef D3DFMT_A16B16G16R16F
+#define D3DFMT_A16B16G16R16F 113
+#endif
+#ifndef D3DFMT_G16R16
+#define D3DFMT_G16R16 34
+#endif
+#ifndef D3DFMT_A16B16G16R16
+#define D3DFMT_A16B16G16R16 36
+#endif
+#ifndef D3DFMT_A2B10G10R10
+#define D3DFMT_A2B10G10R10 31
+#endif
+#ifndef D3DFMT_X1R5G5B5
+#define D3DFMT_X1R5G5B5 24
+#endif
 #ifndef D3DFMT_A8B8G8R8
 #define D3DFMT_A8B8G8R8 32
 #endif

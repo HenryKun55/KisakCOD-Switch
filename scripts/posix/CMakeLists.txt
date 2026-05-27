@@ -143,6 +143,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_fog.cpp"
     "${SRC_DIR}/gfx_d3d/r_font.cpp"
     "${SRC_DIR}/gfx_d3d/r_image_load_common.cpp"
+    "${SRC_DIR}/gfx_d3d/r_image_load_obj.cpp"
     "${SRC_DIR}/gfx_d3d/r_image.cpp"
     # r_init.cpp pulls Win32 ShellExecuteA / IsWindow / DestroyWindow
     # plus Direct3DCreate9 / _D3DCAPS9 / _D3DDISPLAYMODE structs. The

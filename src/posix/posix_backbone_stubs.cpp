@@ -1642,20 +1642,20 @@ GfxMetrics gfxMetrics{};
 // r_outdoor satellite stubs.
 struct GfxImage;
 // Image_Register provided by src/gfx_d3d/r_image.cpp now.
-void Image_Generate2D(GfxImage * /*img*/, unsigned char * /*data*/, int /*w*/, int /*h*/, int /*format*/) {}
+// Image_Generate2D provided by src/gfx_d3d/r_image_load_obj.cpp now.
 // Image_Alloc provided by src/gfx_d3d/r_image.cpp now.
-void Image_GenerateCube(GfxImage * /*img*/, const unsigned char *(* /*faces*/)[15], int /*w*/, int /*h*/, unsigned int /*flags*/) {}
+// Image_GenerateCube provided by src/gfx_d3d/r_image_load_obj.cpp now.
 struct GfxImageFileHeader;
 // Image_ValidateHeader provided by src/gfx_d3d/r_image.cpp now.
 struct WaveletDecode;
 // void Wavelet_DecompressLevel(unsigned char * /*dst*/, unsigned char * /*src*/, WaveletDecode * /*ctx*/) {}  // provided by r_image_wavelet.cpp now
 // Material_Alloc provided by src/gfx_d3d/r_material.cpp now.
-void Image_BuildWaterMap(GfxImage * /*img*/) {}
+// Image_BuildWaterMap provided by src/gfx_d3d/r_image_load_obj.cpp now.
 // Image_UploadData provided by src/gfx_d3d/r_image.cpp now.
 // Image_CubemapFace provided by src/gfx_d3d/r_image_load_common.cpp now.
-void Image_SetupFromFile(GfxImage * /*img*/, const GfxImageFileHeader * /*hdr*/, int /*flags*/) {}
-void Image_FreeTempMemory(unsigned char * /*p*/, int /*size*/) {}
-unsigned char *Image_AllocTempMemory(int /*size*/) { return nullptr; }
+// Image_SetupFromFile provided by src/gfx_d3d/r_image_load_obj.cpp now.
+// Image_FreeTempMemory provided by src/gfx_d3d/r_image_load_obj.cpp now.
+// Image_AllocTempMemory provided by src/gfx_d3d/r_image_load_obj.cpp now.
 // Image_CountMipmapsForFile provided by src/gfx_d3d/r_image.cpp now.
 
 // r_meshdata satellite stubs.
@@ -1873,23 +1873,23 @@ MaterialTechniqueSet *Material_FindTechniqueSet_LoadObj(const char * /*name*/, M
 // R_TextureFromCodeError provided by src/gfx_d3d/r_state.cpp now.
 
 // r_image_load_common satellite stubs.
-void Image_TrackTotalMemory(GfxImage * /*img*/, int /*platform*/, int /*mem*/) {}
+// Image_TrackTotalMemory provided by src/gfx_d3d/r_image_load_obj.cpp now.
 
 // r_image satellite stubs.
-bool Image_IsProg(GfxImage * /*img*/) { return false; }
+// Image_IsProg provided by src/gfx_d3d/r_image_load_obj.cpp now.
 // Image_GetPicmip provided by src/gfx_d3d/r_image_load_common.cpp now.
-void Image_Generate3D(GfxImage * /*img*/, unsigned char *, int, int, int, int) {}
+// Image_Generate3D provided by src/gfx_d3d/r_image_load_obj.cpp now.
 // R_DisableSampler provided by src/gfx_d3d/r_state.cpp now.
-void Image_TrackTexture(GfxImage * /*img*/, char, int, int, int, int) {}
+// Image_TrackTexture provided by src/gfx_d3d/r_image_load_obj.cpp now.
 void DB_LoadedExternalData(int /*size*/) {}
-GfxImage *Image_Register_LoadObj(char * /*name*/, unsigned char, unsigned char) { return nullptr; }
+// Image_Register_LoadObj provided by src/gfx_d3d/r_image_load_obj.cpp now.
 unsigned int R_AvailableTextureMemory() { return 0; }
-unsigned int Image_GetCardMemoryAmount(char, int, unsigned int, unsigned int, unsigned int) { return 0; }
-GfxImage *Image_FindExisting_LoadObj(const char * /*name*/) { return nullptr; }
+// Image_GetCardMemoryAmount provided by src/gfx_d3d/r_image_load_obj.cpp now.
+// Image_FindExisting_LoadObj provided by src/gfx_d3d/r_image_load_obj.cpp now.
 // Image_Upload2D_CopyData_PC provided by src/gfx_d3d/r_image_load_common.cpp now.
 // Image_Upload3D_CopyData_PC provided by src/gfx_d3d/r_image_load_common.cpp now.
-char Image_LoadFromFileWithReader(GfxImage * /*img*/, int (*)(const char *, int *)) { return 0; }
-unsigned int Image_GetCardMemoryAmountForMipLevel(int, unsigned int, unsigned int, unsigned int) { return 0; }
+// Image_LoadFromFileWithReader provided by src/gfx_d3d/r_image_load_obj.cpp now.
+// Image_GetCardMemoryAmountForMipLevel provided by src/gfx_d3d/r_image_load_obj.cpp now.
 ImgGlobals imageGlobals{};
 
 // r_model_lighting satellite stubs.

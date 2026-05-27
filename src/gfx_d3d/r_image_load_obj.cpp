@@ -419,7 +419,7 @@ static void __cdecl Image_PrintTruncatedFileError(const char *filepath)
 
 char __cdecl Image_LoadFromFileWithReader(GfxImage *image, int(__cdecl *OpenFileRead)(const char *, int *))
 {
-    int v3; // eax
+    [[maybe_unused]] int v3; // eax
     int v4; // [esp+0h] [ebp-84h]
     unsigned __int8 *imageData; // [esp+Ch] [ebp-78h]
     GfxImageFileHeader fileHeader; // [esp+10h] [ebp-74h] BYREF
