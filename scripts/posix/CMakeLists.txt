@@ -257,9 +257,7 @@ set(GFX_PORTABLE_SOURCES
     # 64-bit (smodel leaf grows beyond 256 bytes), 6 past-end int[3]
     # array accesses, and a hex-rays self-compare. Focused pass.
     "${SRC_DIR}/gfx_d3d/r_xsurface.cpp"
-    # rb_backend.cpp uses IDirect3DSurface9 member functions (GetDesc /
-    # LockRect / UnlockRect / GetGammaRamp) and _D3DLOCKED_RECT /
-    # _D3DGAMMARAMP. Land behind D3D9 surface abstraction.
+    "${SRC_DIR}/gfx_d3d/rb_backend.cpp"
     "${SRC_DIR}/gfx_d3d/rb_debug.cpp"
     "${SRC_DIR}/gfx_d3d/rb_depthprepass.cpp"
     "${SRC_DIR}/gfx_d3d/rb_draw3d.cpp"

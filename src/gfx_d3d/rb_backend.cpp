@@ -106,7 +106,7 @@ void __cdecl R_ReleaseGpuFenceLock()
 void __cdecl R_InsertGpuFence()
 {
     const char *v0; // eax
-    int hr; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-4h]
 
 	// KISAKGPUFENCE: Comment asserts out for now. Sometimes goes off when alt-tabbing.
     //if (dx.flushGpuQueryCount)
@@ -194,7 +194,7 @@ void __cdecl R_SetVertex4dWithNormal(
     float t,
     const unsigned __int8 *color)
 {
-    PackedUnitVec v11; // [esp+28h] [ebp-30h]
+    [[maybe_unused]] PackedUnitVec v11; // [esp+28h] [ebp-30h]
 
     vert->xyzw[0] = x;
     vert->xyzw[1] = y;
@@ -223,7 +223,7 @@ void __cdecl RB_DrawStretchPic(
     unsigned int color,
     GfxPrimStatsTarget statsTarget)
 {
-    unsigned __int16 vertCount; // [esp+24h] [ebp-4h]
+    [[maybe_unused]] unsigned __int16 vertCount; // [esp+24h] [ebp-4h]
 
     iassert(gfxCmdBufSourceState.viewMode == VIEW_MODE_2D);
 
@@ -280,9 +280,9 @@ void __cdecl RB_DrawStretchPicFlipST(
     unsigned int color,
     GfxPrimStatsTarget statsTarget)
 {
-    float v11; // [esp+1Ch] [ebp-Ch]
-    float v12; // [esp+20h] [ebp-8h]
-    unsigned __int16 vertCount; // [esp+24h] [ebp-4h]
+    [[maybe_unused]] float v11; // [esp+1Ch] [ebp-Ch]
+    [[maybe_unused]] float v12; // [esp+20h] [ebp-8h]
+    [[maybe_unused]] unsigned __int16 vertCount; // [esp+24h] [ebp-4h]
 
     iassert( gfxCmdBufSourceState.viewMode == VIEW_MODE_2D );
     RB_SetTessTechnique(material, TECHNIQUE_UNLIT);
@@ -313,8 +313,8 @@ void __cdecl RB_DrawFullScreenColoredQuad(
     float t1,
     unsigned int color)
 {
-    float screenWidth; // [esp+28h] [ebp-8h]
-    float screenHeight; // [esp+2Ch] [ebp-4h]
+    [[maybe_unused]] float screenWidth; // [esp+28h] [ebp-8h]
+    [[maybe_unused]] float screenHeight; // [esp+2Ch] [ebp-4h]
 
     if (tess.indexCount)
         RB_EndTessSurface();
@@ -341,10 +341,10 @@ void __cdecl RB_SplitScreenFilter(const Material *material, const GfxViewInfo *v
     float t1; // [esp+2Ch] [ebp-1Ch] BYREF
     float s1; // [esp+30h] [ebp-18h] BYREF
     float s0; // [esp+34h] [ebp-14h] BYREF
-    float x; // [esp+38h] [ebp-10h]
-    float y; // [esp+3Ch] [ebp-Ch]
-    float h; // [esp+40h] [ebp-8h]
-    float w; // [esp+44h] [ebp-4h]
+    [[maybe_unused]] float x; // [esp+38h] [ebp-10h]
+    [[maybe_unused]] float y; // [esp+3Ch] [ebp-Ch]
+    [[maybe_unused]] float h; // [esp+40h] [ebp-8h]
+    [[maybe_unused]] float w; // [esp+44h] [ebp-4h]
 
     if (tess.indexCount)
         RB_EndTessSurface();
@@ -360,12 +360,12 @@ void __cdecl RB_SplitScreenFilter(const Material *material, const GfxViewInfo *v
 
 void __cdecl RB_SplitScreenTexCoords(float x, float y, float w, float h, float *s0, float *t0, float *s1, float *t1)
 {
-    float screenWidth; // [esp+0h] [ebp-8h]
-    float screenHeight; // [esp+4h] [ebp-4h]
-    float xa; // [esp+10h] [ebp+8h]
-    float ya; // [esp+14h] [ebp+Ch]
-    float wa; // [esp+18h] [ebp+10h]
-    float ha; // [esp+1Ch] [ebp+14h]
+    [[maybe_unused]] float screenWidth; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] float screenHeight; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] float xa; // [esp+10h] [ebp+8h]
+    [[maybe_unused]] float ya; // [esp+14h] [ebp+Ch]
+    [[maybe_unused]] float wa; // [esp+18h] [ebp+10h]
+    [[maybe_unused]] float ha; // [esp+1Ch] [ebp+14h]
 
     iassert( s0 );
     iassert( s1 );
@@ -385,13 +385,13 @@ void __cdecl RB_SplitScreenTexCoords(float x, float y, float w, float h, float *
 
 void __cdecl R_Resolve(GfxCmdBufContext context, GfxImage *image)
 {
-    const char *v2; // eax
-    const char *v3; // eax
-    const char *v4; // eax
-    const char *v5; // eax
-    int v6; // [esp+0h] [ebp-Ch]
-    int hr; // [esp+4h] [ebp-8h]
-    IDirect3DSurface9 *imageSurface; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] const char *v2; // eax
+    [[maybe_unused]] const char *v3; // eax
+    [[maybe_unused]] const char *v4; // eax
+    [[maybe_unused]] const char *v5; // eax
+    [[maybe_unused]] int v6; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] int hr; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] IDirect3DSurface9 *imageSurface; // [esp+8h] [ebp-4h]
 
     iassert( image );
     iassert(image->width == gfxRenderTargets[context.state->renderTargetId].width);
@@ -457,28 +457,28 @@ void __cdecl RB_StretchPicCmdFlipST(GfxRenderCommandExecState *execState)
 
 void __cdecl RB_StretchPicRotateXYCmd(GfxRenderCommandExecState *execState)
 {
-    float v1; // [esp+14h] [ebp-64h]
-    float v2; // [esp+18h] [ebp-60h]
-    float v3; // [esp+1Ch] [ebp-5Ch]
-    float v4; // [esp+20h] [ebp-58h]
-    float v5; // [esp+24h] [ebp-54h]
-    float v6; // [esp+28h] [ebp-50h]
-    float x; // [esp+2Ch] [ebp-4Ch]
-    float y; // [esp+30h] [ebp-48h]
-    float v9; // [esp+40h] [ebp-38h]
-    float halfWidth; // [esp+44h] [ebp-34h]
-    float stepY; // [esp+48h] [ebp-30h]
-    float stepY_4; // [esp+4Ch] [ebp-2Ch]
-    float cosAngle; // [esp+50h] [ebp-28h]
-    float stepX; // [esp+54h] [ebp-24h]
-    float stepX_4; // [esp+58h] [ebp-20h]
-    int indexCount; // [esp+5Ch] [ebp-1Ch]
-    float midX; // [esp+60h] [ebp-18h]
-    float sinAngle; // [esp+64h] [ebp-14h]
-    unsigned __int16 vertCount; // [esp+68h] [ebp-10h]
-    float midY; // [esp+6Ch] [ebp-Ch]
-    const GfxCmdStretchPicRotateXY *cmd; // [esp+70h] [ebp-8h]
-    float halfHeight; // [esp+74h] [ebp-4h]
+    [[maybe_unused]] float v1; // [esp+14h] [ebp-64h]
+    [[maybe_unused]] float v2; // [esp+18h] [ebp-60h]
+    [[maybe_unused]] float v3; // [esp+1Ch] [ebp-5Ch]
+    [[maybe_unused]] float v4; // [esp+20h] [ebp-58h]
+    [[maybe_unused]] float v5; // [esp+24h] [ebp-54h]
+    [[maybe_unused]] float v6; // [esp+28h] [ebp-50h]
+    [[maybe_unused]] float x; // [esp+2Ch] [ebp-4Ch]
+    [[maybe_unused]] float y; // [esp+30h] [ebp-48h]
+    [[maybe_unused]] float v9; // [esp+40h] [ebp-38h]
+    [[maybe_unused]] float halfWidth; // [esp+44h] [ebp-34h]
+    [[maybe_unused]] float stepY; // [esp+48h] [ebp-30h]
+    [[maybe_unused]] float stepY_4; // [esp+4Ch] [ebp-2Ch]
+    [[maybe_unused]] float cosAngle; // [esp+50h] [ebp-28h]
+    [[maybe_unused]] float stepX; // [esp+54h] [ebp-24h]
+    [[maybe_unused]] float stepX_4; // [esp+58h] [ebp-20h]
+    [[maybe_unused]] int indexCount; // [esp+5Ch] [ebp-1Ch]
+    [[maybe_unused]] float midX; // [esp+60h] [ebp-18h]
+    [[maybe_unused]] float sinAngle; // [esp+64h] [ebp-14h]
+    [[maybe_unused]] unsigned __int16 vertCount; // [esp+68h] [ebp-10h]
+    [[maybe_unused]] float midY; // [esp+6Ch] [ebp-Ch]
+    [[maybe_unused]] const GfxCmdStretchPicRotateXY *cmd; // [esp+70h] [ebp-8h]
+    [[maybe_unused]] float halfHeight; // [esp+74h] [ebp-4h]
 
     cmd = (const GfxCmdStretchPicRotateXY *)execState->cmd;
     iassert( gfxCmdBufSourceState.viewMode == VIEW_MODE_2D );
@@ -523,28 +523,28 @@ void __cdecl RB_StretchPicRotateXYCmd(GfxRenderCommandExecState *execState)
 
 void __cdecl RB_StretchPicRotateSTCmd(GfxRenderCommandExecState *execState)
 {
-    float v1; // [esp+14h] [ebp-64h]
-    float v2; // [esp+18h] [ebp-60h]
-    float y; // [esp+1Ch] [ebp-5Ch]
-    float x; // [esp+20h] [ebp-58h]
-    float v5; // [esp+30h] [ebp-48h]
-    float cosAngle; // [esp+34h] [ebp-44h]
-    int indexCount; // [esp+38h] [ebp-40h]
-    float sinAngle; // [esp+3Ch] [ebp-3Ch]
-    float texS; // [esp+40h] [ebp-38h]
-    float texS_4; // [esp+44h] [ebp-34h]
-    float texS_8; // [esp+48h] [ebp-30h]
-    float texS_12; // [esp+4Ch] [ebp-2Ch]
-    unsigned __int16 vertCount; // [esp+50h] [ebp-28h]
-    float stepT; // [esp+54h] [ebp-24h]
-    float stepT_4; // [esp+58h] [ebp-20h]
-    const GfxCmdStretchPicRotateST *cmd; // [esp+5Ch] [ebp-1Ch]
-    float stepS; // [esp+60h] [ebp-18h]
-    float stepS_4; // [esp+64h] [ebp-14h]
-    float texT; // [esp+68h] [ebp-10h]
-    float texT_4; // [esp+6Ch] [ebp-Ch]
-    float texT_8; // [esp+70h] [ebp-8h]
-    float texT_12; // [esp+74h] [ebp-4h]
+    [[maybe_unused]] float v1; // [esp+14h] [ebp-64h]
+    [[maybe_unused]] float v2; // [esp+18h] [ebp-60h]
+    [[maybe_unused]] float y; // [esp+1Ch] [ebp-5Ch]
+    [[maybe_unused]] float x; // [esp+20h] [ebp-58h]
+    [[maybe_unused]] float v5; // [esp+30h] [ebp-48h]
+    [[maybe_unused]] float cosAngle; // [esp+34h] [ebp-44h]
+    [[maybe_unused]] int indexCount; // [esp+38h] [ebp-40h]
+    [[maybe_unused]] float sinAngle; // [esp+3Ch] [ebp-3Ch]
+    [[maybe_unused]] float texS; // [esp+40h] [ebp-38h]
+    [[maybe_unused]] float texS_4; // [esp+44h] [ebp-34h]
+    [[maybe_unused]] float texS_8; // [esp+48h] [ebp-30h]
+    [[maybe_unused]] float texS_12; // [esp+4Ch] [ebp-2Ch]
+    [[maybe_unused]] unsigned __int16 vertCount; // [esp+50h] [ebp-28h]
+    [[maybe_unused]] float stepT; // [esp+54h] [ebp-24h]
+    [[maybe_unused]] float stepT_4; // [esp+58h] [ebp-20h]
+    [[maybe_unused]] const GfxCmdStretchPicRotateST *cmd; // [esp+5Ch] [ebp-1Ch]
+    [[maybe_unused]] float stepS; // [esp+60h] [ebp-18h]
+    [[maybe_unused]] float stepS_4; // [esp+64h] [ebp-14h]
+    [[maybe_unused]] float texT; // [esp+68h] [ebp-10h]
+    [[maybe_unused]] float texT_4; // [esp+6Ch] [ebp-Ch]
+    [[maybe_unused]] float texT_8; // [esp+70h] [ebp-8h]
+    [[maybe_unused]] float texT_12; // [esp+74h] [ebp-4h]
 
     cmd = (const GfxCmdStretchPicRotateST *)execState->cmd;
     iassert( gfxCmdBufSourceState.viewMode == VIEW_MODE_2D );
@@ -589,9 +589,9 @@ void __cdecl RB_StretchPicRotateSTCmd(GfxRenderCommandExecState *execState)
 
 void __cdecl RB_DrawQuadPicCmd(GfxRenderCommandExecState *execState)
 {
-    int indexCount; // [esp+18h] [ebp-Ch]
-    unsigned __int16 vertCount; // [esp+1Ch] [ebp-8h]
-    const GfxCmdDrawQuadPic *cmd; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] int indexCount; // [esp+18h] [ebp-Ch]
+    [[maybe_unused]] unsigned __int16 vertCount; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] const GfxCmdDrawQuadPic *cmd; // [esp+20h] [ebp-4h]
 
     cmd = (const GfxCmdDrawQuadPic *)execState->cmd;
     iassert( gfxCmdBufSourceState.viewMode == VIEW_MODE_2D );
@@ -634,14 +634,14 @@ void __cdecl RB_StretchRawCmd(GfxRenderCommandExecState *execState)
 void __cdecl RB_StretchRaw(int x, int y, int w, int h, int cols, int rows, const unsigned __int8 *data)
 {
     const char *v7; // eax
-    int v8; // [esp+8h] [ebp-34h]
+    [[maybe_unused]] int v8; // [esp+8h] [ebp-34h]
     _D3DLOCKED_RECT lockedRect; // [esp+10h] [ebp-2Ch] BYREF
     IDirect3DSurface9 *rawSurf; // [esp+18h] [ebp-24h] BYREF
-    unsigned __int8 *dest; // [esp+1Ch] [ebp-20h]
+    [[maybe_unused]] unsigned __int8 *dest; // [esp+1Ch] [ebp-20h]
     tagRECT dstRect; // [esp+20h] [ebp-1Ch] BYREF
-    int colIndex; // [esp+30h] [ebp-Ch]
-    int newline; // [esp+34h] [ebp-8h]
-    int rowIndex; // [esp+38h] [ebp-4h]
+    [[maybe_unused]] int colIndex; // [esp+30h] [ebp-Ch]
+    [[maybe_unused]] int newline; // [esp+34h] [ebp-8h]
+    [[maybe_unused]] int rowIndex; // [esp+38h] [ebp-4h]
 
     if (dx.device->CreateOffscreenPlainSurface(cols, rows, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &rawSurf, 0) >= 0)
     {
@@ -698,10 +698,10 @@ void __cdecl RB_StretchRaw(int x, int y, int w, int h, int cols, int rows, const
 void __cdecl R_DrawSurfs(GfxCmdBufContext context, GfxCmdBufState *prepassState, const GfxDrawSurfListInfo *info)
 {
     GfxViewport viewport; // [esp+30h] [ebp-30h] BYREF
-    GfxCmdBufContext prepassContext; // [esp+40h] [ebp-20h]
+    [[maybe_unused]] GfxCmdBufContext prepassContext; // [esp+40h] [ebp-20h]
     GfxDrawSurfListArgs listArgs; // [esp+48h] [ebp-18h] BYREF
-    unsigned int processedDrawSurfCount; // [esp+58h] [ebp-8h]
-    unsigned int drawSurfCount; // [esp+5Ch] [ebp-4h]
+    [[maybe_unused]] unsigned int processedDrawSurfCount; // [esp+58h] [ebp-8h]
+    [[maybe_unused]] unsigned int drawSurfCount; // [esp+5Ch] [ebp-4h]
 
     PROF_SCOPED("R_DrawSurfs");
 
@@ -757,12 +757,12 @@ unsigned int __cdecl R_RenderDrawSurfListMaterial(const GfxDrawSurfListArgs *lis
     //GfxCmdBufSourceState *passPrepassContext; // [esp+4h] [ebp-28h]
     //GfxCmdBufState *passPrepassContext_4; // [esp+8h] [ebp-24h]
     GfxCmdBufContext passPrepassContext;
-    GfxDrawSurf drawSurf; // [esp+Ch] [ebp-20h]
-    unsigned int subListCount; // [esp+18h] [ebp-14h]
-    const GfxDrawSurf *drawSurfList; // [esp+1Ch] [ebp-10h]
-    unsigned int passIndex; // [esp+20h] [ebp-Ch]
-    bool isPixelCostEnabled; // [esp+27h] [ebp-5h]
-    unsigned int drawSurfCount; // [esp+28h] [ebp-4h]
+    [[maybe_unused]] GfxDrawSurf drawSurf; // [esp+Ch] [ebp-20h]
+    [[maybe_unused]] unsigned int subListCount; // [esp+18h] [ebp-14h]
+    [[maybe_unused]] const GfxDrawSurf *drawSurfList; // [esp+1Ch] [ebp-10h]
+    [[maybe_unused]] unsigned int passIndex; // [esp+20h] [ebp-Ch]
+    [[maybe_unused]] bool isPixelCostEnabled; // [esp+27h] [ebp-5h]
+    [[maybe_unused]] unsigned int drawSurfCount; // [esp+28h] [ebp-4h]
 
     drawSurfCount = listArgs->info->drawSurfCount - listArgs->firstDrawSurfIndex;
     drawSurfList = &listArgs->info->drawSurfs[listArgs->firstDrawSurfIndex];
@@ -813,8 +813,8 @@ unsigned int __cdecl R_RenderDrawSurfListMaterial(const GfxDrawSurfListArgs *lis
 
 void __cdecl R_TessEnd(GfxCmdBufContext context, GfxCmdBufContext prepassContext)
 {
-    GfxDepthRangeType v2; // [esp+0h] [ebp-Ch]
-    GfxDepthRangeType depthRangeType; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] GfxDepthRangeType v2; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] GfxDepthRangeType depthRangeType; // [esp+4h] [ebp-8h]
 
     if (prepassContext.state && context.source != prepassContext.source)
         MyAssertHandler(
@@ -856,7 +856,7 @@ void __cdecl RB_ClearScreenCmd(GfxRenderCommandExecState *execState)
 
 void __cdecl RB_SetGammaRamp(const GfxGammaRamp *gammaTable)
 {
-    int colorIndex; // [esp+0h] [ebp-60Ch]
+    [[maybe_unused]] int colorIndex; // [esp+0h] [ebp-60Ch]
     _D3DGAMMARAMP d3dGammaRamp; // [esp+4h] [ebp-608h] BYREF
 
     iassert( gammaTable != NULL );
@@ -873,7 +873,7 @@ void __cdecl RB_SetGammaRamp(const GfxGammaRamp *gammaTable)
 
 void __cdecl RB_SaveScreenCmd(GfxRenderCommandExecState *execState)
 {
-    const GfxCmdSaveScreen *cmd; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] const GfxCmdSaveScreen *cmd; // [esp+4h] [ebp-4h]
 
     cmd = (const GfxCmdSaveScreen *)execState->cmd;
 
@@ -889,7 +889,7 @@ void __cdecl RB_SaveScreenCmd(GfxRenderCommandExecState *execState)
 
 void __cdecl RB_SaveScreenSectionCmd(GfxRenderCommandExecState *execState)
 {
-    const GfxCmdSaveScreenSection *cmd; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] const GfxCmdSaveScreenSection *cmd; // [esp+14h] [ebp-4h]
 
     cmd = (const GfxCmdSaveScreenSection *)execState->cmd;
 
@@ -913,16 +913,16 @@ void __cdecl R_ResolveSection(GfxCmdBufContext context, GfxImage *image)
 
 void __cdecl RB_BlendSavedScreenBlurredCmd(GfxRenderCommandExecState *execState)
 {
-    float s1; // [esp+28h] [ebp-48h]
-    float t1; // [esp+2Ch] [ebp-44h]
-    float v3; // [esp+30h] [ebp-40h]
-    float v4; // [esp+44h] [ebp-2Ch]
-    float v5; // [esp+54h] [ebp-1Ch]
-    float screenWidth; // [esp+58h] [ebp-18h]
-    int frameTime; // [esp+5Ch] [ebp-14h]
-    float screenHeight; // [esp+64h] [ebp-Ch]
-    const GfxCmdBlendSavedScreenBlurred *cmd; // [esp+68h] [ebp-8h]
-    float alpha; // [esp+6Ch] [ebp-4h]
+    [[maybe_unused]] float s1; // [esp+28h] [ebp-48h]
+    [[maybe_unused]] float t1; // [esp+2Ch] [ebp-44h]
+    [[maybe_unused]] float v3; // [esp+30h] [ebp-40h]
+    [[maybe_unused]] float v4; // [esp+44h] [ebp-2Ch]
+    [[maybe_unused]] float v5; // [esp+54h] [ebp-1Ch]
+    [[maybe_unused]] float screenWidth; // [esp+58h] [ebp-18h]
+    [[maybe_unused]] int frameTime; // [esp+5Ch] [ebp-14h]
+    [[maybe_unused]] float screenHeight; // [esp+64h] [ebp-Ch]
+    [[maybe_unused]] const GfxCmdBlendSavedScreenBlurred *cmd; // [esp+68h] [ebp-8h]
+    [[maybe_unused]] float alpha; // [esp+6Ch] [ebp-4h]
 
     cmd = (const GfxCmdBlendSavedScreenBlurred *)execState->cmd;
     iassert( cmd->fadeMsec > 0 );
@@ -976,13 +976,13 @@ void __cdecl R_SetCodeImageTexture(GfxCmdBufSourceState *source, MaterialTexture
 
 void __cdecl RB_BlendSavedScreenFlashedCmd(GfxRenderCommandExecState *execState)
 {
-    float s1; // [esp+28h] [ebp-50h]
-    float t1; // [esp+2Ch] [ebp-4Ch]
-    float v3; // [esp+40h] [ebp-38h]
-    float v4; // [esp+54h] [ebp-24h]
-    float screenWidth; // [esp+64h] [ebp-14h]
-    float screenHeight; // [esp+70h] [ebp-8h]
-    const GfxCmdBlendSavedScreenFlashed *cmd; // [esp+74h] [ebp-4h]
+    [[maybe_unused]] float s1; // [esp+28h] [ebp-50h]
+    [[maybe_unused]] float t1; // [esp+2Ch] [ebp-4Ch]
+    [[maybe_unused]] float v3; // [esp+40h] [ebp-38h]
+    [[maybe_unused]] float v4; // [esp+54h] [ebp-24h]
+    [[maybe_unused]] float screenWidth; // [esp+64h] [ebp-14h]
+    [[maybe_unused]] float screenHeight; // [esp+70h] [ebp-8h]
+    [[maybe_unused]] const GfxCmdBlendSavedScreenFlashed *cmd; // [esp+74h] [ebp-4h]
 
     cmd = (const GfxCmdBlendSavedScreenFlashed *)execState->cmd;
     if (tess.indexCount)
@@ -1013,7 +1013,7 @@ void __cdecl RB_BlendSavedScreenFlashedCmd(GfxRenderCommandExecState *execState)
 
 void __cdecl RB_DrawPointsCmd(GfxRenderCommandExecState *execState)
 {
-    const GfxCmdDrawPoints *cmd; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] const GfxCmdDrawPoints *cmd; // [esp+4h] [ebp-4h]
 
     cmd = (const GfxCmdDrawPoints *)execState->cmd;
 
@@ -1031,17 +1031,17 @@ void __cdecl RB_DrawPointsCmd(GfxRenderCommandExecState *execState)
 
 void __cdecl RB_DrawPoints2D(const GfxCmdDrawPoints *cmd)
 {
-    float v1; // [esp+1Ch] [ebp-30h]
-    float v2; // [esp+20h] [ebp-2Ch]
-    float v3; // [esp+24h] [ebp-28h]
-    float v4; // [esp+28h] [ebp-24h]
-    float v5; // [esp+2Ch] [ebp-20h]
-    float v6; // [esp+30h] [ebp-1Ch]
-    float x; // [esp+34h] [ebp-18h]
-    float y; // [esp+38h] [ebp-14h]
-    float size; // [esp+40h] [ebp-Ch]
-    int pointIndex; // [esp+44h] [ebp-8h]
-    const GfxPointVertex *v; // [esp+48h] [ebp-4h]
+    [[maybe_unused]] float v1; // [esp+1Ch] [ebp-30h]
+    [[maybe_unused]] float v2; // [esp+20h] [ebp-2Ch]
+    [[maybe_unused]] float v3; // [esp+24h] [ebp-28h]
+    [[maybe_unused]] float v4; // [esp+28h] [ebp-24h]
+    [[maybe_unused]] float v5; // [esp+2Ch] [ebp-20h]
+    [[maybe_unused]] float v6; // [esp+30h] [ebp-1Ch]
+    [[maybe_unused]] float x; // [esp+34h] [ebp-18h]
+    [[maybe_unused]] float y; // [esp+38h] [ebp-14h]
+    [[maybe_unused]] float size; // [esp+40h] [ebp-Ch]
+    [[maybe_unused]] int pointIndex; // [esp+44h] [ebp-8h]
+    [[maybe_unused]] const GfxPointVertex *v; // [esp+48h] [ebp-4h]
 
     iassert( gfxCmdBufSourceState.viewMode == VIEW_MODE_2D );
     RB_SetTessTechnique(rgp.whiteMaterial, TECHNIQUE_UNLIT);
@@ -1099,22 +1099,22 @@ void __cdecl R_SetVertex4d(
 
 void __cdecl RB_DrawPoints3D(const GfxCmdDrawPoints *cmd)
 {
-    float v1; // [esp+24h] [ebp-4Ch]
-    float v2; // [esp+30h] [ebp-40h]
-    float x; // [esp+34h] [ebp-3Ch]
-    float y; // [esp+38h] [ebp-38h]
-    const float *transform; // [esp+44h] [ebp-2Ch]
-    float xyz; // [esp+48h] [ebp-28h]
-    float xyz_4; // [esp+4Ch] [ebp-24h]
-    float xyz_8; // [esp+50h] [ebp-20h]
-    float xyz_8a; // [esp+50h] [ebp-20h]
-    float xyz_12; // [esp+54h] [ebp-1Ch]
-    float invWidth; // [esp+58h] [ebp-18h]
-    float invHeight; // [esp+5Ch] [ebp-14h]
-    float offset; // [esp+60h] [ebp-10h]
-    float offset_4; // [esp+64h] [ebp-Ch]
-    int pointIndex; // [esp+68h] [ebp-8h]
-    const GfxPointVertex *v; // [esp+6Ch] [ebp-4h]
+    [[maybe_unused]] float v1; // [esp+24h] [ebp-4Ch]
+    [[maybe_unused]] float v2; // [esp+30h] [ebp-40h]
+    [[maybe_unused]] float x; // [esp+34h] [ebp-3Ch]
+    [[maybe_unused]] float y; // [esp+38h] [ebp-38h]
+    [[maybe_unused]] const float *transform; // [esp+44h] [ebp-2Ch]
+    [[maybe_unused]] float xyz; // [esp+48h] [ebp-28h]
+    [[maybe_unused]] float xyz_4; // [esp+4Ch] [ebp-24h]
+    [[maybe_unused]] float xyz_8; // [esp+50h] [ebp-20h]
+    [[maybe_unused]] float xyz_8a; // [esp+50h] [ebp-20h]
+    [[maybe_unused]] float xyz_12; // [esp+54h] [ebp-1Ch]
+    [[maybe_unused]] float invWidth; // [esp+58h] [ebp-18h]
+    [[maybe_unused]] float invHeight; // [esp+5Ch] [ebp-14h]
+    [[maybe_unused]] float offset; // [esp+60h] [ebp-10h]
+    [[maybe_unused]] float offset_4; // [esp+64h] [ebp-Ch]
+    [[maybe_unused]] int pointIndex; // [esp+68h] [ebp-8h]
+    [[maybe_unused]] const GfxPointVertex *v; // [esp+6Ch] [ebp-4h]
 
     RB_SetTessTechnique(rgp.pointMaterial, TECHNIQUE_UNLIT);
     R_TrackPrims(&gfxCmdBufState, GFX_PRIM_STATS_DEBUG);
@@ -1158,17 +1158,17 @@ void __cdecl RB_DrawPoints3D(const GfxCmdDrawPoints *cmd)
 
 void __cdecl RB_DrawLines2D(int count, int width, const GfxPointVertex *verts)
 {
-    float v3; // [esp+18h] [ebp-34h]
-    float v4; // [esp+1Ch] [ebp-30h]
-    float v5; // [esp+20h] [ebp-2Ch]
-    float v6; // [esp+24h] [ebp-28h]
-    float v7; // [esp+28h] [ebp-24h]
-    float v8; // [esp+2Ch] [ebp-20h]
-    float x; // [esp+30h] [ebp-1Ch]
-    float y; // [esp+34h] [ebp-18h]
+    [[maybe_unused]] float v3; // [esp+18h] [ebp-34h]
+    [[maybe_unused]] float v4; // [esp+1Ch] [ebp-30h]
+    [[maybe_unused]] float v5; // [esp+20h] [ebp-2Ch]
+    [[maybe_unused]] float v6; // [esp+24h] [ebp-28h]
+    [[maybe_unused]] float v7; // [esp+28h] [ebp-24h]
+    [[maybe_unused]] float v8; // [esp+2Ch] [ebp-20h]
+    [[maybe_unused]] float x; // [esp+30h] [ebp-1Ch]
+    [[maybe_unused]] float y; // [esp+34h] [ebp-18h]
     float delta[2]; // [esp+38h] [ebp-14h] BYREF
-    int lineIndex; // [esp+40h] [ebp-Ch]
-    const GfxPointVertex *v[2]; // [esp+44h] [ebp-8h]
+    [[maybe_unused]] int lineIndex; // [esp+40h] [ebp-Ch]
+    [[maybe_unused]] const GfxPointVertex *v[2]; // [esp+44h] [ebp-8h]
 
     iassert( (count > 0) );
     iassert( gfxCmdBufSourceState.viewMode == VIEW_MODE_2D );
@@ -1221,22 +1221,22 @@ void __cdecl R_SetVertex3d(GfxVertex *vert, float x, float y, float z, float s, 
 
 void __cdecl RB_DrawLines3D(int count, int width, const GfxPointVertex *verts, bool depthTest)
 {
-    float v4; // [esp+1Ch] [ebp-74h]
-    float v5; // [esp+20h] [ebp-70h]
-    float v6; // [esp+24h] [ebp-6Ch]
-    float v7; // [esp+28h] [ebp-68h]
-    float v8; // [esp+2Ch] [ebp-64h]
-    float v9; // [esp+30h] [ebp-60h]
-    float x; // [esp+34h] [ebp-5Ch]
-    float y; // [esp+38h] [ebp-58h]
-    const float *transform; // [esp+40h] [ebp-50h]
+    [[maybe_unused]] float v4; // [esp+1Ch] [ebp-74h]
+    [[maybe_unused]] float v5; // [esp+20h] [ebp-70h]
+    [[maybe_unused]] float v6; // [esp+24h] [ebp-6Ch]
+    [[maybe_unused]] float v7; // [esp+28h] [ebp-68h]
+    [[maybe_unused]] float v8; // [esp+2Ch] [ebp-64h]
+    [[maybe_unused]] float v9; // [esp+30h] [ebp-60h]
+    [[maybe_unused]] float x; // [esp+34h] [ebp-5Ch]
+    [[maybe_unused]] float y; // [esp+38h] [ebp-58h]
+    [[maybe_unused]] const float *transform; // [esp+40h] [ebp-50h]
     float delta[2]; // [esp+44h] [ebp-4Ch] BYREF
     float xyz[2][4]; // [esp+4Ch] [ebp-44h]
-    float invWidth; // [esp+6Ch] [ebp-24h]
-    float invHeight; // [esp+70h] [ebp-20h]
+    [[maybe_unused]] float invWidth; // [esp+6Ch] [ebp-24h]
+    [[maybe_unused]] float invHeight; // [esp+70h] [ebp-20h]
     float offset[2][2]; // [esp+74h] [ebp-1Ch]
-    int lineIndex; // [esp+84h] [ebp-Ch]
-    const GfxPointVertex *v[2]; // [esp+88h] [ebp-8h]
+    [[maybe_unused]] int lineIndex; // [esp+84h] [ebp-Ch]
+    [[maybe_unused]] const GfxPointVertex *v[2]; // [esp+88h] [ebp-8h]
 
     if (depthTest)
         RB_SetTessTechnique(rgp.lineMaterial, TECHNIQUE_UNLIT);
@@ -1295,7 +1295,7 @@ void __cdecl RB_DrawLines3D(int count, int width, const GfxPointVertex *verts, b
 
 void __cdecl RB_DrawLinesCmd(GfxRenderCommandExecState *execState)
 {
-    const GfxCmdDrawLines *cmd; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] const GfxCmdDrawLines *cmd; // [esp+4h] [ebp-4h]
 
     cmd = (const GfxCmdDrawLines *)execState->cmd;
 
@@ -1313,9 +1313,9 @@ void __cdecl RB_DrawLinesCmd(GfxRenderCommandExecState *execState)
 
 void __cdecl RB_DrawTrianglesCmd(GfxRenderCommandExecState *execState)
 {
-    int stOffset; // [esp+4h] [ebp-3Ch]
-    int normalOffset; // [esp+2Ch] [ebp-14h]
-    int normalSize; // [esp+30h] [ebp-10h]
+    [[maybe_unused]] int stOffset; // [esp+4h] [ebp-3Ch]
+    [[maybe_unused]] int normalOffset; // [esp+2Ch] [ebp-14h]
+    [[maybe_unused]] int normalSize; // [esp+30h] [ebp-10h]
     int indexOffset;
     int stSize;
     int xyzwOffset;
@@ -1365,8 +1365,8 @@ void __cdecl RB_DrawTriangles_Internal(
     const GfxColor *color,
     const float (*st)[2])
 {
-    int index; // [esp+28h] [ebp-4h]
-    int indexa; // [esp+28h] [ebp-4h]
+    [[maybe_unused]] int index; // [esp+28h] [ebp-4h]
+    [[maybe_unused]] int indexa; // [esp+28h] [ebp-4h]
 
     if (tess.indexCount)
         RB_EndTessSurface();
@@ -1407,7 +1407,7 @@ void __cdecl RB_DrawProfileCmd(GfxRenderCommandExecState *execState)
 
 void __cdecl RB_SetMaterialColorCmd(GfxRenderCommandExecState *execState)
 {
-    const GfxCmdSetMaterialColor *cmd; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] const GfxCmdSetMaterialColor *cmd; // [esp+8h] [ebp-4h]
 
     cmd = (const GfxCmdSetMaterialColor *)execState->cmd;
     if (tess.indexCount)
@@ -1442,9 +1442,9 @@ GfxColor color_table[8] =
 }; // weak
 void __cdecl RB_LookupColor(unsigned __int8 c, GfxColor *color)
 {
-    GfxColor *p_color_axis; // [esp+8h] [ebp-Ch]
-    GfxColor *p_color_allies; // [esp+Ch] [ebp-8h]
-    unsigned int index; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] GfxColor *p_color_axis; // [esp+8h] [ebp-Ch]
+    [[maybe_unused]] GfxColor *p_color_allies; // [esp+Ch] [ebp-8h]
+    [[maybe_unused]] unsigned int index; // [esp+10h] [ebp-4h]
 
     index = ColorIndex(c);
     if (index >= 8)
@@ -1515,69 +1515,69 @@ void __cdecl DrawText2D(
     int v21; // esi
     const char *v22; // eax
     double v23; // st7
-    float v24; // [esp+3Ch] [ebp-1B4h]
-    float v25; // [esp+44h] [ebp-1ACh]
-    float v26; // [esp+5Ch] [ebp-194h]
-    float v27; // [esp+64h] [ebp-18Ch]
-    float v28; // [esp+74h] [ebp-17Ch]
-    float h; // [esp+7Ch] [ebp-174h]
-    float v30; // [esp+9Ch] [ebp-154h]
-    float v31; // [esp+A0h] [ebp-150h]
-    float v32; // [esp+A4h] [ebp-14Ch]
-    float v33; // [esp+A8h] [ebp-148h]
-    GfxColor v34; // [esp+ACh] [ebp-144h]
-    float v35; // [esp+C0h] [ebp-130h]
-    float v36; // [esp+C4h] [ebp-12Ch]
-    float v37; // [esp+C8h] [ebp-128h]
-    float v38; // [esp+CCh] [ebp-124h]
-    GfxColor v39; // [esp+D0h] [ebp-120h]
-    float v40; // [esp+E4h] [ebp-10Ch]
-    float v41; // [esp+E8h] [ebp-108h]
-    float w; // [esp+ECh] [ebp-104h]
-    float v43; // [esp+F0h] [ebp-100h]
-    float resizeOffsY; // [esp+148h] [ebp-A8h]
-    int offIdx; // [esp+14Ch] [ebp-A4h]
-    float resizeOffsX; // [esp+150h] [ebp-A0h]
-    int ofs; // [esp+154h] [ebp-9Ch]
-    const Glyph *glyphOriginal; // [esp+158h] [ebp-98h]
+    [[maybe_unused]] float v24; // [esp+3Ch] [ebp-1B4h]
+    [[maybe_unused]] float v25; // [esp+44h] [ebp-1ACh]
+    [[maybe_unused]] float v26; // [esp+5Ch] [ebp-194h]
+    [[maybe_unused]] float v27; // [esp+64h] [ebp-18Ch]
+    [[maybe_unused]] float v28; // [esp+74h] [ebp-17Ch]
+    [[maybe_unused]] float h; // [esp+7Ch] [ebp-174h]
+    [[maybe_unused]] float v30; // [esp+9Ch] [ebp-154h]
+    [[maybe_unused]] float v31; // [esp+A0h] [ebp-150h]
+    [[maybe_unused]] float v32; // [esp+A4h] [ebp-14Ch]
+    [[maybe_unused]] float v33; // [esp+A8h] [ebp-148h]
+    [[maybe_unused]] GfxColor v34; // [esp+ACh] [ebp-144h]
+    [[maybe_unused]] float v35; // [esp+C0h] [ebp-130h]
+    [[maybe_unused]] float v36; // [esp+C4h] [ebp-12Ch]
+    [[maybe_unused]] float v37; // [esp+C8h] [ebp-128h]
+    [[maybe_unused]] float v38; // [esp+CCh] [ebp-124h]
+    [[maybe_unused]] GfxColor v39; // [esp+D0h] [ebp-120h]
+    [[maybe_unused]] float v40; // [esp+E4h] [ebp-10Ch]
+    [[maybe_unused]] float v41; // [esp+E8h] [ebp-108h]
+    [[maybe_unused]] float w; // [esp+ECh] [ebp-104h]
+    [[maybe_unused]] float v43; // [esp+F0h] [ebp-100h]
+    [[maybe_unused]] float resizeOffsY; // [esp+148h] [ebp-A8h]
+    [[maybe_unused]] int offIdx; // [esp+14Ch] [ebp-A4h]
+    [[maybe_unused]] float resizeOffsX; // [esp+150h] [ebp-A0h]
+    [[maybe_unused]] int ofs; // [esp+154h] [ebp-9Ch]
+    [[maybe_unused]] const Glyph *glyphOriginal; // [esp+158h] [ebp-98h]
     int tempSeed; // [esp+15Ch] [ebp-94h] BYREF
-    float iconWidth; // [esp+160h] [ebp-90h]
+    [[maybe_unused]] float iconWidth; // [esp+160h] [ebp-90h]
     GfxColor lookupColor; // [esp+164h] [ebp-8Ch] BYREF
-    const unsigned __int8 *altColorTwo; // [esp+168h] [ebp-88h]
+    [[maybe_unused]] const unsigned __int8 *altColorTwo; // [esp+168h] [ebp-88h]
     GfxColor finalColor; // [esp+16Ch] [ebp-84h] BYREF
     bool drawExtraFxChar; // [esp+173h] [ebp-7Dh] BYREF
-    const Glyph *glyph; // [esp+174h] [ebp-7Ch]
-    float yAdj; // [esp+178h] [ebp-78h]
-    float decayOffset; // [esp+17Ch] [ebp-74h]
-    float xAdj; // [esp+180h] [ebp-70h]
+    [[maybe_unused]] const Glyph *glyph; // [esp+174h] [ebp-7Ch]
+    [[maybe_unused]] float yAdj; // [esp+178h] [ebp-78h]
+    [[maybe_unused]] float decayOffset; // [esp+17Ch] [ebp-74h]
+    [[maybe_unused]] float xAdj; // [esp+180h] [ebp-70h]
     bool skipDrawing; // [esp+187h] [ebp-69h] BYREF
     unsigned int letter; // [esp+188h] [ebp-68h] BYREF
-    int extraFxChar; // [esp+18Ch] [ebp-64h]
-    float deltaX; // [esp+190h] [ebp-60h]
-    unsigned int origLetter; // [esp+194h] [ebp-5Ch]
+    [[maybe_unused]] int extraFxChar; // [esp+18Ch] [ebp-64h]
+    [[maybe_unused]] float deltaX; // [esp+190h] [ebp-60h]
+    [[maybe_unused]] unsigned int origLetter; // [esp+194h] [ebp-5Ch]
     unsigned __int8 fadeAlpha; // [esp+19Bh] [ebp-55h] BYREF
     float yRot; // [esp+19Ch] [ebp-54h] BYREF
     int passRandSeed; // [esp+1A0h] [ebp-50h] BYREF
-    int maxLengthRemaining; // [esp+1A4h] [ebp-4Ch]
+    [[maybe_unused]] int maxLengthRemaining; // [esp+1A4h] [ebp-4Ch]
     float xRot; // [esp+1A8h] [ebp-48h] BYREF
-    bool subtitleAllowGlow; // [esp+1AFh] [ebp-41h]
-    GfxColor currentColor; // [esp+1B0h] [ebp-40h]
+    [[maybe_unused]] bool subtitleAllowGlow; // [esp+1AFh] [ebp-41h]
+    [[maybe_unused]] GfxColor currentColor; // [esp+1B0h] [ebp-40h]
     const char *curText; // [esp+1B4h] [ebp-3Ch] BYREF
-    int count; // [esp+1B8h] [ebp-38h]
-    int passIdx; // [esp+1BCh] [ebp-34h]
-    GfxColor dropShadowColor; // [esp+1C0h] [ebp-30h]
-    const Material *material; // [esp+1C4h] [ebp-2Ch]
+    [[maybe_unused]] int count; // [esp+1B8h] [ebp-38h]
+    [[maybe_unused]] int passIdx; // [esp+1BCh] [ebp-34h]
+    [[maybe_unused]] GfxColor dropShadowColor; // [esp+1C0h] [ebp-30h]
+    [[maybe_unused]] const Material *material; // [esp+1C4h] [ebp-2Ch]
     bool drawRandomCharAtEnd; // [esp+1CBh] [ebp-25h] BYREF
     int randSeed; // [esp+1CCh] [ebp-24h] BYREF
-    float startX; // [esp+1D0h] [ebp-20h]
+    [[maybe_unused]] float startX; // [esp+1D0h] [ebp-20h]
     int decayTimeElapsed; // [esp+1D4h] [ebp-1Ch] BYREF
-    const Material *glowMaterial; // [esp+1D8h] [ebp-18h]
-    float monospaceWidth; // [esp+1E0h] [ebp-10h]
+    [[maybe_unused]] const Material *glowMaterial; // [esp+1D8h] [ebp-18h]
+    [[maybe_unused]] float monospaceWidth; // [esp+1E0h] [ebp-10h]
     bool decaying; // [esp+1E7h] [ebp-9h] BYREF
-    float startY; // [esp+1E8h] [ebp-8h]
-    int passCount; // [esp+1ECh] [ebp-4h]
-    float xa; // [esp+1FCh] [ebp+Ch]
-    float ya; // [esp+200h] [ebp+10h]
+    [[maybe_unused]] float startY; // [esp+1E8h] [ebp-8h]
+    [[maybe_unused]] int passCount; // [esp+1ECh] [ebp-4h]
+    [[maybe_unused]] float xa; // [esp+1FCh] [ebp+Ch]
+    [[maybe_unused]] float ya; // [esp+200h] [ebp+10h]
 
     iassert( text );
     iassert( font );
@@ -1758,7 +1758,7 @@ void __cdecl DrawText2D(
                         xAdj = ((double)glyph->x0 + decayOffset) * xScale;
                         yAdj = (double)glyph->y0 * yScale;
                         finalColor.packed = LongNoSwap(currentColor.packed);
-                        if (decaying || drawRandomCharAtEnd && maxLengthRemaining == 1)
+                        if (decaying || (drawRandomCharAtEnd && maxLengthRemaining == 1))
                             finalColor.array[3] = ModulateByteColors(finalColor.array[3], fadeAlpha);
                         if (!skipDrawing)
                         {
@@ -1966,18 +1966,18 @@ void __cdecl RB_DrawStretchPicRotate(
     unsigned int color,
     GfxPrimStatsTarget statsTarget)
 {
-    float v13; // [esp+14h] [ebp-30h]
-    float v14; // [esp+18h] [ebp-2Ch]
-    float v15; // [esp+1Ch] [ebp-28h]
-    float v16; // [esp+20h] [ebp-24h]
-    float v17; // [esp+24h] [ebp-20h]
-    float v18; // [esp+28h] [ebp-1Ch]
-    float stepY; // [esp+2Ch] [ebp-18h]
-    float stepY_4; // [esp+30h] [ebp-14h]
-    float stepX; // [esp+34h] [ebp-10h]
-    float stepX_4; // [esp+38h] [ebp-Ch]
-    int indexCount; // [esp+3Ch] [ebp-8h]
-    unsigned __int16 vertCount; // [esp+40h] [ebp-4h]
+    [[maybe_unused]] float v13; // [esp+14h] [ebp-30h]
+    [[maybe_unused]] float v14; // [esp+18h] [ebp-2Ch]
+    [[maybe_unused]] float v15; // [esp+1Ch] [ebp-28h]
+    [[maybe_unused]] float v16; // [esp+20h] [ebp-24h]
+    [[maybe_unused]] float v17; // [esp+24h] [ebp-20h]
+    [[maybe_unused]] float v18; // [esp+28h] [ebp-1Ch]
+    [[maybe_unused]] float stepY; // [esp+2Ch] [ebp-18h]
+    [[maybe_unused]] float stepY_4; // [esp+30h] [ebp-14h]
+    [[maybe_unused]] float stepX; // [esp+34h] [ebp-10h]
+    [[maybe_unused]] float stepX_4; // [esp+38h] [ebp-Ch]
+    [[maybe_unused]] int indexCount; // [esp+3Ch] [ebp-8h]
+    [[maybe_unused]] unsigned __int16 vertCount; // [esp+40h] [ebp-4h]
 
     iassert( gfxCmdBufSourceState.viewMode == VIEW_MODE_2D );
     RB_SetTessTechnique(material, TECHNIQUE_UNLIT);
@@ -2021,11 +2021,11 @@ double __cdecl RB_DrawHudIcon(
     unsigned int color)
 {
     const Material *v9; // eax
-    float s1; // [esp+40h] [ebp-10h]
-    float s0; // [esp+44h] [ebp-Ch]
-    float h; // [esp+48h] [ebp-8h]
-    float w; // [esp+4Ch] [ebp-4h]
-    float ya; // [esp+60h] [ebp+10h]
+    [[maybe_unused]] float s1; // [esp+40h] [ebp-10h]
+    [[maybe_unused]] float s0; // [esp+44h] [ebp-Ch]
+    [[maybe_unused]] float h; // [esp+48h] [ebp-8h]
+    [[maybe_unused]] float w; // [esp+4Ch] [ebp-4h]
+    [[maybe_unused]] float ya; // [esp+60h] [ebp+10h]
 
     iassert( text );
     if (*text == 1)
@@ -2063,11 +2063,11 @@ void __cdecl RB_DrawCursor(
     float yScale,
     unsigned int color)
 {
-    float v10; // [esp+3Ch] [ebp-24h]
-    float w; // [esp+40h] [ebp-20h]
-    float h; // [esp+44h] [ebp-1Ch]
-    const Glyph *cursorGlyph; // [esp+58h] [ebp-8h]
-    unsigned int newColor; // [esp+5Ch] [ebp-4h]
+    [[maybe_unused]] float v10; // [esp+3Ch] [ebp-24h]
+    [[maybe_unused]] float w; // [esp+40h] [ebp-20h]
+    [[maybe_unused]] float h; // [esp+44h] [ebp-1Ch]
+    [[maybe_unused]] const Glyph *cursorGlyph; // [esp+58h] [ebp-8h]
+    [[maybe_unused]] unsigned int newColor; // [esp+5Ch] [ebp-4h]
 
     iassert( font );
     if (((CL_ScaledMilliseconds() / 256) & 1) == 0)
@@ -2107,8 +2107,8 @@ void __cdecl RotateXY(
     float *outX,
     float *outY)
 {
-    float tempOutX; // [esp+0h] [ebp-8h]
-    float tempOutY; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] float tempOutX; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] float tempOutY; // [esp+4h] [ebp-4h]
 
     tempOutX = (x - pivotX) * cosAngle + pivotX - (y - pivotY) * sinAngle;
     tempOutY = (y - pivotY) * cosAngle + pivotY + (x - pivotX) * sinAngle;
@@ -2153,14 +2153,14 @@ char __cdecl SetupPulseFXVars(
     bool *resultDecaying,
     int *resultdecayTimeElapsed)
 {
-    int timeRemainder; // [esp+0h] [ebp-24h]
-    int timeElapsed; // [esp+8h] [ebp-1Ch]
+    [[maybe_unused]] int timeRemainder; // [esp+0h] [ebp-24h]
+    [[maybe_unused]] int timeElapsed; // [esp+8h] [ebp-1Ch]
     int randSeed; // [esp+10h] [ebp-14h] BYREF
-    int strLength; // [esp+14h] [ebp-10h]
-    bool drawRandCharAtEnd; // [esp+1Bh] [ebp-9h]
-    int decayTimeElapsed; // [esp+1Ch] [ebp-8h]
-    bool decaying; // [esp+23h] [ebp-1h]
-    int maxLengtha; // [esp+30h] [ebp+Ch]
+    [[maybe_unused]] int strLength; // [esp+14h] [ebp-10h]
+    [[maybe_unused]] bool drawRandCharAtEnd; // [esp+1Bh] [ebp-9h]
+    [[maybe_unused]] int decayTimeElapsed; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] bool decaying; // [esp+23h] [ebp-1h]
+    [[maybe_unused]] int maxLengtha; // [esp+30h] [ebp+Ch]
 
     if ((renderFlags & 0x40) != 0)
     {
@@ -2237,17 +2237,17 @@ void __cdecl GetDecayingLetterInfo(
     unsigned int *resultLetter,
     bool *resultDrawExtraFxChar)
 {
-    unsigned __int8 v11; // [esp+0h] [ebp-48h]
-    int v12; // [esp+10h] [ebp-38h]
-    float v13; // [esp+18h] [ebp-30h]
+    [[maybe_unused]] unsigned __int8 v11; // [esp+0h] [ebp-48h]
+    [[maybe_unused]] int v12; // [esp+10h] [ebp-38h]
+    [[maybe_unused]] float v13; // [esp+18h] [ebp-30h]
     int scrambleSeed; // [esp+28h] [ebp-20h] BYREF
-    float tickRatio; // [esp+2Ch] [ebp-1Ch]
-    int tickPeriod; // [esp+30h] [ebp-18h]
-    bool drawExtraFxChar; // [esp+37h] [ebp-11h]
-    float fade; // [esp+38h] [ebp-10h]
-    int tickCount; // [esp+3Ch] [ebp-Ch]
-    bool skipDrawing; // [esp+43h] [ebp-5h]
-    int timeLimit; // [esp+44h] [ebp-4h]
+    [[maybe_unused]] float tickRatio; // [esp+2Ch] [ebp-1Ch]
+    [[maybe_unused]] int tickPeriod; // [esp+30h] [ebp-18h]
+    [[maybe_unused]] bool drawExtraFxChar; // [esp+37h] [ebp-11h]
+    [[maybe_unused]] float fade; // [esp+38h] [ebp-10h]
+    [[maybe_unused]] int tickCount; // [esp+3Ch] [ebp-Ch]
+    [[maybe_unused]] bool skipDrawing; // [esp+43h] [ebp-5h]
+    [[maybe_unused]] int timeLimit; // [esp+44h] [ebp-4h]
 
     skipDrawing = 0;
     fade = 1.0;
@@ -2295,8 +2295,8 @@ void __cdecl DrawTextFxExtraCharacter(
     float cosAngle,
     unsigned int color)
 {
-    float s1; // [esp+38h] [ebp-8h]
-    float s0; // [esp+3Ch] [ebp-4h]
+    [[maybe_unused]] float s1; // [esp+38h] [ebp-8h]
+    [[maybe_unused]] float s0; // [esp+3Ch] [ebp-4h]
 
     s0 = (double)(charIndex % 16) * 0.0625;
     s1 = s0 + 0.0625;
@@ -2316,19 +2316,19 @@ void __cdecl RB_DrawTextInSpace(
     const float *yPixelStep,
     unsigned int color)
 {
-    float scale; // [esp+0h] [ebp-60h]
-    float scalea; // [esp+0h] [ebp-60h]
-    float scaleb; // [esp+0h] [ebp-60h]
-    float pixelWidth; // [esp+4h] [ebp-5Ch]
-    float pixelHeight; // [esp+4h] [ebp-5Ch]
+    [[maybe_unused]] float scale; // [esp+0h] [ebp-60h]
+    [[maybe_unused]] float scalea; // [esp+0h] [ebp-60h]
+    [[maybe_unused]] float scaleb; // [esp+0h] [ebp-60h]
+    [[maybe_unused]] float pixelWidth; // [esp+4h] [ebp-5Ch]
+    [[maybe_unused]] float pixelHeight; // [esp+4h] [ebp-5Ch]
     float curOrg[3]; // [esp+20h] [ebp-40h] BYREF
     float result[3]; // [esp+2Ch] [ebp-34h] BYREF
-    const Glyph *glyph; // [esp+38h] [ebp-28h]
+    [[maybe_unused]] const Glyph *glyph; // [esp+38h] [ebp-28h]
     float xyz[3]; // [esp+3Ch] [ebp-24h] BYREF
-    const Material *material; // [esp+48h] [ebp-18h]
-    unsigned int letter; // [esp+4Ch] [ebp-14h]
+    [[maybe_unused]] const Material *material; // [esp+48h] [ebp-18h]
+    [[maybe_unused]] unsigned int letter; // [esp+4Ch] [ebp-14h]
     float dy[3]; // [esp+50h] [ebp-10h] BYREF
-    unsigned int newColor; // [esp+5Ch] [ebp-4h]
+    [[maybe_unused]] unsigned int newColor; // [esp+5Ch] [ebp-4h]
 
     iassert( text );
     iassert( font );
@@ -2369,17 +2369,17 @@ void __cdecl RB_DrawCharInSpace(
     const Glyph *glyph,
     unsigned int color)
 {
-    float v6; // [esp+18h] [ebp-30h]
-    float v7; // [esp+1Ch] [ebp-2Ch]
-    float v8; // [esp+20h] [ebp-28h]
-    float v9; // [esp+24h] [ebp-24h]
-    float v10; // [esp+28h] [ebp-20h]
-    float v11; // [esp+2Ch] [ebp-1Ch]
-    float x; // [esp+30h] [ebp-18h]
-    float y; // [esp+34h] [ebp-14h]
-    float z; // [esp+38h] [ebp-10h]
-    int indexCount; // [esp+3Ch] [ebp-Ch]
-    unsigned __int16 vertCount; // [esp+40h] [ebp-8h]
+    [[maybe_unused]] float v6; // [esp+18h] [ebp-30h]
+    [[maybe_unused]] float v7; // [esp+1Ch] [ebp-2Ch]
+    [[maybe_unused]] float v8; // [esp+20h] [ebp-28h]
+    [[maybe_unused]] float v9; // [esp+24h] [ebp-24h]
+    [[maybe_unused]] float v10; // [esp+28h] [ebp-20h]
+    [[maybe_unused]] float v11; // [esp+2Ch] [ebp-1Ch]
+    [[maybe_unused]] float x; // [esp+30h] [ebp-18h]
+    [[maybe_unused]] float y; // [esp+34h] [ebp-14h]
+    [[maybe_unused]] float z; // [esp+38h] [ebp-10h]
+    [[maybe_unused]] int indexCount; // [esp+3Ch] [ebp-Ch]
+    [[maybe_unused]] unsigned __int16 vertCount; // [esp+40h] [ebp-8h]
     GfxColor unpackedColor; // [esp+44h] [ebp-4h] BYREF
 
     RB_SetTessTechnique(material, TECHNIQUE_UNLIT);
@@ -2420,10 +2420,10 @@ void __cdecl RB_DrawCharInSpace(
 
 void __cdecl RB_DrawText2DCmd(GfxRenderCommandExecState *execState)
 {
-    float v1; // [esp+5Ch] [ebp-10h]
-    float cosAngle; // [esp+60h] [ebp-Ch]
-    float sinAngle; // [esp+64h] [ebp-8h]
-    const GfxCmdDrawText2D *cmd; // [esp+68h] [ebp-4h]
+    [[maybe_unused]] float v1; // [esp+5Ch] [ebp-10h]
+    [[maybe_unused]] float cosAngle; // [esp+60h] [ebp-Ch]
+    [[maybe_unused]] float sinAngle; // [esp+64h] [ebp-8h]
+    [[maybe_unused]] const GfxCmdDrawText2D *cmd; // [esp+68h] [ebp-4h]
 
     cmd = (const GfxCmdDrawText2D *)execState->cmd;
     v1 = cmd->rotation * 0.01745329238474369;
@@ -2499,7 +2499,7 @@ void __cdecl RB_ResetStatTracking()
 
 void __cdecl RB_BeginFrame(const GfxBackEndData *data)
 {
-    int hr; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+0h] [ebp-4h]
 
     backEndData = (GfxBackEndData*)data;
     if ((data->drawType & 1) != 0)
@@ -2604,9 +2604,9 @@ void RB_UpdateBackEndDvarOptions()
 
 void __cdecl RB_ExecuteRenderCommandsLoop(const void *cmds)
 {
-    const GfxCmdHeader *header; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] const GfxCmdHeader *header; // [esp+0h] [ebp-Ch]
     GfxRenderCommandExecState execState; // [esp+4h] [ebp-8h] BYREF
-    const void *prevCmd; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] const void *prevCmd; // [esp+8h] [ebp-4h]
 
     iassert(!tess.indexCount);
 
@@ -2633,7 +2633,7 @@ void __cdecl RB_ExecuteRenderCommandsLoop(const void *cmds)
 
 void __cdecl RB_Draw3D()
 {
-    const GfxBackEndData *data; // [esp+30h] [ebp-8h]
+    [[maybe_unused]] const GfxBackEndData *data; // [esp+30h] [ebp-8h]
 
     data = backEndData;
     if (backEndData->viewInfoCount)
@@ -2646,8 +2646,8 @@ void __cdecl RB_Draw3D()
 int RB_AdaptiveGpuSyncFinal()
 {
     unsigned __int64 v0; // rax
-    int waitedTime; // [esp+18h] [ebp-8h]
-    int startTime; // [esp+1Ch] [ebp-4h]
+    [[maybe_unused]] int waitedTime; // [esp+18h] [ebp-8h]
+    [[maybe_unused]] int startTime; // [esp+1Ch] [ebp-4h]
 
     LODWORD(v0) = RB_IsGpuFenceFinished();
     if (v0)
@@ -2687,7 +2687,7 @@ int RB_AdaptiveGpuSyncFinal()
 void __cdecl RB_CallExecuteRenderCommands()
 {
     const char *v0; // eax
-    int hr; // [esp+40h] [ebp-4h]
+    [[maybe_unused]] int hr; // [esp+40h] [ebp-4h]
     
     PROF_SCOPED("ExecuteRenderCmds");
     if ((backEndData->drawType & 2) != 0)
@@ -2803,8 +2803,8 @@ const void *data;
 void __cdecl  RB_RenderThread(unsigned int threadContext)
 {
     void *Value; // eax
-    signed int wait; // [esp+34h] [ebp-8h]
-    unsigned int start; // [esp+38h] [ebp-4h]
+    [[maybe_unused]] signed int wait; // [esp+34h] [ebp-8h]
+    [[maybe_unused]] unsigned int start; // [esp+38h] [ebp-4h]
 
     iassert(threadContext == THREAD_CONTEXT_BACKEND);
 
@@ -2894,7 +2894,7 @@ void __cdecl  RB_RenderThread(unsigned int threadContext)
 
 int __cdecl RB_BackendTimeout()
 {
-    BOOL v1; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] BOOL v1; // [esp+0h] [ebp-Ch]
     _BYTE v2[4]; // [esp+8h] [ebp-4h] BYREF
 
     if (dx.swapFence)
@@ -2909,8 +2909,8 @@ int __cdecl RB_BackendTimeout()
 
 void __cdecl RB_RenderCommandFrame(const GfxBackEndData *data)
 {
-    unsigned int drawType; // [esp+28h] [ebp-8h]
-    bool allowRendering; // [esp+2Fh] [ebp-1h]
+    [[maybe_unused]] unsigned int drawType; // [esp+28h] [ebp-8h]
+    [[maybe_unused]] bool allowRendering; // [esp+2Fh] [ebp-1h]
 
     //Profile_EndInternal(0);
     LOBYTE(drawType) = 0;
@@ -2964,8 +2964,8 @@ void __cdecl RB_SetBspImages()
 
 void __cdecl RB_BindDefaultImages()
 {
-    GfxCmdBufContext context; // [esp+0h] [ebp-10h]
-    unsigned int samplerIndex; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] GfxCmdBufContext context; // [esp+0h] [ebp-10h]
+    [[maybe_unused]] unsigned int samplerIndex; // [esp+8h] [ebp-8h]
 
     context.source = &gfxCmdBufSourceState;
     context.state = &gfxCmdBufState;

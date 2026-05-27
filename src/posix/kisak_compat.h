@@ -478,7 +478,11 @@ struct IDirect3DStateBlock9;
 struct IDirect3DVertexDeclaration9;
 struct IDirect3DVertexShader9;
 struct IDirect3DPixelShader9;
-struct IDirect3DSwapChain9;
+struct tagRECT;
+struct IDirect3DSwapChain9 {
+    long Present(const tagRECT *, const tagRECT *, void *, const void *, unsigned long) { return 0; }
+    unsigned long Release() { return 0; }
+};
 inline void Sleep(unsigned long ms) {
     if (ms == 0) return;
     timespec ts{static_cast<time_t>(ms / 1000), static_cast<long>((ms % 1000) * 1000000L)};
@@ -525,6 +529,11 @@ struct _D3DLOCKED_BOX {
     int RowPitch;
     int SlicePitch;
     void *pBits;
+};
+struct _D3DGAMMARAMP {
+    unsigned short red[256];
+    unsigned short green[256];
+    unsigned short blue[256];
 };
 struct _D3DVERTEXELEMENT9 {
     unsigned short Stream;

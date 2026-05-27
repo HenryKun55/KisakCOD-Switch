@@ -520,7 +520,7 @@ void TRACK_r_screenshot() {}
 void TRACK_r_staticmodelcache() {}
 // void TRACK_r_water() {}
 // void TRACK_r_workercmds() {}
-void TRACK_rb_backend() {}
+// TRACK_rb_backend provided by src/gfx_d3d/rb_backend.cpp now.
 // void TRACK_rb_drawprofile() {}
 // void TRACK_rb_showcollision() {}  // provided by rb_showcollision.cpp now
 // TRACK_rb_sky provided by src/gfx_d3d/rb_sky.cpp now.
@@ -1714,14 +1714,14 @@ char SND_AnyActiveListeners() { return 0; }
 struct Font_s;
 struct GfxPointVertex;
 enum GfxPrimStatsTarget : int;
-void RB_DrawText(const char * /*text*/, Font_s * /*font*/, float /*x*/, float /*y*/, GfxColor /*color*/) {}
-void RB_DrawLines3D(int /*count*/, int /*colorCount*/, const GfxPointVertex * /*verts*/, bool /*flag*/) {}
+// RB_DrawText provided by src/gfx_d3d/rb_backend.cpp now.
+// RB_DrawLines3D provided by src/gfx_d3d/rb_backend.cpp now.
 // void RB_SetPolyVert(float * /*v*/, GfxColor /*c*/, int /*idx*/) {}  // provided by rb_showcollision.cpp now
 // RB_BeginSurface provided by src/gfx_d3d/rb_shade.cpp now.
-void RB_DrawStretchPic(const Material * /*m*/, float /*x*/, float /*y*/, float /*w*/, float /*h*/, float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/, unsigned int /*color*/, GfxPrimStatsTarget /*target*/) {}
+// RB_DrawStretchPic provided by src/gfx_d3d/rb_backend.cpp now.
 // RB_EndTessSurface provided by src/gfx_d3d/rb_shade.cpp now.
-void RB_DrawTextInSpace(const char * /*text*/, Font_s * /*font*/, const float * /*origin*/, const float * /*axis*/, const float * /*color*/, unsigned int /*flags*/) {}
-void RB_CheckTessOverflow(int /*a*/, int /*b*/) {}
+// RB_DrawTextInSpace provided by src/gfx_d3d/rb_backend.cpp now.
+// RB_CheckTessOverflow provided by src/gfx_d3d/rb_backend.cpp now.
 #include <gfx_d3d/rb_backend.h>
 #include <gfx_d3d/rb_state.h>
 // R_Set3D provided by src/gfx_d3d/r_state_utils.cpp now.
@@ -1763,18 +1763,18 @@ enum CodeConstant : int;
 // R_SetInputCodeConstantFromVec4 provided by src/gfx_d3d/r_rendercmds.cpp now.
 
 // rb_spotshadow / rb_sunshadow satellite stubs.
-void RB_DrawLines2D(int /*count*/, int /*colorCount*/, const GfxPointVertex * /*verts*/) {}
+// RB_DrawLines2D provided by src/gfx_d3d/rb_backend.cpp now.
 struct GfxCmdBuf;
 // R_DrawSunShadowMap provided by src/gfx_d3d/r_draw_sunshadow.cpp now.
 void R_UpdateCodeConstant(GfxCmdBufSourceState * /*src*/, CodeConstant /*c*/, float /*x*/, float /*y*/, float /*z*/, float /*w*/) {}
 enum MaterialTextureSource : unsigned int;
 struct GfxImage;
-void R_SetCodeImageTexture(GfxCmdBufSourceState * /*src*/, MaterialTextureSource /*slot*/, const GfxImage * /*image*/) {}
+// R_SetCodeImageTexture provided by src/gfx_d3d/rb_backend.cpp now.
 // gfxRenderTargets / pixelCostMode / vidConfig — declared extern in
 // r_init.h / rb_pixelcost.h with concrete types; provide storage here.
 #include <gfx_d3d/r_state.h>
 #include <gfx_d3d/rb_pixelcost.h>
-GfxRenderTarget gfxRenderTargets[17]{};
+// gfxRenderTargets provided by src/gfx_d3d/rb_backend.cpp now.
 // pixelCostMode provided by src/gfx_d3d/rb_pixelcost.cpp now.
 vidConfig_t vidConfig{};
 
@@ -1794,8 +1794,39 @@ bool Scr_IgnoreErrors() { return false; }
 // R_AddBModelSurfaces provided by src/gfx_d3d/r_scene.cpp now.
 // R_AddXModelSurfaces provided by src/gfx_d3d/r_scene.cpp now.
 
+// rb_backend satellite stubs.
+#include <gfx_d3d/rb_tess.h>
+unsigned int R_TessBModel(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+void Sys_StopRenderer() {}
+int Sys_RendererReady() { return 0; }
+void *Sys_RendererSleep() { return nullptr; }
+void Sys_StartRenderer() {}
+void R_ChangeDepthRange(GfxCmdBufState * /*s*/, GfxDepthRangeType /*type*/) {}
+void R_SetColorMappings() {}
+unsigned int R_TessCodeMeshList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+unsigned int R_TessMarkMeshList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+bool Sys_FinishRenderer() { return false; }
+unsigned int R_TessTrianglesList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+void Sys_RenderCompleted() {}
+int Sys_WaitBackendEvent() { return 0; }
+int Sys_IsMainThreadReady() { return 0; }
+void Sys_WaitForMainThread() {}
+void R_ClearAllStreamSources(GfxCmdBufPrimState * /*p*/) {}
+unsigned int R_TessParticleCloudList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+void RB_PatchStaticModelCache() {}
+void R_ChangeDepthHackNearClip(GfxCmdBufSourceState * /*src*/, unsigned int /*idx*/) {}
+unsigned int R_TessTrianglesPreTessList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+void R_SetAlphaAntiAliasingState(IDirect3DDevice9 * /*d*/, short /*s*/) {}
+unsigned int R_TessStaticModelCachedList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+unsigned int R_TessStaticModelPreTessList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+unsigned int R_TessXModelRigidDrawSurfList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+unsigned int R_TessXModelSkinnedDrawSurfList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+unsigned int R_TessStaticModelRigidDrawSurfList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+unsigned int R_TessStaticModelSkinnedDrawSurfList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+unsigned int R_TessXModelRigidSkinnedDrawSurfList(const GfxDrawSurfListArgs * /*args*/, GfxCmdBufContext /*ctx*/) { return 0; }
+
 // rb_draw3d satellite stubs.
-void RB_ExecuteRenderCommandsLoop(const void * /*cmds*/) {}
+// RB_ExecuteRenderCommandsLoop provided by src/gfx_d3d/rb_backend.cpp now.
 
 // r_rendertarget satellite stubs.
 void Image_TrackFullscreenTexture(GfxImage * /*img*/, int, int, int, int) {}
@@ -1805,22 +1836,22 @@ bool R_Cinematic_IsStarted() { return false; }
 bool R_Cinematic_IsUnderrun() { return false; }
 
 // r_rendercmds satellite stubs.
-void RB_EndFrame(char /*drawType*/) {}
+// RB_EndFrame provided by src/gfx_d3d/rb_backend.cpp now.
 void Material_Sort() {}
-void RB_BeginFrame(const GfxBackEndData * /*d*/) {}
-void RB_RenderThread(unsigned int /*ctx*/) {}
+// RB_BeginFrame provided by src/gfx_d3d/rb_backend.cpp now.
+// RB_RenderThread provided by src/gfx_d3d/rb_backend.cpp now.
 void Sys_WakeRenderer(void * /*data*/) {}
 bool R_CheckLostDevice() { return false; }
 void Sys_FrontEndSleep() {}
 void Sys_NotifyRenderer() {}
-void RB_CopyBackendStats() {}
+// RB_CopyBackendStats provided by src/gfx_d3d/rb_backend.cpp now.
 void R_UpdateGpuSyncType() {}
 int Sys_IsRendererReady() { return 0; }
 char Sys_SpawnRenderThread(void (*)(unsigned int)) { return 0; }
 void R_Cinematic_UpdateFrame() {}
 void Sys_ReleaseThreadOwnership() {}
-void RB_CallExecuteRenderCommands() {}
-void RB_Draw3D() {}
+// RB_CallExecuteRenderCommands provided by src/gfx_d3d/rb_backend.cpp now.
+// RB_Draw3D provided by src/gfx_d3d/rb_backend.cpp now.
 volatile unsigned int g_mainThreadBlocked = 0;
 
 // r_material satellite stubs.
@@ -1877,7 +1908,7 @@ void R_UncacheStaticModel(unsigned int /*idx*/) {}
 // R_AllocModelLighting_PrimaryLight provided by src/gfx_d3d/r_model_lighting.cpp now.
 
 // r_meshdata satellite stubs (now provided by r_meshdata.cpp).
-void R_SetVertex2d(GfxVertex * /*v*/, float, float, float, float, unsigned int) {}
+// R_SetVertex2d provided by src/gfx_d3d/rb_backend.cpp now.
 int R_BeginMaterial(GfxCmdBufState * /*s*/, const Material * /*m*/, MaterialTechniqueType /*t*/) { return 0; }
 void R_SetMeshStream(GfxCmdBufState * /*s*/, GfxMeshData * /*m*/) {}
 
@@ -1919,7 +1950,7 @@ void R_FlushStaticModelCache() {}
 // R_ResetModelLighting provided by src/gfx_d3d/r_model_lighting.cpp now.
 // R_InitStaticModelLighting provided by src/gfx_d3d/r_model_lighting.cpp now.
 // R_ResetShadowCookies provided by src/gfx_d3d/r_shadowcookie.cpp now.
-void RB_SetBspImages() {}
+// RB_SetBspImages provided by src/gfx_d3d/rb_backend.cpp now.
 
 // r_buffers satellite stubs.
 #include <gfx_d3d/r_rendercmds.h>
@@ -1929,17 +1960,17 @@ void R_FatalLockError(long /*hr*/) {}
 // s_backEndData provided by src/gfx_d3d/r_rendercmds.cpp now.
 
 // rb_pixelcost satellite stubs.
-void R_FinishGpuFence() {}
-void R_InsertGpuFence() {}
-void R_AcquireGpuFenceLock() {}
-void R_ReleaseGpuFenceLock() {}
+// R_FinishGpuFence provided by src/gfx_d3d/rb_backend.cpp now.
+// R_InsertGpuFence provided by src/gfx_d3d/rb_backend.cpp now.
+// R_AcquireGpuFenceLock provided by src/gfx_d3d/rb_backend.cpp now.
+// R_ReleaseGpuFenceLock provided by src/gfx_d3d/rb_backend.cpp now.
 GfxAssets gfxAssets{};
 
 // rb_state satellite stubs.
 void R_SetTexFilter() {}
-void RB_InitCodeImages() {}
+// RB_InitCodeImages provided by src/gfx_d3d/rb_backend.cpp now.
 // R_InitCmdBufState provided by src/gfx_d3d/r_state_utils.cpp now.
-void RB_BindDefaultImages() {}
+// RB_BindDefaultImages provided by src/gfx_d3d/rb_backend.cpp now.
 void R_SetInitialContextState(IDirect3DDevice9 * /*d*/) {}
 bool g_allocateMinimalResources = false;
 
@@ -1975,12 +2006,12 @@ void R_DrawCall(void (*)(const void *, GfxCmdBufContext, GfxCmdBufContext), cons
 
 // rb_sky satellite stubs.
 #include <gfx_d3d/rb_backend.h>
-void RB_SetIdentity() {}
+// RB_SetIdentity provided by src/gfx_d3d/rb_backend.cpp now.
 // RB_SetTessTechnique provided by src/gfx_d3d/rb_shade.cpp now.
-void RB_ResetStatTracking() {}
+// RB_ResetStatTracking provided by src/gfx_d3d/rb_backend.cpp now.
 void R_ClearScreenInternal(IDirect3DDevice9 * /*d*/, unsigned char /*w*/, const float * /*c*/, float /*d2*/, unsigned char /*s*/, const GfxViewport * /*v*/) {}
 IDirect3DQuery9 *RB_HW_AllocOcclusionQuery() { return nullptr; }
-void RB_DrawFullScreenColoredQuad(const Material * /*m*/, float, float, float, float, unsigned int) {}
+// RB_DrawFullScreenColoredQuad provided by src/gfx_d3d/rb_backend.cpp now.
 GfxGlobals r_glob{};
 
 // rb_imagetouch satellite stubs.
@@ -2003,27 +2034,25 @@ struct TechniqueSetList;
 #include <gfx_d3d/rb_imagefilter.h>
 // gfxCmdBufContext provided by src/gfx_d3d/rb_state.cpp now.
 // R_BeginView provided by src/gfx_d3d/r_state_utils.cpp now.
-void R_DrawSurfs(GfxCmdBufContext /*ctx*/, GfxCmdBufState * /*prepassState*/, const GfxDrawSurfListInfo * /*info*/) {}
+// R_DrawSurfs provided by src/gfx_d3d/rb_backend.cpp now.
 void R_ClearScreen(IDirect3DDevice9 * /*device*/, unsigned char /*whichToClear*/, const float * /*color*/, float /*depth*/, unsigned char /*stencil*/, const GfxViewport * /*viewport*/) {}
 void R_SetRenderTarget(GfxCmdBufContext /*ctx*/, GfxRenderTargetId /*newTargetId*/) {}
 // RB_GlowFilterImage provided by src/gfx_d3d/rb_imagefilter.cpp now.
-void RB_FullScreenFilter(const Material * /*material*/) {}
+// RB_FullScreenFilter provided by src/gfx_d3d/rb_backend.cpp now.
 void R_DirtyCodeConstant(GfxCmdBufSourceState * /*source*/, CodeConstant /*constant*/) {}
 void R_SetViewportStruct(GfxCmdBufSourceState * /*source*/, const GfxViewport * /*viewport*/) {}
 void R_SetViewportValues(GfxCmdBufSourceState * /*source*/, int /*x*/, int /*y*/, int /*w*/, int /*h*/) {}
-void RB_SplitScreenFilter(const Material * /*material*/, const GfxViewInfo * /*viewInfo*/) {}
+// RB_SplitScreenFilter provided by src/gfx_d3d/rb_backend.cpp now.
 void R_SetRenderTargetSize(GfxCmdBufSourceState * /*source*/, GfxRenderTargetId /*newTargetId*/) {}
 // RB_GaussianFilterImage provided by src/gfx_d3d/rb_imagefilter.cpp now.
 // R_InitCmdBufSourceState provided by src/gfx_d3d/r_state_utils.cpp now.
 // R_SetShadowLookupMatrix provided by src/gfx_d3d/r_state_utils.cpp now.
 void R_SetCodeConstantFromVec4(GfxCmdBufSourceState * /*source*/, CodeConstant /*constant*/, float * /*value*/) {}
-void RB_FullScreenColoredFilter(const Material * /*material*/, unsigned int /*color*/) {}
+// RB_FullScreenColoredFilter provided by src/gfx_d3d/rb_backend.cpp now.
 // R_Set2D provided by src/gfx_d3d/r_state_utils.cpp now.
-void R_Resolve(GfxCmdBufContext /*ctx*/, GfxImage * /*image*/) {}
+// R_Resolve provided by src/gfx_d3d/rb_backend.cpp now.
 
-r_backEndGlobals_t backEnd{};
-materialCommands_t tess{};
-GfxBackEndData *backEndData;
+// backEnd / tess / backEndData provided by src/gfx_d3d/rb_backend.cpp now.
 // gfxCmdBufState / gfxCmdBufSourceState provided by src/gfx_d3d/rb_state.cpp now.
 
 struct DiskGfxReflectionProbe;
