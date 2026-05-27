@@ -197,6 +197,10 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_outdoor.cpp"
     "${SRC_DIR}/gfx_d3d/r_meshdata.cpp"
     "${SRC_DIR}/gfx_d3d/r_pretess.cpp"
+    # r_staticmodelcache.cpp asserts on s_cache.leafs[0] sizeof==256 which
+    # only holds on 32-bit (struct grows to 320 with 64-bit pointers); also
+    # uses past-end int[3]/int[6] flat indexing and self-compare hex-rays
+    # patterns. Land after typed cache-leaf refactor.
     "${SRC_DIR}/gfx_d3d/r_reflection_probe.cpp"
     # r_rendertarget.cpp pulls IDirect3D9 + D3DRTYPE_SURFACE +
     # D3DMULTISAMPLE_NONE — D3D9 swap chain / multisample setup.
