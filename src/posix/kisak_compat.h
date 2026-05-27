@@ -518,6 +518,7 @@ struct _AILSOUNDINFO {
     unsigned int rate;
     int bits;
     int channels;
+    unsigned int channel_mask;
     unsigned int samples;
     unsigned int block_size;
     const void *initial_ptr;
@@ -526,6 +527,17 @@ static inline int AIL_WAV_info(const void * /*buffer*/, _AILSOUNDINFO *info) {
     if (info) *info = {};
     return 0;
 }
+struct _AILMIXINFO {
+    _AILSOUNDINFO Info;
+    unsigned long channel_mask;
+};
+struct _AIL_DRIVER;
+struct _DIG_DRIVER;
+struct _SAMPLE;
+struct _STREAM;
+static inline void AIL_set_DirectSound_HWND(_DIG_DRIVER * /*drv*/, void * /*hwnd*/) {}
+static inline unsigned int AIL_size_processed_digital_audio(unsigned int /*rate*/, int /*format*/, int /*channels*/, _AILMIXINFO * /*info*/) { return 0; }
+static inline int AIL_process_digital_audio(void * /*dst*/, unsigned int /*dstSize*/, unsigned int /*rate*/, int /*format*/, int /*channels*/, _AILMIXINFO * /*info*/) { return 0; }
 
 template <unsigned long N>
 static inline int strcpy_s(char (&dst)[N], const char *src) {

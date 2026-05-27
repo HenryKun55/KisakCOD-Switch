@@ -436,7 +436,10 @@ set(SERVER_PORTABLE_SOURCES
 
 set(SOUND_PORTABLE_SOURCES
     "${SRC_DIR}/sound/snd_driver_load_obj.cpp"
-    # snd.cpp / snd_driver.cpp / snd_mss.cpp / snd_driver_load_obj.cpp
+    # snd.cpp drags 60+ Voice_/SND_Eq* helpers from snd_driver/snd_mss
+    # (Miles AIL backend). Land alongside those behind audio abstraction.
+    # snd_driver.cpp / snd_mss.cpp need full Miles stack
+    # (AIL_*/MSS_*). Land after audio abstraction layer.
     # all pull Miles Sound System (AIL_*, _AILMIXINFO). Bring back
     # behind an audio abstraction layer.
     "${SRC_DIR}/sound/snd_utils.cpp"

@@ -2123,7 +2123,7 @@ void __cdecl SND_ContinueLoopingSound_Internal(
     int *pChannel,
     void(__cdecl *setPlaybackRateFunc)(int, int))
 {
-    double v5; // st7
+    [[maybe_unused]] double v5; // st7
     [[maybe_unused]] float v6; // [esp+8h] [ebp-40h]
     [[maybe_unused]] float v7; // [esp+Ch] [ebp-3Ch]
     [[maybe_unused]] float v8; // [esp+10h] [ebp-38h]
@@ -2255,10 +2255,10 @@ char __cdecl SND_ValidateSoundAliasBlend(const snd_alias_t *alias0, const snd_al
                                             if (alias0->startDelay == alias1->startDelay)
                                             {
                                                 if ((alias0->flags & 1) == 0
-                                                    || alias0->pitchMax == alias0->pitchMin && alias1->pitchMax == alias1->pitchMin)
+                                                    || (alias0->pitchMax == alias0->pitchMin && alias1->pitchMax == alias1->pitchMin))
                                                 {
                                                     if ((alias0->flags & 1) == 0
-                                                        || alias0->volMax == alias0->volMin && alias1->volMax == alias1->volMin)
+                                                        || (alias0->volMax == alias0->volMin && alias1->volMax == alias1->volMin))
                                                     {
                                                         if (alias0->secondaryAliasName || alias1->secondaryAliasName)
                                                         {
@@ -3065,7 +3065,7 @@ void __cdecl SND_DeactivateEq(const char *channelName, int eqIndex, unsigned int
 
 void __cdecl SND_Update()
 {
-    unsigned intv0; // eax
+    [[maybe_unused]] unsigned intv0; // eax
     [[maybe_unused]] int frametime; // [esp+30h] [ebp-20h]
     MemoryFile memFile; // [esp+34h] [ebp-1Ch] BYREF
 
@@ -4591,6 +4591,7 @@ int __cdecl SND_GetSoundOverlay(snd_overlay_type_t type, snd_overlay_info_t *inf
         *cpu = g_snd.cpu;
     switch (type)
     {
+    case SND_OVERLAY_NONE: break;
     case SND_OVERLAY_3D:
         return SND_GetSoundOverlay3D(info, maxcount);
     case SND_OVERLAY_STREAM:
