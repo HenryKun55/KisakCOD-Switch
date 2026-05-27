@@ -35,7 +35,7 @@ uint64_t *varuint64_t           ;
 int32_t *varexpressionEntryType     ;
 float *varfloat               ;
 ComWorld **varComWorldPtr     ;
-enum weapInventoryType_t *varweapInventoryType_t     ;
+int *varweapInventoryType_t     ;
 RawFile **varRawFilePtr     ;
 GfxLightDef **varGfxLightDefPtr     ;
 GfxLightmapArray *varGfxLightmapArray     ;
@@ -70,7 +70,7 @@ MenuList **varMenuListPtr     ;
 uint32_t *varunsigned            ;
 //XAUDIOCHANNELMAPENTRY *varXAUDIOCHANNELMAPENTRY     ;
 MaterialTechnique *varMaterialTechnique     ;
-enum MapType *varMapType     ;
+int *varMapType     ;
 sunflare_t *varsunflare_t     ;
 PhysPreset *varPhysPreset     ;
 //D3DCubeTexture *varIDirect3DCubeTexture9     ;
@@ -83,7 +83,7 @@ pathnode_t *varpathnode_t     ;
 unsigned char *varbyte16              ;
 StreamFileName *varStreamFileName     ;
 XAnimPartTrans *varXAnimPartTrans     ;
-enum weapOverlayReticle_t *varweapOverlayReticle_t     ;
+int *varweapOverlayReticle_t     ;
 uint16_t *varushort              ;
 float *varraw_float           ;
 unsigned char *varbyte4096            ;
@@ -92,11 +92,11 @@ clipMap_t **varclipMap_ptr     ;
 GfxLightRegionHull *varGfxLightRegionHull     ;
 unsigned char *varbyte128             ;
 XModel **varXModelPtr     ;
-enum XAssetType *varXAssetType     ;
-enum weapType_t *varweapType_t     ;
+int *varXAssetType     ;
+int *varweapType_t     ;
 MaterialPass *varMaterialPass     ;
 GfxCell *varGfxCell     ;
-enum weapPositionAnimNum_t *varweapPositionAnimNum_t     ;
+int *varweapPositionAnimNum_t     ;
 pathlink_s *varpathlink_t     ;
 FxElemMarkVisuals *varFxElemMarkVisuals     ;
 unsigned char *varXAUDIOSAMPLETYPE     ;
@@ -123,11 +123,11 @@ XAsset *varXAsset      ;
 snd_alias_list_t **varsnd_alias_list_ptr     ;
 uint32_t *varuint32_t            ;
 unsigned char **varGfxImagePixels     ;
-enum weapStance_t *varweapStance_t     ;
+int *varweapStance_t     ;
 pathnode_tree_t **varpathnode_tree_ptr     ;
 MaterialShaderArgument *varMaterialShaderArgument     ;
 WeaponDef *varWeaponDef     ;
-enum expDataType *varoperandDataType     ;
+int *varoperandDataType     ;
 //int32_t (*)[4] varXPartBits        ;
 ComPrimaryLight *varComPrimaryLight     ;
 MaterialTextureDef *varMaterialTextureDef     ;
@@ -137,13 +137,13 @@ union MaterialArgumentDef *varMaterialArgumentDef     ;
 Glyph *varGlyph        ;
 //StreamFileNamePacked *varStreamFileNamePacked     ;
 XModelLodInfo *varXModelLodInfo     ;
-enum ammoCounterClipType_t *varammoCounterClipType_t     ;
+int *varammoCounterClipType_t     ;
 uint16_t *varLeafBrush           ;
 //XAUDIOCHANNELMAP *varXAUDIOCHANNELMAP     ;
-enum nodeType *varnodeType     ;
+int *varnodeType     ;
 columnInfo_s *varcolumnInfo_t     ;
-enum snd_alias_type_t *varsnd_alias_type_t     ;
-enum activeReticleType_t *varactiveReticleType_t     ;
+int *varsnd_alias_type_t     ;
+int *varactiveReticleType_t     ;
 GfxLightGridEntry *varGfxLightGridEntry     ;
 ItemKeyHandler *varItemKeyHandler     ;
 union XAUDIOFXPARAM *varXAUDIOFXPARAM     ;
@@ -152,7 +152,7 @@ GfxPackedVertex *varGfxPackedVertex     ;
 cLeaf_t *varcLeaf_t     ;
 union FxEffectDefRef *varFxEffectDefRef     ;
 unsigned char *varbyteShader          ;
-enum WeapAccuracyType *varWeapAccuracyType     ;
+int *varWeapAccuracyType     ;
 unsigned char *varbyte                ;
 FxTrailVertex *varFxTrailVertex     ;
 //XAUDIOXMAFORMAT *varXAUDIOXMAFORMAT     ;
@@ -164,7 +164,7 @@ uint16_t (*varUShortVec)[3];
 statement_s *varstatement     ;
 //D3DVolumeTexture *varIDirect3DVolumeTexture9     ;
 GfxLightGridColors *varGfxLightGridColors     ;
-enum operationEnum *varOperator     ;
+int *varOperator     ;
 cLeafBrushNodeLeaf_t *varcLeafBrushNodeLeaf_t     ;
 multiDef_s **varmultiDef_ptr     ;
 XRigidVertList *varXRigidVertList     ;
@@ -179,8 +179,8 @@ union operandInternalDataUnion *varoperandInternalDataUnion     ;
 short *varXQuat[4]            ;
 expressionEntry *varexpressionEntry     ;
 XAssetList *varXAssetList     ;
-enum weapClass_t *varweapClass_t     ;
-enum MaterialWorldVertexFormat *varMaterialWorldVertexFormat     ;
+int *varweapClass_t     ;
+int *varMaterialWorldVertexFormat     ;
 MaterialPixelShader **varMaterialPixelShaderPtr     ;
 uint8_t * varvec4_t           ;
 char *varchar                ;
@@ -204,10 +204,10 @@ water_t **varMaterialTextureDefInfo; // KISAKTODO: this is really the above unio
 MaterialInfo *varMaterialInfo     ;
 union FxSpawnDef *varFxSpawnDef     ;
 union FxElemVisuals *varFxElemVisuals     ;
-enum weapAnimFiles_t *varweapAnimFiles_t     ;
+int *varweapAnimFiles_t     ;
 SunLightParseParams *varSunLightParseParams     ;
 FxEffectDef *varFxEffectDef     ;
-enum GfxLightType *varGfxLightType     ;
+int *varGfxLightType     ;
 XAnimParts **varXAnimPartsPtr     ;
 PathData *varPathData     ;
 float *varvec_t               ;
@@ -235,13 +235,13 @@ water_t *varwater_t     ;
 GfxWorldVertex *varGfxWorldVertex     ;
 GfxLightGrid *varGfxLightGrid     ;
 MaterialTechniqueSet *varMaterialTechniqueSet     ;
-enum OffhandClass *varOffhandClass     ;
+int *varOffhandClass     ;
 FxIntRange *varFxIntRange     ;
 uint32_t *varraw_uint            ;
 void *varDWORD               ;
 GameWorldSp *varGameWorldSp     ;
 XSurfaceVertexInfo *varXSurfaceVertexInfo     ;
-enum DynEntityType *varDynEntityType     ;
+int *varDynEntityType     ;
 union GfxColor *varGfxColor     ;
 MaterialTechnique **varMaterialTechniquePtr     ;
 union GfxTexture *varGfxTexture     ;
@@ -267,9 +267,9 @@ union CollisionAabbTreeIndex *varCollisionAabbTreeIndex     ;
 XSurfaceCollisionAabb *varXSurfaceCollisionAabb     ;
 XSurface *varXSurface     ;
 //union PackedTexCoords *varPackedTexCoords     ;
-enum weaponIconRatioType_t *varweaponIconRatioType_t     ;
+int *varweaponIconRatioType_t     ;
 GfxVertexShaderLoadDef *varGfxVertexShaderLoadDef     ;
-enum WeapOverlayInteface_t *varWeapOverlayInteface_t     ;
+int *varWeapOverlayInteface_t     ;
 editFieldDef_s **vareditFieldDef_ptr     ;
 MaterialMemory *varMaterialMemory     ;
 //XaIwXmaDataInfo *varXaIwXmaDataInfo     ;
@@ -289,14 +289,14 @@ ItemKeyHandler *varItemKeyHandlerNext     ;
 MaterialTechniqueSet **varMaterialTechniqueSetPtr     ;
 GfxWorldVertexData *varGfxWorldVertexData     ;
 MaterialVertexDeclaration *varMaterialVertexDeclaration     ;
-enum guidedMissileType_t *varguidedMissileType_t     ;
+int *varguidedMissileType_t     ;
 GfxPixelShaderLoadDef *varGfxPixelShaderLoadDef     ;
 union PackedLightingCoords *varPackedLightingCoords     ;
 MaterialVertexShader **varMaterialVertexShaderPtr     ;
 union XAnimDynamicIndices *varXAnimDynamicIndicesTrans     ;
 uint16_t *varStaticModelIndex     ;
 GfxStaticModelDrawInst *varGfxStaticModelDrawInst     ;
-enum PenetrateType *varPenetrateType     ;
+int *varPenetrateType     ;
 int32_t marker_db_load           ;
 GfxLightDef *varGfxLightDef     ;
 //union MaterialVertexShaderProgram *varMaterialVertexShaderProgram     ;
@@ -329,9 +329,9 @@ GfxSurface *varGfxSurface     ;
 multiDef_s *varmultiDef_t     ;
 union GfxTexture *varGfxTextureLoad;
 GameWorldMp **varGameWorldMpPtr     ;
-enum WeapStickinessType *varWeapStickinessType     ;
+int *varWeapStickinessType     ;
 GfxWorld **varGfxWorldPtr     ;
-enum weapProjExposion_t *varweapProjExposion_t     ;
+int *varweapProjExposion_t     ;
 snd_alias_t *varsnd_alias_t     ;
 unsigned char *varraw_byte16          ;
 SpeakerMap *varSpeakerMap     ;
@@ -371,7 +371,7 @@ PhysPreset **varPhysPresetPtr     ;
 rectDef_s *varUiRectangle     ;
 DynEntityPose *varDynEntityPose     ;
 MapEnts **varMapEntsPtr     ;
-enum ImpactType *varImpactType     ;
+int *varImpactType     ;
 FxImpactTable *varFxImpactTable     ;
 cbrush_t *varcbrush_t     ;
 //D3DVertexBuffer *varGfxVertexBuffer     ;
@@ -391,8 +391,8 @@ listBoxDef_s **varlistBoxDef_ptr     ;
 PhysGeomInfo *varPhysGeomInfo     ;
 //unsigned char (*)[3] varByteVec          ;
 uint16_t *varuint16_t            ;
-enum weapFireType_t *varweapFireType_t     ;
-enum weaponAltModel_t *varweaponAltModel_t     ;
+int *varweapFireType_t     ;
+int *varweaponAltModel_t     ;
 FxElemVisStateSample *varFxElemVisStateSample     ;
 GfxWorldDpvsStatic *varGfxWorldDpvsStatic     ;
 XAnimParts *varXAnimParts     ;
@@ -990,7 +990,7 @@ void __cdecl Load_XAnimPartsPtr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varXAnimPartsPtr)
     {
-        value = (uint32_t)*varXAnimPartsPtr;
+        value = (uint32_t)(uintptr_t)*varXAnimPartsPtr;
         if (value == -1 || value == -2)
         {
             *varXAnimPartsPtr = (XAnimParts *)AllocLoad_FxElemVisStateSample();
@@ -1102,7 +1102,7 @@ void __cdecl Load_MssSound(bool atStreamStart)
     DB_PushStreamPos(0);
     if (varMssSound->data)
     {
-        value = (uint32_t)varMssSound->data;
+        value = (uint32_t)(uintptr_t)varMssSound->data;
         if (value < 0xFFFFFFFE)
         {
             DB_ConvertOffsetToAlias((uint32_t*)&varMssSound->data);
@@ -1144,7 +1144,7 @@ void __cdecl Load_LoadedSoundPtr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varLoadedSoundPtr)
     {
-        value = (uint32_t)*varLoadedSoundPtr;
+        value = (uint32_t)(uintptr_t)*varLoadedSoundPtr;
         if (value == -1 || value == -2)
         {
             *varLoadedSoundPtr = (LoadedSound *)AllocLoad_FxElemVisStateSample();
@@ -1212,7 +1212,7 @@ void __cdecl Load_SndCurvePtr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varSndCurvePtr)
     {
-        value = (uint32_t)*varSndCurvePtr;
+        value = (uint32_t)(uintptr_t)*varSndCurvePtr;
         if (value == -1 || value == -2)
         {
             *varSndCurvePtr = (SndCurve *)AllocLoad_FxElemVisStateSample();
@@ -1328,7 +1328,7 @@ void __cdecl Load_snd_alias_list_ptr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varsnd_alias_list_ptr)
     {
-        value = (uint32_t)*varsnd_alias_list_ptr;
+        value = (uint32_t)(uintptr_t)*varsnd_alias_list_ptr;
         if (value == -1 || value == -2)
         {
             *varsnd_alias_list_ptr = (snd_alias_list_t*)AllocLoad_FxElemVisStateSample();
@@ -1758,7 +1758,7 @@ void __cdecl Load_GfxImagePtr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varGfxImagePtr)
     {
-        value = (uint32_t)*varGfxImagePtr;
+        value = (uint32_t)(uintptr_t)*varGfxImagePtr;
         if (value == -1 || value == -2)
         {
             *varGfxImagePtr = (GfxImage *)AllocLoad_FxElemVisStateSample();
@@ -1931,7 +1931,7 @@ void __cdecl Load_MaterialArgumentDef(bool atStreamStart)
         {
             if (varMaterialArgumentDef->codeSampler == -1)
             {
-                varMaterialArgumentDef->codeSampler = (MaterialTextureSource)(unsigned int)AllocLoad_FxElemVisStateSample();
+                varMaterialArgumentDef->codeSampler = (MaterialTextureSource)(unsigned int)(uintptr_t)AllocLoad_FxElemVisStateSample();
                 varfloat = (float *)varMaterialArgumentDef->codeSampler;
                 Load_floatArray(1, 4);
             }
@@ -2163,7 +2163,7 @@ void __cdecl Load_MaterialTechniqueSetPtr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varMaterialTechniqueSetPtr)
     {
-        value = (uint32_t)*varMaterialTechniqueSetPtr;
+        value = (uint32_t)(uintptr_t)*varMaterialTechniqueSetPtr;
         if (value == -1 || value == -2)
         {
             *varMaterialTechniqueSetPtr = (MaterialTechniqueSet *)AllocLoad_FxElemVisStateSample();
@@ -2244,7 +2244,7 @@ void __cdecl Load_MaterialHandle(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varMaterialHandle)
     {
-        value = (uint32_t)*varMaterialHandle;
+        value = (uint32_t)(uintptr_t)*varMaterialHandle;
         if (value == -1 || value == -2)
         {
             *varMaterialHandle = (Material *)AllocLoad_FxElemVisStateSample();
@@ -2389,7 +2389,7 @@ void __cdecl Load_GfxLightDefPtr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varGfxLightDefPtr)
     {
-        value = (uint32_t)*varGfxLightDefPtr;
+        value = (uint32_t)(uintptr_t)*varGfxLightDefPtr;
         if (value == -1 || value == -2)
         {
             *varGfxLightDefPtr = (GfxLightDef *)AllocLoad_FxElemVisStateSample();
@@ -2554,7 +2554,7 @@ void __cdecl Load_PhysPresetPtr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varPhysPresetPtr)
     {
-        value = (uint32_t)*varPhysPresetPtr;
+        value = (uint32_t)(uintptr_t)*varPhysPresetPtr;
         if (value == -1 || value == -2)
         {
             *varPhysPresetPtr = (PhysPreset *)AllocLoad_FxElemVisStateSample();
@@ -2883,7 +2883,7 @@ void __cdecl Load_XModelPtr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varXModelPtr)
     {
-        value = (uint32_t)*varXModelPtr;
+        value = (uint32_t)(uintptr_t)*varXModelPtr;
         if (value == -1 || value == -2)
         {
             *varXModelPtr = (XModel *)AllocLoad_FxElemVisStateSample();
@@ -3290,7 +3290,7 @@ void __cdecl Load_GameWorldSpPtr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varGameWorldSpPtr)
     {
-        value = (uint32_t)*varGameWorldSpPtr;
+        value = (uint32_t)(uintptr_t)*varGameWorldSpPtr;
         if (value == -1 || value == -2)
         {
             *varGameWorldSpPtr = (GameWorldSp *)AllocLoad_FxElemVisStateSample();
@@ -3321,7 +3321,7 @@ void __cdecl Load_GameWorldMpPtr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varGameWorldMpPtr)
     {
-        value = (uint32_t)*varGameWorldMpPtr;
+        value = (uint32_t)(uintptr_t)*varGameWorldMpPtr;
         if (value == -1 || value == -2)
         {
             *varGameWorldMpPtr = (GameWorldMp *)AllocLoad_FxElemVisStateSample();
@@ -3386,7 +3386,7 @@ void __cdecl Load_FxEffectDefHandle(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varFxEffectDefHandle)
     {
-        value = (uint32_t)*varFxEffectDefHandle;
+        value = (uint32_t)(uintptr_t)*varFxEffectDefHandle;
         if (value == -1 || value == -2)
         {
             *varFxEffectDefHandle = (const FxEffectDef *)AllocLoad_FxElemVisStateSample();
@@ -3838,7 +3838,7 @@ void __cdecl Load_MapEntsPtr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varMapEntsPtr)
     {
-        value = (uint32_t)*varMapEntsPtr;
+        value = (uint32_t)(uintptr_t)*varMapEntsPtr;
         if (value == -1 || value == -2)
         {
             *varMapEntsPtr = (MapEnts *)AllocLoad_FxElemVisStateSample();
@@ -4309,7 +4309,7 @@ void __cdecl Load_clipMap_ptr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varclipMap_ptr)
     {
-        value = (uint32_t)*varclipMap_ptr;
+        value = (uint32_t)(uintptr_t)*varclipMap_ptr;
         if (value == -1 || value == -2)
         {
             *varclipMap_ptr = (clipMap_t *)AllocLoad_FxElemVisStateSample();
@@ -4428,7 +4428,7 @@ void __cdecl Load_ComWorldPtr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varComWorldPtr)
     {
-        value = (uint32_t)*varComWorldPtr;
+        value = (uint32_t)(uintptr_t)*varComWorldPtr;
         if (value == -1 || value == -2)
         {
             *varComWorldPtr = (ComWorld *)AllocLoad_FxElemVisStateSample();
@@ -4505,7 +4505,7 @@ void __cdecl Load_entryInternalData(bool atStreamStart)
     }
     else if (atStreamStart)
     {
-        varOperator = &varentryInternalData->op;
+        varOperator = (int *)&varentryInternalData->op;
         Load_Operator(atStreamStart);
     }
 }
@@ -4810,7 +4810,7 @@ void __cdecl Load_menuDef_ptr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varmenuDef_ptr)
     {
-        value = (uint32_t)*varmenuDef_ptr;
+        value = (uint32_t)(uintptr_t)*varmenuDef_ptr;
         if (value == -1 || value == -2)
         {
             *varmenuDef_ptr = (menuDef_t *)AllocLoad_FxElemVisStateSample();
@@ -4871,7 +4871,7 @@ void __cdecl Load_MenuListPtr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varMenuListPtr)
     {
-        value = (uint32_t)*varMenuListPtr;
+        value = (uint32_t)(uintptr_t)*varMenuListPtr;
         if (value == -1 || value == -2)
         {
             *varMenuListPtr = (MenuList *)AllocLoad_FxElemVisStateSample();
@@ -5036,7 +5036,7 @@ void __cdecl Load_LocalizeEntryPtr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varLocalizeEntryPtr)
     {
-        value = (uint32_t)*varLocalizeEntryPtr;
+        value = (uint32_t)(uintptr_t)*varLocalizeEntryPtr;
         if (value == -1 || value == -2)
         {
             *varLocalizeEntryPtr = (LocalizeEntry *)AllocLoad_FxElemVisStateSample();
@@ -5115,7 +5115,7 @@ void __cdecl Load_FxImpactTablePtr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varFxImpactTablePtr)
     {
-        value = (uint32_t)*varFxImpactTablePtr;
+        value = (uint32_t)(uintptr_t)*varFxImpactTablePtr;
         if (value == -1 || value == -2)
         {
             *varFxImpactTablePtr = (FxImpactTable *)AllocLoad_FxElemVisStateSample();
@@ -5445,7 +5445,7 @@ void __cdecl Load_WeaponDefPtr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varWeaponDefPtr)
     {
-        value = (uint32_t)*varWeaponDefPtr;
+        value = (uint32_t)(uintptr_t)*varWeaponDefPtr;
         if (value == -1 || value == -2)
         {
             *varWeaponDefPtr = (WeaponDef *)AllocLoad_FxElemVisStateSample();
@@ -5664,7 +5664,7 @@ void __cdecl Load_RawFilePtr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varRawFilePtr)
     {
-        value = (uint32_t)*varRawFilePtr;
+        value = (uint32_t)(uintptr_t)*varRawFilePtr;
         if (value == -1 || value == -2)
         {
             *varRawFilePtr = (RawFile *)AllocLoad_FxElemVisStateSample();
@@ -6565,7 +6565,7 @@ void __cdecl Load_GfxWorldPtr(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varGfxWorldPtr)
     {
-        value = (uint32_t)*varGfxWorldPtr;
+        value = (uint32_t)(uintptr_t)*varGfxWorldPtr;
         if (value == -1 || value == -2)
         {
             *varGfxWorldPtr = (GfxWorld *)AllocLoad_FxElemVisStateSample();
@@ -6703,7 +6703,7 @@ void __cdecl Load_FontHandle(bool atStreamStart)
     DB_PushStreamPos(0);
     if (*varFontHandle)
     {
-        value = (uint32_t)*varFontHandle;
+        value = (uint32_t)(uintptr_t)*varFontHandle;
         if (value == -1 || value == -2)
         {
             *varFontHandle = (Font_s *)AllocLoad_FxElemVisStateSample();
@@ -6848,6 +6848,10 @@ void __cdecl Load_XAssetHeader(bool atStreamStart)
         varStringTablePtr = (StringTable **)varXAssetHeader;
         Load_StringTablePtr(atStreamStart);
         break;
+    default:
+        // ASSET_TYPE_XMODELPIECES / UI_MAP / SNDDRIVER_GLOBALS / etc. —
+        // these have no Load_*Ptr backbone yet; fall through silently.
+        break;
     }
 }
 
@@ -6962,6 +6966,9 @@ void __cdecl Mark_XAssetHeader()
     case ASSET_TYPE_STRINGTABLE:
         varStringTablePtr = (StringTable **)varXAssetHeader;
         Mark_StringTablePtr();
+        break;
+    default:
+        // See Load_XAssetHeader; mirrors the same set of unhandled asset types.
         break;
     }
 }

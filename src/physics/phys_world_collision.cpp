@@ -75,8 +75,8 @@ void __cdecl CM_ForEachBrushInLeafBrushNode_r(
     void(__cdecl *f)(const cbrush_t *, void *),
     void *userData)
 {
-    int k; // [esp+0h] [ebp-Ch]
-    cbrush_t *b; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] int k; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] cbrush_t *b; // [esp+4h] [ebp-8h]
 
     if (!node)
         MyAssertHandler(".\\physics\\phys_world_collision.cpp", 102, 0, "%s", "node");
@@ -126,8 +126,8 @@ void __cdecl CM_ForEachBrushInLeafBrushNode_r(
 
 void __cdecl CM_MeshTestGeomInLeaf(cLeaf_t *leaf, const objInfo *input, Results *results)
 {
-    int k; // [esp+4h] [ebp-8h]
-    CollisionAabbTree *aabbTree; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int k; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] CollisionAabbTree *aabbTree; // [esp+8h] [ebp-4h]
 
     for (k = 0; k < leaf->collAabbCount; ++k)
     {
@@ -139,15 +139,15 @@ void __cdecl CM_MeshTestGeomInLeaf(cLeaf_t *leaf, const objInfo *input, Results 
 
 void __cdecl CM_PositionGeomTestInAabbTree_r(CollisionAabbTree *aabbTree, const objInfo *input, Results *results)
 {
-    int j; // [esp+6Ch] [ebp-24h]
-    int i; // [esp+70h] [ebp-20h]
-    int surfaceFlags; // [esp+74h] [ebp-1Ch]
-    int childIndex; // [esp+78h] [ebp-18h]
-    unsigned __int16 *indices; // [esp+7Ch] [ebp-14h]
-    int partitionIndex; // [esp+80h] [ebp-10h]
-    CollisionAabbTree *child; // [esp+84h] [ebp-Ch]
-    int checkStamp; // [esp+88h] [ebp-8h]
-    CollisionPartition *partition; // [esp+8Ch] [ebp-4h]
+    [[maybe_unused]] int j; // [esp+6Ch] [ebp-24h]
+    [[maybe_unused]] int i; // [esp+70h] [ebp-20h]
+    [[maybe_unused]] int surfaceFlags; // [esp+74h] [ebp-1Ch]
+    [[maybe_unused]] int childIndex; // [esp+78h] [ebp-18h]
+    [[maybe_unused]] unsigned __int16 *indices; // [esp+7Ch] [ebp-14h]
+    [[maybe_unused]] int partitionIndex; // [esp+80h] [ebp-10h]
+    [[maybe_unused]] CollisionAabbTree *child; // [esp+84h] [ebp-Ch]
+    [[maybe_unused]] int checkStamp; // [esp+88h] [ebp-8h]
+    [[maybe_unused]] CollisionPartition *partition; // [esp+8Ch] [ebp-4h]
 
     if (!CM_CullBox2(input, aabbTree->origin, aabbTree->halfSize))
     {
@@ -235,9 +235,9 @@ void __cdecl CM_PositionGeomTestInAabbTree_r(CollisionAabbTree *aabbTree, const 
 
 bool __cdecl CM_CullBox2(const objInfo *input, const float *origin, const float *halfSize)
 {
-    float v4; // [esp+Ch] [ebp-48h]
-    float v5; // [esp+10h] [ebp-44h]
-    float v6; // [esp+14h] [ebp-40h]
+    [[maybe_unused]] float v4; // [esp+Ch] [ebp-48h]
+    [[maybe_unused]] float v5; // [esp+10h] [ebp-44h]
+    [[maybe_unused]] float v6; // [esp+14h] [ebp-40h]
     float centerDelta[3]; // [esp+30h] [ebp-24h] BYREF
     float size[3]; // [esp+3Ch] [ebp-18h] BYREF
     float halfBoxSize[3]; // [esp+48h] [ebp-Ch] BYREF
@@ -265,7 +265,7 @@ void __cdecl CM_TestGeomInLeaf(cLeaf_t *leaf, const objInfo *input, Results *res
 
 void __cdecl CM_TestGeomInLeafBrushNode(cLeaf_t *leaf, const objInfo *input, Results *results)
 {
-    int i; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] int i; // [esp+0h] [ebp-Ch]
     InputOutput io; // [esp+4h] [ebp-8h] BYREF
 
     if (!leaf->leafBrushNode)
@@ -289,45 +289,45 @@ void __cdecl CM_TestGeomInLeafBrushNode(cLeaf_t *leaf, const objInfo *input, Res
 
 void __cdecl Phys_TestGeomInBrush(const cbrush_t *brush, unsigned int *userData)
 {
-    Results *results; // [esp+68h] [ebp-8h]
+    [[maybe_unused]] Results *results; // [esp+68h] [ebp-8h]
 
-    results = (Results *)userData[1];
+    results = (Results *)(uintptr_t)userData[1];
     if (results->contactCount < results->maxContacts)
     {
-        switch (*(unsigned int *)(*userData + 52))
+        switch (*(unsigned int *)(uintptr_t)(*userData + 52))
         {
         case 1:
         {
             PROF_SCOPED("Phys_BoxBrushColl");
-            Phys_CollideBoxWithBrush(brush, (const objInfo *)*userData, results);
+            Phys_CollideBoxWithBrush(brush, (const objInfo *)(uintptr_t)*userData, results);
             break;
         }
         case 2:
         {
             PROF_SCOPED("Phys_BrushBrushColl");
-            Phys_CollideOrientedBrushModelWithBrush(brush, (const objInfo *)*userData, results);
+            Phys_CollideOrientedBrushModelWithBrush(brush, (const objInfo *)(uintptr_t)*userData, results);
             break;
         }
         case 3:
         {
             PROF_SCOPED("Phys_BrushBrushColl");
             Phys_CollideOrientedBrushWithBrush(
-                *(const cbrush_t **)(*userData + 140),
+                *(const cbrush_t **)(uintptr_t)(*userData + 140),
                 brush,
-                (const objInfo *)*userData,
+                (const objInfo *)(uintptr_t)*userData,
                 results);
             break;
         }
         case 4:
         {
             PROF_SCOPED("Phys_CylinderBrushColl");
-            Phys_CollideCylinderWithBrush(brush, (const objInfo *)*userData, results);
+            Phys_CollideCylinderWithBrush(brush, (const objInfo *)(uintptr_t)*userData, results);
             break;
         }
         case 5:
         {
             PROF_SCOPED("Phys_CapsuleBrushColl");
-            Phys_CollideCapsuleWithBrush(brush, (const objInfo *)*userData, results);
+            Phys_CollideCapsuleWithBrush(brush, (const objInfo *)(uintptr_t)*userData, results);
             break;
         }
         default:
@@ -338,19 +338,19 @@ void __cdecl Phys_TestGeomInBrush(const cbrush_t *brush, unsigned int *userData)
 
 void __cdecl Phys_TestAgainstEntities(const objInfo *input, Results *results)
 {
-    float capRadius; // [esp+14h] [ebp-10C4h]
+    [[maybe_unused]] float capRadius; // [esp+14h] [ebp-10C4h]
     int entityList[1024]; // [esp+28h] [ebp-10B0h] BYREF
-    float v4; // [esp+1028h] [ebp-B0h]
+    [[maybe_unused]] float v4; // [esp+1028h] [ebp-B0h]
     //float out[9]; // [esp+102Ch] [ebp-ACh] BYREF
     mat3x3 out;
     float result[3]; // [esp+1050h] [ebp-88h] BYREF
     float sum[3]; // [esp+105Ch] [ebp-7Ch] BYREF
-    float capHalfHeight; // [esp+1068h] [ebp-70h]
+    [[maybe_unused]] float capHalfHeight; // [esp+1068h] [ebp-70h]
     float boxRot[12]; // [esp+106Ch] [ebp-6Ch] BYREF
-    int i; // [esp+109Ch] [ebp-3Ch]
-    gentity_s *v11; // [esp+10A0h] [ebp-38h]
+    [[maybe_unused]] int i; // [esp+109Ch] [ebp-3Ch]
+    [[maybe_unused]] gentity_s *v11; // [esp+10A0h] [ebp-38h]
     float outMatrix[12]; // [esp+10A4h] [ebp-34h] BYREF
-    int v13; // [esp+10D4h] [ebp-4h]
+    [[maybe_unused]] int v13; // [esp+10D4h] [ebp-4h]
 
     v13 = CM_AreaEntities(input->bounds[0], input->bounds[1], entityList, 1024, input->clipMask);
     MatrixIdentity33(out);
@@ -385,52 +385,52 @@ dColliderFn *Phys_GetColliderNull(int num)
 
 static int dCollideWorldGeom(dxGeom *o1, dxGeom *o2, int flags, dContactGeomExt *contact, int skip)
 {
-    dxBody *Body; // eax
-    const float *Rotation; // eax
-    float v8; // [esp+Ch] [ebp-AE0h]
-    float v9; // [esp+10h] [ebp-ADCh]
-    float v10; // [esp+14h] [ebp-AD8h]
-    float v11; // [esp+1Ch] [ebp-AD0h]
-    float v12; // [esp+20h] [ebp-ACCh]
-    float v13; // [esp+28h] [ebp-AC4h]
-    float v14; // [esp+2Ch] [ebp-AC0h]
-    float v15; // [esp+30h] [ebp-ABCh]
-    float v16; // [esp+34h] [ebp-AB8h]
-    float v17; // [esp+38h] [ebp-AB4h]
-    float v18; // [esp+3Ch] [ebp-AB0h]
-    float v19; // [esp+40h] [ebp-AACh]
-    float v20; // [esp+44h] [ebp-AA8h]
-    float v21; // [esp+48h] [ebp-AA4h]
-    float v22; // [esp+4Ch] [ebp-AA0h]
-    float v23; // [esp+50h] [ebp-A9Ch]
-    float v24; // [esp+54h] [ebp-A98h]
-    bool v25; // [esp+5Ch] [ebp-A90h]
-    float v26; // [esp+60h] [ebp-A8Ch]
-    float v27; // [esp+F0h] [ebp-9FCh]
-    float v28; // [esp+F4h] [ebp-9F8h]
-    float v29; // [esp+FCh] [ebp-9F0h]
-    float halfHeight; // [esp+100h] [ebp-9ECh]
-    const float *v31; // [esp+140h] [ebp-9ACh]
-    const dReal *Position; // [esp+144h] [ebp-9A8h]
-    int k; // [esp+170h] [ebp-97Ch]
-    int j; // [esp+174h] [ebp-978h]
-    int c; // [esp+178h] [ebp-974h]
-    int r; // [esp+17Ch] [ebp-970h]
+    [[maybe_unused]] dxBody *Body; // eax
+    [[maybe_unused]] const float *Rotation; // eax
+    [[maybe_unused]] float v8; // [esp+Ch] [ebp-AE0h]
+    [[maybe_unused]] float v9; // [esp+10h] [ebp-ADCh]
+    [[maybe_unused]] float v10; // [esp+14h] [ebp-AD8h]
+    [[maybe_unused]] float v11; // [esp+1Ch] [ebp-AD0h]
+    [[maybe_unused]] float v12; // [esp+20h] [ebp-ACCh]
+    [[maybe_unused]] float v13; // [esp+28h] [ebp-AC4h]
+    [[maybe_unused]] float v14; // [esp+2Ch] [ebp-AC0h]
+    [[maybe_unused]] float v15; // [esp+30h] [ebp-ABCh]
+    [[maybe_unused]] float v16; // [esp+34h] [ebp-AB8h]
+    [[maybe_unused]] float v17; // [esp+38h] [ebp-AB4h]
+    [[maybe_unused]] float v18; // [esp+3Ch] [ebp-AB0h]
+    [[maybe_unused]] float v19; // [esp+40h] [ebp-AACh]
+    [[maybe_unused]] float v20; // [esp+44h] [ebp-AA8h]
+    [[maybe_unused]] float v21; // [esp+48h] [ebp-AA4h]
+    [[maybe_unused]] float v22; // [esp+4Ch] [ebp-AA0h]
+    [[maybe_unused]] float v23; // [esp+50h] [ebp-A9Ch]
+    [[maybe_unused]] float v24; // [esp+54h] [ebp-A98h]
+    [[maybe_unused]] bool v25; // [esp+5Ch] [ebp-A90h]
+    [[maybe_unused]] float v26; // [esp+60h] [ebp-A8Ch]
+    [[maybe_unused]] float v27; // [esp+F0h] [ebp-9FCh]
+    [[maybe_unused]] float v28; // [esp+F4h] [ebp-9F8h]
+    [[maybe_unused]] float v29; // [esp+FCh] [ebp-9F0h]
+    [[maybe_unused]] float halfHeight; // [esp+100h] [ebp-9ECh]
+    [[maybe_unused]] const float *v31; // [esp+140h] [ebp-9ACh]
+    [[maybe_unused]] const dReal *Position; // [esp+144h] [ebp-9A8h]
+    [[maybe_unused]] int k; // [esp+170h] [ebp-97Ch]
+    [[maybe_unused]] int j; // [esp+174h] [ebp-978h]
+    [[maybe_unused]] int c; // [esp+178h] [ebp-974h]
+    [[maybe_unused]] int r; // [esp+17Ch] [ebp-970h]
     leafList_s ll; // [esp+180h] [ebp-96Ch] BYREF
-    const float *narrowLen; // [esp+1ACh] [ebp-940h]
-    BrushInfo *brushInfo; // [esp+1B0h] [ebp-93Ch]
+    [[maybe_unused]] const float *narrowLen; // [esp+1ACh] [ebp-940h]
+    [[maybe_unused]] BrushInfo *brushInfo; // [esp+1B0h] [ebp-93Ch]
     float rotatedCenterOfMass[3]; // [esp+1B4h] [ebp-938h] BYREF
-    float radius; // [esp+1C0h] [ebp-92Ch]
+    [[maybe_unused]] float radius; // [esp+1C0h] [ebp-92Ch]
     unsigned __int16 leafs[1026]; // [esp+1C4h] [ebp-928h] BYREF
     float bounds[2][3]; // [esp+9CCh] [ebp-120h] BYREF
     objInfo input; // [esp+9E4h] [ebp-108h] BYREF
     float maxs[3]; // [esp+A8Ch] [ebp-60h] BYREF
     float absR[3][3]; // [esp+A98h] [ebp-54h] BYREF
-    GeomStateCylinder *cyl; // [esp+ABCh] [ebp-30h]
+    [[maybe_unused]] GeomStateCylinder *cyl; // [esp+ABCh] [ebp-30h]
     float lengths[5]; // [esp+AC0h] [ebp-2Ch] BYREF
-    int i; // [esp+AD4h] [ebp-18h]
+    [[maybe_unused]] int i; // [esp+AD4h] [ebp-18h]
     Results results; // [esp+AD8h] [ebp-14h] BYREF
-    TraceThreadInfo *value; // [esp+AE8h] [ebp-4h]
+    [[maybe_unused]] TraceThreadInfo *value; // [esp+AE8h] [ebp-4h]
     float tmp;
 
     LODWORD(lengths[4]) = 1024;
@@ -673,7 +673,7 @@ static dColliderFn *dGetColliderWorld(int classnum)
 void __cdecl Phys_InitWorldCollision()
 {
     dGeomClass gclass; // [esp+0h] [ebp-18h] BYREF
-    int classID; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] int classID; // [esp+14h] [ebp-4h]
 
     gclass.bytes = 0;
     gclass.aabb_test = 0;
@@ -696,7 +696,7 @@ void __cdecl Phys_InitWorldCollision()
 void __cdecl Phys_InitBrushmodelGeomClass()
 {
     dGeomClass gclass; // [esp+0h] [ebp-18h] BYREF
-    int classID; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] int classID; // [esp+14h] [ebp-4h]
 
     gclass.aabb_test = 0;
     gclass.isPlaceable = true;
@@ -716,10 +716,10 @@ void __cdecl Phys_InitBrushmodelGeomClass()
 
 void __cdecl Phys_GetBrushmodelAABB(dxGeom *geom, float *aabb)
 {
-    cmodel_t *v2; // eax
-    float radius; // [esp+Ch] [ebp-18h]
-    float v4; // [esp+10h] [ebp-14h]
-    BrushInfo *brushInfo; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] cmodel_t *v2; // eax
+    [[maybe_unused]] float radius; // [esp+Ch] [ebp-18h]
+    [[maybe_unused]] float v4; // [esp+10h] [ebp-14h]
+    [[maybe_unused]] BrushInfo *brushInfo; // [esp+1Ch] [ebp-8h]
 
     if (!geom)
         MyAssertHandler(".\\physics\\phys_world_collision.cpp", 588, 0, "%s", "geom");
@@ -754,7 +754,7 @@ void __cdecl Phys_GetBrushmodelAABB(dxGeom *geom, float *aabb)
 void __cdecl Phys_InitBrushGeomClass()
 {
     dGeomClass gclass; // [esp+0h] [ebp-18h] BYREF
-    int classID; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] int classID; // [esp+14h] [ebp-4h]
 
     gclass.aabb_test = 0;
     gclass.isPlaceable = true;
@@ -789,7 +789,7 @@ void __cdecl Phys_GetBrushAABB(dxGeom *geom, float *aabb)
 void __cdecl Phys_InitCylinderGeomClass()
 {
     dGeomClass gclass; // [esp+0h] [ebp-18h] BYREF
-    int classID; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] int classID; // [esp+14h] [ebp-4h]
 
     gclass.aabb_test = 0;
     gclass.isPlaceable = true;
@@ -809,20 +809,20 @@ void __cdecl Phys_InitCylinderGeomClass()
 
 void __cdecl Phys_GetCylinderAABB(dxGeom *geom, float *aabb)
 {
-    const float *Rotation; // eax
-    float v3; // [esp+0h] [ebp-78h]
-    float v4; // [esp+4h] [ebp-74h]
-    float v5; // [esp+8h] [ebp-70h]
-    float v6; // [esp+Ch] [ebp-6Ch]
-    float v7; // [esp+14h] [ebp-64h]
-    float v8; // [esp+1Ch] [ebp-5Ch]
-    const float *Position; // [esp+20h] [ebp-58h]
-    float pos[3]; // [esp+2Ch] [ebp-4Ch]
-    int axisIdx; // [esp+38h] [ebp-40h]
+    [[maybe_unused]] const float *Rotation; // eax
+    [[maybe_unused]] float v3; // [esp+0h] [ebp-78h]
+    [[maybe_unused]] float v4; // [esp+4h] [ebp-74h]
+    [[maybe_unused]] float v5; // [esp+8h] [ebp-70h]
+    [[maybe_unused]] float v6; // [esp+Ch] [ebp-6Ch]
+    [[maybe_unused]] float v7; // [esp+14h] [ebp-64h]
+    [[maybe_unused]] float v8; // [esp+1Ch] [ebp-5Ch]
+    [[maybe_unused]] const float *Position; // [esp+20h] [ebp-58h]
+    [[maybe_unused]] float pos[3]; // [esp+2Ch] [ebp-4Ch]
+    [[maybe_unused]] int axisIdx; // [esp+38h] [ebp-40h]
     float R[4][3]; // [esp+3Ch] [ebp-3Ch] BYREF
-    GeomStateCylinder *cyl; // [esp+6Ch] [ebp-Ch]
-    int i; // [esp+70h] [ebp-8h]
-    float axisRange; // [esp+74h] [ebp-4h]
+    [[maybe_unused]] GeomStateCylinder *cyl; // [esp+6Ch] [ebp-Ch]
+    [[maybe_unused]] int i; // [esp+70h] [ebp-8h]
+    [[maybe_unused]] float axisRange; // [esp+74h] [ebp-4h]
 
     if (!geom)
         MyAssertHandler(".\\physics\\phys_world_collision.cpp", 623, 0, "%s", "geom");
@@ -871,7 +871,7 @@ void __cdecl Phys_GetCylinderAABB(dxGeom *geom, float *aabb)
 void __cdecl Phys_InitCapsuleGeomClass()
 {
     dGeomClass gclass; // [esp+0h] [ebp-18h] BYREF
-    int classID; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] int classID; // [esp+14h] [ebp-4h]
 
     gclass.aabb_test = 0;
     gclass.isPlaceable = true;
@@ -891,20 +891,20 @@ void __cdecl Phys_InitCapsuleGeomClass()
 
 void __cdecl Phys_GetCapsuleAABB(dxGeom *geom, float *aabb)
 {
-    const float *Rotation; // eax
-    float v3; // [esp+0h] [ebp-78h]
-    float v4; // [esp+4h] [ebp-74h]
-    float v5; // [esp+8h] [ebp-70h]
-    float v6; // [esp+Ch] [ebp-6Ch]
-    float v7; // [esp+14h] [ebp-64h]
-    float v8; // [esp+1Ch] [ebp-5Ch]
-    const float *Position; // [esp+20h] [ebp-58h]
-    float pos[3]; // [esp+2Ch] [ebp-4Ch]
-    int axisIdx; // [esp+38h] [ebp-40h]
+    [[maybe_unused]] const float *Rotation; // eax
+    [[maybe_unused]] float v3; // [esp+0h] [ebp-78h]
+    [[maybe_unused]] float v4; // [esp+4h] [ebp-74h]
+    [[maybe_unused]] float v5; // [esp+8h] [ebp-70h]
+    [[maybe_unused]] float v6; // [esp+Ch] [ebp-6Ch]
+    [[maybe_unused]] float v7; // [esp+14h] [ebp-64h]
+    [[maybe_unused]] float v8; // [esp+1Ch] [ebp-5Ch]
+    [[maybe_unused]] const float *Position; // [esp+20h] [ebp-58h]
+    [[maybe_unused]] float pos[3]; // [esp+2Ch] [ebp-4Ch]
+    [[maybe_unused]] int axisIdx; // [esp+38h] [ebp-40h]
     float R[4][3]; // [esp+3Ch] [ebp-3Ch] BYREF
-    GeomStateCylinder *cyl; // [esp+6Ch] [ebp-Ch]
-    int i; // [esp+70h] [ebp-8h]
-    float axisRange; // [esp+74h] [ebp-4h]
+    [[maybe_unused]] GeomStateCylinder *cyl; // [esp+6Ch] [ebp-Ch]
+    [[maybe_unused]] int i; // [esp+70h] [ebp-8h]
+    [[maybe_unused]] float axisRange; // [esp+74h] [ebp-4h]
 
     if (!geom)
         MyAssertHandler(".\\physics\\phys_world_collision.cpp", 660, 0, "%s", "geom");
@@ -951,9 +951,9 @@ dxGeom *__cdecl Phys_CreateBrushmodelGeom(
     unsigned __int16 brushModel,
     const float *centerOfMass)
 {
-    GeomStateBrush *ClassData; // eax
-    dxGeom *geom; // [esp+8h] [ebp-8h]
-    const cmodel_t *cmod; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] GeomStateBrush *ClassData; // eax
+    [[maybe_unused]] dxGeom *geom; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] const cmodel_t *cmod; // [esp+Ch] [ebp-4h]
 
     if (!space)
         MyAssertHandler(".\\physics\\phys_world_collision.cpp", 762, 0, "%s", "space");
@@ -983,8 +983,8 @@ dxGeom *__cdecl Phys_CreateBrushmodelGeom(
 
 dxGeom *__cdecl Phys_CreateBrushGeom(dxSpace *space, dxBody *body, const cbrush_t *brush, const float *centerOfMass)
 {
-    GeomStateBrush *ClassData; // eax
-    dxGeom *geom; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] GeomStateBrush *ClassData; // eax
+    [[maybe_unused]] dxGeom *geom; // [esp+8h] [ebp-4h]
 
     if (!space)
         MyAssertHandler(".\\physics\\phys_world_collision.cpp", 792, 0, "%s", "space");
@@ -1013,8 +1013,8 @@ dxGeom *__cdecl Phys_CreateBrushGeom(dxSpace *space, dxBody *body, const cbrush_
 
 dxGeom *__cdecl Phys_CreateCylinderGeom(dxSpace *space, dxBody *body, const GeomStateCylinder *cyl)
 {
-    GeomStateCylinder *ClassData; // eax
-    dxGeom *geom; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] GeomStateCylinder *ClassData; // eax
+    [[maybe_unused]] dxGeom *geom; // [esp+0h] [ebp-8h]
 
     geom = ODE_CreateGeom(13, space, body);
     if (!geom)
@@ -1028,8 +1028,8 @@ dxGeom *__cdecl Phys_CreateCylinderGeom(dxSpace *space, dxBody *body, const Geom
 
 dxGeom *__cdecl Phys_CreateCapsuleGeom(dxSpace *space, dxBody *body, const GeomStateCylinder *cyl)
 {
-    GeomStateCylinder *ClassData; // eax
-    dxGeom *geom; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] GeomStateCylinder *ClassData; // eax
+    [[maybe_unused]] dxGeom *geom; // [esp+0h] [ebp-8h]
 
     geom = ODE_CreateGeom(14, space, body);
     if (!geom)

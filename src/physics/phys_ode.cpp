@@ -876,15 +876,15 @@ void __cdecl Phys_ObjAddGeomBoxRotated(
     geomState.type = PHYS_GEOM_BOX;
     Vec3Scale(halfLengths, 2.0, geomState.u.boxState.extent);
     geomState.isOriented = 1;
-    geomState.orientation[0][0] = (*orientation)[0];
-    geomState.orientation[0][1] = (*orientation)[1];
-    geomState.orientation[0][2] = (*orientation)[2];
-    geomState.orientation[1][0] = (*orientation)[3];
-    geomState.orientation[1][1] = (*orientation)[4];
-    geomState.orientation[1][2] = (*orientation)[5];
-    geomState.orientation[2][0] = (*orientation)[6];
-    geomState.orientation[2][1] = (*orientation)[7];
-    geomState.orientation[2][2] = (*orientation)[8];
+    geomState.orientation[0][0] = reinterpret_cast<const float *>(orientation)[0];
+    geomState.orientation[0][1] = reinterpret_cast<const float *>(orientation)[1];
+    geomState.orientation[0][2] = reinterpret_cast<const float *>(orientation)[2];
+    geomState.orientation[1][0] = reinterpret_cast<const float *>(orientation)[3];
+    geomState.orientation[1][1] = reinterpret_cast<const float *>(orientation)[4];
+    geomState.orientation[1][2] = reinterpret_cast<const float *>(orientation)[5];
+    geomState.orientation[2][0] = reinterpret_cast<const float *>(orientation)[6];
+    geomState.orientation[2][1] = reinterpret_cast<const float *>(orientation)[7];
+    geomState.orientation[2][2] = reinterpret_cast<const float *>(orientation)[8];
     dBodyGetMass(body, &mass);
     Phys_BodyAddGeomAndSetMass(worldIndex, body, mass.mass, &geomState, center);
 }
@@ -896,7 +896,7 @@ void __cdecl Phys_ObjAddGeomBrushModel(
     const PhysMass *physMass)
 {
     GeomState geomState; // [esp+14h] [ebp-98h] BYREF
-    dxBody *body; // [esp+60h] [ebp-4Ch]
+    [[maybe_unused]] dxBody *body; // [esp+60h] [ebp-4Ch]
     dMass mass; // [esp+64h] [ebp-48h] BYREF
 
     dMassSetZero(&mass);
@@ -919,7 +919,7 @@ void __cdecl Phys_ObjAddGeomBrushModel(
 void __cdecl Phys_ObjAddGeomBrush(PhysWorld worldIndex, dxBody *id, const cbrush_t *brush, const PhysMass *physMass)
 {
     GeomState geomState; // [esp+14h] [ebp-98h] BYREF
-    dxBody *body; // [esp+60h] [ebp-4Ch]
+    [[maybe_unused]] dxBody *body; // [esp+60h] [ebp-4Ch]
     dMass mass; // [esp+64h] [ebp-48h] BYREF
 
     dMassSetZero(&mass);
@@ -927,7 +927,7 @@ void __cdecl Phys_ObjAddGeomBrush(PhysWorld worldIndex, dxBody *id, const cbrush
         MyAssertHandler(".\\physics\\phys_ode.cpp", 798, 0, "%s", "id");
     body = id;
     geomState.type = PHYS_GEOM_BRUSH;
-    geomState.u.cylinderState.direction = (int)brush;
+    geomState.u.cylinderState.direction = (int)(uintptr_t)brush;
     geomState.u.cylinderState.radius = physMass->momentsOfInertia[0];
     geomState.u.cylinderState.halfHeight = physMass->momentsOfInertia[1];
     geomState.u.brushState.momentsOfInertia[2] = physMass->momentsOfInertia[2];
@@ -1026,15 +1026,15 @@ void __cdecl Phys_ObjAddGeomCylinderRotated(
     cyl->radius = radius;
     cyl->halfHeight = halfHeight;
     geomState.isOriented = 1;
-    geomState.orientation[0][0] = (*orientation)[0];
-    geomState.orientation[0][1] = (*orientation)[1];
-    geomState.orientation[0][2] = (*orientation)[2];
-    geomState.orientation[1][0] = (*orientation)[3];
-    geomState.orientation[1][1] = (*orientation)[4];
-    geomState.orientation[1][2] = (*orientation)[5];
-    geomState.orientation[2][0] = (*orientation)[6];
-    geomState.orientation[2][1] = (*orientation)[7];
-    geomState.orientation[2][2] = (*orientation)[8];
+    geomState.orientation[0][0] = reinterpret_cast<const float *>(orientation)[0];
+    geomState.orientation[0][1] = reinterpret_cast<const float *>(orientation)[1];
+    geomState.orientation[0][2] = reinterpret_cast<const float *>(orientation)[2];
+    geomState.orientation[1][0] = reinterpret_cast<const float *>(orientation)[3];
+    geomState.orientation[1][1] = reinterpret_cast<const float *>(orientation)[4];
+    geomState.orientation[1][2] = reinterpret_cast<const float *>(orientation)[5];
+    geomState.orientation[2][0] = reinterpret_cast<const float *>(orientation)[6];
+    geomState.orientation[2][1] = reinterpret_cast<const float *>(orientation)[7];
+    geomState.orientation[2][2] = reinterpret_cast<const float *>(orientation)[8];
     dBodyGetMass(body, &mass);
     Phys_BodyAddGeomAndSetMass(worldIndex, body, mass.mass, &geomState, center);
 }
@@ -1211,7 +1211,7 @@ void __cdecl Phys_ObjAddForce(PhysWorld worldIndex, dxBody *id, float *worldPos,
     dBodyEnable(id);
     userData = (PhysObjUserData *)dBodyGetData(id);
     odeWorld = ODE_BodyGetWorld(id);
-    userData->timeLastAsleep = (int)physGlob.space[51 * Phys_IndexFromODEWorld(odeWorld) - 152];
+    userData->timeLastAsleep = (int)(uintptr_t)physGlob.space[51 * Phys_IndexFromODEWorld(odeWorld) - 152];
 }
 
 int __cdecl Phys_IndexFromODEWorld(dxWorld *world)
@@ -1430,7 +1430,7 @@ int __cdecl Phys_DrawDebugTextForWorld(
     v6 = va("   Awake: %i", physGlob.debugActiveObjCount);
     CG_DrawStringExt(scrPlace, *x, *y, v6, colorGreen, 0, 1, charHeight);
     *y = *y + charHeight;
-    text = va("   Asleep: %i", (char *)bodyCount - physGlob.debugActiveObjCount);
+    text = va("   Asleep: %i", (char *)(uintptr_t)bodyCount - physGlob.debugActiveObjCount);
     CG_DrawStringExt(scrPlace, *x, *y, text, colorGreen, 0, 1, charHeight);
     *y = *y + charHeight;
     return physGlob.debugActiveObjCount;
@@ -1854,7 +1854,7 @@ void __cdecl Phys_ObjDraw(dxBody *body)
     float pos[3]; // [esp+28h] [ebp-88h] BYREF
     dxGeom *geomIter; // [esp+34h] [ebp-7Ch]
     float mins[3]; // [esp+38h] [ebp-78h] BYREF
-    PhysObjUserData *userData; // [esp+44h] [ebp-6Ch]
+    [[maybe_unused]] PhysObjUserData *userData; // [esp+44h] [ebp-6Ch]
     dxGeom *geom; // [esp+48h] [ebp-68h]
     float rotation[3][3]; // [esp+4Ch] [ebp-64h] BYREF
     int cylAxis; // [esp+70h] [ebp-40h]
@@ -2360,7 +2360,7 @@ bool __cdecl Phys_ObjIsAsleep(dxBody *id)
 
 void __cdecl Phys_Shutdown()
 {
-    unsigned int v0; // eax
+    [[maybe_unused]] unsigned int v0; // eax
     int worldIndex; // [esp+0h] [ebp-4h]
 
     if (physInited)
@@ -2369,7 +2369,7 @@ void __cdecl Phys_Shutdown()
         vassert(physGlob.world[PHYS_WORLD_FX]->nb == 0, "physGlob.world[PHYS_WORLD_FX]->nb = %d", physGlob.world[PHYS_WORLD_FX]->nb);
         vassert(physGlob.world[PHYS_WORLD_RAGDOLL]->nb == 0, "physGlob.world[PHYS_WORLD_RAGDOLL]->nb = %d", physGlob.world[PHYS_WORLD_RAGDOLL]->nb);
 
-        int freeCount = Pool_FreeCount(&physGlob.userDataPool);
+        [[maybe_unused]] int freeCount = Pool_FreeCount(&physGlob.userDataPool);
         vassert(freeCount == ARRAY_COUNT(physGlob.userData), "userdata physobj free count = %d", freeCount);
 
         ODE_LeakCheck();
@@ -2619,9 +2619,9 @@ dxJointAMotor *__cdecl Phys_CreateAngularMotor(
             dJointSetAMotorMode(jointa, 1);
             dJointSetAMotorNumAxes(jointa, 3);
             if (obj2)
-                dJointSetAMotorAxis(jointa, 2, 2, (*axes)[6], (*axes)[7], (*axes)[8]);
+                dJointSetAMotorAxis(jointa, 2, 2, reinterpret_cast<const float *>(axes)[6], reinterpret_cast<const float *>(axes)[7], reinterpret_cast<const float *>(axes)[8]);
             else
-                dJointSetAMotorAxis(jointa, 2, 0, (*axes)[6], (*axes)[7], (*axes)[8]);
+                dJointSetAMotorAxis(jointa, 2, 0, reinterpret_cast<const float *>(axes)[6], reinterpret_cast<const float *>(axes)[7], reinterpret_cast<const float *>(axes)[8]);
             if (obj1)
                 dJointSetAMotorAxis(jointa, 0, 1, (*axes)[0], (*axes)[1], (*axes)[2]);
             else

@@ -219,8 +219,8 @@ void __cdecl R_AddSpotShadowModelEntities(
     unsigned int primaryLightIndex,
     const GfxLight *light)
 {
-    volatile int sceneEntIndex; // [esp+8h] [ebp-14h]
-    volatile int sceneEntIndexa; // [esp+8h] [ebp-14h]
+    int sceneEntIndex; // [esp+8h] [ebp-14h]
+    int sceneEntIndexa; // [esp+8h] [ebp-14h]
     unsigned int entnum; // [esp+10h] [ebp-Ch]
     unsigned int entnuma; // [esp+10h] [ebp-Ch]
     GfxSpotShadowEntCmd cmd; // [esp+14h] [ebp-8h] BYREF

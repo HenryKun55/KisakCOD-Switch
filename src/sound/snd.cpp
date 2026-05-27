@@ -114,8 +114,8 @@ bool __cdecl SND_IsStreamChannelLoading(int index)
 
 bool __cdecl SND_HasFreeVoice(int entchannel)
 {
-    int loadingStreamCount; // [esp+0h] [ebp-8h]
-    int index; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int loadingStreamCount; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] int index; // [esp+4h] [ebp-4h]
 
     if (entchannel < 0 || entchannel >= g_snd.entchannel_count)
         MyAssertHandler(
@@ -262,7 +262,7 @@ snd_entchannel_info_t *__cdecl SND_GetEntChannelName(int entchannel)
 
 int __cdecl SND_GetEntChannelFromName(const char *channelName)
 {
-    int chanIdx; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int chanIdx; // [esp+0h] [ebp-4h]
 
     if (!channelName)
         MyAssertHandler(".\\snd.cpp", 230, 0, "%s", "channelName");
@@ -276,8 +276,8 @@ int __cdecl SND_GetEntChannelFromName(const char *channelName)
 
 char __cdecl SND_ValidateEnvEffectsPriorityValue(const char *priorityName, int *priority)
 {
-    const char *priorityStrings[3]; // [esp+0h] [ebp-10h]
-    int stringIndex; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] const char *priorityStrings[3]; // [esp+0h] [ebp-10h]
+    [[maybe_unused]] int stringIndex; // [esp+Ch] [ebp-4h]
 
     priorityStrings[0] = "none";
     priorityStrings[1] = "level";
@@ -306,11 +306,11 @@ void __cdecl SND_SetEnvironmentEffects_f()
     const char *v1; // eax
     const char *v2; // eax
     const char *v3; // eax
-    const char *roomstring; // [esp+Ch] [ebp-18h]
-    float drylevel; // [esp+14h] [ebp-10h]
-    float wetlevel; // [esp+18h] [ebp-Ch]
+    [[maybe_unused]] const char *roomstring; // [esp+Ch] [ebp-18h]
+    [[maybe_unused]] float drylevel; // [esp+14h] [ebp-10h]
+    [[maybe_unused]] float wetlevel; // [esp+18h] [ebp-Ch]
     int priority; // [esp+1Ch] [ebp-8h] BYREF
-    int fademsec; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] int fademsec; // [esp+20h] [ebp-4h]
 
     if (Cmd_Argc() == 6)
     {
@@ -358,8 +358,8 @@ void __cdecl SND_SetEnvironmentEffects_f()
 
 int __cdecl SND_RoomtypeFromString(const char *string)
 {
-    int stringIndex; // [esp+0h] [ebp-4h]
-    int stringIndexa; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int stringIndex; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int stringIndexa; // [esp+0h] [ebp-4h]
 
     if (!string)
         MyAssertHandler(".\\snd.cpp", 279, 0, "%s", "string");
@@ -382,7 +382,7 @@ void __cdecl SND_DeactivateEnvironmentEffects_f()
     const char *v0; // eax
     const char *v1; // eax
     int priority; // [esp+0h] [ebp-8h] BYREF
-    int fademsec; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int fademsec; // [esp+4h] [ebp-4h]
 
     if (Cmd_Argc() == 3)
     {
@@ -410,12 +410,12 @@ void __cdecl SND_SetEq_f()
     const char *v2; // eax
     const char *v3; // eax
     int band; // [esp+Ch] [ebp-1Ch] BYREF
-    float q; // [esp+10h] [ebp-18h]
+    [[maybe_unused]] float q; // [esp+10h] [ebp-18h]
     int entchannel; // [esp+14h] [ebp-14h] BYREF
     int eqIndex; // [esp+18h] [ebp-10h] BYREF
-    SND_EQTYPE type; // [esp+1Ch] [ebp-Ch]
-    float freq; // [esp+20h] [ebp-8h]
-    float gain; // [esp+24h] [ebp-4h]
+    [[maybe_unused]] SND_EQTYPE type; // [esp+1Ch] [ebp-Ch]
+    [[maybe_unused]] float freq; // [esp+20h] [ebp-8h]
+    [[maybe_unused]] float gain; // [esp+24h] [ebp-4h]
 
     if (Cmd_Argc() == 8)
     {
@@ -456,8 +456,8 @@ void __cdecl SND_SetEq_f()
 
 SND_EQTYPE __cdecl SND_EqTypeFromString(const char *typeString)
 {
-    int stringIndex; // [esp+0h] [ebp-4h]
-    int stringIndexa; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int stringIndex; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int stringIndexa; // [esp+0h] [ebp-4h]
 
     if (!typeString)
         MyAssertHandler(".\\snd.cpp", 375, 0, "%s", "typeString");
@@ -479,7 +479,7 @@ char __cdecl SND_ParseChannelAndBand_f(int *entchannel, int *eqIndex, int *band)
 {
     const char *v4; // eax
     const char *v5; // eax
-    const char *channelName; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] const char *channelName; // [esp+0h] [ebp-4h]
 
     if (!entchannel)
         MyAssertHandler(".\\snd.cpp", 398, 0, "%s", "entchannel");
@@ -526,7 +526,7 @@ void __cdecl SND_SetEqFreq_f()
     int band; // [esp+Ch] [ebp-10h] BYREF
     int entchannel; // [esp+10h] [ebp-Ch] BYREF
     int eqIndex; // [esp+14h] [ebp-8h] BYREF
-    float freq; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] float freq; // [esp+18h] [ebp-4h]
 
     if (Cmd_Argc() == 5)
     {
@@ -552,7 +552,7 @@ void __cdecl SND_SetEqType_f()
     int band; // [esp+0h] [ebp-10h] BYREF
     int entchannel; // [esp+4h] [ebp-Ch] BYREF
     int eqIndex; // [esp+8h] [ebp-8h] BYREF
-    SND_EQTYPE type; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] SND_EQTYPE type; // [esp+Ch] [ebp-4h]
 
     if (Cmd_Argc() == 5)
     {
@@ -576,7 +576,7 @@ void __cdecl SND_SetEqGain_f()
     int band; // [esp+4h] [ebp-10h] BYREF
     int entchannel; // [esp+8h] [ebp-Ch] BYREF
     int eqIndex; // [esp+Ch] [ebp-8h] BYREF
-    float gain; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] float gain; // [esp+10h] [ebp-4h]
 
     if (Cmd_Argc() == 5)
     {
@@ -597,7 +597,7 @@ void __cdecl SND_SetEqQ_f()
 {
     const char *v0; // eax
     int band; // [esp+8h] [ebp-10h] BYREF
-    float q; // [esp+Ch] [ebp-Ch]
+    [[maybe_unused]] float q; // [esp+Ch] [ebp-Ch]
     int entchannel; // [esp+10h] [ebp-8h] BYREF
     int eqIndex; // [esp+14h] [ebp-4h] BYREF
 
@@ -623,11 +623,11 @@ void __cdecl SND_DeactivateEq_f()
 {
     const char *v0; // eax
     const char *v1; // eax
-    const char *channelName; // [esp+4h] [ebp-10h]
-    const char *channelNamea; // [esp+4h] [ebp-10h]
-    unsigned int band; // [esp+8h] [ebp-Ch]
-    unsigned int eqIndex; // [esp+Ch] [ebp-8h]
-    int argc; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] const char *channelName; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] const char *channelNamea; // [esp+4h] [ebp-10h]
+    [[maybe_unused]] unsigned int band; // [esp+8h] [ebp-Ch]
+    [[maybe_unused]] unsigned int eqIndex; // [esp+Ch] [ebp-8h]
+    [[maybe_unused]] int argc; // [esp+10h] [ebp-4h]
 
     argc = Cmd_Argc();
     if (argc >= 2 && argc <= 4)
@@ -669,7 +669,7 @@ void __cdecl SND_DeactivateEq_f()
 
 char __cdecl SND_AnyActiveListeners()
 {
-    int listenerIndex; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int listenerIndex; // [esp+0h] [ebp-4h]
 
     for (listenerIndex = 0; listenerIndex < 2; ++listenerIndex)
     {
@@ -681,11 +681,11 @@ char __cdecl SND_AnyActiveListeners()
 
 int __cdecl SND_GetListenerIndexNearestToOrigin(const float *origin)
 {
-    float v2; // [esp+4h] [ebp-20h]
+    [[maybe_unused]] float v2; // [esp+4h] [ebp-20h]
     float diff[3]; // [esp+8h] [ebp-1Ch] BYREF
-    int nearest; // [esp+14h] [ebp-10h]
-    float dist[2]; // [esp+18h] [ebp-Ch]
-    int i; // [esp+20h] [ebp-4h]
+    [[maybe_unused]] int nearest; // [esp+14h] [ebp-10h]
+    [[maybe_unused]] float dist[2]; // [esp+18h] [ebp-Ch]
+    [[maybe_unused]] int i; // [esp+20h] [ebp-4h]
 
     if (!origin)
         MyAssertHandler(".\\snd.cpp", 648, 0, "%s", "origin");
@@ -730,7 +730,7 @@ void __cdecl SND_DisconnectListener(int localClientNum)
 
 void __cdecl SND_SetListener(int localClientNum, int clientNum, const float *origin, const float (*axis)[3])
 {
-    snd_listener *v4; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] snd_listener *v4; // [esp+0h] [ebp-4h]
 
     if (g_snd.Initialized2d)
     {
@@ -782,7 +782,7 @@ int __cdecl SND_SetPlaybackIdNotPlayed(unsigned int index)
 
 int __cdecl SND_AcquirePlaybackId(unsigned int index, int totalMsec)
 {
-    snd_channel_info_t *chanInfo; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] snd_channel_info_t *chanInfo; // [esp+0h] [ebp-4h]
 
     if (index > 0x34)
         MyAssertHandler(".\\snd.cpp", 725, 0, "%s", "index >= 0 && index < SND_MAX_CHANNELS");
@@ -804,9 +804,9 @@ int __cdecl SND_AcquirePlaybackId(unsigned int index, int totalMsec)
 
 char __cdecl SND_AddLengthNotify(int playbackId, const snd_alias_t *lengthNotifyData, SndLengthId id)
 {
-    snd_channel_info_t *chanInfo; // [esp+0h] [ebp-Ch]
-    int lengthNotifyIndex; // [esp+4h] [ebp-8h]
-    int chanInfoIndex; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] snd_channel_info_t *chanInfo; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] int lengthNotifyIndex; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] int chanInfoIndex; // [esp+8h] [ebp-4h]
 
     if ((unsigned int)id >= SndLengthNotifyCount)
         MyAssertHandler(".\\snd.cpp", 776, 0, "id doesn't index SndLengthNotifyCount\n\t%i not in [0, %i)", id, 2);
@@ -877,7 +877,7 @@ void __cdecl DoLengthNotify(int msec, const snd_alias_t *lengthNotifyData, SndLe
 
 char __cdecl SND_GetKnownLength(int playbackId, int *msec)
 {
-    int chanInfoIndex; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int chanInfoIndex; // [esp+0h] [ebp-4h]
 
     if (!msec)
         MyAssertHandler(".\\snd.cpp", 822, 0, "%s", "msec");
@@ -901,8 +901,8 @@ double __cdecl SND_GetLerpedSlavePercentage(float baseSlavePercentage)
 
 double __cdecl SND_Attenuate(SndCurve *volumeFalloffCurve, float radius, float mindist, float maxdist)
 {
-    float radiusa; // [esp+10h] [ebp+Ch]
-    float radiusb; // [esp+10h] [ebp+Ch]
+    [[maybe_unused]] float radiusa; // [esp+10h] [ebp+Ch]
+    [[maybe_unused]] float radiusb; // [esp+10h] [ebp+Ch]
 
     if (!volumeFalloffCurve)
         MyAssertHandler(".\\snd.cpp", 877, 0, "%s", "volumeFalloffCurve");
@@ -958,12 +958,12 @@ void __cdecl SND_SetChannelStartInfo(unsigned int index, SndStartAliasInfo *SndS
     double v3; // st7
     double v4; // st7
     sndLengthNotifyInfo *p_lengthNotifyInfo; // ecx
-    bool v6; // [esp+0h] [ebp-48h]
-    float *v7; // [esp+4h] [ebp-44h]
+    [[maybe_unused]] bool v6; // [esp+0h] [ebp-48h]
+    [[maybe_unused]] float *v7; // [esp+4h] [ebp-44h]
     float offset[3]; // [esp+8h] [ebp-40h] BYREF
     float org[3]; // [esp+14h] [ebp-34h] BYREF
     float axis[3][3]; // [esp+20h] [ebp-28h] BYREF
-    snd_channel_info_t *chanInfo; // [esp+44h] [ebp-4h]
+    [[maybe_unused]] snd_channel_info_t *chanInfo; // [esp+44h] [ebp-4h]
 
     if (index > 0x34)
         MyAssertHandler(".\\snd.cpp", 925, 0, "%s", "index >= 0 && index < SND_MAX_CHANNELS");
@@ -1064,8 +1064,8 @@ int __cdecl SND_FindFree2DChannel(SndStartAliasInfo *startAliasInfo, int entchan
     int v20; // [esp-4h] [ebp-8h]
     const char *v21; // [esp-4h] [ebp-8h]
     int v22; // [esp-4h] [ebp-8h]
-    int i; // [esp+0h] [ebp-4h]
-    int ia; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int ia; // [esp+0h] [ebp-4h]
 
     EntChannelName = SND_GetEntChannelName(entchannel);
     v17 = va("Max voices reached for entchannel %s", EntChannelName->name);
@@ -1129,26 +1129,26 @@ int __cdecl SND_FindReplaceableChannel(
     int count)
 {
     int Priority; // eax
-    float v6; // [esp+0h] [ebp-70h]
-    snd_listener *v7; // [esp+4h] [ebp-6Ch]
+    [[maybe_unused]] float v6; // [esp+0h] [ebp-70h]
+    [[maybe_unused]] snd_listener *v7; // [esp+4h] [ebp-6Ch]
     float v8[3]; // [esp+8h] [ebp-68h] BYREF
-    float *origin; // [esp+14h] [ebp-5Ch]
+    [[maybe_unused]] float *origin; // [esp+14h] [ebp-5Ch]
     float v[3]; // [esp+18h] [ebp-58h] BYREF
-    float *a; // [esp+24h] [ebp-4Ch]
+    [[maybe_unused]] float *a; // [esp+24h] [ebp-4Ch]
     float diff[3]; // [esp+28h] [ebp-48h] BYREF
-    int timeLeft; // [esp+34h] [ebp-3Ch]
-    int newSubtitle; // [esp+38h] [ebp-38h]
-    int chanprio; // [esp+3Ch] [ebp-34h]
-    bool is3d; // [esp+43h] [ebp-2Dh]
-    float minMetric; // [esp+44h] [ebp-2Ch]
-    int replaceable; // [esp+48h] [ebp-28h]
+    [[maybe_unused]] int timeLeft; // [esp+34h] [ebp-3Ch]
+    [[maybe_unused]] int newSubtitle; // [esp+38h] [ebp-38h]
+    [[maybe_unused]] int chanprio; // [esp+3Ch] [ebp-34h]
+    [[maybe_unused]] bool is3d; // [esp+43h] [ebp-2Dh]
+    [[maybe_unused]] float minMetric; // [esp+44h] [ebp-2Ch]
+    [[maybe_unused]] int replaceable; // [esp+48h] [ebp-28h]
     float org[3]; // [esp+4Ch] [ebp-24h] BYREF
-    const snd_alias_t *alias; // [esp+58h] [ebp-18h]
-    int i; // [esp+5Ch] [ebp-14h]
-    int prio; // [esp+60h] [ebp-10h]
-    bool applySameSndEntCondition; // [esp+67h] [ebp-9h]
-    snd_channel_info_t *chaninfo; // [esp+68h] [ebp-8h]
-    float metric; // [esp+6Ch] [ebp-4h]
+    [[maybe_unused]] const snd_alias_t *alias; // [esp+58h] [ebp-18h]
+    [[maybe_unused]] int i; // [esp+5Ch] [ebp-14h]
+    [[maybe_unused]] int prio; // [esp+60h] [ebp-10h]
+    [[maybe_unused]] bool applySameSndEntCondition; // [esp+67h] [ebp-9h]
+    [[maybe_unused]] snd_channel_info_t *chaninfo; // [esp+68h] [ebp-8h]
+    [[maybe_unused]] float metric; // [esp+6Ch] [ebp-4h]
 
     if (!startAliasInfo)
         MyAssertHandler(".\\snd.cpp", 996, 0, "%s", "startAliasInfo");
@@ -1268,24 +1268,24 @@ int __cdecl SND_FindFree3DChannel(SndStartAliasInfo *startAliasInfo, int entchan
     bool v6; // al
     int v7; // eax
     int v8; // [esp-4h] [ebp-48h]
-    const char *v9; // [esp+8h] [ebp-3Ch]
-    int v10; // [esp+Ch] [ebp-38h]
-    const char *aliasName; // [esp+10h] [ebp-34h]
-    const snd_alias_t *alias0; // [esp+10h] [ebp-34h]
-    const char *v13; // [esp+10h] [ebp-34h]
-    const snd_alias_t *v14; // [esp+10h] [ebp-34h]
-    double v15; // [esp+10h] [ebp-34h]
-    int Priority; // [esp+14h] [ebp-30h]
-    const char *v17; // [esp+14h] [ebp-30h]
-    int v18; // [esp+14h] [ebp-30h]
-    const char *v19; // [esp+14h] [ebp-30h]
-    float v20; // [esp+18h] [ebp-2Ch]
-    snd_listener *v21; // [esp+1Ch] [ebp-28h]
+    [[maybe_unused]] const char *v9; // [esp+8h] [ebp-3Ch]
+    [[maybe_unused]] int v10; // [esp+Ch] [ebp-38h]
+    [[maybe_unused]] const char *aliasName; // [esp+10h] [ebp-34h]
+    [[maybe_unused]] const snd_alias_t *alias0; // [esp+10h] [ebp-34h]
+    [[maybe_unused]] const char *v13; // [esp+10h] [ebp-34h]
+    [[maybe_unused]] const snd_alias_t *v14; // [esp+10h] [ebp-34h]
+    [[maybe_unused]] double v15; // [esp+10h] [ebp-34h]
+    [[maybe_unused]] int Priority; // [esp+14h] [ebp-30h]
+    [[maybe_unused]] const char *v17; // [esp+14h] [ebp-30h]
+    [[maybe_unused]] int v18; // [esp+14h] [ebp-30h]
+    [[maybe_unused]] const char *v19; // [esp+14h] [ebp-30h]
+    [[maybe_unused]] float v20; // [esp+18h] [ebp-2Ch]
+    [[maybe_unused]] snd_listener *v21; // [esp+1Ch] [ebp-28h]
     float v[3]; // [esp+20h] [ebp-24h] BYREF
-    float v23; // [esp+2Ch] [ebp-18h]
-    float *a; // [esp+30h] [ebp-14h]
+    [[maybe_unused]] float v23; // [esp+2Ch] [ebp-18h]
+    [[maybe_unused]] float *a; // [esp+30h] [ebp-14h]
     float diff[3]; // [esp+34h] [ebp-10h] BYREF
-    int i; // [esp+40h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+40h] [ebp-4h]
 
     if (!SND_HasFreeVoice(entchannel))
         return -1;
@@ -1349,7 +1349,7 @@ int __cdecl SND_FindFree3DChannel(SndStartAliasInfo *startAliasInfo, int entchan
 
 void __cdecl DB_SaveSounds()
 {
-    int i; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+0h] [ebp-4h]
 
     for (i = 0; i < 53; ++i)
         SND_Archive(&g_snd.chaninfo[i]);
@@ -1357,10 +1357,10 @@ void __cdecl DB_SaveSounds()
 
 void __cdecl SND_Archive(snd_channel_info_t *chaninfo)
 {
-    snd_alias_list_t *aliasList; // [esp+8h] [ebp-8h]
-    snd_alias_list_t *aliasLista; // [esp+8h] [ebp-8h]
-    const snd_alias_t *alias; // [esp+Ch] [ebp-4h]
-    const snd_alias_t *aliasa; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] snd_alias_list_t *aliasList; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] snd_alias_list_t *aliasLista; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] const snd_alias_t *alias; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] const snd_alias_t *aliasa; // [esp+Ch] [ebp-4h]
 
     alias = chaninfo->alias0;
     if (alias)
@@ -1384,7 +1384,7 @@ void __cdecl SND_Archive(snd_channel_info_t *chaninfo)
 
 void __cdecl DB_LoadSounds()
 {
-    int i; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+0h] [ebp-4h]
 
     for (i = 0; i < 53; ++i)
         SND_Unarchive(&g_snd.chaninfo[i]);
@@ -1392,8 +1392,8 @@ void __cdecl DB_LoadSounds()
 
 void __cdecl SND_Unarchive(snd_channel_info_t *chaninfo)
 {
-    snd_alias_list_t *aliasList; // [esp+0h] [ebp-4h]
-    snd_alias_list_t *aliasLista; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] snd_alias_list_t *aliasList; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] snd_alias_list_t *aliasLista; // [esp+0h] [ebp-4h]
 
     aliasList = (snd_alias_list_t *)chaninfo->alias0;
     if (aliasList)
@@ -1423,8 +1423,8 @@ void __cdecl StopSoundAliasesOnEnt(SndEntHandle sndEnt, const char *aliasName)
     const snd_alias_t *alias0; // [esp-8h] [ebp-14h]
     const snd_alias_t *alias1; // [esp-8h] [ebp-14h]
     void(__cdecl * stopChannel)(int); // [esp+0h] [ebp-Ch]
-    int chanIdx; // [esp+4h] [ebp-8h]
-    snd_channel_info_t *chaninfo; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int chanIdx; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] snd_channel_info_t *chaninfo; // [esp+8h] [ebp-4h]
 
     if (g_snd.Initialized2d)
     {
@@ -1464,8 +1464,8 @@ void __cdecl StopSoundAliasesOnEnt(SndEntHandle sndEnt, const char *aliasName)
                     MyAssertHandler(".\\snd.cpp", 1738, 1, "%s", "stopChannel");
                 if (aliasName)
                 {
-                    if (chaninfo->alias0 && !I_stricmp(chaninfo->alias0->aliasName, aliasName)
-                        || chaninfo->alias1 && !I_stricmp(chaninfo->alias1->aliasName, aliasName))
+                    if ((chaninfo->alias0 && !I_stricmp(chaninfo->alias0->aliasName, aliasName))
+                        || (chaninfo->alias1 && !I_stricmp(chaninfo->alias1->aliasName, aliasName)))
                     {
                         alias0 = chaninfo->alias0;
                         v2 = I_stricmp(alias0->aliasName, aliasName);
@@ -1498,7 +1498,7 @@ void __cdecl SND_InitFXSounds()
 
 void __cdecl SND_AddPlayFXSoundAlias(snd_alias_t *alias, SndEntHandle sndEnt, const float *origin)
 {
-    AsyncPlaySound *sound; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] AsyncPlaySound *sound; // [esp+0h] [ebp-4h]
 
     if (g_FXPlaySoundCount == 32)
     {
@@ -1532,7 +1532,7 @@ void __cdecl Snd_AssertAliasValid(snd_alias_t *alias)
 
 void __cdecl SND_PlayFXSounds()
 {
-    unsigned int soundIndex; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] unsigned int soundIndex; // [esp+4h] [ebp-4h]
 
     for (soundIndex = 0; soundIndex < g_FXPlaySoundCount; ++soundIndex)
         SND_PlaySoundAlias(
@@ -1573,20 +1573,20 @@ int __cdecl SND_PlaySoundAlias_Internal(
 {
     const char *v12; // eax
     const char *v13; // eax
-    int v14; // [esp+24h] [ebp-7Ch]
-    bool v15; // [esp+28h] [ebp-78h]
-    float v16; // [esp+2Ch] [ebp-74h]
-    snd_listener *a; // [esp+38h] [ebp-68h]
+    [[maybe_unused]] int v14; // [esp+24h] [ebp-7Ch]
+    [[maybe_unused]] bool v15; // [esp+28h] [ebp-78h]
+    [[maybe_unused]] float v16; // [esp+2Ch] [ebp-74h]
+    [[maybe_unused]] snd_listener *a; // [esp+38h] [ebp-68h]
     float diff[3]; // [esp+3Ch] [ebp-64h] BYREF
-    snd_alias_t *tertiaryAlias; // [esp+48h] [ebp-58h]
-    int playbackId; // [esp+4Ch] [ebp-54h]
+    [[maybe_unused]] snd_alias_t *tertiaryAlias; // [esp+48h] [ebp-58h]
+    [[maybe_unused]] int playbackId; // [esp+4Ch] [ebp-54h]
     SndStartAliasInfo startAliasInfo; // [esp+50h] [ebp-50h] BYREF
-    int alias0Channel; // [esp+88h] [ebp-18h]
-    snd_alias_t *secondaryAlias; // [esp+8Ch] [ebp-14h]
-    float distListenerSq; // [esp+90h] [ebp-10h]
-    bool outOfRange; // [esp+97h] [ebp-9h]
-    int secondaryAliasRecursionCounter; // [esp+98h] [ebp-8h]
-    float distMax; // [esp+9Ch] [ebp-4h]
+    [[maybe_unused]] int alias0Channel; // [esp+88h] [ebp-18h]
+    [[maybe_unused]] snd_alias_t *secondaryAlias; // [esp+8Ch] [ebp-14h]
+    [[maybe_unused]] float distListenerSq; // [esp+90h] [ebp-10h]
+    [[maybe_unused]] bool outOfRange; // [esp+97h] [ebp-9h]
+    [[maybe_unused]] int secondaryAliasRecursionCounter; // [esp+98h] [ebp-8h]
+    [[maybe_unused]] float distMax; // [esp+9Ch] [ebp-4h]
 
     if (!alias0)
         MyAssertHandler(".\\snd.cpp", 1542, 0, "%s", "alias0");
@@ -1608,7 +1608,7 @@ int __cdecl SND_PlaySoundAlias_Internal(
         Vec3Sub(a->orient.origin, org, diff);
         distListenerSq = Vec3LengthSq(diff);
         outOfRange = distListenerSq > distMax * distMax;
-        if (*(_BYTE *)snd_debugAlias->current.integer)
+        if (*(_BYTE *)(uintptr_t)snd_debugAlias->current.integer)
         {
             v16 = sqrt(distListenerSq);
             v12 = va("Not playing, out of range: %.1f > %.1f", v16, distMax);
@@ -1746,9 +1746,9 @@ int __cdecl SND_PlaySoundAlias_Internal(
 
 void __cdecl SND_StopEntityChannel(SndEntHandle sndEnt, int entchannel)
 {
-    int i; // [esp+0h] [ebp-4h]
-    int ia; // [esp+0h] [ebp-4h]
-    int ib; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int ia; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int ib; // [esp+0h] [ebp-4h]
 
     for (i = 8; i < g_snd.max_3D_channels + 8; ++i)
     {
@@ -1852,7 +1852,7 @@ int __cdecl SND_StartAliasSample(SndStartAliasInfo *startAliasInfo, int *pChanne
 
 int __cdecl SND_StartAliasStream(SndStartAliasInfo *startAliasInfo, int *pChannel)
 {
-    int index; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int index; // [esp+4h] [ebp-4h]
 
     if (!startAliasInfo->alias0)
         MyAssertHandler(".\\snd.cpp", 1292, 0, "%s", "startAliasInfo->alias0");
@@ -1904,25 +1904,25 @@ int __cdecl SND_FindFreeStreamChannel(SndStartAliasInfo *startAliasInfo, int ent
     const char *v6; // eax
     int v7; // eax
     int v8; // [esp-4h] [ebp-74h]
-    const char *v9; // [esp+8h] [ebp-68h]
-    int v10; // [esp+Ch] [ebp-64h]
-    const char *aliasName; // [esp+10h] [ebp-60h]
-    const char *v12; // [esp+10h] [ebp-60h]
-    double v13; // [esp+10h] [ebp-60h]
-    int Priority; // [esp+14h] [ebp-5Ch]
-    int v15; // [esp+14h] [ebp-5Ch]
-    double v16; // [esp+18h] [ebp-58h]
-    float v17; // [esp+20h] [ebp-50h]
-    snd_listener *v18; // [esp+24h] [ebp-4Ch]
+    [[maybe_unused]] const char *v9; // [esp+8h] [ebp-68h]
+    [[maybe_unused]] int v10; // [esp+Ch] [ebp-64h]
+    [[maybe_unused]] const char *aliasName; // [esp+10h] [ebp-60h]
+    [[maybe_unused]] const char *v12; // [esp+10h] [ebp-60h]
+    [[maybe_unused]] double v13; // [esp+10h] [ebp-60h]
+    [[maybe_unused]] int Priority; // [esp+14h] [ebp-5Ch]
+    [[maybe_unused]] int v15; // [esp+14h] [ebp-5Ch]
+    [[maybe_unused]] double v16; // [esp+18h] [ebp-58h]
+    [[maybe_unused]] float v17; // [esp+20h] [ebp-50h]
+    [[maybe_unused]] snd_listener *v18; // [esp+24h] [ebp-4Ch]
     float v19[3]; // [esp+28h] [ebp-48h] BYREF
-    float v20; // [esp+34h] [ebp-3Ch]
-    float *a; // [esp+38h] [ebp-38h]
+    [[maybe_unused]] float v20; // [esp+34h] [ebp-3Ch]
+    [[maybe_unused]] float *a; // [esp+38h] [ebp-38h]
     float v22[3]; // [esp+3Ch] [ebp-34h] BYREF
     float v[3]; // [esp+48h] [ebp-28h] BYREF
-    float v24; // [esp+54h] [ebp-1Ch]
+    [[maybe_unused]] float v24; // [esp+54h] [ebp-1Ch]
     float diff[4]; // [esp+58h] [ebp-18h] BYREF
-    float *listenerOrg; // [esp+68h] [ebp-8h]
-    int i; // [esp+6Ch] [ebp-4h]
+    [[maybe_unused]] float *listenerOrg; // [esp+68h] [ebp-8h]
+    [[maybe_unused]] int i; // [esp+6Ch] [ebp-4h]
 
     if (!SND_HasFreeVoice(entchannel))
         return -1;
@@ -2004,15 +2004,15 @@ void __cdecl SND_ChoosePitchAndVolume(
     float *volume,
     float *pitch)
 {
-    float v6; // [esp+8h] [ebp-2Ch]
-    float v7; // [esp+Ch] [ebp-28h]
-    float v8; // [esp+10h] [ebp-24h]
-    float v9; // [esp+1Ch] [ebp-18h]
-    float v10; // [esp+20h] [ebp-14h]
-    float volMax; // [esp+24h] [ebp-10h]
-    float pitchMax; // [esp+28h] [ebp-Ch]
-    float volMin; // [esp+2Ch] [ebp-8h]
-    float pitchMin; // [esp+30h] [ebp-4h]
+    [[maybe_unused]] float v6; // [esp+8h] [ebp-2Ch]
+    [[maybe_unused]] float v7; // [esp+Ch] [ebp-28h]
+    [[maybe_unused]] float v8; // [esp+10h] [ebp-24h]
+    [[maybe_unused]] float v9; // [esp+1Ch] [ebp-18h]
+    [[maybe_unused]] float v10; // [esp+20h] [ebp-14h]
+    [[maybe_unused]] float volMax; // [esp+24h] [ebp-10h]
+    [[maybe_unused]] float pitchMax; // [esp+28h] [ebp-Ch]
+    [[maybe_unused]] float volMin; // [esp+2Ch] [ebp-8h]
+    [[maybe_unused]] float pitchMin; // [esp+30h] [ebp-4h]
 
     if (!alias0)
         MyAssertHandler(".\\snd.cpp", 1401, 0, "%s", "alias0");
@@ -2052,10 +2052,10 @@ char __cdecl SND_ContinueLoopingSound(
     const float *org,
     int *pChannel)
 {
-    float *v8; // [esp+10h] [ebp-8Ch]
-    int i; // [esp+98h] [ebp-4h]
-    signed int ia; // [esp+98h] [ebp-4h]
-    int ib; // [esp+98h] [ebp-4h]
+    [[maybe_unused]] float *v8; // [esp+10h] [ebp-8Ch]
+    [[maybe_unused]] int i; // [esp+98h] [ebp-4h]
+    [[maybe_unused]] signed int ia; // [esp+98h] [ebp-4h]
+    [[maybe_unused]] int ib; // [esp+98h] [ebp-4h]
 
     for (i = 8; i < g_snd.max_3D_channels + 8; ++i)
     {
@@ -2124,15 +2124,15 @@ void __cdecl SND_ContinueLoopingSound_Internal(
     void(__cdecl *setPlaybackRateFunc)(int, int))
 {
     double v5; // st7
-    float v6; // [esp+8h] [ebp-40h]
-    float v7; // [esp+Ch] [ebp-3Ch]
-    float v8; // [esp+10h] [ebp-38h]
-    float v9; // [esp+14h] [ebp-34h]
-    float v10; // [esp+18h] [ebp-30h]
-    float v11; // [esp+1Ch] [ebp-2Ch]
-    float v12; // [esp+2Ch] [ebp-1Ch]
-    float basevolume; // [esp+3Ch] [ebp-Ch]
-    float v14; // [esp+40h] [ebp-8h]
+    [[maybe_unused]] float v6; // [esp+8h] [ebp-40h]
+    [[maybe_unused]] float v7; // [esp+Ch] [ebp-3Ch]
+    [[maybe_unused]] float v8; // [esp+10h] [ebp-38h]
+    [[maybe_unused]] float v9; // [esp+14h] [ebp-34h]
+    [[maybe_unused]] float v10; // [esp+18h] [ebp-30h]
+    [[maybe_unused]] float v11; // [esp+1Ch] [ebp-2Ch]
+    [[maybe_unused]] float v12; // [esp+2Ch] [ebp-1Ch]
+    [[maybe_unused]] float basevolume; // [esp+3Ch] [ebp-Ch]
+    [[maybe_unused]] float v14; // [esp+40h] [ebp-8h]
 
     if (chanIndex > 0x34)
         MyAssertHandler(
@@ -2408,7 +2408,7 @@ int __cdecl SND_PlayLocalSoundAliasByName(
     const char *aliasname,
     snd_alias_system_t system)
 {
-    snd_alias_t *alias; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] snd_alias_t *alias; // [esp+0h] [ebp-4h]
 
     if (aliasname && (alias = Com_PickSoundAlias(aliasname)) != 0)
         return SND_PlayLocalSoundAlias(localClientNum, alias, system);
@@ -2418,7 +2418,7 @@ int __cdecl SND_PlayLocalSoundAliasByName(
 
 void __cdecl SND_ResetPauseSettingsToDefaults()
 {
-    int i; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+0h] [ebp-4h]
 
     for (i = 0; i < 64; ++i)
         g_snd.pauseSettings[i] = g_snd.defaultPauseSettings[i];
@@ -2448,13 +2448,13 @@ void __cdecl SND_StartBackground(
     bool useTimescale,
     snd_alias_system_t system)
 {
-    double v7; // [esp+8h] [ebp-DCh]
-    double v8; // [esp+10h] [ebp-D4h]
+    [[maybe_unused]] double v7; // [esp+8h] [ebp-DCh]
+    [[maybe_unused]] double v8; // [esp+10h] [ebp-D4h]
     char filename[128]; // [esp+1Ch] [ebp-C8h] BYREF
-    float volume; // [esp+A0h] [ebp-44h]
+    [[maybe_unused]] float volume; // [esp+A0h] [ebp-44h]
     SndStartAliasInfo startAliasInfo; // [esp+A4h] [ebp-40h] BYREF
-    int channel; // [esp+DCh] [ebp-8h]
-    float pitch; // [esp+E0h] [ebp-4h]
+    [[maybe_unused]] int channel; // [esp+DCh] [ebp-8h]
+    [[maybe_unused]] float pitch; // [esp+E0h] [ebp-4h]
 
     if (track > 4)
         MyAssertHandler(".\\snd.cpp", 2168, 0, "%s\n\t(track) = %i", "(track >= 0 && track < SND_TRACK_COUNT)", track);
@@ -2522,7 +2522,7 @@ void __cdecl SND_StartBackground(
 
 void SND_UpdatePause()
 {
-    bool paused; // [esp+3h] [ebp-1h]
+    [[maybe_unused]] bool paused; // [esp+3h] [ebp-1h]
 
     paused = cl_paused->current.integer != 0;
     if (paused != g_snd.paused)
@@ -2539,9 +2539,9 @@ void SND_UpdatePause()
 int SND_PauseSounds()
 {
     int result; // eax
-    int i; // [esp+0h] [ebp-4h]
-    int ia; // [esp+0h] [ebp-4h]
-    int ib; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int ia; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int ib; // [esp+0h] [ebp-4h]
 
     result = g_snd.Initialized2d;
     if (g_snd.Initialized2d && !g_snd.paused)
@@ -2572,10 +2572,10 @@ int SND_PauseSounds()
 
 void SND_UnpauseSounds()
 {
-    int i; // [esp+0h] [ebp-8h]
-    int ia; // [esp+0h] [ebp-8h]
-    int ib; // [esp+0h] [ebp-8h]
-    int timeshift; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] int ia; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] int ib; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] int timeshift; // [esp+4h] [ebp-4h]
 
     if (g_snd.Initialized2d && g_snd.paused)
     {
@@ -2636,16 +2636,16 @@ void __cdecl SND_PlayAmbientAlias(
     snd_alias_system_t system)
 {
     const snd_alias_t *v4; // esi
-    double v5; // [esp+10h] [ebp-38h]
-    int nextTrack; // [esp+1Ch] [ebp-2Ch]
-    float volume; // [esp+20h] [ebp-28h]
-    float fraction; // [esp+28h] [ebp-20h]
-    snd_background_info_t *trackptr; // [esp+30h] [ebp-18h]
-    bool hasSecondary; // [esp+36h] [ebp-12h]
-    bool playedNew; // [esp+37h] [ebp-11h]
-    const snd_alias_t *aliases[2]; // [esp+38h] [ebp-10h]
-    int i; // [esp+40h] [ebp-8h]
-    int tracknum; // [esp+44h] [ebp-4h]
+    [[maybe_unused]] double v5; // [esp+10h] [ebp-38h]
+    [[maybe_unused]] int nextTrack; // [esp+1Ch] [ebp-2Ch]
+    [[maybe_unused]] float volume; // [esp+20h] [ebp-28h]
+    [[maybe_unused]] float fraction; // [esp+28h] [ebp-20h]
+    [[maybe_unused]] snd_background_info_t *trackptr; // [esp+30h] [ebp-18h]
+    [[maybe_unused]] bool hasSecondary; // [esp+36h] [ebp-12h]
+    [[maybe_unused]] bool playedNew; // [esp+37h] [ebp-11h]
+    [[maybe_unused]] const snd_alias_t *aliases[2]; // [esp+38h] [ebp-10h]
+    [[maybe_unused]] int i; // [esp+40h] [ebp-8h]
+    [[maybe_unused]] int tracknum; // [esp+44h] [ebp-4h]
 
     if (g_snd.Initialized2d)
     {
@@ -2756,10 +2756,10 @@ void __cdecl SND_FadeAllSounds(float volume, int fadetime)
 
 void __cdecl SND_SetChannelVolumes(int priority, const float *channelvolume, int fademsec)
 {
-    float v3; // [esp+4h] [ebp-Ch]
-    snd_channelvolgroup *channelVolGroup; // [esp+8h] [ebp-8h]
-    int i; // [esp+Ch] [ebp-4h]
-    int ia; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] float v3; // [esp+4h] [ebp-Ch]
+    [[maybe_unused]] snd_channelvolgroup *channelVolGroup; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] int i; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] int ia; // [esp+Ch] [ebp-4h]
 
     if (priority <= 0 || priority >= 4)
         MyAssertHandler(
@@ -2799,9 +2799,9 @@ void __cdecl SND_SetChannelVolumes(int priority, const float *channelvolume, int
 
 void __cdecl SND_DeactivateChannelVolumes(int priority, int fademsec)
 {
-    snd_channelvolgroup *channelVolGroup; // [esp+4h] [ebp-8h]
-    int i; // [esp+8h] [ebp-4h]
-    int ia; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] snd_channelvolgroup *channelVolGroup; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] int i; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int ia; // [esp+8h] [ebp-4h]
 
     if (g_snd.Initialized2d)
     {
@@ -2839,9 +2839,9 @@ void __cdecl SND_DeactivateChannelVolumes(int priority, int fademsec)
 
 void __cdecl SND_UpdateLoopingSounds()
 {
-    int i; // [esp+30h] [ebp-4h]
-    int ia; // [esp+30h] [ebp-4h]
-    int ib; // [esp+30h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+30h] [ebp-4h]
+    [[maybe_unused]] int ia; // [esp+30h] [ebp-4h]
+    [[maybe_unused]] int ib; // [esp+30h] [ebp-4h]
 
     if (g_snd.Initialized2d && !g_snd.paused)
     {
@@ -2882,8 +2882,8 @@ void __cdecl SND_UpdateLoopingSounds()
 
 char __cdecl SND_UpdateBackgroundVolume(unsigned int track, int frametime)
 {
-    float volume; // [esp+0h] [ebp-8h]
-    int channel; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] float volume; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] int channel; // [esp+4h] [ebp-4h]
 
     if (track > 4)
         MyAssertHandler(".\\snd.cpp", 2581, 0, "%s\n\t(track) = %i", "(track >= 0 && track < SND_TRACK_COUNT)", track);
@@ -2924,9 +2924,9 @@ void __cdecl SND_SetEnvironmentEffects(
     float wetlevel,
     int fademsec)
 {
-    snd_enveffect *effect; // [esp+0h] [ebp-Ch]
-    int i; // [esp+4h] [ebp-8h]
-    int roomtype; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] snd_enveffect *effect; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] int i; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] int roomtype; // [esp+8h] [ebp-4h]
 
     if (priority <= 0 || priority >= 3)
         MyAssertHandler(
@@ -2977,8 +2977,8 @@ void __cdecl SND_SetEnvironmentEffects(
 
 void __cdecl SND_DeactivateEnvironmentEffects(int priority, int fademsec)
 {
-    snd_enveffect *effect; // [esp+0h] [ebp-8h]
-    int i; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] snd_enveffect *effect; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] int i; // [esp+4h] [ebp-4h]
 
     if (priority <= 0 || priority >= 3)
         MyAssertHandler(
@@ -3011,9 +3011,9 @@ void __cdecl SND_DeactivateEnvironmentEffects(int priority, int fademsec)
 
 void __cdecl SND_UpdateReverbs()
 {
-    int i; // [esp+0h] [ebp-4h]
-    int ia; // [esp+0h] [ebp-4h]
-    int ib; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int ia; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int ib; // [esp+0h] [ebp-4h]
 
     for (i = 8; i < g_snd.max_3D_channels + 8; ++i)
     {
@@ -3034,8 +3034,8 @@ void __cdecl SND_UpdateReverbs()
 
 void __cdecl SND_DeactivateAllEq(int eqIndex)
 {
-    signed int band; // [esp+0h] [ebp-8h]
-    signed int entchannel; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] signed int band; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] signed int entchannel; // [esp+4h] [ebp-4h]
 
     for (entchannel = 0; entchannel < 64; ++entchannel)
     {
@@ -3046,7 +3046,7 @@ void __cdecl SND_DeactivateAllEq(int eqIndex)
 
 void __cdecl SND_DeactivateChannelEq(const char *channelName, int eqIndex)
 {
-    signed int band; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] signed int band; // [esp+0h] [ebp-4h]
 
     for (band = 0; band < 3; ++band)
         SND_DeactivateEq(channelName, eqIndex, band);
@@ -3054,7 +3054,7 @@ void __cdecl SND_DeactivateChannelEq(const char *channelName, int eqIndex)
 
 void __cdecl SND_DeactivateEq(const char *channelName, int eqIndex, unsigned int band)
 {
-    signed int entchannel; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] signed int entchannel; // [esp+0h] [ebp-4h]
 
     entchannel = SND_GetEntChannelFromName(channelName);
     if (entchannel >= 0)
@@ -3066,7 +3066,7 @@ void __cdecl SND_DeactivateEq(const char *channelName, int eqIndex, unsigned int
 void __cdecl SND_Update()
 {
     unsigned intv0; // eax
-    int frametime; // [esp+30h] [ebp-20h]
+    [[maybe_unused]] int frametime; // [esp+30h] [ebp-20h]
     MemoryFile memFile; // [esp+34h] [ebp-1Ch] BYREF
 
     if (g_snd.Initialized2d)
@@ -3104,7 +3104,7 @@ void __cdecl SND_Update()
 
 void __cdecl SND_UpdateMasterVolumes(int frametime)
 {
-    int i; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+0h] [ebp-4h]
 
     for (i = 0; i < SND_GetEntChannelCount(); ++i)
     {
@@ -3146,9 +3146,9 @@ void __cdecl SND_UpdateVolume(snd_volume_info_t *volinfo, int frametime)
 
 void __cdecl SND_UpdateAllChannels(int frametime)
 {
-    int i; // [esp+0h] [ebp-4h]
-    int ia; // [esp+0h] [ebp-4h]
-    int ib; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int ia; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int ib; // [esp+0h] [ebp-4h]
 
     SND_UpdateSlaveLerp(frametime);
     for (i = 8; i < g_snd.max_3D_channels + 8; ++i)
@@ -3171,15 +3171,15 @@ void __cdecl SND_UpdateAllChannels(int frametime)
 void __cdecl SND_UpdateSlaveLerp(int frametime)
 {
     double v1; // st7
-    float v2; // [esp+0h] [ebp-1Ch]
-    float v3; // [esp+4h] [ebp-18h]
-    float v4; // [esp+8h] [ebp-14h]
-    float v5; // [esp+Ch] [ebp-10h]
-    float slaveLerp; // [esp+10h] [ebp-Ch]
-    bool masterPlaying; // [esp+17h] [ebp-5h]
-    int i; // [esp+18h] [ebp-4h]
-    int ia; // [esp+18h] [ebp-4h]
-    int ib; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] float v2; // [esp+0h] [ebp-1Ch]
+    [[maybe_unused]] float v3; // [esp+4h] [ebp-18h]
+    [[maybe_unused]] float v4; // [esp+8h] [ebp-14h]
+    [[maybe_unused]] float v5; // [esp+Ch] [ebp-10h]
+    [[maybe_unused]] float slaveLerp; // [esp+10h] [ebp-Ch]
+    [[maybe_unused]] bool masterPlaying; // [esp+17h] [ebp-5h]
+    [[maybe_unused]] int i; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] int ia; // [esp+18h] [ebp-4h]
+    [[maybe_unused]] int ib; // [esp+18h] [ebp-4h]
 
     masterPlaying = 0;
     for (i = 8; !masterPlaying && i < g_snd.max_3D_channels + 8; ++i)
@@ -3309,14 +3309,14 @@ void __cdecl SND_UpdateRoomEffects(int frametime)
 
 void SND_UpdateTimeScale()
 {
-    float v0; // [esp+24h] [ebp-40h]
-    float v1; // [esp+34h] [ebp-30h]
-    float v2; // [esp+44h] [ebp-20h]
-    float timescale; // [esp+58h] [ebp-Ch]
-    float factor; // [esp+5Ch] [ebp-8h]
-    int i; // [esp+60h] [ebp-4h]
-    int ia; // [esp+60h] [ebp-4h]
-    int ib; // [esp+60h] [ebp-4h]
+    [[maybe_unused]] float v0; // [esp+24h] [ebp-40h]
+    [[maybe_unused]] float v1; // [esp+34h] [ebp-30h]
+    [[maybe_unused]] float v2; // [esp+44h] [ebp-20h]
+    [[maybe_unused]] float timescale; // [esp+58h] [ebp-Ch]
+    [[maybe_unused]] float factor; // [esp+5Ch] [ebp-8h]
+    [[maybe_unused]] int i; // [esp+60h] [ebp-4h]
+    [[maybe_unused]] int ia; // [esp+60h] [ebp-4h]
+    [[maybe_unused]] int ib; // [esp+60h] [ebp-4h]
 
     timescale = Com_GetTimescaleForSnd();
     if (timescale <= 0.0)
@@ -3357,9 +3357,9 @@ void __cdecl DebugDrawWorldSounds(int debugDrawStyle)
 {
     int closestId; // [esp+0h] [ebp-1214h] BYREF
     int dst[1153]; // [esp+4h] [ebp-1210h] BYREF
-    int index; // [esp+1208h] [ebp-Ch]
+    [[maybe_unused]] int index; // [esp+1208h] [ebp-Ch]
     float closestIdDotProd; // [esp+120Ch] [ebp-8h] BYREF
-    int entchannel; // [esp+1210h] [ebp-4h]
+    [[maybe_unused]] int entchannel; // [esp+1210h] [ebp-4h]
 
     if (!g_snd.Initialized2d)
         MyAssertHandler(".\\snd.cpp", 3157, 0, "%s", "g_snd.Initialized2d");
@@ -3398,17 +3398,17 @@ void __cdecl DebugDrawWorldSound3D(
 {
     float diff[3]; // [esp+44h] [ebp-14Ch] BYREF
     float sndDir[3]; // [esp+50h] [ebp-140h] BYREF
-    float dot; // [esp+5Ch] [ebp-134h]
+    [[maybe_unused]] float dot; // [esp+5Ch] [ebp-134h]
     char buffer[256]; // [esp+60h] [ebp-130h] BYREF
-    float dist; // [esp+164h] [ebp-2Ch]
-    int time; // [esp+168h] [ebp-28h]
-    const float *starColor; // [esp+16Ch] [ebp-24h]
+    [[maybe_unused]] float dist; // [esp+164h] [ebp-2Ch]
+    [[maybe_unused]] int time; // [esp+168h] [ebp-28h]
+    [[maybe_unused]] const float *starColor; // [esp+16Ch] [ebp-24h]
     float org[3]; // [esp+170h] [ebp-20h] BYREF
-    float fontsize; // [esp+17Ch] [ebp-14h]
-    int listenerId; // [esp+180h] [ebp-10h]
-    float origZ; // [esp+184h] [ebp-Ch]
-    const char *text; // [esp+188h] [ebp-8h]
-    snd_channel_info_t *chaninfo; // [esp+18Ch] [ebp-4h]
+    [[maybe_unused]] float fontsize; // [esp+17Ch] [ebp-14h]
+    [[maybe_unused]] int listenerId; // [esp+180h] [ebp-10h]
+    [[maybe_unused]] float origZ; // [esp+184h] [ebp-Ch]
+    [[maybe_unused]] const char *text; // [esp+188h] [ebp-8h]
+    [[maybe_unused]] snd_channel_info_t *chaninfo; // [esp+18Ch] [ebp-4h]
 
     if (idx > 0x34)
         MyAssertHandler(
@@ -3513,9 +3513,9 @@ double __cdecl FontSizeForDistance(float distance)
 
 void SND_UpdatePhysics()
 {
-    snd_alias_t *alias; // [esp+4h] [ebp-Ch]
-    int i; // [esp+8h] [ebp-8h]
-    int count; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] snd_alias_t *alias; // [esp+4h] [ebp-Ch]
+    [[maybe_unused]] int i; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] int count; // [esp+Ch] [ebp-4h]
 
     Sys_EnterCriticalSection(CRITSECT_AUDIO_PHYSICS);
     count = g_sndPhysics.count;
@@ -3543,13 +3543,13 @@ bool __cdecl SND_ShouldGiveCpuWarning()
 
 void __cdecl SND_StopSounds(snd_stopsounds_arg_t which)
 {
-    char v1; // [esp+0h] [ebp-8h]
-    int i; // [esp+4h] [ebp-4h]
-    int ia; // [esp+4h] [ebp-4h]
-    int ib; // [esp+4h] [ebp-4h]
-    int ic; // [esp+4h] [ebp-4h]
-    int id; // [esp+4h] [ebp-4h]
-    int ie; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] char v1; // [esp+0h] [ebp-8h]
+    [[maybe_unused]] int i; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int ia; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int ib; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int ic; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int id; // [esp+4h] [ebp-4h]
+    [[maybe_unused]] int ie; // [esp+4h] [ebp-4h]
 
     if (g_snd.Initialized2d)
     {
@@ -3601,10 +3601,10 @@ cmd_function_s SND_DeactivateEq_f_VAR;
 
 void __cdecl SND_Init()
 {
-    DvarLimits min; // [esp+4h] [ebp-20h]
-    DvarLimits mina; // [esp+4h] [ebp-20h]
-    int i; // [esp+1Ch] [ebp-8h]
-    int ia; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] DvarLimits min; // [esp+4h] [ebp-20h]
+    [[maybe_unused]] DvarLimits mina; // [esp+4h] [ebp-20h]
+    [[maybe_unused]] int i; // [esp+1Ch] [ebp-8h]
+    [[maybe_unused]] int ia; // [esp+1Ch] [ebp-8h]
 
     Com_Printf(9, "\n------- sound system initialization -------\n");
     snd_errorOnMissing = Dvar_RegisterBool("snd_errorOnMissing", 0, DVAR_ARCHIVE, "Cause a Com_Error if a sound file is missing.");
@@ -3723,14 +3723,14 @@ void __cdecl SND_PlayLocal_f()
     const char *v7; // eax
     const char *v8; // eax
     const char *v9; // eax
-    double v10; // [esp+Ch] [ebp-50h]
-    double v11; // [esp+14h] [ebp-48h]
-    double v12; // [esp+1Ch] [ebp-40h]
-    float v13; // [esp+24h] [ebp-38h]
-    float dist; // [esp+38h] [ebp-24h]
-    float yaw; // [esp+3Ch] [ebp-20h]
-    float pitch; // [esp+44h] [ebp-18h]
-    const snd_alias_t *alias; // [esp+48h] [ebp-14h]
+    [[maybe_unused]] double v10; // [esp+Ch] [ebp-50h]
+    [[maybe_unused]] double v11; // [esp+14h] [ebp-48h]
+    [[maybe_unused]] double v12; // [esp+1Ch] [ebp-40h]
+    [[maybe_unused]] float v13; // [esp+24h] [ebp-38h]
+    [[maybe_unused]] float dist; // [esp+38h] [ebp-24h]
+    [[maybe_unused]] float yaw; // [esp+3Ch] [ebp-20h]
+    [[maybe_unused]] float pitch; // [esp+44h] [ebp-18h]
+    [[maybe_unused]] const snd_alias_t *alias; // [esp+48h] [ebp-14h]
     float soundPos[4]; // [esp+4Ch] [ebp-10h] BYREF
 
     dist = 100.0f;
@@ -3809,7 +3809,7 @@ void __cdecl RelativeToListener(const snd_listener *listener, float yaw, float p
 
 void SND_InitEntChannels()
 {
-    char *buffer; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] char *buffer; // [esp+0h] [ebp-4h]
 
     buffer = Com_LoadRawTextFile("soundaliases/channels.def");
     if (!buffer)
@@ -3821,15 +3821,15 @@ void SND_InitEntChannels()
 
 void __cdecl SND_ParseEntChannelFile(const char *buffer)
 {
-    char v1; // [esp+3h] [ebp-7Dh]
-    snd_entchannel_info_t *v2; // [esp+8h] [ebp-78h]
-    char *v3; // [esp+Ch] [ebp-74h]
-    char v4; // [esp+13h] [ebp-6Dh]
-    char *v5; // [esp+18h] [ebp-68h]
-    const char *v6; // [esp+1Ch] [ebp-64h]
+    [[maybe_unused]] char v1; // [esp+3h] [ebp-7Dh]
+    [[maybe_unused]] snd_entchannel_info_t *v2; // [esp+8h] [ebp-78h]
+    [[maybe_unused]] char *v3; // [esp+Ch] [ebp-74h]
+    [[maybe_unused]] char v4; // [esp+13h] [ebp-6Dh]
+    [[maybe_unused]] char *v5; // [esp+18h] [ebp-68h]
+    [[maybe_unused]] const char *v6; // [esp+1Ch] [ebp-64h]
     char channelName[68]; // [esp+30h] [ebp-50h] BYREF
-    int maxVoices; // [esp+78h] [ebp-8h]
-    const char *value; // [esp+7Ch] [ebp-4h]
+    [[maybe_unused]] int maxVoices; // [esp+78h] [ebp-8h]
+    [[maybe_unused]] const char *value; // [esp+7Ch] [ebp-4h]
 
     if (!buffer)
         MyAssertHandler(".\\snd.cpp", 3523, 0, "%s", "buffer");
@@ -3982,11 +3982,11 @@ void __cdecl SND_ErrorCleanup()
 
 void __cdecl SND_Save(MemoryFile *memFile)
 {
-    int i; // [esp+0h] [ebp-4h]
-    int ia; // [esp+0h] [ebp-4h]
-    int ib; // [esp+0h] [ebp-4h]
-    int ic; // [esp+0h] [ebp-4h]
-    int id; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int ia; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int ib; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int ic; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] int id; // [esp+0h] [ebp-4h]
 
     for (i = 1; i < 4; ++i)
         MemFile_WriteData(memFile, 772, &g_snd.channelVolGroups[i]);
@@ -4101,11 +4101,11 @@ void __cdecl SND_SaveChanInfo(const snd_channel_info_t *chaninfo, MemoryFile *me
 
 void __cdecl SND_SaveLengthNotifyInfo(const sndLengthNotifyInfo *info, MemoryFile *memFile)
 {
-    SndLengthId v2; // [esp+0h] [ebp-14h]
+    [[maybe_unused]] SndLengthId v2; // [esp+0h] [ebp-14h]
     void *v3; // [esp+4h] [ebp-10h] BYREF
     char v4; // [esp+Bh] [ebp-9h] BYREF
     int p; // [esp+Ch] [ebp-8h] BYREF
-    int i; // [esp+10h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+10h] [ebp-4h]
 
     if (!info)
         MyAssertHandler(".\\snd.cpp", 3827, 0, "%s", "info");
@@ -4172,7 +4172,7 @@ void __cdecl SND_Save2DChannel(int chanIndex, MemoryFile *memFile)
 void __cdecl SND_SaveStreamChannel(int chanIndex, MemoryFile *memFile)
 {
     snd_save_stream_t info; // [esp+8h] [ebp-24h] BYREF
-    bool isStreamForUi; // [esp+2Bh] [ebp-1h]
+    [[maybe_unused]] bool isStreamForUi; // [esp+2Bh] [ebp-1h]
 
     if (chanIndex < 40 || chanIndex >= g_snd.max_stream_channels + 40)
         MyAssertHandler(
@@ -4213,11 +4213,11 @@ void __cdecl SND_SaveStreamChannel(int chanIndex, MemoryFile *memFile)
 
 void __cdecl SND_Restore(MemoryFile *memFile)
 {
-    int i; // [esp+8h] [ebp-4h]
-    int ia; // [esp+8h] [ebp-4h]
-    int ib; // [esp+8h] [ebp-4h]
-    int ic; // [esp+8h] [ebp-4h]
-    int id; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int ia; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int ib; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int ic; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int id; // [esp+8h] [ebp-4h]
 
     if (g_snd.Initialized2d)
     {
@@ -4254,13 +4254,13 @@ void __cdecl SND_Restore(MemoryFile *memFile)
 
 char __cdecl SND_Restore3DChannel(MemoryFile *memFile)
 {
-    float *offset; // [esp+Ch] [ebp-F4h]
+    [[maybe_unused]] float *offset; // [esp+Ch] [ebp-F4h]
     snd_save_3D_sample_t info; // [esp+10h] [ebp-F0h] BYREF
-    int playbackId; // [esp+28h] [ebp-D8h]
+    [[maybe_unused]] int playbackId; // [esp+28h] [ebp-D8h]
     SndStartAliasInfo startAliasInfo; // [esp+2Ch] [ebp-D4h] BYREF
     int channel; // [esp+64h] [ebp-9Ch] BYREF
-    snd_alias_t *alias1; // [esp+68h] [ebp-98h]
-    snd_alias_t *alias0; // [esp+6Ch] [ebp-94h]
+    [[maybe_unused]] snd_alias_t *alias1; // [esp+68h] [ebp-98h]
+    [[maybe_unused]] snd_alias_t *alias0; // [esp+6Ch] [ebp-94h]
     snd_channel_info_t chaninfo; // [esp+70h] [ebp-90h] BYREF
 
     alias0 = SND_RestoreSoundAlias(memFile);
@@ -4326,8 +4326,8 @@ char __cdecl SND_Restore3DChannel(MemoryFile *memFile)
 snd_alias_t *__cdecl SND_RestoreSoundAlias(MemoryFile *memFile)
 {
     _WORD p[4]; // [esp+0h] [ebp-10h] BYREF
-    const char *name; // [esp+8h] [ebp-8h]
-    snd_alias_t *alias; // [esp+Ch] [ebp-4h]
+    [[maybe_unused]] const char *name; // [esp+8h] [ebp-8h]
+    [[maybe_unused]] snd_alias_t *alias; // [esp+Ch] [ebp-4h]
 
     name = MemFile_ReadCString(memFile);
     if (!*name)
@@ -4376,8 +4376,8 @@ void __cdecl SND_RestoreLengthNotifyInfo(MemoryFile *memFile, sndLengthNotifyInf
     void *v3; // [esp+4h] [ebp-14h] BYREF
     unsigned __int8 v4; // [esp+Bh] [ebp-Dh] BYREF
     int p; // [esp+Ch] [ebp-Ch] BYREF
-    int i; // [esp+10h] [ebp-8h]
-    SndLengthId id; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+10h] [ebp-8h]
+    [[maybe_unused]] SndLengthId id; // [esp+14h] [ebp-4h]
 
     if (!info)
         MyAssertHandler(".\\snd.cpp", 3855, 0, "%s", "info");
@@ -4421,13 +4421,13 @@ void __cdecl SND_RestoreLengthNotifyInfo(MemoryFile *memFile, sndLengthNotifyInf
 
 char __cdecl SND_Restore2DChannel(MemoryFile *memFile)
 {
-    float *offset; // [esp+Ch] [ebp-ECh]
+    [[maybe_unused]] float *offset; // [esp+Ch] [ebp-ECh]
     snd_save_2D_sample_t info; // [esp+10h] [ebp-E8h] BYREF
-    int playbackId; // [esp+20h] [ebp-D8h]
+    [[maybe_unused]] int playbackId; // [esp+20h] [ebp-D8h]
     SndStartAliasInfo startAliasInfo; // [esp+24h] [ebp-D4h] BYREF
     int channel; // [esp+5Ch] [ebp-9Ch] BYREF
-    snd_alias_t *alias1; // [esp+60h] [ebp-98h]
-    snd_alias_t *alias0; // [esp+64h] [ebp-94h]
+    [[maybe_unused]] snd_alias_t *alias1; // [esp+60h] [ebp-98h]
+    [[maybe_unused]] snd_alias_t *alias0; // [esp+64h] [ebp-94h]
     snd_channel_info_t chaninfo; // [esp+68h] [ebp-90h] BYREF
 
     alias0 = SND_RestoreSoundAlias(memFile);
@@ -4490,14 +4490,14 @@ char __cdecl SND_RestoreStreamChannel(int channel, MemoryFile *memFile)
 {
     const char *v3; // eax
     const char *v4; // eax
-    float *offset; // [esp+14h] [ebp-120h]
-    float v6; // [esp+1Ch] [ebp-118h]
-    float v7; // [esp+30h] [ebp-104h]
-    int playbackId; // [esp+40h] [ebp-F4h]
+    [[maybe_unused]] float *offset; // [esp+14h] [ebp-120h]
+    [[maybe_unused]] float v6; // [esp+1Ch] [ebp-118h]
+    [[maybe_unused]] float v7; // [esp+30h] [ebp-104h]
+    [[maybe_unused]] int playbackId; // [esp+40h] [ebp-F4h]
     snd_save_stream_t info; // [esp+44h] [ebp-F0h] BYREF
     SndStartAliasInfo startAliasInfo; // [esp+64h] [ebp-D0h] BYREF
-    snd_alias_t *alias1; // [esp+9Ch] [ebp-98h]
-    snd_alias_t *alias0; // [esp+A0h] [ebp-94h]
+    [[maybe_unused]] snd_alias_t *alias1; // [esp+9Ch] [ebp-98h]
+    [[maybe_unused]] snd_alias_t *alias0; // [esp+A0h] [ebp-94h]
     snd_channel_info_t chaninfo; // [esp+A4h] [ebp-90h] BYREF
 
     alias0 = SND_RestoreSoundAlias(memFile);
@@ -4604,8 +4604,8 @@ int __cdecl SND_GetSoundOverlay(snd_overlay_type_t type, snd_overlay_info_t *inf
 int __cdecl SND_GetSoundOverlay2D(snd_overlay_info_t *info, int maxcount)
 {
     snd_entchannel_info_t *EntChannelName; // eax
-    int rate; // [esp+0h] [ebp-Ch]
-    int i; // [esp+8h] [ebp-4h]
+    [[maybe_unused]] int rate; // [esp+0h] [ebp-Ch]
+    [[maybe_unused]] int i; // [esp+8h] [ebp-4h]
 
     if (maxcount > g_snd.max_2D_channels)
         maxcount = g_snd.max_2D_channels;
@@ -4643,13 +4643,13 @@ int __cdecl SND_GetSoundOverlay3D(snd_overlay_info_t *info, int maxcount)
 {
     snd_entchannel_info_t *EntChannelName; // eax
     double v3; // st7
-    snd_listener *a; // [esp+0h] [ebp-30h]
+    [[maybe_unused]] snd_listener *a; // [esp+0h] [ebp-30h]
     float diff[3]; // [esp+8h] [ebp-28h] BYREF
-    int rate; // [esp+14h] [ebp-1Ch]
-    float dist; // [esp+18h] [ebp-18h]
-    int channel; // [esp+1Ch] [ebp-14h]
+    [[maybe_unused]] int rate; // [esp+14h] [ebp-1Ch]
+    [[maybe_unused]] float dist; // [esp+18h] [ebp-18h]
+    [[maybe_unused]] int channel; // [esp+1Ch] [ebp-14h]
     float org[3]; // [esp+20h] [ebp-10h] BYREF
-    int i; // [esp+2Ch] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+2Ch] [ebp-4h]
 
     if (maxcount > g_snd.max_3D_channels)
         maxcount = g_snd.max_3D_channels;
@@ -4693,13 +4693,13 @@ int __cdecl SND_GetSoundOverlayStream(snd_overlay_info_t *info, int maxcount)
 {
     snd_entchannel_info_t *EntChannelName; // eax
     double StreamChannelVolume; // st7
-    int StreamChannelPlaybackRate; // [esp+0h] [ebp-30h]
-    snd_listener *a; // [esp+4h] [ebp-2Ch]
+    [[maybe_unused]] int StreamChannelPlaybackRate; // [esp+0h] [ebp-30h]
+    [[maybe_unused]] snd_listener *a; // [esp+4h] [ebp-2Ch]
     float diff[3]; // [esp+Ch] [ebp-24h] BYREF
-    float dist; // [esp+18h] [ebp-18h]
-    int channel; // [esp+1Ch] [ebp-14h]
+    [[maybe_unused]] float dist; // [esp+18h] [ebp-18h]
+    [[maybe_unused]] int channel; // [esp+1Ch] [ebp-14h]
     float org[3]; // [esp+20h] [ebp-10h] BYREF
-    int i; // [esp+2Ch] [ebp-4h]
+    [[maybe_unused]] int i; // [esp+2Ch] [ebp-4h]
 
     if (maxcount > g_snd.max_stream_channels)
         maxcount = g_snd.max_stream_channels;
@@ -4747,10 +4747,10 @@ int __cdecl SND_GetSoundOverlayStream(snd_overlay_info_t *info, int maxcount)
 
 void __cdecl SND_StopChannelAndPlayChainAlias(unsigned int chanId)
 {
-    snd_alias_t *chainAlias; // [esp+0h] [ebp-18h]
-    unsigned int sndEnt; // [esp+4h] [ebp-14h]
+    [[maybe_unused]] snd_alias_t *chainAlias; // [esp+0h] [ebp-18h]
+    [[maybe_unused]] unsigned int sndEnt; // [esp+4h] [ebp-14h]
     float org[3]; // [esp+8h] [ebp-10h] BYREF
-    snd_channel_info_t *chaninfo; // [esp+14h] [ebp-4h]
+    [[maybe_unused]] snd_channel_info_t *chaninfo; // [esp+14h] [ebp-4h]
 
     if (chanId > 0x34)
         MyAssertHandler(
@@ -4814,7 +4814,7 @@ void __cdecl StopChannel(int chanId)
 
 void __cdecl SND_AddPhysicsSound(snd_alias_list_t *aliasList, float *org)
 {
-    float *v2; // [esp+0h] [ebp-4h]
+    [[maybe_unused]] float *v2; // [esp+0h] [ebp-4h]
 
     if (!aliasList)
         MyAssertHandler(".\\snd.cpp", 4548, 0, "%s", "aliasList");
@@ -4847,7 +4847,7 @@ void __cdecl SND_SetData(MssSoundCOD4 *mssSound, void *srcData)
     // KISAKTODO: double check MssSound struct usage here. It looks 'okay' at first glance
 
     _AILMIXINFO mixinfo; // [esp+Ch] [ebp-80h] BYREF
-    int digitalFormat; // [esp+88h] [ebp-4h]
+    [[maybe_unused]] int digitalFormat; // [esp+88h] [ebp-4h]
 
     if (mssSound->info.rate > g_snd.playback_rate && mssSound->info.format != 17)
     {

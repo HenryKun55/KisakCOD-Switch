@@ -302,12 +302,13 @@ void __cdecl Scr_GetValueString(unsigned int localId, VariableValue *value, int 
         Com_sprintf(s, len, "&\"%s\"", SL_ConvertToString(value->u.intValue));
         break;
     case 4:
-        sprintf(
+        snprintf(
             s,
+            len,
             "(%g, %g, %g)",
-            *(float *)value->u.intValue,
-            *(float *)(value->u.intValue + 4),
-            *(float *)(value->u.intValue + 8));
+            *(float *)(uintptr_t)(uintptr_t)value->u.intValue,
+            *(float *)(uintptr_t)(uintptr_t)(value->u.intValue + 4),
+            *(float *)(uintptr_t)(uintptr_t)(value->u.intValue + 8));
         break;
     case 5:
         Com_sprintf(s, len, "%g", value->u.floatValue);
@@ -316,7 +317,7 @@ void __cdecl Scr_GetValueString(unsigned int localId, VariableValue *value, int 
         Com_sprintf(s, len, "%i", value->u.intValue);
         break;
     case 9:
-        Scr_GetCodePos((const char *)(value->u.intValue - 1), 1u, s, len);
+        Scr_GetCodePos((const char *)(uintptr_t)(uintptr_t)(value->u.intValue - 1), 1u, s, len);
         break;
     case 0xB:
         intValue = (unsigned __int16)value->u.intValue;
@@ -440,17 +441,17 @@ void __cdecl Scr_CompilePrimitiveExpression(sval_u *expr)
         break;
     case ENUM_string:
     case ENUM_istring:
-        *expr = debugger_string(expr->node[0].type, (char *)SL_ConvertToString(*(unsigned int *)(expr->type + 4)));
+        *expr = debugger_string(expr->node[0].type, (char *)SL_ConvertToString(*(unsigned int *)(uintptr_t)(uintptr_t)(expr->type + 4)));
         break;
     case ENUM_variable:
         Scr_CompileVariableExpression(&expr->node[1]);
-        tempVariableId.block = (scr_block_s*)AllocValue();
+        tempVariableId.block = (scr_block_s *)(uintptr_t)AllocValue();
         *expr = debugger_node2(ENUM_variable, expr->node[1], tempVariableId);
         break;
     case ENUM_call_expression:
         if (!Scr_CompileCallExpression(&expr->node[1]))
             goto LABEL_13;
-        tempVariableIda.block = (scr_block_s*)AllocValue();
+        tempVariableIda.block = (scr_block_s *)(uintptr_t)AllocValue();
         *expr = debugger_node2(ENUM_call_expression, expr->node[1], tempVariableIda);
         break;
     case ENUM_undefined:
@@ -504,10 +505,10 @@ void __cdecl Scr_CompileVariableExpression(sval_u *expr)
     switch (expr->node[0].type)
     {
     case ENUM_local_variable:
-        *(unsigned int *)(expr->type + 4) = Scr_CompileCanonicalString(*(unsigned int *)(expr->type + 4));
-        if (*(unsigned int *)(expr->type + 4))
+        *(unsigned int *)(uintptr_t)(uintptr_t)(expr->type + 4) = Scr_CompileCanonicalString(*(unsigned int *)(uintptr_t)(uintptr_t)(expr->type + 4));
+        if (*(unsigned int *)(uintptr_t)(uintptr_t)(expr->type + 4))
         {
-            tempVariableId.block = (scr_block_s*)AllocValue();
+            tempVariableId.block = (scr_block_s *)(uintptr_t)AllocValue();
             *expr = debugger_node4(ENUM_local_variable, expr->node[1], 0, 0, tempVariableId);
         }
         else
@@ -522,8 +523,8 @@ void __cdecl Scr_CompileVariableExpression(sval_u *expr)
         break;
     case ENUM_field_variable:
         Scr_CompilePrimitiveExpressionFieldObject(&expr->node[1]);
-        *(unsigned int *)(expr->type + 8) = Scr_CompileCanonicalString(*(unsigned int *)(expr->type + 8));
-        if (*(unsigned int *)(expr->type + 8))
+        *(unsigned int *)(uintptr_t)(uintptr_t)(expr->type + 8) = Scr_CompileCanonicalString(*(unsigned int *)(uintptr_t)(uintptr_t)(expr->type + 8));
+        if (*(unsigned int *)(uintptr_t)(uintptr_t)(expr->type + 8))
             *expr = debugger_node3(ENUM_field_variable, expr->node[1], expr->node[2], 0);
         else
             *expr = debugger_node0(ENUM_unknown_field);
@@ -533,7 +534,7 @@ void __cdecl Scr_CompileVariableExpression(sval_u *expr)
         *expr = debugger_node1(ENUM_self_field, expr->node[1]);
         break;
     case ENUM_object:
-        s = SL_ConvertToString(*(unsigned int *)(expr->type + 4));
+        s = SL_ConvertToString(*(unsigned int *)(uintptr_t)(uintptr_t)(expr->type + 4));
         if (*s == 116)
         {
             idValue.intValue = atoi(s + 1);
@@ -544,7 +545,7 @@ void __cdecl Scr_CompileVariableExpression(sval_u *expr)
             if (IsObjectFree(idValue.stringValue))
                 goto LABEL_28;
             ObjectType = GetObjectType(idValue.stringValue);
-            if (ObjectType < VAR_THREAD || ObjectType > VAR_CHILD_THREAD && ObjectType != VAR_DEAD_THREAD)
+            if (ObjectType < VAR_THREAD || (ObjectType > VAR_CHILD_THREAD && ObjectType != VAR_DEAD_THREAD))
                 goto LABEL_28;
             *expr = debugger_node1(ENUM_thread_object, idValue);
             AddRefToObject(idValue.stringValue);
@@ -583,12 +584,12 @@ void __cdecl Scr_CompilePrimitiveExpressionFieldObject(sval_u *expr)
     {
     case ENUM_variable:
         Scr_CompileVariableExpression(&expr->node[1]);
-        tempVariableId.block = (scr_block_s*)AllocValue();
+        tempVariableId.block = (scr_block_s *)(uintptr_t)AllocValue();
         *expr = debugger_node2(ENUM_variable, expr->node[1], tempVariableId);
         break;
     case ENUM_call_expression:
         Scr_CompileCallExpression(&expr->node[1]);
-        tempVariableIda.block = (scr_block_s*)AllocValue();
+        tempVariableIda.block = (scr_block_s *)(uintptr_t)AllocValue();
         *expr = debugger_node2(ENUM_call_expression, expr->node[1], tempVariableIda);
         break;
     case ENUM_self:
@@ -658,7 +659,7 @@ char __cdecl Scr_CompileCallExpression(sval_u *expr)
             return 1;
         }
     }
-    else if (type == ENUM_method && Scr_CompileMethod(&expr->node[1], &expr->node[2], (sval_u *)(expr->type + 12)))
+    else if (type == ENUM_method && Scr_CompileMethod(&expr->node[1], &expr->node[2], (sval_u *)(uintptr_t)(expr->type + 12)))
     {
         *expr = debugger_node3(
             ENUM_method,
@@ -708,7 +709,7 @@ char __cdecl Scr_CompileFunction(sval_u *func_name, sval_u *params)
     func = Scr_GetFunction(&pName, &type);
     if (!func)
         return 0;
-    func_name->block = (scr_block_s*)func;
+    func_name->block = (scr_block_s *)(uintptr_t)func;
     Scr_CompileCallExpressionList(params);
     return 1;
 }
@@ -743,7 +744,7 @@ char __cdecl Scr_CompileMethod(sval_u *expr, sval_u *func_name, sval_u *params)
     if (!meth)
         return 0;
     Scr_CompilePrimitiveExpression(expr);
-    func_name->block = (scr_block_s*)meth;
+    func_name->block = (scr_block_s *)(uintptr_t)meth;
     Scr_CompileCallExpressionList(params);
     return 1;
 }
@@ -792,8 +793,8 @@ void __cdecl Scr_CompileTextInternal(const char *text, ScriptExpression_t *scrip
         else
         {
             scrCompilePub.developer_statement = 3;
-            expr = (unsigned int *)scriptExpr->parseData.type;
-            scriptExpr->parseData.type = (Enum_t)*(unsigned int *)(scriptExpr->parseData.type + 4);
+            expr = (unsigned int *)(uintptr_t)(uintptr_t)scriptExpr->parseData.type;
+            scriptExpr->parseData.type = (Enum_t)*(unsigned int *)(uintptr_t)(uintptr_t)(scriptExpr->parseData.type + 4);
             if (*expr == 65)
             {
                 varUsagePos = scrVarPub.varUsagePos;
@@ -1070,7 +1071,7 @@ void __cdecl Scr_EvalVariableExpression(sval_u expr, unsigned int localId, Varia
             if (!scrVarPub.error_message)
             {
                 AddRefToValue(value->type, value->u);
-                //objectId = Scr_EvalFieldObject(*(unsigned int *)(expr.type + 16), value).stringValue;
+                //objectId = Scr_EvalFieldObject(*(unsigned int *)(uintptr_t)(uintptr_t)(expr.type + 16), value).stringValue;
                 objectId = Scr_EvalFieldObject(expr.node[4].idValue, value);
                 Scr_ClearErrorMessage();
             }
@@ -1158,18 +1159,18 @@ void __cdecl Scr_EvalVariableExpression(sval_u expr, unsigned int localId, Varia
         }
         break;
     case 0x51:
-        if (*(unsigned int *)(expr.type + 4) && Scr_IsThreadAlive(*(unsigned int *)(expr.type + 4)))
+        if (*(unsigned int *)(uintptr_t)(uintptr_t)(expr.type + 4) && Scr_IsThreadAlive(*(unsigned int *)(uintptr_t)(uintptr_t)(expr.type + 4)))
         {
-            value->u.intValue = *(unsigned int *)(expr.type + 4);
+            value->u.intValue = *(unsigned int *)(uintptr_t)(uintptr_t)(expr.type + 4);
             value->type = VAR_POINTER;
             AddRefToObject(value->u.intValue);
         }
         else
         {
-            if (*(unsigned int *)(expr.type + 4))
+            if (*(unsigned int *)(uintptr_t)(uintptr_t)(expr.type + 4))
             {
-                RemoveRefToObject(*(unsigned int *)(expr.type + 4));
-                *(unsigned int *)(expr.type + 4) = 0;
+                RemoveRefToObject(*(unsigned int *)(uintptr_t)(uintptr_t)(expr.type + 4));
+                *(unsigned int *)(uintptr_t)(uintptr_t)(expr.type + 4) = 0;
             }
             value->type = VAR_UNDEFINED;
             Scr_Error("thread not active");
@@ -1180,7 +1181,7 @@ void __cdecl Scr_EvalVariableExpression(sval_u expr, unsigned int localId, Varia
         Scr_Error("bad expression");
         break;
     case 0x57:
-        Scr_GetValue(*(unsigned int *)(expr.type + 4), value);
+        Scr_GetValue(*(unsigned int *)(uintptr_t)(uintptr_t)(expr.type + 4), value);
         break;
     default:
         return;
@@ -1305,12 +1306,12 @@ unsigned int __cdecl Scr_EvalPrimitiveExpressionFieldObject(sval_u expr, unsigne
     {
     case 0x11:
         Scr_EvalVariableExpression(expr.node[1], localId, &value);
-        //result = Scr_EvalFieldObject(*(unsigned int *)(expr.type + 8), &value).stringValue;
+        //result = Scr_EvalFieldObject(*(unsigned int *)(uintptr_t)(uintptr_t)(expr.type + 8), &value).stringValue;
         result = Scr_EvalFieldObject(expr.node[2].idValue, &value);
         break;
     case 0x13:
         Scr_EvalCallExpression(expr.node[1], localId, &value);
-        //result = Scr_EvalFieldObject(*(unsigned int *)(expr.type + 8), &value).stringValue;
+        //result = Scr_EvalFieldObject(*(unsigned int *)(uintptr_t)(uintptr_t)(expr.type + 8), &value).stringValue;
         result = Scr_EvalFieldObject(expr.node[2].idValue, &value);
         break;
     case 0x20:
@@ -1519,7 +1520,7 @@ void __cdecl Scr_EvalBoolOrExpression(sval_u expr1, sval_u expr2, unsigned int l
     RemoveRefToValue(value->type, value->u);
     Scr_EvalExpression(expr2, localId, value);
     Scr_CastBool(value);
-    v4 = v5 || value->type == 6 && value->u.intValue;
+    v4 = v5 || (value->type == 6 && value->u.intValue);
     RemoveRefToValue(value->type, value->u);
     value->type = VAR_INTEGER;
     value->u.intValue = v4;
