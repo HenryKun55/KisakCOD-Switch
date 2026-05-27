@@ -155,6 +155,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_pretess.cpp"
     "${SRC_DIR}/gfx_d3d/r_reflection_probe.cpp"
     "${SRC_DIR}/gfx_d3d/r_setstate_d3d.cpp"
+    "${SRC_DIR}/gfx_d3d/r_shade.cpp"
     "${SRC_DIR}/gfx_d3d/r_shadowcookie.cpp"
     "${SRC_DIR}/gfx_d3d/r_sky.cpp"
     "${SRC_DIR}/gfx_d3d/r_spotshadow.cpp"

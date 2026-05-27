@@ -1808,6 +1808,13 @@ GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 
+// r_shade satellite stubs.
+void R_ChangeState_0(GfxCmdBufState * /*s*/, unsigned int /*bits*/) {}
+void R_ChangeState_1(GfxCmdBufState * /*s*/, unsigned int /*bits*/) {}
+GfxCmdBufSourceState *R_GetCodeMatrix(GfxCmdBufSourceState *src, unsigned int /*a*/, unsigned int /*b*/) { return src; }
+const GfxImage *R_GetTextureFromCode(GfxCmdBufSourceState * /*src*/, MaterialTextureSource /*t*/, unsigned char * /*p*/) { return nullptr; }
+void R_TextureFromCodeError(GfxCmdBufSourceState * /*src*/, unsigned int /*t*/) {}
+
 // r_image satellite stubs.
 bool Image_IsProg(GfxImage * /*img*/) { return false; }
 void Image_GetPicmip(const GfxImage * /*img*/, Picmip * /*p*/) {}
@@ -1851,7 +1858,7 @@ void R_SetMeshStream(GfxCmdBufState * /*s*/, GfxMeshData * /*m*/) {}
 // r_draw_bsp / r_draw_staticmodel satellite stubs.
 void R_SetLightmap(GfxCmdBufContext /*ctx*/, unsigned int /*idx*/) {}
 void R_SetSamplerState(GfxCmdBufState * /*state*/, unsigned int /*idx*/, unsigned char /*s*/) {}
-int R_ReserveIndexData(GfxCmdBufPrimState * /*p*/, int /*count*/) { return 0; }
+// R_ReserveIndexData provided by src/gfx_d3d/r_shade.cpp now.
 void R_ChangeStreamSource(GfxCmdBufPrimState * /*p*/, unsigned int /*idx*/, IDirect3DVertexBuffer9 * /*vb*/, unsigned int /*offset*/, unsigned int /*stride*/) {}
 const GfxImage *R_OverrideGrayscaleImage(const dvar_s * /*d*/) { return nullptr; }
 
@@ -1913,17 +1920,17 @@ bool g_allocateMinimalResources = false;
 // rb_shade satellite stubs.
 #include <gfx_d3d/r_buffers.h>
 #include <gfx_d3d/rb_pixelcost.h>
-void R_SetupPass(GfxCmdBufContext /*ctx*/, unsigned int /*passIndex*/) {}
-void R_SetupPassCriticalPixelShaderArgs(GfxCmdBufContext /*ctx*/) {}
-void R_SetupPassPerObjectArgs(GfxCmdBufContext /*ctx*/) {}
-void R_SetupPassPerPrimArgs(GfxCmdBufContext /*ctx*/) {}
+// R_SetupPass provided by src/gfx_d3d/r_shade.cpp now.
+// R_SetupPassCriticalPixelShaderArgs provided by src/gfx_d3d/r_shade.cpp now.
+// R_SetupPassPerObjectArgs provided by src/gfx_d3d/r_shade.cpp now.
+// R_SetupPassPerPrimArgs provided by src/gfx_d3d/r_shade.cpp now.
 void R_GetViewport(GfxCmdBufSourceState * /*src*/, GfxViewport * /*v*/) {}
 void R_SetViewport(GfxCmdBufState * /*state*/, const GfxViewport * /*v*/) {}
 void R_UpdateViewport(GfxCmdBufSourceState * /*src*/, GfxViewport * /*v*/) {}
-int R_SetIndexData(GfxCmdBufPrimState * /*p*/, unsigned char * /*data*/, int /*count*/) { return 0; }
-int R_SetVertexData(GfxCmdBufState * /*s*/, const void * /*data*/, int /*size*/, int /*stride*/) { return 0; }
+// R_SetIndexData provided by src/gfx_d3d/r_shade.cpp now.
+// R_SetVertexData provided by src/gfx_d3d/r_shade.cpp now.
 // R_SetStreamSource provided by src/gfx_d3d/r_draw_staticmodel.cpp now.
-void R_UpdateVertexDecl(GfxCmdBufState * /*s*/) {}
+// R_UpdateVertexDecl provided by src/gfx_d3d/r_shade.cpp now.
 void R_DrawIndexedPrimitive(GfxCmdBufPrimState * /*p*/, const GfxDrawPrimArgs * /*args*/) {}
 // R_PixelCost_* provided by src/gfx_d3d/rb_pixelcost.cpp now.
 
@@ -1932,8 +1939,8 @@ void R_DrawIndexedPrimitive(GfxCmdBufPrimState * /*p*/, const GfxDrawPrimArgs * 
 #include <gfx_d3d/r_shade.h>
 void R_SetSampler(GfxCmdBufContext /*ctx*/, unsigned int /*idx*/, unsigned char /*state*/, const GfxImage * /*image*/) {}
 // R_SetVertexDecl provided by src/gfx_d3d/rb_shade.cpp now.
-void R_SetPixelShader(GfxCmdBufState * /*s*/, const MaterialPixelShader * /*ps*/) {}
-void R_SetVertexShader(GfxCmdBufState * /*s*/, const MaterialVertexShader * /*vs*/) {}
+// R_SetPixelShader provided by src/gfx_d3d/r_shade.cpp now.
+// R_SetVertexShader provided by src/gfx_d3d/r_shade.cpp now.
 
 // rb_depthprepass satellite stubs.
 #include <gfx_d3d/r_meshdata.h>

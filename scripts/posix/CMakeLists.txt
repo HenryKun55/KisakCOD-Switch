@@ -216,6 +216,7 @@ set(GFX_PORTABLE_SOURCES
     # IDirect3DDevice9 member access. Land behind graphics
     # abstraction.
     "${SRC_DIR}/gfx_d3d/r_setstate_d3d.cpp"
+    "${SRC_DIR}/gfx_d3d/r_shade.cpp"
     "${SRC_DIR}/gfx_d3d/r_shadowcookie.cpp"
     "${SRC_DIR}/gfx_d3d/r_sky.cpp"
     "${SRC_DIR}/gfx_d3d/r_spotshadow.cpp"
