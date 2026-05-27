@@ -1329,8 +1329,7 @@ void Scr_ShutdownDebuggerMain() {}
 
 // --- Compiler/parser ------------------------------------------------------
 // CompileError / CompileError2 provided by src/script/scr_parser.cpp now.
-void ScriptCompile(sval_u /*val*/, unsigned int /*fileId*/, unsigned int /*scriptId*/,
-                   PrecacheEntry * /*entries*/, int /*entriesCount*/) {}
+// ScriptCompile provided by src/script/scr_compiler2.cpp now.
 // ScriptParse provided by src/script/scr_yacc2.cpp now.
 
 // --- TempMalloc / Hunk debug ----------------------------------------------
@@ -1358,7 +1357,7 @@ void ScriptCompile(sval_u /*val*/, unsigned int /*fileId*/, unsigned int /*scrip
 // --- Global storage for scr*Pub structures -------------------------------
 // All these pub structs have their definitions reached via the script
 // headers included at the top, so we can zero-construct them properly.
-scrCompilePub_t  scrCompilePub{};
+// scrCompilePub provided by src/script/scr_compiler2.cpp now.
 // scrParserPub provided by src/script/scr_parser.cpp now.
 // scrVarPub_t      scrVarPub{};  // provided by scr_variable/scr_stringlist now
 // scrVarDebugPub storage provided by scr_variable/scr_stringlist now.
@@ -1779,9 +1778,7 @@ vidConfig_t vidConfig{};
 #include <csetjmp>
 bool Scr_RefToVariable(unsigned int /*id*/, int /*isObject*/) { return false; }
 void Scr_ClearOutParams() {}
-void Scr_CompileStatement(sval_u /*parseData*/) {}
-int GetExpressionCount(sval_u /*exprlist*/) { return 0; }
-scrCompileGlob_t scrCompileGlob{};
+// Scr_CompileStatement / GetExpressionCount / scrCompileGlob provided by src/script/scr_compiler2.cpp now.
 jmp_buf g_script_error[33]{};
 
 // scr_parsetree / scr_parser satellite stubs.
@@ -1793,6 +1790,7 @@ scrVmDebugPub_t scrVmDebugPub{};
 // Scr_FreeDebugExprValue provided by src/script/scr_evaluate.cpp now.
 // Scr_ClearDebugExprValue provided by src/script/scr_evaluate.cpp now.
 bool Scr_IgnoreErrors() { return false; }
+void Scr_AddAssignmentPos(char * /*codePos*/) {}
 
 // r_light satellite stubs.
 #include <gfx_d3d/r_scene.h>

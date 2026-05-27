@@ -96,6 +96,7 @@ set(QCOMMON_PORTABLE_SOURCES
 
 set(SCRIPT_PORTABLE_SOURCES
     "${SRC_DIR}/script/scr_animtree.cpp"
+    "${SRC_DIR}/script/scr_compiler2.cpp"
     "${SRC_DIR}/script/scr_const.cpp"
     "${SRC_DIR}/script/scr_evaluate.cpp"
     "${SRC_DIR}/script/scr_main.cpp"

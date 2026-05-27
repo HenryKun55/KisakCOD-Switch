@@ -1,6 +1,10 @@
 // Some functions adapted from: https://github.com/voron00/CoD2rev_Server/blob/41e33ed97d0339ac631772f25eee3910ddef87e5/src/script/scr_compiler.cpp
 // (GPL v3.0) (Thanks)
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wswitch"
+#endif
+
 #include "scr_compiler.h"
 #include "scr_main.h"
 #include "scr_debugger.h"
@@ -332,8 +336,8 @@ void __cdecl EmitGetFloat(float value, sval_u sourcePos)
 
 void __cdecl EmitCodepos(const char *pos)
 {
-    scrCompileGlob.codePos = (unsigned char*)TempMallocAlignStrict(4u);
-    *(unsigned int*)scrCompileGlob.codePos = (unsigned int)(uintptr_t)pos;
+    scrCompileGlob.codePos = (unsigned char*)TempMallocAlignStrict(sizeof(const char *));
+    *(const char **)scrCompileGlob.codePos = pos;
 }
 
 void __cdecl EmitGetInteger(int value, sval_u sourcePos)
@@ -585,7 +589,7 @@ unsigned int  __cdecl AddFilePrecache(unsigned int filename, unsigned int source
 
 void __cdecl EmitFunction(sval_u func, sval_u sourcePos)
 {
-    char *v2; // eax
+    const char *v2; // eax
     unsigned int Variable; // eax
     [[maybe_unused]] unsigned int valueId; // [esp+1Ch] [ebp-3Ch]
     [[maybe_unused]] VariableValue pos; // [esp+20h] [ebp-38h]
@@ -628,7 +632,7 @@ void __cdecl EmitFunction(sval_u func, sval_u sourcePos)
         MyAssertHandler(".\\script\\scr_compiler.cpp", 1712, 0, "%s", "func.node[0].type == ENUM_far_function");
     scope = 1;
     v2 = SL_ConvertToString(func.node[1].stringValue);
-    filename.prev = Scr_CreateCanonicalFilename(v2).prev;
+    filename.prev = Scr_CreateCanonicalFilename(v2);
     Scr_CompileRemoveRefToString(func.node[1].stringValue);
     Variable = FindVariable(scrCompilePub.loadedscripts, filename.prev);
     value = Scr_EvalVariable(Variable);
@@ -668,7 +672,7 @@ void __cdecl EmitFunction(sval_u func, sval_u sourcePos)
     LABEL_39:
         if (!threadId)
             MyAssertHandler(".\\script\\scr_compiler.cpp", 1781, 0, "%s", "threadId");
-        EmitCodepos((const char*)scope);
+        EmitCodepos((const char*)(uintptr_t)scope);
         countId = GetVariable(threadId, 0);
         count = Scr_EvalVariable(countId);
         if (count.type && count.type != 6)
@@ -684,7 +688,7 @@ void __cdecl EmitFunction(sval_u func, sval_u sourcePos)
             count.u.intValue = 0;
         }
         valueId = GetNewVariable(threadId, count.u.intValue + 2);
-        value.u.intValue = (int)scrCompileGlob.codePos;
+        value.u.intValue = (int)(uintptr_t)scrCompileGlob.codePos;
         if (scrCompilePub.developer_statement)
         {
             if (!scrVarPub.developer_script)
@@ -768,7 +772,7 @@ void __cdecl EmitPostScriptThread(sval_u func, int param_count, bool bMethod, sv
         EmitOpcode(OP_ScriptThreadCall, 1 - param_count, 2);
     AddOpcodePos(sourcePos.stringValue, 3);
     EmitFunction(func, sourcePos);
-    EmitCodepos((const char*)param_count);
+    EmitCodepos((const char*)(uintptr_t)param_count);
 }
 
 void __cdecl EmitPostScriptThreadPointer(
@@ -784,7 +788,7 @@ void __cdecl EmitPostScriptThreadPointer(
     else
         EmitOpcode(OP_ScriptThreadCallPointer, -param_count, 2);
     AddOpcodePos(sourcePos.stringValue, 1);
-    EmitCodepos((const char*)param_count);
+    EmitCodepos((const char*)(uintptr_t)param_count);
 }
 
 void __cdecl EmitPostScriptThreadCall(
@@ -853,7 +857,7 @@ void __cdecl EmitCall(sval_u func_name, sval_u params, bool bStatement, scr_bloc
         {
             value = Scr_EvalVariable(funcId);
             type = Scr_GetUncacheType(value.type);
-            func = (void(*)())value.u.intValue;
+            func = (void(*)())(uintptr_t)value.u.intValue;
         }
         else
         {
@@ -861,7 +865,7 @@ void __cdecl EmitCall(sval_u func_name, sval_u params, bool bStatement, scr_bloc
             func = Scr_GetFunction(&pName, &type);
             funcId = GetNewVariable(scrCompilePub.builtinFunc, name);
             value.type = Scr_GetCacheType(type);
-            value.u.intValue = (int)func;
+            value.u.intValue = (int)(uintptr_t)func;
             SetVariableValue(funcId, &value);
         }
     }
@@ -880,7 +884,7 @@ void __cdecl EmitCall(sval_u func_name, sval_u params, bool bStatement, scr_bloc
             {
                 Scr_CompileRemoveRefToString(name);
                 EmitCallBuiltinOpcode(param_count, sourcePos);
-                v4 = AddFunction((int)func, pName);
+                v4 = AddFunction((int)(uintptr_t)func, pName);
                 EmitShort(v4);
                 AddExpressionListOpcodePos(params);
                 if (bStatement)
@@ -899,7 +903,7 @@ void __cdecl EmitCall(sval_u func_name, sval_u params, bool bStatement, scr_bloc
     script_function:
         if (scrCompilePub.developer_statement == 3)
         {
-            CompileError(*(unsigned int*)(func_name.type + 8), "unknown builtin function");
+            CompileError(*(unsigned int*)(uintptr_t)(func_name.type + 8), "unknown builtin function");
         }
         else
         {
@@ -982,7 +986,7 @@ void __cdecl EmitMethod(
         {
             value = Scr_EvalVariable(methId);
             type = Scr_GetUncacheType(value.type);
-            meth = (void(*)(scr_entref_t))value.u.intValue;
+            meth = (void(*)(scr_entref_t))(uintptr_t)value.u.intValue;
         }
         else
         {
@@ -990,7 +994,7 @@ void __cdecl EmitMethod(
             meth = Scr_GetMethod(&pName, &type);
             methId = GetNewVariable(scrCompilePub.builtinMeth, name);
             value.type = Scr_GetCacheType(type);
-            value.u.intValue = (int)meth;
+            value.u.intValue = (int)(uintptr_t)meth;
             SetVariableValue(methId, &value);
         }
     }
@@ -1010,7 +1014,7 @@ void __cdecl EmitMethod(
             {
                 Scr_CompileRemoveRefToString(name);
                 EmitCallBuiltinMethodOpcode(param_count, sourcePos);
-                v6 = AddFunction((int)meth, pName);
+                v6 = AddFunction((int)(uintptr_t)meth, pName);
                 EmitShort(v6);
                 AddOpcodePos(methodSourcePos.stringValue, 0);
                 AddExpressionListOpcodePos(params);
@@ -1031,7 +1035,7 @@ void __cdecl EmitMethod(
     script_method:
         if (scrCompilePub.developer_statement == 3)
         {
-            CompileError(*(unsigned int*)(func_name.type + 8), "unknown builtin method");
+            CompileError(*(unsigned int*)(uintptr_t)(func_name.type + 8), "unknown builtin method");
         }
         else
         {
@@ -1168,7 +1172,7 @@ void __cdecl EmitObject(sval_u expr, sval_u sourcePos)
 {
     [[maybe_unused]] signed int ObjectType; // [esp+0h] [ebp-18h]
     [[maybe_unused]] const char *classnum; // [esp+4h] [ebp-14h]
-    [[maybe_unused]] char *s; // [esp+Ch] [ebp-Ch]
+    [[maybe_unused]] const char *s; // [esp+Ch] [ebp-Ch]
     [[maybe_unused]] const char *entnum; // [esp+10h] [ebp-8h]
     [[maybe_unused]] unsigned int idValue; // [esp+14h] [ebp-4h]
 
@@ -1203,10 +1207,10 @@ void __cdecl EmitObject(sval_u expr, sval_u sourcePos)
         CompileError(sourcePos.stringValue, "argument expressions not supported in statements");
         return;
     }
-    classnum = (const char*)Scr_GetClassnumForCharId(*s);
-    if ((int)classnum < 0)
+    classnum = (const char*)(uintptr_t)Scr_GetClassnumForCharId(*s);
+    if ((int)(uintptr_t)classnum < 0)
         goto LABEL_17;
-    entnum = (const char*)atoi(s + 1); // KISAKTODO: seems wrong
+    entnum = (const char*)(uintptr_t)atoi(s + 1); // KISAKTODO: seems wrong
     if (!entnum && s[1] != 48)
         goto LABEL_17;
     EmitOpcode(OP_object, 1, 0);
@@ -1310,7 +1314,7 @@ void __cdecl Scr_CreateVector(VariableCompileValue *constValue, VariableValue *v
         }
     }
     value->type = VAR_VECTOR;
-    value->u.intValue = (int)Scr_AllocVector(vec);
+    value->u.intValue = (int)(uintptr_t)Scr_AllocVector(vec);
 }
 
 void __cdecl Scr_PushValue(VariableCompileValue *constValue)
@@ -1395,7 +1399,7 @@ void __cdecl EmitAnimation(sval_u anim, sval_u sourcePos)
 {
     EmitOpcode(OP_GetAnimation, 1, 0);
     AddOpcodePos(sourcePos.stringValue, 1);
-    EmitCodepos((const char*)0xFFFFFFFF);
+    EmitCodepos((const char*)(uintptr_t)0xFFFFFFFF);
     if (scrCompilePub.developer_statement != 2)
         Scr_EmitAnimation((char*)scrCompileGlob.codePos, anim.stringValue, sourcePos.stringValue);
     Scr_CompileRemoveRefToString(anim.stringValue);
@@ -1596,7 +1600,7 @@ void __cdecl EmitBoolOrExpression(
     scr_block_s *block)
 {
     [[maybe_unused]] unsigned __int8 *pos; // [esp+0h] [ebp-Ch]
-    [[maybe_unused]] char *offset; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] ptrdiff_t offset; // [esp+4h] [ebp-8h]
     [[maybe_unused]] char *nextPos; // [esp+8h] [ebp-4h]
 
     EmitExpression(expr1, block);
@@ -1607,8 +1611,8 @@ void __cdecl EmitBoolOrExpression(
     nextPos = TempMalloc(0);
     EmitExpression(expr2, block);
     EmitCastBool(expr2sourcePos);
-    offset = (char*)(TempMalloc(0) - nextPos);
-    if (offset >= (char*)0x10000)
+    offset = (ptrdiff_t)(TempMalloc(0) - nextPos);
+    if (offset >= 0x10000)
         MyAssertHandler(".\\script\\scr_compiler.cpp", 2731, 0, "%s", "offset < 65536");
     *pos = (unsigned char)offset;
 }
@@ -1681,7 +1685,7 @@ void __cdecl EmitBoolAndExpression(
     scr_block_s *block)
 {
     [[maybe_unused]] unsigned __int8 *pos; // [esp+0h] [ebp-Ch]
-    [[maybe_unused]] char *offset; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] ptrdiff_t offset; // [esp+4h] [ebp-8h]
     [[maybe_unused]] char *nextPos; // [esp+8h] [ebp-4h]
 
     EmitExpression(expr1, block);
@@ -1692,8 +1696,8 @@ void __cdecl EmitBoolAndExpression(
     nextPos = TempMalloc(0);
     EmitExpression(expr2, block);
     EmitCastBool(expr2sourcePos);
-    offset = (char*)(TempMalloc(0) - nextPos);
-    if (offset >= (char*)0x10000)
+    offset = (ptrdiff_t)(TempMalloc(0) - nextPos);
+    if (offset >= 0x10000)
         MyAssertHandler(".\\script\\scr_compiler.cpp", 2751, 0, "%s", "offset < 65536");
     *pos = (unsigned char)offset;
 }
@@ -2145,7 +2149,7 @@ void __cdecl EmitIfStatement(
     sval_u *ifStatBlock)
 {
     [[maybe_unused]] unsigned __int8 *pos; // [esp+0h] [ebp-Ch]
-    [[maybe_unused]] char *offset; // [esp+4h] [ebp-8h]
+    [[maybe_unused]] ptrdiff_t offset; // [esp+4h] [ebp-8h]
     [[maybe_unused]] char *nextPos; // [esp+8h] [ebp-4h]
 
     EmitExpression(expr, block);
@@ -2158,8 +2162,8 @@ void __cdecl EmitIfStatement(
     EmitStatement(stmt, lastStatement, endSourcePos, ifStatBlock->block);
     iassert(ifStatBlock->block->localVarsPublicCount == block->localVarsCreateCount);
     EmitNOP2(lastStatement, endSourcePos, ifStatBlock->block);
-    offset = (char*)(TempMalloc(0) - nextPos);
-    if (offset >= (char*)0x10000)
+    offset = (ptrdiff_t)(TempMalloc(0) - nextPos);
+    if (offset >= 0x10000)
         MyAssertHandler(".\\script\\scr_compiler.cpp", 3169, 0, "%s", "offset < 65536");
     *pos = (unsigned char)offset;
 }
@@ -2177,7 +2181,7 @@ void __cdecl EmitIfElseStatement(
     sval_u *elseStatBlock)
 {
     [[maybe_unused]] unsigned int checksum; // [esp+0h] [ebp-24h]
-    [[maybe_unused]] char *offset; // [esp+4h] [ebp-20h]
+    [[maybe_unused]] ptrdiff_t offset; // [esp+4h] [ebp-20h]
     [[maybe_unused]] char *nextPos1; // [esp+8h] [ebp-1Ch]
     [[maybe_unused]] unsigned __int8 *pos1; // [esp+Ch] [ebp-18h]
     scr_block_s *childBlocks[2]; // [esp+10h] [ebp-14h] BYREF
@@ -2215,8 +2219,8 @@ void __cdecl EmitIfElseStatement(
         nextPos2 = TempMalloc(0);
     }
     scrVarPub.checksum = checksum + 1;
-    offset = (char*)(TempMalloc(0) - nextPos1);
-    if (offset >= (char*)0x10000)
+    offset = (ptrdiff_t)(TempMalloc(0) - nextPos1);
+    if (offset >= 0x10000)
         MyAssertHandler(".\\script\\scr_compiler.cpp", 3233, 0, "%s", "offset < 65536");
     *pos1 = (unsigned char)offset;
     Scr_TransferBlock(block, elseStatBlock->block);
@@ -2374,7 +2378,7 @@ void __cdecl EmitForStatement(
     oldContinueChildCount = scrCompileGlob.continueChildCount;
     breakChildCount = 0;
     continueChildCount = 0;
-    continueChildBlocks = (scr_block_s**)Hunk_AllocateTempMemoryHigh(4096, "EmitForStatement");
+    continueChildBlocks = (scr_block_s**)(uintptr_t)Hunk_AllocateTempMemoryHigh(4096, "EmitForStatement");
     scrCompileGlob.continueChildBlocks = continueChildBlocks;
     scrCompileGlob.continueChildCount = &continueChildCount;
     scrCompileGlob.breakBlock = forStatBlock->block;
@@ -2382,7 +2386,7 @@ void __cdecl EmitForStatement(
     {
         pos2 = 0;
         nextPos2 = 0;
-        breakChildBlocks = (scr_block_s **)Hunk_AllocateTempMemoryHigh(4096, "EmitForStatement");
+        breakChildBlocks = (scr_block_s **)(uintptr_t)Hunk_AllocateTempMemoryHigh(4096, "EmitForStatement");
         scrCompileGlob.breakChildCount = &breakChildCount;
     }
     else
@@ -2502,7 +2506,7 @@ void __cdecl EmitWhileStatement(
     {
         pos2 = 0;
         nextPos2 = 0;
-        breakChildBlocks = (scr_block_s**)Hunk_AllocateTempMemoryHigh(4096, "EmitWhileStatement");
+        breakChildBlocks = (scr_block_s**)(uintptr_t)Hunk_AllocateTempMemoryHigh(4096, "EmitWhileStatement");
         scrCompileGlob.breakChildCount = &breakChildCount;
     }
     else
@@ -2822,7 +2826,7 @@ void __cdecl EmitCaseStatementInfo(unsigned int name, sval_u sourcePos)
     }
     else
     {
-        newCaseStatement = (CaseStatementInfo*)Hunk_AllocateTempMemoryHigh(16, "EmitCaseStatementInfo");
+        newCaseStatement = (CaseStatementInfo*)(uintptr_t)Hunk_AllocateTempMemoryHigh(16, "EmitCaseStatementInfo");
         newCaseStatement->name = name;
         newCaseStatement->codePos = TempMalloc(0);
         newCaseStatement->sourcePos = sourcePos.stringValue;
@@ -2889,7 +2893,7 @@ void __cdecl EmitSwitchStatementList(sval_u val, bool lastStatement, unsigned in
     oldBreakChildCount = scrCompileGlob.breakChildCount;
     oldBreakBlock = scrCompileGlob.breakBlock;
     breakChildCount = 0;
-    breakChildBlocks = (scr_block_s**)Hunk_AllocateTempMemoryHigh(4096, "EmitSwitchStatementList");
+    breakChildBlocks = (scr_block_s**)(uintptr_t)Hunk_AllocateTempMemoryHigh(4096, "EmitSwitchStatementList");
     scrCompileGlob.breakChildBlocks = breakChildBlocks;
     scrCompileGlob.breakChildCount = &breakChildCount;
     scrCompileGlob.breakBlock = 0;
@@ -3010,7 +3014,7 @@ void __cdecl EmitSwitchStatement(
     caseStatement = scrCompileGlob.currentCaseStatement;
     while (caseStatement)
     {
-        EmitCodepos((const char*)caseStatement->name);
+        EmitCodepos((const char*)(uintptr_t)caseStatement->name);
         EmitCodepos(caseStatement->codePos);
         caseStatement = caseStatement->next;
         ++num;
@@ -3059,7 +3063,7 @@ void __cdecl EmitBreakStatement(sval_u sourcePos, scr_block_s *block)
 
         if (scrCompilePub.developer_statement != 2)
         {
-            newBreakStatement = (BreakStatementInfo*)Hunk_AllocateTempMemoryHigh(12, "EmitBreakStatement");
+            newBreakStatement = (BreakStatementInfo*)(uintptr_t)Hunk_AllocateTempMemoryHigh(12, "EmitBreakStatement");
             newBreakStatement->codePos = (char*)scrCompileGlob.codePos;
             newBreakStatement->nextCodePos = TempMalloc(0);
             newBreakStatement->next = scrCompileGlob.currentBreakStatement;
@@ -3090,7 +3094,7 @@ void __cdecl EmitContinueStatement(sval_u sourcePos, scr_block_s *block)
 
         if (scrCompilePub.developer_statement != 2)
         {
-            newContinueStatement = (ContinueStatementInfo*)Hunk_AllocateTempMemoryHigh(12, "EmitContinueStatement");
+            newContinueStatement = (ContinueStatementInfo*)(uintptr_t)Hunk_AllocateTempMemoryHigh(12, "EmitContinueStatement");
             newContinueStatement->codePos = (char*)scrCompileGlob.codePos;
             newContinueStatement->nextCodePos = TempMalloc(0);
             newContinueStatement->next = scrCompileGlob.currentContinueStatement;
@@ -3114,7 +3118,7 @@ void __cdecl EmitBreakpointStatement(sval_u sourcePos)
 
 void __cdecl EmitProfStatement(sval_u profileName, sval_u sourcePos, Opcode_t op)
 {
-    char *v3; // eax
+    const char *v3; // eax
     [[maybe_unused]] int profileIndex; // [esp+0h] [ebp-4h]
 
     if (scrVarPub.developer_script)
@@ -3126,7 +3130,7 @@ void __cdecl EmitProfStatement(sval_u profileName, sval_u sourcePos, Opcode_t op
         else
         {
             v3 = SL_ConvertToString(profileName.stringValue);
-            profileIndex = Profile_AddScriptName(v3);
+            profileIndex = Profile_AddScriptName(const_cast<char *>(v3));
             Scr_CompileRemoveRefToString(profileName.stringValue);
             if (profileIndex >= 0)
             {
@@ -3525,8 +3529,8 @@ void __cdecl EmitIncludeList(sval_u val)
 
 unsigned int __cdecl SpecifyThreadPosition(unsigned int threadId, unsigned int name, unsigned int sourcePos, Vartype_t type)
 {
-    char *v4; // eax
-    char *v5; // eax
+    const char *v4; // eax
+    const char *v5; // eax
     [[maybe_unused]] char *buf; // [esp-4h] [ebp-1Ch]
     VariableValue pos; // [esp+8h] [ebp-10h] BYREF
     [[maybe_unused]] unsigned int posId; // [esp+14h] [ebp-4h]
@@ -3668,7 +3672,7 @@ void __cdecl Scr_CalcLocalVarsAssignmentStatement(sval_u lhs, sval_u rhs, scr_bl
 void __cdecl Scr_CopyBlock(scr_block_s *from, scr_block_s **to)
 {
     if (!*to)
-        *to = (scr_block_s*)Hunk_AllocateTempMemoryHigh(536, "Scr_CopyBlock");
+        *to = (scr_block_s*)(uintptr_t)Hunk_AllocateTempMemoryHigh(536, "Scr_CopyBlock");
 
     //qmemcpy(*to, from, sizeof(scr_block_s));
     **to = *from;
@@ -3845,13 +3849,13 @@ void __cdecl Scr_CalcLocalVarsWhileStatement(sval_u expr, sval_u stmt, scr_block
     oldContinueChildCount = scrCompileGlob.continueChildCount;
     breakChildCount = 0;
     continueChildCount = 0;
-    continueChildBlocks = (scr_block_s**)Hunk_AllocateTempMemoryHigh(4096, "Scr_CalcLocalVarsWhileStatement");
+    continueChildBlocks = (scr_block_s**)(uintptr_t)Hunk_AllocateTempMemoryHigh(4096, "Scr_CalcLocalVarsWhileStatement");
     scrCompileGlob.continueChildBlocks = continueChildBlocks;
     scrCompileGlob.continueChildCount = &continueChildCount;
     abortLevel = block->abortLevel;
     if (constConditional)
     {
-        breakChildBlocks = (scr_block_s **)Hunk_AllocateTempMemoryHigh(4096, "Scr_CalcLocalVarsWhileStatement");
+        breakChildBlocks = (scr_block_s **)(uintptr_t)Hunk_AllocateTempMemoryHigh(4096, "Scr_CalcLocalVarsWhileStatement");
         scrCompileGlob.breakChildCount = &breakChildCount;
     }
     else
@@ -3920,13 +3924,13 @@ void __cdecl Scr_CalcLocalVarsForStatement(
     oldContinueChildCount = scrCompileGlob.continueChildCount;
     breakChildCount = 0;
     continueChildCount = 0;
-    continueChildBlocks = (scr_block_s **)Hunk_AllocateTempMemoryHigh(4096, "Scr_CalcLocalVarsForStatement");
+    continueChildBlocks = (scr_block_s **)(uintptr_t)Hunk_AllocateTempMemoryHigh(4096, "Scr_CalcLocalVarsForStatement");
     scrCompileGlob.continueChildBlocks = continueChildBlocks;
     scrCompileGlob.continueChildCount = &continueChildCount;
     abortLevel = block->abortLevel;
     if (constConditional)
     {
-        breakChildBlocks = (scr_block_s **)Hunk_AllocateTempMemoryHigh(4096, "Scr_CalcLocalVarsForStatement");
+        breakChildBlocks = (scr_block_s **)(uintptr_t)Hunk_AllocateTempMemoryHigh(4096, "Scr_CalcLocalVarsForStatement");
         scrCompileGlob.breakChildCount = &breakChildCount;
     }
     else
@@ -3992,13 +3996,13 @@ void __cdecl Scr_CalcLocalVarsSwitchStatement(sval_u stmtlist, scr_block_s *bloc
     oldBreakChildBlocks = scrCompileGlob.breakChildBlocks;
     oldBreakChildCount = scrCompileGlob.breakChildCount;
     breakChildCount = 0;
-    breakChildBlocks = (scr_block_s **)Hunk_AllocateTempMemoryHigh(4096, "Scr_CalcLocalVarsSwitchStatement");
+    breakChildBlocks = (scr_block_s **)(uintptr_t)Hunk_AllocateTempMemoryHigh(4096, "Scr_CalcLocalVarsSwitchStatement");
     scrCompileGlob.breakChildBlocks = breakChildBlocks;
     scrCompileGlob.breakChildCount = &breakChildCount;
     childCount = 0;
     currentBlock = 0;
     hasDefault = 0;
-    childBlocks = (scr_block_s **)Hunk_AllocateTempMemoryHigh(4096, "Scr_CalcLocalVarsSwitchStatement");
+    childBlocks = (scr_block_s **)(uintptr_t)Hunk_AllocateTempMemoryHigh(4096, "Scr_CalcLocalVarsSwitchStatement");
     for (node = stmtlist.node[0].node[1].node; node; node = node[1].node)
     {
         if (node[0].node[0].type == ENUM_case || node[0].node[0].type == ENUM_default)
@@ -4119,7 +4123,7 @@ void __cdecl Scr_CalcLocalVarsStatementList(sval_u val, scr_block_s *block)
 void __cdecl Scr_CalcLocalVarsThread(sval_u exprlist, sval_u stmtlist, sval_u *stmttblock)
 {
     scrCompileGlob.forceNotCreate = false;
-    stmttblock->block = (scr_block_s*)Hunk_AllocateTempMemoryHigh(536, "Scr_CalcLocalVarsThread");
+    stmttblock->block = (scr_block_s*)(uintptr_t)Hunk_AllocateTempMemoryHigh(536, "Scr_CalcLocalVarsThread");
 
     stmttblock->block->abortLevel = SCR_ABORT_NONE;
     stmttblock->block->localVarsCreateCount = 0;
@@ -4139,7 +4143,7 @@ void __cdecl SetThreadPosition(unsigned int threadId)
 
     v1 = TempMalloc(0);
     Variable = FindVariable(threadId, 1u);
-    GetVariableValueAddress(Variable)->u.intValue = (int)v1;
+    GetVariableValueAddress(Variable)->u.intValue = (int)(uintptr_t)v1;
 }
 
 void __cdecl InitThread(int type)
@@ -4227,7 +4231,7 @@ void __cdecl EmitThreadInternal(
 
 void __cdecl EmitDeveloperThread(sval_u val, sval_u *stmttblock)
 {
-    unsigned int Variable; // eax
+    [[maybe_unused]] unsigned int Variable; // eax
     [[maybe_unused]] unsigned int savedChecksum; // [esp+4h] [ebp-8h]
     [[maybe_unused]] char *begin_pos; // [esp+8h] [ebp-4h]
 
@@ -4272,7 +4276,7 @@ void __cdecl EmitNormalThread(sval_u val, sval_u *stmttblock)
 
 void __cdecl EmitThread(sval_u val)
 {
-    char *v1; // eax
+    [[maybe_unused]] char *v1; // eax
     [[maybe_unused]] unsigned int v2; // [esp-4h] [ebp-8h]
 
     switch (val.node[0].type)
@@ -4363,16 +4367,16 @@ void __cdecl LinkThread(unsigned int threadId, VariableValue *pos, bool allowFar
                     MyAssertHandler(".\\script\\scr_compiler.cpp", 2319, 0, "%s", "scrVarPub.developer_script");
                 if (type == 7)
                 {
-                    CompileError2((char*)value->u.intValue, "normal script cannot reference a function in a /# ... #/ comment");
+                    CompileError2((char*)(uintptr_t)value->u.intValue, "normal script cannot reference a function in a /# ... #/ comment");
                     return;
                 }
             }
-            if (!pos->type || !allowFarCall && *(DWORD*)value->u.intValue == 1)
+            if (!pos->type || (!allowFarCall && *(DWORD*)(uintptr_t)value->u.intValue == 1))
             {
-                CompileError2((char*)value->u.intValue, "unknown function");
+                CompileError2((char*)(uintptr_t)value->u.intValue, "unknown function");
                 return;
             }
-            *(DWORD*)value->u.intValue = pos->u.intValue;
+            *(DWORD*)(uintptr_t)value->u.intValue = pos->u.intValue;
             RemoveVariable(threadId, i + 2);
         }
         RemoveVariable(threadId, 0);
@@ -4428,8 +4432,8 @@ void __cdecl ScriptCompile(
     PrecacheEntry *entries,
     int entriesCount)
 {
-    char *v5; // eax
-    char *v6; // eax
+    const char *v5; // eax
+    const char *v6; // eax
     unsigned int Variable_DONE; // eax
     VariableValueInternal_u *VariableValueAddress_DONE; // esi
     [[maybe_unused]] PrecacheEntry *v9; // [esp+4h] [ebp-54h]
