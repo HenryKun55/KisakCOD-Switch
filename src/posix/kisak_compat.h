@@ -493,9 +493,13 @@ struct IDirect3DDevice9 {
     long Reset(void *) { return 0; }
     long SetRenderState(unsigned long, unsigned long) { return 0; }
     long SetScissorRect(const tagRECT *) { return 0; }
+    long DrawPrimitiveUP(unsigned long, unsigned int, const void *, unsigned int) { return 0; }
 };
 #ifndef D3DRS_SCISSORTESTENABLE
 #define D3DRS_SCISSORTESTENABLE 174
+#endif
+#ifndef D3DPT_TRIANGLELIST
+#define D3DPT_TRIANGLELIST 4
 #endif
 typedef int  _D3DFORMAT;  // enum in DX9 SDK; opaque int here
 typedef int  D3DFORMAT;

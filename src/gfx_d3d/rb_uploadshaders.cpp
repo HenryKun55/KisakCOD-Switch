@@ -24,7 +24,7 @@ void __cdecl Material_UploadShaders(MaterialTechniqueSet *techSet)
     {
         techSet->hasBeenUploaded = 0;
         mtlUploadGlob.techSet[mtlUploadGlob.put % 0x400] = techSet;
-        ++mtlUploadGlob.put;
+        mtlUploadGlob.put = mtlUploadGlob.put + 1;
     }
 }
 
@@ -91,9 +91,9 @@ unsigned int RB_UploadMaterialPass(
     unsigned int v9[37]; // [esp-4h] [ebp-ACh] BYREF
     unsigned int vertMem_136; // [esp+90h] [ebp-18h]
     unsigned int vertMem_140; // [esp+94h] [ebp-14h]
-    unsigned int argIter; // [esp+9Ch] [ebp-Ch]
-    unsigned int argCount; // [esp+A0h] [ebp-8h]
-    unsigned int retaddr; // [esp+A8h] [ebp+0h]
+    [[maybe_unused]] unsigned int argIter; // [esp+9Ch] [ebp-Ch]
+    [[maybe_unused]] unsigned int argCount; // [esp+A0h] [ebp-8h]
+    [[maybe_unused]] unsigned int retaddr; // [esp+A8h] [ebp+0h]
 
     //argIter = a1;
     //argCount = retaddr;
@@ -202,7 +202,7 @@ void __cdecl RB_UploadShaderStep()
                 techSet->hasBeenUploaded = 1;
                 goto LABEL_16;
             }
-            ++mtlUploadGlob.get;
+            mtlUploadGlob.get = mtlUploadGlob.get + 1;
         }
     }
 }

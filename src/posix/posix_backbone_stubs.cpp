@@ -1815,6 +1815,14 @@ GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 
+// rb_uploadshaders satellite stubs.
+#include <gfx_d3d/rb_shade.h>
+#include <gfx_d3d/r_shade.h>
+void R_SetSampler(GfxCmdBufContext /*ctx*/, unsigned int /*idx*/, unsigned char /*state*/, const GfxImage * /*image*/) {}
+void R_SetVertexDecl(GfxCmdBufPrimState * /*p*/, const MaterialVertexDeclaration * /*v*/) {}
+void R_SetPixelShader(GfxCmdBufState * /*s*/, const MaterialPixelShader * /*ps*/) {}
+void R_SetVertexShader(GfxCmdBufState * /*s*/, const MaterialVertexShader * /*vs*/) {}
+
 // rb_depthprepass satellite stubs.
 #include <gfx_d3d/r_meshdata.h>
 void R_DrawCall(void (*)(const void *, GfxCmdBufContext, GfxCmdBufContext), const void *, GfxCmdBufSourceState *, const GfxViewInfo *, const GfxDrawSurfListInfo *, const GfxViewParms *, GfxCmdBuf *, GfxCmdBuf *) {}
@@ -1840,7 +1848,7 @@ int g_disableRendering = 0;
 #include <gfx_d3d/r_material.h>
 #include <gfx_d3d/rb_uploadshaders.h>
 MaterialGlobals materialGlobals{};
-$C28D828B354D71D7584331F40DBDE744 mtlUploadGlob{};
+// mtlUploadGlob provided by src/gfx_d3d/rb_uploadshaders.cpp now.
 MaterialTechniqueSet *Material_FindTechniqueSet(const char * /*name*/, MtlTechSetNotFoundBehavior /*b*/) { return nullptr; }
 struct TechniqueSetList;
 void Material_CollateTechniqueSets(XAssetHeader /*h*/, TechniqueSetList * /*l*/) {}
@@ -3045,7 +3053,7 @@ GfxScene scene{};
 
 struct IDirect3DIndexBuffer9;
 struct GfxReadCmdBuf;
-int  R_LockIndexBuffer(IDirect3DIndexBuffer9 *, int, int, int) { return 0; }
+void *R_LockIndexBuffer(IDirect3DIndexBuffer9 *, int, int, int) { return nullptr; }
 int  R_ReadPrimDrawSurfData(GfxReadCmdBuf *, unsigned int) { return 0; }
 int  R_ReadPrimDrawSurfInt(GfxReadCmdBuf *) { return 0; }
 GfxWorld s_world{};

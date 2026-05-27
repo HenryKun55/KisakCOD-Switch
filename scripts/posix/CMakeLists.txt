@@ -239,8 +239,7 @@ set(GFX_PORTABLE_SOURCES
     # rb_state.cpp drags R_SetTexFilter / R_InitCmdBuf* /
     # RB_InitCodeImages / R_SetRenderTarget. Land alongside the
     # renderer-frame batch.
-    # rb_uploadshaders.cpp pulls IDirect3DDevice9 + D3DPT_TRIANGLELIST.
-    # Land behind graphics abstraction.
+    "${SRC_DIR}/gfx_d3d/rb_uploadshaders.cpp"
     "${SRC_DIR}/gfx_d3d/rb_drawprofile.cpp"
     "${SRC_DIR}/gfx_d3d/rb_imagefilter.cpp"
     "${SRC_DIR}/gfx_d3d/rb_light.cpp"
