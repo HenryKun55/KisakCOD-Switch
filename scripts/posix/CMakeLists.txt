@@ -126,9 +126,10 @@ set(SCRIPT_PORTABLE_SOURCES
     # scr_vm.cpp packs pointers into 32-bit slots throughout
     # (VariableStackBuffer * from int, char * from int). Land after
     # script-VM 64-bit widening pass.
-    # scr_yacc.cpp needs OP_bit_or / yyerror / RETURN_ARG1
-    # macros from MSVC scr_yacc_pre.h; multi-char chars; HashEntry union
-    # init from unsigned int. Land after Bison shim layer.
+    # scr_yacc.cpp has hundreds of `.type = OP_*` assignments that
+    # need Enum_t casts, plus HashEntry_unnamed_type_u return mismatch,
+    # multi-char chars, and 32-bit ptr-as-int storage. Land after
+    # Bison stub layer pass.
     "${SRC_DIR}/script/scr_yacc2.cpp"
 )
 

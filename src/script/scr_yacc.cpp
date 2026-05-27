@@ -36,6 +36,9 @@
 #include "scr_main.h"
 #include <client_mp/client_mp.h>
 #include "scr_compiler.h"
+#include "scr_vm.h"  // for OP_bit_or, OP_bit_and ...
+
+static int yyerror();
 
 struct stype_t // sizeof=0x8
 {                                       // ...
@@ -6060,10 +6063,8 @@ sval_u g_dummyVal;
 unsigned __int8 g_parse_user;
 char ch_buf[16386];
 
-void *RETURN_ARG1(void *crap)
-{
-    return crap;
-}
+template <typename T>
+static inline T RETURN_ARG1(T crap) { return crap; }
 
 HashEntry_unnamed_type_u __cdecl LowerCase(unsigned int stringValue)
 {
