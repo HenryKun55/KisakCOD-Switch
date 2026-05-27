@@ -102,6 +102,7 @@ set(SCRIPT_PORTABLE_SOURCES
     "${SRC_DIR}/script/scr_parsetree.cpp"
     "${SRC_DIR}/script/scr_stringlist.cpp"
     "${SRC_DIR}/script/scr_variable.cpp"
+    "${SRC_DIR}/script/scr_yacc2.cpp"
 )
 
 set(GFX_PORTABLE_SOURCES

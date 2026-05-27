@@ -1335,7 +1335,7 @@ void Scr_ShutdownDebuggerMain() {}
 // CompileError / CompileError2 provided by src/script/scr_parser.cpp now.
 void ScriptCompile(sval_u /*val*/, unsigned int /*fileId*/, unsigned int /*scriptId*/,
                    PrecacheEntry * /*entries*/, int /*entriesCount*/) {}
-void ScriptParse(sval_u * /*parseData*/, unsigned char /*user*/) {}
+// ScriptParse provided by src/script/scr_yacc2.cpp now.
 
 // --- TempMalloc / Hunk debug ----------------------------------------------
 // char *TempMalloc(unsigned int len) { return static_cast<char *>(std::malloc(len)); }

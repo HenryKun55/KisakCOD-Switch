@@ -17,8 +17,10 @@
 #include <client_mp/client_mp.h>
 #endif
 
+#if defined(__GNUC__) && !defined(__clang__)
 #pragma GCC push_options
 #pragma GCC optimize ("O0")
+#endif
 
 struct stype_t // sizeof=0x8
 {                                       // ...
@@ -1145,7 +1147,7 @@ yynewstate:
 			//yyvs = (stype_t *)malloc(sizeof(stype_t) * yystacksize);
 			free2addr = yyvs;
 			//memcpy(yyss, yyvs1, sizeof(stype_t) * yystacksize);
-			memcpy(yyvs, yyvs1, sizeof(stype_t) * yysize); // LWSS CHANGE
+			memcpy(static_cast<void *>(yyvs), yyvs1, sizeof(stype_t) * yysize); // LWSS CHANGE
 
 			yyvsp = &yyvs[yysize - 1];
 			yyssp = &yyss[yysize - 1];
@@ -1974,7 +1976,7 @@ yynewstate:
 				yystate = yydefgoto[yyn - YYNTOKENS];
 			}
 
-			int stop = yydefgoto[0]; // LWSS HACK: just to keep the array from being optimized out (dumb)
+			[[maybe_unused]] int stop = yydefgoto[0]; // LWSS HACK: just to keep the array from being optimized out (dumb)
 
 			//continue; // yynewstate
 		}
@@ -2037,7 +2039,10 @@ yyabortlab:
 	/*-------------------------------------------------------------.
 	| yyerrlab1 -- common code for both syntax error and YYERROR.  |
 	`-------------------------------------------------------------*/
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-label"
 yyerrlab1:
+#pragma clang diagnostic pop
 	yyerrorstatus = 3; /* Each real token shifted decrements this.  */
 
 	while (2)
@@ -2117,4 +2122,6 @@ void ScriptParse(sval_u *parseData, unsigned char user)
 	*parseData = yaccResult;
 }
 
+#if defined(__GNUC__) && !defined(__clang__)
 #pragma GCC pop_options
+#endif

@@ -122,9 +122,10 @@ set(SCRIPT_PORTABLE_SOURCES
     "${SRC_DIR}/script/scr_parsetree.cpp"
     "${SRC_DIR}/script/scr_stringlist.cpp"
     "${SRC_DIR}/script/scr_variable.cpp"
-    # scr_yacc2.cpp / scr_yacc.cpp use MSVC `#pragma optimize("", off)`
-    # and have Bison short tables with literal 32768 that overflow
-    # signed short under clang. Land after pragma + narrowing fix.
+    # scr_yacc.cpp / scr_yacc2.cpp need OP_bit_or / yyerror / RETURN_ARG1
+    # macros from MSVC scr_yacc_pre.h; multi-char chars; HashEntry union
+    # init from unsigned int. Land after Bison shim layer.
+    "${SRC_DIR}/script/scr_yacc2.cpp"
 )
 
 set(GFX_PORTABLE_SOURCES
