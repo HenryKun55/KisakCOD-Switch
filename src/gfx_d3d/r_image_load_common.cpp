@@ -23,7 +23,7 @@ void __cdecl Image_GetPicmip(const GfxImage *image, Picmip *picmip)
 
 void __cdecl Image_PicmipForSemantic(unsigned __int8 semantic, Picmip *picmip)
 {
-    const char *v2; // eax
+    [[maybe_unused]] const char *v2; // eax
     int picmipUsed; // [esp+4h] [ebp-4h]
 
     switch (semantic)
@@ -109,8 +109,8 @@ void __cdecl Image_Upload2D_CopyDataBlock_PC(
     int dstPitch,
     unsigned __int8 *dst)
 {
-    const char *v6; // eax
-    const char *v7; // eax
+    [[maybe_unused]] const char *v6; // eax
+    [[maybe_unused]] const char *v7; // eax
     signed int srcStride; // [esp+48h] [ebp-Ch]
     int y; // [esp+4Ch] [ebp-8h]
     int dy; // [esp+50h] [ebp-4h]
@@ -187,8 +187,8 @@ void __cdecl Image_Upload3D_CopyData_PC(
     unsigned int mipLevel,
     unsigned __int8 *src)
 {
-    const char *v4; // eax
-    const char *v5; // eax
+    [[maybe_unused]] const char *v4; // eax
+    [[maybe_unused]] const char *v5; // eax
     int v6; // [esp+0h] [ebp-44h]
     int v7; // [esp+4h] [ebp-40h]
     int v8; // [esp+8h] [ebp-3Ch]
@@ -225,7 +225,7 @@ void __cdecl Image_Upload3D_CopyData_PC(
         if (r_logFile && r_logFile->current.integer)
             RB_LogPrint("image->texture.volmap->LockBox( mipLevel, &lockedBox, 0, 0 )\n");
 
-        hr = image->texture.volmap->LockBox(mipLevel, &lockedBox, NULL, NULL);
+        hr = image->texture.volmap->LockBox(mipLevel, &lockedBox, nullptr, 0);
         if (hr < 0)
         {
             do
@@ -275,10 +275,10 @@ void __cdecl Image_Upload2D_CopyData_PC(
     unsigned int mipLevel,
     unsigned __int8 *src)
 {
-    const char *v5; // eax
-    const char *v6; // eax
-    const char *v7; // eax
-    const char *v8; // eax
+    [[maybe_unused]] const char *v5; // eax
+    [[maybe_unused]] const char *v6; // eax
+    [[maybe_unused]] const char *v7; // eax
+    [[maybe_unused]] const char *v8; // eax
     unsigned int v9; // [esp+0h] [ebp-30h]
     unsigned int v10; // [esp+4h] [ebp-2Ch]
     int v11; // [esp+10h] [ebp-20h]

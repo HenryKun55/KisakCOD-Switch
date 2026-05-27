@@ -142,10 +142,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_draw_pixelshader.cpp"
     "${SRC_DIR}/gfx_d3d/r_fog.cpp"
     "${SRC_DIR}/gfx_d3d/r_font.cpp"
-    # r_image_load_common.cpp calls
-    # IDirect3DVolumeTexture9 / IDirect3DTexture9 / IDirect3DCubeTexture9
-    # member functions and uses _D3DLOCKED_BOX / _D3DLOCKED_RECT.
-    # Land behind D3D9 abstraction.
+    "${SRC_DIR}/gfx_d3d/r_image_load_common.cpp"
     "${SRC_DIR}/gfx_d3d/r_image.cpp"
     # r_init.cpp pulls Win32 ShellExecuteA / IsWindow / DestroyWindow
     # plus Direct3DCreate9 / _D3DCAPS9 / _D3DDISPLAYMODE structs. The
