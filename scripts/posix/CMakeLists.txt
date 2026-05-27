@@ -117,8 +117,7 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_cmdbuf.cpp"
     "${SRC_DIR}/gfx_d3d/r_debug.cpp"
     "${SRC_DIR}/gfx_d3d/r_debug_alloc.cpp"
-    # r_material_override.cpp drags Material_FindTechniqueSet,
-    # materialGlobals, mtlUploadGlob. Land with material batch.
+    "${SRC_DIR}/gfx_d3d/r_material_override.cpp"
     "${SRC_DIR}/gfx_d3d/r_dobj_skin.cpp"
     # r_image_load_common.cpp needs D3DFMT_* constants — land with the
     # graphics abstraction pass.
@@ -224,6 +223,9 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/rb_logfile.cpp"
     "${SRC_DIR}/gfx_d3d/rb_postfx.cpp"
     "${SRC_DIR}/gfx_d3d/rb_shadowcookie.cpp"
+    # rb_tess.cpp drags R_DrawIndexedPrimitive / R_SetStreamSource /
+    # R_ChangeIndices / DB_GetIndexBufferAndBase and the whole BSP draw
+    # pipeline. Land behind D3D9 abstraction.
     # rb_pixelcost.cpp uses IDirect3DQuery9 / D3DISSUE_END. Land
     # behind graphics abstraction.
     "${SRC_DIR}/gfx_d3d/rb_stats.cpp"

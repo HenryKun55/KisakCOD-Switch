@@ -1805,6 +1805,15 @@ GfxRenderTarget gfxRenderTargets[17]{};
 int pixelCostMode = 0;
 vidConfig_t vidConfig{};
 
+// r_material_override satellite stubs.
+#include <gfx_d3d/r_material.h>
+#include <gfx_d3d/rb_uploadshaders.h>
+MaterialGlobals materialGlobals{};
+$C28D828B354D71D7584331F40DBDE744 mtlUploadGlob{};
+MaterialTechniqueSet *Material_FindTechniqueSet(const char * /*name*/, MtlTechSetNotFoundBehavior /*b*/) { return nullptr; }
+struct TechniqueSetList;
+void Material_CollateTechniqueSets(XAssetHeader /*h*/, TechniqueSetList * /*l*/) {}
+
 // rb_light / rb_postfx / rb_shadowcookie satellite stubs.
 #include <gfx_d3d/r_utils.h>
 #include <gfx_d3d/rb_imagefilter.h>
