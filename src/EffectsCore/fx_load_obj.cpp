@@ -1121,7 +1121,7 @@ const FxEffectDef *__cdecl FX_LoadFailed(const char *name)
     baseBytesNeeded = fx_load.defaultEffect->totalSize - (v5 - fx_load.defaultEffect->name);
     effectDef = (byte *)FX_AllocMem(fx_load.defaultEffect->totalSize - (v5 - (fx_load.defaultEffect->name + 1)) + strlen(name));
     memcpy(effectDef, (unsigned __int8 *)fx_load.defaultEffect, baseBytesNeeded);
-    *(_DWORD *)effectDef = (_DWORD)&effectDef[baseBytesNeeded];
+    *(_DWORD *)effectDef = (_DWORD)(uintptr_t)&effectDef[baseBytesNeeded];
     v4 = name;
     v3 = *(_BYTE **)effectDef;
     do
@@ -1133,9 +1133,9 @@ const FxEffectDef *__cdecl FX_LoadFailed(const char *name)
     *((_DWORD *)effectDef + 7) += effectDef - (unsigned __int8 *)fx_load.defaultEffect;
     for (elemIndex = 0; elemIndex < *((_DWORD *)effectDef + 5) + *((_DWORD *)effectDef + 4); ++elemIndex)
     {
-        v7 = (_DWORD *)(*((_DWORD *)effectDef + 7) + 252 * elemIndex + 180);
+        v7 = (_DWORD *)(uintptr_t)(*((_DWORD *)effectDef + 7) + 252 * elemIndex + 180);
         *v7 += relocationDistance;
-        v6 = (_DWORD *)(*((_DWORD *)effectDef + 7) + 252 * elemIndex + 184);
+        v6 = (_DWORD *)(uintptr_t)(*((_DWORD *)effectDef + 7) + 252 * elemIndex + 184);
         *v6 += relocationDistance;
     }
     return (const FxEffectDef *)effectDef;
@@ -1143,8 +1143,8 @@ const FxEffectDef *__cdecl FX_LoadFailed(const char *name)
 
 const FxEffectDef *__cdecl FX_Load(const char *name)
 {
-    char v2; // [esp+3h] [ebp-10B61h]
-    const char *v4; // [esp+Ch] [ebp-10B58h]
+    [[maybe_unused]] char v2; // [esp+3h] [ebp-10B61h]
+    [[maybe_unused]] const char *v4; // [esp+Ch] [ebp-10B58h]
     const FxEffectDef *v5; // [esp+10h] [ebp-10B54h]
     FxEditorEffectDef edEffectDef; // [esp+14h] [ebp-10B50h] BYREF
 

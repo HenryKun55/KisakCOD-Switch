@@ -312,7 +312,7 @@ int  Scr_UpdateDebugSocket() { return 0; }
 // void DObjShutdown() {}
 // void FakeLag_Init() {}  // provided by net_chan_mp.cpp now
 // void FakeLag_Shutdown() {}  // provided by net_chan_mp.cpp now
-void FX_UnregisterAll() {}
+// FX_UnregisterAll provided by src/EffectsCore/fx_load_obj.cpp now.
 void IN_Frame() {}
 // void DevGui_Update(int /*localClientNum*/, float /*frameTime*/) {}
 // Ragdoll_Update now provided by ragdoll/ragdoll_update.cpp.
@@ -1429,7 +1429,7 @@ void SND_DeactivateEnvironmentEffects(int, int) {}
 
 // === cg_effects_load_obj satellites ==============================================
 
-const FxEffectDef *FX_Register(const char *) { return nullptr; }
+// FX_Register provided by src/EffectsCore/fx_load_obj.cpp now.
 // compare_impact_files provided by src/ui/ui_expressions_logicfunctions.cpp now.
 // Com_SurfaceTypeFromName provided by src/universal/surfaceflags.cpp now.
 // unsigned int *Hunk_AllocateTempMemory(int size, const char * /*name*/)
@@ -1578,7 +1578,7 @@ struct MemoryFile;
 // void FX_RelocateSystem(FxSystem * /*system*/, int /*delta*/) {}
 // void FX_RunGarbageCollection(FxSystem * /*system*/) {}
 // void FX_BeginIteratingOverEffects_Cooperative(FxSystem * /*system*/) {}  // provided by fx_draw.cpp now
-void FX_ForEachEffectDef(void (* /*cb*/)(const FxEffectDef *, void *), void * /*data*/) {}
+// FX_ForEachEffectDef provided by src/EffectsCore/fx_load_obj.cpp now.
 // unsigned short FX_MarkToHandle(FxMarksSystem * /*sys*/, FxMark * /*mark*/) { return 0; }
 // FxMark *FX_MarkFromHandle(FxMarksSystem * /*sys*/, unsigned short /*handle*/) { return nullptr; }
 // FxMarksSystem fx_marksSystemPool[1] = {};  // provided by fx_system.cpp now
@@ -1692,7 +1692,7 @@ struct FxElemVisualState;
 struct MaterialInfo;
 void Material_GetInfo(Material * /*m*/, MaterialInfo * /*out*/) {}
 struct PhysPreset;
-PhysPreset *FX_RegisterPhysPreset(const char * /*name*/) { return nullptr; }
+// FX_RegisterPhysPreset provided by src/EffectsCore/fx_load_obj.cpp now.
 // R_AddOmniLightToScene provided by src/gfx_d3d/r_scene.cpp now.
 // R_AddSpotLightToScene provided by src/gfx_d3d/r_scene.cpp now.
 struct GfxParticleCloud;
@@ -2331,7 +2331,7 @@ int32_t DB_GetAllXAssetOfType(XAssetType, XAssetHeader *, int32_t) { return 0; }
 void SND_AddPlayFXSoundAlias(snd_alias_t *, SndEntHandle, const float *) {}
 void SND_StopSoundAliasOnEnt(SndEntHandle, const char *) {}
 void Scr_ShutdownGameStrings() {}
-void FX_RegisterDefaultEffect() {}
+// FX_RegisterDefaultEffect provided by src/EffectsCore/fx_load_obj.cpp now.
 snd_alias_list_t *Com_FindSoundAliasNoErrors(const char *) { return nullptr; }
 snd_alias_t *Com_PickSoundAliasFromList(snd_alias_list_t *) { return nullptr; }
 int SND_PlaySoundAliasAsMaster(const snd_alias_t *, SndEntHandle, const float *, int, snd_alias_system_t) { return 0; }

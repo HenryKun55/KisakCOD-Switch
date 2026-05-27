@@ -506,6 +506,27 @@ struct IDirect3DQuery9 {
 // IDirect3DDevice9 stub: provides the most-called methods so renderer
 // files compile against the abstraction. None of these run on POSIX —
 // the real renderer lives in gfx_gl/ once it lands.
+// strcpy_s/_n: MSVC bounds-checked variants. Implemented over POSIX
+// strncpy/strlcpy. The size arg is dropped (no enforcement) — callers
+// expect "fails on overflow" but on POSIX we trust callers and copy
+// best-effort.
+template <unsigned long N>
+static inline int strcpy_s(char (&dst)[N], const char *src) {
+    if (!src) { dst[0] = '\0'; return 0; }
+    unsigned long i = 0;
+    while (i + 1 < N && src[i]) { dst[i] = src[i]; ++i; }
+    dst[i] = '\0';
+    return 0;
+}
+static inline int strcpy_s(char *dst, unsigned long n, const char *src) {
+    if (!dst || n == 0) return 0;
+    if (!src) { dst[0] = '\0'; return 0; }
+    unsigned long i = 0;
+    while (i + 1 < n && src[i]) { dst[i] = src[i]; ++i; }
+    dst[i] = '\0';
+    return 0;
+}
+
 struct tagRECT {
     long left;
     long top;

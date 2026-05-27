@@ -313,10 +313,8 @@ set(EFFECTSCORE_PORTABLE_SOURCES
     "${SRC_DIR}/EffectsCore/fx_draw.cpp"
     "${SRC_DIR}/EffectsCore/fx_dvars.cpp"
     "${SRC_DIR}/EffectsCore/fx_graph.cpp"
+    "${SRC_DIR}/EffectsCore/fx_load_obj.cpp"
     "${SRC_DIR}/EffectsCore/fx_marks.cpp"
-    # fx_load_obj.cpp packs DWORD-sized pointers into byte buffers for
-    # FxEffectDef relocation (effectDef[0..7] is a 32-bit ptr-as-int).
-    # Land after typed struct refactor.
     "${SRC_DIR}/EffectsCore/fx_postlight.cpp"
     "${SRC_DIR}/EffectsCore/fx_profile.cpp"
     "${SRC_DIR}/EffectsCore/fx_random.cpp"
