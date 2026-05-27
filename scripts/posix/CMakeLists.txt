@@ -311,6 +311,8 @@ set(PHYSICS_ODE_SOURCES
     "${SRC_DIR}/physics/ode/matrix.cpp"
     "${SRC_DIR}/physics/ode/odemath.cpp"
     "${SRC_DIR}/physics/ode/odemisc.cpp"
+    # util.cpp drags dxQuickStepper / dGeomGetBodyNext / dGeomMoved
+    # from quickstep / joint / geom internals. Land alongside those.
     # obstack.cpp / stack.cpp: dObStack and dStack class definitions
     # are wrapped in `#if 0 // REM` in their headers. Land after
     # un-REM-ing the storage classes.
