@@ -11,6 +11,11 @@
 // forward declarations below.
 struct BINK;
 struct BINKTEXTURES;
+struct BINKTEXTURESET {
+    BINKTEXTURES *binkTextures;
+    void *u_reserved[16];
+};
+struct BINKREALTIME { unsigned int reserved[8]; };
 typedef BINK *HBINK;
 #endif
 #include "r_material.h"

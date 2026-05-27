@@ -186,6 +186,9 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_add_staticmodel.cpp"
     "${SRC_DIR}/gfx_d3d/r_marks.cpp"
     "${SRC_DIR}/gfx_d3d/r_material.cpp"
+    # r_material_load_obj.cpp uses _WIN32_FIND_DATAA / DeleteFileA /
+    # GetLastError (Win32 file APIs) and brace-init with 0x80000000
+    # narrowing into int. Land behind Sys_FS + cast-fix pass.
     # r_model_lighting.cpp pulls IDirect3DVolumeTexture9 / _D3DLOCKED_BOX
     # / _D3DBOX. Land behind graphics abstraction.
     "${SRC_DIR}/gfx_d3d/r_model_lighting.cpp"
@@ -202,6 +205,7 @@ set(GFX_PORTABLE_SOURCES
     # uses past-end int[3]/int[6] flat indexing and self-compare hex-rays
     # patterns. Land after typed cache-leaf refactor.
     "${SRC_DIR}/gfx_d3d/r_reflection_probe.cpp"
+    "${SRC_DIR}/gfx_d3d/r_rendercmds.cpp"
     # r_rendertarget.cpp pulls IDirect3D9 + D3DRTYPE_SURFACE +
     # D3DMULTISAMPLE_NONE — D3D9 swap chain / multisample setup.
     # Land behind graphics abstraction.

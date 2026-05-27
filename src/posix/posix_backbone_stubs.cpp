@@ -270,15 +270,15 @@ void SND_StopSounds(snd_stopsounds_arg_t /*arg*/) {}
 // the GL/EGL renderer in src/gfx_gl/). Stubs.
 // =========================================================================
 
-void R_BeginDebugFrame() {}
-void R_BeginRemoteScreenUpdate() {}
+// R_BeginDebugFrame provided by src/gfx_d3d/r_rendercmds.cpp now.
+// R_BeginRemoteScreenUpdate provided by src/gfx_d3d/r_rendercmds.cpp now.
 void R_ComErrorCleanup() {}
-void R_EndDebugFrame() {}
-void R_EndRemoteScreenUpdate() {}
+// R_EndDebugFrame provided by src/gfx_d3d/r_rendercmds.cpp now.
+// R_EndRemoteScreenUpdate provided by src/gfx_d3d/r_rendercmds.cpp now.
 void R_InitThreads() {}
-int  R_PopRemoteScreenUpdate() { return 0; }
+// R_PopRemoteScreenUpdate provided by src/gfx_d3d/r_rendercmds.cpp now.
 void R_SetEndTime(int /*endTime*/) {}
-void R_SyncRenderThread() {}
+// R_SyncRenderThread provided by src/gfx_d3d/r_rendercmds.cpp now.
 void R_WaitEndTime() {}
 // void R_WaitWorkerCmds() {}
 
@@ -514,7 +514,7 @@ void TRACK_phys() {}
 void TRACK_r_init() {}
 // TRACK_r_material provided by src/gfx_d3d/r_material.cpp now.
 // void TRACK_r_model() {}
-void TRACK_r_rendercmds() {}
+// TRACK_r_rendercmds provided by src/gfx_d3d/r_rendercmds.cpp now.
 void TRACK_r_scene() {}
 void TRACK_r_screenshot() {}
 void TRACK_r_staticmodelcache() {}
@@ -579,16 +579,8 @@ struct XZoneMemory;
 // void DevGui_Toggle() {}
 
 // R_ (renderer cmds — these just queue commands; no-op in stub mode)
-void R_AddCmdDrawText(const char * /*text*/, int /*max*/, Font_s * /*font*/,
-                      float /*x*/, float /*y*/, float /*xScale*/, float /*yScale*/,
-                      float /*rotation*/, const float * /*color*/, int /*style*/) {}
-void R_AddCmdDrawStretchPic(float /*x*/, float /*y*/, float /*w*/, float /*h*/,
-                            float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/,
-                            const float * /*color*/, Material * /*material*/) {}
-void R_AddCmdDrawStretchPicRotateXY(float /*x*/, float /*y*/, float /*w*/, float /*h*/,
-                                    float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/,
-                                    float /*rotation*/, const float * /*color*/, Material * /*material*/) {}
-void R_AddCmdDrawQuadPic(const float (* /*quad*/)[2], const float * /*color*/, Material * /*material*/) {}
+// R_AddCmdDrawText / R_AddCmdDrawStretchPic / R_AddCmdDrawStretchPicRotateXY provided by src/gfx_d3d/r_rendercmds.cpp now.
+// R_AddCmdDrawQuadPic provided by src/gfx_d3d/r_rendercmds.cpp now.
 // int   R_TextHeight(Font_s * /*font*/) { return 0; }
 // int   R_TextWidth(const char * /*text*/, int /*max*/, Font_s * /*font*/) { return 0; }
 // R_AllocStatic*Buffer / R_FinishStatic*Buffer / R_FreeStatic*Buffer /
@@ -986,13 +978,7 @@ void DB_EnumXAssets(XAssetType /*type*/, void (*)(XAssetHeader, void*) /*cb*/, v
 
 // LargeLocal — provided by com_memory.cpp now.
 
-void R_AddCmdDrawStretchPicFlipST(float /*x*/, float /*y*/, float /*w*/, float /*h*/,
-                                  float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/,
-                                  const float * /*color*/, Material * /*material*/) {}
-void R_AddCmdDrawStretchPicRotateST(float /*x*/, float /*y*/, float /*w*/, float /*h*/,
-                                    float /*s0*/, float /*t0*/, float /*s1*/, float /*t1*/,
-                                    float /*rotationS*/, float /*rotationT*/,
-                                    const float * /*color*/, Material * /*material*/) {}
+// R_AddCmdDrawStretchPicFlipST / R_AddCmdDrawStretchPicRotateST provided by src/gfx_d3d/r_rendercmds.cpp now.
 // void R_ArchiveFogState(MemoryFile * /*memFile*/) {}  // provided by gfx_d3d batch now
 void R_EndRegistration() {}
 // R_LoadWorld provided by src/gfx_d3d/r_bsp.cpp now.
@@ -1428,10 +1414,10 @@ void Phys_PerformanceEndFrame() {}
 // === cg_shellshock satellites ====================================================
 
 // MatrixMultiply, AxisCopy provided by src/universal/com_math.cpp now.
-void R_AddCmdSaveScreen(unsigned int) {}
-void R_AddCmdSaveScreenSection(float, float, float, float, unsigned int) {}
-void R_AddCmdBlendSavedScreenShockBlurred(int, float, float, float, float, unsigned int) {}
-void R_AddCmdBlendSavedScreenShockFlashed(float, float, float, float, float, float) {}
+// R_AddCmdSaveScreen provided by src/gfx_d3d/r_rendercmds.cpp now.
+// R_AddCmdSaveScreenSection provided by src/gfx_d3d/r_rendercmds.cpp now.
+// R_AddCmdBlendSavedScreenShockBlurred provided by src/gfx_d3d/r_rendercmds.cpp now.
+// R_AddCmdBlendSavedScreenShockFlashed provided by src/gfx_d3d/r_rendercmds.cpp now.
 int  SND_PlaySoundAlias(const snd_alias_t *, SndEntHandle, const float *, int, snd_alias_system_t) { return 0; }
 int  SND_PlayBlendedSoundAliases(const snd_alias_t *, const snd_alias_t *, float, float, SndEntHandle, const float *, int, snd_alias_system_t) { return 0; }
 void SND_SetChannelVolumes(int, const float *, int) {}
@@ -1758,7 +1744,7 @@ bool Sys_SpawnWorkerThread(void (*)(unsigned int), unsigned int /*idx*/) { retur
 bool R_EndFencePending() { return false; }
 struct GfxSpotShadowEntCmd;
 // R_AddSpotShadowEntCmd provided by src/gfx_d3d/r_spotshadow.cpp now.
-void R_ReleaseThreadOwnership() {}
+// R_ReleaseThreadOwnership provided by src/gfx_d3d/r_rendercmds.cpp now.
 struct ShadowCookieCmd;
 struct SkinCachedStaticModelCmd;
 struct GfxViewInfo;
@@ -1773,8 +1759,8 @@ struct GfxMatrix;
 // R_FrustumClipPlanes provided by src/gfx_d3d/r_dpvs.cpp now.
 struct GfxCmdBufInput;
 enum CodeConstant : int;
-void R_SetInputCodeConstant(GfxCmdBufInput * /*input*/, CodeConstant /*c*/, float /*x*/, float /*y*/, float /*z*/, float /*w*/) {}
-void R_SetInputCodeConstantFromVec4(GfxCmdBufInput * /*input*/, CodeConstant /*c*/, const float * /*v*/) {}
+// R_SetInputCodeConstant provided by src/gfx_d3d/r_rendercmds.cpp now.
+// R_SetInputCodeConstantFromVec4 provided by src/gfx_d3d/r_rendercmds.cpp now.
 
 // rb_spotshadow / rb_sunshadow satellite stubs.
 void RB_DrawLines2D(int /*count*/, int /*colorCount*/, const GfxPointVertex * /*verts*/) {}
@@ -1807,6 +1793,25 @@ bool Scr_IgnoreErrors() { return false; }
 GfxDrawSurf *R_AddDObjSurfaces(GfxSceneEntity * /*ent*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddBModelSurfaces(BModelDrawInfo * /*info*/, const GfxBrushModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
 GfxDrawSurf *R_AddXModelSurfaces(XModelDrawInfo * /*info*/, const XModel * /*model*/, MaterialTechniqueType /*t*/, GfxDrawSurf * /*begin*/, GfxDrawSurf * /*end*/) { return nullptr; }
+
+// r_rendercmds satellite stubs.
+void RB_EndFrame(char /*drawType*/) {}
+void Material_Sort() {}
+void RB_BeginFrame(const GfxBackEndData * /*d*/) {}
+void RB_RenderThread(unsigned int /*ctx*/) {}
+void Sys_WakeRenderer(void * /*data*/) {}
+bool R_CheckLostDevice() { return false; }
+void Sys_FrontEndSleep() {}
+void Sys_NotifyRenderer() {}
+void RB_CopyBackendStats() {}
+void R_UpdateGpuSyncType() {}
+int Sys_IsRendererReady() { return 0; }
+char Sys_SpawnRenderThread(void (*)(unsigned int)) { return 0; }
+void R_Cinematic_UpdateFrame() {}
+void Sys_ReleaseThreadOwnership() {}
+void RB_CallExecuteRenderCommands() {}
+void RB_Draw3D() {}
+volatile unsigned int g_mainThreadBlocked = 0;
 
 // r_material satellite stubs.
 Material *Material_Load(char * /*name*/, int /*track*/) { return nullptr; }
@@ -1847,9 +1852,9 @@ ImgGlobals imageGlobals{};
 // Image_Release provided by src/gfx_d3d/r_image.cpp now.
 // Image_AllocProg provided by src/gfx_d3d/r_image.cpp now.
 // Image_SetupAndLoad provided by src/gfx_d3d/r_image.cpp now.
-void R_FreeGlobalVariable(void * /*var*/) {}
+// R_FreeGlobalVariable provided by src/gfx_d3d/r_rendercmds.cpp now.
 void R_UncacheStaticModel(unsigned int /*idx*/) {}
-void R_SetInputCodeImageTexture(GfxCmdBufInput * /*input*/, MaterialTextureSource /*src*/, const GfxImage * /*img*/) {}
+// R_SetInputCodeImageTexture provided by src/gfx_d3d/r_rendercmds.cpp now.
 
 // r_dpvs satellite stubs.
 #include <gfx_d3d/r_model_lighting.h>
@@ -1884,10 +1889,10 @@ void DB_GetVertexBufferAndOffset(unsigned char /*zone*/, unsigned char * /*verts
 // r_shadowcookie / r_spotshadow satellite stubs.
 #include <gfx_d3d/r_meshdata.h>
 // R_AddSceneDObj provided by src/gfx_d3d/r_dpvs.cpp now.
-GfxViewParms *R_AllocViewParms() { return nullptr; }
-void R_InitDynamicMesh(GfxMeshData * /*mesh*/, unsigned int, unsigned int, unsigned int) {}
+// R_AllocViewParms provided by src/gfx_d3d/r_rendercmds.cpp now.
+// R_InitDynamicMesh provided by src/gfx_d3d/r_rendercmds.cpp now.
 // R_SetQuadMeshData provided by src/gfx_d3d/r_meshdata.cpp now.
-void R_ShutdownDynamicMesh(GfxMeshData * /*mesh*/) {}
+// R_ShutdownDynamicMesh provided by src/gfx_d3d/r_rendercmds.cpp now.
 // R_AddAllSceneEntSurfacesSpotShadow provided by src/gfx_d3d/r_dpvs.cpp now.
 // gfxMeshGlob provided by src/gfx_d3d/r_meshdata.cpp now.
 
@@ -1910,8 +1915,8 @@ void RB_SetBspImages() {}
 #include <gfx_d3d/r_rendercmds.h>
 void R_FatalInitError(const char * /*msg*/) {}
 void R_FatalLockError(long /*hr*/) {}
-void R_InitTempSkinBuf() {}
-GfxBackEndData s_backEndData[2]{};
+// R_InitTempSkinBuf provided by src/gfx_d3d/r_rendercmds.cpp now.
+// s_backEndData provided by src/gfx_d3d/r_rendercmds.cpp now.
 
 // rb_pixelcost satellite stubs.
 void R_FinishGpuFence() {}
@@ -2021,7 +2026,7 @@ struct XModelLodInfo;
 struct GfxStaticModelDrawInst;
 // void R_SortDrawSurfs(GfxDrawSurf * /*surfs*/, int /*count*/) {}
 struct MaterialTechnique;
-const MaterialTechnique *Material_GetTechnique(const Material * /*m*/, MaterialTechniqueType /*t*/) { return nullptr; }
+// Material_GetTechnique provided by src/gfx_d3d/r_rendercmds.cpp now.
 void *R_GetCachedSModelSurf(unsigned int /*idx*/) { return nullptr; }
 void R_AddXModelDebugString(const float * /*origin*/, char * /*text*/) {}
 void R_CacheStaticModelSurface(unsigned int /*idx*/, unsigned int /*surfIdx*/, const XModelLodInfo * /*lod*/) {}
@@ -2051,7 +2056,7 @@ struct GfxPackedVertex;
 // void  CG_UpdateViewWeaponAnim(int) {}  // provided by cg_weapons.cpp / cg_ammocounter.cpp now
 // CG_VehSphereCoordsToPos provided by src/cgame_mp/cg_vehicles_mp.cpp now.
 // G_ExitAfterConnectPaths provided by src/game_mp/g_main_mp.cpp now.
-void  R_AddCmdProjectionSet2D() {}
+// R_AddCmdProjectionSet2D provided by src/gfx_d3d/r_rendercmds.cpp now.
 // void  R_UpdateSpotLightEffect(FxCmd *) {}
 // CG_DObjGetWorldTagMatrix provided by src/cgame_mp/cg_ents_mp.cpp now.
 // CG_VehLocalClientDriving provided by src/cgame_mp/cg_vehicles_mp.cpp now.
@@ -2316,29 +2321,29 @@ BOOL    Scr_IsSystemActive() { return 0; }
 
 // === cl_scrn_mp satellites =======================================================
 
-void   R_EndFrame() {}
+// R_EndFrame provided by src/gfx_d3d/r_rendercmds.cpp now.
 // void   UI_Refresh(int) {}  // provided by ui_main_mp.cpp now
 // CL_DrawLogo provided by src/client_mp/cl_main_mp.cpp now.
 // void   DevGui_Draw(int) {}
-void   R_BeginFrame() {}
+// R_BeginFrame provided by src/gfx_d3d/r_rendercmds.cpp now.
 // void   UI_UpdateTime(int, int) {}  // provided by ui_main_mp.cpp now
 // void   Con_DrawConsole(int) {}  // provided by cl_console.cpp now
 void   R_EndCubemapShot(CubemapShot) {}
 void   SND_InitFXSounds() {}
 // double UI_GetBlurRadius(int) { return 0.0; }  // provided by ui_main_mp.cpp now
-void   R_AddCmdEndOfList() {}
+// R_AddCmdEndOfList provided by src/gfx_d3d/r_rendercmds.cpp now.
 void   R_SaveCubemapShot(char *, CubemapShot, float, float) {}
 void   SCR_DrawCinematic(int) {}
 // void   Net_DisplayProfile(int) {}  // provided by net_chan_mp.cpp now
 void   R_BeginCubemapShot(int, int) {}
-void   R_AddCmdClearScreen(int, const float *, float, unsigned char) {}
-void   R_AddCmdDrawProfile() {}
-void   R_BeginSharedCmdList() {}
+// R_AddCmdClearScreen provided by src/gfx_d3d/r_rendercmds.cpp now.
+// R_AddCmdDrawProfile provided by src/gfx_d3d/r_rendercmds.cpp now.
+// R_BeginSharedCmdList provided by src/gfx_d3d/r_rendercmds.cpp now.
 void   Sys_LoadingKeepAlive() {}
 // void   UI_DrawConnectScreen(int) {}  // provided by ui_main_mp.cpp now
-void   R_IssueRenderCommands(unsigned int) {}
-void   R_BeginClientCmdList2D() {}
-void   R_ClearClientCmdList2D() {}
+// R_IssueRenderCommands provided by src/gfx_d3d/r_rendercmds.cpp now.
+// R_BeginClientCmdList2D provided by src/gfx_d3d/r_rendercmds.cpp now.
+// R_ClearClientCmdList2D provided by src/gfx_d3d/r_rendercmds.cpp now.
 // void   R_BspGenerateReflections() {}  // provided by r_reflection_probe.cpp now
 void   R_LightingFromCubemapShots(const float *) {}
 // CL_AnyLocalClientChallenging provided by src/client_mp/cl_main_mp.cpp now.
@@ -2353,7 +2358,7 @@ void UI_Component_Init() {}
 // const char *Key_KeynumToString(int32_t, int32_t) { return ""; }  // provided by cl_keys.cpp now
 // CL_UpdateDirtyPings provided by src/client_mp/cl_main_mp.cpp now.
 // char *UI_GetMapDisplayName(const char *) { return const_cast<char *>(""); }  // provided by ui_main_mp.cpp now
-void R_PushRemoteScreenUpdate(int) {}
+// R_PushRemoteScreenUpdate provided by src/gfx_d3d/r_rendercmds.cpp now.
 // char *UI_GetGameTypeDisplayName(const char *) { return const_cast<char *>(""); }  // provided by ui_main_mp.cpp now
 // void UI_Init(int) {}  // provided by ui_main_mp.cpp now
 
@@ -2899,9 +2904,9 @@ unsigned int Steam_GetRawClientTicket(unsigned char **t, unsigned int *s) { if (
 int  LiveStorage_DoWeHaveStats() { return 0; }
 void *LiveStorage_GetStatBuffer() { return nullptr; }
 // void Com_ClientDObjClearAllSkel() {}
-void R_AddCmdDrawTextWithCursor(const char *, int, Font_s *, float, float, float, float, float, const float *, int, int, char) {}
+// R_AddCmdDrawTextWithCursor provided by src/gfx_d3d/r_rendercmds.cpp now.
 // bool UI_AllowScriptMenuResponse(int) { return false; }  // provided by ui_main_mp.cpp now
-void R_AddCmdDrawTextWithEffects(const char *, int, Font_s *, float, float, float, float, float, const float *, int, const float *, Material *, Material *, int, int, int, int) {}
+// R_AddCmdDrawTextWithEffects provided by src/gfx_d3d/r_rendercmds.cpp now.
 int  LiveStorage_ReadStatsFromDir(char *) { return 0; }
 void CL_PlayUnskippableCinematic_f() {}
 // char *FS_ReferencedIwdPureChecksums() { return const_cast<char *>(""); }  // provided by com_files.cpp now
@@ -2973,7 +2978,7 @@ float Voice_GetVoiceLevel() { return 0.f; }
 // int  Display_KeyBindPending() { return 0; }  // provided by ui_shared.cpp now
 // int  Item_ListBox_MaxScroll(int, itemDef_s *) { return 0; }  // provided by ui_shared.cpp now
 // void Menu_SetFeederSelection(UiContext *, menuDef_t *, int, int, const char *) {}  // provided by ui_shared.cpp now
-void R_AddCmdDrawTextSubtitle(const char *, int, Font_s *, float, float, float, float, float, const float *, int, const float *, bool) {}
+// R_AddCmdDrawTextSubtitle provided by src/gfx_d3d/r_rendercmds.cpp now.
 // void Menus_PrintAllLoadedMenus(UiContext *) {}  // provided by ui_shared.cpp now
 // int  Menus_AnyFullScreenVisible(UiContext *) { return 0; }  // provided by ui_shared.cpp now
 // int  SEH_VerifyLanguageSelection(int) { return 0; }  // provided by stringed_hooks.cpp now
@@ -3128,9 +3133,9 @@ const char *Sys_GetClipboardData() { return nullptr; }
 // === cl_console satellites =========================================================
 
 // IsValidMaterialHandle provided by src/gfx_d3d/r_material.cpp now.
-void R_AddCmdDrawConsoleText(char *, int, int, int, Font_s *, float, float, float, float, const float *, int) {}
-void R_AddCmdDrawConsoleTextPulseFX(char *, int, int, int, Font_s *, float, float, float, float, const float *, int, const float *, int, int, int, int, Material *, Material *) {}
-void R_AddCmdDrawConsoleTextSubtitle(char *, int, int, int, Font_s *, float, float, float, float, const float *, int, const float *) {}
+// R_AddCmdDrawConsoleText provided by src/gfx_d3d/r_rendercmds.cpp now.
+// R_AddCmdDrawConsoleTextPulseFX provided by src/gfx_d3d/r_rendercmds.cpp now.
+// R_AddCmdDrawConsoleTextSubtitle provided by src/gfx_d3d/r_rendercmds.cpp now.
 // int  R_ConsoleTextWidth(const char *, int, int, int, Font_s *) { return 0; }
 // const char *R_TextLineWrapPosition(const char *s, int, int, Font_s *, float) { return s; }
 // unsigned int SEH_DecodeLetter(unsigned int c0, unsigned int /*c1*/, int *used, int * /*flags*/) { if (used) *used = 1; return c0; }  // provided by stringed_hooks.cpp now
@@ -3177,7 +3182,7 @@ r_global_permanent_t rgp{};
 // const dvar_t *developer = nullptr;        // provided by r_dvars.cpp now
 #include <gfx_d3d/r_scene.h>
 // gfxBuf provided by src/gfx_d3d/r_buffers.cpp now.
-GfxBackEndData *frontEndDataOut = nullptr;
+// frontEndDataOut provided by src/gfx_d3d/r_rendercmds.cpp now.
 GfxScene scene{};
 
 struct IDirect3DIndexBuffer9;

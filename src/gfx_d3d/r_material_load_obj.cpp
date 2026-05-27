@@ -10,8 +10,10 @@
 #include "r_water.h"
 #include <universal/q_parse.h>
 
+#ifdef KISAK_WIN
 #include <d3d9.h>
 #include <d3dx9shader.h>
+#endif
 
 #include "r_image.h"
 #include <win32/win_local.h>

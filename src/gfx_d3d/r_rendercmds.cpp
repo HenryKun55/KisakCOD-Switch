@@ -476,7 +476,7 @@ DebugGlobals *R_ToggleSmpFrame()
     if (!rg.viewInfoCount)
         CG_CalculateFPS();
     s_smpFrame = (s_smpFrame + 1) % 2;
-    ++rg.frontEndFrameCount;
+    rg.frontEndFrameCount = rg.frontEndFrameCount + 1;
     gfxBuf.dynamicBufferFrame = (gfxBuf.dynamicBufferFrame + 1) % 2;
     gfxBuf.preTessBufferFrame = (gfxBuf.preTessBufferFrame + 1) % 2;
     frontEndDataOut = &s_backEndData[s_smpFrame];
@@ -973,7 +973,7 @@ void __cdecl R_AddCmdDrawTextWithEffects(
     else
         defaultMaterial = rgp.defaultMaterial;
     actualMaterial = defaultMaterial;
-    if (Material_HasAnyFogableTechnique(defaultMaterial) && !Material_IsDefault(defaultMaterial)
+    if ((Material_HasAnyFogableTechnique(defaultMaterial) && !Material_IsDefault(defaultMaterial))
         || (!fxMaterialGlow ? (v17 = rgp.defaultMaterial) : (v17 = (Material *)Material_FromHandle(fxMaterialGlow)),
             (actualMaterial = v17, Material_HasAnyFogableTechnique(v17)) && !Material_IsDefault(v17)))
     {
@@ -1162,7 +1162,7 @@ void __cdecl R_AddCmdDrawConsoleTextPulseFX(
     else
         defaultMaterial = rgp.defaultMaterial;
     actualMaterial = defaultMaterial;
-    if (Material_HasAnyFogableTechnique(defaultMaterial) && !Material_IsDefault(defaultMaterial)
+    if ((Material_HasAnyFogableTechnique(defaultMaterial) && !Material_IsDefault(defaultMaterial))
         || (!fxMaterialGlow ? (v18 = rgp.defaultMaterial) : (v18 = (Material *)Material_FromHandle(fxMaterialGlow)),
             (actualMaterial = v18, Material_HasAnyFogableTechnique(v18)) && !Material_IsDefault(v18)))
     {
@@ -1630,12 +1630,12 @@ void __cdecl R_BeginRemoteScreenUpdate()
         {
             if (r_glob.remoteScreenUpdateNesting)
             {
-                ++r_glob.remoteScreenUpdateNesting;
+                r_glob.remoteScreenUpdateNesting = r_glob.remoteScreenUpdateNesting + 1;
             }
             else
             {
                 iassert( !r_glob.screenUpdateNotify );
-                ++r_glob.remoteScreenUpdateNesting;
+                r_glob.remoteScreenUpdateNesting = r_glob.remoteScreenUpdateNesting + 1;
                 R_ReleaseThreadOwnership();
                 Sys_NotifyRenderer();
             }
@@ -1657,18 +1657,18 @@ void __cdecl R_EndRemoteScreenUpdate()
                     NET_Sleep(1);
                 r_glob.screenUpdateNotify = 0;
                 iassert( r_glob.remoteScreenUpdateNesting > 0 );
-                --r_glob.remoteScreenUpdateNesting;
+                r_glob.remoteScreenUpdateNesting = r_glob.remoteScreenUpdateNesting - 1;
                 while (!r_glob.screenUpdateNotify)
                 {
-                    ++g_mainThreadBlocked;
+                    g_mainThreadBlocked = g_mainThreadBlocked + 1;
                     NET_Sleep(1);
-                    --g_mainThreadBlocked;
+                    g_mainThreadBlocked = g_mainThreadBlocked - 1;
                 }
                 r_glob.screenUpdateNotify = 0;
             }
             else
             {
-                --r_glob.remoteScreenUpdateNesting;
+                r_glob.remoteScreenUpdateNesting = r_glob.remoteScreenUpdateNesting - 1;
             }
         }
         else if (r_glob.remoteScreenUpdateNesting)
@@ -1693,7 +1693,7 @@ void __cdecl R_PushRemoteScreenUpdate(int remoteScreenUpdateNesting)
     while (remoteScreenUpdateNesting)
     {
         R_BeginRemoteScreenUpdate();
-        --remoteScreenUpdateNesting;
+        remoteScreenUpdateNesting = remoteScreenUpdateNesting - 1;
     }
 }
 
