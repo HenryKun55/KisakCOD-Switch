@@ -606,8 +606,7 @@ unsigned int PMem_GetOverAllocatedSize() { return 0; }
 // Globals
 alignas(16) static unsigned char g_assetNames_storage[8192];
 void *g_assetNames = g_assetNames_storage;
-alignas(16) static unsigned char varXAssetList_storage[16384];
-void *varXAssetList = varXAssetList_storage;
+// varXAssetList provided by src/database/db_load.cpp now.
 
 // =========================================================================
 // Misc batch — sound/server/cgame_mp/client/game subdirs landing.
@@ -1881,6 +1880,62 @@ MaterialTechniqueSet *Material_FindTechniqueSet_LoadObj(const char * /*name*/, M
 // R_GetCodeMatrix provided by src/gfx_d3d/r_state.cpp now.
 // R_GetTextureFromCode provided by src/gfx_d3d/r_state.cpp now.
 // R_TextureFromCodeError provided by src/gfx_d3d/r_state.cpp now.
+
+// db_load satellite stubs (Load_* / Mark_* asset hooks).
+void Load_ClipMapAsset(XAssetHeader * /*h*/) {}
+void Mark_ClipMapAsset(clipMap_t * /*a*/) {}
+void Load_ComWorldAsset(XAssetHeader * /*h*/) {}
+void Mark_ComWorldAsset(ComWorld * /*a*/) {}
+void Load_FontAsset(XAssetHeader * /*h*/) {}
+void Mark_FontAsset(Font_s * /*a*/) {}
+void Load_FxEffectDefAsset(XAssetHeader * /*h*/) {}
+void Mark_FxEffectDefAsset(FxEffectDef * /*a*/) {}
+void Load_FxEffectDefFromName(const char ** /*h*/) {}
+void Load_FxImpactTableAsset(XAssetHeader * /*h*/) {}
+void Mark_FxImpactTableAsset(FxImpactTable * /*a*/) {}
+void Load_GameWorldMpAsset(XAssetHeader * /*h*/) {}
+void Mark_GameWorldMpAsset(GameWorldMp * /*a*/) {}
+void Load_GameWorldSpAsset(XAssetHeader * /*h*/) {}
+void Mark_GameWorldSpAsset(GameWorldSp * /*a*/) {}
+void Load_GetCurrentZoneHandle(unsigned char * /*h*/) {}
+void Load_GfxImageAsset(XAssetHeader * /*h*/) {}
+void Mark_GfxImageAsset(GfxImage * /*a*/) {}
+void Load_GfxWorldAsset(XAssetHeader * /*h*/) {}
+void Mark_GfxWorldAsset(GfxWorld * /*a*/) {}
+void Load_LightDefAsset(XAssetHeader * /*h*/) {}
+void Mark_LightDefAsset(GfxLightDef * /*a*/) {}
+void Load_LoadedSoundAsset(XAssetHeader * /*h*/) {}
+void Mark_LoadedSoundAsset(LoadedSound * /*a*/) {}
+void Load_LocalizeEntryAsset(XAssetHeader * /*h*/) {}
+void Mark_LocalizeEntryAsset(LocalizeEntry * /*a*/) {}
+void Load_MapEntsAsset(XAssetHeader * /*h*/) {}
+void Mark_MapEntsAsset(MapEnts * /*a*/) {}
+void Load_MaterialAsset(XAssetHeader * /*h*/) {}
+void Mark_MaterialAsset(Material * /*a*/) {}
+void Load_MaterialTechniqueSetAsset(XAssetHeader * /*h*/) {}
+void Mark_MaterialTechniqueSetAsset(MaterialTechniqueSet * /*a*/) {}
+void Load_MenuAsset(XAssetHeader * /*h*/) {}
+void Mark_MenuAsset(menuDef_t * /*a*/) {}
+void Load_MenuListAsset(XAssetHeader * /*h*/) {}
+void Mark_MenuListAsset(MenuList * /*a*/) {}
+void Load_PhysPresetAsset(XAssetHeader * /*h*/) {}
+void Mark_PhysPresetAsset(PhysPreset * /*a*/) {}
+void Load_RawFileAsset(XAssetHeader * /*h*/) {}
+void Mark_RawFileAsset(RawFile * /*a*/) {}
+void Load_snd_alias_list_Asset(XAssetHeader * /*h*/) {}
+void Mark_snd_alias_list_Asset(snd_alias_list_t * /*a*/) {}
+void Load_SndCurveAsset(XAssetHeader * /*h*/) {}
+void Mark_SndCurveAsset(SndCurve * /*a*/) {}
+void Load_StringTableAsset(XAssetHeader * /*h*/) {}
+void Mark_StringTableAsset(StringTable * /*a*/) {}
+void Load_WeaponDefAsset(XAssetHeader * /*h*/) {}
+void Mark_WeaponDefAsset(WeaponDef * /*a*/) {}
+void Load_XAnimPartsAsset(XAssetHeader * /*h*/) {}
+void Mark_XAnimPartsAsset(XAnimParts * /*a*/) {}
+void Load_XModelAsset(XAssetHeader * /*h*/) {}
+void Mark_XModelAsset(XModel * /*a*/) {}
+struct MssSoundCOD4;
+void SND_SetData(MssSoundCOD4 * /*s*/, void * /*data*/) {}
 
 // r_image_load_common satellite stubs.
 // Image_TrackTotalMemory provided by src/gfx_d3d/r_image_load_obj.cpp now.

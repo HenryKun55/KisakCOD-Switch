@@ -237,6 +237,7 @@ set(DYNENTITY_PORTABLE_SOURCES
 set(DATABASE_PORTABLE_SOURCES
     "${SRC_DIR}/database/db_assetnames.cpp"
     "${SRC_DIR}/database/db_auth.cpp"
+    "${SRC_DIR}/database/db_load.cpp"
     "${SRC_DIR}/database/db_memory.cpp"
     "${SRC_DIR}/database/db_stream.cpp"
     "${SRC_DIR}/database/db_stream_load.cpp"

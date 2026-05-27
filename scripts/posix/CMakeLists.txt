@@ -350,7 +350,9 @@ set(DATABASE_PORTABLE_SOURCES
     "${SRC_DIR}/database/db_auth.cpp"
     # db_file_load.cpp is Win32-only (CloseHandle/SleepEx/GetLastError/
     # GetFileSize / OVERLAPPED I/O). Re-port through Sys_FS abstraction.
-    # db_load.cpp drags 60+ Load_*Asset / Mark_*Asset hooks (renderer/
+    "${SRC_DIR}/database/db_load.cpp"
+    # db_load.cpp old-held-back comment kept for history:
+    # drags 60+ Load_*Asset / Mark_*Asset hooks (renderer/
     # font/menu/sound/water/clipmap). Land alongside the rest of the asset
     # subsystem batch.
     "${SRC_DIR}/database/db_memory.cpp"
