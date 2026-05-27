@@ -892,7 +892,7 @@ int g_checkBoneOrder;
 
 XAnimParts *__cdecl XAnimLoadFile(char *name, void *(__cdecl *Alloc)(int))
 {
-    const char *v2; // eax
+    [[maybe_unused]] const char *v2; // eax
     __int16 prev; // ax
     unsigned __int8 *Quaternions; // eax
     int v6; // eax
@@ -917,16 +917,16 @@ XAnimParts *__cdecl XAnimLoadFile(char *name, void *(__cdecl *Alloc)(int))
     int v25; // [esp+3Ch] [ebp-14A8h]
     int v26; // [esp+40h] [ebp-14A4h]
     BOOL v27; // [esp+44h] [ebp-14A0h]
-    double v28; // [esp+58h] [ebp-148Ch]
+    [[maybe_unused]] double v28; // [esp+58h] [ebp-148Ch]
     unsigned __int16 totalframes; // [esp+66h] [ebp-147Eh]
     int v30; // [esp+B0h] [ebp-1434h]
     int v31; // [esp+B4h] [ebp-1430h]
     int v32; // [esp+B8h] [ebp-142Ch]
     int v33; // [esp+BCh] [ebp-1428h]
     unsigned __int8 v34; // [esp+C0h] [ebp-1424h]
-    unsigned __int16 v35; // [esp+C4h] [ebp-1420h]
+    [[maybe_unused]] unsigned __int16 v35; // [esp+C4h] [ebp-1420h]
     __int16 numBones; // [esp+C8h] [ebp-141Ch]
-    unsigned __int16 v37; // [esp+CCh] [ebp-1418h]
+    [[maybe_unused]] unsigned __int16 v37; // [esp+CCh] [ebp-1418h]
     __int16 version; // [esp+D0h] [ebp-1414h]
     unsigned __int8 *pos; // [esp+DCh] [ebp-1408h] BYREF
     bool useSmallIndices; // [esp+E3h] [ebp-1401h]
@@ -1511,9 +1511,9 @@ XAnimParts *__cdecl XAnimLoadFile(char *name, void *(__cdecl *Alloc)(int))
             v43 = 0;
             while (v43 <= tableSize)
             {
-                *randomDataByte = *(_BYTE *)(3 * v43 + *(_DWORD *)(destPtrs[animPartIndex] + 28));
-                randomDataByte[1] = *(_BYTE *)(*(_DWORD *)(destPtrs[animPartIndex] + 28) + 3 * v43 + 1);
-                randomDataByte[2] = *(_BYTE *)(*(_DWORD *)(destPtrs[animPartIndex] + 28) + 3 * v43++ + 2);
+                *randomDataByte = *(_BYTE *)(uintptr_t)(3 * v43 + *(_DWORD *)(destPtrs[animPartIndex] + 28));
+                randomDataByte[1] = *(_BYTE *)(uintptr_t)(*(_DWORD *)(destPtrs[animPartIndex] + 28) + 3 * v43 + 1);
+                randomDataByte[2] = *(_BYTE *)(uintptr_t)(*(_DWORD *)(destPtrs[animPartIndex] + 28) + 3 * v43++ + 2);
                 randomDataByte += 3;
             }
             XAnimEmitFrameIndices(
@@ -1540,9 +1540,9 @@ XAnimParts *__cdecl XAnimLoadFile(char *name, void *(__cdecl *Alloc)(int))
             v43 = 0;
             while (v43 <= tableSize)
             {
-                *(_WORD *)randomDataShort = *(_WORD *)(6 * v43 + *(_DWORD *)(destPtrs[animPartIndex] + 28));
-                *((_WORD *)randomDataShort + 1) = *(_WORD *)(*(_DWORD *)(destPtrs[animPartIndex] + 28) + 6 * v43 + 2);
-                *((_WORD *)randomDataShort + 2) = *(_WORD *)(*(_DWORD *)(destPtrs[animPartIndex] + 28)
+                *(_WORD *)randomDataShort = *(_WORD *)(uintptr_t)(6 * v43 + *(_DWORD *)(destPtrs[animPartIndex] + 28));
+                *((_WORD *)randomDataShort + 1) = *(_WORD *)(uintptr_t)(*(_DWORD *)(destPtrs[animPartIndex] + 28) + 6 * v43 + 2);
+                *((_WORD *)randomDataShort + 2) = *(_WORD *)(uintptr_t)(*(_DWORD *)(destPtrs[animPartIndex] + 28)
                     + 6 * v43++
                     + 4);
                 randomDataShort += 6;

@@ -417,7 +417,7 @@ void Scr_AddFloat(float /*value*/) {}
 // Scr_Notify provided by src/game_mp/g_spawn_mp.cpp now.
 
 // XAnim/XModel load
-XAnimParts *XAnimLoadFile(char * /*name*/, void *(*)(int) /*Alloc*/) { return nullptr; }
+// XAnimLoadFile provided by src/xanim/xanim_load_obj.cpp now.
 XModel *XModelPrecache_LoadObj(char * /*name*/, void *(*)(int) /*Alloc*/, void *(*)(int) /*AllocColl*/) { return nullptr; }
 // void XAnim_CalcDeltaForTime(const XAnimParts * /*part*/, float /*time*/, float * /*deltaTrans*/, float4 * /*deltaQuat*/) {}
 
@@ -1590,7 +1590,7 @@ void Phys_ObjSave(dxBody * /*body*/, MemoryFile * /*memFile*/) {}
 // R_UnlinkDynEnt provided by src/gfx_d3d/r_scene.cpp now.
 void Phys_AddJitterRegion(PhysWorld /*w*/, const float * /*pos*/, float /*r*/, float /*j1*/, float /*j2*/, float /*j3*/) {}
 struct XModelPieces;
-XModelPieces *XModelPiecesPrecache(const char * /*name*/, void *(* /*alloc*/)(int)) { return nullptr; }
+// XModelPiecesPrecache provided by src/xanim/xanim_load_obj.cpp now.
 struct GfxScaledPlacement;
 // R_FilterXModelIntoScene provided by src/gfx_d3d/r_dpvs.cpp now.
 void Phys_ObjSetAngularVelocity(dxBody * /*b*/, float * /*omega*/) {}

@@ -556,8 +556,7 @@ set(XANIM_PORTABLE_SOURCES
     "${SRC_DIR}/xanim/dobj_utils.cpp"
     "${SRC_DIR}/xanim/xanim.cpp"
     "${SRC_DIR}/xanim/xanim_calc.cpp"
-    # xanim_load_obj.cpp has hex-rays scratch dest[char buffer] using
-    # 32-bit pointer offsets — needs typed struct refactor before landing.
+    "${SRC_DIR}/xanim/xanim_load_obj.cpp"
     # xanim_readwrite.cpp is SP-only (pulls server.h saves)
     "${SRC_DIR}/xanim/xmodel.cpp"
     # xmodel_load_obj.cpp pending until xanim_load_obj refactor.

@@ -412,6 +412,7 @@ set(XANIM_PORTABLE_SOURCES
     "${SRC_DIR}/xanim/dobj_utils.cpp"
     "${SRC_DIR}/xanim/xanim.cpp"
     "${SRC_DIR}/xanim/xanim_calc.cpp"
+    "${SRC_DIR}/xanim/xanim_load_obj.cpp"
     "${SRC_DIR}/xanim/xmodel.cpp"
     "${SRC_DIR}/xanim/xmodel_utils.cpp"
 )
