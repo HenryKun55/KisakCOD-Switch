@@ -585,6 +585,45 @@ struct _D3DGAMMARAMP {
     unsigned short green[256];
     unsigned short blue[256];
 };
+struct _D3DCAPS9 {
+    int DeviceType;
+    unsigned long AdapterOrdinal;
+    unsigned long Caps;
+    unsigned long Caps2;
+    unsigned long Caps3;
+    unsigned long PresentationIntervals;
+    unsigned long CursorCaps;
+    unsigned long DevCaps;
+    unsigned long PrimitiveMiscCaps;
+    unsigned long RasterCaps;
+    unsigned long ZCmpCaps;
+    unsigned long SrcBlendCaps;
+    unsigned long DestBlendCaps;
+    unsigned long AlphaCmpCaps;
+    unsigned long ShadeCaps;
+    unsigned long TextureCaps;
+    unsigned long TextureFilterCaps;
+    unsigned long CubeTextureFilterCaps;
+    unsigned long VolumeTextureFilterCaps;
+    unsigned long TextureAddressCaps;
+    unsigned long VolumeTextureAddressCaps;
+    unsigned long LineCaps;
+    unsigned long MaxTextureWidth;
+    unsigned long MaxTextureHeight;
+    unsigned long MaxVolumeExtent;
+    unsigned long MaxTextureRepeat;
+    unsigned long MaxTextureAspectRatio;
+    unsigned long MaxAnisotropy;
+    unsigned long PixelShaderVersion;
+    unsigned long VertexShaderVersion;
+    unsigned long MaxVertexShaderConst;
+    unsigned long MaxPixelShader30InstructionSlots;
+    unsigned long MaxVertexShader30InstructionSlots;
+};
+static inline IDirect3D9 *Direct3DCreate9(unsigned int /*sdkVersion*/) { return nullptr; }
+static inline int IsWindow(void * /*hwnd*/) { return 0; }
+static inline int DestroyWindow(void * /*hwnd*/) { return 0; }
+static inline void *ShellExecuteA(void *, const char *, const char *, const char *, const char *, int) { return nullptr; }
 struct _D3DVERTEXELEMENT9 {
     unsigned short Stream;
     unsigned short Offset;

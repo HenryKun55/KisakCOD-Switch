@@ -155,10 +155,11 @@ set(GFX_PORTABLE_SOURCES
     "${SRC_DIR}/gfx_d3d/r_image_load_common.cpp"
     "${SRC_DIR}/gfx_d3d/r_image_load_obj.cpp"
     "${SRC_DIR}/gfx_d3d/r_image.cpp"
-    # r_init.cpp pulls Win32 ShellExecuteA / IsWindow / DestroyWindow
-    # plus Direct3DCreate9 / _D3DCAPS9 / _D3DDISPLAYMODE structs. The
-    # renderer init is naturally replaced by the gfx_gl path. Land
-    # behind D3D9 abstraction.
+    # r_init.cpp uses _D3DDISPLAYMODE struct (currently typedef int),
+    # _D3DCAPS9 with ~30 named fields (MaxSimultaneousTextures /
+    # MaxUserClipPlanes / VertexShaderVersion etc.), _D3DDEVTYPE enum,
+    # and D3D_OK constant. Renderer init is naturally replaced by
+    # gfx_gl/. Land behind D3D9 abstraction.
     "${SRC_DIR}/gfx_d3d/r_image_utils.cpp"
     # r_image_load_obj.cpp uses D3DCUBEMAP_FACE_* / D3DFMT_G16R16F.
     # Land behind a graphics format/cubemap abstraction.
