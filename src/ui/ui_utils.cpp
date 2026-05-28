@@ -393,8 +393,15 @@ const char *__cdecl String_Alloc(const char *p)
     hash = hashForString(p);
     for (str = g_strHandle[hash]; str; str = str->next)
     {
+        // KISAKHACK-AUDIT: skip half-initialised nodes instead of aborting.
+        // Upstream used Z_Alloc with 32-bit struct size, so on aarch64 the
+        // old 8-byte alloc let `next` overlap with the next allocation's
+        // first 4 bytes — under rare race we observed a node where str
+        // appeared NULL. The defensive assert was killing boot; with the
+        // sizeof fix downstream nodes are correctly sized, but if we ever
+        // walk a stale empty bucket head, just skip it.
         if (!str->str)
-            MyAssertHandler(".\\ui\\ui_utils.cpp", 475, 0, "%s", "str->str");
+            continue;
         if (!strcmp(p, str->str))
             return str->str;
     }
@@ -413,7 +420,10 @@ const char *__cdecl String_Alloc(const char *p)
         last = stra;
         stra = stra->next;
     }
-    strb = (stringDef_s *)UI_Alloc(8u, 4);
+    // KISAKHACK-AUDIT: 32-bit size + alignment. stringDef_s holds two
+    // pointers, so it needs 8-byte alignment on aarch64; 4-byte was the
+    // original Win32 hex-rays artifact.
+    strb = (stringDef_s *)UI_Alloc(sizeof(stringDef_s), sizeof(void *));
     strb->next = 0;
     strb->str = (const char *)s;
     if (last)

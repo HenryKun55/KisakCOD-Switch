@@ -24,6 +24,7 @@
 #include "gfx_d3d/r_init.h"
 #include "gfx_d3d/r_material.h"
 #include "gfx_d3d/r_font.h"
+#include "gfx_gl/gl_renderer.h"
 #include "database/database.h"
 
 // Engine-side globals — defined in src/gfx_d3d/r_rendercmds.cpp, just
@@ -75,15 +76,32 @@ void R_BeginRegistration(vidConfig_t *vidConfigOut)
     // zeroed — RB_* dispatch will see all-zero state and either no-op or
     // get caught by our switch_dispatch_render_queue translator before
     // touching anything D3D9-only.
+    // Self-referencing technique set so Material_GetTechniqueSet (which does
+    // material->techniqueSet->remappedTechniqueSet) yields a non-null
+    // structure even though we have no real shaders behind it. The render
+    // dispatch on Switch will see the zeroed techniques[] and skip the
+    // D3D9-only Material_DrawSomeCommandList path.
+    static MaterialTechniqueSet s_defaultTechniqueSet{};
+    static const char s_defaultTechniqueSetName[] = "$default";
+    s_defaultTechniqueSet.name = s_defaultTechniqueSetName;
+    s_defaultTechniqueSet.remappedTechniqueSet = &s_defaultTechniqueSet;
+
     static Material s_defaultMaterial{};
     static const char s_defaultMaterialName[] = "$default";
     s_defaultMaterial.info.name = s_defaultMaterialName;
+    s_defaultMaterial.techniqueSet = &s_defaultTechniqueSet;
     XAssetHeader matHeader{};
     matHeader.material = &s_defaultMaterial;
     DB_AddXAsset(ASSET_TYPE_MATERIAL, matHeader);
     // Material_MakeDefault checks rgp.defaultMaterial directly (not the
     // DB) when a name doesn't resolve, so wire it through as well.
     rgp.defaultMaterial = &s_defaultMaterial;
+    // Force every Material_RegisterHandle lookup (white, console, gradient_*,
+    // ...) to resolve to the default placeholder. Without this, UI_FillRect
+    // bails because sharedUiInfo.assets.whiteMaterial is NULL and we never
+    // emit any RC_STRETCH_PIC commands — the framebuffer stays empty.
+    extern bool g_alwaysUseDefaultMaterial;
+    g_alwaysUseDefaultMaterial = true;
 
     // Same idea for the default console font — R_RegisterFont asks for
     // "fonts/consolefont", so we hand back a placeholder Font_s pointing
@@ -223,7 +241,40 @@ void switch_dispatch_render_queue()
         switch (hdr->id) {
         case 4: { // RC_CLEAR_SCREEN
             const auto *cmd = reinterpret_cast<const GfxCmdClearScreen *>(hdr);
-            gfx_gl::apply_clear_color(cmd->color[0], cmd->color[1], cmd->color[2], cmd->color[3]);
+            gfx_gl::clear_now(cmd->color[0], cmd->color[1], cmd->color[2], cmd->color[3]);
+            break;
+        }
+        case 6: { // RC_STRETCH_PIC — material-textured quad. We don't have
+                  // textures yet, so draw a flat-colored rect with the cmd's
+                  // GfxColor (which carries the item's backcolor).
+            const auto *cmd = reinterpret_cast<const GfxCmdStretchPic *>(hdr);
+            const float r = cmd->color.array[0] / 255.0f;
+            const float g = cmd->color.array[1] / 255.0f;
+            const float b = cmd->color.array[2] / 255.0f;
+            const float a = cmd->color.array[3] / 255.0f;
+            gfx_gl::draw_ui_filled_rect(cmd->x, cmd->y, cmd->w, cmd->h, r, g, b, a);
+            break;
+        }
+        case 13: { // RC_DRAW_TEXT_2D — render with the embedded 8x8 font.
+                   // The cmd's text[] is variable-length (charCount + struct
+                   // header); the engine packs the string starting at the
+                   // declared text[] offset.
+            const auto *cmd = reinterpret_cast<const GfxCmdDrawText2D *>(hdr);
+            if (cmd->maxChars > 0 && cmd->font) {
+                const float charW = 8.0f * cmd->xScale;
+                const float charH = 8.0f * cmd->yScale;
+                const float r = cmd->color.array[0] / 255.0f;
+                const float g = cmd->color.array[1] / 255.0f;
+                const float b = cmd->color.array[2] / 255.0f;
+                const float a = cmd->color.array[3] / 255.0f;
+                // cmd->text is char[3] in the struct, but the engine
+                // allocated extra trailing bytes via the size formula
+                // `(charCount + 84) & ~3` — the actual null-terminated
+                // string starts at &cmd->text[0] and continues past the
+                // declared array.
+                gfx_gl::draw_ui_text(cmd->x, cmd->y - charH, cmd->text,
+                                     charW, charH, r, g, b, a);
+            }
             break;
         }
         default:

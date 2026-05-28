@@ -4,9 +4,15 @@
 #include "script/scr_stringlist.h"
 
 #include <string.h>
+#include <cstdio>
 #include <universal/q_shared.h>
 #include <qcommon/qcommon.h>
 #include <qcommon/threads.h>
+#ifdef __SWITCH__
+#include <atomic>
+#include <malloc.h>
+#include <switch.h>
+#endif
 
 #include <qcommon/mem_track.h>
 #include <win32/win_local.h>
@@ -258,6 +264,13 @@ void Com_InitHunkMemory()
     {
 #ifdef KISAK_PURE
         s_hunkTotal = 0xA000000;
+#elif defined(__SWITCH__)
+        // 512 MiB main hunk swallows libnx's heap whole on Switch and
+        // makes the very next Z_Malloc(4 KiB) return NULL. We only need
+        // raw-asset breathing room — 64 MiB is plenty for the boot-time
+        // hunk users and leaves the rest of the heap free for stdlib
+        // allocations downstream.
+        s_hunkTotal = 0x4000000;
 #else
         s_hunkTotal = 0x20000000; // LWSS: MOAR! !
 #endif
@@ -268,7 +281,11 @@ void Com_InitHunkMemory()
     }
     R_ReflectionProbeRegisterDvars();
     if (r_reflectionProbeGenerate->current.enabled)
+#ifdef __SWITCH__
+        s_hunkTotal = 0x4000000;
+#else
         s_hunkTotal = 0x20000000;
+#endif
     s_hunkData = (unsigned char*)Z_VirtualReserve(s_hunkTotal);
     if (!s_hunkData)
         Sys_OutOfMemErrorInternal(".\\universal\\com_memory.cpp", 1318);
@@ -1004,20 +1021,38 @@ int Hunk_SetMarkLow()
 
 
 
+#ifdef __SWITCH__
+// Newlib's dlmalloc on devkitA64 stops calling sbrk once its top chunk
+// shrinks below ~4 KiB even though there's plenty of fake_heap room
+// available; the engine then hits Z_Malloc(4 KiB) -> NULL mid-init.
+// Route Z_Malloc through a bump arena carved out of .bss so we sidestep
+// the dlmalloc top-chunk policy entirely. The arena is freed lazily
+// (only on process exit) — fine for boot-time hunks and parse-time
+// scratch.
+namespace {
+constexpr size_t kZArenaSize = 256u * 1024u * 1024u;
+alignas(16) unsigned char g_zArena[kZArenaSize];
+std::atomic<size_t> g_zArenaPos{0};
+} // namespace
+
+static char* __cdecl Z_TryMallocGarbage(int32_t size, const char* /*name*/, int32_t /*type*/)
+{
+    if (size <= 0) return nullptr;
+    const size_t align = 16;
+    const size_t alignedSize = (size + align - 1) & ~(align - 1);
+    size_t pos = g_zArenaPos.fetch_add(alignedSize, std::memory_order_relaxed);
+    if (pos + alignedSize > kZArenaSize) return nullptr;
+    return reinterpret_cast<char *>(g_zArena + pos);
+}
+#else
 static char* __cdecl Z_TryMallocGarbage(int32_t size, const char* name, int32_t type)
 {
     char* buf; // [esp+0h] [ebp-4h]
 
     buf = (char*)malloc(size);
-    // LWSS: remove this +32. Not needed
-    //buf = (char*)malloc(size + 32);
-    //if (buf)
-    //{
-    //    buf += 32;
-    //    track_z_alloc(size + 72, name, type, buf, 0, 32); // KISAKMEMTRACK
-    //}
     return buf;
 }
+#endif
 
 static uint32_t* __cdecl Z_TryMalloc(int32_t size, const char* name, int32_t type)
 {
@@ -1047,14 +1082,17 @@ void* Z_Malloc(int32_t size, const char* name, int32_t type)
     return buf;
 }
 
-void __cdecl Z_Free(void *ptr, int32_t type)
+void __cdecl Z_Free(void *ptr, int32_t /*type*/)
 {
-    if (ptr)
-    {
-       // track_z_free(type, ptr, 32);
-       //free((char*)ptr - 32);
-       free(ptr);
+    if (!ptr) return;
+#ifdef __SWITCH__
+    // Skip free for pointers within our static arena.
+    if (reinterpret_cast<unsigned char *>(ptr) >= g_zArena &&
+        reinterpret_cast<unsigned char *>(ptr) <  g_zArena + kZArenaSize) {
+        return;
     }
+#endif
+    free(ptr);
 }
 
 

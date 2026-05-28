@@ -21,6 +21,8 @@ endif()
 set(SWITCH_SOURCES
     "${SRC_DIR}/switch/switch_main.cpp"
     "${SRC_DIR}/switch/switch_renderer_init.cpp"
+    "${SRC_DIR}/switch/switch_zone_inspect.cpp"
+    "${SRC_DIR}/switch/switch_load_fastfile.cpp"
     "${SRC_DIR}/gfx_gl/gl_renderer.cpp"
     "${SRC_DIR}/posix/posix_assert.cpp"
     "${SRC_DIR}/posix/posix_stubs.cpp"

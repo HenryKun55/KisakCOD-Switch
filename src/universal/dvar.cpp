@@ -778,9 +778,10 @@ int __cdecl Dvar_ValuesEqual(unsigned __int8 type, DvarValue val0, DvarValue val
         result = val0.integer == val1.integer;
         break;
     case 7u:
-        if (!val0.integer)
+        // KISAKHACK-AUDIT: 64-bit pointer-safe truthy check.
+        if (!val0.string)
             MyAssertHandler(".\\universal\\dvar.cpp", 853, 0, "%s", "val0.string");
-        if (!val1.integer)
+        if (!val1.string)
             MyAssertHandler(".\\universal\\dvar.cpp", 854, 0, "%s", "val1.string");
         result = strcmp(val0.string, val1.string) == 0;
         break;
@@ -1203,31 +1204,34 @@ void __cdecl Dvar_FreeNameString(const char *name)
     FreeString(name);
 }
 
+// KISAKHACK-AUDIT: was comparing .integer (low 32 bits of pointer); on
+// aarch64 heap-allocated strings live above 4 GiB so the comparison gave
+// false equalities (would not free) and false truthy on low-bits-zero ptrs.
 bool __cdecl Dvar_ShouldFreeCurrentString(dvar_s *dvar)
 {
-    return dvar->current.integer
-        && dvar->current.integer != dvar->latched.integer
-        && dvar->current.integer != dvar->reset.integer;
+    return dvar->current.string
+        && dvar->current.string != dvar->latched.string
+        && dvar->current.string != dvar->reset.string;
 }
 
 bool __cdecl Dvar_ShouldFreeLatchedString(dvar_s *dvar)
 {
-    return dvar->latched.integer
-        && dvar->latched.integer != dvar->current.integer
-        && dvar->latched.integer != dvar->reset.integer;
+    return dvar->latched.string
+        && dvar->latched.string != dvar->current.string
+        && dvar->latched.string != dvar->reset.string;
 }
 
 bool __cdecl Dvar_ShouldFreeResetString(dvar_s *dvar)
 {
-    return dvar->reset.integer
-        && dvar->reset.integer != dvar->current.integer
-        && dvar->reset.integer != dvar->latched.integer;
+    return dvar->reset.string
+        && dvar->reset.string != dvar->current.string
+        && dvar->reset.string != dvar->latched.string;
 }
 
 void __cdecl Dvar_FreeString(DvarValue *value)
 {
     FreeString(value->string);
-    value->integer = 0;
+    value->string = nullptr;
 }
 
 void __cdecl Dvar_ChangeResetValue(dvar_s *dvar, DvarValue value)
@@ -1270,13 +1274,14 @@ void __cdecl Dvar_UpdateResetValue(dvar_s *dvar, DvarValue value)
         dvar->reset = value;
         break;
     case DVAR_TYPE_STRING:
-        if (dvar->reset.integer != value.integer)
+        // KISAKHACK-AUDIT: 64-bit pointer-safe.
+        if (dvar->reset.string != value.string)
         {
             shouldFree = Dvar_ShouldFreeResetString(dvar);
             if (shouldFree)
-                oldString.integer = dvar->reset.integer;
-            Dvar_AssignResetStringValue(dvar, &resetString, (char *)(uintptr_t)(unsigned int)value.integer); // KISAKHACK 64-bit
-            dvar->reset.integer = resetString.integer;
+                oldString.string = dvar->reset.string;
+            Dvar_AssignResetStringValue(dvar, &resetString, value.string);
+            dvar->reset.string = resetString.string;
             if (shouldFree)
                 Dvar_FreeString(&oldString);
         }
@@ -1291,11 +1296,12 @@ void __cdecl Dvar_AssignResetStringValue(dvar_s *dvar, DvarValue *dest, const ch
 {
     if (!string)
         MyAssertHandler(".\\universal\\dvar.cpp", 266, 0, "%s", "string");
-    if (dvar->current.integer && (string == (char *)dvar->current.string || !strcmp(string, dvar->current.string)))
+    // KISAKHACK-AUDIT: 64-bit pointer-safe.
+    if (dvar->current.string && (string == dvar->current.string || !strcmp(string, dvar->current.string)))
     {
         Dvar_WeakCopyString(dvar->current.string, dest);
     }
-    else if (dvar->latched.integer && (string == (char *)(uintptr_t)(unsigned int)dvar->latched.integer || !strcmp(string, dvar->latched.string)))
+    else if (dvar->latched.string && (string == dvar->latched.string || !strcmp(string, dvar->latched.string)))
     {
         Dvar_WeakCopyString(dvar->latched.string, dest);
     }
@@ -1309,16 +1315,16 @@ void __cdecl Dvar_CopyString(const char *string, DvarValue *value)
 {
     if (!string)
         MyAssertHandler(".\\universal\\dvar.cpp", 203, 0, "%s", "string");
-    // KISAKHACK 64-bit: storing string pointer in DvarValue.integer (4 bytes).
-    value->integer = (int)(uintptr_t)CopyString(string);
+    // KISAKHACK-AUDIT: full 8-byte ptr (was truncating to int).
+    value->string = CopyString(string);
 }
 
 void __cdecl Dvar_WeakCopyString(const char *string, DvarValue *value)
 {
     if (!string)
         MyAssertHandler(".\\universal\\dvar.cpp", 210, 0, "%s", "string");
-    // KISAKHACK 64-bit: same pointer-in-int truncation.
-    value->integer = (int)(uintptr_t)string;
+    // KISAKHACK-AUDIT: full 8-byte ptr (was truncating to int).
+    value->string = string;
 }
 
 void __cdecl Dvar_MakeLatchedValueCurrent(dvar_s *dvar)
@@ -1440,11 +1446,12 @@ void __cdecl Dvar_SetVariant(dvar_s *dvar, DvarValue value, DvarSetSource source
             dvar->latched = value;
             break;
         case 7u:
+            // KISAKHACK-AUDIT: 64-bit pointer-safe.
             if (!dvar->name)
                 MyAssertHandler(".\\universal\\dvar.cpp", 1020, 0, "%s", "dvar->name");
-            if (value.integer == dvar->current.integer
-                && value.integer != dvar->latched.integer
-                && value.integer != dvar->reset.integer)
+            if (value.string == dvar->current.string
+                && value.string != dvar->latched.string
+                && value.string != dvar->reset.string)
             {
                 MyAssertHandler(
                     ".\\universal\\dvar.cpp",
@@ -1456,12 +1463,12 @@ void __cdecl Dvar_SetVariant(dvar_s *dvar, DvarValue value, DvarSetSource source
             }
             shouldFreeString = Dvar_ShouldFreeCurrentString(dvar);
             if (shouldFreeString)
-                oldString.integer = dvar->current.integer;
+                oldString.string = dvar->current.string;
             Dvar_AssignCurrentStringValue(dvar, &currentString, (char*)value.string);
-            dvar->current.integer = currentString.integer;
+            dvar->current.string = currentString.string;
             if (Dvar_ShouldFreeLatchedString(dvar))
                 Dvar_FreeString(&dvar->latched);
-            dvar->latched.integer = 0;
+            dvar->latched.string = nullptr;
             Dvar_WeakCopyString(dvar->current.string, &dvar->latched);
             if (shouldFreeString)
                 Dvar_FreeString(&oldString);
@@ -1479,11 +1486,12 @@ void __cdecl Dvar_AssignCurrentStringValue(dvar_s *dvar, DvarValue *dest, char *
 {
     if (!string)
         MyAssertHandler(".\\universal\\dvar.cpp", 242, 0, "%s", "string");
-    if (dvar->latched.integer && (string == (char *)(uintptr_t)(unsigned int)dvar->latched.integer || !strcmp(string, dvar->latched.string)))
+    // KISAKHACK-AUDIT: 64-bit pointer-safe.
+    if (dvar->latched.string && (string == dvar->latched.string || !strcmp(string, dvar->latched.string)))
     {
         Dvar_WeakCopyString(dvar->latched.string, dest);
     }
-    else if (dvar->reset.integer && (string == (char *)(uintptr_t)(unsigned int)dvar->reset.integer || !strcmp(string, dvar->reset.string)))
+    else if (dvar->reset.string && (string == dvar->reset.string || !strcmp(string, dvar->reset.string)))
     {
         Dvar_WeakCopyString(dvar->reset.string, dest);
     }
@@ -1514,13 +1522,14 @@ void __cdecl Dvar_SetLatchedValue(dvar_s *dvar, DvarValue value)
         dvar->latched = value;
         break;
     case 7u:
-        if (dvar->latched.integer != value.integer)
+        // KISAKHACK-AUDIT: 64-bit pointer-safe.
+        if (dvar->latched.string != value.string)
         {
             shouldFree = Dvar_ShouldFreeLatchedString(dvar);
             if (shouldFree)
-                oldString.integer = dvar->latched.integer;
+                oldString.string = dvar->latched.string;
             Dvar_AssignLatchedStringValue(dvar, &latchedString, (char*)value.string);
-            dvar->latched.integer = latchedString.integer;
+            dvar->latched.string = latchedString.string;
             if (shouldFree)
                 Dvar_FreeString(&oldString);
         }
@@ -1535,11 +1544,12 @@ void __cdecl Dvar_AssignLatchedStringValue(dvar_s *dvar, DvarValue *dest, char *
 {
     if (!string)
         MyAssertHandler(".\\universal\\dvar.cpp", 254, 0, "%s", "string");
-    if (dvar->current.integer && (string == (char *)dvar->current.string || !strcmp(string, dvar->current.string)))
+    // KISAKHACK-AUDIT: 64-bit pointer-safe.
+    if (dvar->current.string && (string == dvar->current.string || !strcmp(string, dvar->current.string)))
     {
         Dvar_WeakCopyString(dvar->current.string, dest);
     }
-    else if (dvar->reset.integer && (string == (char *)(uintptr_t)(unsigned int)dvar->reset.integer || !strcmp(string, dvar->reset.string)))
+    else if (dvar->reset.string && (string == dvar->reset.string || !strcmp(string, dvar->reset.string)))
     {
         Dvar_WeakCopyString(dvar->reset.string, dest);
     }
@@ -1666,18 +1676,19 @@ void __cdecl Dvar_PerformUnregistration(dvar_s *dvar)
     }
     if (dvar->type != 7)
     {
+        // KISAKHACK-AUDIT: full 8-byte pointer storage.
         v1 = Dvar_DisplayableLatchedValue(dvar);
         Dvar_CopyString(v1, &dvar->current);
         if (Dvar_ShouldFreeLatchedString(dvar))
             Dvar_FreeString(&dvar->latched);
-        dvar->latched.integer = 0;
+        dvar->latched.string = nullptr;
         Dvar_WeakCopyString(dvar->current.string, &dvar->latched);
         if (Dvar_ShouldFreeResetString(dvar))
             Dvar_FreeString(&dvar->reset);
-        dvar->reset.integer = 0;
+        dvar->reset.string = nullptr;
         v2 = Dvar_DisplayableResetValue(dvar);
         Dvar_AssignResetStringValue(dvar, &resetString, v2);
-        dvar->reset.integer = resetString.integer;
+        dvar->reset.string = resetString.string;
         dvar->type = 7;
     }
 }
@@ -1836,19 +1847,21 @@ void __cdecl Dvar_MakeExplicitType(
         v8 = *Dvar_ClampValueToDomain(&v7, type, v10, resetValue, domain);
         castValue = v8;
     }
-    v6 = dvar->type == 7 && castValue.integer;
+    v6 = dvar->type == 7 && castValue.string;
     wasString = v6;
     if (v6)
-        castValue.integer = (int)(uintptr_t)CopyString((char *)(uintptr_t)(unsigned int)castValue.integer); // KISAKHACK 64-bit
+        castValue.string = CopyString(castValue.string); // KISAKHACK-AUDIT: full 8-byte ptr
+    // KISAKHACK-AUDIT: full 8-byte clears (was `.integer = 0`, which left the
+    // high half of any previously-stored pointer alive in the union).
     if (dvar->type != 7 && Dvar_ShouldFreeCurrentString(dvar))
         Dvar_FreeString(&dvar->current);
-    dvar->current.integer = 0;
+    dvar->current.string = nullptr;
     if (Dvar_ShouldFreeLatchedString(dvar))
         Dvar_FreeString(&dvar->latched);
-    dvar->latched.integer = 0;
+    dvar->latched.string = nullptr;
     if (Dvar_ShouldFreeResetString(dvar))
         Dvar_FreeString(&dvar->reset);
-    dvar->reset.integer = 0;
+    dvar->reset.string = nullptr;
     Dvar_UpdateResetValue(dvar, resetValue);
     Dvar_UpdateValue(dvar, castValue);
     dvar_modifiedFlags |= flags;
@@ -1887,7 +1900,7 @@ DvarValue *__cdecl Dvar_StringToValue(DvarValue *result, unsigned __int8 type, D
         value.integer = Dvar_StringToEnum(&domain, string);
         break;
     case 7u:
-        value.integer = (int)(uintptr_t)string; // KISAKHACK 64-bit
+        value.string = string; // KISAKHACK-AUDIT: full 8-byte ptr (was truncated)
         break;
     case 8u:
         Dvar_StringToColor(string, (unsigned __int8 *)&value);
@@ -2002,16 +2015,19 @@ void __cdecl Dvar_UpdateValue(dvar_s *dvar, DvarValue value)
         dvar->latched = value;
         break;
     case 7u:
-        if (value.integer != dvar->current.integer)
+        // KISAKHACK-AUDIT: pointer-aware string handling — was reading/writing
+        // .integer (4 bytes), corrupting any heap-allocated dvar string above
+        // 4 GiB on aarch64.
+        if (value.string != dvar->current.string)
         {
             shouldFree = Dvar_ShouldFreeCurrentString(dvar);
             if (shouldFree)
-                oldString.integer = dvar->current.integer;
-            Dvar_AssignCurrentStringValue(dvar, &currentString, (char *)(uintptr_t)(unsigned int)value.integer); // KISAKHACK 64-bit
-            dvar->current.integer = currentString.integer;
+                oldString.string = dvar->current.string;
+            Dvar_AssignCurrentStringValue(dvar, &currentString, (char *)value.string);
+            dvar->current.string = currentString.string;
             if (Dvar_ShouldFreeLatchedString(dvar))
                 Dvar_FreeString(&dvar->latched);
-            dvar->latched.integer = 0;
+            dvar->latched.string = nullptr;
             Dvar_WeakCopyString(dvar->current.string, &dvar->latched);
             if (shouldFree)
                 Dvar_FreeString(&oldString);
@@ -2231,9 +2247,12 @@ const dvar_s *__cdecl Dvar_RegisterString(
             "%s\n\t(dvarName) = %s",
             "((flags & (1 << 14)) || CanKeepStringPointer( value ))",
             dvarName);
-    v5.integer = (int)(uintptr_t)value; // KISAKHACK 64-bit
-    //*(_QWORD *)(&v5.value + 1) = dvarValue_4;
-    //v5.vector[3] = dvarValue_12;
+    // KISAKHACK-AUDIT: hex-rays decompile truncated the pointer to int because
+    // upstream was 32-bit. On aarch64 string addresses live above 0x100000000,
+    // so storing them in `integer` corrupted every string dvar (fs_basepath,
+    // fs_homepath, ...). Store through the actual `string` union member so the
+    // full 8-byte pointer survives.
+    v5.string = value;
     return Dvar_RegisterVariant(dvarName, DVAR_TYPE_STRING, flags, v5, 0, description);
 }
 
@@ -2378,7 +2397,7 @@ void __cdecl Dvar_SetBoolFromSource(dvar_s *dvar, bool value, DvarSetSource sour
             v3 = "1";
         else
             v3 = "0";
-        newValue.integer = (int)(uintptr_t)v3; // KISAKHACK 64-bit
+        newValue.string = v3; // KISAKHACK-AUDIT
     }
     else
     {
@@ -2411,7 +2430,7 @@ void __cdecl Dvar_SetIntFromSource(dvar_s *dvar, int value, DvarSetSource source
     else
     {
         Com_sprintf(string, 0x20u, "%i", value);
-        newValue.integer = (int)(uintptr_t)string; // KISAKHACK 64-bit
+        newValue.string = string; // KISAKHACK-AUDIT
     }
     Dvar_SetVariant(dvar, newValue, source);
 }
@@ -2440,7 +2459,7 @@ void __cdecl Dvar_SetFloatFromSource(dvar_s *dvar, float value, DvarSetSource so
     else
     {
         Com_sprintf(string, 0x20u, "%g", value);
-        newValue.integer = (int)(uintptr_t)string; // KISAKHACK 64-bit
+        newValue.string = string; // KISAKHACK-AUDIT
     }
     Dvar_SetVariant(dvar, newValue, source);
 }
@@ -2470,7 +2489,7 @@ void __cdecl Dvar_SetVec2FromSource(dvar_s *dvar, float x, float y, DvarSetSourc
     else
     {
         Com_sprintf(string, 0x40u, "%g %g", x, y);
-        newValue.integer = (int)(uintptr_t)string; // KISAKHACK 64-bit
+        newValue.string = string; // KISAKHACK-AUDIT
     }
     Dvar_SetVariant(dvar, newValue, source);
 }
@@ -2501,7 +2520,7 @@ void __cdecl Dvar_SetVec3FromSource(dvar_s *dvar, float x, float y, float z, Dva
     else
     {
         Com_sprintf(string, 0x60u, "%g %g %g", x, y, z);
-        newValue.integer = (int)(uintptr_t)string; // KISAKHACK 64-bit
+        newValue.string = string; // KISAKHACK-AUDIT
     }
     Dvar_SetVariant(dvar, newValue, source);
 }
@@ -2533,7 +2552,7 @@ void __cdecl Dvar_SetVec4FromSource(dvar_s *dvar, float x, float y, float z, flo
     else
     {
         Com_sprintf(string, 0x80u, "%g %g %g %g", x, y, z, w);
-        newValue.integer = (int)(uintptr_t)string; // KISAKHACK 64-bit
+        newValue.string = string; // KISAKHACK-AUDIT
     }
     Dvar_SetVariant(dvar, newValue, source);
 }
@@ -2604,7 +2623,7 @@ void __cdecl Dvar_SetColorFromSource(dvar_s *dvar, float r, float g, float b, fl
     else
     {
         Com_sprintf(string, 0x80u, "%g %g %g %g", r, g, b, a);
-        newValue.integer = (int)(uintptr_t)string; // KISAKHACK 64-bit
+        newValue.string = string; // KISAKHACK-AUDIT
     }
     Dvar_SetVariant(dvar, newValue, source);
 }

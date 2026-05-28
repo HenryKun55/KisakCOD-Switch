@@ -15,10 +15,24 @@
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 #include <GLES2/gl2.h>
+#include <malloc.h>
 
 #include "gfx_gl/gl_renderer.h"
 #include "qcommon/qcommon.h"
 #include "client_mp/client_mp.h"
+#include "ui/ui_shared.h"
+
+// libnx's default heap is tiny (newlib reports ~116 KiB arena). For
+// the CoD4 NO_FASTFILES path we need an actual budget — the menu
+// parser alone allocates 4 KiB blocks that fail on the default heap.
+// Override the weak `__nx_heap_size` global with 64 MiB; that's well
+// under any reasonable Switch applet quota so svcSetHeapSize won't
+// fail the init, but plenty for the boot-time GetMemory/Z_Malloc
+// traffic the engine emits.
+extern "C" {
+    __attribute__((used, visibility("default")))
+    size_t __nx_heap_size = 0x18000000;  // 384 MiB
+}
 
 namespace {
 
@@ -117,6 +131,25 @@ void Sys_Print(const char *msg)
 
 int main(int /*argc*/, char ** /*argv*/)
 {
+    {
+        // Probe newlib's view of the heap. mallinfo() reports the size
+        // of the dlmalloc-managed arena (what's been touched so far).
+        struct mallinfo mi = mallinfo();
+        // Direct check of fake_heap_start/end (libnx-supplied newlib
+        // heap region) so we can tell whether our __nx_heap_size
+        // override actually landed.
+        extern char *fake_heap_start;
+        extern char *fake_heap_end;
+        char dbg[256];
+        std::snprintf(dbg, sizeof(dbg),
+                      "[switch_main] heap_start=%p heap_end=%p span=%zu (%zu MiB) mallinfo arena=%zu",
+                      (void *)fake_heap_start, (void *)fake_heap_end,
+                      (size_t)(fake_heap_end - fake_heap_start),
+                      (size_t)((fake_heap_end - fake_heap_start) >> 20),
+                      (size_t)mi.arena);
+        svcOutputDebugString(dbg, std::strlen(dbg));
+    }
+
     NWindow *win = nwindowGetDefault();
     if (!egl_init(win)) {
         return EXIT_FAILURE;
@@ -176,12 +209,64 @@ int main(int /*argc*/, char ** /*argv*/)
 
     switch_debug_log("[switch_main] Com_Init returned, entering Com_Frame loop\n");
 
+    // Inspeciona os fastfiles de UI pra a gente saber a populacao de
+    // assets que precisa decodificar. So leitura — nao registra nada
+    // ainda; e a base do pipeline incremental.
+    extern void switch_inspect_zone(const char *path);
+    switch_inspect_zone("zone/english/ui_mp.ff");
+    switch_inspect_zone("zone/english/common_mp.ff");
+
+    // Primeiro passo do binary fastfile loader: open + inflate via
+    // nosso DB_LoadXFileData redirecionado, le o XFile + XAssetList
+    // header. Proximas sessoes adicionam per-asset decoders.
+    extern int switch_load_zone(const char *zone_name, const char *path);
+    switch_load_zone("ui_mp", "zone/english/ui_mp.ff");
+
+    // Kick the UI subsystem into UIMENU_MAIN — the engine doesn't open
+    // anything automatically at boot in MP, so without this push our
+    // loaded menu file (renamed to "main") never gets onto the active
+    // stack and the render queue keeps emitting only the baseline 3
+    // opcodes.
+    extern int UI_SetActiveMenu(int localClientNum, uiMenuCommand_t menu);
+    UI_SetActiveMenu(0, UIMENU_MAIN);
+    switch_debug_log("[switch_main] UI_SetActiveMenu(UIMENU_MAIN) called\n");
+
+    // CL_KeyEvent feeds CoD4's input layer. Para o usuario ver o menu
+    // responder, mapeamos os botoes do JoyCon pros key codes que a UI
+    // do CoD4 espera (UPARROW/DOWNARROW/ENTER/ESCAPE/etc).
+    extern void __cdecl CL_KeyEvent(int32_t localClientNum, int32_t key, int32_t down, uint32_t time);
+    struct ButtonMap { uint64_t hid; int key; const char *name; };
+    static const ButtonMap kKeyMap[] = {
+        { HidNpadButton_Up,    0x9A, "UP" },     // K_UPARROW
+        { HidNpadButton_Down,  0x9B, "DOWN" },   // K_DOWNARROW
+        { HidNpadButton_Left,  0x9C, "LEFT" },   // K_LEFTARROW
+        { HidNpadButton_Right, 0x9D, "RIGHT" },  // K_RIGHTARROW
+        { HidNpadButton_A,     0x0D, "A=ENTER" },// K_ENTER (CoD4 select)
+        { HidNpadButton_B,     0x1B, "B=ESC" },  // K_ESCAPE
+        { HidNpadButton_Y,     0x20, "Y=SPACE" },// K_SPACE
+        { HidNpadButton_X,     0x09, "X=TAB" },  // K_TAB
+    };
+
     int frame = 0;
     while (appletMainLoop()) {
         switch_reset_render_queue();
         padUpdate(&pad);
-        if (padGetButtonsDown(&pad) & HidNpadButton_Plus) {
+        const uint64_t down = padGetButtonsDown(&pad);
+        const uint64_t up   = padGetButtonsUp(&pad);
+        if (down & HidNpadButton_Plus) {
             break;
+        }
+        // Translate edges to key events.
+        for (const auto &m : kKeyMap) {
+            if (down & m.hid) {
+                CL_KeyEvent(0, m.key, 1, (unsigned)frame);
+                char dbg[64];
+                std::snprintf(dbg, sizeof(dbg), "[input] %s down -> key %d\n", m.name, m.key);
+                switch_debug_log(dbg);
+            }
+            if (up & m.hid) {
+                CL_KeyEvent(0, m.key, 0, (unsigned)frame);
+            }
         }
 
         if (frame < 5) {
@@ -197,13 +282,10 @@ int main(int /*argc*/, char ** /*argv*/)
         }
         ++frame;
 
-        // Apply CoD4's render queue (RC_CLEAR_SCREEN feeds glClearColor)
-        // and present. No more demo cube on top — the framebuffer is
-        // entirely engine-driven now. As more RC_* opcodes get wired
-        // into switch_dispatch_render_queue, real CoD4 pixels start
-        // appearing on this same swap chain.
+        // Apply CoD4's render queue. The dispatcher does its own glClear
+        // when it sees RC_CLEAR_SCREEN, so any draws it issues afterwards
+        // survive. We do NOT glClear again before swap or we'd wipe them.
         switch_dispatch_render_queue();
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         eglSwapBuffers(g_display, g_surface);
     }
 

@@ -117,31 +117,52 @@ BOOL QueryPerformanceFrequency(LARGE_INTEGER *freq)
 #if defined(__SWITCH__)
 // libnx has no sys/mman.h: fall back to plain malloc/free. Code paths that
 // asked for RESERVE-only mappings will still get a contiguous backed buffer.
+#include <atomic>
 #include <cstdlib>
+#include <malloc.h>
+#include <switch.h>
+constexpr size_t g_kisakArenaSize = 96u * 1024u * 1024u;
+alignas(4096) unsigned char g_kisakArena[g_kisakArenaSize];
+std::atomic<size_t> g_kisakArenaPos{0};
+
 void *VirtualAlloc(void *addr, size_t size, unsigned int flags, unsigned int /*prot*/)
 {
     if ((flags & MEM_RESERVE) == 0 && (flags & MEM_COMMIT) != 0 && addr != nullptr) {
         return addr;
     }
-    // Win32 VirtualAlloc returns page-aligned (4 KiB) zeroed memory. The
-    // engine relies on both: HunkUser asserts that user->buf lands on a
-    // 32-byte boundary, and various init paths read fields before writing.
-    // Round size up to a 4 KiB multiple, use posix_memalign for alignment,
-    // and zero the buffer ourselves.
-    const size_t align = 4096;
-    const size_t rounded = (size + align - 1) & ~(align - 1);
-    // libnx doesn't ship posix_memalign — fall back to aligned_alloc which
-    // requires (size % alignment) == 0; we already rounded `rounded` up to
-    // a 4 KiB multiple so that holds.
-    void *p = std::aligned_alloc(align, rounded);
-    if (!p) return nullptr;
-    std::memset(p, 0, rounded);
-    return p;
+    // Engine hunks are big and long-lived; routing them through libnx
+    // malloc fragments the C heap so badly that subsequent malloc(4 KiB)
+    // calls fail. Carve them out of a dedicated static arena instead so
+    // the newlib allocator stays clean.
+    const size_t align = 32;
+    const size_t alignedSize = (size + align - 1) & ~(align - 1);
+    size_t pos = g_kisakArenaPos.fetch_add(alignedSize, std::memory_order_relaxed);
+    if (pos + alignedSize > g_kisakArenaSize) {
+        // Fall back to libnx malloc when the arena is exhausted —
+        // shouldn't happen during boot but keeps later runtime allocs
+        // from instantly fatal'ing.
+        void *p = memalign(32, size);
+        if (!p) return nullptr;
+        std::memset(p, 0, size);
+        return p;
+    }
+    return g_kisakArena + pos;
 }
 BOOL VirtualFree(void *addr, size_t /*size*/, unsigned int flags)
 {
     if (!addr) return 0;
-    if (flags & MEM_RELEASE) { std::free(addr); return 1; }
+    if (flags & MEM_RELEASE) {
+        // Arena allocations are never freed — they live until process
+        // exit. The arena pointer compare can't be exact (we returned
+        // mid-arena pointers) but the bounds check is fine, because the
+        // static array is at a known compile-time address range.
+        if (reinterpret_cast<unsigned char *>(addr) >= g_kisakArena &&
+            reinterpret_cast<unsigned char *>(addr) <  g_kisakArena + g_kisakArenaSize) {
+            return 1;
+        }
+        std::free(addr);
+        return 1;
+    }
     if (flags & MEM_DECOMMIT) { return 1; }
     return 0;
 }

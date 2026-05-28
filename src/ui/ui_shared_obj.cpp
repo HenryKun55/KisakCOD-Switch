@@ -240,11 +240,13 @@ token_s *__cdecl PC_CopyToken(token_s *token)
 {
     unsigned int *t; // [esp+8h] [ebp-4h]
 
-    t = GetMemory(0x430u);
+    t = GetMemory(sizeof(token_s));
     if (t)
     {
-        memcpy(t, token, 0x430u);
-        t[266] = 0;
+        // KISAKHACK-AUDIT: sizeof was hardcoded as 0x430 (32-bit). Use sizeof
+        // so the copy survives larger struct on aarch64.
+        memcpy(t, token, sizeof(token_s));
+        ((token_s *)t)->next = nullptr;
         ++numtokens;
         return (token_s *)t;
     }
@@ -1350,8 +1352,8 @@ void __cdecl PS_CreatePunctuationTable(script_s *script, punctuation_s *punctuat
     punctuation_s *p; // [esp+2Ch] [ebp-4h]
 
     if (!script->punctuationtable)
-        script->punctuationtable = (punctuation_s **)GetMemory(0x400u);
-    memset((unsigned __int8 *)script->punctuationtable, 0, 0x400u);
+        script->punctuationtable = (punctuation_s **)GetMemory(256 * sizeof(punctuation_s *));
+    memset((unsigned __int8 *)script->punctuationtable, 0, 256 * sizeof(punctuation_s *));
     for (i = 0; punctuations[i].p; ++i)
     {
         newp = &punctuations[i];
@@ -1400,7 +1402,11 @@ script_s *__cdecl LoadScriptFile(const char *filename)
     length = FS_FOpenFileRead(pathname, &fp);
     if (!fp)
         return 0;
-    buffer = (script_s *)GetClearedMemory(length + 1201);
+    // KISAKHACK-AUDIT: upstream used 1201 (== 32-bit sizeof(script_s) + 1).
+    // On aarch64 the struct grows because pointers are 8 bytes, so the
+    // suffix buffer landed inside the script_s and clobbered its own
+    // fields. Use sizeof() instead.
+    buffer = (script_s *)GetClearedMemory(length + sizeof(script_s) + 1);
     v4 = filename;
     v3 = buffer;
     do
@@ -1409,7 +1415,7 @@ script_s *__cdecl LoadScriptFile(const char *filename)
         v3->filename[0] = *v4++;
         v3 = (script_s *)((char *)v3 + 1);
     } while (v2);
-    buffer->buffer = buffer[1].filename;
+    buffer->buffer = (char *)(buffer + 1);
     buffer->buffer[length] = 0;
     buffer->length = length;
     buffer->script_p = buffer->buffer;
@@ -1673,7 +1679,11 @@ int __cdecl PC_Directive_define(source_s *source)
             return 0;
         PC_FindHashedDefine(source->definehash, token.string);
     }
-    definea = (define_s *)GetMemory(&token.string[strlen(token.string) + 1] - &token.string[1] + 33);
+    // KISAKHACK-AUDIT: trailing 33 (== 32-bit sizeof(define_s) + 1) was a
+    // hex-rays artifact that placed the name buffer inside the struct on
+    // aarch64. Replace with sizeof so the trailing string lives past the
+    // struct end.
+    definea = (define_s *)GetMemory(strlen(token.string) + sizeof(define_s) + 1);
     definea->name = 0;
     definea->flags = 0;
     definea->builtin = 0;
@@ -1774,7 +1784,8 @@ script_s *__cdecl LoadScriptMemory(char *ptr, int length, const char *name)
     script_s *v5; // [esp+8h] [ebp-10h]
     script_s *buffer; // [esp+10h] [ebp-8h]
 
-    buffer = (script_s *)GetClearedMemory(length + 1201);
+    // KISAKHACK-AUDIT: same 32-bit sizeof bug as LoadScriptFile.
+    buffer = (script_s *)GetClearedMemory(length + sizeof(script_s) + 1);
     v5 = buffer;
     do
     {
@@ -1782,7 +1793,7 @@ script_s *__cdecl LoadScriptMemory(char *ptr, int length, const char *name)
         v5->filename[0] = *name++;
         v5 = (script_s *)((char *)v5 + 1);
     } while (v4);
-    buffer->buffer = buffer[1].filename;
+    buffer->buffer = (char *)(buffer + 1);
     buffer->buffer[length] = 0;
     buffer->length = length;
     buffer->script_p = buffer->buffer;
@@ -1809,7 +1820,7 @@ define_s *__cdecl PC_DefineFromString(char *string)
     memset((unsigned __int8 *)&src, 0, sizeof(src));
     strncpy(src.filename, "*extern", 0x40u);
     src.scriptstack = script;
-    src.definehash = (define_s **)GetClearedMemory(0x1000u);
+    src.definehash = (define_s **)GetClearedMemory(1024 * sizeof(define_s *));
     res = PC_Directive_define(&src);
     for (t = src.tokens; t; t = src.tokens)
     {
@@ -1847,56 +1858,58 @@ int __cdecl PC_AddDefine(source_s *source, char *string)
 
 define_s *__cdecl PC_CopyDefine(source_s *source, define_s *define)
 {
-    char v2; // dl
-    _BYTE *v4; // [esp+8h] [ebp-28h]
-    char *name; // [esp+Ch] [ebp-24h]
-    unsigned int *newdefine; // [esp+20h] [ebp-10h]
-    token_s *newtoken; // [esp+24h] [ebp-Ch]
-    token_s *newtokena; // [esp+24h] [ebp-Ch]
-    token_s *token; // [esp+28h] [ebp-8h]
-    token_s *tokena; // [esp+28h] [ebp-8h]
-    token_s *lasttoken; // [esp+2Ch] [ebp-4h]
-    token_s *lasttokena; // [esp+2Ch] [ebp-4h]
+    // KISAKHACK-AUDIT: original code addressed define_s as a uint32_t array
+    // (newdefine[0..7]) and stored pointers truncated to 32 bits. On aarch64
+    // that obliterates every pointer field. Rewrite to use the struct
+    // directly so the layout is right on both 32 and 64-bit.
+    char *name;
+    token_s *newtoken;
+    token_s *newtokena;
+    token_s *token;
+    token_s *tokena;
+    token_s *lasttoken;
+    token_s *lasttokena;
 
-    newdefine = GetMemory(strlen(define->name) + 33);
-    *newdefine = (unsigned int)(uintptr_t)(newdefine + 8);
-    name = define->name;
-    v4 = (_BYTE *)(uintptr_t)*newdefine;
-    do
+    define_s *newdefine = (define_s *)GetMemory(strlen(define->name) + sizeof(define_s) + 1);
+    newdefine->name = (char *)(newdefine + 1);
     {
-        v2 = *name;
-        *v4++ = *name++;
-    } while (v2);
-    newdefine[1] = define->flags;
-    newdefine[2] = define->builtin;
-    newdefine[3] = define->numparms;
-    newdefine[6] = 0;
-    newdefine[7] = 0;
-    newdefine[5] = 0;
-    lasttoken = 0;
+        char *dst = newdefine->name;
+        name = define->name;
+        do
+        {
+            *dst++ = *name;
+        } while (*name++);
+    }
+    newdefine->flags = define->flags;
+    newdefine->builtin = define->builtin;
+    newdefine->numparms = define->numparms;
+    newdefine->next = nullptr;
+    newdefine->hashnext = nullptr;
+    newdefine->tokens = nullptr;
+    lasttoken = nullptr;
     for (token = define->tokens; token; token = token->next)
     {
         newtoken = PC_CopyToken(token);
-        newtoken->next = 0;
+        newtoken->next = nullptr;
         if (lasttoken)
             lasttoken->next = newtoken;
         else
-            newdefine[5] = (unsigned int)(uintptr_t)newtoken;
+            newdefine->tokens = newtoken;
         lasttoken = newtoken;
     }
-    newdefine[4] = 0;
-    lasttokena = 0;
+    newdefine->parms = nullptr;
+    lasttokena = nullptr;
     for (tokena = define->parms; tokena; tokena = tokena->next)
     {
         newtokena = PC_CopyToken(tokena);
-        newtokena->next = 0;
+        newtokena->next = nullptr;
         if (lasttokena)
             lasttokena->next = newtokena;
         else
-            newdefine[4] = (unsigned int)(uintptr_t)newtokena;
+            newdefine->parms = newtokena;
         lasttokena = newtokena;
     }
-    return (define_s *)newdefine;
+    return newdefine;
 }
 
 define_s *globaldefines;
@@ -1943,7 +1956,7 @@ void __cdecl PC_PushIndent(source_s *source, int type, parseSkip_t skip)
 {
     indent_s *indent; // [esp+0h] [ebp-4h]
 
-    indent = (indent_s *)GetMemory(0x10u);
+    indent = (indent_s *)GetMemory(sizeof(indent_s));
     indent->type = type;
     indent->script = source->scriptstack;
     indent->skip = skip;
@@ -3086,7 +3099,7 @@ source_s *__cdecl LoadSourceFile(char *filename)
     if (!script)
         return 0;
     script->next = 0;
-    source = (source_s *)GetMemory(0x4D0u);
+    source = (source_s *)GetMemory(sizeof(source_s));
     memset(source, 0, sizeof(source_s));
     strncpy(source->filename, filename, 0x40u);
     source->scriptstack = script;
@@ -3094,7 +3107,7 @@ source_s *__cdecl LoadSourceFile(char *filename)
     source->defines = 0;
     source->indentstack = 0;
     source->skip = 0;
-    source->definehash = (define_s **)GetClearedMemory(0x1000u);
+    source->definehash = (define_s **)GetClearedMemory(1024 * sizeof(define_s *));
     PC_AddGlobalDefinesToSource(source);
     return source;
 }
@@ -4978,7 +4991,7 @@ int __cdecl MenuParse_itemDef(menuDef_t *menu, int handle)
 
     if (menu->itemCount < 256)
     {
-        item = (itemDef_s *)UI_Alloc(0x174u, 4);
+        item = (itemDef_s *)UI_Alloc(sizeof(itemDef_s), 8); // KISAKHACK-AUDIT: 32-bit size+align
         Item_Init(item, menu->imageTrack);
         if (!Item_Parse(handle, item))
         {
@@ -5004,7 +5017,7 @@ int __cdecl MenuParse_execKey(menuDef_t *menu, int handle)
     keyindex = (unsigned __int8)keyname;
     if (!PC_Script_Parse(handle, &action))
         return 0;
-    handler = (ItemKeyHandler *)UI_Alloc(0xCu, 4);
+    handler = (ItemKeyHandler *)UI_Alloc(sizeof(ItemKeyHandler), 8);
     handler->key = keyindex;
     handler->action = action;
     handler->next = menu->onKey;
@@ -5022,7 +5035,7 @@ int __cdecl MenuParse_execKeyInt(menuDef_t *menu, int handle)
         return 0;
     if (!PC_Script_Parse(handle, &action))
         return 0;
-    handler = (ItemKeyHandler *)UI_Alloc(0xCu, 4);
+    handler = (ItemKeyHandler *)UI_Alloc(sizeof(ItemKeyHandler), 8);
     handler->key = keyname;
     handler->action = action;
     handler->next = menu->onKey;
@@ -5210,7 +5223,7 @@ void __cdecl Item_ValidateTypeData(itemDef_s *item, int handle)
         switch (item->type)
         {
         case 6:
-            item->typeData.listBox = (listBoxDef_s *)UI_Alloc(0x154u, 4);
+            item->typeData.listBox = (listBoxDef_s *)UI_Alloc(sizeof(listBoxDef_s), 8);
             break;
         case 4:
         case 9:
@@ -5221,7 +5234,7 @@ void __cdecl Item_ValidateTypeData(itemDef_s *item, int handle)
         case 0xA:
         case 0:
         case 0x11:
-            item->typeData.listBox = (listBoxDef_s *)UI_Alloc(0x20u, 4);
+            item->typeData.editField = (editFieldDef_s *)UI_Alloc(sizeof(editFieldDef_s), 8); // KISAKHACK-AUDIT
             if (item->type == 4 || item->type == 16 || item->type == 9 || item->type == 18 || item->type == 17)
             {
                 editDef = Item_GetEditFieldDef(item);
@@ -5232,7 +5245,7 @@ void __cdecl Item_ValidateTypeData(itemDef_s *item, int handle)
             }
             break;
         case 0xC:
-            item->typeData.listBox = (listBoxDef_s *)UI_Alloc(0x188u, 4);
+            item->typeData.multi = (multiDef_s *)UI_Alloc(sizeof(multiDef_s), 8); // KISAKHACK-AUDIT
             break;
         }
     }
@@ -5790,7 +5803,7 @@ int __cdecl ItemParse_execKey(itemDef_s *item, int handle)
     keyindex = (unsigned __int8)keyname;
     if (!PC_Script_Parse(handle, &action))
         return 0;
-    handler = (ItemKeyHandler *)UI_Alloc(0xCu, 4);
+    handler = (ItemKeyHandler *)UI_Alloc(sizeof(ItemKeyHandler), 8);
     handler->key = keyindex;
     handler->action = action;
     handler->next = item->onKey;
@@ -5808,7 +5821,7 @@ int __cdecl ItemParse_execKeyInt(itemDef_s *item, int handle)
         return 0;
     if (!PC_Script_Parse(handle, &action))
         return 0;
-    handler = (ItemKeyHandler *)UI_Alloc(0xCu, 4);
+    handler = (ItemKeyHandler *)UI_Alloc(sizeof(ItemKeyHandler), 8);
     handler->key = keyname;
     handler->action = action;
     handler->next = item->onKey;
@@ -6329,8 +6342,9 @@ void __cdecl Menu_PostParse(menuDef_t *menu)
 
     if (!menu)
         MyAssertHandler(".\\ui\\ui_shared_obj.cpp", 2653, 0, "%s", "menu");
-    size = 4 * menu->itemCount;
-    menu->items = (itemDef_s **)UI_Alloc(size, 4);
+    // KISAKHACK-AUDIT: size was `4 * itemCount` (32-bit pointer width).
+    size = sizeof(itemDef_s *) * menu->itemCount;
+    menu->items = (itemDef_s **)UI_Alloc(size, sizeof(void *));
     memcpy((unsigned __int8 *)menu->items, (unsigned __int8 *)g_load_0.items, size);
     if (menu->fullScreen)
     {
@@ -6346,7 +6360,7 @@ char __cdecl Menu_New(int handle, int imageTrack)
 {
     menuDef_t *menu; // [esp+0h] [ebp-4h]
 
-    menu = (menuDef_t *)UI_Alloc(0x11Cu, 4);
+    menu = (menuDef_t *)UI_Alloc(sizeof(menuDef_t), 8); // KISAKHACK-AUDIT: 32-bit size+align
     Menu_Init(menu, imageTrack);
     if (Menu_Parse(handle, menu))
     {

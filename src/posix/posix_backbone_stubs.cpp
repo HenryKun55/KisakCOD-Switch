@@ -515,9 +515,7 @@ void Sys_NotifyDatabase() {}
 // We never actually pump the queue — the engine main thread will do
 // synchronous DB_LoadXFile calls via the stubbed path for now.
 char Sys_SpawnDatabaseThread(void (* /*fn*/)(unsigned int)) { return 1; }
-void DB_LoadXFile(const char * /*path*/, void * /*f*/, const char * /*filename*/,
-                  XZoneMemory * /*zoneMem*/, void (* /*interrupt*/)(),
-                  unsigned char * /*buf*/, int /*allocType*/) {}
+// DB_LoadXFile now provided by src/switch/switch_load_fastfile.cpp.
 void Sys_ResumeDatabaseThread(ThreadOwner /*owner*/) {}
 void Sys_SuspendDatabaseThread(ThreadOwner /*owner*/) {}
 
@@ -641,8 +639,7 @@ struct XZoneMemory;
 // R_AllocStatic*Buffer / R_FinishStatic*Buffer / R_FreeStatic*Buffer /
 // R_Unlock*Buffer provided by src/gfx_d3d/r_buffers.cpp now.
 
-// DB
-void DB_LoadXFileData(unsigned char * /*buffer*/, unsigned int /*size*/) {}
+// DB_LoadXFileData now provided by src/switch/switch_load_fastfile.cpp.
 
 // PMem
 // PMem_Alloc provided by src/universal/physicalmemory.cpp now.
