@@ -343,7 +343,8 @@ void __cdecl BG_ParseCommands(const char **input, animScriptItem_t *scriptItem, 
             if (scriptItem->numCommands >= 8)
                 BG_AnimParseError("BG_ParseCommands: exceeded maximum number of animations (%i)", 8);
             command = &scriptItem->commands[scriptItem->numCommands++];
-            *(_DWORD *)command->bodyPart = 0;
+            command->bodyPart[0] = 0;
+            command->bodyPart[1] = 0;
         }
         command->bodyPart[partIndex] = BG_IndexForString(v5->token, animBodyPartsStr, 1);
         if (command->bodyPart[partIndex] <= 0)
@@ -515,7 +516,7 @@ int32_t __cdecl BG_PlayAnim(
         LABEL_32:
             if (ps->torsoTimer < 50 || force)
             {
-                if (isContinue && (ps->torsoAnim & 0xFFFFFDFF) == animNum)
+                if (isContinue && (ps->torsoAnim & 0xFFFFFDFFu) == static_cast<unsigned int>(animNum))
                 {
                     if (setTimer && (globalScriptData->animations[animNum].flags & 0x80) != 0)
                         ps->torsoTimer = duration;
@@ -552,16 +553,16 @@ int32_t __cdecl BG_PlayAnim(
     }
     if (ps->legsTimer < 50 || force)
     {
-        if (isContinue && (ps->legsAnim & 0xFFFFFDFF) == animNum)
+        if (isContinue && (ps->legsAnim & 0xFFFFFDFFu) == static_cast<unsigned int>(animNum))
         {
             if (setTimer && (globalScriptData->animations[animNum].flags & 0x80) != 0)
             {
                 ps->legsTimer = duration;
             }
-            else if (xanim_debug->current.enabled && (ps->legsAnim & 0xFFFFFDFF) != animNum)
+            else if (xanim_debug->current.enabled && (ps->legsAnim & 0xFFFFFDFFu) != static_cast<unsigned int>(animNum))
             {
                 Com_Printf(19, "anim failed because");
-                if ((ps->legsAnim & 0xFFFFFDFF) == animNum)
+                if ((ps->legsAnim & 0xFFFFFDFFu) == static_cast<unsigned int>(animNum))
                 {
                     Com_Printf(19, ", isContinue is true");
                     Com_Printf(
@@ -1044,7 +1045,7 @@ void __cdecl BG_SetConditionValue(uint32_t client, uint32_t condition, uint64_t 
     iassert(client < 0x40u);
 
     conditions = bgs->clientinfo[client].clientConditions[condition];
-    *(_QWORD *)conditions = value;
+    *(_QWORD_alias *)conditions = value;
     if ((*conditions != (uint32_t)value || conditions[1] != HIDWORD(value)) && G_IsServerGameSystem(client))
     {
         iassert(client < 0x40u);
@@ -1213,14 +1214,17 @@ bool __cdecl BG_IsKnifeMeleeAnim(const clientInfo_t *ci, int32_t animNum)
 void __cdecl BG_LerpOffset(float *offset_goal, float maxOffsetChange, float *offset)
 {
     float diff[3] = { 0 }; // [esp+20h] [ebp-10h] BYREF
-    int error = 0; // [esp+2Ch] [ebp-4h]
+    // KISAKHACK-AUDIT: hex-rays declared `error` as int but used both float and int views
+    // (I_rsqrt takes int bits, comparisons use float). Union expresses both.
+    union { float f; int i; } error; // [esp+2Ch] [ebp-4h]
+    error.i = 0;
 
     Vec3Sub(offset_goal, offset, diff);
-    *(float *)&error = Vec3LengthSq(diff);
-    if (*(float *)&error != 0.0)
+    error.f = Vec3LengthSq(diff);
+    if (error.f != 0.0)
     {
-        *(float *)&error = I_rsqrt(error) * maxOffsetChange;
-        if (*(float *)&error >= 1.0)
+        error.f = I_rsqrt(error.i) * maxOffsetChange;
+        if (error.f >= 1.0)
         {
             *offset = *offset_goal;
             offset[1] = offset_goal[1];
@@ -1228,7 +1232,7 @@ void __cdecl BG_LerpOffset(float *offset_goal, float maxOffsetChange, float *off
         }
         else
         {
-            Vec3Mad(offset, *(float *)&error, diff, offset);
+            Vec3Mad(offset, error.f, diff, offset);
         }
     }
 }

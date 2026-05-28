@@ -982,7 +982,7 @@ GfxModelLightingPatch *__cdecl R_BackEndDataAllocAndClearModelLightingPatch(GfxB
     GfxModelLightingPatch *v1; // edx
     [[maybe_unused]] unsigned int patchIndex; // [esp+4h] [ebp-4h]
 
-    patchIndex = InterlockedExchangeAdd(&frontEndDataOut->modelLightingPatchCount, static_cast<long>(1));
+    patchIndex = InterlockedExchangeAdd(&frontEndDataOut->modelLightingPatchCount, static_cast<LONG>(1));
     if (patchIndex >= 0x1000)
         Com_Error(ERR_FATAL, "modelLightingPatchList ran out of elements.");
     v1 = &frontEndDataOut->modelLightingPatchList[patchIndex];

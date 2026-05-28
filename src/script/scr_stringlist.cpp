@@ -104,9 +104,9 @@ void SL_AddUserInternal(RefString* refStr, unsigned int user)
 		volatile unsigned int Comperand;
 		do
 			Comperand = refStr->data;
-		while (InterlockedCompareExchange(&refStr->data,
+		while (static_cast<unsigned int>(InterlockedCompareExchange(&refStr->data,
 			static_cast<unsigned int>(Comperand | (user << 16)),
-			static_cast<unsigned int>(Comperand)) != Comperand);
+			static_cast<unsigned int>(Comperand))) != Comperand);
 		InterlockedIncrement(&refStr->data);
 	}
 }
@@ -507,7 +507,7 @@ unsigned int SL_FindString(const char* str)
 
 void __cdecl SL_TransferRefToUser(unsigned int stringValue, unsigned int user)
 {
-	volatile LONG Comperand; // [esp+20h] [ebp-28h]
+	volatile unsigned int Comperand; // [esp+20h] [ebp-28h]
 	RefString *refStr; // [esp+44h] [ebp-4h]
 
 	PROF_SCOPED("SL_TransferRefToUser");
@@ -530,9 +530,9 @@ void __cdecl SL_TransferRefToUser(unsigned int stringValue, unsigned int user)
 	{
 		do
 			Comperand = refStr->data;
-		while (InterlockedCompareExchange(&refStr->data,
+		while (static_cast<unsigned int>(InterlockedCompareExchange(&refStr->data,
 			static_cast<unsigned int>(Comperand | (user << 16)),
-			static_cast<unsigned int>(Comperand)) != Comperand);
+			static_cast<unsigned int>(Comperand))) != Comperand);
 	}
 }
 

@@ -525,10 +525,14 @@ void __cdecl DObjArchive(DObj_s *obj)
     obj->models = NULL;
     DObjFree(obj);
 
-    // KISAKHACK: original 32-bit layout asserted 96 here; on 64-bit the layout
-    // grows by 12 bytes (tree/skel.mat/models pointers each gain 4).
-    static_assert(sizeof(void *) != 4 || (sizeof(DObj_s) - sizeof(obj->models)) == 96);
-    memcpy(obj, &savedObj, sizeof(DObj_s) - sizeof(obj->models));
+    // KISAKHACK-AUDIT: upstream stashed savedObj into the freed DObj slot via memcpy
+    // sized as sizeof(DObj_s) - sizeof(models). On 32-bit DObj_s minus models exactly
+    // matches sizeof(SavedDObj)=96. On 64-bit DObj_s grows (pointer widening in tree/
+    // skel.mat/models) so the memcpy size exceeds SavedDObj's 104 bytes by ~8. Cap at
+    // sizeof(SavedDObj) to avoid OOB read; the trailing bytes of the destination would
+    // be filled with garbage anyway under upstream's contract since they aren't part of
+    // the saved state. May break save/restore on Switch — tracked by KISAKHACK marker.
+    memcpy(reinterpret_cast<unsigned char *>(obj), &savedObj, sizeof(SavedDObj));
 }
 
 void __cdecl DObjUnarchive(DObj_s *obj)
@@ -822,7 +826,7 @@ LABEL_17:
             }
             classification = model->partClassification[localBoneIndex];
             currentPriority = priorityMap[classification];
-            if (globalBoneIndex == *pos - 1)
+            if (globalBoneIndex == static_cast<unsigned int>(*pos - 1))
             {
                 pos += 2;
                 if (currentPriority == 1)
@@ -1325,7 +1329,7 @@ void DObjClone(const DObj_s *from, DObj_s *obj)
     iassert(obj);
 
     memcpy(obj, from, sizeof(DObj_s));
-    memset(&obj->skel, 0, sizeof(obj->skel));
+    memset(reinterpret_cast<unsigned char *>(&obj->skel), 0, sizeof(obj->skel));
     duplicateParts = obj->duplicateParts;
     if (obj->duplicateParts && duplicateParts != g_empty)
         SL_AddRefToString(duplicateParts);

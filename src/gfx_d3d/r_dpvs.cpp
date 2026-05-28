@@ -902,7 +902,7 @@ int __cdecl R_DrawBModel(BModelDrawInfo *bmodelInfo, const GfxBrushModel *bmodel
     else
         visibleSurfaceCount = bmodel->surfaceCountNoDecal;
     iassert( visibleSurfaceCount );
-    startSurfPos = InterlockedExchangeAdd(&frontEndDataOut->surfPos, static_cast<long>(8 * visibleSurfaceCount + 32));
+    startSurfPos = InterlockedExchangeAdd(&frontEndDataOut->surfPos, static_cast<LONG>(8 * visibleSurfaceCount + 32));
     if (8 * (unsigned int)visibleSurfaceCount + 32 + startSurfPos <= 0x20000)
     {
         iassert( !(startSurfPos & 3) );
@@ -1163,7 +1163,7 @@ void __cdecl R_FilterXModelIntoScene(
     {
         if (renderFxFlags)
         {
-            gfxEntIndex = InterlockedExchangeAdd(&frontEndDataOut->gfxEntCount, static_cast<long>(1));
+            gfxEntIndex = InterlockedExchangeAdd(&frontEndDataOut->gfxEntCount, static_cast<LONG>(1));
             if (gfxEntIndex >= 0x80)
             {
                 frontEndDataOut->gfxEntCount = 128;

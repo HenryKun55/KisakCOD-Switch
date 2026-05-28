@@ -230,7 +230,7 @@ void __cdecl FX_EffectNoLongerReferenced(FxSystem *system, FxEffect *remoteEffec
                 "%s\n\t(owner->status) = %i",
                 "((owner->status & FX_STATUS_OWNED_EFFECTS_MASK) > 0)",
                 remoteOwner->status);
-        oldStatusValue = InterlockedExchangeAdd(&remoteOwner->status, static_cast<long>(-131072));
+        oldStatusValue = InterlockedExchangeAdd(&remoteOwner->status, static_cast<LONG>(-131072));
         if ((oldStatusValue & 0xF801FFFF) != ((oldStatusValue - 0x20000) & 0xF801FFFF))
             MyAssertHandler(
                 ".\\EffectsCore\\fx_system.cpp",
@@ -307,7 +307,7 @@ bool __cdecl FX_BeginIteratingOverEffects_Exclusive(FxSystem *system)
 {
     if (system->isArchiving)
         MyAssertHandler("c:\\trees\\cod3\\src\\effectscore\\fx_system.h", 523, 0, "%s", "!system->isArchiving");
-    return InterlockedCompareExchange(&system->iteratorCount, static_cast<long>(-1), static_cast<long>(0)) == 0;
+    return InterlockedCompareExchange(&system->iteratorCount, static_cast<LONG>(-1), static_cast<LONG>(0)) == 0;
 }
 
 void __cdecl FX_RunGarbageCollection_FreeSpotLight(FxSystem *system, uint16_t effectHandle)
@@ -320,7 +320,7 @@ void __cdecl FX_RunGarbageCollection_FreeSpotLight(FxSystem *system, uint16_t ef
     }
 }
 
-void __cdecl FX_FreePool_Generic_FxTrail_(FxTrail *item, volatile long *firstFreeIndex, FxPool<FxTrail> *pool)
+void __cdecl FX_FreePool_Generic_FxTrail_(FxTrail *item, volatile LONG *firstFreeIndex, FxPool<FxTrail> *pool)
 {
     volatile uint32_t freedIndex; // [esp+4h] [ebp-4h]
 
@@ -333,14 +333,20 @@ void __cdecl FX_FreePool_Generic_FxTrail_(FxTrail *item, volatile long *firstFre
             "%s",
             "freedIndex >= 0 && freedIndex < ITEM_TYPE::POOL_SIZE");
     Sys_EnterCriticalSection(CRITSECT_FX_ALLOC);
-    if (*firstFreeIndex != -1 && *firstFreeIndex >= 0x80u)
+    if (*firstFreeIndex != -1 && static_cast<unsigned int>(*firstFreeIndex) >= 0x80u)
         MyAssertHandler(
             ".\\EffectsCore\\fx_system.cpp",
             243,
             0,
             "%s",
             "*firstFreeIndex == -1 || (*firstFreeIndex >= 0 && *firstFreeIndex < ITEM_TYPE::POOL_SIZE)");
-    *(_DWORD *)&item->nextTrailHandle = *firstFreeIndex;
+    // KISAKHACK-AUDIT: writes a DWORD covering item->nextTrailHandle (uint16) + adjacent
+    // bytes. Item is FxTrail/FxElem with the field at the same offset; assignment to that
+    // half via memcpy keeps the byte semantics without strict-aliasing.
+    {
+        unsigned int v = static_cast<unsigned int>(*firstFreeIndex);
+        memcpy(&item->nextTrailHandle, &v, sizeof(unsigned int));
+    }
     *firstFreeIndex = freedIndex;
     Sys_LeaveCriticalSection(CRITSECT_FX_ALLOC);
 }
@@ -358,7 +364,11 @@ void __cdecl FX_RunGarbageCollection_FreeTrails(FxSystem *system, FxEffect *effe
         trail = FX_PoolFromHandle_Generic<FxTrail, 128>(system->trails, firstTrailHandle);
         effect->firstTrailHandle = trail->item.nextTrailHandle;
         trail->nextFree = 0;
-        *(uint32_t *)&trail->item.lastElemHandle = 0;
+        // KISAKHACK-AUDIT: zero a uint32 spanning lastElemHandle (uint16) + adjacent byte.
+        {
+            unsigned int v = 0;
+            memcpy(&trail->item.lastElemHandle, &v, sizeof(unsigned int));
+        }
         FX_FreePool_Generic_FxTrail_((FxTrail *)trail, &system->firstFreeTrail, system->trails);
         InterlockedDecrement(&system->activeTrailCount);
     }
@@ -404,9 +414,9 @@ void __cdecl FX_SpawnEffect_AllocTrails(FxSystem *system, FxEffect *effect)
 }
 
 FxPool<FxTrail>* __cdecl FX_AllocPool_Generic_FxTrail_(
-    volatile long* firstFreeIndex,
+    volatile LONG* firstFreeIndex,
     FxPool<FxTrail>* pool,
-    volatile long* activeCount)
+    volatile LONG* activeCount)
 {
     FxPool<FxTrail>* item; // [esp+0h] [ebp-8h]
     uint32_t itemIndex; // [esp+4h] [ebp-4h]
@@ -420,7 +430,7 @@ FxPool<FxTrail>* __cdecl FX_AllocPool_Generic_FxTrail_(
             0,
             "%s",
             "itemIndex == -1 || (itemIndex >= 0 && itemIndex < ITEM_TYPE::POOL_SIZE)");
-    if (itemIndex == -1)
+    if (itemIndex == 0xFFFFFFFFu)
     {
         Sys_LeaveCriticalSection(CRITSECT_FX_ALLOC);
         return 0;
@@ -428,7 +438,7 @@ FxPool<FxTrail>* __cdecl FX_AllocPool_Generic_FxTrail_(
     else
     {
         item = &pool[itemIndex];
-        if (item->nextFree != -1 && item->nextFree >= 0x80u)
+        if (item->nextFree != -1 && static_cast<unsigned int>(item->nextFree) >= 0x80u)
             MyAssertHandler(
                 ".\\EffectsCore\\fx_system.cpp",
                 200,
@@ -444,9 +454,9 @@ FxPool<FxTrail>* __cdecl FX_AllocPool_Generic_FxTrail_(
 }
 
 FxPool<FxTrailElem>* __cdecl FX_AllocPool_Generic_FxTrailElem_(
-    volatile long * firstFreeIndex,
+    volatile LONG * firstFreeIndex,
     FxPool<FxTrailElem>* pool,
-    volatile long * activeCount)
+    volatile LONG * activeCount)
 {
     FxPool<FxTrailElem>* item; // [esp+0h] [ebp-8h]
     uint32_t itemIndex; // [esp+4h] [ebp-4h]
@@ -460,7 +470,7 @@ FxPool<FxTrailElem>* __cdecl FX_AllocPool_Generic_FxTrailElem_(
             0,
             "%s",
             "itemIndex == -1 || (itemIndex >= 0 && itemIndex < ITEM_TYPE::POOL_SIZE)");
-    if (itemIndex == -1)
+    if (itemIndex == 0xFFFFFFFFu)
     {
         Sys_LeaveCriticalSection(CRITSECT_FX_ALLOC);
         return 0;
@@ -468,7 +478,7 @@ FxPool<FxTrailElem>* __cdecl FX_AllocPool_Generic_FxTrailElem_(
     else
     {
         item = &pool[itemIndex];
-        if (item->nextFree != -1 && item->nextFree >= 0x800u)
+        if (item->nextFree != -1 && static_cast<unsigned int>(item->nextFree) >= 0x800u)
             MyAssertHandler(
                 ".\\EffectsCore\\fx_system.cpp",
                 200,
@@ -484,9 +494,9 @@ FxPool<FxTrailElem>* __cdecl FX_AllocPool_Generic_FxTrailElem_(
 }
 
 FxPool<FxElem>* __cdecl FX_AllocPool_Generic_FxElem_(
-    volatile long* firstFreeIndex,
+    volatile LONG* firstFreeIndex,
     FxPool<FxElem>* pool,
-    volatile long * activeCount)
+    volatile LONG * activeCount)
 {
     FxPool<FxElem>* item; // [esp+0h] [ebp-8h]
     uint32_t itemIndex; // [esp+4h] [ebp-4h]
@@ -500,7 +510,7 @@ FxPool<FxElem>* __cdecl FX_AllocPool_Generic_FxElem_(
             0,
             "%s",
             "itemIndex == -1 || (itemIndex >= 0 && itemIndex < ITEM_TYPE::POOL_SIZE)");
-    if (itemIndex == -1)
+    if (itemIndex == 0xFFFFFFFFu)
     {
         Sys_LeaveCriticalSection(CRITSECT_FX_ALLOC);
         return 0;
@@ -508,7 +518,7 @@ FxPool<FxElem>* __cdecl FX_AllocPool_Generic_FxElem_(
     else
     {
         item = &pool[itemIndex];
-        if (item->nextFree != -1 && item->nextFree >= 0x800u)
+        if (item->nextFree != -1 && static_cast<unsigned int>(item->nextFree) >= 0x800u)
             MyAssertHandler(
                 ".\\EffectsCore\\fx_system.cpp",
                 200,
@@ -522,7 +532,7 @@ FxPool<FxElem>* __cdecl FX_AllocPool_Generic_FxElem_(
     }
 }
 
-void __cdecl FX_FreePool_Generic_FxElem_(FxElem* item, volatile long* firstFreeIndex, FxPool<FxElem>* pool)
+void __cdecl FX_FreePool_Generic_FxElem_(FxElem* item, volatile LONG* firstFreeIndex, FxPool<FxElem>* pool)
 {
     volatile uint32_t freedIndex; // [esp+4h] [ebp-4h]
 
@@ -535,7 +545,7 @@ void __cdecl FX_FreePool_Generic_FxElem_(FxElem* item, volatile long* firstFreeI
             "%s",
             "freedIndex >= 0 && freedIndex < ITEM_TYPE::POOL_SIZE");
     Sys_EnterCriticalSection(CRITSECT_FX_ALLOC);
-    if (*firstFreeIndex != -1 && *firstFreeIndex >= 0x800u)
+    if (*firstFreeIndex != -1 && static_cast<unsigned int>(*firstFreeIndex) >= 0x800u)
         MyAssertHandler(
             ".\\EffectsCore\\fx_system.cpp",
             243,
@@ -549,7 +559,7 @@ void __cdecl FX_FreePool_Generic_FxElem_(FxElem* item, volatile long* firstFreeI
 
 void __cdecl FX_FreePool_Generic_FxTrailElem_(
     FxTrailElem* item,
-    volatile long* firstFreeIndex,
+    volatile LONG* firstFreeIndex,
     FxPool<FxTrailElem>* pool)
 {
     volatile uint32_t freedIndex; // [esp+4h] [ebp-4h]
@@ -563,7 +573,7 @@ void __cdecl FX_FreePool_Generic_FxTrailElem_(
             "%s",
             "freedIndex >= 0 && freedIndex < ITEM_TYPE::POOL_SIZE");
     Sys_EnterCriticalSection(CRITSECT_FX_ALLOC);
-    if (*firstFreeIndex != -1 && *firstFreeIndex >= 0x800u)
+    if (*firstFreeIndex != -1 && static_cast<unsigned int>(*firstFreeIndex) >= 0x800u)
         MyAssertHandler(
             ".\\EffectsCore\\fx_system.cpp",
             243,
@@ -600,7 +610,7 @@ FxEffect* __cdecl FX_SpawnEffect(
     uint16_t owner,
     uint32_t markEntnum)
 {
-    volatile long* Destination; // [esp+Ch] [ebp-34h]
+    volatile LONG* Destination; // [esp+Ch] [ebp-34h]
     uint16_t effectHandle; // [esp+1Ch] [ebp-24h]
     int32_t allocIndex; // [esp+20h] [ebp-20h]
     FxEffect* ownerEffect; // [esp+28h] [ebp-18h]
@@ -621,10 +631,10 @@ FxEffect* __cdecl FX_SpawnEffect(
     isSpotLightEffect = FX_IsSpotLightEffect(system, remoteDef);
     if (!isSpotLightEffect || FX_CanAllocSpotLightEffect(system))
     {
-        allocIndex = InterlockedExchangeAdd(&system->firstFreeEffect, static_cast<long>(1));
+        allocIndex = InterlockedExchangeAdd(&system->firstFreeEffect, static_cast<LONG>(1));
         while (allocIndex - system->firstActiveEffect >= FX_EFFECT_LIMIT)
         {
-            if (InterlockedCompareExchange(&system->firstFreeEffect, static_cast<long>(allocIndex), static_cast<long>(allocIndex + 1)) == allocIndex + 1)
+            if (InterlockedCompareExchange(&system->firstFreeEffect, static_cast<LONG>(allocIndex), static_cast<LONG>(allocIndex + 1)) == allocIndex + 1)
                 return 0;
         }
         effectHandle = system->allEffectHandles[allocIndex & 0x3FF];
@@ -663,7 +673,7 @@ FxEffect* __cdecl FX_SpawnEffect(
             remoteEffect->owner = owner;
             ownerEffect = FX_EffectFromHandle(system, owner);
             FX_AddRefToEffect(system, ownerEffect);
-            oldStatusValue = InterlockedExchangeAdd(&ownerEffect->status, static_cast<long>(0x20000));
+            oldStatusValue = InterlockedExchangeAdd(&ownerEffect->status, static_cast<LONG>(0x20000));
             iassert(((oldStatusValue & ~FX_STATUS_OWNED_EFFECTS_MASK) == ((oldStatusValue + (1 << FX_STATUS_OWNED_EFFECTS_SHIFT)) & ~FX_STATUS_OWNED_EFFECTS_MASK)));
             iassert(((ownerEffect->status & FX_STATUS_OWNED_EFFECTS_MASK) > 0));
         }
@@ -706,9 +716,9 @@ FxEffect* __cdecl FX_SpawnEffect(
         {
             while (*Destination != allocIndex)
                 ;
-        } while (InterlockedCompareExchange(Destination, static_cast<long>(allocIndex + 1), static_cast<long>(allocIndex)) != allocIndex);
+        } while (InterlockedCompareExchange(Destination, static_cast<LONG>(allocIndex + 1), static_cast<LONG>(allocIndex)) != allocIndex);
         FX_StartNewEffect(system, remoteEffect);
-        InterlockedExchangeAdd(&remoteEffect->status, static_cast<long>(0xE0000000));
+        InterlockedExchangeAdd(&remoteEffect->status, static_cast<LONG>(0xE0000000));
         return remoteEffect;
     }
     else
@@ -1018,7 +1028,7 @@ void __cdecl FX_PlayBoltedEffect(
 }
 void __cdecl FX_RetriggerEffect(int32_t localClientNum, FxEffect* effect, int32_t msecBegin)
 {
-    volatile long* Destination; // [esp+1Ch] [ebp-54h]
+    volatile LONG* Destination; // [esp+1Ch] [ebp-54h]
     volatile LONG Comperand; // [esp+20h] [ebp-50h]
     uint16_t lastOldTrailElemHandle[8]; // [esp+34h] [ebp-3Ch] BYREF
     int32_t trailCount; // [esp+44h] [ebp-2Ch] BYREF
@@ -1031,8 +1041,8 @@ void __cdecl FX_RetriggerEffect(int32_t localClientNum, FxEffect* effect, int32_
 
     if (!(uint16_t)effect->status)
         MyAssertHandler(".\\EffectsCore\\fx_system.cpp", 1461, 0, "%s", "(effect->status & FX_STATUS_REF_COUNT_MASK) != 0");
-    while (InterlockedExchangeAdd(&effect->status, static_cast<long>(0x20000000)) >= 0x20000000)
-        InterlockedExchangeAdd(&effect->status, static_cast<long>(-536870912));
+    while (InterlockedExchangeAdd(&effect->status, static_cast<LONG>(0x20000000)) >= 0x20000000)
+        InterlockedExchangeAdd(&effect->status, static_cast<LONG>(-536870912));
     system = FX_GetSystem(localClientNum);
     FX_AddRefToEffect(system, effect);
     if ((effect->status & 0x10000) != 0)
@@ -1093,7 +1103,7 @@ void __cdecl FX_RetriggerEffect(int32_t localClientNum, FxEffect* effect, int32_
         Destination = &effect->status;
         do
             Comperand = *Destination;
-        while (InterlockedCompareExchange(Destination, static_cast<long>(Comperand | 0x10000), static_cast<long>(Comperand)) != Comperand);
+        while (InterlockedCompareExchange(Destination, static_cast<LONG>(Comperand | 0x10000), static_cast<LONG>(Comperand)) != Comperand);
     }
     if (catchUpNewElems)
         FX_UpdateEffectPartial(
@@ -1110,7 +1120,7 @@ void __cdecl FX_RetriggerEffect(int32_t localClientNum, FxEffect* effect, int32_
     FX_SortNewElemsInEffect(system, effect);
     if (!hasPendingLoopElems)
         FX_DelRefToEffect(system, effect);
-    InterlockedExchangeAdd(&effect->status, static_cast<long>(-536870912));
+    InterlockedExchangeAdd(&effect->status, static_cast<LONG>(-536870912));
 }
 
 void __cdecl FX_GetTrailHandleList_Last(
@@ -1159,10 +1169,10 @@ void __cdecl FX_ThroughWithEffect(int32_t localClientNum, FxEffect *effect)
                 0,
                 "%s",
                 "(effect->status & FX_STATUS_REF_COUNT_MASK) != 0");
-        while (InterlockedExchangeAdd(&effect->status, static_cast<long>(0x20000000)) >= 0x20000000)
-            InterlockedExchangeAdd(&effect->status, static_cast<long>(-536870912));
+        while (InterlockedExchangeAdd(&effect->status, static_cast<LONG>(0x20000000)) >= 0x20000000)
+            InterlockedExchangeAdd(&effect->status, static_cast<LONG>(-536870912));
         FX_KillEffect(system, effect);
-        InterlockedExchangeAdd(&effect->status, static_cast<long>(-536870912));
+        InterlockedExchangeAdd(&effect->status, static_cast<LONG>(-536870912));
         FX_DelRefToEffect(system, effect);
     }
 }
@@ -1222,7 +1232,7 @@ void __cdecl FX_StopEffectNonRecursive(FxSystem *system, FxEffect *effect)
         status = effect->status;
         if ((status & 0x10000) == 0)
             break;
-        if (InterlockedCompareExchange(&effect->status, static_cast<long>(status & 0xFFFEFFFF), static_cast<long>(status)) == status)
+        if (InterlockedCompareExchange(&effect->status, static_cast<LONG>(status & 0xFFFEFFFF), static_cast<LONG>(status)) == status)
         {
             FX_DelRefToEffect(system, effect);
             return;
@@ -1266,8 +1276,8 @@ void __cdecl FX_KillEffect(FxSystem* system, FxEffect* effect)
                 otherEffect = FX_EffectFromHandle(system, effectHandle);
                 if (otherEffect->owner == killedEffectHandle)
                 {
-                    while (InterlockedExchangeAdd(&otherEffect->status, static_cast<long>(0x20000000)) >= 0x20000000)
-                        InterlockedExchangeAdd(&otherEffect->status, static_cast<long>(-536870912));
+                    while (InterlockedExchangeAdd(&otherEffect->status, static_cast<LONG>(0x20000000)) >= 0x20000000)
+                        InterlockedExchangeAdd(&otherEffect->status, static_cast<LONG>(-536870912));
                     if ((otherEffect->status & 0x7FE0000) != 0)
                         MyAssertHandler(
                             ".\\EffectsCore\\fx_system.cpp",
@@ -1278,7 +1288,7 @@ void __cdecl FX_KillEffect(FxSystem* system, FxEffect* effect)
                             otherEffect->status);
                     if ((uint16_t)otherEffect->status)
                         FX_RemoveAllEffectElems(system, otherEffect);
-                    InterlockedExchangeAdd(&otherEffect->status, static_cast<long>(-536870912));
+                    InterlockedExchangeAdd(&otherEffect->status, static_cast<LONG>(-536870912));
                 }
             }
             ++activeIndex;
@@ -1336,10 +1346,10 @@ void __cdecl FX_KillEffectDef(int32_t localClientNum, const FxEffectDef *def)
         effect = FX_EffectFromHandle(system, system->allEffectHandles[activeIndex & 0x3FF]);
         if (effect->def == def && (uint16_t)effect->status)
         {
-            while (InterlockedExchangeAdd(&effect->status, static_cast<long>(0x20000000)) >= 0x20000000)
-                InterlockedExchangeAdd(&effect->status, static_cast<long>(-536870912));
+            while (InterlockedExchangeAdd(&effect->status, static_cast<LONG>(0x20000000)) >= 0x20000000)
+                InterlockedExchangeAdd(&effect->status, static_cast<LONG>(-536870912));
             FX_KillEffect(system, effect);
-            InterlockedExchangeAdd(&effect->status, static_cast<long>(-536870912));
+            InterlockedExchangeAdd(&effect->status, static_cast<LONG>(-536870912));
         }
     }
     if (!InterlockedDecrement(&system->iteratorCount) && system->needsGarbageCollection)
@@ -1363,10 +1373,10 @@ void __cdecl FX_KillAllEffects(int32_t localClientNum)
             effect = FX_EffectFromHandle(system, system->allEffectHandles[activeIndex & 0x3FF]);
             if ((uint16_t)effect->status)
             {
-                while (InterlockedExchangeAdd(&effect->status, static_cast<long>(0x20000000)) >= 0x20000000)
-                    InterlockedExchangeAdd(&effect->status, static_cast<long>(-536870912));
+                while (InterlockedExchangeAdd(&effect->status, static_cast<LONG>(0x20000000)) >= 0x20000000)
+                    InterlockedExchangeAdd(&effect->status, static_cast<LONG>(-536870912));
                 FX_KillEffect(system, effect);
-                InterlockedExchangeAdd(&effect->status, static_cast<long>(-536870912));
+                InterlockedExchangeAdd(&effect->status, static_cast<LONG>(-536870912));
             }
         }
         if (!InterlockedDecrement(&system->iteratorCount) && system->needsGarbageCollection)
@@ -1971,7 +1981,7 @@ void __cdecl FX_FreeElem(FxSystem* system, uint16_t elemHandle, FxEffect* effect
         Sys_LeaveCriticalSection(CRITSECT_PHYSICS);
     }
     elem->nextFree = 0;
-    *(_DWORD*)&elem->item.nextElemHandleInEffect = 0;
+    { unsigned int kisak_z = 0; memcpy(&elem->item.nextElemHandleInEffect, &kisak_z, sizeof(unsigned int)); }
     elem->item.msecBegin = 0;
     elem->item.baseVel[0] = 0.0;
     elem->item.baseVel[1] = 0.0;
@@ -2006,9 +2016,9 @@ void __cdecl FX_FreeTrailElem(FxSystem *system, uint16_t trailElemHandle, FxEffe
     trailElem->item.origin[2] = 0.0;
     trailElem->item.spawnDist = 0.0;
     trailElem->item.msecBegin = 0;
-    *(uint32_t *)&trailElem->item.nextTrailElemHandle = 0;
-    *(uint32_t *)&trailElem->item.basis[0][0] = 0;
-    *(uint32_t *)&trailElem->item.basis[1][1] = 0;
+    { unsigned int kisak_z = 0; memcpy(&trailElem->item.nextTrailElemHandle, &kisak_z, sizeof(unsigned int)); }
+    { unsigned int kisak_z = 0; memcpy(&trailElem->item.basis[0][0], &kisak_z, sizeof(unsigned int)); }
+    { unsigned int kisak_z = 0; memcpy(&trailElem->item.basis[1][1], &kisak_z, sizeof(unsigned int)); }
     FX_FreePool_Generic_FxTrailElem_((FxTrailElem *)trailElem, &system->firstFreeTrailElem, system->trailElems);
     FX_DelRefToEffect(system, effect);
     InterlockedDecrement(&system->activeTrailElemCount);
@@ -2031,7 +2041,7 @@ void __cdecl FX_FreeSpotLightElem(FxSystem *system, uint16_t elemHandle, FxEffec
         MyAssertHandler("c:\\trees\\cod3\\src\\effectscore\\fx_system.h", 334, 0, "%s", "system");
     v3 = FX_PoolFromHandle_Generic<FxElem, 2048>(system->elems, activeSpotLightElemHandle);
     v3->nextFree = 0;
-    *(uint32_t *)&v3->item.nextElemHandleInEffect = 0;
+    { unsigned int kisak_z = 0; memcpy(&v3->item.nextElemHandleInEffect, &kisak_z, sizeof(unsigned int)); }
     v3->item.msecBegin = 0;
     v3->item.baseVel[0] = 0.0;
     v3->item.baseVel[1] = 0.0;

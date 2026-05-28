@@ -13,6 +13,27 @@
 
 #include <script/scr_const.h>
 
+// KISAKHACK-AUDIT: this file does SIMD-style AABB rotation packed into __int64 pairs.
+// Helpers replace `*(float*)&v` / `*((float*)&v + 1)` with memcpy to silence GCC
+// strict-aliasing while preserving bit semantics.
+static inline void Kisak_PackFloat2(__int64 &out, float lo, float hi)
+{
+    float pair[2] = { lo, hi };
+    memcpy(&out, pair, sizeof(__int64));
+}
+static inline float Kisak_UnpackFloatLo(const __int64 &in)
+{
+    float v[2];
+    memcpy(v, &in, sizeof(__int64));
+    return v[0];
+}
+static inline float Kisak_UnpackFloatHi(const __int64 &in)
+{
+    float v[2];
+    memcpy(v, &in, sizeof(__int64));
+    return v[1];
+}
+
 #include <physics/phys_local.h>
 
 #include <ragdoll/ragdoll.h>
@@ -257,13 +278,11 @@ void  CG_UpdateBModelWorldBounds(uint32_t localClientNum, centity_s *cent, int32
     v60 = cent->pose.origin[1];
     v61 = cent->pose.origin[2];
     v62 = 0.0f;
-    *(float*)&v56 = axis_24[0];
-    *((float*)&v56 + 1) = axis_24[0];
+    Kisak_PackFloat2(v56, axis_24[0], axis_24[0]);
     v57 = axis_24[0];
     v58 = axis_24[0];
     v55 = bounds_4;
-    *(float*)&v52 = bounds_4[0];
-    *((float*)&v52 + 1) = bounds_4[0];
+    Kisak_PackFloat2(v52, bounds_4[0], bounds_4[0]);
     v53 = bounds_4[0];
     v54 = bounds_4[0];
     if (v78[0][0] >= 0.0)
@@ -292,13 +311,11 @@ void  CG_UpdateBModelWorldBounds(uint32_t localClientNum, centity_s *cent, int32
     v39 = (v56 & v48) | (v52 & ~v48);
     v40 = (LODWORD(v57) & v49) | (LODWORD(v53) & ~v49);
     v41 = (LODWORD(v58) & v50) | (LODWORD(v54) & ~v50);
-    *(float*)&v56 = axis_24[1];
-    *((float*)&v56 + 1) = axis_24[1];
+    Kisak_PackFloat2(v56, axis_24[1], axis_24[1]);
     v57 = axis_24[1];
     v58 = axis_24[1];
     v38 = bounds_4;
-    *(float*)&v52 = bounds_4[1];
-    *((float*)&v52 + 1) = bounds_4[1];
+    Kisak_PackFloat2(v52, bounds_4[1], bounds_4[1]);
     v53 = bounds_4[1];
     v54 = bounds_4[1];
     if (v68 >= 0.0f)
@@ -327,13 +344,11 @@ void  CG_UpdateBModelWorldBounds(uint32_t localClientNum, centity_s *cent, int32
     v25 = (v56 & v34) | (v52 & ~v34);
     v26 = (LODWORD(v57) & v35) | (LODWORD(v53) & ~v35);
     v27 = (LODWORD(v58) & v36) | (LODWORD(v54) & ~v36);
-    *(float*)&v56 = axis_24[2];
-    *((float*)&v56 + 1) = axis_24[2];
+    Kisak_PackFloat2(v56, axis_24[2], axis_24[2]);
     v57 = axis_24[2];
     v58 = axis_24[2];
     v24 = bounds_4;
-    *(float*)&v52 = bounds_4[2];
-    *((float*)&v52 + 1) = bounds_4[2];
+    Kisak_PackFloat2(v52, bounds_4[2], bounds_4[2]);
     v53 = bounds_4[2];
     v54 = bounds_4[2];
     if (v63 >= 0.0f)
@@ -359,43 +374,43 @@ void  CG_UpdateBModelWorldBounds(uint32_t localClientNum, centity_s *cent, int32
     v14 = (v52 & v20) | (v56 & ~v20);
     v15 = (LODWORD(v53) & v21) | (LODWORD(v57) & ~v21);
     v16 = (LODWORD(v54) & v22) | (LODWORD(v58) & ~v22);
-    *(_QWORD*)&rotatedBounds[1].unitVec[1].packed = (v56 & v20) | (v52 & ~v20);
+    *(_QWORD_alias *)&rotatedBounds[1].unitVec[1].packed = (v56 & v20) | (v52 & ~v20);
     rotatedBounds[1].u[3] = (LODWORD(v57) & v21) | (LODWORD(v53) & ~v21);
     v13 = (LODWORD(v58) & v22) | (LODWORD(v54) & ~v22);
-    v9 = *(float*)&v42 * v73 + v59;
-    v10 = *((float*)&v42 + 1) * v74 + v60;
-    v11 = *(float*)&v43 * v75 + v61;
-    rotatedBounds[0].v[0] = *(float*)&v44 * v76 + v62;
-    v9 = *(float*)&v28 * v68 + v9;
-    v10 = *((float*)&v28 + 1) * v69 + v10;
-    v11 = *(float*)&v29 * v70 + v11;
-    rotatedBounds[0].v[0] = *(float*)&v30 * v71 + rotatedBounds[0].v[0];
-    v9 = *(float*)&v14 * v63 + v9;
-    v10 = *((float*)&v14 + 1) * v64 + v10;
-    v11 = *(float*)&v15 * v65 + v11;
-    rotatedBounds[0].v[0] = *(float*)&v16 * v66 + rotatedBounds[0].v[0];
+    v9 = Kisak_UnpackFloatLo(v42) * v73 + v59;
+    v10 = Kisak_UnpackFloatHi(v42) * v74 + v60;
+    v11 = Kisak_UnpackFloatLo(v43) * v75 + v61;
+    rotatedBounds[0].v[0] = Kisak_UnpackFloatLo(v44) * v76 + v62;
+    v9 = Kisak_UnpackFloatLo(v28) * v68 + v9;
+    v10 = Kisak_UnpackFloatHi(v28) * v69 + v10;
+    v11 = Kisak_UnpackFloatLo(v29) * v70 + v11;
+    rotatedBounds[0].v[0] = Kisak_UnpackFloatLo(v30) * v71 + rotatedBounds[0].v[0];
+    v9 = Kisak_UnpackFloatLo(v14) * v63 + v9;
+    v10 = Kisak_UnpackFloatHi(v14) * v64 + v10;
+    v11 = Kisak_UnpackFloatLo(v15) * v65 + v11;
+    rotatedBounds[0].v[0] = Kisak_UnpackFloatLo(v16) * v66 + rotatedBounds[0].v[0];
     LODWORD(v8[7]) = (uintptr_t) &rotatedBounds[0].v[1];
-    rotatedBounds[0].v[1] = *(float*)&v39 * v73 + v59;
-    rotatedBounds[0].v[2] = *((float*)&v39 + 1) * v74 + v60;
-    rotatedBounds[0].v[3] = *(float*)&v40 * v75 + v61;
-    rotatedBounds[1].v[0] = *(float*)&v41 * v76 + v62;
+    rotatedBounds[0].v[1] = Kisak_UnpackFloatLo(v39) * v73 + v59;
+    rotatedBounds[0].v[2] = Kisak_UnpackFloatHi(v39) * v74 + v60;
+    rotatedBounds[0].v[3] = Kisak_UnpackFloatLo(v40) * v75 + v61;
+    rotatedBounds[1].v[0] = Kisak_UnpackFloatLo(v41) * v76 + v62;
     LODWORD(v8[6]) = (uintptr_t) &rotatedBounds[0].v[1];
     LODWORD(v8[5]) = (uintptr_t) &rotatedBounds[0].v[1];
-    rotatedBounds[0].v[1] = *(float*)&v25 * v68 + rotatedBounds[0].v[1];
-    rotatedBounds[0].v[2] = *((float*)&v25 + 1) * v69 + rotatedBounds[0].v[2];
-    rotatedBounds[0].v[3] = *(float*)&v26 * v70 + rotatedBounds[0].v[3];
-    rotatedBounds[1].v[0] = *(float*)&v27 * v71 + rotatedBounds[1].v[0];
+    rotatedBounds[0].v[1] = Kisak_UnpackFloatLo(v25) * v68 + rotatedBounds[0].v[1];
+    rotatedBounds[0].v[2] = Kisak_UnpackFloatHi(v25) * v69 + rotatedBounds[0].v[2];
+    rotatedBounds[0].v[3] = Kisak_UnpackFloatLo(v26) * v70 + rotatedBounds[0].v[3];
+    rotatedBounds[1].v[0] = Kisak_UnpackFloatLo(v27) * v71 + rotatedBounds[1].v[0];
     LODWORD(v8[4]) = (uintptr_t) &rotatedBounds[0].v[1];
     LODWORD(v8[3]) = (uintptr_t) &rotatedBounds[0].v[1];
     rotatedBounds[0].v[1] = rotatedBounds[1].v[1] * v63 + rotatedBounds[0].v[1];
     rotatedBounds[0].v[2] = rotatedBounds[1].v[2] * v64 + rotatedBounds[0].v[2];
     rotatedBounds[0].v[3] = rotatedBounds[1].v[3] * v65 + rotatedBounds[0].v[3];
-    rotatedBounds[1].v[0] = *(float*)&v13 * v66 + rotatedBounds[1].v[0];
+    rotatedBounds[1].v[0] = Kisak_UnpackFloatLo(v13) * v66 + rotatedBounds[1].v[0];
     mins[0] = v9;
     mins[1] = v10;
     mins[2] = v11;
     v8[0] = rotatedBounds[0].v[0];
-    *(_QWORD*)maxs = *(_QWORD*)&rotatedBounds[0].unitVec[1].packed;
+    *(_QWORD_alias *)maxs = *(_QWORD_alias *)&rotatedBounds[0].unitVec[1].packed;
     maxs[2] = rotatedBounds[0].v[3];
     v6 = rotatedBounds[1].v[0];
     if (forceFilter)
@@ -994,7 +1009,7 @@ void __cdecl CG_InterpolateEntityPosition(cg_s *cgameGlob, centity_s *cent)
     cent->pose.angles[2] = v10 * f + v28;
     if (cent->nextState.eType == ET_PLAYER)
     {
-        if (cent->nextState.clientNum >= 0x40u)
+        if (static_cast<unsigned int>(cent->nextState.clientNum) >= 0x40u)
             MyAssertHandler(
                 ".\\cgame_mp\\cg_ents_mp.cpp",
                 1208,
@@ -1350,25 +1365,25 @@ void __cdecl CG_ClearUnion(int32_t localClientNum, centity_s *cent)
     switch (cent->pose.eTypeUnion)
     {
     case ET_PLAYER:
-        *(_QWORD *)&cent->pose.player.control = 0;
+        *(_QWORD_alias *)&cent->pose.player.control = 0;
         cent->pose.turret.barrelPitch = 0.0;
         break;
     case ET_FX:
     case ET_LOOP_FX:
         if (cent->pose.fx.effect)
             FX_ThroughWithEffect(localClientNum, cent->pose.fx.effect);
-        *(_QWORD *)&cent->pose.player.control = 0;
+        *(_QWORD_alias *)&cent->pose.player.control = 0;
         break;
     case ET_MG42:
-        *(_QWORD *)&cent->pose.player.control = 0;
-        *((_QWORD *)&cent->pose.fx + 1) = 0;
+        *(_QWORD_alias *)&cent->pose.player.control = 0;
+        *((_QWORD_alias *)&cent->pose.fx + 1) = 0;
         break;
     case ET_HELICOPTER:
     case ET_VEHICLE:
-        *(_QWORD *)&cent->pose.player.control = 0;
-        *((_QWORD *)&cent->pose.fx + 1) = 0;
-        *((_QWORD *)&cent->pose.fx + 2) = 0;
-        *((_QWORD *)&cent->pose.fx + 3) = 0;
+        *(_QWORD_alias *)&cent->pose.player.control = 0;
+        *((_QWORD_alias *)&cent->pose.fx + 1) = 0;
+        *((_QWORD_alias *)&cent->pose.fx + 2) = 0;
+        *((_QWORD_alias *)&cent->pose.fx + 3) = 0;
         *((uint32_t *)&cent->pose.fx + 8) = 0;
         break;
     default:
@@ -1624,7 +1639,7 @@ void __cdecl CG_Missile(int32_t localClientNum, centity_s *cent)
     {
         if (cent->nextState.lerp.u.missile.launchTime <= CG_GetLocalClientGlobals(localClientNum)->time)
         {
-            if (cent->nextState.weapon >= BG_GetNumWeapons())
+            if (static_cast<uint32_t>(cent->nextState.weapon) >= BG_GetNumWeapons())
                 cent->nextState.weapon = 0;
             if (localClientNum)
                 MyAssertHandler(
@@ -1747,7 +1762,7 @@ void __cdecl CG_Fx(int32_t localClientNum, centity_s *cent)
             FX_AssertAllocatedEffect(localClientNum, cent->pose.fx.effect);
             FX_ThroughWithEffect(localClientNum, cent->pose.fx.effect);
         }
-        *(_QWORD *)&cent->pose.player.control = 0;
+        *(_QWORD_alias *)&cent->pose.player.control = 0;
         cent->pose.fx.effect = CG_StartFx(localClientNum, cent, cent->nextState.time2);
         if (cent->pose.fx.effect)
             cent->pose.fx.triggerTime = cent->nextState.time2;
@@ -1824,7 +1839,7 @@ void __cdecl CG_PrimaryLight(int32_t localClientNum, centity_s *cent)
     iassert(cent->nextState.index.primaryLight != PRIMARY_LIGHT_NONE);
     iassert(comWorld.isInUse);
 
-    if (cent->nextState.index.brushmodel >= comWorld.primaryLightCount)
+    if (static_cast<unsigned int>(cent->nextState.index.brushmodel) >= comWorld.primaryLightCount)
     {
         iassert(comWorld.isInUse);
         bcassert(cent->nextState.index.primaryLight, Com_GetPrimaryLightCount());

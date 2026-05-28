@@ -11,6 +11,16 @@
 #include <cgame/cg_main.h>
 #endif
 
+// KISAKHACK-AUDIT: upstream hex-rays does byte-swizzle through unitVec[0].array[N] for
+// N up to 15 (treating the 16-byte float4 as a flat byte array via OOB index on the
+// inner [4] array). Helper here expresses the byte-level swizzle without OOB on the
+// formal type. May-alias byte ptr keeps GCC happy.
+static inline unsigned char Kisak_Float4ByteAt(const float4 &v, unsigned int byteIndex)
+{
+    typedef unsigned char __attribute__((__may_alias__)) byte_alias;
+    return reinterpret_cast<const byte_alias *>(&v)[byteIndex];
+}
+
 const unsigned __int16 templateIndices[12] = { 0u, 2u, 1u, 2u, 4u, 1u, 1u, 4u, 3u, 3u, 4u, 5u }; // idb
 
 static FxBeamInfo g_beamInfo;
@@ -183,23 +193,23 @@ void __cdecl FX_Beam_GenerateVerts(FxGenerateVertsCmd *cmd)
 
             args = baseArgs;
 
-            baseArgs->unitVec[0].array[0] = normDelta.unitVec[0].array[g_swizzleXYZA.unitVec[0].array[3]];
-            baseArgs->unitVec[0].array[1] = normDelta.unitVec[0].array[g_swizzleXYZA.unitVec[0].array[2]];
-            baseArgs->unitVec[0].array[2] = normDelta.unitVec[0].array[g_swizzleXYZA.unitVec[0].array[1]];
-            baseArgs->unitVec[0].array[3] = normDelta.unitVec[0].array[g_swizzleXYZA.unitVec[0].array[0]];
-            baseArgs->unitVec[1].array[0] = normDelta.unitVec[0].array[g_swizzleXYZA.unitVec[1].array[3]];
-            baseArgs->unitVec[1].array[1] = normDelta.unitVec[0].array[g_swizzleXYZA.unitVec[1].array[2]];
-            baseArgs->unitVec[1].array[2] = normDelta.unitVec[0].array[g_swizzleXYZA.unitVec[1].array[1]];
-            baseArgs->unitVec[1].array[3] = normDelta.unitVec[0].array[g_swizzleXYZA.unitVec[1].array[0]];
-            baseArgs->unitVec[2].array[0] = normDelta.unitVec[0].array[g_swizzleXYZA.unitVec[2].array[3]];
-            baseArgs->unitVec[2].array[1] = normDelta.unitVec[0].array[g_swizzleXYZA.unitVec[2].array[2]];
-            baseArgs->unitVec[2].array[2] = normDelta.unitVec[0].array[g_swizzleXYZA.unitVec[2].array[1]];
-            baseArgs->unitVec[2].array[3] = normDelta.unitVec[0].array[g_swizzleXYZA.unitVec[2].array[0]];
+            baseArgs->unitVec[0].array[0] = Kisak_Float4ByteAt(normDelta, g_swizzleXYZA.unitVec[0].array[3]);
+            baseArgs->unitVec[0].array[1] = Kisak_Float4ByteAt(normDelta, g_swizzleXYZA.unitVec[0].array[2]);
+            baseArgs->unitVec[0].array[2] = Kisak_Float4ByteAt(normDelta, g_swizzleXYZA.unitVec[0].array[1]);
+            baseArgs->unitVec[0].array[3] = Kisak_Float4ByteAt(normDelta, g_swizzleXYZA.unitVec[0].array[0]);
+            baseArgs->unitVec[1].array[0] = Kisak_Float4ByteAt(normDelta, g_swizzleXYZA.unitVec[1].array[3]);
+            baseArgs->unitVec[1].array[1] = Kisak_Float4ByteAt(normDelta, g_swizzleXYZA.unitVec[1].array[2]);
+            baseArgs->unitVec[1].array[2] = Kisak_Float4ByteAt(normDelta, g_swizzleXYZA.unitVec[1].array[1]);
+            baseArgs->unitVec[1].array[3] = Kisak_Float4ByteAt(normDelta, g_swizzleXYZA.unitVec[1].array[0]);
+            baseArgs->unitVec[2].array[0] = Kisak_Float4ByteAt(normDelta, g_swizzleXYZA.unitVec[2].array[3]);
+            baseArgs->unitVec[2].array[1] = Kisak_Float4ByteAt(normDelta, g_swizzleXYZA.unitVec[2].array[2]);
+            baseArgs->unitVec[2].array[2] = Kisak_Float4ByteAt(normDelta, g_swizzleXYZA.unitVec[2].array[1]);
+            baseArgs->unitVec[2].array[3] = Kisak_Float4ByteAt(normDelta, g_swizzleXYZA.unitVec[2].array[0]);
             // At this point, the swizzle goes over 16 (float vec4x4) and goes oob into "beamDot". these were an array in the decomp
-            baseArgs->unitVec[3].array[0] = beamDot.unitVec[0].array[g_swizzleXYZA.unitVec[3].array[3] - 16];
-            baseArgs->unitVec[3].array[1] = beamDot.unitVec[0].array[g_swizzleXYZA.unitVec[3].array[2] - 16];
-            baseArgs->unitVec[3].array[2] = beamDot.unitVec[0].array[g_swizzleXYZA.unitVec[3].array[1] - 16];
-            baseArgs->unitVec[3].array[3] = beamDot.unitVec[0].array[g_swizzleXYZA.unitVec[3].array[0] - 16];
+            baseArgs->unitVec[3].array[0] = Kisak_Float4ByteAt(beamDot, g_swizzleXYZA.unitVec[3].array[3] - 16);
+            baseArgs->unitVec[3].array[1] = Kisak_Float4ByteAt(beamDot, g_swizzleXYZA.unitVec[3].array[2] - 16);
+            baseArgs->unitVec[3].array[2] = Kisak_Float4ByteAt(beamDot, g_swizzleXYZA.unitVec[3].array[1] - 16);
+            baseArgs->unitVec[3].array[3] = Kisak_Float4ByteAt(beamDot, g_swizzleXYZA.unitVec[3].array[0] - 16);
 
             v12 = args + 1;
             args[1].v[0] = 0.0;
@@ -638,21 +648,27 @@ char  FX_GenerateBeam_GetFlatDelta(
     v20.v[2] = v23 - v28;
     v20.v[3] = (float)1.0 - v29;
     v19 = g_keepXYW;
-    *(_QWORD*)v20.v &= *(_QWORD*)g_keepXYW.v;
-    *(_QWORD*)&v20.unitVec[2].packed &= *(_QWORD*)&g_keepXYW.unitVec[2].packed;
+    *(_QWORD_alias *)v20.v &= *(_QWORD_alias *)g_keepXYW.v;
+    *(_QWORD_alias *)&v20.unitVec[2].packed &= *(_QWORD_alias *)&g_keepXYW.unitVec[2].packed;
     v18 = v20;
     v15 = v20.v[0] * invClipMtx->x.v[0]
         + v20.v[1] * invClipMtx->y.v[0]
         + v20.v[2] * invClipMtx->z.v[0]
         + v20.v[3] * invClipMtx->w.v[0];
-    *(float*)&v16 = v20.v[0] * invClipMtx->x.v[1]
-        + v20.v[1] * invClipMtx->y.v[1]
-        + v20.v[2] * invClipMtx->z.v[1]
-        + v20.v[3] * invClipMtx->w.v[1];
-    *((float*)&v16 + 1) = v20.v[0] * invClipMtx->x.v[2]
-        + v20.v[1] * invClipMtx->y.v[2]
-        + v20.v[2] * invClipMtx->z.v[2]
-        + v20.v[3] * invClipMtx->w.v[2];
+    {
+        float v16_low = v20.v[0] * invClipMtx->x.v[1]
+            + v20.v[1] * invClipMtx->y.v[1]
+            + v20.v[2] * invClipMtx->z.v[1]
+            + v20.v[3] * invClipMtx->w.v[1];
+        memcpy(&v16, &v16_low, sizeof(float));
+    }
+    {
+        float v16_high = v20.v[0] * invClipMtx->x.v[2]
+            + v20.v[1] * invClipMtx->y.v[2]
+            + v20.v[2] * invClipMtx->z.v[2]
+            + v20.v[3] * invClipMtx->w.v[2];
+        memcpy(reinterpret_cast<char *>(&v16) + sizeof(float), &v16_high, sizeof(float));
+    }
     v17 = v20.v[0] * invClipMtx->x.v[3]
         + v20.v[1] * invClipMtx->y.v[3]
         + v20.v[2] * invClipMtx->z.v[3]
@@ -662,7 +678,7 @@ char  FX_GenerateBeam_GetFlatDelta(
     v14 = v17;
     v11 = g_keepXYZ;
     outFlatDelta->u[0] = g_keepXYZ.u[0] & LODWORD(v15);
-    *(_QWORD*)&outFlatDelta->unitVec[1].packed = *(_QWORD*)&v11.unitVec[1].packed & v13;
+    *(_QWORD_alias *)&outFlatDelta->unitVec[1].packed = *(_QWORD_alias *)&v11.unitVec[1].packed & v13;
     outFlatDelta->u[3] = v11.u[3] & LODWORD(v14);
     v10 = *outFlatDelta;
     if (Vec4LengthSq(v10.v) < 0.000002)
@@ -802,17 +818,21 @@ bool __cdecl Vec4HomogenousClipZW(float4 *pt0, float4 *pt1, float4 coeffZW)
     clipped_4 = pt1->v[1] - pt0->v[1];
     clipped_8 = pt1->v[2] - pt0->v[2];
     clipped_12 = pt1->v[3] - pt0->v[3];
-    *(float *)&clippeda = alphaa * clipped + pt0->v[0];
-    *((float *)&clippeda + 1) = alpha_4 * clipped_4 + pt0->v[1];
-    *(float *)&clipped_8a = alpha_8 * clipped_8 + pt0->v[2];
-    *((float *)&clipped_8a + 1) = alpha_12 * clipped_12 + pt0->v[3];
-    dist1Sel0_8 = (*(_QWORD *)&pt0->unitVec[2].packed & dist1Cmp_8) | (clipped_8a & ~dist1Cmp_8);
-    dist1Sel1 = (clippeda & dist1Cmp) | (*(_QWORD *)pt1->v & ~dist1Cmp);
-    dist1Sel1_8 = (clipped_8a & dist1Cmp_8) | (*(_QWORD *)&pt1->unitVec[2].packed & ~dist1Cmp_8);
-    *(_QWORD *)pt0->v = (((*(_QWORD *)pt0->v & dist1Cmp) | (clippeda & ~dist1Cmp)) & dist0Cmp) | (*(_QWORD *)pt0->v & ~dist0Cmp);
-    *(_QWORD *)&pt0->unitVec[2].packed = (dist1Sel0_8 & dist0Cmp_8) | (*(_QWORD *)&pt0->unitVec[2].packed & ~dist0Cmp_8);
-    *(_QWORD *)pt1->v = (*(_QWORD *)pt1->v & dist0Cmp) | (dist1Sel1 & ~dist0Cmp);
-    *(_QWORD *)&pt1->unitVec[2].packed = (*(_QWORD *)&pt1->unitVec[2].packed & dist0Cmp_8) | (dist1Sel1_8 & ~dist0Cmp_8);
+    // KISAKHACK-AUDIT: clippeda/clipped_8a are __int64 holding 2 packed floats each.
+    // Use memcpy to write float halves without strict-aliasing violation.
+    {
+        float pair0[2] = { alphaa * clipped + pt0->v[0], alpha_4 * clipped_4 + pt0->v[1] };
+        float pair1[2] = { alpha_8 * clipped_8 + pt0->v[2], alpha_12 * clipped_12 + pt0->v[3] };
+        memcpy(&clippeda, pair0, sizeof(clippeda));
+        memcpy(&clipped_8a, pair1, sizeof(clipped_8a));
+    }
+    dist1Sel0_8 = (*(_QWORD_alias *)&pt0->unitVec[2].packed & dist1Cmp_8) | (clipped_8a & ~dist1Cmp_8);
+    dist1Sel1 = (clippeda & dist1Cmp) | (*(_QWORD_alias *)pt1->v & ~dist1Cmp);
+    dist1Sel1_8 = (clipped_8a & dist1Cmp_8) | (*(_QWORD_alias *)&pt1->unitVec[2].packed & ~dist1Cmp_8);
+    *(_QWORD_alias *)pt0->v = (((*(_QWORD_alias *)pt0->v & dist1Cmp) | (clippeda & ~dist1Cmp)) & dist0Cmp) | (*(_QWORD_alias *)pt0->v & ~dist0Cmp);
+    *(_QWORD_alias *)&pt0->unitVec[2].packed = (dist1Sel0_8 & dist0Cmp_8) | (*(_QWORD_alias *)&pt0->unitVec[2].packed & ~dist0Cmp_8);
+    *(_QWORD_alias *)pt1->v = (*(_QWORD_alias *)pt1->v & dist0Cmp) | (dist1Sel1 & ~dist0Cmp);
+    *(_QWORD_alias *)&pt1->unitVec[2].packed = (*(_QWORD_alias *)&pt1->unitVec[2].packed & dist0Cmp_8) | (dist1Sel1_8 & ~dist0Cmp_8);
     return (v11 & v15) == 0;
 }
 

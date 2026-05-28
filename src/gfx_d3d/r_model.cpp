@@ -346,7 +346,7 @@ int __cdecl R_SkinXModel(
             surfPos += 28;
         }
     }
-    startSurfPos = InterlockedExchangeAdd(&frontEndDataOut->surfPos, (char*)surfPos - (char*)surfBuf);
+    startSurfPos = InterlockedExchangeAdd(&frontEndDataOut->surfPos, static_cast<LONG>((char*)surfPos - (char*)surfBuf));
     if ((char*)surfPos - (char*)surfBuf + startSurfPos <= 0x20000)
     {
         iassert(!(startSurfPos & 3));

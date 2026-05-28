@@ -45,7 +45,7 @@ char __cdecl R_ReserveCodeMeshArgs(int argCount, unsigned int* argOffsetOut)
     if ((unsigned int)(argCount + oldArgCount) < 0x100)
     {
         *argOffsetOut = oldArgCount;
-        InterlockedExchange(&frontEndDataOut->codeMeshArgsCount, static_cast<long>(argCount + oldArgCount));
+        InterlockedExchange(&frontEndDataOut->codeMeshArgsCount, static_cast<LONG>(argCount + oldArgCount));
         return 1;
     }
     else
@@ -100,7 +100,7 @@ void __cdecl R_AddCodeMeshDrawSurf(
 
     if (Material_GetTechnique(material, gfxDrawMethod.emissiveTechType) && (material->info.gameFlags & 2) == 0)
     {
-        codeMeshIndex = InterlockedExchangeAdd(&frontEndDataOut->codeMeshCount, static_cast<long>(1));
+        codeMeshIndex = InterlockedExchangeAdd(&frontEndDataOut->codeMeshCount, static_cast<LONG>(1));
         if (codeMeshIndex < 0x800)
         {
             localCodeMesh = &frontEndDataOut->codeMeshes[codeMeshIndex];
@@ -236,7 +236,7 @@ void __cdecl R_AddMarkMeshDrawSurf(
     iassert(rgp.sortedMaterials[material->info.drawSurf.fields.materialSortedIndex] == material);
     if (Material_GetTechnique(material, (MaterialTechniqueType)gfxDrawMethod.litTechType[11][0]))
     {
-        markMeshIndex = InterlockedExchangeAdd(&frontEndDataOut->markMeshCount, static_cast<long>(1));
+        markMeshIndex = InterlockedExchangeAdd(&frontEndDataOut->markMeshCount, static_cast<LONG>(1));
         if (markMeshIndex < 0x600)
         {
             markMesh = &frontEndDataOut->markMeshes[markMeshIndex];
@@ -533,7 +533,7 @@ char __cdecl R_AddParticleCloudDrawSurf(unsigned int cloudIndex, Material *mater
     [[maybe_unused]] GfxDrawSurf *drawSurf; // [esp+2Ch] [ebp-Ch]
     [[maybe_unused]] int region; // [esp+30h] [ebp-8h]
 
-    if (cloudIndex >= frontEndDataOut->cloudCount)
+    if (cloudIndex >= static_cast<unsigned int>(frontEndDataOut->cloudCount))
         MyAssertHandler(
             ".\\r_drawsurf.cpp",
             561,

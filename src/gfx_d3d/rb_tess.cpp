@@ -234,7 +234,7 @@ void __cdecl R_TessCodeMeshList_AddCodeMeshArgs(
         constantId = (CodeConstant)((int)CONST_SRC_CODE_CODE_MESH_ARG_0 + argIndex);
         iassert(constantId <= CONST_SRC_CODE_CODE_MESH_ARG_LAST);
         argGlobalIndex = argOffset + argIndex;
-        if (argOffset + argIndex >= data->codeMeshArgsCount)
+        if (argOffset + argIndex >= static_cast<unsigned int>(data->codeMeshArgsCount))
             MyAssertHandler(
                 ".\\rb_tess.cpp",
                 156,
@@ -471,7 +471,7 @@ unsigned int __cdecl R_TessParticleCloudList(const GfxDrawSurfListArgs *listArgs
     }
     drawSurf = info->drawSurfs[listArgs->firstDrawSurfIndex];
     data = commonSource->input.data;
-    if ((unsigned int)(unsigned __int16)drawSurf.fields.objectId >= data->cloudCount)
+    if ((unsigned int)(unsigned __int16)drawSurf.fields.objectId >= static_cast<unsigned int>(data->cloudCount))
         MyAssertHandler(
             ".\\rb_tess.cpp",
             639,

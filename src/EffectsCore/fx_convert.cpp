@@ -464,12 +464,12 @@ int32_t __cdecl FX_DecideVelocitySampleCount(const FxEditorElemDef *edElem, int3
 {
     const FxCurve *curves[12]; // [esp+0h] [ebp-30h] BYREF
 
-    *(_QWORD *)curves = *(_QWORD *)&edElem->velShape[0][0][0];
-    *(_QWORD *)&curves[2] = *(_QWORD *)&edElem->velShape[0][1][0];
-    *(_QWORD *)&curves[4] = *(_QWORD *)&edElem->velShape[0][2][0];
-    *(_QWORD *)&curves[6] = *(_QWORD *)&edElem->velShape[1][0][0];
-    *(_QWORD *)&curves[8] = *(_QWORD *)&edElem->velShape[1][1][0];
-    *(_QWORD *)&curves[10] = *(_QWORD *)&edElem->velShape[1][2][0];
+    *(_QWORD_alias *)curves = *(_QWORD_alias *)&edElem->velShape[0][0][0];
+    *(_QWORD_alias *)&curves[2] = *(_QWORD_alias *)&edElem->velShape[0][1][0];
+    *(_QWORD_alias *)&curves[4] = *(_QWORD_alias *)&edElem->velShape[0][2][0];
+    *(_QWORD_alias *)&curves[6] = *(_QWORD_alias *)&edElem->velShape[1][0][0];
+    *(_QWORD_alias *)&curves[8] = *(_QWORD_alias *)&edElem->velShape[1][1][0];
+    *(_QWORD_alias *)&curves[10] = *(_QWORD_alias *)&edElem->velShape[1][2][0];
     return FX_DecideSampleCount(12, curves, intervalLimit);
 }
 
@@ -980,7 +980,8 @@ void __cdecl FX_SampleVisualState(FxElemDef *elemDef, const FxEditorElemDef *edE
     float rgba[4]; // [esp+12Ch] [ebp-2Ch] BYREF
     int32_t secondColorSrc; // [esp+13Ch] [ebp-1Ch]
     FxElemVisStateSample *visStateRange; // [esp+140h] [ebp-18h]
-    FxSampleChannel routing[5]; // [esp+144h] [ebp-14h] BYREF
+    FxSampleChannel routing[5]{}; // [esp+144h] [ebp-14h] BYREF — zero-init since
+    // FX_GetVisualSampleRouting writes via type-pun pointers GCC can't track.
 
     FX_GetVisualSampleRouting(edElemDef, routing);
     rotationScale = edElemDef->rotationScale * 0.01745329238474369 / ((double)elemDef->visStateIntervalCount * 1000.0);
@@ -1112,7 +1113,10 @@ void __cdecl FX_ConvertTrail_CompileVertices(
     FxTrailVertex *emittedVertPtrIter; // [esp+28h] [ebp-68h]
     float secondaryEdgeNorm[2]; // [esp+2Ch] [ebp-64h] BYREF
     float primaryEdgeNorm[2]; // [esp+34h] [ebp-5Ch] BYREF
-    __int64 accumNorm; // [esp+3Ch] [ebp-54h] BYREF
+    // KISAKHACK-AUDIT: upstream packed 2 floats into __int64 accumNorm via type punning.
+    // Express as a real float[2] so memcpy is unnecessary and Vec2Normalize sees the
+    // right type directly.
+    float accumNorm[2]; // [esp+3Ch] [ebp-54h] BYREF
     int32_t edgeIter; // [esp+44h] [ebp-4Ch]
     uint16_t *emittedIndPtrBegin; // [esp+48h] [ebp-48h]
     int32_t indCount; // [esp+4Ch] [ebp-44h]
@@ -1157,8 +1161,8 @@ void __cdecl FX_ConvertTrail_CompileVertices(
             primaryEdgeNorm);
         for (edgeIter = 0; edgeIter != 2; ++edgeIter)
         {
-            *(float *)&accumNorm = 0.0;
-            *((float *)&accumNorm + 1) = 0.0;
+            accumNorm[0] = 0.0;
+            accumNorm[1] = 0.0;
             for (secondaryEdgeIndPtr = trailDef->inds; secondaryEdgeIndPtr != indPtrEnd; secondaryEdgeIndPtr += 2)
             {
                 v3 = Vec2Distance(trailDef->verts[*secondaryEdgeIndPtr].pos, trailDef->verts[primaryEdgeIndPtr[edgeIter]].pos);
@@ -1177,17 +1181,18 @@ void __cdecl FX_ConvertTrail_CompileVertices(
                 v8 = secondaryEdgeNorm[1] * primaryEdgeNorm[1] + secondaryEdgeNorm[0] * primaryEdgeNorm[0];
                 if (SMOOTH_THRESHOLD < (double)v8)
                 {
-                    *(float *)&accumNorm = secondaryEdgeNorm[0] + *(float *)&accumNorm;
-                    *((float *)&accumNorm + 1) = secondaryEdgeNorm[1] + *((float *)&accumNorm + 1);
+                    accumNorm[0] += secondaryEdgeNorm[0];
+                    accumNorm[1] += secondaryEdgeNorm[1];
                 }
             }
-            Vec2Normalize((float *)&accumNorm);
+            Vec2Normalize(accumNorm);
             v11 = &outVertPtrIter[edgeIter];
             pos = (float*)trailDef->verts[primaryEdgeIndPtr[edgeIter]].pos;
             v11->pos[0] = *pos;
             v11->pos[1] = pos[1];
             normal = outVertPtrIter[edgeIter].normal;
-            *(_QWORD *)normal = accumNorm;
+            normal[0] = accumNorm[0];
+            normal[1] = accumNorm[1];
             outVertPtrIter[edgeIter].texCoord = trailDef->verts[primaryEdgeIndPtr[edgeIter]].texCoord;
         }
         outVertPtrIter += 2;
@@ -1237,7 +1242,7 @@ void __cdecl FX_ConvertTrail_CompileVertices(
     }
     outTrailDef->verts = emittedVertPtrBegin;
     outTrailDef->vertCount = emittedVertPtrEnd - emittedVertPtrBegin;
-    if (20 * outTrailDef->vertCount > (uint32_t)vertBytes)
+    if (static_cast<uint32_t>(20 * outTrailDef->vertCount) > static_cast<uint32_t>(vertBytes))
         MyAssertHandler(
             ".\\EffectsCore\\fx_convert.cpp",
             949,
@@ -1246,7 +1251,7 @@ void __cdecl FX_ConvertTrail_CompileVertices(
             "outTrailDef->vertCount * sizeof( FxTrailVertex ) <= static_cast< size_t >( vertBytes )");
     outTrailDef->inds = emittedIndPtrBegin;
     outTrailDef->indCount = emittedIndPtrEnd - emittedIndPtrBegin;
-    if (2 * outTrailDef->indCount > (uint32_t)indBytes)
+    if (static_cast<uint32_t>(2 * outTrailDef->indCount) > static_cast<uint32_t>(indBytes))
         MyAssertHandler(
             ".\\EffectsCore\\fx_convert.cpp",
             952,

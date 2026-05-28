@@ -1970,7 +1970,10 @@ void __cdecl FX_GenerateMarkVertsForMark_MatrixFromAnim(
     int32_t v23; // r9
     double v24; // fp13
     double v25; // fp12
-    _DWORD v26[60]; // [sp+50h] [-F0h] BYREF
+    // KISAKHACK-AUDIT: hex-rays typed this scratch buffer as _DWORD[60] but it really
+    // holds float matrix/quaternion data (used as DObjSkelMat / mat4x3). Use float[60]
+    // so the *(float*) casts collapse to direct indexing without strict-aliasing.
+    float v26[60]; // [sp+50h] [-F0h] BYREF
 
     lmapIndex = mark->context.lmapIndex;
     v8 = mark->context.modelTypeAndSurf & 0x3F;
@@ -1992,9 +1995,9 @@ void __cdecl FX_GenerateMarkVertsForMark_MatrixFromAnim(
         *v15 = v18;
         v15 += 3;
     } while (v16);
-    *(float *)&v26[37] = *viewOffset + *(float *)&v26[12];
-    *(float *)&v26[38] = viewOffset[1] + *(float *)&v26[13];
-    *(float *)&v26[39] = viewOffset[2] + *(float *)&v26[14];
+    v26[37] = *viewOffset + v26[12];
+    v26[38] = viewOffset[1] + v26[13];
+    v26[39] = viewOffset[2] + v26[14];
     v19 = DObjGetModel(dobj, v8);
     BasePose = XModelGetBasePose(v19);
     ConvertQuatToInverseSkelMat(&BasePose[lmapIndex], (DObjSkelMat *)v26);
@@ -2015,7 +2018,7 @@ void __cdecl FX_GenerateMarkVertsForMark_MatrixFromAnim(
     v26[25] = v26[12];
     v26[26] = v26[13];
     v26[27] = v26[14];
-    MatrixMultiply43(*(const mat4x3*)&v26[16], *(const mat4x3*)&v26[28], outTransform);
+    MatrixMultiply43(*reinterpret_cast<const mat4x3*>(&v26[16]), *reinterpret_cast<const mat4x3*>(&v26[28]), outTransform);
 }
 
 void __cdecl FX_GenerateMarkVertsForEntBrush(
@@ -2312,7 +2315,7 @@ void __cdecl FX_ExpandMarkVerts_NoTransform_GfxWorldVertex_(
     float binormal[3]; // [esp+C8h] [ebp-2Ch] BYREF
     [[maybe_unused]] const FxMarkPoint *markPoint; // [esp+D4h] [ebp-20h]
     [[maybe_unused]] GfxWorldVertex *verts; // [esp+D8h] [ebp-1Ch]
-    [[maybe_unused]] __int64 texCoord; // [esp+DCh] [ebp-18h]
+    [[maybe_unused]] float texCoord[2]; // [esp+DCh] [ebp-18h]  // upstream __int64 packed
     [[maybe_unused]] int32_t pointCount; // [esp+E4h] [ebp-10h]
     [[maybe_unused]] int32_t loopCount; // [esp+E8h] [ebp-Ch]
     [[maybe_unused]] const FxPointGroup *group; // [esp+ECh] [ebp-8h]
@@ -2359,12 +2362,12 @@ void __cdecl FX_ExpandMarkVerts_NoTransform_GfxWorldVertex_(
             castOutVert->binormalSign = -1.0;
             castOutVert->color.packed = *(_DWORD *)mark->nativeColor;
             v3 = Vec3Dot(delta, mark->texCoordAxis);
-            *(float *)&texCoord = v3 * texCoordScale + 0.5;
+            texCoord[0] = v3 * texCoordScale + 0.5;
             v4 = Vec3Dot(delta, binormal);
-            *((float *)&texCoord + 1) = v4 * texCoordScale + 0.5;
+            texCoord[1] = v4 * texCoordScale + 0.5;
             lmapCoord = (float*)markPoint->lmapCoord;
-            *(_QWORD *)castOutVert->texCoord = texCoord;
-            *(double *)castOutVert->lmapCoord = *(double *)lmapCoord;
+            memcpy(castOutVert->texCoord, texCoord, sizeof(texCoord));
+            memcpy(castOutVert->lmapCoord, lmapCoord, sizeof(double));
             v7.array[0] = (int)(markPoint->normal[0] * 127.0 + 127.5);
             v7.array[1] = (int)(markPoint->normal[1] * 127.0 + 127.5);
             v7.array[2] = (int)(markPoint->normal[2] * 127.0 + 127.5);

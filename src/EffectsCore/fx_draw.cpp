@@ -281,7 +281,10 @@ void __cdecl FX_GenSpriteVerts(FxDrawState *draw, const float *tangent, const fl
     PackedUnitVec v25; // [esp+14Ch] [ebp-130h]
     PackedUnitVec v26; // [esp+16Ch] [ebp-110h]
     float rotationTotal; // [esp+1A8h] [ebp-D4h]
-    int32_t t0; // [esp+1E4h] [ebp-98h] BYREF
+    // KISAKHACK-AUDIT: upstream hex-rays declared t0/s0 as int32_t and used the bytes
+    // both as float (FX_GetSpriteTexCoords output) AND as int (bitwise pack for the
+    // PackedTexCoords fixed-point encode). A union expresses both views safely.
+    union { float f; int32_t i; } t0; // [esp+1E4h] [ebp-98h] BYREF
     r_double_index_t *baseIndices; // [esp+1E8h] [ebp-94h] BYREF
     float dt; // [esp+1ECh] [ebp-90h] BYREF
     FxElemVisuals visuals; // [esp+1F0h] [ebp-8Ch]
@@ -301,7 +304,7 @@ void __cdecl FX_GenSpriteVerts(FxDrawState *draw, const float *tangent, const fl
     float rotatedTangent[3]; // [esp+248h] [ebp-34h] BYREF
     float up[3]; // [esp+254h] [ebp-28h] BYREF
     FxSystem *system; // [esp+260h] [ebp-1Ch]
-    int32_t s0; // [esp+264h] [ebp-18h] BYREF
+    union { float f; int32_t i; } s0; // [esp+264h] [ebp-18h] BYREF
     uint16_t baseVertex; // [esp+268h] [ebp-14h] BYREF
     float rotatedBinormal[3]; // [esp+26Ch] [ebp-10h] BYREF
     GfxPackedVertex *baseVerts; // [esp+278h] [ebp-4h]
@@ -345,7 +348,7 @@ void __cdecl FX_GenSpriteVerts(FxDrawState *draw, const float *tangent, const fl
         Vec3Scale(rotatedBinormal, draw->visState.size[1], up);
         Vec3Sub(draw->posWorld, left, leftSide);
         Vec3Add(draw->posWorld, left, rightSide);
-        FX_GetSpriteTexCoords(draw, (float *)&s0, &v40, (float *)&t0, &dt);
+        FX_GetSpriteTexCoords(draw, &s0.f, &v40, &t0.f, &dt);
         v26.array[0] = (int)(*normal * 127.0 + 127.5);
         v26.array[1] = (int)(normal[1] * 127.0 + 127.5);
         v26.array[2] = (int)(normal[2] * 127.0 + 127.5);
@@ -376,15 +379,15 @@ void __cdecl FX_GenSpriteVerts(FxDrawState *draw, const float *tangent, const fl
         verts->binormalSign = -1.0;
         verts->normal = packedNormal;
         verts->color.packed = *(uint32_t *)draw->visState.color;
-        if ((int)((2 * s0) ^ 0x80000000) >> 14 < 0x3FFF)
-            v24 = (int)((2 * s0) ^ 0x80000000) >> 14;
+        if ((int)((2 * s0.i) ^ 0x80000000) >> 14 < 0x3FFF)
+            v24 = (int)((2 * s0.i) ^ 0x80000000) >> 14;
         else
             v24 = 0x3FFF;
         if (v24 > -16384)
             v12 = v24;
         else
             v12 = -16384;
-        v22 = dt + *(float *)&t0;
+        v22 = dt + t0.f;
         if ((int)((2 * LODWORD(v22)) ^ 0x80000000) >> 14 < 0x3FFF)
             v23 = (int)((2 * LODWORD(v22)) ^ 0x80000000) >> 14;
         else
@@ -394,37 +397,37 @@ void __cdecl FX_GenSpriteVerts(FxDrawState *draw, const float *tangent, const fl
         else
             v11 = -16384;
         verts->texCoord.packed = ((v11 & 0x3FFF) | (((int)LODWORD(v22) >> 16) & 0xC000))
-            + (((v12 & 0x3FFF) | ((s0 >> 16) & 0xC000)) << 16);
+            + (((v12 & 0x3FFF) | ((s0.i >> 16) & 0xC000)) << 16);
         verts->tangent = packedTangent;
         ++verts;
         Vec3Sub(leftSide, up, verts->xyz);
         verts->binormalSign = -1.0;
         verts->normal = packedNormal;
         verts->color.packed = *(uint32_t *)draw->visState.color;
-        if ((int)((2 * s0) ^ 0x80000000) >> 14 < 0x3FFF)
-            v21 = (int)((2 * s0) ^ 0x80000000) >> 14;
+        if ((int)((2 * s0.i) ^ 0x80000000) >> 14 < 0x3FFF)
+            v21 = (int)((2 * s0.i) ^ 0x80000000) >> 14;
         else
             v21 = 0x3FFF;
         if (v21 > -16384)
             v10 = v21;
         else
             v10 = -16384;
-        if ((int)((2 * t0) ^ 0x80000000) >> 14 < 0x3FFF)
-            v20 = (int)((2 * t0) ^ 0x80000000) >> 14;
+        if ((int)((2 * t0.i) ^ 0x80000000) >> 14 < 0x3FFF)
+            v20 = (int)((2 * t0.i) ^ 0x80000000) >> 14;
         else
             v20 = 0x3FFF;
         if (v20 > -16384)
             v9 = v20;
         else
             v9 = -16384;
-        verts->texCoord.packed = ((v9 & 0x3FFF) | ((t0 >> 16) & 0xC000)) + (((v10 & 0x3FFF) | ((s0 >> 16) & 0xC000)) << 16);
+        verts->texCoord.packed = ((v9 & 0x3FFF) | ((t0.i >> 16) & 0xC000)) + (((v10 & 0x3FFF) | ((s0.i >> 16) & 0xC000)) << 16);
         verts->tangent = packedTangent;
         ++verts;
         Vec3Sub(rightSide, up, verts->xyz);
         verts->binormalSign = -1.0;
         verts->normal = packedNormal;
         verts->color.packed = *(uint32_t *)draw->visState.color;
-        v18 = v40 + *(float *)&s0;
+        v18 = v40 + s0.f;
         if ((int)((2 * LODWORD(v18)) ^ 0x80000000) >> 14 < 0x3FFF)
             v19 = (int)((2 * LODWORD(v18)) ^ 0x80000000) >> 14;
         else
@@ -433,15 +436,15 @@ void __cdecl FX_GenSpriteVerts(FxDrawState *draw, const float *tangent, const fl
             v8 = v19;
         else
             v8 = -16384;
-        if ((int)((2 * t0) ^ 0x80000000) >> 14 < 0x3FFF)
-            v17 = (int)((2 * t0) ^ 0x80000000) >> 14;
+        if ((int)((2 * t0.i) ^ 0x80000000) >> 14 < 0x3FFF)
+            v17 = (int)((2 * t0.i) ^ 0x80000000) >> 14;
         else
             v17 = 0x3FFF;
         if (v17 > -16384)
             v7 = v17;
         else
             v7 = -16384;
-        verts->texCoord.packed = ((v7 & 0x3FFF) | ((t0 >> 16) & 0xC000))
+        verts->texCoord.packed = ((v7 & 0x3FFF) | ((t0.i >> 16) & 0xC000))
             + (((v8 & 0x3FFF) | (((int)LODWORD(v18) >> 16) & 0xC000)) << 16);
         verts->tangent = packedTangent;
         ++verts;
@@ -449,7 +452,7 @@ void __cdecl FX_GenSpriteVerts(FxDrawState *draw, const float *tangent, const fl
         verts->binormalSign = -1.0;
         verts->normal = packedNormal;
         verts->color.packed = *(uint32_t *)draw->visState.color;
-        v15 = v40 + *(float *)&s0;
+        v15 = v40 + s0.f;
         if ((int)((2 * LODWORD(v15)) ^ 0x80000000) >> 14 < 0x3FFF)
             v16 = (int)((2 * LODWORD(v15)) ^ 0x80000000) >> 14;
         else
@@ -458,7 +461,7 @@ void __cdecl FX_GenSpriteVerts(FxDrawState *draw, const float *tangent, const fl
             v6 = v16;
         else
             v6 = -16384;
-        v13 = dt + *(float *)&t0;
+        v13 = dt + t0.f;
         if ((int)((2 * LODWORD(v13)) ^ 0x80000000) >> 14 < 0x3FFF)
             v14 = (int)((2 * LODWORD(v13)) ^ 0x80000000) >> 14;
         else
@@ -733,7 +736,7 @@ void __cdecl FX_DrawElem_Cloud(FxDrawState *draw)
                 }
                 FX_SetPlacement(draw, &cloud->placement);
                 cloud->color.packed = *(uint32_t *)draw->visState.color;
-                *(double *)cloud->radius = *(double *)draw->visState.size;
+                memcpy(cloud->radius, draw->visState.size, sizeof(double));
                 Vec3Sub(draw->posWorld, draw->velDirWorld, cloud->endpos);
             }
         }
@@ -934,7 +937,7 @@ void __cdecl FX_BeginIteratingOverEffects_Cooperative(FxSystem *system)
             iteratorCount = 0;
         else
             iteratorCount = system->iteratorCount;
-    } while (InterlockedCompareExchange(&system->iteratorCount, static_cast<long>(iteratorCount + 1), static_cast<long>(iteratorCount)) != iteratorCount);
+    } while (InterlockedCompareExchange(&system->iteratorCount, static_cast<LONG>(iteratorCount + 1), static_cast<LONG>(iteratorCount)) != iteratorCount);
 }
 
 void __cdecl FX_DrawNonSpriteEffect(FxSystem *system, FxEffect *effect, uint32_t elemClass, int32_t drawTime)
@@ -1382,10 +1385,14 @@ void __cdecl FX_TrailElem_UncompressBasis(const char (*inBasis)[3], float (*basi
     int32_t basisVecIter; // [esp+4h] [ebp-8h]
     int32_t dimIter; // [esp+8h] [ebp-4h]
 
+    // KISAKHACK-AUDIT: caller passes char[2][3] / float[2][3] but the formal is (*)[3].
+    // Flat-pointer indexing matches upstream byte semantics.
+    char *flatIn = const_cast<char *>(reinterpret_cast<const char *>(inBasis));
+    float *flatOut = reinterpret_cast<float *>(basis);
     for (basisVecIter = 0; basisVecIter != 2; ++basisVecIter)
     {
         for (dimIter = 0; dimIter != 3; ++dimIter)
-            (*basis)[3 * basisVecIter + dimIter] = (double)(*inBasis)[3 * basisVecIter + dimIter] * 0.007874015718698502;
+            flatOut[3 * basisVecIter + dimIter] = (double)flatIn[3 * basisVecIter + dimIter] * 0.007874015718698502;
     }
 }
 
@@ -1453,7 +1460,7 @@ void __cdecl Fx_GenTrail_PopulateSegmentDrawState(
     outState->basis[1][1] = reinterpret_cast<const float *>(basis)[4];
     outState->basis[1][2] = reinterpret_cast<const float *>(basis)[5];
     outState->rotation = draw->visState.rotationTotal;
-    *(double *)outState->size = *(double *)draw->visState.size;
+    memcpy(outState->size, draw->visState.size, sizeof(double));
     *(uint32_t *)outState->color = *(uint32_t *)draw->visState.color;
     outState->uCoord = spawnDist / (double)draw->elemDef->trailDef->repeatDist + uCoordOffset;
 }

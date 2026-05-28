@@ -772,9 +772,12 @@ void __cdecl FX_UpdateEffectPartial(
         if (!system)
             MyAssertHandler("c:\\trees\\cod3\\src\\effectscore\\fx_system.h", 362, 0, "%s", "system");
         remoteTrail = (FxTrail*)FX_PoolFromHandle_Generic<FxTrail, 128>(system->trails, trailHandle);
-        v10 = *(_DWORD*)&remoteTrail->lastElemHandle;
-        *(_DWORD*)&trail.nextTrailHandle = *(_DWORD*)&remoteTrail->nextTrailHandle;
-        *(_DWORD*)&trail.lastElemHandle = v10;
+        // KISAKHACK-AUDIT: hex-rays copies the {nextTrailHandle, lastElemHandle} pair
+        // and a separate lastElemHandle DWORD via type-punned writes. Use memcpy to
+        // preserve the byte semantics without strict-aliasing.
+        memcpy(&v10, &remoteTrail->lastElemHandle, sizeof(uint32_t));
+        memcpy(&trail.nextTrailHandle, &remoteTrail->nextTrailHandle, sizeof(uint32_t));
+        memcpy(&trail.lastElemHandle, &v10, sizeof(uint32_t));
         if (trailElemStart)
             v14 = trailElemStart[trailIter];
         else
@@ -1187,7 +1190,9 @@ void __cdecl FX_IntegrateVelocity(const FxUpdateElem *update, float t0, float t1
     [[maybe_unused]] const char *v6; // eax
     [[maybe_unused]] char *v7; // eax
     [[maybe_unused]] char *v8; // eax
-    [[maybe_unused]] double v9; // [esp+18h] [ebp-80h]
+    // KISAKHACK-AUDIT: upstream packed two floats into v9 via type punning (double layout).
+    // Use float[2] directly so the float reads/writes carry their proper type.
+    [[maybe_unused]] float v9[2]; // [esp+18h] [ebp-80h]
     [[maybe_unused]] int32_t v10; // [esp+20h] [ebp-78h]
     [[maybe_unused]] int32_t v11; // [esp+24h] [ebp-74h]
     [[maybe_unused]] float integralScale; // [esp+64h] [ebp-34h]
@@ -1244,12 +1249,12 @@ void __cdecl FX_IntegrateVelocity(const FxUpdateElem *update, float t0, float t1
     else
     {
         startPoint = (double)intervalCount * t0;
-        *((float *)&v9 + 1) = floor(startPoint);
-        startIndex = (int)*((float *)&v9 + 1);
+        v9[1] = floor(startPoint);
+        startIndex = (int)v9[1];
         startLerp = startPoint - (double)startIndex;
         endPoint = (double)intervalCount * t1;
-        *(float *)&v9 = ceil(endPoint);
-        endIndex = (int)*(float *)&v9 - 1;
+        v9[0] = ceil(endPoint);
+        endIndex = (int)v9[0] - 1;
         endLerp = endPoint - (double)endIndex;
         if (startIndex > endIndex)
         {
@@ -1733,7 +1738,7 @@ char __cdecl FX_UpdateElement_SetupUpdate(
     if (update->msecUpdateEnd < update->msecElemBegin)
         return 0;
     def = effect->def;
-    if (elemDefIndex >= def->elemDefCountEmission + def->elemDefCountOneShot + def->elemDefCountLooping)
+    if (elemDefIndex >= static_cast<uint32_t>(def->elemDefCountEmission + def->elemDefCountOneShot + def->elemDefCountLooping))
         MyAssertHandler(
             ".\\EffectsCore\\fx_update.cpp",
             1119,
@@ -2161,13 +2166,13 @@ void __cdecl FX_UpdateSpotLight(FxCmd* cmd)
             if (system->activeSpotLightEffectCount != 1)
                 MyAssertHandler(".\\EffectsCore\\fx_update.cpp", 1836, 0, "%s", "system->activeSpotLightEffectCount == 1");
             for (effect = FX_EffectFromHandle(system, system->activeSpotLightEffectHandle);
-                InterlockedExchangeAdd(&effect->status, static_cast<long>(0x20000000)) >= 0x20000000;
-                InterlockedExchangeAdd(&effect->status, static_cast<long>(-536870912)))
+                InterlockedExchangeAdd(&effect->status, static_cast<LONG>(0x20000000)) >= 0x20000000;
+                InterlockedExchangeAdd(&effect->status, static_cast<LONG>(-536870912)))
             {
                 ;
             }
             FX_UpdateSpotLightEffect(system, effect);
-            InterlockedExchangeAdd(&effect->status, static_cast<long>(-536870912));
+            InterlockedExchangeAdd(&effect->status, static_cast<LONG>(-536870912));
         }
         if (!InterlockedDecrement(&system->iteratorCount) && system->needsGarbageCollection)
             FX_RunGarbageCollection(system);
@@ -2300,10 +2305,10 @@ void __cdecl FX_Update(FxSystem* system, int32_t localClientNum, bool nonBoltedE
         localEffect = FX_EffectFromHandle(system, system->allEffectHandles[activeIndex & 0x3FF]);
         if (FX_ShouldProcessEffect(system, localEffect, nonBoltedEffectsOnly))
         {
-            while (InterlockedExchangeAdd(&localEffect->status, static_cast<long>(0x20000000)) >= 0x20000000)
-                InterlockedExchangeAdd(&localEffect->status, static_cast<long>(-536870912));
+            while (InterlockedExchangeAdd(&localEffect->status, static_cast<LONG>(0x20000000)) >= 0x20000000)
+                InterlockedExchangeAdd(&localEffect->status, static_cast<LONG>(-536870912));
             FX_UpdateEffect(system, localEffect);
-            InterlockedExchangeAdd(&localEffect->status, static_cast<long>(-536870912));
+            InterlockedExchangeAdd(&localEffect->status, static_cast<LONG>(-536870912));
         }
     }
     if (!InterlockedDecrement(&system->iteratorCount) && system->needsGarbageCollection)
@@ -2346,7 +2351,7 @@ void __cdecl FX_UpdateEffect(FxSystem* system, FxEffect* effect)
 bool __cdecl FX_ShouldProcessEffect(FxSystem *system, FxEffect *effect, bool nonBoltedEffectsOnly)
 {
     return (!nonBoltedEffectsOnly || effect->boltAndSortOrder.boneIndex == 0x7FF)
-        && InterlockedExchange(&effect->frameCount, static_cast<long>(system->frameCount)) != system->frameCount;
+        && InterlockedExchange(&effect->frameCount, static_cast<LONG>(system->frameCount)) != system->frameCount;
 }
 
 void __cdecl FX_RunPhysics(int32_t localClientNum)
@@ -2410,8 +2415,8 @@ void __cdecl FX_AddNonSpriteDrawSurfs(FxCmd *cmd)
 
 void __cdecl FX_RewindTo(int32_t localClientNum, int32_t time)
 {
-    [[maybe_unused]] volatile long *Destination; // [esp+4h] [ebp-10ACh]
-    [[maybe_unused]] volatile long Comperand; // [esp+8h] [ebp-10A8h]
+    [[maybe_unused]] volatile LONG *Destination; // [esp+4h] [ebp-10ACh]
+    [[maybe_unused]] volatile LONG Comperand; // [esp+8h] [ebp-10A8h]
     [[maybe_unused]] uint16_t v4; // [esp+18h] [ebp-1098h]
     [[maybe_unused]] FxEffect *effect; // [esp+1Ch] [ebp-1094h]
     [[maybe_unused]] FxEffect *effecta; // [esp+1Ch] [ebp-1094h]
@@ -2448,10 +2453,10 @@ void __cdecl FX_RewindTo(int32_t localClientNum, int32_t time)
             effecta = (FxEffect *)v11[bitNum];
             if ((uint16_t)effecta->status)
             {
-                while (InterlockedExchangeAdd(&effecta->status, static_cast<long>(0x20000000)) >= 0x20000000)
-                    InterlockedExchangeAdd(&effecta->status, static_cast<long>(-536870912));
+                while (InterlockedExchangeAdd(&effecta->status, static_cast<LONG>(0x20000000)) >= 0x20000000)
+                    InterlockedExchangeAdd(&effecta->status, static_cast<LONG>(-536870912));
                 FX_KillEffect(system, effecta);
-                InterlockedExchangeAdd(&effecta->status, static_cast<long>(-536870912));
+                InterlockedExchangeAdd(&effecta->status, static_cast<LONG>(-536870912));
             }
         }
         if (!InterlockedDecrement(&system->iteratorCount) && system->needsGarbageCollection)
@@ -2467,7 +2472,7 @@ void __cdecl FX_RewindTo(int32_t localClientNum, int32_t time)
                     Destination = &effectb->status;
                     do
                         Comperand = *Destination;
-                    while (InterlockedCompareExchange(Destination, static_cast<long>(Comperand | 0x10000), static_cast<long>(Comperand)) != Comperand);
+                    while (InterlockedCompareExchange(Destination, static_cast<LONG>(Comperand | 0x10000), static_cast<LONG>(Comperand)) != Comperand);
                     FX_StartNewEffect(system, effectb);
                 }
                 else
@@ -2556,7 +2561,7 @@ void __cdecl FX_SetNextUpdateCamera(int32_t localClientNum, const refdef_s *refd
         system->camera.frustum[5][3] = -system->camera.frustum[0][3] - zfar;
         system->camera.frustumPlaneCount = 6;
     }
-    InterlockedExchange(&system->camera.isValid, static_cast<long>(1));
+    InterlockedExchange(&system->camera.isValid, static_cast<LONG>(1));
 }
 
 void __cdecl FX_SetNextUpdateTime(int32_t localClientNum, int32_t time)
@@ -2572,8 +2577,8 @@ void __cdecl FX_SetNextUpdateTime(int32_t localClientNum, int32_t time)
             "time >= system->msecNow\n\t%i, %i",
             time,
             system->msecNow);
-    InterlockedExchange(&system->camera.isValid, static_cast<long>(0));
-    InterlockedExchange(&system->msecDraw, static_cast<long>(time));
+    InterlockedExchange(&system->camera.isValid, static_cast<LONG>(0));
+    InterlockedExchange(&system->msecDraw, static_cast<LONG>(time));
     system->msecNow = time;
     if (++system->frameCount <= 0)
         system->frameCount = 1;

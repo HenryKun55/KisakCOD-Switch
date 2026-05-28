@@ -259,7 +259,10 @@ void __cdecl FX_GetVelocityAtTime(
     const char* v7; // eax
     int32_t v8; // eax
     char* v9; // eax
-    double v10; // [esp+18h] [ebp-58h]
+    // KISAKHACK-AUDIT: upstream typed v10 as `double` (8 bytes) but used it as float[2]
+    // via type-pun pointers AND also passed it as double-typed variadic arg to %g printf.
+    // Union expresses both.
+    union { double d; float f[2]; } v10; // [esp+18h] [ebp-58h]
     float v11; // [esp+20h] [ebp-50h]
     float v12; // [esp+24h] [ebp-4Ch]
     float velocityWorld[3]; // [esp+28h] [ebp-48h] BYREF
@@ -302,12 +305,12 @@ void __cdecl FX_GetVelocityAtTime(
     rangeLerp[0] = v12;
     v11 = fx_randomTable[randomSeed + 1];
     rangeLerp[1] = v11;
-    *((float*)&v10 + 1) = fx_randomTable[randomSeed + 2];
-    rangeLerp[2] = *((float*)&v10 + 1);
+    v10.f[1] = fx_randomTable[randomSeed + 2];
+    rangeLerp[2] = v10.f[1];
     intervalCount = elemDef->velIntervalCount;
     samplePoint = (double)intervalCount * sampleTime;
-    *(float*)&v10 = floor(samplePoint);
-    v8 = (int)*(float*)&v10;
+    v10.f[0] = floor(samplePoint);
+    v8 = (int)v10.f[0];
     sampleIndex = v8;
     sampleLerp = samplePoint - (double)v8;
     if (v8 < 0 || sampleIndex >= intervalCount)
@@ -320,7 +323,7 @@ void __cdecl FX_GetVelocityAtTime(
             "%s\n\t(va( \"%i for %g on %i intervals\", sampleIndex, sampleTime, intervalCount )) = %i",
             "(sampleIndex >= 0 && sampleIndex < intervalCount)",
             v9,
-            v10,
+            v10.d,
             v11,
             v12);
     }

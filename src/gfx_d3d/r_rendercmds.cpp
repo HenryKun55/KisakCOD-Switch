@@ -521,7 +521,7 @@ DebugGlobals *R_ToggleSmpFrame()
     else
         surfPos = frontEndDataOut->surfPos;
     frontEndDataOut->surfPos = surfPos;
-    if (frontEndDataOut->cloudCount > 0x100u)
+    if (static_cast<unsigned int>(frontEndDataOut->cloudCount) > 0x100u)
         MyAssertHandler(
             ".\\r_rendercmds.cpp",
             1040,

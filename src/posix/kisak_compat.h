@@ -311,7 +311,10 @@ inline ::tm *_localtime64(const long long *in)
 // shaped handle; the linker resolves at the right moment when the owning
 // subsystem is ported.
 typedef uint32_t DWORD;
-typedef long          LONG;
+// KISAKHACK-AUDIT: Win32 LONG is 32-bit. On POSIX/aarch64 `long` is 64-bit, so using
+// `typedef long LONG` causes InterlockedXXX templates to deduce 8-byte atomic ops on
+// the 4-byte int fields the upstream code stores values in. Match Win32 LONG width.
+typedef int32_t       LONG;
 typedef long long     LONGLONG;
 typedef unsigned long long ULONGLONG;
 typedef void         *HANDLE;

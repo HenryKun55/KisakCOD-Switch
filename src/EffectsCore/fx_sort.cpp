@@ -51,7 +51,7 @@ void __cdecl FX_SortEffects(FxSystem *system)
 
 void __cdecl FX_WaitBeginIteratingOverEffects_Exclusive(FxSystem *system)
 {
-    volatile long *Destination; // [esp+0h] [ebp-4h]
+    volatile LONG *Destination; // [esp+0h] [ebp-4h]
 
     if (system->isArchiving)
         MyAssertHandler("c:\\trees\\cod3\\src\\effectscore\\fx_system.h", 512, 0, "%s", "!system->isArchiving");
@@ -60,7 +60,7 @@ void __cdecl FX_WaitBeginIteratingOverEffects_Exclusive(FxSystem *system)
     {
         while (*Destination)
             ;
-    } while (InterlockedCompareExchange(Destination, static_cast<long>(-1), static_cast<long>(0)));
+    } while (InterlockedCompareExchange(Destination, static_cast<LONG>(-1), static_cast<LONG>(0)));
 }
 
 bool __cdecl FX_FirstEffectIsFurther(FxEffect *firstEffect, FxEffect *secondEffect)

@@ -77,7 +77,7 @@ static_assert(sizeof(FxEffectDef) == 32); // 32-bit upstream layout; revisit on 
 struct FxEffect // sizeof=0x80
 {                                       // ...
     const FxEffectDef *def;
-    volatile long status;
+    volatile LONG status;
     unsigned __int16 firstElemHandle[3];
     unsigned __int16 firstSortedElemHandle;
     unsigned __int16 firstTrailHandle;
@@ -85,7 +85,7 @@ struct FxEffect // sizeof=0x80
     unsigned __int16 owner;
     unsigned __int16 packedLighting;
     FxBoltAndSortOrder boltAndSortOrder;
-    volatile long frameCount;
+    volatile LONG frameCount;
     int msecBegin;
     int msecLastUpdate;
     FxSpatialFrame frameAtSpawn;
@@ -106,7 +106,7 @@ struct FxPool
 struct FxCamera // sizeof=0xB0
 {                                       // ...
     float origin[3];
-    volatile long isValid;
+    volatile LONG isValid;
     float frustum[6][4];
     float axis[3][3];
     unsigned int frustumPlaneCount;
@@ -179,7 +179,7 @@ struct FxVisBlocker // sizeof=0x10
 struct FxVisState // sizeof=0x1010
 {                                       // ...
     FxVisBlocker blocker[256];
-    volatile long blockerCount;
+    volatile LONG blockerCount;
     unsigned int pad[3];
 };
 struct FxSystem // sizeof=0xA60
@@ -192,31 +192,31 @@ struct FxSystem // sizeof=0xA60
     FxPool<FxTrail> *trails;
     FxPool<FxTrailElem> *trailElems;
     unsigned __int16 *deferredElems;
-    volatile long firstFreeElem;
-    volatile long firstFreeTrailElem;
-    volatile long firstFreeTrail;
-    volatile long deferredElemCount;
-    volatile long activeElemCount;
-    volatile long activeTrailElemCount;
-    volatile long activeTrailCount;
-    volatile long gfxCloudCount;
+    volatile LONG firstFreeElem;
+    volatile LONG firstFreeTrailElem;
+    volatile LONG firstFreeTrail;
+    volatile LONG deferredElemCount;
+    volatile LONG activeElemCount;
+    volatile LONG activeTrailElemCount;
+    volatile LONG activeTrailCount;
+    volatile LONG gfxCloudCount;
     FxVisState *visState;
     const FxVisState *visStateBufferRead;
     FxVisState *visStateBufferWrite;
-    volatile long firstActiveEffect;
-    volatile long firstNewEffect;
-    volatile long firstFreeEffect;
+    volatile LONG firstActiveEffect;
+    volatile LONG firstNewEffect;
+    volatile LONG firstFreeEffect;
     unsigned __int16 allEffectHandles[1024];
-    volatile long activeSpotLightEffectCount;
-    volatile long activeSpotLightElemCount;
+    volatile LONG activeSpotLightEffectCount;
+    volatile LONG activeSpotLightElemCount;
     unsigned __int16 activeSpotLightEffectHandle;
     unsigned __int16 activeSpotLightElemHandle;
     __int16 activeSpotLightBoltDobj;
     // padding byte
     // padding byte
-    volatile long iteratorCount;
+    volatile LONG iteratorCount;
     int msecNow;
-    volatile long msecDraw;
+    volatile LONG msecDraw;
     int frameCount;
     bool isInitialized;
     bool needsGarbageCollection;

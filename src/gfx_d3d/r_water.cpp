@@ -10,7 +10,7 @@ WaterGlob waterGlob;
 WaterGlobStatic waterGlobStatic;
 
 //unsigned int const *const g_selectByteFromInt__uint4 820e3810     gfx_d3d : r_water.obj
-long volatile g_waterLock;//          85b3ac80     gfx_d3d : r_water.obj
+LONG volatile g_waterLock;//          85b3ac80     gfx_d3d : r_water.obj
 //struct __vector4 const g_selectByteFromInt 85b45900     gfx_d3d : r_water.obj
 
 
@@ -44,7 +44,7 @@ void __cdecl R_UploadWaterTextureInternal(water_t **data)
         GenerateMipMaps(D3DFMT_L8, waterGlob.pixels, water);
     }
 
-    InterlockedExchangeAdd(&g_waterLock, static_cast<long>(-1));
+    InterlockedExchangeAdd(&g_waterLock, static_cast<LONG>(-1));
 }
 
 void __cdecl WaterFrequenciesAtTime(complex_s *H, const water_t *water, float t)

@@ -168,7 +168,7 @@ void __cdecl R_AddDObjToScene(
         }
         else
         {
-            gfxEntIndex = InterlockedExchangeAdd(&frontEndDataOut->gfxEntCount, 1L);
+            gfxEntIndex = InterlockedExchangeAdd(&frontEndDataOut->gfxEntCount, static_cast<LONG>(1));
             if (gfxEntIndex >= 0x80)
             {
                 frontEndDataOut->gfxEntCount = 128;

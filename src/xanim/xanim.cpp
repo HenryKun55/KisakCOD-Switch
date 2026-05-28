@@ -508,7 +508,7 @@ unsigned int __cdecl XAnimGetAnimMap(const XAnimParts* parts, const XModelNameMa
 
     if (!parts)
         MyAssertHandler(".\\xanim\\xanim.cpp", 575, 0, "%s", "parts");
-    memset(&animToModel, 0, 16);
+    memset(reinterpret_cast<unsigned char *>(&animToModel), 0, 16);
     boneCount = parts->boneCount[9];
     partNames = parts->names;
     for (partIndex = 0; partIndex < boneCount; ++partIndex)
@@ -2614,7 +2614,9 @@ void __cdecl XAnimCalcDeltaTree(
         else
             p_newRotPos = &newRotPos;
         rotPos2 = p_newRotPos;
-        *(_WORD*)&childDeltaInfo.bAbs = *(_WORD*)&deltaInfo.bAbs;
+        // KISAKHACK-AUDIT: hex-rays copies the {bAbs, bRel?} byte pair as a WORD. Use memcpy
+        // to preserve the byte semantics without strict-aliasing.
+        memcpy(&childDeltaInfo.bAbs, &deltaInfo.bAbs, sizeof(uint16_t));
         childDeltaInfo.bClear = 1;
         childDeltaInfo.bNormQuat = 1;
         XAnimCalcDeltaTree(obj, infoIndex1, firstWeight, childDeltaInfo, p_newRotPos);
@@ -2712,7 +2714,9 @@ void __cdecl XAnimCalcRelDeltaParts(
     float4 vec1; // [esp+A8h] [ebp-44h] BYREF
     float Q[2][2]; // [esp+B8h] [ebp-34h] BYREF
     float4 vec2; // [esp+C8h] [ebp-24h] BYREF
-    float4 vec; // [esp+D8h] [ebp-14h]
+    // KISAKHACK-AUDIT: upstream reads vec.v[] without ever writing it (lines 2763-2765
+    // use vec.v but only vec2.v is initialized). Zero-init to deterministic behavior.
+    float4 vec{}; // [esp+D8h] [ebp-14h]
     float4 delta;
 
     XAnim_CalcDeltaForTime(parts, time1, Q[0], &vec1);

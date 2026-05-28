@@ -206,21 +206,21 @@ set(GFX_PORTABLE_SOURCES
 
 set(EFFECTSCORE_PORTABLE_SOURCES
     "${SRC_DIR}/EffectsCore/fx_archive.cpp"
-    # "${SRC_DIR}/EffectsCore/fx_beam.cpp"  # TODO Switch: heavy SIMD QWORD-mask type punning, needs careful float4-union rewrite
-    # "${SRC_DIR}/EffectsCore/fx_convert.cpp"  # TODO Switch: heavy SIMD QWORD-mask type punning, needs careful float4-union rewrite
-    # "${SRC_DIR}/EffectsCore/fx_draw.cpp"  # TODO Switch: heavy SIMD QWORD-mask type punning + nega-array, needs careful rewrite
+    "${SRC_DIR}/EffectsCore/fx_beam.cpp"
+    "${SRC_DIR}/EffectsCore/fx_convert.cpp"
+    "${SRC_DIR}/EffectsCore/fx_draw.cpp"
     "${SRC_DIR}/EffectsCore/fx_dvars.cpp"
     "${SRC_DIR}/EffectsCore/fx_graph.cpp"
     "${SRC_DIR}/EffectsCore/fx_load_obj.cpp"
-    # "${SRC_DIR}/EffectsCore/fx_marks.cpp"  # TODO Switch: heavy SIMD QWORD-mask type punning, needs careful rewrite
+    "${SRC_DIR}/EffectsCore/fx_marks.cpp"
     "${SRC_DIR}/EffectsCore/fx_postlight.cpp"
     "${SRC_DIR}/EffectsCore/fx_profile.cpp"
     "${SRC_DIR}/EffectsCore/fx_random.cpp"
     "${SRC_DIR}/EffectsCore/fx_sort.cpp"
     "${SRC_DIR}/EffectsCore/fx_sprite.cpp"
-    # "${SRC_DIR}/EffectsCore/fx_system.cpp"  # TODO Switch: heavy SIMD QWORD-mask type punning + sign-compares, needs careful rewrite
-    # "${SRC_DIR}/EffectsCore/fx_update.cpp"  # TODO Switch: heavy SIMD QWORD-mask type punning, needs careful rewrite
-    # "${SRC_DIR}/EffectsCore/fx_update_util.cpp"  # TODO Switch: SIMD QWORD-mask type punning, needs careful rewrite
+    "${SRC_DIR}/EffectsCore/fx_system.cpp"
+    "${SRC_DIR}/EffectsCore/fx_update.cpp"
+    "${SRC_DIR}/EffectsCore/fx_update_util.cpp"
     "${SRC_DIR}/EffectsCore/fxcurve.cpp"
 )
 
@@ -264,7 +264,7 @@ set(UI_PORTABLE_SOURCES
     "${SRC_DIR}/ui/ui_expressions.cpp"
     "${SRC_DIR}/ui/ui_expressions_logicfunctions.cpp"
     "${SRC_DIR}/ui/ui_shared.cpp"
-    # "${SRC_DIR}/ui/ui_shared_obj.cpp"  # TODO Switch: 48 strict-aliasing errors in expression evaluator, needs careful rewrite
+    "${SRC_DIR}/ui/ui_shared_obj.cpp"
     "${SRC_DIR}/ui/ui_localvars.cpp"
     "${SRC_DIR}/ui/ui_utils.cpp"
     "${SRC_DIR}/ui_mp/ui_gameinfo_mp.cpp"
@@ -342,7 +342,7 @@ set(CGAME_PORTABLE_SOURCES
     "${SRC_DIR}/cgame_mp/cg_animtree_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_client_side_effects_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_draw_mp.cpp"
-    # "${SRC_DIR}/cgame_mp/cg_ents_mp.cpp"  # TODO Switch: heavy SIMD QWORD-mask AABB rotation, needs full rewrite
+    "${SRC_DIR}/cgame_mp/cg_ents_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_compassfriendlies_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_consolecmds_mp.cpp"
     "${SRC_DIR}/cgame_mp/cg_draw_net_mp.cpp"
@@ -414,10 +414,10 @@ set(GAME_PORTABLE_SOURCES
 )
 
 set(XANIM_PORTABLE_SOURCES
-    # "${SRC_DIR}/xanim/dobj.cpp"  # TODO Switch: SavedDObj memcpy layout mismatch on 64-bit + class-memaccess warnings
+    "${SRC_DIR}/xanim/dobj.cpp"
     "${SRC_DIR}/xanim/dobj_skel.cpp"
     "${SRC_DIR}/xanim/dobj_utils.cpp"
-    # "${SRC_DIR}/xanim/xanim.cpp"  # TODO Switch: class-memaccess + SIMD QWORD-mask type punning + uninitialized warnings
+    "${SRC_DIR}/xanim/xanim.cpp"
     "${SRC_DIR}/xanim/xanim_calc.cpp"
     "${SRC_DIR}/xanim/xanim_load_obj.cpp"
     "${SRC_DIR}/xanim/xmodel_load_obj.cpp"
@@ -427,7 +427,7 @@ set(XANIM_PORTABLE_SOURCES
 )
 
 set(BGAME_PORTABLE_SOURCES
-    # "${SRC_DIR}/bgame/bg_animation_mp.cpp"  # TODO Switch: SIMD QWORD-mask type punning + sign-compares
+    "${SRC_DIR}/bgame/bg_animation_mp.cpp"
     "${SRC_DIR}/bgame/bg_pmove.cpp"
     "${SRC_DIR}/bgame/bg_weapons.cpp"
     "${SRC_DIR}/bgame/bg_misc.cpp"
