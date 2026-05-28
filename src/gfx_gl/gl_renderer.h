@@ -27,4 +27,9 @@ void shutdown();
 // resize no desktop).
 void set_viewport(int width, int height);
 
+// Permite o port do CoD4 substituir a cor de clear do demo cube pelo que
+// o engine pediu via RC_CLEAR_SCREEN. Tomado em conta no proximo
+// render_frame.
+void apply_clear_color(float r, float g, float b, float a);
+
 } // namespace gfx_gl

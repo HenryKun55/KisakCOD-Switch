@@ -170,11 +170,15 @@ int main(int /*argc*/, char ** /*argv*/)
     // path below is only reached when init returns.
     char cmdline[1] = {0};
     Com_Init(cmdline);
+    extern void switch_reset_render_queue();
+    extern void switch_dispatch_render_queue();
+
     switch_debug_log("[switch_main] Com_Init returned, entering Com_Frame loop\n");
 
     const u64 start_tick = armGetSystemTick();
     int frame = 0;
     while (appletMainLoop()) {
+        switch_reset_render_queue();
         padUpdate(&pad);
         if (padGetButtonsDown(&pad) & HidNpadButton_Plus) {
             break;
@@ -193,9 +197,12 @@ int main(int /*argc*/, char ** /*argv*/)
         }
         ++frame;
 
-        // Until the CoD4 R_* command queue is routed into our GLES2 path,
-        // draw the demo cube from src/gfx_gl/ so the framebuffer isn't a
-        // black void while the engine ticks underneath.
+        // Dispatch whatever opcodes Com_Frame parked in the CoD4 command
+        // queue (currently only RC_CLEAR_SCREEN reaches the swap chain).
+        // Then keep drawing the demo cube on top so we still get a visible
+        // signal until more RC_* are wired up.
+        switch_dispatch_render_queue();
+
         const float elapsed_s =
             float(armTicksToNs(armGetSystemTick() - start_tick)) * 1.0e-9f;
         gfx_gl::render_frame(elapsed_s);

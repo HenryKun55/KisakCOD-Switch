@@ -1518,6 +1518,11 @@
 
  char __cdecl R_CheckDvarModified(const dvar_s *dvar)
  {
+     // Several renderer dvars only get registered by code paths in the
+     // upstream D3D9 init that don't run on Switch yet; their slots are
+     // still null pointers. Treat null as "not modified" rather than
+     // faulting so R_UpdateFrontEndDvarOptions can complete.
+     if (!dvar) return 0;
      if (!dvar->modified)
          return 0;
      Dvar_ClearModified((dvar_s*)dvar);

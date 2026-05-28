@@ -1,6 +1,10 @@
 #include "r_rendercmds.h"
 #include <qcommon/mem_track.h>
 #include <qcommon/threads.h>
+#include <cstdio>
+#ifdef __SWITCH__
+#include <switch.h>
+#endif
 #include "rb_logfile.h"
 #include "r_utils.h"
 #include "r_model_lighting.h"
@@ -438,6 +442,21 @@ GfxCmdHeader *__cdecl R_GetCommandBuffer(GfxRenderCommand renderCmd, int bytes)
         sizeLimit -= 0x2000 - s_cmdList->usedCritical;
     if (bytes <= sizeLimit)
     {
+#ifdef __SWITCH__
+        // Telemetry: log the first ~20 commands the engine queues per
+        // process so we know what the render pipeline is actually asking
+        // for once it boots. Helps target which RC_* opcodes to wire to
+        // GLES2 first.
+        static int g_cmdLogged = 0;
+        if (g_cmdLogged < 20) {
+            char dbg[96];
+            const int n = std::snprintf(dbg, sizeof(dbg),
+                                        "[render-cmd] id=%d bytes=%d totalUsed=%d",
+                                        (int)renderCmd, bytes, s_cmdList->usedTotal + bytes);
+            if (n > 0) svcOutputDebugString(dbg, (uint64_t)n);
+            ++g_cmdLogged;
+        }
+#endif
         header = (GfxCmdHeader *)&s_cmdList->cmds[s_cmdList->usedTotal];
         s_cmdList->usedTotal += bytes;
         s_cmdList->usedCritical += renderCmd >= RC_FIRST_NONCRITICAL ? 0 : bytes;
@@ -1261,6 +1280,15 @@ const float s_debugShaderConsts[5][4] =
 }; // idb
 void R_UpdateFrontEndDvarOptions()
 {
+#ifdef __SWITCH__
+    // KISAKHACK-AUDIT(r-frontend-dvars-skip): every dvar this function
+    // touches (r_sun_from_dvars, r_fullbright, r_debugShader, ...) is
+    // registered inside the D3D9-specific init path that hasn't been
+    // ported. Calling through them on Switch immediately dereferences
+    // null. Skip the dvar reconciliation pass — the renderer doesn't
+    // visibly drive any of these knobs in this build yet.
+    return;
+#else
     bool v0; // [esp+0h] [ebp-Ch]
 
     if (R_LightTweaksModified())
@@ -1303,6 +1331,7 @@ void R_UpdateFrontEndDvarOptions()
     rg.drawBModels = r_drawBModels->current.enabled;
     rg.drawSModels = r_drawSModels->current.enabled;
     rg.drawXModels = r_drawXModels->current.enabled;
+#endif // __SWITCH__
 }
 
 void __cdecl R_SetInputCodeConstantFromVec4(GfxCmdBufInput *input, CodeConstant constant, const float *value)

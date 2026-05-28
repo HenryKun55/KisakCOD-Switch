@@ -145,6 +145,11 @@ void set_viewport(int width, int height)
     glViewport(0, 0, width, height);
 }
 
+void apply_clear_color(float r, float g, float b, float a)
+{
+    glClearColor(r, g, b, a);
+}
+
 void render_frame(float time_seconds)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
