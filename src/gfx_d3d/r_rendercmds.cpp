@@ -45,8 +45,10 @@ GfxCmdArray g_frontEndCmds[2];
 GfxDebugFrameGlob s_debugFrameGlob;
 GfxCmdArray g_debugFrontEndCmds;
 
-static unsigned int s_renderCmdBufferSize;
-static int s_renderCmdWarnSize;
+// Non-static so the Switch port's switch_renderer_init.cpp can seed
+// these without dragging in R_InitRenderCommands and its full Hunk path.
+unsigned int s_renderCmdBufferSize;
+int s_renderCmdWarnSize;
 
 void __cdecl TRACK_r_rendercmds()
 {

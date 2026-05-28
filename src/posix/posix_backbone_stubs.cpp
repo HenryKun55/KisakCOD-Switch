@@ -3028,7 +3028,10 @@ void SND_SaveListeners(snd_listener *) {}
 void CL_PlayCinematic_f() {}
 // int  Hunk_HideTempMemory() { return 0; }
 // void Hunk_ShowTempMemory(int) {}
+#ifndef __SWITCH__
+// Switch build supplies a real implementation in src/switch/switch_renderer_init.cpp
 void R_BeginRegistration(vidConfig_t *) {}
+#endif
 void R_ConfigureRenderer(const GfxConfiguration *) {}
 // void Con_InitClientAssets() {}  // provided by cl_console.cpp now
 void SND_RestoreListeners(snd_listener *) {}
