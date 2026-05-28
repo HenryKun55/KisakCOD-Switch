@@ -22,7 +22,7 @@ void __cdecl G_ProcessIPBans()
 
     numIPFilters = 0;
     // KISAKHACK: 32-bit pointer in DvarValue.integer; bridge through uintptr_t.
-    I_strncpyz(str, (char *)(uintptr_t)g_banIPs->current.integer, 1024);
+    I_strncpyz(str, (char *)g_banIPs->current.string, 1024);
     s = str;
     for (t = str; *t; t = s)
     {

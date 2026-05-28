@@ -80,7 +80,7 @@ bool __cdecl Com_HasPlayerProfile()
     // string is non-empty. uintptr_t cast silences the warning here; the
     // semantic 64-bit fix lands with the broader DvarValue layout work
     // (see docs/RISKS.md).
-    return *(char *)(uintptr_t)(unsigned int)com_playerProfile->current.integer != 0;
+    return *(char *)com_playerProfile->current.string != 0;
 }
 
 
@@ -179,7 +179,7 @@ char __cdecl Com_DeletePlayerProfile(const char *profileName)
     // member, but the decompiler accessed it via .integer. uintptr_t cast
     // silences the warning; semantic 64-bit fix is the DvarValue layout
     // work (see docs/RISKS.md).
-    FS_BuildOSPath((char *)(uintptr_t)(unsigned int)fs_basepath->current.integer, (char*)"players", profilePath, osPath);
+    FS_BuildOSPath((char *)fs_basepath->current.string, (char*)"players", profilePath, osPath);
     if (!Sys_RemoveDirTree(osPath))
         return 0;
     if (!I_stricmp(profileName, com_playerProfile->current.string))
@@ -226,7 +226,7 @@ char __cdecl Com_NewPlayerProfile(const char *profileName)
     // member, but the decompiler accessed it via .integer. uintptr_t cast
     // silences the warning; semantic 64-bit fix is the DvarValue layout
     // work (see docs/RISKS.md).
-    FS_BuildOSPath((char *)(uintptr_t)(unsigned int)fs_basepath->current.integer, (char*)"players", profilePath, osPath);
+    FS_BuildOSPath((char *)fs_basepath->current.string, (char*)"players", profilePath, osPath);
         if (FS_CreatePath(osPath))
         {
             Com_Printf(16, "Unable to create new profile path: %s\n", osPath);

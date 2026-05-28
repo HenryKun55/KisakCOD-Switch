@@ -123,7 +123,20 @@ void *VirtualAlloc(void *addr, size_t size, unsigned int flags, unsigned int /*p
     if ((flags & MEM_RESERVE) == 0 && (flags & MEM_COMMIT) != 0 && addr != nullptr) {
         return addr;
     }
-    return std::malloc(size);
+    // Win32 VirtualAlloc returns page-aligned (4 KiB) zeroed memory. The
+    // engine relies on both: HunkUser asserts that user->buf lands on a
+    // 32-byte boundary, and various init paths read fields before writing.
+    // Round size up to a 4 KiB multiple, use posix_memalign for alignment,
+    // and zero the buffer ourselves.
+    const size_t align = 4096;
+    const size_t rounded = (size + align - 1) & ~(align - 1);
+    // libnx doesn't ship posix_memalign — fall back to aligned_alloc which
+    // requires (size % alignment) == 0; we already rounded `rounded` up to
+    // a 4 KiB multiple so that holds.
+    void *p = std::aligned_alloc(align, rounded);
+    if (!p) return nullptr;
+    std::memset(p, 0, rounded);
+    return p;
 }
 BOOL VirtualFree(void *addr, size_t /*size*/, unsigned int flags)
 {
@@ -210,16 +223,31 @@ enum MapProfileTrackedValue : int;
 // Hunk_Alloc / Hunk_AllocAlign — provided by com_memory.cpp now.
 
 // Sys_Error: fatal engine error. Same behaviour as Com_Error for now.
+// On Switch, stderr is swallowed (no consoleInit when GL is up), so we also
+// route the message through svcOutputDebugString so it lands in the Ryujinx
+// log before abort()ing.
+#ifdef __SWITCH__
+#include <switch.h>
+#endif
 void Sys_Error(const char *fmt, ...)
 {
-    std::fputs("[sys-fatal] ", stderr);
+    char buf[1024];
+    int prefix = std::snprintf(buf, sizeof(buf), "[sys-fatal] fmt=<%s> ",
+                               fmt ? fmt : "(null)");
     if (fmt) {
         va_list ap;
         va_start(ap, fmt);
-        std::vfprintf(stderr, fmt, ap);
+        std::vsnprintf(buf + prefix, sizeof(buf) - prefix, fmt, ap);
         va_end(ap);
     }
+    std::fputs(buf, stderr);
     std::fputc('\n', stderr);
+#ifdef __SWITCH__
+    // svcOutputDebugString stops at the first NUL but accepts embedded \n,
+    // so collapse newlines to ` | ` so the whole message survives the log.
+    for (char *p = buf; *p; ++p) if (*p == '\n') *p = '|';
+    svcOutputDebugString(buf, std::strlen(buf));
+#endif
     std::abort();
 }
 
@@ -278,31 +306,40 @@ unsigned int Sys_Milliseconds()
 }
 
 // Sys_EnterCriticalSection / LeaveCriticalSection: upstream uses Win32
-// CRITICAL_SECTION indexed by thread-domain enum. Real pthread_mutex
-// impl; 16 named slots ought to cover all upstream call sites.
+// CRITICAL_SECTION indexed by thread-domain enum. Win32 CRITICAL_SECTION is
+// natively re-entrant for the owning thread — and CoD4 relies on that (e.g.
+// Com_LogPrintMessage takes CRITSECT_CONSOLE and then calls Com_OpenLogFile
+// which calls Com_Printf which re-enters CRITSECT_CONSOLE).
+//
+// pthread_mutex defaults to NORMAL mutexes which deadlock on re-entry, so
+// we lazy-init each slot as PTHREAD_MUTEX_RECURSIVE.
 namespace {
 constexpr int KISAK_CRIT_SLOTS = 16;
-pthread_mutex_t g_crit_mutexes[KISAK_CRIT_SLOTS] = {
-    PTHREAD_MUTEX_INITIALIZER, PTHREAD_MUTEX_INITIALIZER,
-    PTHREAD_MUTEX_INITIALIZER, PTHREAD_MUTEX_INITIALIZER,
-    PTHREAD_MUTEX_INITIALIZER, PTHREAD_MUTEX_INITIALIZER,
-    PTHREAD_MUTEX_INITIALIZER, PTHREAD_MUTEX_INITIALIZER,
-    PTHREAD_MUTEX_INITIALIZER, PTHREAD_MUTEX_INITIALIZER,
-    PTHREAD_MUTEX_INITIALIZER, PTHREAD_MUTEX_INITIALIZER,
-    PTHREAD_MUTEX_INITIALIZER, PTHREAD_MUTEX_INITIALIZER,
-    PTHREAD_MUTEX_INITIALIZER, PTHREAD_MUTEX_INITIALIZER,
-};
+pthread_mutex_t g_crit_mutexes[KISAK_CRIT_SLOTS];
+std::once_flag g_crit_init_flag;
+void g_crit_init()
+{
+    pthread_mutexattr_t attr;
+    pthread_mutexattr_init(&attr);
+    pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+    for (int i = 0; i < KISAK_CRIT_SLOTS; ++i) {
+        pthread_mutex_init(&g_crit_mutexes[i], &attr);
+    }
+    pthread_mutexattr_destroy(&attr);
+}
 } // namespace
 
 void Sys_EnterCriticalSection(int slot)
 {
     if (slot < 0 || slot >= KISAK_CRIT_SLOTS) return;
+    std::call_once(g_crit_init_flag, g_crit_init);
     pthread_mutex_lock(&g_crit_mutexes[slot]);
 }
 
 void Sys_LeaveCriticalSection(int slot)
 {
     if (slot < 0 || slot >= KISAK_CRIT_SLOTS) return;
+    std::call_once(g_crit_init_flag, g_crit_init);
     pthread_mutex_unlock(&g_crit_mutexes[slot]);
 }
 

@@ -645,7 +645,7 @@ void __cdecl SP_worldspawn()
     }
     G_LevelSpawnString("message", "", &s);
     SV_SetConfigstring(3, (char *)s);
-    SV_SetConfigstring(10, (char *)(uintptr_t)g_motd->current.integer);
+    SV_SetConfigstring(10, (char *)g_motd->current.string);
     G_LevelSpawnString("gravity", "800", &s);
     if (!g_gravity)
         MyAssertHandler(".\\game_mp\\g_spawn_mp.cpp", 1123, 0, "%s", "g_gravity");

@@ -56,7 +56,7 @@ void __cdecl FreeString(const char* str);
 void Com_InitHunkMemory();
 void __cdecl Com_Meminfo_f();
 
-struct HunkUser // sizeof=0x24
+struct HunkUser // sizeof=0x24 (32-bit upstream)
 {
     HunkUser* current;
     HunkUser* next;
@@ -69,7 +69,13 @@ struct HunkUser // sizeof=0x24
     // padding byte
     // padding byte
     int type;
-    unsigned __int8 buf[1];
+    // KISAKHACK-AUDIT(hunkuser-buf-align-64bit): Hunk_UserCreate asserts that
+    // user->pos = (int)(uintptr_t)user->buf is 32-byte aligned. That holds on
+    // 32-bit (sizeof=0x24, buf at 0x20) but breaks on 64-bit where the wider
+    // pointers push buf to offset 0x30 — 16-byte aligned, not 32. We force
+    // 32-byte alignment so the low bits of user->buf match the assertion
+    // regardless of host pointer width.
+    alignas(32) unsigned __int8 buf[1];
     // padding byte
     // padding byte
     // padding byte

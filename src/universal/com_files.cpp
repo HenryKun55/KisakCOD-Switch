@@ -406,7 +406,10 @@ void __cdecl FS_ReplaceSeparators(char *path)
             if (!wasSep)
             {
                 wasSep = 1;
-                *dst++ = 92;
+                // KISAKHACK-AUDIT(path-sep-posix): upstream collapses runs of
+                // `/` or `\` into a single `\` to match Win32 FS expectations.
+                // POSIX/libnx wants `/`, so emit forward slash here.
+                *dst++ = '/';
             }
         }
         else
@@ -600,7 +603,7 @@ int __cdecl FS_FOpenTextFileWrite(const char *filename)
     FS_CheckFileSystemStarted();
     h = FS_HandleForFile(FS_THREAD_MAIN);
     fsh[h].zipFile = 0;
-    FS_BuildOSPath((char *)(uintptr_t)fs_homepath->current.integer, fs_gamedir, filename, ospath);
+    FS_BuildOSPath((char *)fs_homepath->current.string, fs_gamedir, filename, ospath);
     if (fs_debug->current.integer)
         Com_Printf(10, "FS_FOpenFileWrite: %s\n", ospath);
     if (FS_CreatePath(ospath))
@@ -628,7 +631,7 @@ int __cdecl FS_FOpenFileAppend(const char *filename)
     h = FS_HandleForFile(IsMainThread ? FS_THREAD_MAIN : FS_THREAD_BACKEND);
     fsh[h].zipFile = 0;
     I_strncpyz(fsh[h].name, filename, 256);
-    FS_BuildOSPath((char *)(uintptr_t)fs_homepath->current.integer, fs_gamedir, filename, ospath);
+    FS_BuildOSPath((char *)fs_homepath->current.string, fs_gamedir, filename, ospath);
     if (fs_debug->current.integer)
         Com_Printf(10, "FS_FOpenFileAppend: %s\n", ospath);
     if (FS_CreatePath(ospath))
@@ -968,7 +971,7 @@ bool __cdecl FS_Delete(const char *filename)
         MyAssertHandler(".\\universal\\com_files.cpp", 2205, 0, "%s", "filename");
     if (!*filename)
         return 0;
-    FS_BuildOSPath((char *)(uintptr_t)fs_homepath->current.integer, fs_gamedir, filename, ospath);
+    FS_BuildOSPath((char *)fs_homepath->current.string, fs_gamedir, filename, ospath);
     return remove(ospath) != -1;
 }
 
@@ -1195,7 +1198,7 @@ int __cdecl FS_FileExists(char *file)
     FILE *f; // [esp+0h] [ebp-10Ch]
     char testpath[260]; // [esp+4h] [ebp-108h] BYREF
 
-    FS_BuildOSPath((char *)(uintptr_t)fs_homepath->current.integer, fs_gamedir, file, testpath);
+    FS_BuildOSPath((char *)fs_homepath->current.string, fs_gamedir, file, testpath);
     f = FS_FileOpenReadBinary(testpath);
     if (!f)
         return 0;
@@ -1521,7 +1524,7 @@ void __cdecl FS_AddIwdFilesForGameDirectory(char *path, char *pszGameFolder)
             *((_WORD *)v2 + 4) = 8224;
         }
     }
-    qsort(s0, numfiles, 4u, (int(__cdecl *)(const void *, const void *))iwdsort);
+    qsort(s0, numfiles, sizeof(char *), (int(__cdecl *)(const void *, const void *))iwdsort);
     for (i = 0; i < numfiles; ++i)
     {
         if (I_strncmp(s0[i], "          ", 10))
@@ -1944,60 +1947,60 @@ void __cdecl FS_Startup(char *gameName)
     FS_RegisterDvars();
     if (*(_BYTE *)(uintptr_t)fs_basepath->current.integer)
     {
-        FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_basepath->current.integer, (char*)"devraw_shared");
-        FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_basepath->current.integer, (char*)"devraw");
-        FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_basepath->current.integer, (char*)"raw_shared");
-        FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_basepath->current.integer, (char*)"raw");
-        FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_basepath->current.integer, (char*)"players");
+        FS_AddLocalizedGameDirectory((char *)fs_basepath->current.string, (char*)"devraw_shared");
+        FS_AddLocalizedGameDirectory((char *)fs_basepath->current.string, (char*)"devraw");
+        FS_AddLocalizedGameDirectory((char *)fs_basepath->current.string, (char*)"raw_shared");
+        FS_AddLocalizedGameDirectory((char *)fs_basepath->current.string, (char*)"raw");
+        FS_AddLocalizedGameDirectory((char *)fs_basepath->current.string, (char*)"players");
     }
     if (*(_BYTE *)(uintptr_t)fs_homepath->current.integer && I_stricmp(fs_basepath->current.string, fs_homepath->current.string))
     {
-        FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_homepath->current.integer, (char*)"devraw_shared");
-        FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_homepath->current.integer, (char*)"devraw");
-        FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_homepath->current.integer, (char*)"raw_shared");
-        FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_homepath->current.integer, (char*)"raw");
+        FS_AddLocalizedGameDirectory((char *)fs_homepath->current.string, (char*)"devraw_shared");
+        FS_AddLocalizedGameDirectory((char *)fs_homepath->current.string, (char*)"devraw");
+        FS_AddLocalizedGameDirectory((char *)fs_homepath->current.string, (char*)"raw_shared");
+        FS_AddLocalizedGameDirectory((char *)fs_homepath->current.string, (char*)"raw");
     }
     if (*(_BYTE *)(uintptr_t)fs_cdpath->current.integer && I_stricmp(fs_basepath->current.string, fs_cdpath->current.string))
     {
-        FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_cdpath->current.integer, (char*)"devraw_shared");
-        FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_cdpath->current.integer, (char*)"devraw");
-        FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_cdpath->current.integer, (char*)"raw_shared");
-        FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_cdpath->current.integer, (char*)"raw");
-        FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_cdpath->current.integer, gameName);
+        FS_AddLocalizedGameDirectory((char *)fs_cdpath->current.string, (char*)"devraw_shared");
+        FS_AddLocalizedGameDirectory((char *)fs_cdpath->current.string, (char*)"devraw");
+        FS_AddLocalizedGameDirectory((char *)fs_cdpath->current.string, (char*)"raw_shared");
+        FS_AddLocalizedGameDirectory((char *)fs_cdpath->current.string, (char*)"raw");
+        FS_AddLocalizedGameDirectory((char *)fs_cdpath->current.string, gameName);
     }
     if (*(_BYTE *)(uintptr_t)fs_basepath->current.integer)
     {
         v2 = va("%s_shared", gameName);
-        FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_basepath->current.integer, v2);
-        FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_basepath->current.integer, gameName);
+        FS_AddLocalizedGameDirectory((char *)fs_basepath->current.string, v2);
+        FS_AddLocalizedGameDirectory((char *)fs_basepath->current.string, gameName);
     }
     if (*(_BYTE *)(uintptr_t)fs_basepath->current.integer && I_stricmp(fs_homepath->current.string, fs_basepath->current.string))
     {
         v3 = va("%s_shared", gameName);
-        FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_basepath->current.integer, v3);
-        FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_homepath->current.integer, gameName);
+        FS_AddLocalizedGameDirectory((char *)fs_basepath->current.string, v3);
+        FS_AddLocalizedGameDirectory((char *)fs_homepath->current.string, gameName);
     }
     if (*(_BYTE *)(uintptr_t)fs_basegame->current.integer
         && !I_stricmp(gameName, "main")
         && I_stricmp(fs_basegame->current.string, gameName))
     {
         if (*(_BYTE *)(uintptr_t)fs_cdpath->current.integer)
-            FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_cdpath->current.integer, (char *)(uintptr_t)fs_basegame->current.integer);
+            FS_AddLocalizedGameDirectory((char *)fs_cdpath->current.string, (char *)fs_basegame->current.string);
         if (*(_BYTE *)(uintptr_t)fs_basepath->current.integer)
-            FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_basepath->current.integer, (char *)(uintptr_t)fs_basegame->current.integer);
+            FS_AddLocalizedGameDirectory((char *)fs_basepath->current.string, (char *)fs_basegame->current.string);
         if (*(_BYTE *)(uintptr_t)fs_homepath->current.integer && I_stricmp(fs_homepath->current.string, fs_basepath->current.string))
-            FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_homepath->current.integer, (char *)(uintptr_t)fs_basegame->current.integer);
+            FS_AddLocalizedGameDirectory((char *)fs_homepath->current.string, (char *)fs_basegame->current.string);
     }
     if (*(_BYTE *)(uintptr_t)fs_gameDirVar->current.integer
         && !I_stricmp(gameName, "main")
         && I_stricmp(fs_gameDirVar->current.string, gameName))
     {
         if (*(_BYTE *)(uintptr_t)fs_cdpath->current.integer)
-            FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_cdpath->current.integer, (char *)(uintptr_t)fs_gameDirVar->current.integer);
+            FS_AddLocalizedGameDirectory((char *)fs_cdpath->current.string, (char *)fs_gameDirVar->current.string);
         if (*(_BYTE *)(uintptr_t)fs_basepath->current.integer)
-            FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_basepath->current.integer, (char *)(uintptr_t)fs_gameDirVar->current.integer);
+            FS_AddLocalizedGameDirectory((char *)fs_basepath->current.string, (char *)fs_gameDirVar->current.string);
         if (*(_BYTE *)(uintptr_t)fs_homepath->current.integer && I_stricmp(fs_homepath->current.string, fs_basepath->current.string))
-            FS_AddLocalizedGameDirectory((char *)(uintptr_t)fs_homepath->current.integer, (char *)(uintptr_t)fs_gameDirVar->current.integer);
+            FS_AddLocalizedGameDirectory((char *)fs_homepath->current.string, (char *)fs_gameDirVar->current.string);
     }
     Com_ReadCDKey();
     FS_AddCommands();
@@ -2051,8 +2054,8 @@ void __cdecl FS_InitFilesystem()
             ERR_FATAL,
             "Couldn't load %s.  Make sure Call of Duty is run from the correct folder.",
             "fileSysCheck.cfg");
-    I_strncpyz(lastValidBase, (char *)(uintptr_t)fs_basepath->current.integer, 256);
-    I_strncpyz(lastValidGame, (char *)(uintptr_t)fs_gameDirVar->current.integer, 256);
+    I_strncpyz(lastValidBase, (char *)fs_basepath->current.string, 256);
+    I_strncpyz(lastValidGame, (char *)fs_gameDirVar->current.string, 256);
 }
 
 unsigned int __cdecl FS_FOpenFileByMode(char *qpath, int *f, fsMode_t mode)
@@ -2655,7 +2658,7 @@ int __cdecl FS_SV_FOpenFileWrite(const char *filename)
     int f; // [esp+114h] [ebp-4h]
 
     FS_CheckFileSystemStarted();
-    FS_BuildOSPath((char *)(uintptr_t)fs_homepath->current.integer, (char *)filename, (char *)"", ospath);
+    FS_BuildOSPath((char *)fs_homepath->current.string, (char *)filename, (char *)"", ospath);
     v3 = ospath;
     v3 += strlen(v3) + 1;
     ospath[v3 - &ospath[1] - 1] = 0;
@@ -2716,8 +2719,8 @@ void __cdecl FS_SV_Rename(char *from, char *to)
     char from_ospath[260]; // [esp+120h] [ebp-108h] BYREF
 
     FS_CheckFileSystemStarted();
-    FS_BuildOSPath((char *)(uintptr_t)fs_homepath->current.integer, from, (char *)"", from_ospath);
-    FS_BuildOSPath((char *)(uintptr_t)fs_homepath->current.integer, to, (char *)"", to_ospath);
+    FS_BuildOSPath((char *)fs_homepath->current.string, from, (char *)"", from_ospath);
+    FS_BuildOSPath((char *)fs_homepath->current.string, to, (char *)"", to_ospath);
     v2 = from_ospath;
     v2 += strlen(v2) + 1;
     to_ospath[v2 - &from_ospath[1] + 255] = 0;
@@ -2736,7 +2739,7 @@ int __cdecl FS_SV_FileExists(char *file)
     FILE *f; // [esp+10h] [ebp-10Ch]
     char testpath[260]; // [esp+14h] [ebp-108h] BYREF
 
-    FS_BuildOSPath((char *)(uintptr_t)fs_homepath->current.integer, file, (char *)"", testpath);
+    FS_BuildOSPath((char *)fs_homepath->current.string, file, (char *)"", testpath);
     testpath[&testpath[strlen(testpath) + 1] - &testpath[1] - 1] = 0;
     f = FS_FileOpenReadBinary(testpath);
     if (!f)
@@ -2838,7 +2841,7 @@ int __cdecl FS_FOpenFileWriteToDirForThread(const char *filename, const char *di
     char ospath[260]; // [esp+0h] [ebp-108h] BYREF
 
     FS_CheckFileSystemStarted();
-    FS_BuildOSPath((char *)(uintptr_t)fs_homepath->current.integer, dir, filename, ospath);
+    FS_BuildOSPath((char *)fs_homepath->current.string, dir, filename, ospath);
     if (fs_debug->current.integer)
         Com_Printf(10, "FS_FOpenFileWrite: %s\n", ospath);
     if (FS_CreatePath(ospath))

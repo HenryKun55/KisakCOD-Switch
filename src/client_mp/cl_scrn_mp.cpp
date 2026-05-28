@@ -38,6 +38,7 @@ void __cdecl SCR_Init()
 }
 
 int s_lastUpdateScreenTime;
+#ifndef __SWITCH__
 static char __cdecl SCR_ShouldSkipUpdateScreen()
 {
     connstate_t clcState; // [esp+0h] [ebp-Ch]
@@ -52,6 +53,7 @@ static char __cdecl SCR_ShouldSkipUpdateScreen()
     s_lastUpdateScreenTime = timeNow;
     return 0;
 }
+#endif
 
 float __cdecl CL_GetMenuBlurRadius(int localClientNum)
 {
@@ -63,6 +65,14 @@ float __cdecl CL_GetMenuBlurRadius(int localClientNum)
 
 void __cdecl SCR_UpdateScreen()
 {
+#ifdef __SWITCH__
+    // KISAKHACK-AUDIT(scr-stub-switch): the upstream renderer (D3D9) is
+    // not wired on Switch — frontEndDataOut/s_cmdList are null and the
+    // first R_BeginSharedCmdList dereference faults. The Switch port's
+    // own GLES2 renderer in src/gfx_gl/ drives the swapchain from
+    // switch_main.cpp, so dropping the CoD4 render path here is safe.
+    return;
+#else
     if (!updateScreenCalled && !SCR_ShouldSkipUpdateScreen())
     {
         PROF_SCOPED("SCR_UpdateScreen");
@@ -75,6 +85,7 @@ void __cdecl SCR_UpdateScreen()
             updateScreenCalled = 0;
         }
     }
+#endif
 }
 
 void SCR_UpdateFrame()

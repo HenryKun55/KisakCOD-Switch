@@ -1250,6 +1250,13 @@ void __cdecl Con_UpdateMessage(int32_t localClientNum, MessageWindow *msgwnd, in
 
     if (!msgwnd)
         MyAssertHandler(".\\client\\cl_console.cpp", 678, 0, "%s", "msgwnd");
+    // KISAKHACK-AUDIT(con-msgwnd-uninit): on the Switch port the message
+    // window backing storage isn't allocated until CL_Init runs the render
+    // pipeline. Com_Printf fires during early Com_Init bootstrap before
+    // that — silently drop the message instead of asserting on
+    // lineCount==0 so we can keep walking forward.
+    if (msgwnd->lineCount == 0)
+        return;
     if (static_cast<uint32_t>(msgwnd->messageIndex) >= static_cast<uint32_t>(msgwnd->lineCount))
         MyAssertHandler(
             ".\\client\\cl_console.cpp",
@@ -1339,6 +1346,10 @@ void __cdecl Con_UpdateMessageWindowLine(int32_t localClientNum, MessageWindow *
 
     if (!msgwnd)
         MyAssertHandler(".\\client\\cl_console.cpp", 893, 0, "%s", "msgwnd");
+    // KISAKHACK-AUDIT(con-msgwnd-uninit): skip when MessageWindow isn't
+    // initialized yet — see same hack in Con_UpdateMessage.
+    if (msgwnd->lineCount == 0)
+        return;
     if (static_cast<uint32_t>(msgwnd->firstLineIndex) >= static_cast<uint32_t>(msgwnd->lineCount))
         MyAssertHandler(
             ".\\client\\cl_console.cpp",

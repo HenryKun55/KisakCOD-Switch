@@ -9,19 +9,28 @@
 #include <cstdarg>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
+
+#ifdef __SWITCH__
+#include <switch.h>
+#endif
 
 void MyAssertHandler(const char *filename, int line, int /*type*/, const char *fmt, ...)
 {
-    std::fprintf(stderr, "[assert] %s:%d ", filename ? filename : "(null)", line);
-
-    if (fmt)
+    char buf[1024];
+    int n = std::snprintf(buf, sizeof(buf), "[assert] %s:%d ",
+                          filename ? filename : "(null)", line);
+    if (fmt && n < (int)sizeof(buf))
     {
         std::va_list ap;
         va_start(ap, fmt);
-        std::vfprintf(stderr, fmt, ap);
+        std::vsnprintf(buf + n, sizeof(buf) - n, fmt, ap);
         va_end(ap);
     }
-
+    std::fputs(buf, stderr);
     std::fputc('\n', stderr);
+#ifdef __SWITCH__
+    svcOutputDebugString(buf, std::strlen(buf));
+#endif
     std::abort();
 }

@@ -7,6 +7,8 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
+#include <unistd.h>
 
 #include <switch.h>
 
@@ -14,6 +16,8 @@
 #include <EGL/eglext.h>
 
 #include "gfx_gl/gl_renderer.h"
+#include "qcommon/qcommon.h"
+#include "client_mp/client_mp.h"
 
 namespace {
 
@@ -93,7 +97,22 @@ void egl_shutdown()
     }
 }
 
+// Route Sys_Print (the upstream CoD4 console output sink) to the Switch
+// debug log. On Ryujinx this surfaces as `Application LogInfo: ...` lines,
+// which is the only way we can see Com_Printf / Com_PrintError during
+// Com_Init when no console framebuffer is attached.
+void switch_debug_log(const char *msg)
+{
+    if (!msg) return;
+    svcOutputDebugString(msg, std::strlen(msg));
+}
+
 } // namespace
+
+void Sys_Print(const char *msg)
+{
+    switch_debug_log(msg);
+}
 
 int main(int /*argc*/, char ** /*argv*/)
 {
@@ -108,22 +127,71 @@ int main(int /*argc*/, char ** /*argv*/)
     }
     gfx_gl::set_viewport(1280, 720);
 
+    // Upstream's D3D9 init populates cls.vidConfig when the device is
+    // created; on Switch our renderer is separate so we seed it before
+    // Com_Init runs the client side, which asserts displayWidth > 0.
+    cls.vidConfig.sceneWidth = 1280;
+    cls.vidConfig.sceneHeight = 720;
+    cls.vidConfig.displayWidth = 1280;
+    cls.vidConfig.displayHeight = 720;
+    cls.vidConfig.displayFrequency = 60;
+    cls.vidConfig.isFullscreen = 1;
+    cls.vidConfig.aspectRatioWindow = 16.0f / 9.0f;
+    cls.vidConfig.aspectRatioScenePixel = 1.0f;
+    cls.vidConfig.aspectRatioDisplayPixel = 1.0f;
+    cls.vidConfig.maxTextureSize = 4096;
+    cls.vidConfig.maxTextureMaps = 8;
+    cls.vidConfig.deviceSupportsGamma = false;
+
     PadState pad;
     padConfigureInput(1, HidNpadStyleSet_NpadStandard);
     padInitializeDefault(&pad);
 
-    const u64 start_tick = armGetSystemTick();
+    // Anchor the engine FS root at sdmc:/switch/cod4/ so CoD4's relative
+    // paths (./main/iw_00.iwd, ./zone/english/*.ff, ...) resolve into the
+    // game assets we drop alongside the NRO on the SD card.
+    if (chdir("sdmc:/switch/cod4") != 0) {
+        switch_debug_log("[switch_main] chdir(sdmc:/switch/cod4) failed\n");
+    } else {
+        switch_debug_log("[switch_main] chdir(sdmc:/switch/cod4) OK\n");
+    }
 
+    switch_debug_log("[switch_main] before Com_InitThreadData\n");
+    // Bring up the CoD4 engine. Com_InitThreadData(0) seeds the main thread's
+    // TLS slots (jmp_buf at slot 2, va rotating buffer at slot 1) which
+    // Com_Init dereferences immediately via Sys_GetValue(2). Upstream this
+    // happens inside Sys_InitMainThread() — that one is Win32-only, so we
+    // call the cross-platform half directly.
+    Com_InitThreadData(0);
+    switch_debug_log("[switch_main] after Com_InitThreadData, calling Com_Init\n");
+
+    // Com_Init pulls in FS, dvars, hunk alloc, localization, etc. If iwd
+    // assets are missing this raises Sys_Error and exits; the demo cube
+    // path below is only reached when init returns.
+    char cmdline[1] = {0};
+    Com_Init(cmdline);
+    switch_debug_log("[switch_main] Com_Init returned, entering Com_Frame loop\n");
+
+    int frame = 0;
     while (appletMainLoop()) {
         padUpdate(&pad);
         if (padGetButtonsDown(&pad) & HidNpadButton_Plus) {
             break;
         }
 
-        const float elapsed_s =
-            float(armTicksToNs(armGetSystemTick() - start_tick)) * 1.0e-9f;
+        if (frame < 5) {
+            char dbg[64];
+            std::snprintf(dbg, sizeof(dbg), "[switch_main] Com_Frame begin #%d\n", frame);
+            switch_debug_log(dbg);
+        }
+        Com_Frame();
+        if (frame < 5) {
+            char dbg[64];
+            std::snprintf(dbg, sizeof(dbg), "[switch_main] Com_Frame end #%d\n", frame);
+            switch_debug_log(dbg);
+        }
+        ++frame;
 
-        gfx_gl::render_frame(elapsed_s);
         eglSwapBuffers(g_display, g_surface);
     }
 

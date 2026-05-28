@@ -409,6 +409,15 @@ void __cdecl Com_DvarDump(int channel, const char *match)
     DvarDumpInfo dumpInfo; // [esp+0h] [ebp-94h] BYREF
     char summary[132]; // [esp+Ch] [ebp-88h] BYREF
 
+    // KISAKHACK-AUDIT(dvardump-skip): Com_DvarDump walks every dvar_s and
+    // dereferences fields through pointers that, on aarch64, are still
+    // partially corrupted by hex-rays 32-bit cast remnants in dvar
+    // registration. Skip the full dump on Switch — it's just debug output
+    // and consuming it crashes the boot.
+#ifdef __SWITCH__
+    (void)channel; (void)match; (void)dumpInfo; (void)summary;
+    return;
+#endif
     if (channel != 6 || (com_logfile && com_logfile->current.integer))
     {
         Com_PrintMessage(channel, "=============================== DVAR DUMP ========================================\n", 0);

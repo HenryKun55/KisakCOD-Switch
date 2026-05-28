@@ -442,7 +442,7 @@ void __cdecl CL_GlobalServers_f()
                 --server->requestCount;
         }
         Com_Printf(0, "Requesting servers from the master...\n");
-        NET_StringToAdr((char *)(uintptr_t)com_masterServerName->current.integer, &to);
+        NET_StringToAdr((char *)com_masterServerName->current.string, &to);
         cls.waitglobalserverresponse = 1;
         cls.pingUpdateSource = 1;
         to.type = NA_IP;

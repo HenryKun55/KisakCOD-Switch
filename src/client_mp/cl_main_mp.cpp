@@ -2314,23 +2314,32 @@ void __cdecl CL_InitRenderer()
 {
     int32_t localClientNum; // [esp+0h] [ebp-4h]
 
+    Com_Printf(0, "[CL_InitRenderer] entering\n");
     if (cls.rendererStarted)
         MyAssertHandler(".\\client_mp\\cl_main_mp.cpp", 4284, 0, "%s", "!cls.rendererStarted");
     cls.rendererStarted = 1;
+    Com_Printf(0, "[CL_InitRenderer] R_BeginRegistration\n");
     R_BeginRegistration(&cls.vidConfig);
+    Com_Printf(0, "[CL_InitRenderer] ScrPlace setup\n");
     ScrPlace_SetupUnsafeViewport(&scrPlaceFullUnsafe, 0, 0, cls.vidConfig.displayWidth, cls.vidConfig.displayHeight);
     ScrPlace_SetupViewport(&scrPlaceFull, 0, 0, cls.vidConfig.displayWidth, cls.vidConfig.displayHeight);
     for (localClientNum = 0; localClientNum < 1; ++localClientNum)
         ScrPlace_SetupViewport(&scrPlaceView[localClientNum], 0, 0, cls.vidConfig.displayWidth, cls.vidConfig.displayHeight);
+    Com_Printf(0, "[CL_InitRenderer] Material_RegisterHandle white\n");
     cls.whiteMaterial = Material_RegisterHandle("white", 3);
+    Com_Printf(0, "[CL_InitRenderer] Material_RegisterHandle console\n");
     cls.consoleMaterial = Material_RegisterHandle("console", 3);
+    Com_Printf(0, "[CL_InitRenderer] R_RegisterFont\n");
     cls.consoleFont = R_RegisterFont("fonts/consoleFont", 3);
     g_console_field_width = cls.vidConfig.displayWidth - 48;
     g_consoleField.widthInPixels = cls.vidConfig.displayWidth - 48;
     g_consoleField.charHeight = g_console_char_height;
     g_consoleField.fixedSize = 1;
+    Com_Printf(0, "[CL_InitRenderer] StatMon_Reset\n");
     StatMon_Reset();
+    Com_Printf(0, "[CL_InitRenderer] Con_InitClientAssets\n");
     Con_InitClientAssets();
+    Com_Printf(0, "[CL_InitRenderer] done\n");
 }
 
 void __cdecl CL_ShutdownRenderer(int32_t destroyWindow)

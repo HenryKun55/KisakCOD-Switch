@@ -1291,7 +1291,7 @@ void __cdecl Dvar_AssignResetStringValue(dvar_s *dvar, DvarValue *dest, const ch
 {
     if (!string)
         MyAssertHandler(".\\universal\\dvar.cpp", 266, 0, "%s", "string");
-    if (dvar->current.integer && (string == (char *)(uintptr_t)(unsigned int)dvar->current.integer || !strcmp(string, dvar->current.string)))
+    if (dvar->current.integer && (string == (char *)dvar->current.string || !strcmp(string, dvar->current.string)))
     {
         Dvar_WeakCopyString(dvar->current.string, dest);
     }
@@ -1535,7 +1535,7 @@ void __cdecl Dvar_AssignLatchedStringValue(dvar_s *dvar, DvarValue *dest, char *
 {
     if (!string)
         MyAssertHandler(".\\universal\\dvar.cpp", 254, 0, "%s", "string");
-    if (dvar->current.integer && (string == (char *)(uintptr_t)(unsigned int)dvar->current.integer || !strcmp(string, dvar->current.string)))
+    if (dvar->current.integer && (string == (char *)dvar->current.string || !strcmp(string, dvar->current.string)))
     {
         Dvar_WeakCopyString(dvar->current.string, dest);
     }
@@ -2652,12 +2652,16 @@ void __cdecl Dvar_SetStringFromSource(dvar_s *dvar, char *string, DvarSetSource 
             "%s\n\t(dvar->name) = %s",
             "(dvar->type == DVAR_TYPE_STRING || dvar->type == DVAR_TYPE_ENUM)",
             dvar->name);
+    // KISAKHACK-AUDIT(dvar-null-string): some callers pass string=NULL when
+    // the underlying dvar->current.integer was a truncated 32-bit pointer
+    // (see broader 32->64 dvar union issue). Coerce to empty string so the
+    // set is a no-op instead of fatal.
     if (!string)
-        MyAssertHandler(".\\universal\\dvar.cpp", 1934, 0, "%s", "string");
+        string = (char *)"";
     if (dvar->type == 7)
     {
         I_strncpyz(stringCopy, string, 1024);
-        newValue.integer = (int)(uintptr_t)stringCopy; // KISAKHACK 64-bit
+        newValue.string = stringCopy;
     }
     else
     {

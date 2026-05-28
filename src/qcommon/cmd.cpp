@@ -394,7 +394,7 @@ void Cmd_Dumpraw_f(void)
 		}
     }; 
 
-    auto zoneDir = std::format("{}\\zone\\english\\", (char *)(uintptr_t)(unsigned int)fs_basepath->current.integer);
+    auto zoneDir = std::format("{}\\zone\\english\\", (char *)fs_basepath->current.string);
 
 
     // just dump from common ff's

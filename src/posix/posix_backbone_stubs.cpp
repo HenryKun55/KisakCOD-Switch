@@ -28,12 +28,20 @@
 #include <cstdlib>
 #include <cstring>
 #include <cctype>
+#include <cerrno>
+#include <dirent.h>
+#include <sys/stat.h>
+#ifdef __SWITCH__
+#include <switch.h>
+#endif
 #include <cmath>
 
 #include <qcommon/qcommon.h>
 #include <qcommon/threads.h>
 #include <universal/com_files.h>
 #include <universal/com_math.h>
+#include <universal/com_memory.h>
+#include <common/brush.h>
 #include <bgame/bg_local.h>
 #include <client_mp/client_mp.h>
 #include <server_mp/server_mp.h>
@@ -152,13 +160,20 @@ void Sys_Init() {}
 int  Sys_IsRemoteDebugClient() { return 0; }
 void Sys_DestroySplashWindow() {}
 void Sys_Quit() { std::exit(0); }
+#ifndef __SWITCH__
+// On Switch we route Sys_Print through svcOutputDebugString from
+// src/switch/switch_main.cpp so output is visible in the Ryujinx log.
 void Sys_Print(const char *msg) { if (msg) std::fputs(msg, stdout); }
+#endif
 
 sysEvent_t *Sys_GetEvent(sysEvent_t *result)
 {
     // Returns a zero-init event (SE_NONE) so Com_EventLoop falls out
     // immediately. Real input pumping happens in posix_gl_main.cpp via SDL.
-    std::memset(result, 0, sizeof(int) * 6);
+    // sizeof(*result) covers the 64-bit evPtr properly — the prior
+    // sizeof(int)*6 was the 32-bit size and left tail bytes garbage.
+    // 32 bytes in 64-bit (5 ints + 4 pad + 8-byte evPtr) vs 24 in 32-bit.
+    std::memset(result, 0, 32);
     return result;
 }
 
@@ -364,11 +379,20 @@ void LiveStorage_Init() {}
 // void BG_InitWeaponString(int /*weaponIndex*/, const char * /*str*/) {}  // provided by bg_animation_mp.cpp now
 
 // Misc collision / config helpers
-struct SimplePlaneIntersection_fwd;
-struct adjacencyWinding_t_fwd;
-void BuildBrushdAdjacencyWindingForSide(float * /*points*/, int /*numPoints*/,
-                                        const void * /*spi*/, int /*numIntersections*/,
-                                        void * /*winding*/, int /*sideIndex*/) {}
+// KISAKHACK-AUDIT(brush_edges-64bit): the upstream src/common/brush_edges.cpp is
+// littered with hex-rays-style 32-bit pointer arithmetic (e.g. `&v + 4*i`,
+// `(uintptr_t)ptr` truncated to int) that breaks on aarch64. Stubbing here
+// returns "no winding" — XModel physics brushes will be degraded until the
+// upstream file is ported to 64-bit pointer math.
+adjacencyWinding_t *BuildBrushdAdjacencyWindingForSide(float * /*sideNormal*/,
+                                                       int /*basePlaneIndex*/,
+                                                       const SimplePlaneIntersection * /*InPts*/,
+                                                       int /*InPtCount*/,
+                                                       adjacencyWinding_t * /*optionalOutWinding*/,
+                                                       int /*optionalOutWindingCount*/)
+{
+    return nullptr;
+}
 bool DB_IsXAssetDefault(XAssetType /*type*/, const char * /*name*/) { return true; }
 snd_alias_list_t *Com_FindSoundAlias(const char * /*name*/) { return nullptr; }
 // char *Com_LoadRawTextFile(const char * /*filename*/) { return nullptr; }
@@ -3357,11 +3381,84 @@ int  Sys_CountFileList(char **list) {
     while (list[n]) ++n;
     return n;
 }
-const char *Sys_Cwd() { return "."; }
+const char *Sys_Cwd()
+{
+#ifdef __SWITCH__
+    return "sdmc:/switch/cod4";
+#else
+    return ".";
+#endif
+}
 const char *Sys_DefaultCDPath() { return ""; }
-char **Sys_ListFiles(const char *, const char *, const char *, int *nFound, int) {
+char **Sys_ListFiles(const char *directory, const char *extension,
+                     const char * /*filter*/, int *nFound, int /*wantsubs*/)
+{
     if (nFound) *nFound = 0;
-    return nullptr;
+    if (!directory || !*directory) return nullptr;
+
+    // CoD4 builds paths Windows-style with backslashes. POSIX/libnx wants
+    // forward slashes, so we normalize on the way through Sys_* boundaries.
+    char normalized[1024];
+    std::strncpy(normalized, directory, sizeof(normalized) - 1);
+    normalized[sizeof(normalized) - 1] = 0;
+    for (char *p = normalized; *p; ++p) if (*p == '\\') *p = '/';
+
+    DIR *dir = opendir(normalized);
+    if (!dir) return nullptr;
+
+    const size_t extLen = extension ? std::strlen(extension) : 0;
+    char *names[8192];
+    int count = 0;
+
+    struct dirent *de;
+    while ((de = readdir(dir)) != nullptr && count < 8191) {
+        const char *name = de->d_name;
+        if (name[0] == '.') continue;
+        if (extLen) {
+            const size_t nameLen = std::strlen(name);
+            if (nameLen <= extLen) continue;
+            if (std::strcmp(name + nameLen - extLen, extension) != 0) continue;
+        }
+        char *copy = static_cast<char *>(std::malloc(std::strlen(name) + 1));
+        if (!copy) break;
+        std::strcpy(copy, name);
+        names[count++] = copy;
+    }
+    closedir(dir);
+
+#ifdef __SWITCH__
+    {
+        char dbg[128];
+        std::snprintf(dbg, sizeof(dbg), "[Sys_ListFiles] found %d entries", count);
+        svcOutputDebugString(dbg, std::strlen(dbg));
+    }
+#endif
+
+    if (count == 0) return nullptr;
+
+    // Engine consumers expect a NULL-terminated char** that they free via
+    // FS_FreeFileList, which calls Hunk_UserDestroy(list[-1]). That means
+    // the slot before the first name has to be a HunkUser* whose `next`
+    // pointer is null (Hunk_UserDestroy walks ->next, then Z_VirtualFree's
+    // the user itself). We malloc a real HunkUser slot, zero it, and use
+    // free() to dispose of it — Z_VirtualFree maps to free() in our POSIX
+    // shim, so this round-trips cleanly.
+    HunkUser *fakeUser = static_cast<HunkUser *>(std::calloc(1, sizeof(HunkUser)));
+    if (!fakeUser) {
+        for (int i = 0; i < count; ++i) std::free(names[i]);
+        return nullptr;
+    }
+    char **raw = static_cast<char **>(std::malloc(sizeof(char *) * (count + 2)));
+    if (!raw) {
+        std::free(fakeUser);
+        for (int i = 0; i < count; ++i) std::free(names[i]);
+        return nullptr;
+    }
+    raw[0] = reinterpret_cast<char *>(fakeUser);
+    for (int i = 0; i < count; ++i) raw[i + 1] = names[i];
+    raw[count + 1] = nullptr;
+    if (nFound) *nFound = count;
+    return raw + 1;
 }
 void Sys_Mkdir(const char *) {}
 

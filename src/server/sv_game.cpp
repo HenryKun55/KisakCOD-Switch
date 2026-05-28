@@ -820,7 +820,7 @@ void __cdecl SV_SetGametype()
     else
         // KISAKHACK: DvarValue.integer holds a 32-bit pointer in upstream;
         // bridge through uintptr_t on a 64-bit build.
-        I_strncpyz(gametype, (char *)(uintptr_t)sv_gametype->current.integer, 64);
+        I_strncpyz(gametype, (char *)sv_gametype->current.string, 64);
     for (s = gametype; *s; ++s)
         *s = tolower(*s);
     if (!Scr_IsValidGameType(gametype))

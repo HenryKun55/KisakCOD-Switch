@@ -895,6 +895,13 @@ unsigned int* __cdecl Com_AllocEvent(int size)
 unsigned __int8 clientCommonMsgBuf[0x20000];
 void __cdecl Com_ClientPacketEvent()
 {
+    // KISAKHACK-AUDIT(net-noop-switch): on the Switch port the network
+    // stack (NET_GetLoopPacket / NET_GetClientPacket and the MSG_* helpers)
+    // is still partially stubbed and the fakelag path is uninitialized.
+    // Skip packet pumping entirely while we don't host multiplayer.
+#ifdef __SWITCH__
+    return;
+#else
     msg_t netmsg; // [esp+4Ch] [ebp-40h] BYREF
     netadr_t adr; // [esp+74h] [ebp-18h] BYREF
 
@@ -910,6 +917,7 @@ void __cdecl Com_ClientPacketEvent()
         while (NET_GetClientPacket(&adr, &netmsg))
             Com_DispatchClientPacketEvent(adr, &netmsg);
     }
+#endif
 }
 
 void __cdecl Com_PacketEventLoop(netsrc_t client, msg_t* netmsg)
@@ -930,6 +938,9 @@ void __cdecl Com_DispatchClientPacketEvent(netadr_t adr, msg_t* netmsg)
 unsigned __int8 serverCommonMsgBuf[0x20000];
 void __cdecl Com_ServerPacketEvent()
 {
+#ifdef __SWITCH__
+    return;
+#else
     msg_t netmsg; // [esp+30h] [ebp-40h] BYREF
     netadr_t adr; // [esp+58h] [ebp-18h] BYREF
 
@@ -949,8 +960,9 @@ void __cdecl Com_ServerPacketEvent()
         if (com_sv_running->current.enabled)
             SV_PacketEvent(adr, &netmsg);
     }
+#endif // __SWITCH__
 }
-#endif
+#endif // KISAK_MP
 
 void __cdecl Com_EventLoop()
 {
@@ -959,9 +971,15 @@ void __cdecl Com_EventLoop()
 
     PROF_SCOPED("Com_EventLoop");
 
+    static int kisakEvLoopTrace = 0;
+    const bool traceEv = kisakEvLoopTrace < 2;
+    if (traceEv) Com_Printf(16, "[Com_EventLoop #%d] enter\n", kisakEvLoopTrace);
+
     while (1)
     {
+        if (traceEv) Com_Printf(16, "[Com_EventLoop #%d] Sys_GetEvent\n", kisakEvLoopTrace);
         ev = *Sys_GetEvent(&result);
+        if (traceEv) Com_Printf(16, "[Com_EventLoop #%d] evType=%d\n", kisakEvLoopTrace, (int)ev.evType);
 
         switch (ev.evType)
         {
@@ -969,8 +987,12 @@ void __cdecl Com_EventLoop()
         {
             iassert(!ev.evPtr);
 #ifdef KISAK_MP
+            if (traceEv) Com_Printf(16, "[Com_EventLoop #%d] ClientPacketEvent\n", kisakEvLoopTrace);
             Com_ClientPacketEvent();
+            if (traceEv) Com_Printf(16, "[Com_EventLoop #%d] ServerPacketEvent\n", kisakEvLoopTrace);
             Com_ServerPacketEvent();
+            if (traceEv) Com_Printf(16, "[Com_EventLoop #%d] done\n", kisakEvLoopTrace);
+            ++kisakEvLoopTrace;
 #endif
             goto END;
         }
@@ -1066,10 +1088,12 @@ void __cdecl Com_Init(char* commandLine)
         Sys_Error(va("Error during initialization:\n%s\n", com_errorMessage));
     }
     Com_Init_Try_Block_Function(commandLine);
+    Com_Printf(16, "[Com_Init] after Try_Block\n");
     v3 = (jmp_buf *)Sys_GetValue(2);
     //if (!_setjmp3(v3, 0))
     if (!_setjmp(*v3))
         Com_AddStartupCommands();
+    Com_Printf(16, "[Com_Init] after AddStartupCommands\n");
     if (com_errorEntered)
         Com_ErrorCleanup();
 
@@ -1085,11 +1109,17 @@ void __cdecl Com_Init(char* commandLine)
             {
                 Sys_Error(va("Error during initialization:\n%s\n", com_errorMessage));
             }
-            if (!cls.rendererStarted)
+            if (!cls.rendererStarted) {
+                Com_Printf(16, "[Com_Init] CL_InitRenderer\n");
                 CL_InitRenderer();
+            }
+            Com_Printf(16, "[Com_Init] R_BeginRemoteScreenUpdate\n");
             R_BeginRemoteScreenUpdate();
+            Com_Printf(16, "[Com_Init] CL_StartHunkUsers\n");
             CL_StartHunkUsers();
+            Com_Printf(16, "[Com_Init] R_EndRemoteScreenUpdate\n");
             R_EndRemoteScreenUpdate();
+            Com_Printf(16, "[Com_Init] done\n");
         }
     }
 }
@@ -1814,15 +1844,24 @@ void __cdecl Com_Frame_Try_Block_Function()
     int minMsec; // [esp+74h] [ebp-8h]
     int maxFPS; // [esp+78h] [ebp-4h] BYREF
 
+    static int kisakFrameTrace = 0;
+    const bool traceFrame = kisakFrameTrace < 3;
+    if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] enter\n", kisakFrameTrace);
+
     iassert(cmd_args.nesting == -1);
 
+    if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] WriteConfig\n", kisakFrameTrace);
     Com_WriteConfiguration(0);
+    if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] post WriteConfig\n", kisakFrameTrace);
 #ifdef KISAK_SP
     CL_CheckStartPlayingDemo();
 #endif
+    if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] SetAnimCheck\n", kisakFrameTrace);
     SetAnimCheck(com_animCheck->current.enabled);
     minMsec = 1;
+    if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] maxfps fetch\n", kisakFrameTrace);
     maxFPS = com_maxfps->current.integer;
+    if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] AdjustMaxFPS\n", kisakFrameTrace);
     Com_AdjustMaxFPS(&maxFPS);
     if (maxFPS > 0)
     {
@@ -1867,8 +1906,10 @@ void __cdecl Com_Frame_Try_Block_Function()
     {
         KISAK_NULLSUB();
         PROF_SCOPED("MaxFPSSpin");
+        if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] enter MaxFPSSpin\n", kisakFrameTrace);
         while (1)
         {
+            if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] Com_EventLoop (spin)\n", kisakFrameTrace);
             Com_EventLoop();
             com_frameTime = Sys_Milliseconds();
             if (com_frameTime - com_lastFrameTime[lastFrameIndex] < 0)
@@ -1889,10 +1930,13 @@ void __cdecl Com_Frame_Try_Block_Function()
             msec = 1;
     }
 
+    if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] Cbuf_Execute\n", kisakFrameTrace);
     Cbuf_Execute(0, CL_ControllerIndexFromClientNum(0));
     iassert(msec > 0);
+    if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] ModifyMsec\n", kisakFrameTrace);
     msec = Com_ModifyMsec(msec);
     iassert(msec > 0);
+    if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] SV_Frame\n", kisakFrameTrace);
     msec = SV_Frame(msec);
 
 #ifdef KISAK_MP
@@ -1901,11 +1945,14 @@ void __cdecl Com_Frame_Try_Block_Function()
     if (!com_dedicated->current.integer)
 #endif
     {
+        if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] R_SetEndTime\n", kisakFrameTrace);
         R_SetEndTime(com_lastFrameTime[lastFrameIndex]);
 
         {
             PROF_SCOPED("pre frame");
+            if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] CL_RunOncePerClientFrame\n", kisakFrameTrace);
             CL_RunOncePerClientFrame(0, msec);
+            if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] Com_EventLoop\n", kisakFrameTrace);
             Com_EventLoop();
 #ifdef KISAK_MP
             for (localClientNum = 0; localClientNum < 1; ++localClientNum)
@@ -1931,6 +1978,7 @@ void __cdecl Com_Frame_Try_Block_Function()
 
         {
             PROF_SCOPED("CL_Frame");
+            if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] CL_Frame\n", kisakFrameTrace);
 #ifdef KISAK_MP
             for (localClientNuma = NS_CLIENT1; localClientNuma < NS_SERVER; ++localClientNuma)
                 CL_Frame(localClientNuma);
@@ -1941,18 +1989,27 @@ void __cdecl Com_Frame_Try_Block_Function()
 
 #ifdef KISAK_MP
         dvar_modifiedFlags &= ~2u;
+        if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] Com_UpdateMenu\n", kisakFrameTrace);
         Com_UpdateMenu();
 #endif
+        if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] SCR_UpdateScreen\n", kisakFrameTrace);
         SCR_UpdateScreen();
+        if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] Ragdoll_Update\n", kisakFrameTrace);
         Ragdoll_Update(msec);
+        if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] post Ragdoll\n", kisakFrameTrace);
         iassert(Sys_IsMainThread());
 #ifdef KISAK_SP
         //SCR_UpdateRumble(); // KISAKTODO
 #endif
         deltaTime = cls.frametime * EQUAL_EPSILON;
+        if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] DevGui_Update\n", kisakFrameTrace);
         DevGui_Update(0, deltaTime);
+        if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] Com_Statmon\n", kisakFrameTrace);
         Com_Statmon();
+        if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] R_WaitEndTime\n", kisakFrameTrace);
         R_WaitEndTime();
+        if (traceFrame) Com_Printf(16, "[Com_Frame_Try #%d] done\n", kisakFrameTrace);
+        ++kisakFrameTrace;
     }
 
 #ifdef KISAK_SP

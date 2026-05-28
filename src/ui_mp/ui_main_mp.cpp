@@ -1997,7 +1997,7 @@ void UI_CreatePlayerProfile()
 
     if (strlen(ui_playerProfileNameNew->current.string))
     {
-        I_strncpyz(name, (char *)(uintptr_t)ui_playerProfileNameNew->current.integer, 32);
+        I_strncpyz(name, (char *)ui_playerProfileNameNew->current.string, 32);
         Dvar_SetString((dvar_s *)ui_playerProfileNameNew, (char *)"");
         if (uiInfoArray.playerProfileCount == 64)
         {
@@ -2343,7 +2343,7 @@ void __cdecl UI_LoadPlayerProfile(int localClientNum)
     if (!ui_playerProfileSelected)
         MyAssertHandler(".\\ui_mp\\ui_main_mp.cpp", 2289, 0, "%s", "ui_playerProfileSelected");
     if (*(_BYTE *)(uintptr_t)ui_playerProfileSelected->current.integer)
-        Com_ChangePlayerProfile(localClientNum, (char *)(uintptr_t)ui_playerProfileSelected->current.integer);
+        Com_ChangePlayerProfile(localClientNum, (char *)ui_playerProfileSelected->current.string);
 }
 
 void __cdecl UI_Update(const char *name)
@@ -4535,8 +4535,14 @@ void UI_GetGameTypesList()
         ((void(__cdecl *)(void (*)()))UI_GetGameTypesList_FastFile)(UI_GetGameTypesList_FastFile);
     else
         ((void(__cdecl *)(void (*)()))UI_GetGameTypesList_LoadObj)(UI_GetGameTypesList_LoadObj);
-    if (!sharedUiInfo.numGameTypes)
-        Com_Error(ERR_FATAL, "No game type scripts found in maps/mp/gametypes folder");
+    if (!sharedUiInfo.numGameTypes) {
+        // KISAKHACK-AUDIT(no-game-types): DB_FindXAssetHeader is stubbed on
+        // Switch (asset loader not ported yet), so _gametypes.txt is never
+        // located. Letting the engine proceed past this gate so the rest of
+        // CL_StartHunkUsers can run — multiplayer game type menus will be
+        // empty but the boot won't die here.
+        Com_PrintWarning(0, "No game type scripts found — continuing without game types\n");
+    }
 }
 
 void UI_GetGameTypesList_FastFile()
