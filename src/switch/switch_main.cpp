@@ -172,6 +172,7 @@ int main(int /*argc*/, char ** /*argv*/)
     Com_Init(cmdline);
     switch_debug_log("[switch_main] Com_Init returned, entering Com_Frame loop\n");
 
+    const u64 start_tick = armGetSystemTick();
     int frame = 0;
     while (appletMainLoop()) {
         padUpdate(&pad);
@@ -192,6 +193,12 @@ int main(int /*argc*/, char ** /*argv*/)
         }
         ++frame;
 
+        // Until the CoD4 R_* command queue is routed into our GLES2 path,
+        // draw the demo cube from src/gfx_gl/ so the framebuffer isn't a
+        // black void while the engine ticks underneath.
+        const float elapsed_s =
+            float(armTicksToNs(armGetSystemTick() - start_tick)) * 1.0e-9f;
+        gfx_gl::render_frame(elapsed_s);
         eglSwapBuffers(g_display, g_surface);
     }
 
