@@ -35,6 +35,8 @@ extern GfxCmdArray *s_cmdList;
 extern unsigned int s_smpFrame;
 extern unsigned int s_renderCmdBufferSize;
 extern int s_renderCmdWarnSize;
+extern Font_s *registeredFont[16];
+extern int registeredFontCount;
 
 namespace {
 
@@ -79,6 +81,9 @@ void R_BeginRegistration(vidConfig_t *vidConfigOut)
     XAssetHeader matHeader{};
     matHeader.material = &s_defaultMaterial;
     DB_AddXAsset(ASSET_TYPE_MATERIAL, matHeader);
+    // Material_MakeDefault checks rgp.defaultMaterial directly (not the
+    // DB) when a name doesn't resolve, so wire it through as well.
+    rgp.defaultMaterial = &s_defaultMaterial;
 
     // Same idea for the default console font — R_RegisterFont asks for
     // "fonts/consolefont", so we hand back a placeholder Font_s pointing
@@ -104,6 +109,27 @@ void R_BeginRegistration(vidConfig_t *vidConfigOut)
     XAssetHeader fontHeader{};
     fontHeader.font = &s_defaultFont;
     DB_AddXAsset(ASSET_TYPE_FONT, fontHeader);
+    // R_RegisterFont_LoadObj searches the `registeredFont[]` cache first
+    // before trying to FS_FOpenFileRead the font from disk; seed every
+    // name the engine asks for so we never reach the disk-read fallback.
+    static const char *const s_fontNames[] = {
+        "fonts/consolefont",
+        "fonts/consoleFont",
+        "fonts/smallfont",
+        "fonts/bigfont",
+        "fonts/extrabigfont",
+        "fonts/objectivefont",
+        "fonts/normalfont",
+        "fonts/boldfont",
+    };
+    static Font_s s_fontPool[sizeof(s_fontNames)/sizeof(s_fontNames[0])];
+    for (size_t i = 0; i < sizeof(s_fontNames)/sizeof(s_fontNames[0]) && i < 16; ++i) {
+        s_fontPool[i] = s_defaultFont;
+        s_fontPool[i].fontName = s_fontNames[i];
+        registeredFont[i] = &s_fontPool[i];
+    }
+    registeredFontCount = (int)(sizeof(s_fontNames)/sizeof(s_fontNames[0]));
+    if (registeredFontCount > 16) registeredFontCount = 16;
 
     // Generic dummy backing so every other asset type that ships a
     // `g_defaultAssetName[type]` entry can resolve to something

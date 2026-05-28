@@ -477,7 +477,7 @@ target_include_directories(kisak_switch PRIVATE
     "$ENV{DEVKITPRO}/portlibs/switch/include"
 )
 
-target_compile_definitions(kisak_switch PRIVATE KISAK_MP)
+target_compile_definitions(kisak_switch PRIVATE KISAK_MP KISAK_NO_FASTFILES)
 
 target_compile_options(kisak_switch PRIVATE
     -Wall

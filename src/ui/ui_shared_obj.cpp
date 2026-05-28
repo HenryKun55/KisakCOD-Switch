@@ -6477,7 +6477,7 @@ MenuList *__cdecl UI_LoadMenu_LoadObj(char *menuFile, int imageTrack)
     {
         Com_PrintWarning(13, "WARNING: menu file not found: %s\n", menuFile);
         if (!UI_ParseMenuInternal((char*)"ui/default.menu", imageTrack))
-            Com_Error(ERR_DROP, "default.menu file not found. This is a default menu that you should have.");
+            Com_PrintWarning(13, "WARNING: default.menu not found — continuing with empty menu list (Switch port).\n");
     }
     return &g_load_0.menuList;
 }
@@ -6516,7 +6516,7 @@ MenuList *__cdecl UI_LoadMenus_LoadObj(char *menuFile, int imageTrack)
         Com_Printf(13, "^3WARNING: menu file not found: %s\n", menuFile);
         len = FS_FOpenFileByMode((char*)"ui/default.menu", &f, FS_READ);
         if (!f)
-            Com_Error(ERR_DROP, "default.menu file not found. This is a default menu that you should have.");
+            Com_PrintWarning(13, "WARNING: default.menu not found — continuing with empty menu list (Switch port).\n");
     }
     if (len >= 0x8000)
     {

@@ -61,8 +61,17 @@ struct HunkUser // sizeof=0x24 (32-bit upstream)
     HunkUser* current;
     HunkUser* next;
     int maxSize;
-    int end;
-    int pos;
+    // KISAKHACK-AUDIT(hunkuser-pos-end-64bit): upstream stores `pos` and
+    // `end` as int because in 32-bit they hold full pointers. On aarch64
+    // those pointers don't fit, and the casts in Hunk_UserCreate /
+    // Hunk_UserAlloc lose the high 32 bits, returning addresses in the
+    // unmapped low 4 GiB. Widen both slots to uintptr_t so the engine
+    // sees real addresses; the surrounding hex-rays-style arithmetic
+    // (`alignment & (alignment + pos)`, comparisons, etc.) is still
+    // valid because pointer math is unsigned and the bit patterns
+    // line up.
+    uintptr_t end;
+    uintptr_t pos;
     const char* name;
     bool fixed;
     bool tempMem;

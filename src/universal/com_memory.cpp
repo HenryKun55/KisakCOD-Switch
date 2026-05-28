@@ -856,10 +856,10 @@ HunkUser* __cdecl Hunk_UserCreate(int32_t maxSize, const char* name, bool fixed,
         MyAssertHandler(".\\universal\\com_memory.cpp", 2834, 0, "%s\n\t(maxSize) = %i", "(!(maxSize % (4*1024)))", maxSize);
     user = (HunkUser*)Z_VirtualReserve(maxSize);
     Z_VirtualCommit(user, 32);
-    user->end = (int)(uintptr_t)user + maxSize;
-    user->pos = (int)(uintptr_t)user->buf;
+    user->end = (uintptr_t)user + maxSize;
+    user->pos = (uintptr_t)user->buf;
     if ((user->pos & 0x1F) != 0)
-        MyAssertHandler(".\\universal\\com_memory.cpp", 2848, 0, "%s\n\t(user->pos) = %i", "(!(user->pos & 31))", user->pos);
+        MyAssertHandler(".\\universal\\com_memory.cpp", 2848, 0, "%s\n\t(user->pos) = %i", "(!(user->pos & 31))", (int)user->pos);
     user->maxSize = maxSize;
     user->current = user;
     user->fixed = fixed;
@@ -874,8 +874,8 @@ HunkUser* __cdecl Hunk_UserCreate(int32_t maxSize, const char* name, bool fixed,
 void* Hunk_UserAlloc(HunkUser* user, uint32_t size, int32_t alignment)
 {
     [[maybe_unused]] const char* v3; // eax
-    int32_t pos; // [esp+4h] [ebp-10h]
-    int32_t result; // [esp+8h] [ebp-Ch]
+    uintptr_t pos;
+    uintptr_t result;
     HunkUser* current; // [esp+Ch] [ebp-8h]
     HunkUser* newCurrent; // [esp+10h] [ebp-4h]
 
@@ -884,13 +884,13 @@ void* Hunk_UserAlloc(HunkUser* user, uint32_t size, int32_t alignment)
     iassert(!(alignment & (alignment - 1)));
     iassert(alignment <= HUNK_MAX_ALIGNEMT);
 
-    alignment = alignment - 1;
+    const uintptr_t alignMask = (uintptr_t)(alignment - 1);
 
     for (current = user->current; ; current = newCurrent)
     {
         pos = current->pos;
-        result = ~alignment & (alignment + pos);
-        if ((signed int)(size + result) <= current->end)
+        result = ~alignMask & (alignMask + pos);
+        if (size + result <= current->end)
             break;
         if (user->fixed)
             Com_Error(ERR_FATAL, "Hunk_UserAlloc: out of memory");
@@ -899,16 +899,16 @@ void* Hunk_UserAlloc(HunkUser* user, uint32_t size, int32_t alignment)
         current->next = newCurrent;
     }
 
-    current->pos = size + (~alignment & (alignment + pos));
-    pos = ((pos + 4095) & 0xFFFFF000);
+    current->pos = size + (~alignMask & (alignMask + pos));
+    pos = ((pos + 4095) & ~(uintptr_t)0xFFF);
 
-    if (static_cast<unsigned int>(pos) != ((current->pos + 4095u) & 0xFFFFF000u))
+    if (pos != ((current->pos + 4095u) & ~(uintptr_t)0xFFF))
     {
         iassert(current->pos - pos > 0);
-        Z_VirtualCommit((void*)(uintptr_t)pos, current->pos - (uint32_t)pos);
+        Z_VirtualCommit((void*)pos, (uint32_t)(current->pos - pos));
     }
 
-    return (void*)(uintptr_t)result;
+    return (void*)result;
 }
 
 void* Hunk_UserAllocAlignStrict(HunkUser* user, uint32_t size)
