@@ -255,15 +255,7 @@ void Sys_Error(const char *fmt, ...)
 
 // DB_FindXAssetHeader: asset lookup. Returns a default-constructed
 // XAssetHeader (data=nullptr) so callers can fail gracefully. Real impl
-// lands with db_load.cpp.
-// Defined out-of-line via forward declaration of the union so we don't
-// pull xanim/xanim.h into the stubs TU.
-enum XAssetType : int;
-union XAssetHeader { void *data; XAssetHeader() : data(nullptr) {} };
-XAssetHeader DB_FindXAssetHeader(XAssetType /*type*/, const char * /*name*/)
-{
-    return XAssetHeader{};
-}
+// DB_FindXAssetHeader now provided by src/database/db_registry.cpp.
 
 // XModelTraceLine now provided by xanim/xmodel.cpp.
 

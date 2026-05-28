@@ -212,18 +212,18 @@ void Win_UpdateThreadLock() {}
 // DB_* — asset database.
 // =========================================================================
 
-void DB_Cleanup() {}
-int  DB_FileSize(const char * /*zoneName*/, int /*isMod*/) { return 0; }
-int  DB_GetAllXAssetOfType_FastFile(XAssetType /*type*/, XAssetHeader * /*assets*/, int /*max*/) { return 0; }
-void DB_InitThread() {}
+// ODR: void DB_Cleanup() {}
+// ODR: int  DB_FileSize(const char * /*zoneName*/, int /*isMod*/) { return 0; }
+// ODR: int  DB_GetAllXAssetOfType_FastFile(XAssetType /*type*/, XAssetHeader * /*assets*/, int /*max*/) { return 0; }
+// ODR: void DB_InitThread() {}
 bool DB_IsMinimumFastFileLoaded() { return false; }
-void DB_LoadXAssets(XZoneInfo * /*zoneInfo*/, unsigned int /*zoneCount*/, int /*sync*/) {}
-void DB_ReleaseXAssets() {}
+// ODR: void DB_LoadXAssets(XZoneInfo * /*zoneInfo*/, unsigned int /*zoneCount*/, int /*sync*/) {}
+// ODR: void DB_ReleaseXAssets() {}
 void DB_ResetZoneSize(int /*trackLoadProgress*/) {}
-void DB_SetInitializing(bool /*inUse*/) {}
-void DB_ShutdownXAssets() {}
-void DB_SyncXAssets() {}
-void DB_Update() {}
+// ODR: void DB_SetInitializing(bool /*inUse*/) {}
+// ODR: void DB_ShutdownXAssets() {}
+// ODR: void DB_SyncXAssets() {}
+// ODR: void DB_Update() {}
 
 // =========================================================================
 // CL_* — client subsystem. All stubs for now (we don't have a real client).
@@ -393,7 +393,7 @@ adjacencyWinding_t *BuildBrushdAdjacencyWindingForSide(float * /*sideNormal*/,
 {
     return nullptr;
 }
-bool DB_IsXAssetDefault(XAssetType /*type*/, const char * /*name*/) { return true; }
+// ODR: bool DB_IsXAssetDefault(XAssetType /*type*/, const char * /*name*/) { return true; }
 snd_alias_list_t *Com_FindSoundAlias(const char * /*name*/) { return nullptr; }
 // char *Com_LoadRawTextFile(const char * /*filename*/) { return nullptr; }
 // void Com_UnloadRawTextFile(char * /*buffer*/) {}
@@ -495,6 +495,37 @@ void LiveStorage_ReadStats() {}
 const char *Sys_DefaultInstallPath() { return "."; }
 void Sys_RemoveDirTree(const char * /*path*/) {}
 
+// Database-thread primitives — single-threaded build, so the "ready" flags
+// always read true and the suspend/resume hooks are no-ops.
+bool Sys_IsDatabaseReady() { return true; }
+bool Sys_IsDatabaseReady2() { return true; }
+void Sys_DatabaseCompleted2() {}
+bool Sys_HaveSuspendedDatabaseThread(ThreadOwner /*owner*/) { return false; }
+void Sys_WaitStartDatabase() {}
+void Sys_DatabaseCompleted() {}
+const char *Win_GetLanguage() { return "english"; }
+void Sys_SyncDatabase() {}
+void R_ShutdownStreams() {}
+void DB_LoadXFileInternal() {}
+void R_UnloadWorld() {}
+void Sys_WakeDatabase() {}
+void Sys_WakeDatabase2() {}
+void Sys_NotifyDatabase() {}
+// Pretend the database thread spawned so DB_InitThread doesn't fatal.
+// We never actually pump the queue — the engine main thread will do
+// synchronous DB_LoadXFile calls via the stubbed path for now.
+char Sys_SpawnDatabaseThread(void (* /*fn*/)(unsigned int)) { return 1; }
+void DB_LoadXFile(const char * /*path*/, void * /*f*/, const char * /*filename*/,
+                  XZoneMemory * /*zoneMem*/, void (* /*interrupt*/)(),
+                  unsigned char * /*buf*/, int /*allocType*/) {}
+void Sys_ResumeDatabaseThread(ThreadOwner /*owner*/) {}
+void Sys_SuspendDatabaseThread(ThreadOwner /*owner*/) {}
+
+// Asset stubs that db_registry.cpp now references.
+void DB_LoadSounds() {}
+void DB_SaveSounds() {}
+void R_ClearAllStaticModelCacheRefs() {}
+
 // UI text-draw helpers (used by ProfLoad overlay)
 // UI_DrawText provided by src/ui_mp/ui_main_mp.cpp now.
 // UI_FillRect provided by src/ui/ui_atoms.cpp now.
@@ -519,7 +550,7 @@ const char *Win_LocalizeRef(const char *str) { return str; }
 // TRACK_cl_parse provided by src/client_mp/cl_parse_mp.cpp now.
 // void TRACK_cm_world() {}
 // void TRACK_com_math() {}  // provided by com_math.cpp now
-void TRACK_db_registry() {}
+// ODR: void TRACK_db_registry() {}
 // void TRACK_devgui() {}
 // void TRACK_dobj_management() {}
 // void TRACK_fx_marks() {}
@@ -625,8 +656,7 @@ void DB_LoadXFileData(unsigned char * /*buffer*/, unsigned int /*size*/) {}
 // RadiusFromBounds provided by src/universal/com_math.cpp now.
 
 // Globals
-alignas(16) static unsigned char g_assetNames_storage[8192];
-void *g_assetNames = g_assetNames_storage;
+// g_assetNames now provided by src/database/db_registry.cpp.
 // varXAssetList provided by src/database/db_load.cpp now.
 
 // =========================================================================
@@ -990,7 +1020,7 @@ snd_alias_t *Com_PickSoundAlias(const char * /*name*/) { return nullptr; }
 // void Con_TimeJumped(int /*localClientNum*/, int /*time*/) {}  // provided by cl_console.cpp now
 // void Con_TimeNudged(int /*localClientNum*/, int /*delta*/) {}  // provided by cl_console.cpp now
 
-void DB_EnumXAssets(XAssetType /*type*/, void (*)(XAssetHeader, void*) /*cb*/, void * /*ctx*/, bool /*loaded*/) {}
+// ODR: void DB_EnumXAssets(XAssetType /*type*/, void (*)(XAssetHeader, void*) /*cb*/, void * /*ctx*/, bool /*loaded*/) {}
 // void DevGui_AddCommand(const char * /*name*/, char * /*menu*/) {}
 // void FX_Archive(int, MemoryFile*) {}  // provided by fx_archive.cpp now
 
@@ -1649,7 +1679,7 @@ struct IDirect3DVertexBuffer9;
 // PMem_DumpMemStats provided by src/universal/physicalmemory.cpp now.
 void Sys_OutOfMemErrorInternal(const char * /*file*/, int /*line*/) {}
 struct FileDataHashEntry;
-FileDataHashEntry *com_fileDataHashTable[8192]{};
+// ODR: FileDataHashEntry *com_fileDataHashTable[8192]{};
 #include <gfx_d3d/r_init.h>
 GfxConfiguration gfxCfg{};
 GfxMetrics gfxMetrics{};
@@ -1880,7 +1910,7 @@ void R_Cinematic_UpdateFrame() {}
 void Sys_ReleaseThreadOwnership() {}
 // RB_CallExecuteRenderCommands provided by src/gfx_d3d/rb_backend.cpp now.
 // RB_Draw3D provided by src/gfx_d3d/rb_backend.cpp now.
-volatile unsigned int g_mainThreadBlocked = 0;
+// ODR: volatile unsigned int g_mainThreadBlocked = 0;
 
 // r_material satellite stubs.
 Material *Material_Load(char * /*name*/, int /*track*/) { return nullptr; }
@@ -1916,58 +1946,58 @@ SoundAliasGlobals g_sa{};
 const dvar_t *snd_touchStreamFilesOnLoad = nullptr;
 
 // db_load satellite stubs (Load_* / Mark_* asset hooks).
-void Load_ClipMapAsset(XAssetHeader * /*h*/) {}
-void Mark_ClipMapAsset(clipMap_t * /*a*/) {}
-void Load_ComWorldAsset(XAssetHeader * /*h*/) {}
-void Mark_ComWorldAsset(ComWorld * /*a*/) {}
-void Load_FontAsset(XAssetHeader * /*h*/) {}
-void Mark_FontAsset(Font_s * /*a*/) {}
-void Load_FxEffectDefAsset(XAssetHeader * /*h*/) {}
-void Mark_FxEffectDefAsset(FxEffectDef * /*a*/) {}
-void Load_FxEffectDefFromName(const char ** /*h*/) {}
-void Load_FxImpactTableAsset(XAssetHeader * /*h*/) {}
-void Mark_FxImpactTableAsset(FxImpactTable * /*a*/) {}
-void Load_GameWorldMpAsset(XAssetHeader * /*h*/) {}
-void Mark_GameWorldMpAsset(GameWorldMp * /*a*/) {}
-void Load_GameWorldSpAsset(XAssetHeader * /*h*/) {}
-void Mark_GameWorldSpAsset(GameWorldSp * /*a*/) {}
-void Load_GetCurrentZoneHandle(unsigned char * /*h*/) {}
-void Load_GfxImageAsset(XAssetHeader * /*h*/) {}
-void Mark_GfxImageAsset(GfxImage * /*a*/) {}
-void Load_GfxWorldAsset(XAssetHeader * /*h*/) {}
-void Mark_GfxWorldAsset(GfxWorld * /*a*/) {}
-void Load_LightDefAsset(XAssetHeader * /*h*/) {}
-void Mark_LightDefAsset(GfxLightDef * /*a*/) {}
-void Load_LoadedSoundAsset(XAssetHeader * /*h*/) {}
-void Mark_LoadedSoundAsset(LoadedSound * /*a*/) {}
-void Load_LocalizeEntryAsset(XAssetHeader * /*h*/) {}
-void Mark_LocalizeEntryAsset(LocalizeEntry * /*a*/) {}
-void Load_MapEntsAsset(XAssetHeader * /*h*/) {}
-void Mark_MapEntsAsset(MapEnts * /*a*/) {}
-void Load_MaterialAsset(XAssetHeader * /*h*/) {}
-void Mark_MaterialAsset(Material * /*a*/) {}
-void Load_MaterialTechniqueSetAsset(XAssetHeader * /*h*/) {}
-void Mark_MaterialTechniqueSetAsset(MaterialTechniqueSet * /*a*/) {}
-void Load_MenuAsset(XAssetHeader * /*h*/) {}
-void Mark_MenuAsset(menuDef_t * /*a*/) {}
-void Load_MenuListAsset(XAssetHeader * /*h*/) {}
-void Mark_MenuListAsset(MenuList * /*a*/) {}
-void Load_PhysPresetAsset(XAssetHeader * /*h*/) {}
-void Mark_PhysPresetAsset(PhysPreset * /*a*/) {}
-void Load_RawFileAsset(XAssetHeader * /*h*/) {}
-void Mark_RawFileAsset(RawFile * /*a*/) {}
-void Load_snd_alias_list_Asset(XAssetHeader * /*h*/) {}
-void Mark_snd_alias_list_Asset(snd_alias_list_t * /*a*/) {}
-void Load_SndCurveAsset(XAssetHeader * /*h*/) {}
-void Mark_SndCurveAsset(SndCurve * /*a*/) {}
-void Load_StringTableAsset(XAssetHeader * /*h*/) {}
-void Mark_StringTableAsset(StringTable * /*a*/) {}
-void Load_WeaponDefAsset(XAssetHeader * /*h*/) {}
-void Mark_WeaponDefAsset(WeaponDef * /*a*/) {}
-void Load_XAnimPartsAsset(XAssetHeader * /*h*/) {}
-void Mark_XAnimPartsAsset(XAnimParts * /*a*/) {}
-void Load_XModelAsset(XAssetHeader * /*h*/) {}
-void Mark_XModelAsset(XModel * /*a*/) {}
+// ODR: void Load_ClipMapAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_ClipMapAsset(clipMap_t * /*a*/) {}
+// ODR: void Load_ComWorldAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_ComWorldAsset(ComWorld * /*a*/) {}
+// ODR: void Load_FontAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_FontAsset(Font_s * /*a*/) {}
+// ODR: void Load_FxEffectDefAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_FxEffectDefAsset(FxEffectDef * /*a*/) {}
+// ODR: void Load_FxEffectDefFromName(const char ** /*h*/) {}
+// ODR: void Load_FxImpactTableAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_FxImpactTableAsset(FxImpactTable * /*a*/) {}
+// ODR: void Load_GameWorldMpAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_GameWorldMpAsset(GameWorldMp * /*a*/) {}
+// ODR: void Load_GameWorldSpAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_GameWorldSpAsset(GameWorldSp * /*a*/) {}
+// ODR: void Load_GetCurrentZoneHandle(unsigned char * /*h*/) {}
+// ODR: void Load_GfxImageAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_GfxImageAsset(GfxImage * /*a*/) {}
+// ODR: void Load_GfxWorldAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_GfxWorldAsset(GfxWorld * /*a*/) {}
+// ODR: void Load_LightDefAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_LightDefAsset(GfxLightDef * /*a*/) {}
+// ODR: void Load_LoadedSoundAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_LoadedSoundAsset(LoadedSound * /*a*/) {}
+// ODR: void Load_LocalizeEntryAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_LocalizeEntryAsset(LocalizeEntry * /*a*/) {}
+// ODR: void Load_MapEntsAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_MapEntsAsset(MapEnts * /*a*/) {}
+// ODR: void Load_MaterialAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_MaterialAsset(Material * /*a*/) {}
+// ODR: void Load_MaterialTechniqueSetAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_MaterialTechniqueSetAsset(MaterialTechniqueSet * /*a*/) {}
+// ODR: void Load_MenuAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_MenuAsset(menuDef_t * /*a*/) {}
+// ODR: void Load_MenuListAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_MenuListAsset(MenuList * /*a*/) {}
+// ODR: void Load_PhysPresetAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_PhysPresetAsset(PhysPreset * /*a*/) {}
+// ODR: void Load_RawFileAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_RawFileAsset(RawFile * /*a*/) {}
+// ODR: void Load_snd_alias_list_Asset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_snd_alias_list_Asset(snd_alias_list_t * /*a*/) {}
+// ODR: void Load_SndCurveAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_SndCurveAsset(SndCurve * /*a*/) {}
+// ODR: void Load_StringTableAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_StringTableAsset(StringTable * /*a*/) {}
+// ODR: void Load_WeaponDefAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_WeaponDefAsset(WeaponDef * /*a*/) {}
+// ODR: void Load_XAnimPartsAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_XAnimPartsAsset(XAnimParts * /*a*/) {}
+// ODR: void Load_XModelAsset(XAssetHeader * /*h*/) {}
+// ODR: void Mark_XModelAsset(XModel * /*a*/) {}
 struct MssSoundCOD4;
 void SND_SetData(MssSoundCOD4 * /*s*/, void * /*data*/) {}
 
@@ -1989,7 +2019,7 @@ unsigned int R_AvailableTextureMemory() { return 0; }
 // Image_Upload3D_CopyData_PC provided by src/gfx_d3d/r_image_load_common.cpp now.
 // Image_LoadFromFileWithReader provided by src/gfx_d3d/r_image_load_obj.cpp now.
 // Image_GetCardMemoryAmountForMipLevel provided by src/gfx_d3d/r_image_load_obj.cpp now.
-ImgGlobals imageGlobals{};
+// ODR: ImgGlobals imageGlobals{};
 
 // r_model_lighting satellite stubs.
 // Image_Release provided by src/gfx_d3d/r_image.cpp now.
@@ -2025,8 +2055,8 @@ void R_UncacheStaticModel(unsigned int /*idx*/) {}
 // RB_ShowTess provided by src/gfx_d3d/rb_tess.cpp now.
 // R_ChangeIndices provided by src/gfx_d3d/r_state.cpp now.
 // R_SetReflectionProbe provided by src/gfx_d3d/r_state.cpp now.
-void DB_GetIndexBufferAndBase(unsigned char /*zone*/, void * /*indices*/, void **ib, int *baseIndex) { if (ib) *ib = nullptr; if (baseIndex) *baseIndex = 0; }
-void DB_GetVertexBufferAndOffset(unsigned char /*zone*/, unsigned char * /*verts*/, void **vb, int *off) { if (vb) *vb = nullptr; if (off) *off = 0; }
+// ODR: void DB_GetIndexBufferAndBase(unsigned char /*zone*/, void * /*indices*/, void **ib, int *baseIndex) { if (ib) *ib = nullptr; if (baseIndex) *baseIndex = 0; }
+// ODR: void DB_GetVertexBufferAndOffset(unsigned char /*zone*/, unsigned char * /*verts*/, void **vb, int *off) { if (vb) *vb = nullptr; if (off) *off = 0; }
 // R_SetModelLightingCoordsForSource provided by src/gfx_d3d/r_model_lighting.cpp now.
 
 // r_shadowcookie / r_spotshadow satellite stubs.
@@ -2125,7 +2155,7 @@ int g_disableRendering = 0;
 // r_material_override satellite stubs.
 #include <gfx_d3d/r_material.h>
 #include <gfx_d3d/rb_uploadshaders.h>
-MaterialGlobals materialGlobals{};
+// ODR: MaterialGlobals materialGlobals{};
 // mtlUploadGlob provided by src/gfx_d3d/rb_uploadshaders.cpp now.
 // Material_FindTechniqueSet provided by src/gfx_d3d/r_material.cpp now.
 struct TechniqueSetList;
@@ -2424,7 +2454,7 @@ void SND_StopSoundsOnEnt(SndEntHandle) {}
 void Com_LoadSoundAliases(const char *, const char *, snd_alias_system_t) {}
 void SND_PlayAmbientAlias(int, const snd_alias_t *, int, snd_alias_system_t) {}
 void Snd_AssertAliasValid(snd_alias_t *) {}
-int32_t DB_GetAllXAssetOfType(XAssetType, XAssetHeader *, int32_t) { return 0; }
+// ODR: int32_t DB_GetAllXAssetOfType(XAssetType, XAssetHeader *, int32_t) { return 0; }
 // void DynEntCl_RegisterDvars() {}
 // FS_ListFilesInLocation provided by src/universal/com_files.cpp now.
 void SND_AddPlayFXSoundAlias(snd_alias_t *, SndEntHandle, const float *) {}
@@ -2532,7 +2562,7 @@ void UI_Component_Init() {}
 // Helicopter_Die provided by src/game_mp/g_scr_helicopter.cpp now.
 // Scr_FreeEntity provided by src/game_mp/g_spawn_mp.cpp now.
 // [dup-removed] void Scr_FreeThread(uint16_t) {}
-void DB_ReplaceModel(const char *, const char *) {}
+// ODR: void DB_ReplaceModel(const char *, const char *) {}
 // G_VehFreeEntity provided by src/game_mp/g_vehicles_mp.cpp now.
 // Helicopter_Pain provided by src/game_mp/g_scr_helicopter.cpp now.
 // MatrixTranspose provided by src/universal/com_math.cpp now.
@@ -2555,7 +2585,7 @@ void DB_ReplaceModel(const char *, const char *) {}
 // void Com_SafeServerDObjFree(unsigned int) {}
 // unsigned int SL_FindLowercaseString(const char *) { return 0u; }  // provided by scr_variable/scr_stringlist now
 // SV_GetConfigstringConst provided by src/server_mp/sv_init_mp.cpp now.
-void Hunk_OverrideDataForFile(int, const char *, void *) {}
+// ODR: void Hunk_OverrideDataForFile(int, const char *, void *) {}
 // MatrixInverseOrthogonal43 provided by src/universal/com_math.cpp now.
 // void Missile_FreeAttractorRefs(gentity_s *) {}  // provided by g_missile.cpp now
 // G_VehEntHandler_Controller provided by src/game_mp/g_vehicles_mp.cpp now.
@@ -2602,7 +2632,7 @@ void UI_Component::MouseEvent(int, int) {}
 // SV_InitSnapshot provided by src/server_mp/sv_main_mp.cpp now.
 // char *FS_LoadedIwdNames() { return const_cast<char *>(""); }  // provided by com_files.cpp now
 // SV_SendDisconnect provided by src/server_mp/sv_client_mp.cpp now.
-void DB_UpdateDebugZone() {}
+// ODR: void DB_UpdateDebugZone() {}
 // void Hunk_FreeTempMemory(char *) {}
 // SV_EndClientSnapshot provided by src/server_mp/sv_snapshot_mp.cpp now.
 // void FS_ClearIwdReferences() {}  // provided by com_files.cpp now
@@ -2613,8 +2643,8 @@ void DB_UpdateDebugZone() {}
 // SV_AddOperatorCommands provided by src/server_mp/sv_ccmds_mp.cpp now.
 // SV_BeginClientSnapshot provided by src/server_mp/sv_snapshot_mp.cpp now.
 // SV_SetSystemInfoConfig provided by src/server_mp/sv_main_mp.cpp now.
-char *DB_ReferencedFFNameList() { return const_cast<char *>(""); }
-char *DB_ReferencedFFChecksums() { return const_cast<char *>(""); }
+// ODR: char *DB_ReferencedFFNameList() { return const_cast<char *>(""); }
+// ODR: char *DB_ReferencedFFChecksums() { return const_cast<char *>(""); }
 // SV_GetServerStaticHeader provided by src/server_mp/sv_snapshot_mp.cpp now.
 // SV_SetServerStaticHeader provided by src/server_mp/sv_snapshot_mp.cpp now.
 // SV_WriteSnapshotToClient provided by src/server_mp/sv_snapshot_mp.cpp now.
@@ -3020,7 +3050,7 @@ void Voice_Playback() {}
 void R_MakeDedicated(const GfxConfiguration *) {}
 void Sys_ShowConsole() {}
 // CL_DestroyDevGui provided by src/client/cl_devgui.cpp now.
-int  DB_ModFileExists() { return 0; }
+// ODR: int  DB_ModFileExists() { return 0; }
 void SND_PlayFXSounds() {}
 // bool NET_OutOfBandData(netsrc_t, netadr_t, const unsigned char *, int) { return false; }  // provided by net_chan_mp.cpp now
 void SCR_StopCinematic(int) {}
@@ -3317,7 +3347,7 @@ int LiveStorage_GetStat(int, int) { return 0; }
 // === gfx_d3d satellites ============================================================
 
 DxGlobals dx{};
-r_globals_t rg{};
+// ODR: r_globals_t rg{};
 r_global_permanent_t rgp{};
 // const dvar_t *r_drawDynEnts = nullptr;  // provided by r_dvars.cpp now
 // const dvar_t *r_clear = nullptr;          // provided by r_dvars.cpp now
@@ -3333,7 +3363,7 @@ struct IDirect3DIndexBuffer9;
 struct GfxReadCmdBuf;
 // R_LockIndexBuffer provided by src/gfx_d3d/r_buffers.cpp now.
 // R_ReadPrimDrawSurfData / R_ReadPrimDrawSurfInt provided by src/gfx_d3d/r_draw_bsp.cpp now.
-GfxWorld s_world{};
+// ODR: GfxWorld s_world{};
 r_globals_load_t rgl{};
 // DynEntityPose *DynEnt_GetClientModelPoseList() { return nullptr; }
 

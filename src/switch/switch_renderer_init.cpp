@@ -22,6 +22,9 @@
 #include "client_mp/client_mp.h"
 #include "gfx_d3d/r_rendercmds.h"
 #include "gfx_d3d/r_init.h"
+#include "gfx_d3d/r_material.h"
+#include "gfx_d3d/r_font.h"
+#include "database/database.h"
 
 // Engine-side globals — defined in src/gfx_d3d/r_rendercmds.cpp, just
 // missing their inner allocations because R_InitRenderCommands never ran.
@@ -57,6 +60,88 @@ void R_BeginRegistration(vidConfig_t *vidConfigOut)
     s_cmdList = &g_frontEndCmds[0];
     s_renderCmdBufferSize = static_cast<int>(kCmdBufferSize);
     s_renderCmdWarnSize = static_cast<int>(kCmdBufferSize) * 3 / 4;
+
+    // Initialise the asset entry pool before we touch DB_AddXAsset —
+    // upstream only does this lazily inside DB_LoadXAssets, but we need
+    // it earlier so Material_RegisterHandle has somewhere to land.
+    extern void DB_Init();
+    DB_Init();
+
+    // Register a placeholder $default material so DB_FindXAssetHeader has
+    // something to hand back when the engine asks for "white" / "console"
+    // / any other unresolved material name. The backing storage stays
+    // zeroed — RB_* dispatch will see all-zero state and either no-op or
+    // get caught by our switch_dispatch_render_queue translator before
+    // touching anything D3D9-only.
+    static Material s_defaultMaterial{};
+    static const char s_defaultMaterialName[] = "$default";
+    s_defaultMaterial.info.name = s_defaultMaterialName;
+    XAssetHeader matHeader{};
+    matHeader.material = &s_defaultMaterial;
+    DB_AddXAsset(ASSET_TYPE_MATERIAL, matHeader);
+
+    // Same idea for the default console font — R_RegisterFont asks for
+    // "fonts/consolefont", so we hand back a placeholder Font_s pointing
+    // at the default material we just registered. R_GetCharacterGlyph
+    // indexes `glyphs[letter - 32]` for printable ASCII, so we ship 96
+    // populated glyph slots (32..127) with a fixed dx; otherwise
+    // R_LetterWidth dereferences null at offset 0x58C.
+    static Glyph s_defaultGlyphs[96]{};
+    for (int i = 0; i < 96; ++i) {
+        s_defaultGlyphs[i].letter = static_cast<unsigned short>(32 + i);
+        s_defaultGlyphs[i].dx = 8;
+        s_defaultGlyphs[i].pixelWidth = 8;
+        s_defaultGlyphs[i].pixelHeight = 16;
+    }
+    static Font_s s_defaultFont{};
+    static const char s_defaultFontName[] = "fonts/consolefont";
+    s_defaultFont.fontName = s_defaultFontName;
+    s_defaultFont.pixelHeight = 16;
+    s_defaultFont.glyphCount = 96;
+    s_defaultFont.material = &s_defaultMaterial;
+    s_defaultFont.glowMaterial = &s_defaultMaterial;
+    s_defaultFont.glyphs = s_defaultGlyphs;
+    XAssetHeader fontHeader{};
+    fontHeader.font = &s_defaultFont;
+    DB_AddXAsset(ASSET_TYPE_FONT, fontHeader);
+
+    // Generic dummy backing so every other asset type that ships a
+    // `g_defaultAssetName[type]` entry can resolve to something
+    // non-null. Each dummy struct starts with a `const char *name`
+    // pointer (matches XAssetHeader's layout), so we plant the same
+    // default-name string in the slot and feed it into DB_AddXAsset.
+    //
+    // This is enough for the engine's "is the default loaded?" check
+    // to succeed; if anything actually tries to read the asset
+    // contents (techset/textures/glyphs/...), we'll fault and wire
+    // the specific type after that. The list below mirrors
+    // db_registry.cpp:g_defaultAssetName but omits the types we have
+    // already covered (material, font).
+    struct AssetSlot { XAssetType type; const char *defaultName; };
+    static const AssetSlot s_slots[] = {
+        // Only types whose getter handler reads offset 0 (the COMDAT-
+        // folded DB_StringTableGetName family). GfxImage uses offset 32+
+        // and other handlers have their own field; leaving those out
+        // for now keeps unrelated pointer fields zero instead of carrying
+        // our name address and getting dereferenced as a vtable / buf.
+        {ASSET_TYPE_PHYSPRESET,            "default"},
+        {ASSET_TYPE_TECHNIQUE_SET,         "default"},
+        {ASSET_TYPE_MENULIST,              "ui/default.menu"},
+        {ASSET_TYPE_MENU,                  "default_menu"},
+        {ASSET_TYPE_STRINGTABLE,           "mp/defaultStringTable.csv"},
+    };
+    for (const AssetSlot &slot : s_slots) {
+        static unsigned char s_storage[sizeof(s_slots) / sizeof(s_slots[0])][256] = {};
+        static int s_idx = 0;
+        unsigned char *buf = s_storage[s_idx++];
+        // Only the very first sizeof(char*) bytes get the name pointer; the
+        // rest stays zeroed so other pointer-typed struct fields don't
+        // alias our name string and get dereferenced.
+        *reinterpret_cast<const char **>(buf) = slot.defaultName;
+        XAssetHeader hdr{};
+        hdr.data = buf;
+        DB_AddXAsset(slot.type, hdr);
+    }
 
     // Leaving rg.registered = 0 keeps R_BeginFrame and Material_*Override
     // out of the path (both touch unregistered renderer dvars). We reset

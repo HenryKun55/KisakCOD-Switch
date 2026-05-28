@@ -421,7 +421,7 @@ char *__cdecl DB_ReferencedFFNameList()
                 I_strncat(g_zoneNameList, 2080, " ");
             if (g_zones[i].modZone)
             {
-                I_strncat(g_zoneNameList, 2080, (const char*)fs_gameDirVar->current.integer);
+                I_strncat(g_zoneNameList, 2080, fs_gameDirVar->current.string);
                 I_strncat(g_zoneNameList, 2080, "/");
             }
             I_strncat(g_zoneNameList, 2080, g_zones[i].name);
@@ -577,7 +577,7 @@ void __cdecl TRACK_db_registry()
 void __cdecl DB_GetIndexBufferAndBase(uint8_t zoneHandle, void *indices, void **ib, int32_t *baseIndex)
 {
     *ib = g_zones[zoneHandle].mem.indexBuffer;
-    *baseIndex = ((uint32_t)indices - (uint32_t)g_zones[zoneHandle].mem.blocks[8].data) >> 1;
+    *baseIndex = (int32_t)(((uintptr_t)indices - (uintptr_t)g_zones[zoneHandle].mem.blocks[8].data) >> 1);
 }
 
 void __cdecl DB_GetVertexBufferAndOffset(uint8_t zoneHandle, _BYTE *verts, void **vb, int32_t *vertexOffset)
@@ -591,7 +591,7 @@ void __cdecl DB_BuildOSPath_Mod(const char *zoneName, uint32_t size, char *filen
     char *v3; // eax
     const char *string; // [esp-8h] [ebp-8h]
 
-    if (!*(_BYTE *)fs_gameDirVar->current.integer)
+    if (!fs_gameDirVar->current.string || !*fs_gameDirVar->current.string)
         MyAssertHandler(".\\database\\db_registry.cpp", 3204, 0, "%s", "IsUsingMods()");
     string = fs_gameDirVar->current.string;
     v3 = Sys_DefaultInstallPath();
@@ -601,15 +601,16 @@ void __cdecl DB_BuildOSPath_Mod(const char *zoneName, uint32_t size, char *filen
 bool __cdecl DB_ModFileExists()
 {
     char filename[256]; // [esp+0h] [ebp-108h] BYREF
-    void *zoneFile; // [esp+104h] [ebp-4h]
 
-    if (!*(_BYTE *)fs_gameDirVar->current.integer)
+    if (!fs_gameDirVar->current.string || !*fs_gameDirVar->current.string)
         return 0;
     DB_BuildOSPath_Mod("mod", 0x100u, filename);
-    zoneFile = CreateFileA(filename, 0x80000000, 1u, 0, 3u, 0x60000000u, 0);
-    if (zoneFile == (void *)-1)
-        return 0;
-    CloseHandle(zoneFile);
+    // KISAKHACK-AUDIT(db-modfile-posix): swap Win32 CreateFileA/CloseHandle
+    // for stdio fopen/fclose so this compiles outside Win32; semantics are
+    // the same (only checks for existence).
+    FILE *f = std::fopen(filename, "rb");
+    if (!f) return 0;
+    std::fclose(f);
     return 1;
 }
 
@@ -902,31 +903,15 @@ void __cdecl Mark_MenuAsset(menuDef_t *menu)
     DB_GetXAsset(ASSET_TYPE_MENU, (XAssetHeader)menu);
 }
 
-void __cdecl DB_DynamicCloneMenu(XAssetHeader from, XAssetHeader to, int32_t swag)
+void __cdecl DB_DynamicCloneMenu(XAssetHeader from, XAssetHeader to, int32_t /*swag*/)
 {
-    windowDef_t *toWindow; // [esp+14h] [ebp-18h]
-    int32_t toIndex; // [esp+18h] [ebp-14h]
-    int32_t fromIndex; // [esp+1Ch] [ebp-10h]
-    windowDef_t *fromWindow; // [esp+24h] [ebp-8h]
-
-    to.xmodelPieces[6].pieces = from.xmodelPieces[6].pieces;
-    for (toIndex = 0; toIndex < (int)to.xmodelPieces[13].pieces; ++toIndex)
-    {
-        toWindow = *(windowDef_t **)(to.xmodelPieces[23].numpieces + 4 * toIndex);
-        if (toWindow->name)
-        {
-            for (fromIndex = 0; fromIndex < (int)from.xmodelPieces[13].pieces; ++fromIndex)
-            {
-                fromWindow = *(windowDef_t **)(from.xmodelPieces[23].numpieces + 4 * fromIndex);
-                if (fromWindow->name && !strcmp(fromWindow->name, toWindow->name))
-                {
-                    toWindow->dynamicFlags[0] = fromWindow->dynamicFlags[0];
-                    break;
-                }
-            }
-        }
-        DB_RemoveWindowFocus(toWindow);
-    }
+    // KISAKHACK-AUDIT(dynclone-menu-64bit): the upstream body treats
+    // XAssetHeader fields as a packed array of windowDef_t* with a stride
+    // of 4 bytes; that's a 32-bit hex-rays pointer trick that doesn't
+    // translate to 64-bit. The function only fires when the UI clones
+    // a menu at runtime (mods, dynamic open) — not during boot — so we
+    // stub it and revisit if/when a real menu flow exercises this path.
+    (void)from; (void)to;
 }
 
 void __cdecl DB_RemoveWindowFocus(windowDef_t *window)
@@ -1215,9 +1200,9 @@ XAssetHeader __cdecl DB_FindXAssetHeader(XAssetType type, const char *name)
                 break;
             }
         }
-        if (Sys_IsDatabaseReady2() || DB_IsMinimumFastFileLoaded() && DB_GetInitializing())
+        if (Sys_IsDatabaseReady2() || (DB_IsMinimumFastFileLoaded() && DB_GetInitializing()))
             break;
-        if (Sys_IsDatabaseReady() && (Sys_IsMainThread() || Sys_IsRenderThread() && R_IsInRemoteScreenUpdate() && g_mainThreadBlocked))
+        if (Sys_IsDatabaseReady() && (Sys_IsMainThread() || (Sys_IsRenderThread() && R_IsInRemoteScreenUpdate() && g_mainThreadBlocked)))
         {
             DB_PostLoadXZone();
         }
@@ -1372,7 +1357,7 @@ bool __cdecl DB_CompareReorderEntries(const DBReorderAssetEntry& e0, const DBReo
         return 0;
     if (e0.type == e1.type)
         return _stricmp(e0.assetName, e1.assetName) < 0;
-    if (e0.sequence != -1)
+    if (e0.sequence != (uint32_t)-1)
         return e0.type < e1.type;
     if (e0.type == 7)
         return 1;
@@ -1389,8 +1374,6 @@ void DB_EndReorderZone()
     bool wroteBlank; // [esp+187h] [ebp-415h]
     DWORD bytesa; // [esp+188h] [ebp-414h]
     DWORD bytes; // [esp+188h] [ebp-414h]
-    HANDLE file; // [esp+18Ch] [ebp-410h]
-    DWORD written; // [esp+190h] [ebp-40Ch] BYREF
     char csvName[256]; // [esp+194h] [ebp-408h] BYREF
     char line[512]; // [esp+294h] [ebp-308h] BYREF
     char bakName[256]; // [esp+494h] [ebp-108h] BYREF
@@ -1399,25 +1382,24 @@ void DB_EndReorderZone()
     if (s_dbReorder.entryCount)
     {
         s_dbReorder.alreadyFinished = 1;
-        Com_sprintf(csvName, 0x100u, "..\\share\\zone_source\\%s.csv", s_dbReorder.zoneName);
+        // KISAKHACK-AUDIT(db-reorder-posix): swap Win32 file APIs for stdio
+        // equivalents. The reorder CSV writer is dev tooling; behaviour is
+        // identical for the boot path because s_dbReorder.entryCount is
+        // zero in retail.
+        Com_sprintf(csvName, 0x100u, "../share/zone_source/%s.csv", s_dbReorder.zoneName);
         Com_sprintf(bakName, 0x100u, "%s.bak", csvName);
-        DeleteFileA(bakName);
+        std::remove(bakName);
         rename(csvName, bakName);
-        file = CreateFileA(csvName, 0x40000000u, 0, 0, 2u, 0, 0);
-        if (file != (HANDLE)-1)
+        FILE *fp = std::fopen(csvName, "wb");
+        if (fp)
         {
             wroteBlank = 0;
             DB_SetReorderIncludeSequence();
-            //std::_Sort<DBReorderAssetEntry *, int, bool(__cdecl *)(DBReorderAssetEntry const &, DBReorderAssetEntry const &)>(
-            //    (GfxSModelSurfStats *)s_dbReorder.entries,
-            //    (GfxSModelSurfStats *)&s_dbReorder.entries[s_dbReorder.entryCount],
-            //    (int32_t)(16 * s_dbReorder.entryCount) >> 4,
-            //    (bool(__cdecl *)(GfxSModelSurfStats *, GfxSModelSurfStats *))DB_CompareReorderEntries);
             std::sort(s_dbReorder.entries + 0, s_dbReorder.entries + s_dbReorder.entryCount, DB_CompareReorderEntries);
             for (entryIter = 0; entryIter < s_dbReorder.entryCount; ++entryIter)
             {
                 entry = &s_dbReorder.entries[entryIter];
-                if (!wroteBlank && entry->sequence == -1)
+                if (!wroteBlank && entry->sequence == (uint32_t)-1)
                 {
                     switch (entry->type)
                     {
@@ -1429,14 +1411,14 @@ void DB_EndReorderZone()
                         break;
                     default:
                         wroteBlank = 1;
-                        WriteFile(file, "\r\n", 2u, &written, 0);
+                        std::fwrite("\r\n", 1, 2, fp);
                         break;
                     }
                 }
                 if (entry->type == 23)
                 {
                     bytesa = Com_sprintf(line, 0x200u, "%s,%s%s\r\n", entry->typeString, "mp/", entry->assetName);
-                    WriteFile(file, line, bytesa, &written, 0);
+                    std::fwrite(line, 1, bytesa, fp);
                 }
                 else
                 {
@@ -1451,10 +1433,10 @@ void DB_EndReorderZone()
                             "all_mp");
                     else
                         bytes = Com_sprintf(line, 0x200u, "%s,%s\r\n", entry->typeString, entry->assetName);
-                    WriteFile(file, line, bytes, &written, 0);
+                    std::fwrite(line, 1, bytes, fp);
                 }
             }
-            CloseHandle(file);
+            std::fclose(fp);
         }
     }
 }
@@ -1472,7 +1454,7 @@ char __cdecl DB_RegisterAllReorderAssetsOfType(int32_t type, XAssetEntry *assetE
     for (entryIter = 0; entryIter < s_dbReorder.entryCount; ++entryIter)
     {
         entry = &s_dbReorder.entries[entryIter];
-        if (entry->type == type && entry->sequence == -1)
+        if (entry->type == type && entry->sequence == (uint32_t)-1)
             entry->sequence = s_dbReorder.sequence;
     }
     s_dbReorder.sequence += 2;
@@ -1512,7 +1494,7 @@ void __cdecl DB_RegisteredReorderAsset(int32_t type, const char *assetName, XAss
                 if (entry->type == type && !_stricmp(entry->assetName, assetName))
                 {
                     s_dbReorder.lastEntry = &s_dbReorder.entries[entryIter];
-                    if (entry->sequence == -1)
+                    if (entry->sequence == (uint32_t)-1)
                     {
                         entry->sequence = s_dbReorder.sequence;
                         if (entry->type == 31)
@@ -2102,11 +2084,17 @@ void DB_PostLoadXZone()
         if (g_copyInfoCount)
         {
             remoteScreenUpdateNesting = 0;
-            if (!Sys_IsMainThread()
-                || (++g_mainThreadBlocked,
-                    remoteScreenUpdateNesting = R_PopRemoteScreenUpdate(),
-                    --g_mainThreadBlocked,
-                    g_copyInfoCount))
+            bool _mt_path = false;
+            if (Sys_IsMainThread()) {
+                int _prev = g_mainThreadBlocked;
+                g_mainThreadBlocked = _prev + 1;
+                remoteScreenUpdateNesting = R_PopRemoteScreenUpdate();
+                g_mainThreadBlocked = _prev;
+                _mt_path = (g_copyInfoCount != 0);
+            } else {
+                _mt_path = true;
+            }
+            if (_mt_path)
 
             {
                 DB_ArchiveAssets();
@@ -2318,11 +2306,11 @@ void __cdecl  DB_Thread(uint32_t threadContext)
 
     iassert(threadContext == THREAD_CONTEXT_DATABASE);
     Value = (jmp_buf *)Sys_GetValue(2);
-    if (_setjmp(*Value))
+    if (setjmp(*Value))
     {
         Profile_Recover(1);
-#ifdef __llvm__ 
-        __builtin_debugtrap();
+#if defined(__llvm__) || defined(__SWITCH__)
+        __builtin_trap();
 #else
         __debugbreak();
 #endif
@@ -2350,7 +2338,7 @@ void DB_TryLoadXFile()
         for (j = 0; j < zoneInfoCount; ++j)
         {
             if (!DB_TryLoadXFileInternal(g_zoneInfo[j].name, g_zoneInfo[j].flags))
-                --g_loadingAssets;
+                g_loadingAssets = g_loadingAssets - 1;
         }
         if (g_loadingZone)
             MyAssertHandler(".\\database\\db_registry.cpp", 3772, 0, "%s", "!g_loadingZone");
@@ -2441,17 +2429,17 @@ void __cdecl DB_AddReorderAsset(const char *typeString, const char *assetName)
     entrya = &s_dbReorder.entries[s_dbReorder.entryCount++];
     entrya->type = type;
     if (type >= 33)
-        v2 = _strdup(typeString);
+        v2 = strdup(typeString);
     else
         v2 = (char *)g_assetNames[type];
     entrya->typeString = v2;
-    entrya->assetName = _strdup(assetName);
+    entrya->assetName = strdup(assetName);
     if (entrya->type != 33 || I_stricmp(typeString, "ignore"))
     {
         if (entrya->type == 10 || entrya->type == 11)
             entrya->sequence = 1;
         else
-            entrya->sequence = -1;
+            entrya->sequence = (uint32_t)-1;
     }
     else
     {
@@ -2468,7 +2456,6 @@ void __cdecl DB_BeginReorderZone(const char *zoneName)
     DBReorderAssetEntry *entry; // [esp+14h] [ebp-248h]
     char assetType[32]; // [esp+18h] [ebp-244h] BYREF
     uint32_t size; // [esp+38h] [ebp-224h]
-    void *file; // [esp+3Ch] [ebp-220h]
     int32_t success; // [esp+40h] [ebp-21Ch]
     char assetName[256]; // [esp+44h] [ebp-218h] BYREF
     char csvName[256]; // [esp+144h] [ebp-118h] BYREF
@@ -2500,18 +2487,24 @@ void __cdecl DB_BeginReorderZone(const char *zoneName)
         *v2++ = *v3++;
     } while (v1);
     Sys_LockWrite(&s_dbReorder.critSect);
-    Com_sprintf(csvName, 0x100u, "..\\share\\zone_source\\%s.csv", zoneName);
-    file = CreateFileA(csvName, 0x80000000, 0, 0, 3u, 0, 0);
-    if (file == (void *)-1)
+    Com_sprintf(csvName, 0x100u, "../share/zone_source/%s.csv", zoneName);
+    // KISAKHACK-AUDIT(db-reorder-read-posix): swap Win32 CreateFileA/
+    // GetFileSize/ReadFile/CloseHandle for stdio fread; reorder CSVs are
+    // a dev affordance and aren't shipped in retail layouts.
+    FILE *fp = std::fopen(csvName, "rb");
+    if (!fp)
     {
         Sys_UnlockWrite(&s_dbReorder.critSect);
     }
     else
     {
-        size = GetFileSize(file, 0);
+        std::fseek(fp, 0, SEEK_END);
+        size = (uint32_t)std::ftell(fp);
+        std::fseek(fp, 0, SEEK_SET);
         csv = (char *)malloc(size + 1);
-        success = ReadFile(file, csv, size, &read, 0);
-        CloseHandle(file);
+        read = (DWORD)std::fread(csv, 1, size, fp);
+        success = (read == size) ? 1 : 0;
+        std::fclose(fp);
         if (success && read == size)
         {
             csv[size] = 0;
@@ -2593,40 +2586,45 @@ int32_t __cdecl DB_TryLoadXFileInternal(char *zoneName, int32_t zoneFlags)
 
     modZone = 0;
     iassert(!g_zoneInfoCount);
+    // KISAKHACK-AUDIT(db-zone-open-posix): swap Win32 CreateFileA opens
+    // for stdio fopen. zoneFile is now a FILE* (still typed as void*) and
+    // the (void*)-1 sentinel becomes nullptr.
+    auto try_open = [](const char *p) -> void * { return std::fopen(p, "rb"); };
     if (I_stricmp(zoneName, "mp_patch"))
     {
-        if (*(_BYTE *)fs_gameDirVar->current.integer && DB_ShouldLoadFromModDir(zoneName))
+        if (fs_gameDirVar->current.string && *fs_gameDirVar->current.string
+            && DB_ShouldLoadFromModDir(zoneName))
         {
             DB_BuildOSPath_Mod(zoneName, 256, filename);
-            zoneFile = CreateFileA(filename, 0x80000000, 1u, 0, 3u, 0x60000000u, 0);
-            modZone = (char *)zoneFile + 1 != 0;
+            zoneFile = try_open(filename);
+            modZone = zoneFile != nullptr;
         }
         else
         {
-            zoneFile = (void *)-1;
+            zoneFile = nullptr;
         }
-        if (zoneFile == (void *)-1)
+        if (!zoneFile)
         {
             DB_BuildOSPath(zoneName, 256, filename);
-            zoneFile = CreateFileA(filename, 0x80000000, 1u, 0, 3u, 0x60000000u, 0);
+            zoneFile = try_open(filename);
         }
     }
     else
     {
-        zoneFile = CreateFileA("update:\\mp_patch.ff", 0x80000000, 0, 0, 3u, 0x60000000u, 0);
-        if (zoneFile == (void *)-1)
+        zoneFile = try_open("update:/mp_patch.ff");
+        if (!zoneFile)
         {
             Com_Printf(16, "Loading mp_patch.ff from disc, not from the update drive\n");
             DB_BuildOSPath(zoneName, 256, filename);
-            zoneFile = CreateFileA(filename, 0x80000000, 0, 0, 3u, 0x60000000u, 0);
-            if (zoneFile == (void *)-1)
+            zoneFile = try_open(filename);
+            if (!zoneFile)
             {
                 Com_PrintWarning(10, "WARNING: Could not find zone '%s'\n", filename);
                 return 0;
             }
         }
     }
-    if (zoneFile == (void *)-1)
+    if (!zoneFile)
     {
         v3 = strstr(filename, "_load");
         if (v3)
@@ -2672,7 +2670,14 @@ int32_t __cdecl DB_TryLoadXFileInternal(char *zoneName, int32_t zoneFlags)
             MyAssertHandler(".\\database\\db_registry.cpp", 3674, 0, "%s", "!zone->name[0]");
         I_strncpyz(zone->name, zoneName, 64);
         zone->flags = zoneFlags;
-        zone->fileSize = GetFileSize(zoneFile, 0);
+        // KISAKHACK-AUDIT(db-zone-size-posix): GetFileSize → ftell on FILE*.
+        {
+            FILE *fp = static_cast<FILE *>(zoneFile);
+            long _saved = std::ftell(fp);
+            std::fseek(fp, 0, SEEK_END);
+            zone->fileSize = (DWORD)std::ftell(fp);
+            std::fseek(fp, _saved, SEEK_SET);
+        }
         zone->modZone = modZone;
         if (g_loadingZone)
             MyAssertHandler(".\\database\\db_registry.cpp", 3683, 0, "%s", "!g_loadingZone");
@@ -3156,17 +3161,18 @@ int32_t __cdecl DB_FileSize(const char *zoneName, int32_t isMod)
 {
     char filename[260]; // [esp+0h] [ebp-110h] BYREF
     int32_t size; // [esp+108h] [ebp-8h]
-    void *zoneFile; // [esp+10Ch] [ebp-4h]
 
     if (isMod)
         DB_BuildOSPath_Mod(zoneName, 0x100u, filename);
     else
         DB_BuildOSPath(zoneName, 0x100u, filename);
-    zoneFile = CreateFileA(filename, 0x80000000, 1u, 0, 3u, 0x60000000u, 0);
-    if (zoneFile == (void *)-1)
-        return 0;
-    size = GetFileSize(zoneFile, 0);
-    CloseHandle(zoneFile);
+    // KISAKHACK-AUDIT(db-filesize-posix): swap CreateFileA/GetFileSize for
+    // stdio fseek/ftell.
+    FILE *fp = std::fopen(filename, "rb");
+    if (!fp) return 0;
+    std::fseek(fp, 0, SEEK_END);
+    size = (int32_t)std::ftell(fp);
+    std::fclose(fp);
     return size;
 }
 
