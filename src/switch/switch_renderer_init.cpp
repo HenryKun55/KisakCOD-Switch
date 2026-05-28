@@ -94,10 +94,21 @@ void switch_dispatch_render_queue()
     const GfxCmdArray *list = &g_frontEndCmds[0];
     if (!list->cmds || list->usedTotal <= 0) return;
 
+#ifdef __SWITCH__
+    // Roll up which opcodes the engine emits over a window of frames, so
+    // we know what to wire next (RC_STRETCH_PIC and RC_DRAW_TEXT_2D are
+    // the proof the UI subsystem is putting glyphs in front of us).
+    static int s_dispatchFrame = 0;
+    int counts[22] = {0};
+#endif
+
     size_t pos = 0;
     while (pos < (size_t)list->usedTotal) {
         const auto *hdr = reinterpret_cast<const GfxCmdHeader *>(list->cmds + pos);
         if (hdr->id == 0 || hdr->byteCount == 0) break;
+#ifdef __SWITCH__
+        if (hdr->id < 22) ++counts[hdr->id];
+#endif
         switch (hdr->id) {
         case 4: { // RC_CLEAR_SCREEN
             const auto *cmd = reinterpret_cast<const GfxCmdClearScreen *>(hdr);
@@ -109,4 +120,20 @@ void switch_dispatch_render_queue()
         }
         pos += hdr->byteCount;
     }
+
+#ifdef __SWITCH__
+    // Log a histogram every ~256 frames so the noise stays low but we
+    // catch the moment the UI subsystem starts queuing draw commands.
+    ++s_dispatchFrame;
+    if ((s_dispatchFrame & 0xFF) == 0) {
+        char dbg[256];
+        int n = std::snprintf(dbg, sizeof(dbg), "[render-hist] frame=%d:", s_dispatchFrame);
+        for (int i = 0; i < 22; ++i) {
+            if (counts[i] == 0) continue;
+            n += std::snprintf(dbg + n, sizeof(dbg) - n, " %d:%d", i, counts[i]);
+            if (n >= (int)sizeof(dbg) - 16) break;
+        }
+        svcOutputDebugString(dbg, std::strlen(dbg));
+    }
+#endif
 }
