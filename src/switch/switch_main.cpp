@@ -14,6 +14,7 @@
 
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
+#include <GLES2/gl2.h>
 
 #include "gfx_gl/gl_renderer.h"
 #include "qcommon/qcommon.h"
@@ -175,7 +176,6 @@ int main(int /*argc*/, char ** /*argv*/)
 
     switch_debug_log("[switch_main] Com_Init returned, entering Com_Frame loop\n");
 
-    const u64 start_tick = armGetSystemTick();
     int frame = 0;
     while (appletMainLoop()) {
         switch_reset_render_queue();
@@ -197,15 +197,13 @@ int main(int /*argc*/, char ** /*argv*/)
         }
         ++frame;
 
-        // Dispatch whatever opcodes Com_Frame parked in the CoD4 command
-        // queue (currently only RC_CLEAR_SCREEN reaches the swap chain).
-        // Then keep drawing the demo cube on top so we still get a visible
-        // signal until more RC_* are wired up.
+        // Apply CoD4's render queue (RC_CLEAR_SCREEN feeds glClearColor)
+        // and present. No more demo cube on top — the framebuffer is
+        // entirely engine-driven now. As more RC_* opcodes get wired
+        // into switch_dispatch_render_queue, real CoD4 pixels start
+        // appearing on this same swap chain.
         switch_dispatch_render_queue();
-
-        const float elapsed_s =
-            float(armTicksToNs(armGetSystemTick() - start_tick)) * 1.0e-9f;
-        gfx_gl::render_frame(elapsed_s);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         eglSwapBuffers(g_display, g_surface);
     }
 

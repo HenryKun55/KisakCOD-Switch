@@ -6510,7 +6510,9 @@ MenuList *__cdecl UI_LoadMenus_LoadObj(char *menuFile, int imageTrack)
 
     memset((unsigned __int8 *)&g_load_0, 0, sizeof(g_load_0));
     g_load_0.menuList.menus = g_load_0.menus;
+    Com_Printf(13, "[UI_LoadMenus_LoadObj] trying '%s'\n", menuFile);
     len = FS_FOpenFileByMode(menuFile, &f, FS_READ);
+    Com_Printf(13, "[UI_LoadMenus_LoadObj] FS_FOpenFileByMode '%s' -> len=%d f=%d\n", menuFile, len, f);
     if (!f)
     {
         Com_Printf(13, "^3WARNING: menu file not found: %s\n", menuFile);
