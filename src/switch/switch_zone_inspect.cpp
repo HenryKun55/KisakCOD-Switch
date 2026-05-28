@@ -110,8 +110,10 @@ void switch_inspect_zone(const char *path)
     }
     switch_logf("[zone] %s: magic=%s version=%u size=%ld", path, magic, version, size);
 
-    // Inflate the rest. We don't know the exact decompressed size up-front,
-    // so loop until Z_STREAM_END (or fail) with a growable output buffer.
+    // Inflate just enough to cover XFile + XAssetList header + string
+    // pool + asset table. For mission .ff's that can be 600 MB+ inflated
+    // we cap the output at 256 KB so the inspector stays bounded.
+    constexpr size_t kInspectInflateCap = 256u * 1024u;
     z_stream zs = {};
     if (inflateInit(&zs) != Z_OK) {
         switch_logf("[zone] inflateInit fail");
@@ -120,12 +122,12 @@ void switch_inspect_zone(const char *path)
     zs.next_in = raw.data() + 12;
     zs.avail_in = (uInt)(size - 12);
     std::vector<uint8_t> dec;
-    dec.resize(size * 4); // initial guess
+    dec.resize(kInspectInflateCap);
     int rc;
     size_t totalOut = 0;
-    while (true) {
+    while (totalOut < kInspectInflateCap) {
         zs.next_out = dec.data() + totalOut;
-        zs.avail_out = (uInt)(dec.size() - totalOut);
+        zs.avail_out = (uInt)(kInspectInflateCap - totalOut);
         rc = inflate(&zs, Z_NO_FLUSH);
         totalOut = zs.total_out;
         if (rc == Z_STREAM_END) break;
@@ -133,9 +135,6 @@ void switch_inspect_zone(const char *path)
             switch_logf("[zone] inflate err rc=%d at out=%zu", rc, totalOut);
             inflateEnd(&zs);
             return;
-        }
-        if (zs.avail_out == 0) {
-            dec.resize(dec.size() * 2);
         }
     }
     inflateEnd(&zs);

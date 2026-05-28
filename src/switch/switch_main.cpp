@@ -213,14 +213,24 @@ int main(int /*argc*/, char ** /*argv*/)
     // assets que precisa decodificar. So leitura — nao registra nada
     // ainda; e a base do pipeline incremental.
     extern void switch_inspect_zone(const char *path);
-    switch_inspect_zone("zone/english/ui_mp.ff");
-    switch_inspect_zone("zone/english/common_mp.ff");
+    // SP focus: catalog the assets we need to support for the first
+    // single-player mission to render. ac130 is a good start because it
+    // is gunship-only (no player movement, no AI complex) — minimal
+    // surface area to debug rendering. Then bog_a is the standard
+    // infantry mission. ui.ff replaces ui_mp.ff for SP menus.
+    switch_inspect_zone("zone/english/ui.ff");
+    switch_inspect_zone("zone/english/common.ff");
+    switch_inspect_zone("zone/english/ac130.ff");
+    switch_inspect_zone("zone/english/bog_a.ff");
+    switch_inspect_zone("zone/english/airlift.ff");
+    switch_inspect_zone("zone/english/coup.ff");
+    switch_inspect_zone("zone/english/hunted.ff");
 
     // Primeiro passo do binary fastfile loader: open + inflate via
     // nosso DB_LoadXFileData redirecionado, le o XFile + XAssetList
     // header. Proximas sessoes adicionam per-asset decoders.
     extern int switch_load_zone(const char *zone_name, const char *path);
-    switch_load_zone("ui_mp", "zone/english/ui_mp.ff");
+    switch_load_zone("ui", "zone/english/ui.ff");
 
     // Kick the UI subsystem into UIMENU_MAIN — the engine doesn't open
     // anything automatically at boot in MP, so without this push our
